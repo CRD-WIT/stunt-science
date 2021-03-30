@@ -366,7 +366,7 @@ public class levelscreen : MonoBehaviour
     }
     public void gotomenu()
     {
-       SceneManager.LoadScene("GameMenu");
+       SceneManager.LoadScene("MenuScene");
        buttonsfx1.Play();
        //PlayerPrefs.SetInt ("level", 0);
         

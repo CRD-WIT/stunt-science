@@ -52,8 +52,8 @@ public class starmanager : MonoBehaviour
     int momstars;
     int impstars;
     int allStars;
-    //public Text totalstarvelo;
-    //public Text totalStar;
+    public Text totalstarvelo;
+    public Text totalStar;
     public Text mycoin;
     int allCoin;
     
@@ -72,10 +72,10 @@ public class starmanager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //velostars = VstarE + VstarH + VstarD;
-        //allStars = velostars + Accstars + freestars + projstars + circstars + forcstars + workstars + enestars + powstars + momstars + impstars;
-        //totalstarvelo.text = velostars.ToString("F0");
-        //totalStar.text = allStars.ToString("F0");
+        velostars = VstarE + VstarH + VstarD;
+        allStars = velostars + Accstars + freestars + projstars + circstars + forcstars + workstars + enestars + powstars + momstars + impstars;
+        totalstarvelo.text = velostars.ToString("F0");
+        totalStar.text = allStars.ToString("F0");
         mycoin.text = allCoin.ToString("F0");
 
         PlayerPrefs.SetInt("mystars", allStars);
