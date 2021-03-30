@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class register: MonoBehaviour
 {
-        public GameObject pName;
-        public Text popUp;
-
+    public GameObject pName;
+    public Text popUp;
     public void StoreProfile(){  
         if(pName.GetComponent<Text>().text == ""){
             popUp.text = "You must Enter you name!!!";
@@ -18,6 +18,8 @@ public class register: MonoBehaviour
         }else{
             regManager.playerName = pName.GetComponent<Text>().text;
             PlayerPrefs.SetString("Name", regManager.playerName);
+            PlayerPrefs.SetString("Name", regManager.playerGender);
+            SceneManager.LoadScene("LevelSelection");
         }
     }
      IEnumerator LateCall()

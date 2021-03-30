@@ -9,13 +9,7 @@ public class regManager : MonoBehaviour
      public static string playerName, playerGender;
      public Animator myAnim;
      public bool male;
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
-
-    // Update is called once per frame
+ 
     void Update()
     {
         myAnim.SetBool("maleSelected", male);
