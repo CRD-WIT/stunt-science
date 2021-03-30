@@ -3,23 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class playerRegistration : MonoBehaviour
+public class register: MonoBehaviour
 {
-        public Toggle termsCons;
-        public GameObject pName;       
-        public Text popUp;        
+        public GameObject pName;
+        public Text popUp;
 
-    private void Start() {
-        termsCons = GetComponent<Toggle>();
-    }
-    public void Update(){
-        
-    }
     public void StoreProfile(){  
         if(pName.GetComponent<Text>().text == ""){
             popUp.text = "You must Enter you name!!!";
             StartCoroutine(LateCall());
-        }else if(termsCons.isOn){   
+        }else if(termsAndCons.goodToGo){   
             regManager.playerName = pName.GetComponent<Text>().text;
             PlayerPrefs.SetString("Name", regManager.playerName);           
         }else{
