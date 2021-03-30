@@ -11,6 +11,7 @@ public class genderButton : MonoBehaviour
                 regManager.playerGender = "Male";
                 PlayerPrefs.SetString("Name", regManager.playerGender);
                 this.gameObject.transform.localScale = new Vector2(1.5f, 1.5f);
+                
             break;
             case "femaleButton":
                 regManager.playerGender = "Female";

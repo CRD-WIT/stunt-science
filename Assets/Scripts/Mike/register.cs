@@ -12,12 +12,12 @@ public class register: MonoBehaviour
         if(pName.GetComponent<Text>().text == ""){
             popUp.text = "You must Enter you name!!!";
             StartCoroutine(LateCall());
-        }else if(termsAndCons.goodToGo){   
-            regManager.playerName = pName.GetComponent<Text>().text;
-            PlayerPrefs.SetString("Name", regManager.playerName);           
+        }else if(regManager.playerGender == null){   
+            popUp.text = "You must choose Gender!!!";
+            StartCoroutine(LateCall());                       
         }else{
-            popUp.text = "You must accept the terms and conditions!!!";
-            StartCoroutine(LateCall());
+            regManager.playerName = pName.GetComponent<Text>().text;
+            PlayerPrefs.SetString("Name", regManager.playerName);
         }
     }
      IEnumerator LateCall()
@@ -27,24 +27,3 @@ public class register: MonoBehaviour
          popUp.gameObject.SetActive(false);
      }
 }
-
-/*public Toggle TandC;
-    public static bool goodToGo;
-    public bool check;
-    // Start is called before the first frame update
-    void Start()
-    {
-        TandC = GetComponent<Toggle>();
-    }
-    private void Update() {
-        termAndCon();
-        check = goodToGo;
-    }
-    public void termAndCon(){
-        if(TandC.isOn){
-            goodToGo = true;
-        }
-        else{
-            goodToGo = false;
-        }
-    }*/

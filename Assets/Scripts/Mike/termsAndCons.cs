@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// this is unused
+/// </summary>
 public class termsAndCons : MonoBehaviour
 {
     public Toggle TandC;
