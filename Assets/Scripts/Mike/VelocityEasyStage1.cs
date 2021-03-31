@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VelocityEasyStage2 : MonoBehaviour
+public class VelocityEasyStage1 : MonoBehaviour
 {
     public Text playerNameText, question;
     string pronoun, pPronoun, pNoun, playerName, playerGender;
@@ -17,10 +17,10 @@ public class VelocityEasyStage2 : MonoBehaviour
         //prodProps = FindObjectOfType<prodProps>();    
         //tileGenerator = FindObjectOfType<generateGround>();                
         //myPlayer = FindObjectOfType<Player>();
-        playerNameText.text = RegistrationManager.playerName;
+        //playerNameText.text = RegistrationManager.playerName;
         //myPlayer.gameObject.SetActive(true);
         //chance = 0;
-        VelocityEasyStage2SetUp();
+        VelocityEasyStage1SetUp();
         //talentFee.text = "TF: " + GameMAnager.talentFee.ToString(); 
 
        
@@ -38,9 +38,9 @@ public class VelocityEasyStage2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(ButtonManager.playerAnswer);
     }
-    public void VelocityEasyStage2SetUp(){
+    public void VelocityEasyStage1SetUp(){
         if(playerGender == "Male"){
             pronoun = "he";
             pPronoun = "him";
@@ -59,7 +59,7 @@ public class VelocityEasyStage2 : MonoBehaviour
             //myPlayer.transform.position = new Vector2(20, -0.7f);
             //startingPoint = myPlayer.transform.position;
         }      
-    question.text = $"The ceiling is still crumbling and the next safe area is {distance.ToString()}m away from "+playerName+". If "+pronoun+" has exactly "+Time.ToString()+"s to go to the safe spot, what should be "+pNoun+" velocity?";
+    ButtonManager.question = $"The ceiling is crumbling and the safe area is "+distance.ToString()+"m away from "+playerName+". If "+pronoun+" has exactly "+Time.ToString()+"s to go to the safe spot, what should be "+pNoun+" velocity?";
 
     //initial values  
     /*shakeFlag = false;
