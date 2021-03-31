@@ -110,7 +110,7 @@ SpriteRenderer:
   m_Size: {x: 2.6, y: 2.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1074871113939011084
@@ -253,7 +253,7 @@ SpriteRenderer:
   m_Size: {x: 2.6, y: 2.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1878756099345229023
@@ -350,9 +350,8 @@ GameObject:
   - component: {fileID: 1919375450109449381}
   - component: {fileID: 1919375450109449380}
   - component: {fileID: 1919375450109449382}
-  - component: {fileID: 6643490683066603294}
-  - component: {fileID: 4950310091569306155}
   - component: {fileID: 1357513951798605506}
+  - component: {fileID: -6658107369212967051}
   m_Layer: 0
   m_Name: stickmanmale 1
   m_TagString: Untagged
@@ -429,58 +428,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &6643490683066603294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919375450109449377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 718ecbefd2b5f3d44989033edfbcb17d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 0
-  stickman: {fileID: 0}
-  player: {fileID: 1919375450109449377}
-  stickmanpoint: {fileID: 6643490683009136389}
-  lost: 0
-  happy: 0
-  ragdollblow: 0
-  footstep: {fileID: 0}
-  stickprefab: {fileID: 0}
-  posready: 0
-  grounded: 0
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 0
-  groundCheck: {fileID: 2179104848310291522}
-  groundedRadius: 0.5
-  jumpforce: 6
-  standup: 0
---- !u!114 &4950310091569306155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919375450109449377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 109347a7af961e144a5d663fb3b79979, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  headgear1: {fileID: 2838016827919779714}
-  shouldergear1:
-  - {fileID: 959620723639071523}
-  - {fileID: 7848707180660387851}
-  armgear1:
-  - {fileID: 2326887516906110275}
-  - {fileID: 3774243491659200957}
-  leggear1:
-  - {fileID: 7026678612776392487}
-  - {fileID: 1618736676103258446}
 --- !u!60 &1357513951798605506
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -514,6 +461,35 @@ PolygonCollider2D:
       - {x: 0.4, y: 0.03}
       - {x: 0.33, y: 0.30901712}
       - {x: 0.03, y: 0.29}
+--- !u!114 &-6658107369212967051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919375450109449377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 718ecbefd2b5f3d44989033edfbcb17d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
+  player: {fileID: 1919375450109449377}
+  stickmanpoint: {fileID: 6643490683009136389}
+  lost: 0
+  happy: 0
+  ragdollblow: 0
+  footstep: {fileID: 0}
+  stickprefab: {fileID: 3466479453583936867, guid: 48dd00e06f48bbc4ba33f48df967c64b, type: 3}
+  posready: 0
+  grounded: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheck: {fileID: 2179104848310291522}
+  groundedRadius: 0
+  jumpforce: 0
+  standup: 0
 --- !u!1 &2326887516906110275
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,7 +570,7 @@ SpriteRenderer:
   m_Size: {x: 2.6, y: 2.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2838016827919779714
@@ -678,7 +654,7 @@ SpriteRenderer:
   m_Size: {x: 2.6, y: 2.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3424645630473279737
@@ -791,7 +767,7 @@ SpriteRenderer:
   m_Size: {x: 2.6, y: 2.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3984632809032444893
@@ -1418,7 +1394,7 @@ SpriteRenderer:
   m_Size: {x: 0.45, y: 0.36}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6643490682068165561
@@ -2513,7 +2489,7 @@ SpriteRenderer:
   m_Size: {x: 2.6, y: 2.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &7294000144750304840
@@ -2700,7 +2676,7 @@ SpriteRenderer:
   m_Size: {x: 2.6, y: 2.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &8213809609625920154
