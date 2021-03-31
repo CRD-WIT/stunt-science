@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class register: MonoBehaviour
+public class Register: MonoBehaviour
 {
     public GameObject pName;
     public Text popUp;
@@ -12,13 +12,13 @@ public class register: MonoBehaviour
         if(pName.GetComponent<Text>().text == ""){
             popUp.text = "You must Enter you name!!!";
             StartCoroutine(LateCall());
-        }else if(regManager.playerGender == null){   
+        }else if(RegistrationManager.playerGender == null){   
             popUp.text = "You must choose Gender!!!";
             StartCoroutine(LateCall());                       
         }else{
-            regManager.playerName = pName.GetComponent<Text>().text;
-            PlayerPrefs.SetString("Name", regManager.playerName);
-            PlayerPrefs.SetString("Name", regManager.playerGender);
+            RegistrationManager.playerName = pName.GetComponent<Text>().text;
+            PlayerPrefs.SetString("Name", RegistrationManager.playerName);
+            PlayerPrefs.SetString("Gender", RegistrationManager.playerGender);
             SceneManager.LoadScene("LevelSelection");
         }
     }
