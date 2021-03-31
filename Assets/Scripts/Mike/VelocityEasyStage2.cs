@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class VelocityEasyStage2 : MonoBehaviour
 {
     public Text playerName, question;
-    string pronoun, pPronoun, pNoun;
+    string pronoun, pPronoun, pNoun, Name, playerGender;
     public float distance, Time, Speed, elapsed;
     // Start is called before the first frame update
 
