@@ -38,7 +38,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(ButtonManager.playerAnswer);
+        Debug.Log(SimulationManager.playerAnswer);
     }
     public void VelocityEasyStage1SetUp(){
         if(playerGender == "Male"){
@@ -56,11 +56,11 @@ public class VelocityEasyStage1 : MonoBehaviour
             Time = (float)System.Math.Round(rTime,2);
             Speed = (float)System.Math.Round((distance/rTime), 2);            
             elapsed=0;
-            ButtonManager.isSimulating =false;
+            SimulationManager.isSimulating =false;
             //myPlayer.transform.position = new Vector2(20, -0.7f);
             //startingPoint = myPlayer.transform.position;
         }      
-    ButtonManager.question = $"The ceiling is crumbling and the safe area is "+distance.ToString()+"m away from "+playerName+". If "+pronoun+" has exactly "+Time.ToString()+"s to go to the safe spot, what should be "+pNoun+" velocity?";
+    SimulationManager.question = $"The ceiling is crumbling and the safe area is "+distance.ToString()+"m away from "+playerName+". If "+pronoun+" has exactly "+Time.ToString()+"s to go to the safe spot, what should be "+pNoun+" velocity?";
 
     //initial values  
     /*shakeFlag = false;

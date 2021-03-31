@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class ButtonManager : MonoBehaviour
+public class SimulationManager : MonoBehaviour
 {
     public Button answerButton, retryButton; //continueButton;
     public TMP_InputField answerField;
@@ -36,8 +36,8 @@ public class ButtonManager : MonoBehaviour
     public void Retry(){
         int stage = sm.GetStageFromPlayerPrefs();
         if(stage == 1){
-
         }
     }
+    
 
 }
