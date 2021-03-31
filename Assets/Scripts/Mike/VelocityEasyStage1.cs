@@ -56,6 +56,7 @@ public class VelocityEasyStage1 : MonoBehaviour
             Time = (float)System.Math.Round(rTime,2);
             Speed = (float)System.Math.Round((distance/rTime), 2);            
             elapsed=0;
+            ButtonManager.isSimulating =false;
             //myPlayer.transform.position = new Vector2(20, -0.7f);
             //startingPoint = myPlayer.transform.position;
         }      

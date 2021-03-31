@@ -12,6 +12,7 @@ public class ButtonManager : MonoBehaviour
     public TMP_Text questionTextBox;
     public static string question;
     public static float playerAnswer;
+    public static bool isSimulating;
 
     StageManager sm = new StageManager();
     // Start is called before the first frame update
@@ -26,7 +27,8 @@ public class ButtonManager : MonoBehaviour
         questionTextBox.SetText(question);        
     }
 
-    public void Answer(){
+    public void Play(){
+        isSimulating =true;
         string errorMessage = answerField.text != "" ? "":"Please enter a value";
         playerAnswer = float.Parse(answerField.text);
     }
@@ -34,7 +36,7 @@ public class ButtonManager : MonoBehaviour
     public void Retry(){
         int stage = sm.GetStageFromPlayerPrefs();
         if(stage == 1){
-                        
+
         }
     }
 
