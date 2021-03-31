@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class VelocityEasyStage2 : MonoBehaviour
 {
-    public Text playerName, question;
-    string pronoun, pPronoun, pNoun, Name, playerGender;
+    public Text playerNameText, question;
+    string pronoun, pPronoun, pNoun, playerName, playerGender;
     public float distance, Time, Speed, elapsed;
     // Start is called before the first frame update
 
@@ -17,7 +17,7 @@ public class VelocityEasyStage2 : MonoBehaviour
         //prodProps = FindObjectOfType<prodProps>();    
         //tileGenerator = FindObjectOfType<generateGround>();                
         //myPlayer = FindObjectOfType<Player>();
-        playerName.text = RegistrationManager.playerName;
+        playerNameText.text = RegistrationManager.playerName;
         //myPlayer.gameObject.SetActive(true);
         //chance = 0;
         VelocityEasyStage2SetUp();
@@ -28,6 +28,11 @@ public class VelocityEasyStage2 : MonoBehaviour
         int stage = sm.GetStage();
         string difficulty= sm.GetDifficulty();
         sm.GetStageFromPlayerPrefs();
+
+        playerName = PlayerPrefs.GetString("Name");
+        playerGender = PlayerPrefs.GetString("Gender");
+
+        string p = $"Name: <color color=green>{playerName}</color>";
     }
 
     // Update is called once per frame
@@ -36,7 +41,7 @@ public class VelocityEasyStage2 : MonoBehaviour
         
     }
     public void VelocityEasyStage2SetUp(){
-        if(RegistrationManager.playerGender == "Male"){
+        if(playerGender == "Male"){
             pronoun = "he";
             pPronoun = "him";
             pNoun = "his";
@@ -54,7 +59,7 @@ public class VelocityEasyStage2 : MonoBehaviour
             //myPlayer.transform.position = new Vector2(20, -0.7f);
             //startingPoint = myPlayer.transform.position;
         }      
-    question.text = "The ceiling is still crumbling and the next safe area is "+distance.ToString()+"m away from "+regManager.playerName+". If "+pronoun+" has exactly "+Time.ToString()+"s to go to the safe spot, what should be "+pNoun+" velocity?";
+    question.text = $"The ceiling is still crumbling and the next safe area is {distance.ToString()}m away from "+playerName+". If "+pronoun+" has exactly "+Time.ToString()+"s to go to the safe spot, what should be "+pNoun+" velocity?";
 
     //initial values  
     /*shakeFlag = false;

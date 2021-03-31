@@ -208,7 +208,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 182655669}
-        m_TargetAssemblyTypeName: genderButton, Assembly-CSharp
+        m_TargetAssemblyTypeName: GenderButton, Assembly-CSharp
         m_MethodName: Gender
         m_Mode: 1
         m_Arguments:
@@ -266,7 +266,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 182655664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c67588af4b689a4c8d2e4ac20f34041, type: 3}
+  m_Script: {fileID: 11500000, guid: c8e8e28e7616e7b428b714bc8f445953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &337135536
@@ -327,7 +327,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: d275bbc1bbcaaee4fa58e55930bfef54, type: 3}
+    m_Font: {fileID: 12800000, guid: 05eea304fcbae1a4ab2340685fef77f5, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -427,6 +427,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 414796834}
   m_CullTransparentMesh: 1
+--- !u!95 &496098393 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1919375450109449382, guid: 7bc87c50c8303494c822786def94109f, type: 3}
+  m_PrefabInstance: {fileID: 1946548895}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &546597452
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,7 +597,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: d275bbc1bbcaaee4fa58e55930bfef54, type: 3}
+    m_Font: {fileID: 12800000, guid: 05eea304fcbae1a4ab2340685fef77f5, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -958,7 +963,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: d275bbc1bbcaaee4fa58e55930bfef54, type: 3}
+    m_Font: {fileID: 12800000, guid: 05eea304fcbae1a4ab2340685fef77f5, type: 3}
     m_FontSize: 0
     m_FontStyle: 0
     m_BestFit: 1
@@ -1057,7 +1062,7 @@ GameObject:
   - component: {fileID: 1315023618}
   - component: {fileID: 1315023617}
   m_Layer: 0
-  m_Name: subTitle (1)
+  m_Name: termsAndConditions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1133,6 +1138,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1423217868}
+  - component: {fileID: 1423217867}
   m_Layer: 0
   m_Name: RegistrationManager
   m_TagString: Untagged
@@ -1140,6 +1146,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1423217867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423217866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d7c68eac6118f479ed6d972041cd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mButton: {fileID: 2028714175}
+  fButton: {fileID: 182655666}
+  myAnimator: {fileID: 496098393}
+  male: 0
 --- !u!4 &1423217868
 Transform:
   m_ObjectHideFlags: 0
@@ -1239,7 +1261,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1545842738}
-        m_TargetAssemblyTypeName: register, Assembly-CSharp
+        m_TargetAssemblyTypeName: Register, Assembly-CSharp
         m_MethodName: StoreProfile
         m_Mode: 1
         m_Arguments:
@@ -1297,7 +1319,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1545842733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd1f1a8c76a4fc74c90644019b1a5e67, type: 3}
+  m_Script: {fileID: 11500000, guid: ce587e0f9c4281945bfc3eac898b0d14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pName: {fileID: 2113927156}
@@ -1360,7 +1382,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: d275bbc1bbcaaee4fa58e55930bfef54, type: 3}
+    m_Font: {fileID: 12800000, guid: 05eea304fcbae1a4ab2340685fef77f5, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -1456,7 +1478,9 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.66887414
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6643490683066603294, guid: 7bc87c50c8303494c822786def94109f, type: 3}
+    - {fileID: 4950310091569306155, guid: 7bc87c50c8303494c822786def94109f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7bc87c50c8303494c822786def94109f, type: 3}
 --- !u!1 &2028714173
 GameObject:
@@ -1545,7 +1569,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2028714178}
-        m_TargetAssemblyTypeName: genderButton, Assembly-CSharp
+        m_TargetAssemblyTypeName: GenderButton, Assembly-CSharp
         m_MethodName: Gender
         m_Mode: 1
         m_Arguments:
@@ -1603,7 +1627,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2028714173}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c67588af4b689a4c8d2e4ac20f34041, type: 3}
+  m_Script: {fileID: 11500000, guid: c8e8e28e7616e7b428b714bc8f445953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &2075640447 stripped
@@ -1832,7 +1856,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: d275bbc1bbcaaee4fa58e55930bfef54, type: 3}
+    m_Font: {fileID: 12800000, guid: 05eea304fcbae1a4ab2340685fef77f5, type: 3}
     m_FontSize: 14
     m_FontStyle: 2
     m_BestFit: 1
