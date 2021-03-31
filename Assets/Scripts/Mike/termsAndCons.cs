@@ -5,7 +5,7 @@ using UnityEngine.UI;
 /// <summary>
 /// this is unused
 /// </summary>
-public class termsAndCons : MonoBehaviour
+public class TermsAndCons : MonoBehaviour
 {
     public Toggle TandC;
     public static bool goodToGo;

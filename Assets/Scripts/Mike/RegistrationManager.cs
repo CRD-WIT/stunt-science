@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class regManager : MonoBehaviour
+public class RegistrationManager : MonoBehaviour
 {
      public Button mButton, fButton;
      public static string playerName, playerGender;

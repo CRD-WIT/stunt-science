@@ -469,7 +469,7 @@ public class level2Manager : MonoBehaviour
     public void reset()
     {
         button2.Play();
-         buzz = true;
+        buzz = true;
         busted = true;
         ding = true; 
         thePlayer.gameObject.SetActive(true);
