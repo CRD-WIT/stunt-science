@@ -10,7 +10,7 @@ public class VelocityEasyStage2 : MonoBehaviour
     public float distance, Time, Speed, elapsed;
     // Start is called before the first frame update
 
-     StageManager sm = new StageManager();
+    StageManager sm = new StageManager();
 
     void Start()
     {
@@ -20,7 +20,7 @@ public class VelocityEasyStage2 : MonoBehaviour
         playerName.text = RegistrationManager.playerName;
         //myPlayer.gameObject.SetActive(true);
         //chance = 0;
-        VEasySetUp();
+        VelocityEasyStage2SetUp();
         //talentFee.text = "TF: " + GameMAnager.talentFee.ToString(); 
 
        
@@ -35,7 +35,7 @@ public class VelocityEasyStage2 : MonoBehaviour
     {
         
     }
-    public void VEasySetUp(){
+    public void VelocityEasyStage2SetUp(){
         if(RegistrationManager.playerGender == "Male"){
             pronoun = "he";
             pPronoun = "him";
