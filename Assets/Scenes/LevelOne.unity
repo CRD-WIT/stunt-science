@@ -9056,6 +9056,7 @@ RectTransform:
   - {fileID: 1420888963}
   - {fileID: 648113157}
   - {fileID: 1997243098}
+  - {fileID: 885569218}
   m_Father: {fileID: 0}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19657,7 +19658,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 880082389}
-  - component: {fileID: 880082388}
   - component: {fileID: 880082390}
   m_Layer: 0
   m_Name: level2manager
@@ -19666,26 +19666,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &880082388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 880082387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aea23a03b3bc7a45b5af56c4f919c53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayer: {fileID: 0}
-  playerNameText: {fileID: 0}
-  messageText: {fileID: 0}
-  AfterStuntMessage: {fileID: 0}
-  distance: 0
-  gameTime: 0
-  Speed: 0
-  elapsed: 0
 --- !u!4 &880082389
 Transform:
   m_ObjectHideFlags: 0
@@ -19709,12 +19689,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 880082387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c0dd50fa4372f447b496981efcebb4c, type: 3}
+  m_Script: {fileID: 11500000, guid: ecd935cf2d9d1d34ab146767c0fdbd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: {fileID: 0}
-  wordedProblem: {fileID: 0}
-  timer: {fileID: 0}
 --- !u!1 &885569217
 GameObject:
   m_ObjectHideFlags: 0
@@ -19746,7 +19723,7 @@ RectTransform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 316639231}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -33471,15 +33448,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f12d3177288f9d84bb1ccea142feef4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transition: {fileID: 0}
-  VelocityEasyStage1: {fileID: 0}
-  thePlayer: {fileID: 0}
+  transition: {fileID: 1497083372}
+  VelocityEasyStage1: {fileID: 164883564}
+  theManager2: {fileID: 880082390}
+  thePlayer: {fileID: 1010440673}
   answerButton: {fileID: 1625396208}
   retryButton: {fileID: 1420888964}
-  nextButton: {fileID: 0}
+  nextButton: {fileID: 648113158}
   answerField: {fileID: 528950589}
   questionTextBox: {fileID: 1929177689}
-  errorTextBox: {fileID: 0}
+  errorTextBox: {fileID: 39054871}
 --- !u!4 &1781809436
 Transform:
   m_ObjectHideFlags: 0
