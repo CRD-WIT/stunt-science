@@ -15,6 +15,7 @@ public class StageTwoManager : MonoBehaviour
     string gender;
     string pronoun;
     float answer;
+    Vector2 PlayerStartPoint;
     
     TimeSpan duration;
     private float gameTime = 0.0f;
@@ -29,7 +30,9 @@ public class StageTwoManager : MonoBehaviour
     {
         thePlayer = FindObjectOfType<Player>();
         gender = PlayerPrefs.GetString("Gender");
-        generateProblem();
+        PlayerStartPoint = thePlayer.transform.position;
+        
+       
     }
 
     // Update is called once per frame
@@ -44,7 +47,7 @@ public class StageTwoManager : MonoBehaviour
         {
             pronoun = ("she");
         }
-        if(simulate)
+        /*if(simulate)
         {
             duration = TimeSpan.FromMilliseconds(gameTime * 1000);
 
@@ -52,7 +55,7 @@ public class StageTwoManager : MonoBehaviour
             int seconds = Convert.ToInt32(duration.ToString(@"ss"));
 
             timer.SetText($"{seconds}:{milliseconds} sec");
-        }
+        }*/
         
     
        
@@ -62,14 +65,20 @@ public class StageTwoManager : MonoBehaviour
         distance = UnityEngine.Random.Range(5, 10);
         speed = UnityEngine.Random.Range(2.0f, 5.0f);
         finalSpeed = (float)System.Math.Round(speed, 2);
-        SimulationManager.question.SetText(("The ceiling is still crumbling and the next safe spot is <b>")+ distance + ("</b> meter away from  <b>") + PlayerPrefs.GetString("Name") + ("</b>. If <b>") + PlayerPrefs.GetString("Name") + ("</b> will now run at exactly <b>")+ finalSpeed.ToString("F1")+ ("</b> m/s, how long should ")+ pronoun + (" run so that ")+ pronoun + (" will not get hit by the crumbling debris of the ceiling?"));
+        SimulationManager.question = (("The ceiling is still crumbling and the next safe spot is <b>")+ distance + ("</b> meter away from  <b>") + PlayerPrefs.GetString("Name") + ("</b>. If <b>") + PlayerPrefs.GetString("Name") + ("</b> will now run at exactly <b>")+ finalSpeed.ToString("F1")+ ("</b> m/s, how long should ")+ pronoun + (" run so that ")+ pronoun + (" will not get hit by the crumbling debris of the ceiling?"));
         
     }
     public void play()
     {
-        simulate = true;
+        //simulate = true;
         //answer = SimulationManager.playerAnswer;
-        thePlayer.moveSpeed = speed;
+        //thePlayer.moveSpeed = speed;
 
+    }
+    public void reset()
+    {
+        thePlayer.transform.position = PlayerStartPoint;
+        thePlayer.moveSpeed = 0;
+        generateProblem();
     }
 }
