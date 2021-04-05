@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
         }
 
     }
-     /*public void ragdollspawn()
+     public void ragdollspawn()
     {
         
         
@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
          GameObject stick = Instantiate(stickprefab);
         stick.transform.position = stickmanpoint.transform.position;
        ragdollblow = false;        
-    }*/
+    }
     public void startstunt()
     {
         StartCoroutine(stunt());
@@ -129,6 +129,10 @@ public class Player : MonoBehaviour
         {
             jump();
             
+        }
+        if (other.gameObject.tag == ("stickmanspawn"))
+        {
+            ragdollspawn();
         }
     }
 

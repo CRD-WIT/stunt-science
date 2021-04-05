@@ -8,8 +8,11 @@ using TMPro;
 public class SimulationManager : MonoBehaviour
 {
     public GameObject transition;
+    public GameObject jumpers;
+    public GameObject ragdollSpawn;
     public VelocityEasyStage1 VelocityEasyStage1;
     public StageTwoManager theManager2;
+    
     
     public Player thePlayer;
     public Button answerButton, retryButton, nextButton;
@@ -24,7 +27,7 @@ public class SimulationManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        stage = 1;
     }
 
     // Update is called once per frame
@@ -38,9 +41,8 @@ public class SimulationManager : MonoBehaviour
             retryButton.gameObject.SetActive(true);
             nextButton.gameObject.SetActive(false);
         } 
-        Debug.Log(PlayerPrefs.GetInt("stageNumber"));
-        Debug.Log(isSimulating);    
-        stage = sm.GetStageFromPlayerPrefs();   
+        
+         
     }
 
     public void PlayButton(){        
@@ -54,25 +56,28 @@ public class SimulationManager : MonoBehaviour
     }
 
     public void RetryButton(){
-        int stage = sm.GetStageFromPlayerPrefs();
+        
         if(stage == 1){
             VelocityEasyStage1.VelocityEasyStage1SetUp();
         }
         else if(stage == 2){
+            theManager2.reset();
         }
-        else{
+        else {
         }
+        thePlayer.gameObject.SetActive(true);
     }
     public void NextButton(){
-        
+        jumpers.SetActive(true);
+        ragdollSpawn.SetActive(false);
         if(stage == 1){
-            sm.SetStage(2);
+            stage = 2;
             StartCoroutine(ExitStage());
 
             VelocityEasyStage1.gameObject.SetActive(false);
             theManager2.gameObject.SetActive(true);
         }else if(stage == 2){
-            sm.SetStage(3);
+            stage = 3;
         }
     }
     IEnumerator ExitStage(){
