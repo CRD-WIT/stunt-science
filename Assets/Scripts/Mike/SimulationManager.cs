@@ -7,15 +7,15 @@ using TMPro;
 
 public class SimulationManager : MonoBehaviour
 {
-    public GameObject transition;
+    public GameObject transition, directorsBuble;
     public VelocityEasyStage1 VelocityEasyStage1;
     public Player thePlayer;
     public Button answerButton, retryButton, nextButton;
     public TMP_InputField answerField;
-    public TMP_Text questionTextBox, errorTextBox;
+    public TMP_Text questionTextBox, errorTextBox, diretorsSpeech;
     public static string question;
     public static float playerAnswer;
-    public static bool isSimulating, isAnswerCorrect;
+    public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt;
 
     StageManager sm = new StageManager();
     // Start is called before the first frame update
@@ -34,8 +34,13 @@ public class SimulationManager : MonoBehaviour
         }else{
             retryButton.gameObject.SetActive(true);
             nextButton.gameObject.SetActive(false);
-        } 
-        Debug.Log(PlayerPrefs.GetInt("stageNumber"));       
+        }
+
+        if(directorIsCalling){
+            StartCoroutine(DirectorsCall());
+        }else{
+            directorIsCalling = false;
+        }     
     }
 
     public void PlayButton(){        
@@ -43,11 +48,33 @@ public class SimulationManager : MonoBehaviour
         if(answerField.text == ""){
             errorTextBox.SetText("Please enter your answer!");
         }else{
+            isStartOfStunt = true;
+            directorIsCalling = true;
             playerAnswer = float.Parse(answerField.text);
-            isSimulating =true;
         }        
     }
-
+    public IEnumerator DirectorsCall(){
+        directorIsCalling = false;
+        if(isStartOfStunt){
+            directorsBuble.SetActive(true);
+            diretorsSpeech.text = "Lights!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Camera!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Action!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "";
+            directorsBuble.SetActive(false);            
+            isSimulating =true;
+        }
+        else{
+            directorsBuble.SetActive(true);
+            diretorsSpeech.text = "Cut!";
+            yield return new WaitForSeconds(0.75f);
+            directorsBuble.SetActive(false);
+            diretorsSpeech.text = "";
+        }        
+    }
     public void RetryButton(){
         int stage = sm.GetStageFromPlayerPrefs();
         if(stage == 1){
