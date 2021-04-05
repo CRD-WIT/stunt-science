@@ -7,7 +7,7 @@ using TMPro;
 public class VelocityEasyStage1 : MonoBehaviour
 {
     public Player myPlayer;
-    public TMP_Text playerNameText, messageText;
+    public TMP_Text playerNameText, messageText, timer;
     public GameObject AfterStuntMessage;
     string pronoun, pPronoun, pNoun, playerName, playerGender;
     public float distance, gameTime, Speed, elapsed;
@@ -46,7 +46,7 @@ public class VelocityEasyStage1 : MonoBehaviour
             this.gameObject.SetActive(true);
             if(SimulationManager.isSimulating){
                 if((elapsed <= gameTime)){
-                        //runTime.text = "Time: "+elapsed.ToString("f2")+"s";
+                    timer.text = elapsed.ToString("f2")+"s";
                     elapsed += Time.fixedDeltaTime;                                                    
                     myPlayer.moveSpeed = SimulationManager.playerAnswer;
                         /*if(myPlayer.transform.position.x >= distance){
@@ -57,10 +57,11 @@ public class VelocityEasyStage1 : MonoBehaviour
                 else{
                         //camManager.shakeDuration=2.5f; 
                     myPlayer.moveSpeed = 0; 
+                    timer.text = gameTime.ToString("f2")+"s";
                         //fallingCeilings.ceilling = true;
                     if ((SimulationManager.playerAnswer == Speed)){ 
                             /*myPlayer.playerPosition = distance-0.2f;
-                            runTime.text = "Time: "+travelTime.ToString("f2")+"s";
+                            
                             if(nextStage){
                                 if(myPlayer.playerPosition <= 22.85){
                                     //StartCoroutine(jumpFlip());
@@ -71,6 +72,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                                 }
                             }*/
                             //correctAnswer =true;
+                        
                         messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
                         SimulationManager.isAnswerCorrect= true;
                     //AfterStuntMessage.SetActive(true);
@@ -98,10 +100,6 @@ public class VelocityEasyStage1 : MonoBehaviour
                     SimulationManager.isSimulating = false;
                 }
             }
-            if(PlayerPrefs.GetInt("stageNumber") != 1){
-                AfterStuntMessage.SetActive(false);
-                myPlayer.moveSpeed = 3;
-            }
         }
         
                 /*else{
@@ -115,7 +113,8 @@ public class VelocityEasyStage1 : MonoBehaviour
                     if(!shakeFlag){
                         StartCoroutine(shake());
                     } 
-                }    */            
+                }    */   
+                Debug.Log("time "+elapsed);         
     }
     public void VelocityEasyStage1SetUp(){
         Speed = 0;
@@ -135,6 +134,7 @@ public class VelocityEasyStage1 : MonoBehaviour
             Speed = (float)System.Math.Round((distance/t), 2);
             //startingPoint = myPlayer.transform.position;
         }  
+        timer.text = "0.00s";
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
         elapsed=0;  
         SimulationManager.isSimulating =false; 
