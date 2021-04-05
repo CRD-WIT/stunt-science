@@ -62,7 +62,7 @@ public class StageTwoManager : MonoBehaviour
         }*/
         if(SimulationManager.isSimulating)
         {
-           if((elapsed <= SimulationManager.Player))
+           if((elapsed <= SimulationManager.playerAnswer))
            {         
                           
                 elapsed += Time.fixedDeltaTime;                                                    

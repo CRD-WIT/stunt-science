@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
-public class StageManager : MonoBehaviour
+public class StageManager
 {
     public int stage;
 
