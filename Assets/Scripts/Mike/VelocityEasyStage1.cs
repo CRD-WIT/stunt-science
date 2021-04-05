@@ -40,21 +40,25 @@ public class VelocityEasyStage1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(SimulationManager.isSimulating){
-            if((elapsed <= gameTime)){
+        if(sm.GetStage() != 1){
+            this.gameObject.SetActive(false);
+        }else{
+            this.gameObject.SetActive(true);
+            if(SimulationManager.isSimulating){
+                if((elapsed <= gameTime)){
                         //runTime.text = "Time: "+elapsed.ToString("f2")+"s";
-                elapsed += Time.fixedDeltaTime;                                                    
-                myPlayer.moveSpeed = SimulationManager.playerAnswer;
+                    elapsed += Time.fixedDeltaTime;                                                    
+                    myPlayer.moveSpeed = SimulationManager.playerAnswer;
                         /*if(myPlayer.transform.position.x >= distance){
                             myPlayer.transform.position = new Vector3(distance+33 ,myPlayer.transform.position.y, 0);
                             myPlayer.ragdollActive = false;                            
                         }*/          
-            } 
-            else{
+                } 
+                else{
                         //camManager.shakeDuration=2.5f; 
-                myPlayer.moveSpeed = 0; 
+                    myPlayer.moveSpeed = 0; 
                         //fallingCeilings.ceilling = true;
-                if ((SimulationManager.playerAnswer == Speed)){ 
+                    if ((SimulationManager.playerAnswer == Speed)){ 
                             /*myPlayer.playerPosition = distance-0.2f;
                             runTime.text = "Time: "+travelTime.ToString("f2")+"s";
                             if(nextStage){
@@ -67,37 +71,39 @@ public class VelocityEasyStage1 : MonoBehaviour
                                 }
                             }*/
                             //correctAnswer =true;
-                    messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
-                    SimulationManager.isAnswerCorrect= true;
+                        messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
+                        SimulationManager.isAnswerCorrect= true;
                     //AfterStuntMessage.SetActive(true);
-                }
-                else{
-                    if(SimulationManager.playerAnswer < Speed){
+                    }
+                    else{
+                        if(SimulationManager.playerAnswer < Speed){
                                 //shortRun = true;
-                        messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too slow.";
-                    }
-                    else if(SimulationManager.playerAnswer > Speed){
-                        messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too fast.";
+                            messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too slow.";
+                        }
+                        else if(SimulationManager.playerAnswer > Speed){
+                            messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too fast.";
                                 //myPlayer.ragdollActive = false;
-                    }
-                    SimulationManager.isAnswerCorrect= false;
+                        }
+                        SimulationManager.isAnswerCorrect= false;
                     //AfterStuntMessage.SetActive(true);
                             //runTime.text = "Time: "+elapsed.ToString("f2")+"s";                                                      
                             //correctAnswer = false;                                
-                }
+                    }
                         /*AnswerChecker();
                         if(!minusLife){
                             Takes.Retake();
                             minusLife=true;
                         }*/
-                StartCoroutine(StuntResult());
-                SimulationManager.isSimulating = false;
+                    StartCoroutine(StuntResult());
+                    SimulationManager.isSimulating = false;
+                }
+            }
+            if(PlayerPrefs.GetInt("stageNumber") != 1){
+                AfterStuntMessage.SetActive(false);
+                myPlayer.moveSpeed = 3;
             }
         }
-        if(PlayerPrefs.GetInt("stageNumber") != 1){
-            AfterStuntMessage.SetActive(false);
-            myPlayer.moveSpeed = 3;
-        }
+        
                 /*else{
                     if(myPlayer.playerPosition <= 22.85){
                         //StartCoroutine(jumpFlip());
