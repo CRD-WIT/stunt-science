@@ -24,7 +24,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         //talentFee.text = "TF: " + GameMAnager.talentFee.ToString(); 
 
        
-        sm.SetStage(1);
+        //sm.SetStage(1);
         int stage = sm.GetStage();
         string difficulty= sm.GetDifficulty();
         sm.GetStageFromPlayerPrefs();
@@ -38,10 +38,10 @@ public class VelocityEasyStage1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(sm.GetStage() != 1){
+        /*if(sm.GetStage() != 1){
             this.gameObject.SetActive(false);
-        }else{
-            this.gameObject.SetActive(true);
+        }else
+            this.gameObject.SetActive(true);*/{
             if(SimulationManager.isSimulating){
                 if((elapsed <= gameTime)){
                     timer.text = elapsed.ToString("f2")+"s";
