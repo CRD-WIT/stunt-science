@@ -9,6 +9,8 @@ public class SimulationManager : MonoBehaviour
 {
     public GameObject transition;
     public VelocityEasyStage1 VelocityEasyStage1;
+    public StageTwoManager theManager2;
+    
     public Player thePlayer;
     public Button answerButton, retryButton, nextButton;
     public TMP_InputField answerField;
@@ -16,6 +18,7 @@ public class SimulationManager : MonoBehaviour
     public static string question;
     public static float playerAnswer;
     public static bool isSimulating, isAnswerCorrect;
+    int stage;
 
     StageManager sm = new StageManager();
     // Start is called before the first frame update
@@ -35,7 +38,8 @@ public class SimulationManager : MonoBehaviour
             retryButton.gameObject.SetActive(true);
             nextButton.gameObject.SetActive(false);
         } 
-        Debug.Log(PlayerPrefs.GetInt("stageNumber"));       
+        Debug.Log(PlayerPrefs.GetInt("stageNumber"));    
+        stage = sm.GetStageFromPlayerPrefs();   
     }
 
     public void PlayButton(){        
@@ -59,11 +63,13 @@ public class SimulationManager : MonoBehaviour
         }
     }
     public void NextButton(){
-        int stage = sm.GetStageFromPlayerPrefs();
+        
         if(stage == 1){
             sm.SetStage(2);
             StartCoroutine(ExitStage());
+
             VelocityEasyStage1.gameObject.SetActive(false);
+            theManager2.gameObject.SetActive(true);
         }else if(stage == 2){
             sm.SetStage(3);
         }
@@ -75,7 +81,16 @@ public class SimulationManager : MonoBehaviour
         transition.SetActive(true);
         yield return new WaitForSeconds(1);
         thePlayer.moveSpeed = 0;
+        yield return new WaitForSeconds(0.5f);
         transition.SetActive(false);
         thePlayer.transform.position = new Vector2(0f, thePlayer.transform.position.y);
+        if (stage == 2)
+        {
+            theManager2.generateProblem();
+        }
+        if (stage == 3)
+        {
+            
+        }
     }
 }
