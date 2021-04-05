@@ -76,11 +76,11 @@ public class StageTwoManager : MonoBehaviour
                         if(SimulationManager.playerAnswer < answerRO)
                         {
                                 
-                            messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too slow.";
+                            messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too short!";
                         }
                         else if(SimulationManager.playerAnswer > answerRO)
                         {
-                            messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too fast.";
+                            messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too long!";
                                 
                         }
                             SimulationManager.isAnswerCorrect= false;                                             
@@ -116,9 +116,11 @@ public class StageTwoManager : MonoBehaviour
     }
     public void reset()
     {
-        thePlayer.transform.position = PlayerStartPoint;
+        thePlayer.transform.position = new Vector2(0, transform.position.y);
         thePlayer.moveSpeed = 0;
+        AfterStuntMessage.SetActive(false);
         generateProblem();
+        resetTime();
     }
      IEnumerator StuntResult()
     {
