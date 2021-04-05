@@ -56,6 +56,8 @@ public class VelocityEasyStage1 : MonoBehaviour
                         //camManager.shakeDuration=2.5f; 
                     myPlayer.moveSpeed = 0; 
                     timer.text = gameTime.ToString("f2")+"s";
+                    SimulationManager.isStartOfStunt = false;
+                    SimulationManager.directorIsCalling = true;
                         //fallingCeilings.ceilling = true;
                     if ((SimulationManager.playerAnswer == Speed)){ 
                             /*myPlayer.playerPosition = distance-0.2f;
@@ -112,7 +114,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                         StartCoroutine(shake());
                     } 
                 }    */   
-                Debug.Log("time "+elapsed);         
+                // Debug.Log("time "+elapsed);         
     }
     public void VelocityEasyStage1SetUp(){
         Speed = 0;
