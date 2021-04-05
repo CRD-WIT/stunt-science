@@ -38,7 +38,8 @@ public class SimulationManager : MonoBehaviour
             retryButton.gameObject.SetActive(true);
             nextButton.gameObject.SetActive(false);
         } 
-        Debug.Log(PlayerPrefs.GetInt("stageNumber"));    
+        Debug.Log(PlayerPrefs.GetInt("stageNumber"));
+        Debug.Log(isSimulating);    
         stage = sm.GetStageFromPlayerPrefs();   
     }
 
@@ -90,7 +91,7 @@ public class SimulationManager : MonoBehaviour
         }
         if (stage == 3)
         {
-            
+
         }
     }
 }
