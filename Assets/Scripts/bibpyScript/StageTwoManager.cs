@@ -17,6 +17,7 @@ public class StageTwoManager : MonoBehaviour
     public float  gameTime, elapsed;
     public TMP_Text playerNameText, messageText;
     public GameObject AfterStuntMessage;
+    public GameObject safePoint;
     
     //TimeSpan duration;
     //private float gameTime = 0.0f;
@@ -70,18 +71,21 @@ public class StageTwoManager : MonoBehaviour
                     if ((SimulationManager.playerAnswer == answerRO))
                     {                             
                         messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
-                        SimulationManager.isAnswerCorrect= true;                    
+                        SimulationManager.isAnswerCorrect= true;
+                        thePlayer.happy = true;                    
                     }
                     else{
                         if(SimulationManager.playerAnswer < answerRO)
                         {
-                                
+                            thePlayer.lost = true;
+                            thePlayer.standup = true;    
                             messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too short!";
                         }
                         else if(SimulationManager.playerAnswer > answerRO)
                         {
                             messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too long!";
-                                
+                            thePlayer.lost = true;
+                            thePlayer.standup = true;    
                         }
                             SimulationManager.isAnswerCorrect= false;                                             
                         }                       
@@ -106,6 +110,7 @@ public class StageTwoManager : MonoBehaviour
         answer = distance / speed;
         answerRO = (float)System.Math.Round(answer, 2);
         resetTime();
+        safePoint.transform.position = new Vector2(distance, 0.23f);
     }
     public void play()
     {
@@ -118,6 +123,8 @@ public class StageTwoManager : MonoBehaviour
     {
         thePlayer.transform.position = new Vector2(0, transform.position.y);
         thePlayer.moveSpeed = 0;
+        thePlayer.lost = false;
+        thePlayer.standup = false;
         AfterStuntMessage.SetActive(false);
         generateProblem();
         resetTime();

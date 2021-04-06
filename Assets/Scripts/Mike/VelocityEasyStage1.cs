@@ -6,10 +6,9 @@ public class VelocityEasyStage1 : MonoBehaviour
 {
     public Player myPlayer;
     public TMP_Text playerNameText, messageText, timer;
-    public GameObject AfterStuntMessage;
+    public GameObject AfterStuntMessage;/*, safeZone*/
     string pronoun, pPronoun, pNoun, playerName, playerGender;
     public float distance, gameTime, Speed, elapsed;
-    //Start is called before the first frame update
     StageManager sm = new StageManager();
 
     void Start()
@@ -32,7 +31,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
 
-        string p = $"Name: <color color=green>{playerName}</color>";
+        //string p = $"Name: <color color=green>{playerName}</color>";
     }
 
     // Update is called once per frame
@@ -72,20 +71,21 @@ public class VelocityEasyStage1 : MonoBehaviour
                                 }
                             }*/
                             //correctAnswer =true;
-                        
-                        messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
+                        myPlayer.happy = true;
+                        messageText.text = "<b><color=green>Stunt Successful!!!</color></b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling debris.";
                         SimulationManager.isAnswerCorrect= true;
                     //AfterStuntMessage.SetActive(true);
                     }
-                    else{
+                    else{     
+                                          
                         if(SimulationManager.playerAnswer < Speed){
-                                //shortRun = true;
-                            messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too slow.";
+                            messageText.text = "<b><color=red>Stunt Failed!!!</color></b>\n\n"+PlayerPrefs.GetString("Name")+" ran too slow.";
+                            myPlayer.lost = true;
                         }
                         else if(SimulationManager.playerAnswer > Speed){
-                            messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too fast.";
-                                //myPlayer.ragdollActive = false;
+                            messageText.text = "<b><color=red>Stunt Failed!!!</color></b>\n\n"+PlayerPrefs.GetString("Name")+" ran too fast.";
                         }
+                        myPlayer.standup = true;
                         SimulationManager.isAnswerCorrect= false;
                     //AfterStuntMessage.SetActive(true);
                             //runTime.text = "Time: "+elapsed.ToString("f2")+"s";                                                      
@@ -117,6 +117,8 @@ public class VelocityEasyStage1 : MonoBehaviour
                 // Debug.Log("time "+elapsed);         
     }
     public void VelocityEasyStage1SetUp(){
+        myPlayer.lost = false;
+        myPlayer.standup = false;
         Speed = 0;
         if(playerGender == "Male"){
             pronoun = "he";
@@ -135,11 +137,12 @@ public class VelocityEasyStage1 : MonoBehaviour
             //startingPoint = myPlayer.transform.position;
         }  
         timer.text = "0.00s";
+        //safeZone.transform.position = new Vector2(distance, 0.23f);
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
         elapsed=0;  
         SimulationManager.isSimulating =false; 
         AfterStuntMessage.SetActive(false);
-        SimulationManager.question = $"The ceiling is crumbling and the safe area is "+distance.ToString()+"m away from "+playerName+". If "+pronoun+" has exactly "+gameTime.ToString()+"s to go to the safe spot, what should be "+pNoun+" velocity?";
+        SimulationManager.question = "The ceiling is crumbling and the safe area is <color=red>"+distance.ToString()+"m</color> away from "+playerName+". If "+pronoun+" has exactly <color=#006400>"+gameTime.ToString()+"s</color> to go to the safe spot, what should be "+pNoun+" <color=purple>velocity</color>?";
 
     //initial values  
     /*shakeFlag = false;
