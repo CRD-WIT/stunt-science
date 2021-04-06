@@ -89,11 +89,11 @@ public class RumblingManager : MonoBehaviour
     {
         
         GameObject TempGo2 = Instantiate(rubbles[Random.Range(0, 1)]);
-        TempGo2.transform.position = new Vector2(Random.Range(-3, 20), 8.5f);
+        TempGo2.transform.position = new Vector2(Random.Range(-3, 20), 5f);
          GameObject TempGo3 = Instantiate(rubbles[Random.Range(0, 1)]);
-        TempGo3.transform.position = new Vector2(Random.Range(-3, 20), 7f);
+        TempGo3.transform.position = new Vector2(Random.Range(-3, 20), 6f);
          GameObject TempGo = Instantiate(rubbles[Random.Range(0, 1)]);
-        TempGo.transform.position = new Vector2(Random.Range(-3, 20), 5.5f);
+        TempGo.transform.position = new Vector2(Random.Range(-3, 20), 8f);
         rubbleON = false;
          yield return new WaitForSeconds(1);
          rubbleON = true;

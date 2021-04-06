@@ -24,7 +24,8 @@ public class SimulationManager : MonoBehaviour
     public static bool isSimulating, isAnswerCorrect;
     int stage;
     public static bool playerDead;
-    public static bool destroyPrefab;
+    public bool destroyPrefab;
+
 
     StageManager sm = new StageManager();
     // Start is called before the first frame update
@@ -62,7 +63,7 @@ public class SimulationManager : MonoBehaviour
     }
 
     public void RetryButton(){
-        destroyPrefab = true;
+        StartCoroutine(resetPrefab());
         if(stage == 1){
             VelocityEasyStage1.VelocityEasyStage1SetUp();
         }
@@ -77,6 +78,7 @@ public class SimulationManager : MonoBehaviour
         jumpers.SetActive(true);
         thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
+        StartCoroutine(resetPrefab());
         if(stage == 1){
             stage = 2;
             StartCoroutine(ExitStage());
@@ -106,6 +108,12 @@ public class SimulationManager : MonoBehaviour
 
         }
         
+    }
+    IEnumerator resetPrefab()
+    {
+        destroyPrefab = true;
+        yield return new WaitForEndOfFrame();
+        destroyPrefab = false;
     }
     
    

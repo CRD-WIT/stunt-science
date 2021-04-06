@@ -39,6 +39,7 @@ public class StageTwoManager : MonoBehaviour
         gender = PlayerPrefs.GetString("Gender");
         PlayerStartPoint = thePlayer.transform.position;
         theCeiling = FindObjectOfType<CeillingGenerator>();
+        rubbleStopper.SetActive(true);
         
        
     }

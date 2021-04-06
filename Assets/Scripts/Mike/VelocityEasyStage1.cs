@@ -13,6 +13,8 @@ public class VelocityEasyStage1 : MonoBehaviour
     public float distance, gameTime, Speed, elapsed;
     private CeillingGenerator theCeiling;
     public GameObject rubblesStopper;
+    public GameObject safeZone;
+    float currentPos;
     //Start is called before the first frame update
     StageManager sm = new StageManager();
 
@@ -44,25 +46,62 @@ public class VelocityEasyStage1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentPos = myPlayer.transform.position.x;
         /*if(sm.GetStage() != 1){
             this.gameObject.SetActive(false);
         }else
             this.gameObject.SetActive(true);*/{
-            if(SimulationManager.isSimulating){
-                if((elapsed <= gameTime)){
-                    timer.text = elapsed.ToString("f2")+"s";
-                    elapsed += Time.fixedDeltaTime;                                                    
-                    myPlayer.moveSpeed = SimulationManager.playerAnswer;
+            if(SimulationManager.isSimulating)
+            {
+                myPlayer.moveSpeed = SimulationManager.playerAnswer;
+                timer.text = elapsed.ToString("f2")+"s";
+                elapsed += Time.fixedDeltaTime;
+                if(currentPos >= distance)
+                {
+                    StartCoroutine(StuntResult());
+                    rubblesStopper.SetActive(false);
+                    myPlayer.moveSpeed = 0; 
+                    myPlayer.transform.position = new Vector2(distance, -0.75f);
+                    
+                    SimulationManager.isSimulating = false;
+               
+                    
+                    timer.text = gameTime.ToString("f2")+"s";                                                   
+                    
                         /*if(myPlayer.transform.position.x >= distance){
                             myPlayer.transform.position = new Vector3(distance+33 ,myPlayer.transform.position.y, 0);
                             myPlayer.ragdollActive = false;                            
-                        }*/          
+                        }*/ 
+                    if ((SimulationManager.playerAnswer == Speed))
+                    {
+                        messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
+                        SimulationManager.isAnswerCorrect= true;
+                        //AfterStuntMessage.SetActive(true);
+                    }
+                    else
+                    {
+                        if(SimulationManager.playerAnswer < Speed){
+                                //shortRun = true;
+                            messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too slow.";
+                        }
+                        else
+                        {
+                            if(SimulationManager.playerAnswer > Speed)
+                            {
+                                messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too fast.";
+                                //myPlayer.ragdollActive = false;
+                            }
+                        }
+                         //SimulationManager.isAnswerCorrect= false;
+                         
+                    }        
                 } 
-                else{
+                else
+                {
                         //camManager.shakeDuration=2.5f; 
-                    myPlayer.moveSpeed = 0; 
-                    rubblesStopper.SetActive(false);
-                    timer.text = gameTime.ToString("f2")+"s";
+                    
+                   
+                    //timer.text = gameTime.ToString("f2")+"s";
                         //fallingCeilings.ceilling = true;
                     if ((SimulationManager.playerAnswer == Speed)){ 
                             /*myPlayer.playerPosition = distance-0.2f;
@@ -75,14 +114,15 @@ public class VelocityEasyStage1 : MonoBehaviour
                                 else{                                    
                                     myPlayer.playerSpeed = 0;                                    
                                 }
-                            }*/
-                            //correctAnswer =true;
+                            }
+                        /correctAnswer =true;
                         
                         messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
-                        SimulationManager.isAnswerCorrect= true;
-                    //AfterStuntMessage.SetActive(true);
+                        SimulationManager.isAnswerCorrect= true;*/
+                    
                     }
-                    else{
+                    /*else
+                    {
                         if(SimulationManager.playerAnswer < Speed){
                                 //shortRun = true;
                             messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too slow.";
@@ -100,9 +140,9 @@ public class VelocityEasyStage1 : MonoBehaviour
                         if(!minusLife){
                             Takes.Retake();
                             minusLife=true;
-                        }*/
+                        }
                     StartCoroutine(StuntResult());
-                    SimulationManager.isSimulating = false;
+                    SimulationManager.isSimulating = false;*/
                 }
             }
         }
@@ -140,9 +180,11 @@ public class VelocityEasyStage1 : MonoBehaviour
             //startingPoint = myPlayer.transform.position;
         } 
         theCeiling.createQuadtilemap(); 
+        safeZone.transform.position = new Vector2(distance, 0.23f);
         timer.text = "0.00s";
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
         elapsed=0;  
+        rubblesStopper.SetActive(true);ru
         SimulationManager.isSimulating =false; 
         AfterStuntMessage.SetActive(false);
         SimulationManager.question = $"The ceiling is crumbling and the safe area is "+distance.ToString()+"m away from "+playerName+". If "+pronoun+" has exactly "+gameTime.ToString()+"s to go to the safe spot, what should be "+pNoun+" velocity?";
@@ -187,7 +229,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     } 
     IEnumerator StuntResult(){
         //messageFlag = false;
-        yield return new WaitForSeconds(1f); 
+        yield return new WaitForSeconds(3f); 
         AfterStuntMessage.SetActive(true);        
     }   
 }
