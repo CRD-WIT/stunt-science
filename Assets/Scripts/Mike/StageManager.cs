@@ -6,6 +6,7 @@ using UnityEngine;
 public class StageManager{
    public int stage;
 
+
   static string[] levelDifficulties = {"easy", "medium", "hard"};
 
   string currentLevelDifficulty = levelDifficulties[0];

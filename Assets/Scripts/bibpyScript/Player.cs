@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
      private Collider2D myCollider;
      public float jumpforce;
      public bool standup;
+    
+     
      
     
   
@@ -38,7 +40,7 @@ public class Player : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
-        
+       
        
         
     }
@@ -120,8 +122,20 @@ public class Player : MonoBehaviour
         moveSpeed = 4;
         posready = true;
            
-        
        
+    }
+
+    public void SetEmotion(string emotion){
+        switch (emotion)
+        {
+            case "happy":
+            this.happy = true;
+                break;
+            default:
+            this.happy = false;
+                break;
+        }
+        
     }
      void OnTriggerEnter2D(Collider2D other)
     {
@@ -132,7 +146,9 @@ public class Player : MonoBehaviour
         }
         if (other.gameObject.tag == ("stickmanspawn"))
         {
+            SimulationManager.playerDead = true;
             ragdollspawn();
+            standup = true;
         }
     }
 
