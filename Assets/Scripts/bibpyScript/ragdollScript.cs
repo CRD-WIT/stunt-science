@@ -5,21 +5,48 @@ using UnityEngine;
 public class ragdollScript : MonoBehaviour
 {
     public float moveSpeedforward;
-     private Rigidbody2D myRigidbody;
+    private Rigidbody2D myRigidbody;
+    public GameObject stick;
+    public GameObject stickloc;
+     private SimulationManager theSimulation;
     // Start is called before the first frame update
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
+        theSimulation = FindObjectOfType<SimulationManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        moveSpeedforward -= 2* Time.deltaTime;
+        moveSpeedforward -= 2 * Time.deltaTime;
         myRigidbody.velocity = new Vector2(moveSpeedforward, myRigidbody.velocity.y);
         if (moveSpeedforward <= 0)
         {
             moveSpeedforward = 0;
         }
+        if (SimulationManager.playerDead == true) ;
+        {
+            StartCoroutine(playerSpawn());
+        }
+    }
+    IEnumerator playerSpawn()
+    {
+        SimulationManager.playerDead = false;
+        yield return new WaitForSeconds(2);
+        
+
+        //GameObject player = theSimulation.PlayerObject;
+        //player.SetActive(true);
+        //player.transform.position = stick.transform.position;
+        Destroy(stick.gameObject);
+        theSimulation.thePlayer.gameObject.transform.position = stickloc.transform.position;
+        theSimulation.thePlayer.gameObject.SetActive(true);
+        
+        
+
+        
+        //theplayer.gameObject.SetActive(true);
+        //theplayer.transform.position = stick.transform.position;
     }
 }
