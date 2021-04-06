@@ -72,12 +72,14 @@ public class VelocityEasyStage1 : MonoBehaviour
                                 }
                             }*/
                             //correctAnswer =true;
-                        
+                        myPlayer.happy = true;
                         messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
                         SimulationManager.isAnswerCorrect= true;
                     //AfterStuntMessage.SetActive(true);
                     }
                     else{
+                        myPlayer.lost = true;
+                        myPlayer.standup = true;
                         if(SimulationManager.playerAnswer < Speed){
                                 //shortRun = true;
                             messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too slow.";
@@ -117,6 +119,8 @@ public class VelocityEasyStage1 : MonoBehaviour
                 // Debug.Log("time "+elapsed);         
     }
     public void VelocityEasyStage1SetUp(){
+        myPlayer.lost = false;
+        myPlayer.standup = false;
         Speed = 0;
         if(playerGender == "Male"){
             pronoun = "he";
