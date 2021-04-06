@@ -57,7 +57,9 @@ public class SimulationManager : MonoBehaviour
         }else{
             isStartOfStunt = true;
             directorIsCalling = true;
+            //answerField.placeholder = playerAnswer.ToString()+"m/s";
             playerAnswer = float.Parse(answerField.text);
+            answerField.text = playerAnswer.ToString()+"m/s";
             answerButton.interactable = false;
         }        
     }
@@ -84,6 +86,7 @@ public class SimulationManager : MonoBehaviour
         }        
     }
     public void RetryButton(){
+        answerField.text = "";
         answerButton.interactable = true;
         if(stage == 1){
             VelocityEasyStage1.VelocityEasyStage1SetUp();
@@ -126,6 +129,7 @@ public class SimulationManager : MonoBehaviour
         {
 
         }
+        answerField.text = "";
         answerButton.interactable = true;
     }   
 }

@@ -72,7 +72,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                             }*/
                             //correctAnswer =true;
                         myPlayer.happy = true;
-                        messageText.text = "<b><color=green>Stunt Successful!!!</color></b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling debris.";
+                        messageText.text = "<b><color=green>Stunt Successful!!!</color></b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b>.";
                         SimulationManager.isAnswerCorrect= true;
                     //AfterStuntMessage.SetActive(true);
                     }
@@ -129,9 +129,9 @@ public class VelocityEasyStage1 : MonoBehaviour
             pPronoun = "her";
             pNoun = "her";}
         while((Speed < 1.5f)||(Speed > 10f)){
-            float d = Random.Range(5f, 10f);
+            float d = Random.Range(9f, 18f);
             distance = (float)System.Math.Round(d,2);
-            float t = Random.Range(2f, 9f);
+            float t = Random.Range(1.5f, 2.5f);
             gameTime = (float)System.Math.Round(t,2);
             Speed = (float)System.Math.Round((distance/t), 2);
             //startingPoint = myPlayer.transform.position;
