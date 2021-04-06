@@ -102,7 +102,6 @@ public class SimulationManager : MonoBehaviour
         if(stage == 1){
             stage = 2;
             StartCoroutine(ExitStage());
-
             VelocityEasyStage1.gameObject.SetActive(false);
             theManager2.gameObject.SetActive(true);
         }else if(stage == 2){
@@ -128,7 +127,5 @@ public class SimulationManager : MonoBehaviour
 
         }
         answerButton.interactable = true;
-    }
-
-   
+    }   
 }
