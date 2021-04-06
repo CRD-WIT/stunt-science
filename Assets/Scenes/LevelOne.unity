@@ -1377,6 +1377,58 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &85375425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 85375427}
+  - component: {fileID: 85375426}
+  m_Layer: 0
+  m_Name: ceiling generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &85375426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85375425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c7ebf3de8d5f304e8b82ea69abe5d8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapwitdh: 0
+  mapheight: 0
+  tileprefab: {fileID: 0}
+  ceilingprefab: {fileID: 0}
+  rubble:
+  - {fileID: 2675613978070777730, guid: 780c6c8cebbdb884f900c6457a6d16a8, type: 3}
+  - {fileID: 2791066001505957946, guid: 879ab2d9d8fbbe1449cef4c03b188da9, type: 3}
+  - {fileID: 8840676027569517680, guid: 0a8de19bfca22d54aa41e3f4aa834edf, type: 3}
+  tileoffset: 1
+--- !u!4 &85375427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85375425}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.6849331, y: 2.6175156, z: -1.3716145}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 36
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &107384869
 GameObject:
   m_ObjectHideFlags: 0
@@ -8035,6 +8087,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83b51186faff2eb4d8e519b2c9cbcc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapwitdh: 0
+  mapheight: 0
+  tileprefab: {fileID: 0}
+  ceilingprefab: {fileID: 0}
+  rubble: []
+  tileoffset: 1
 --- !u!4 &233424958
 Transform:
   m_ObjectHideFlags: 0
@@ -11112,11 +11170,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &484455807 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1919375450109449377, guid: 7bc87c50c8303494c822786def94109f, type: 3}
-  m_PrefabInstance: {fileID: 6643490682002248274}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &489903590
 GameObject:
   m_ObjectHideFlags: 0
@@ -21151,7 +21204,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -6658107369212967051, guid: 7bc87c50c8303494c822786def94109f, type: 3}
   m_PrefabInstance: {fileID: 6643490682002248274}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484455807}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 718ecbefd2b5f3d44989033edfbcb17d, type: 3}
@@ -31243,7 +31296,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1554811418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.07, y: 2.11, z: 0}
+  m_LocalPosition: {x: 5.89, y: 7.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 160468432}
@@ -33797,7 +33850,6 @@ MonoBehaviour:
   VelocityEasyStage1: {fileID: 164883564}
   theManager2: {fileID: 880082390}
   thePlayer: {fileID: 1010440673}
-  PlayerObject: {fileID: 484455807}
   answerButton: {fileID: 1625396208}
   retryButton: {fileID: 1420888964}
   nextButton: {fileID: 648113158}

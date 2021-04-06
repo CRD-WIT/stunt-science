@@ -24,6 +24,7 @@ public class SimulationManager : MonoBehaviour
     public static bool isSimulating, isAnswerCorrect;
     int stage;
     public static bool playerDead;
+    public static bool destroyPrefab;
 
     StageManager sm = new StageManager();
     // Start is called before the first frame update
@@ -31,6 +32,7 @@ public class SimulationManager : MonoBehaviour
     {
         stage = 1;
         thePlayer = FindObjectOfType<Player>();
+        
     }
 
     // Update is called once per frame
@@ -50,6 +52,7 @@ public class SimulationManager : MonoBehaviour
 
     public void PlayButton(){        
         //string errorMessage = answerField.text != "" ? "":"Please enter a value";
+       
         if(answerField.text == ""){
             errorTextBox.SetText("Please enter your answer!");
         }else{
@@ -59,7 +62,7 @@ public class SimulationManager : MonoBehaviour
     }
 
     public void RetryButton(){
-        
+        destroyPrefab = true;
         if(stage == 1){
             VelocityEasyStage1.VelocityEasyStage1SetUp();
         }
@@ -102,7 +105,10 @@ public class SimulationManager : MonoBehaviour
         {
 
         }
+        
     }
+    
+   
 
    
 }

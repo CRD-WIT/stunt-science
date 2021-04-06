@@ -21,6 +21,8 @@ public class StageTwoManager : MonoBehaviour
     public TMP_Text playerNameText, messageText;
     public GameObject AfterStuntMessage;
     public GameObject safePoint;
+    private CeillingGenerator theCeiling;
+    public GameObject rubbleStopper;
     
     //TimeSpan duration;
     //private float gameTime = 0.0f;
@@ -36,6 +38,7 @@ public class StageTwoManager : MonoBehaviour
         thePlayer = FindObjectOfType<Player>();
         gender = PlayerPrefs.GetString("Gender");
         PlayerStartPoint = thePlayer.transform.position;
+        theCeiling = FindObjectOfType<CeillingGenerator>();
         
        
     }
@@ -70,7 +73,8 @@ public class StageTwoManager : MonoBehaviour
                 thePlayer.moveSpeed = speed;                        
             } 
                 else{                        
-                    thePlayer.moveSpeed = 0;                        
+                    thePlayer.moveSpeed = 0;
+                    rubbleStopper.SetActive(false);                        
                     if ((SimulationManager.playerAnswer == answerRO))
                     {                             
                         messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
@@ -114,6 +118,7 @@ public class StageTwoManager : MonoBehaviour
         answerRO = (float)System.Math.Round(answer, 2);
         resetTime();
         safePoint.transform.position = new Vector2(distance, 0.23f);
+        theCeiling.createQuadtilemap();
     }
     public void play()
     {

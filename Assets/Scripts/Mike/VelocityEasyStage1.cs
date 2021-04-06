@@ -11,11 +11,14 @@ public class VelocityEasyStage1 : MonoBehaviour
     public GameObject AfterStuntMessage;
     string pronoun, pPronoun, pNoun, playerName, playerGender;
     public float distance, gameTime, Speed, elapsed;
+    private CeillingGenerator theCeiling;
+    public GameObject rubblesStopper;
     //Start is called before the first frame update
     StageManager sm = new StageManager();
 
     void Start()
     {
+        theCeiling = FindObjectOfType<CeillingGenerator>();
         //prodProps = FindObjectOfType<prodProps>();    
         //tileGenerator = FindObjectOfType<generateGround>();                
         myPlayer = FindObjectOfType<Player>();
@@ -35,6 +38,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         playerGender = PlayerPrefs.GetString("Gender");
 
         string p = $"Name: <color color=green>{playerName}</color>";
+        
     }
 
     // Update is called once per frame
@@ -57,6 +61,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 else{
                         //camManager.shakeDuration=2.5f; 
                     myPlayer.moveSpeed = 0; 
+                    rubblesStopper.SetActive(false);
                     timer.text = gameTime.ToString("f2")+"s";
                         //fallingCeilings.ceilling = true;
                     if ((SimulationManager.playerAnswer == Speed)){ 
@@ -133,7 +138,8 @@ public class VelocityEasyStage1 : MonoBehaviour
             gameTime = (float)System.Math.Round(t,2);
             Speed = (float)System.Math.Round((distance/t), 2);
             //startingPoint = myPlayer.transform.position;
-        }  
+        } 
+        theCeiling.createQuadtilemap(); 
         timer.text = "0.00s";
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
         elapsed=0;  
