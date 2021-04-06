@@ -5,6 +5,7 @@ public class StageManager
     public int stage;
 
     static string[] levelDifficulties = { "easy", "medium", "hard" };
+    static string[] gameLevel = {"velocity", "acceleration", "free fall", "projectile", "circular motion", "forces", "work", "energy", "power", "momemtum", "impulse"};
 
     string currentLevelDifficulty = levelDifficulties[0];
 
