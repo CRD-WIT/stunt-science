@@ -142,7 +142,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         elapsed=0;  
         SimulationManager.isSimulating =false; 
         AfterStuntMessage.SetActive(false);
-        SimulationManager.question = "The ceiling is crumbling and the safe area is <color=red>"+distance.ToString()+"m</color> away from "+playerName+". If "+pronoun+" has exactly <color=#006400>"+gameTime.ToString()+"s</color> to go to the safe spot, what should be "+pNoun+" <color=purple>velocity</color>?";
+        SimulationManager.question = "The ceiling is crumbling and the safe area is <color=red>"+distance.ToString()+" meters</color> away from "+playerName+". If "+pronoun+" has exactly <color=#006400>"+gameTime.ToString()+" seconds</color> to go to the safe spot, what should be "+pNoun+" <color=purple>velocity</color>?";
 
     //initial values  
     /*shakeFlag = false;
