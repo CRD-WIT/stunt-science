@@ -12,7 +12,8 @@ public class SimulationManager : MonoBehaviour
     public StageTwoManager theManager2;
     
     
-    public Player thePlayer;
+    public  Player thePlayer;
+    //public GameObject PlayerObject;
     public Button answerButton, retryButton, nextButton;
     public TMP_InputField answerField;
     public TMP_Text questionTextBox, errorTextBox, diretorsSpeech;
@@ -20,12 +21,14 @@ public class SimulationManager : MonoBehaviour
     public static float playerAnswer;
     public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt;
     int stage;
+    public static bool playerDead;
 
     StageManager sm = new StageManager();
     // Start is called before the first frame update
     void Start()
     {
         stage = 1;
+        thePlayer = FindObjectOfType<Player>();
     }
 
     // Update is called once per frame
@@ -94,6 +97,7 @@ public class SimulationManager : MonoBehaviour
     }
     public void NextButton(){
         jumpers.SetActive(true);
+        thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
         if(stage == 1){
             stage = 2;
@@ -125,4 +129,6 @@ public class SimulationManager : MonoBehaviour
         }
         answerButton.interactable = true;
     }
+
+   
 }
