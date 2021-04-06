@@ -6,7 +6,7 @@ public class VelocityEasyStage1 : MonoBehaviour
 {
     public Player myPlayer;
     public TMP_Text playerNameText, messageText, timer;
-    public GameObject AfterStuntMessage;
+    public GameObject AfterStuntMessage, safeZone;
     string pronoun, pPronoun, pNoun, playerName, playerGender;
     public float distance, gameTime, Speed, elapsed;
     //Start is called before the first frame update
@@ -139,6 +139,7 @@ public class VelocityEasyStage1 : MonoBehaviour
             //startingPoint = myPlayer.transform.position;
         }  
         timer.text = "0.00s";
+        safeZone.transform.position = new Vector2(distance, 0.23f);
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
         elapsed=0;  
         SimulationManager.isSimulating =false; 
