@@ -1,13 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class SimulationManager : MonoBehaviour
 {
-    public GameObject transition;
+    public GameObject transition, directorsBubble;
     public GameObject jumpers;
     public GameObject ragdollSpawn;
     public VelocityEasyStage1 VelocityEasyStage1;
@@ -18,10 +16,10 @@ public class SimulationManager : MonoBehaviour
     //public GameObject PlayerObject;
     public Button answerButton, retryButton, nextButton;
     public TMP_InputField answerField;
-    public TMP_Text questionTextBox, errorTextBox;
+    public TMP_Text questionTextBox, errorTextBox, diretorsSpeech;
     public static string question;
     public static float playerAnswer;
-    public static bool isSimulating, isAnswerCorrect;
+    public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt;
     int stage;
     public static bool playerDead;
 
@@ -43,9 +41,13 @@ public class SimulationManager : MonoBehaviour
         }else{
             retryButton.gameObject.SetActive(true);
             nextButton.gameObject.SetActive(false);
-        } 
-        
-         
+        }
+
+        if(directorIsCalling){
+            StartCoroutine(DirectorsCall());
+        }else{
+            directorIsCalling = false;
+        }     
     }
 
     public void PlayButton(){        
@@ -53,13 +55,36 @@ public class SimulationManager : MonoBehaviour
         if(answerField.text == ""){
             errorTextBox.SetText("Please enter your answer!");
         }else{
+            isStartOfStunt = true;
+            directorIsCalling = true;
             playerAnswer = float.Parse(answerField.text);
-            isSimulating =true;
+            answerButton.interactable = false;
         }        
     }
-
+    public IEnumerator DirectorsCall(){
+        directorIsCalling = false;
+        if(isStartOfStunt){
+            directorsBubble.SetActive(true);
+            diretorsSpeech.text = "Lights!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Camera!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Action!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "";
+            directorsBubble.SetActive(false);            
+            isSimulating =true;
+        }
+        else{
+            directorsBubble.SetActive(true);
+            diretorsSpeech.text = "Cut!";
+            yield return new WaitForSeconds(0.75f);
+            directorsBubble.SetActive(false);
+            diretorsSpeech.text = "";
+        }        
+    }
     public void RetryButton(){
-        
+        answerButton.interactable = true;
         if(stage == 1){
             VelocityEasyStage1.VelocityEasyStage1SetUp();
         }
@@ -102,6 +127,7 @@ public class SimulationManager : MonoBehaviour
         {
 
         }
+        answerButton.interactable = true;
     }
 
    
