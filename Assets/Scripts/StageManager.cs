@@ -35,4 +35,9 @@ public class StageManager
         return stage;
     }
 
+    public void SetGameLevel()
+    {
+
+    }
+
 }
