@@ -5,7 +5,7 @@ using TMPro;
 
 public class SimulationManager : MonoBehaviour
 {
-    public GameObject transition, directorsBuble;
+    public GameObject transition, directorsBubble;
     public GameObject jumpers;
     public GameObject ragdollSpawn;
     public VelocityEasyStage1 VelocityEasyStage1;
@@ -55,12 +55,13 @@ public class SimulationManager : MonoBehaviour
             isStartOfStunt = true;
             directorIsCalling = true;
             playerAnswer = float.Parse(answerField.text);
+            answerButton.interactable = false;
         }        
     }
     public IEnumerator DirectorsCall(){
         directorIsCalling = false;
         if(isStartOfStunt){
-            directorsBuble.SetActive(true);
+            directorsBubble.SetActive(true);
             diretorsSpeech.text = "Lights!";
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
@@ -68,19 +69,19 @@ public class SimulationManager : MonoBehaviour
             diretorsSpeech.text = "Action!";
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
-            directorsBuble.SetActive(false);            
+            directorsBubble.SetActive(false);            
             isSimulating =true;
         }
         else{
-            directorsBuble.SetActive(true);
+            directorsBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
             yield return new WaitForSeconds(0.75f);
-            directorsBuble.SetActive(false);
+            directorsBubble.SetActive(false);
             diretorsSpeech.text = "";
         }        
     }
     public void RetryButton(){
-        
+        answerButton.interactable = true;
         if(stage == 1){
             VelocityEasyStage1.VelocityEasyStage1SetUp();
         }
@@ -122,5 +123,6 @@ public class SimulationManager : MonoBehaviour
         {
 
         }
+        answerButton.interactable = true;
     }
 }
