@@ -18,7 +18,7 @@ public class ScoreManager : MonoBehaviour
     public GameObject starscreen;
     public Button taptocon;
     public Button replay;
-    int scorestar;
+    public int scorestar;
     bool scoreready = true;
     public AudioSource starfx;
 
@@ -40,16 +40,19 @@ public class ScoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // scorestar = theHeart.life;
-        // mycoin.text = coin.ToString("F0");
+        scorestar = theHeart.life;
+        mycoin.text = coin.ToString("F0");
+
+        
+        
     }
     public void finalstar()
     {
         StartCoroutine(scoringstar());
-        if(scorestar > mystar)
+        /*if(scorestar > mystar)
         {
            PlayerPrefs.SetInt("VstarE", scorestar);
-        }
+        }*/
     }
     IEnumerator scoringstar()
     {
@@ -95,7 +98,9 @@ public class ScoreManager : MonoBehaviour
                 for(int i=0; i <10; i++){
                     yield return new WaitForEndOfFrame();
                     coin ++;
-                }                           
+                }
+                
+               
             }
             yield return new WaitForSeconds(1);
             taptocon.gameObject.SetActive(true);
@@ -112,7 +117,8 @@ public class ScoreManager : MonoBehaviour
     }
     public void replaylevel()
     {
-        SceneManager.LoadScene("LevelOne");
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
     
     public void addingoOneCoin()

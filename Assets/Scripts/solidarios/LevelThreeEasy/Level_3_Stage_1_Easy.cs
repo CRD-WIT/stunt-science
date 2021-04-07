@@ -35,9 +35,10 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     float playerOnRopeInitialY;
     float accurateColliderInitialPointY;
     public GameObject timerAnnotation;
-    public QuestionController questionController;
+    public QuestionControllerVX questionController;
     String playerName = "Junjun";
     String pronoun = "he";
+        string answerUnit;
     bool metTargetTime = false;
     [SerializeField] CameraScript cameraScript;
 
@@ -117,6 +118,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         }
     }
 
+
     IEnumerator StuntResult(Action callback)
     {
         //messageFlag = false;
@@ -140,7 +142,10 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         cameraScript.isStartOfStunt = true;
         questionController.SetAnswer();
     }
-
+    public string GetUnit()
+    {
+        return answerUnit;
+    }
     void FixedUpdate()
     {
 

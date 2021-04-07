@@ -9,7 +9,7 @@ public class CircularAnnotation : MonoBehaviour
     [SerializeField]
     private int _segments = 60;
     [SerializeField]
-    private float _horizRadius = 2;
+    public float _horizRadius = 2;
     [SerializeField]
     private float _vertRadius = 2;
     public float _degrees = 360;
@@ -24,8 +24,6 @@ public class CircularAnnotation : MonoBehaviour
     private float _previousVertRadiusValue;
     private float _previousAngleValue;
     public Vector2 textOffset;
-
-    [SerializeField] bool autoAdjust;
 
     private float _previousOffsetValue;
     private Axis _previousAxisValue;
@@ -92,7 +90,7 @@ public class CircularAnnotation : MonoBehaviour
 
         if (revealValue)
         {
-            textDimension.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(_degrees, 2)}deg");
+            textDimension.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(_degrees, 2)}°");
             textDimension.GetComponent<TextMeshPro>().fontSize = fontSize;
         }
         else
@@ -109,17 +107,14 @@ public class CircularAnnotation : MonoBehaviour
         arrows[1].transform.position = new Vector3(_line.GetPosition(0).x, _line.GetPosition(0).y, 1);
         arrows[1].transform.rotation = Quaternion.Inverse(Quaternion.Euler(0, 0, arrows[0].transform.rotation.z + initialAngle));
 
-        if (autoAdjust)
+        /*if (arrows[0].transform.position.y > 0)
         {
-            if (arrows[0].transform.position.y > 0)
-            {
-                initialAngle += 0.1f;
-            }
-            else
-            {
-                initialAngle -= 0.1f;
-            }
+            initialAngle += 0.1f;
         }
+        else
+        {
+            initialAngle -= 0.1f;
+        }*/
     }
 
     void UpdateValuesChanged()

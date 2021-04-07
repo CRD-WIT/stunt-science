@@ -36,7 +36,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     public GameObject grapplingPointIndicator;
     string playerName = "Junjun";
     string pronoun = "he";
-    public QuestionController questionController;
+    public QuestionControllerVX questionController;
     public CameraScript cameraScript;
     void Start()
     {
@@ -126,7 +126,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         {
             thePlayer.SetActive(true);
             thePlayerRunning.SetActive(false);
-            transform.Find("Annotation").GetComponent<Annotation>().Show();
+            transform.Find("Annotation").GetComponent<AnnotationVX>().Show();
             transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Show();
             transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Show();
         }

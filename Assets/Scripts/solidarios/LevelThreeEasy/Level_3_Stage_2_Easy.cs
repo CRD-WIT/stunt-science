@@ -37,7 +37,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     float distanceGiven;
     string playerName = "Junjun";
     string pronoun = "he";
-    public QuestionController questionController;
+    public QuestionControllerVX questionController;
     public CameraScript cameraScript;
     void Start()
     {

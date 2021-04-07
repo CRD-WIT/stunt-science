@@ -32,7 +32,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     Vector2 spawnPointValue;
     float distance;
     float distanceGiven;
-    public QuestionController questionController;
+    public QuestionControllerVX questionController;
     public CameraScript cameraScript;
 
     void Start()

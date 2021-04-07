@@ -49,7 +49,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     string pronoun = "he";
     public GameObject annotation;
 
-    public QuestionController questionController;
+    public QuestionControllerVX questionController;
     void Start()
     {
         // Given        

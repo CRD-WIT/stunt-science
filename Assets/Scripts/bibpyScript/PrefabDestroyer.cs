@@ -15,11 +15,11 @@ public class PrefabDestroyer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (theSimulate.destroyPrefab == true)
+        if(theSimulate.destroyPrefab == true)
         {
             Destroy(debriPrefab.gameObject);
         }
-
+        
     }
-
+    
 }
