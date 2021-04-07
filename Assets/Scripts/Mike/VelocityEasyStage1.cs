@@ -27,9 +27,10 @@ public class VelocityEasyStage1 : MonoBehaviour
         playerGender = PlayerPrefs.GetString("Gender");
     }
     void FixedUpdate(){
+        float answer = SimulationManager.playerAnswer;
         if(SimulationManager.isSimulating)
         {
-            myPlayer.moveSpeed = SimulationManager.playerAnswer;
+            myPlayer.moveSpeed = answer;
             timer.text = elapsed.ToString("f2")+"s";
             elapsed += Time.fixedDeltaTime;
             if(elapsed>=gameTime)
@@ -39,10 +40,10 @@ public class VelocityEasyStage1 : MonoBehaviour
                 myPlayer.moveSpeed = 0;
                 SimulationManager.isSimulating = false;
                 timer.text = gameTime.ToString("f2")+"s";
-                if ((SimulationManager.playerAnswer == Speed))
+                if ((answer == Speed))
                 {
                     myPlayer.happy = true;
-                    messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
+                    messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b><color=green>safe</color></b>.";
                     SimulationManager.isAnswerCorrect= true;
                     myPlayer.transform.position = new Vector2(distance, myPlayer.transform.position.y);
                 }
@@ -50,14 +51,14 @@ public class VelocityEasyStage1 : MonoBehaviour
                     myPlayer.standup = true;
                     myPlayer.lost = true;
                     currentPos = SimulationManager.playerAnswer*gameTime;
-                    if(SimulationManager.playerAnswer < Speed){
+                    if(answer < Speed){
                         myPlayer.transform.position = new Vector2(currentPos-0.1f, myPlayer.transform.position.y);
-                        messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too slow.";
+                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n"+PlayerPrefs.GetString("Name")+" ran too slow and "+pronoun+" stopped before the safe spot.\nThe correct answer is <color=red>"+Speed+"m/s</color>.";
                     }
-                    else //if(SimulationManager.playerAnswer > Speed)
+                    else //if(answer > Speed)
                     {
                         myPlayer.transform.position = new Vector2(currentPos+0.1f, myPlayer.transform.position.y);
-                        messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too fast.";
+                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n"+PlayerPrefs.GetString("Name")+" ran too fast and "+pronoun+" stopped after the safe spot.\nThe correct answer is <color=red>"+Speed+"m/s</color>.";
                     }
                 }   
             } 
@@ -81,7 +82,6 @@ public class VelocityEasyStage1 : MonoBehaviour
             float t = Random.Range(1.5f, 2.5f);
             gameTime = (float)System.Math.Round(t,2);
             Speed = (float)System.Math.Round((distance/t), 2);
-            //startingPoint = myPlayer.transform.position;
         } 
         theCeiling.createQuadtilemap(); 
         safeZone.transform.position = new Vector2(distance, 0.23f);
@@ -91,45 +91,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         rubblesStopper.SetActive(true);
         SimulationManager.isSimulating =false; 
         AfterStuntMessage.SetActive(false);
-        SimulationManager.question = "The ceiling is crumbling and the safe area is <color=red>"+distance.ToString()+" meters</color> away from "+playerName+". If "+pronoun+" has exactly <color=#006400>"+gameTime.ToString()+" seconds</color> to go to the safe spot, what should be "+pNoun+" <color=purple>velocity</color>?";
-
-    //initial values  
-    /*shakeFlag = false;
-    prodProps.dist = distance;
-    prodProps.ceilingHolder.SetActive(true);*/
-
-    //Generate Ground and cielling        
-    /*tileGenerator.limit = true;
-    tileGenerator.gameObject.SetActive(true);           
-    tileGenerator.width = distance;
-    tileGenerator.height = height;
-    fallingCeilings.ceilling = false;
-    StartCoroutine(ceilling());*/
-    //Initialize player
-
-    /*myPlayer.ragdollActive = true;  
-    myPlayer.playerSpeed=0;       
-    runTime.text = "gameTime: 0.00s";*/
-
-    //Initialize GUI
-    /*submitButton.gameObject.SetActive(true);
-    correct.gameObject.SetActive(false);
-    wrong.gameObject.SetActive(false);
-    inputField.GetComponent<Text>().text = playerInput;*/
-    //Game penalty
-
-    /*takeReduced = true;
-    TFFlag =true;
-    minusLife =false;
-    gameOver.SetActive(false);  
-    GameMAnager.gameOverFlag =false;*/
-
-    //game end stage 
-    /*Answered = false;    
-    nextStage = false;
-    message.SetActive(false);*/
-
-    //PlayerPrefs.SetString("pageOut","1,"+GameMAnager.playerName+","+GameMAnager.playerGender+","+GameMAnager.level+","+GameMAnager.stage+","+GameMAnager.talentFee);           
+        SimulationManager.question = "The ceiling is crumbling and the safe area is <color=red>"+distance.ToString()+" meters</color> away from "+playerName+". If "+pronoun+" has exactly <color=#006400>"+gameTime.ToString()+" seconds</color> to go to the safe spot, what should be "+pNoun+" <color=purple>velocity</color>?";         
     } 
     IEnumerator StuntResult(){
         //messageFlag = false;
