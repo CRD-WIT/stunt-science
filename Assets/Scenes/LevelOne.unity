@@ -21126,7 +21126,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -209, y: -244}
+  m_AnchoredPosition: {x: 1116, y: 215}
   m_SizeDelta: {x: 244, y: 228}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &963937274
@@ -22902,6 +22902,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1147315980
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1147315981}
+  m_Layer: 0
+  m_Name: InititalLine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1147315981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147315980}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 40
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1149878757
 GameObject:
   m_ObjectHideFlags: 0
@@ -29757,15 +29787,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b916cb41d2ef444837ef9e5f96b4a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camTransform: {fileID: 0}
+  camTransform: {fileID: 519420032}
   shakeDuration: 0
   shakeAmount: 0.8
   decreaseFactor: 1
   shakeON: 1
   rubbleON: 1
-  rumbling: {fileID: 0}
-  rubbles: []
-  debris: []
+  rumbling: {fileID: 922485776}
+  rubbles:
+  - {fileID: 8361698814904553199, guid: a2bfab45dd382874a8c6590870708e17, type: 3}
+  - {fileID: 3879221467162024577, guid: 00534b7e5860f5148839789a31cac1ce, type: 3}
+  debris:
+  - {fileID: 2675613978070777730, guid: 780c6c8cebbdb884f900c6457a6d16a8, type: 3}
+  - {fileID: 2791066001505957946, guid: 879ab2d9d8fbbe1449cef4c03b188da9, type: 3}
+  - {fileID: 8840676027569517680, guid: 0a8de19bfca22d54aa41e3f4aa834edf, type: 3}
   debrisRange: 1.4
 --- !u!4 &1342928116
 Transform:
@@ -31694,7 +31729,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 73, y: -244}
+  m_AnchoredPosition: {x: 1398.0001, y: 215.00021}
   m_SizeDelta: {x: 244, y: 228}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1549522025
@@ -35780,12 +35815,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1887909032}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &1887909032
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36809,7 +36844,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 356, y: -244}
+  m_AnchoredPosition: {x: 1681.0001, y: 215.00021}
   m_SizeDelta: {x: 244, y: 228}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1966103537
