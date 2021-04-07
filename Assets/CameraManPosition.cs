@@ -14,7 +14,7 @@ public class CameraManPosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var v3Pos = new  Vector3(.95f, 0.90f, 0.25f);
+        var v3Pos = new  Vector3(.80f, 0.85f, 0.25f);
         transform.position = myCamera.ViewportToWorldPoint(v3Pos);
     }
 }
