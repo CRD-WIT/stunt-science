@@ -9,11 +9,18 @@ public class VelocityEasyStage1 : MonoBehaviour
     public GameObject AfterStuntMessage;/*, safeZone*/
     string pronoun, pPronoun, pNoun, playerName, playerGender;
     public float distance, gameTime, Speed, elapsed;
+    private CeillingGenerator theCeiling;
+    public GameObject rubblesStopper;
+    public GameObject safeZone;
+    float currentPos;
+    //Start is called before the first frame update
     StageManager sm = new StageManager();
+    float wrongDistance;
 
     void Start()
     {
         sm.SetGameLevel(1);
+        theCeiling = FindObjectOfType<CeillingGenerator>();
         //prodProps = FindObjectOfType<prodProps>();    
         //tileGenerator = FindObjectOfType<generateGround>();                
         myPlayer = FindObjectOfType<Player>();
@@ -32,32 +39,69 @@ public class VelocityEasyStage1 : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
 
-        //string p = $"Name: <color color=green>{playerName}</color>";
+        string p = $"Name: <color color=green>{playerName}</color>";
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        currentPos = myPlayer.transform.position.x;
         /*if(sm.GetStage() != 1){
             this.gameObject.SetActive(false);
         }else
             this.gameObject.SetActive(true);*/{
-            if(SimulationManager.isSimulating){
-                if((elapsed <= gameTime)){
-                    timer.text = elapsed.ToString("f2")+"s";
-                    elapsed += Time.fixedDeltaTime;                                                    
-                    myPlayer.moveSpeed = SimulationManager.playerAnswer;
+            if(SimulationManager.isSimulating)
+            {
+                myPlayer.moveSpeed = SimulationManager.playerAnswer;
+                timer.text = elapsed.ToString("f2")+"s";
+                elapsed += Time.fixedDeltaTime;
+                if(currentPos >= distance)
+                {
+                    StartCoroutine(StuntResult());
+                    rubblesStopper.SetActive(false);
+                    myPlayer.moveSpeed = 0; 
+                    myPlayer.transform.position = new Vector2(distance, -0.75f);
+                    
+                    SimulationManager.isSimulating = false;
+               
+                    
+                    timer.text = gameTime.ToString("f2")+"s";                                                   
+                    
                         /*if(myPlayer.transform.position.x >= distance){
                             myPlayer.transform.position = new Vector3(distance+33 ,myPlayer.transform.position.y, 0);
                             myPlayer.ragdollActive = false;                            
-                        }*/          
+                        }*/ 
+                    if ((SimulationManager.playerAnswer == Speed))
+                    {
+                        messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
+                        SimulationManager.isAnswerCorrect= true;
+                        //AfterStuntMessage.SetActive(true);
+                    }
+                    else
+                    {
+                        if(SimulationManager.playerAnswer < Speed){
+                                //shortRun = true;
+                            messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too slow.";
+                        }
+                        else
+                        {
+                            if(SimulationManager.playerAnswer > Speed)
+                            {
+                                messageText.text = "<b>Stunt Failed!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran too fast.";
+                                //myPlayer.ragdollActive = false;
+                            }
+                        }
+                         //SimulationManager.isAnswerCorrect= false;
+                         
+                    }        
                 } 
-                else{
+                else
+                {
                         //camManager.shakeDuration=2.5f; 
-                    myPlayer.moveSpeed = 0; 
-                    timer.text = gameTime.ToString("f2")+"s";
-                    SimulationManager.isStartOfStunt = false;
-                    SimulationManager.directorIsCalling = true;
+                    
+                   
+                    //timer.text = gameTime.ToString("f2")+"s";
                         //fallingCeilings.ceilling = true;
                     if ((SimulationManager.playerAnswer == Speed)){ 
                             /*myPlayer.playerPosition = distance-0.2f;
@@ -70,15 +114,15 @@ public class VelocityEasyStage1 : MonoBehaviour
                                 else{                                    
                                     myPlayer.playerSpeed = 0;                                    
                                 }
-                            }*/
-                            //correctAnswer =true;
-                        myPlayer.happy = true;
-                        messageText.text = "<b><color=green>Stunt Successful!!!</color></b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b>.";
-                        SimulationManager.isAnswerCorrect= true;
-                    //AfterStuntMessage.SetActive(true);
+                            }
+                        /correctAnswer =true;
+                        
+                        messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
+                        SimulationManager.isAnswerCorrect= true;*/
+                    
                     }
-                    else{     
-                                          
+                    /*else
+                    {
                         if(SimulationManager.playerAnswer < Speed){
                             messageText.text = "<b><color=red>Stunt Failed!!!</color></b>\n\n"+PlayerPrefs.GetString("Name")+" ran too slow.";
                             myPlayer.lost = true;
@@ -96,9 +140,9 @@ public class VelocityEasyStage1 : MonoBehaviour
                         if(!minusLife){
                             Takes.Retake();
                             minusLife=true;
-                        }*/
+                        }
                     StartCoroutine(StuntResult());
-                    SimulationManager.isSimulating = false;
+                    SimulationManager.isSimulating = false;*/
                 }
             }
         }
@@ -136,11 +180,14 @@ public class VelocityEasyStage1 : MonoBehaviour
             gameTime = (float)System.Math.Round(t,2);
             Speed = (float)System.Math.Round((distance/t), 2);
             //startingPoint = myPlayer.transform.position;
-        }  
+        } 
+        theCeiling.createQuadtilemap(); 
+        safeZone.transform.position = new Vector2(distance, 0.23f);
         timer.text = "0.00s";
         //safeZone.transform.position = new Vector2(distance, 0.23f);
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
         elapsed=0;  
+        rubblesStopper.SetActive(true);
         SimulationManager.isSimulating =false; 
         AfterStuntMessage.SetActive(false);
         SimulationManager.question = "The ceiling is crumbling and the safe area is <color=red>"+distance.ToString()+" meters</color> away from "+playerName+". If "+pronoun+" has exactly <color=#006400>"+gameTime.ToString()+" seconds</color> to go to the safe spot, what should be "+pNoun+" <color=purple>velocity</color>?";
@@ -185,7 +232,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     } 
     IEnumerator StuntResult(){
         //messageFlag = false;
-        yield return new WaitForSeconds(1f); 
+        yield return new WaitForSeconds(3f); 
         AfterStuntMessage.SetActive(true);        
     }   
 }

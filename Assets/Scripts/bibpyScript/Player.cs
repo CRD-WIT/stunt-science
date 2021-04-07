@@ -113,7 +113,8 @@ public class Player : MonoBehaviour
     }
     public void playfootstep()
     {
-        footstep.Play(0);
+        // TODO: Fix sound
+        //footstep.Play(0);
     }
     public void positioning()
     {
