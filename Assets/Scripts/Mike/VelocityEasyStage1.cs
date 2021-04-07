@@ -4,6 +4,7 @@ using TMPro;
 
 public class VelocityEasyStage1 : MonoBehaviour
 {
+    public GameObject dimensionLine;
     public Player myPlayer;
     public TMP_Text playerNameText, messageText, timer;
     public GameObject AfterStuntMessage, safeZone, rubblesStopper;
@@ -30,6 +31,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         float answer = SimulationManager.playerAnswer;
         if(SimulationManager.isSimulating)
         {
+            dimensionLine.SetActive(false);
             myPlayer.moveSpeed = answer;
             timer.text = elapsed.ToString("f2")+"s";
             elapsed += Time.fixedDeltaTime;
@@ -83,6 +85,8 @@ public class VelocityEasyStage1 : MonoBehaviour
             gameTime = (float)System.Math.Round(t,2);
             Speed = (float)System.Math.Round((distance/t), 2);
         } 
+        dimensionLine.SetActive(true);
+        DimensionManager.dimensionLength = distance;
         theCeiling.createQuadtilemap(); 
         safeZone.transform.position = new Vector2(distance, 0.23f);
         timer.text = "0.00s";
