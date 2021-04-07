@@ -162,6 +162,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 // Debug.Log("time "+elapsed);         
     }
     public void VelocityEasyStage1SetUp(){
+        
         myPlayer.lost = false;
         myPlayer.standup = false;
         Speed = 0;
@@ -187,6 +188,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         //safeZone.transform.position = new Vector2(distance, 0.23f);
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
         elapsed=0;  
+        wrongDistance = SimulationManager.playerAnswer / gameTime;
         rubblesStopper.SetActive(true);
         SimulationManager.isSimulating =false; 
         AfterStuntMessage.SetActive(false);
