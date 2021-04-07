@@ -55,7 +55,7 @@ public class CeillingGenerator : MonoBehaviour
         {
              GameObject debris = rubble[Random.Range(0,2)];
              GameObject TempGo2 = Instantiate(debris);
-            TempGo2.transform.position = new Vector3(x-3 * tileoffset, 5.5f * tileoffset,1);
+            TempGo2.transform.position = new Vector3(x-3 * tileoffset, 8.1f * tileoffset,1);
         }
     }
     /*void SetTileInfo(GameObject GO, int x, int y)

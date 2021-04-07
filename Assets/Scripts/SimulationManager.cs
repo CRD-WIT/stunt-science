@@ -160,6 +160,7 @@ public class SimulationManager : MonoBehaviour
         }
         answerField.text = "";
         answerButton.interactable = true;
+        playerAnswer = 0;
 
     }
     IEnumerator resetPrefab()

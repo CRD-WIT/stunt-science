@@ -33,7 +33,7 @@ public class ragdollScript : MonoBehaviour
     IEnumerator playerSpawn()
     {
         SimulationManager.playerDead = false;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         
 
         //GameObject player = theSimulation.PlayerObject;
