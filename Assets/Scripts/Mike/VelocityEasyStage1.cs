@@ -12,6 +12,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     public float distance, gameTime, Speed, elapsed, currentPos;
     private CeillingGenerator theCeiling;
     StageManager sm = new StageManager();
+    float wrongDistance;
 
     void Start()
     {
@@ -67,6 +68,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         }      
     }
     public void VelocityEasyStage1SetUp(){
+        
         myPlayer.lost = false;
         myPlayer.standup = false;
         Speed = 0;
@@ -92,6 +94,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         timer.text = "0.00s";
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
         elapsed=0;  
+        wrongDistance = SimulationManager.playerAnswer / gameTime;
         rubblesStopper.SetActive(true);
         SimulationManager.isSimulating =false; 
         AfterStuntMessage.SetActive(false);
