@@ -6819,12 +6819,13 @@ MonoBehaviour:
   messageText: {fileID: 1997243099}
   timer: {fileID: 2066711286}
   AfterStuntMessage: {fileID: 316639226}
+  safeZone: {fileID: 1641714853}
+  rubblesStopper: {fileID: 846979896}
   distance: 0
   gameTime: 0
   Speed: 0
   elapsed: 0
-  rubblesStopper: {fileID: 846979896}
-  safeZone: {fileID: 1641714853}
+  currentPos: 0
 --- !u!1 &168422325
 GameObject:
   m_ObjectHideFlags: 0
@@ -29667,9 +29668,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1342928114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74e1c7b36f7e1044484e331cb443ded8, type: 3}
+  m_Script: {fileID: 11500000, guid: 03b916cb41d2ef444837ef9e5f96b4a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camTransform: {fileID: 519420032}
+  shakeDuration: 1
+  shakeAmount: 0.05
+  decreaseFactor: 0.1
+  shakeON: 1
+  rubbleON: 1
+  rumbling: {fileID: 922485776}
+  rubbles:
+  - {fileID: 8361698814904553199, guid: a2bfab45dd382874a8c6590870708e17, type: 3}
+  - {fileID: 3879221467162024577, guid: 00534b7e5860f5148839789a31cac1ce, type: 3}
+  debris:
+  - {fileID: 2791066001505957946, guid: 879ab2d9d8fbbe1449cef4c03b188da9, type: 3}
+  - {fileID: 8840676027569517680, guid: 0a8de19bfca22d54aa41e3f4aa834edf, type: 3}
+  - {fileID: 6418889671948862096, guid: d6f8325660e393d48a4d754612021754, type: 3}
+  debrisRange: 1.4
 --- !u!4 &1342928116
 Transform:
   m_ObjectHideFlags: 0
@@ -31030,6 +31046,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1489607964
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4591410588665230472, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_Name
+      value: ceiling generator
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_RootOrder
+      value: 38
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.6175156
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.3716145
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
 --- !u!1 &1497083372
 GameObject:
   m_ObjectHideFlags: 0
@@ -35683,12 +35756,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 1887909032}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 1887909032}
+  m_maskType: 0
 --- !u!23 &1887909032
 MeshRenderer:
   m_ObjectHideFlags: 0
