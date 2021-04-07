@@ -184,7 +184,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         timer.text = "0.00s";
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
         elapsed=0;  
-        rubblesStopper.SetActive(true);ru
+        rubblesStopper.SetActive(true);
         SimulationManager.isSimulating =false; 
         AfterStuntMessage.SetActive(false);
         SimulationManager.question = $"The ceiling is crumbling and the safe area is "+distance.ToString()+"m away from "+playerName+". If "+pronoun+" has exactly "+gameTime.ToString()+"s to go to the safe spot, what should be "+pNoun+" velocity?";
