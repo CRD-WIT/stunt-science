@@ -74,7 +74,7 @@ half4 frag( v2f i ) : COLOR
     float2 screenPos = i.screenPos.xy / i.screenPos.w;
 	float depth= _blurSizeXY*0.0005;
 
-    screenPos.x;
+    screenPos.x = (screenPos.x + 1) * 0.5;
 
     screenPos.y = (screenPos.y + 1) * 0.5;
 
