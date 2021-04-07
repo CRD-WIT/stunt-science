@@ -13,6 +13,7 @@ public class VelocityEasyStage1 : MonoBehaviour
 
     void Start()
     {
+        sm.SetGameLevel(1);
         //prodProps = FindObjectOfType<prodProps>();    
         //tileGenerator = FindObjectOfType<generateGround>();                
         myPlayer = FindObjectOfType<Player>();

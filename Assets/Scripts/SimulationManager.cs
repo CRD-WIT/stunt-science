@@ -16,7 +16,7 @@ public class SimulationManager : MonoBehaviour
     //public GameObject PlayerObject;
     public Button answerButton, retryButton, nextButton;
     public TMP_InputField answerField;
-    public TMP_Text questionTextBox, errorTextBox, diretorsSpeech;
+    public TMP_Text questionTextBox, errorTextBox, diretorsSpeech, levelText;
     public static string question;
     public static float playerAnswer;
     public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt;
@@ -34,6 +34,7 @@ public class SimulationManager : MonoBehaviour
     // Update is called once per frame
     public void FixedUpdate()
     {
+        levelText.text = sm.GetGameLevel();
         questionTextBox.SetText(question);
         if(isAnswerCorrect){
             retryButton.gameObject.SetActive(false);
