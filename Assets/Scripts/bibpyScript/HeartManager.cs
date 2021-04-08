@@ -36,7 +36,7 @@ public class HeartManager : MonoBehaviour
             {
                 var heart = Instantiate(heartItem, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
                 heart.transform.parent = transform;
-                heart.transform.localScale = new Vector3(1, 1, 1);
+                heart.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             }
         }
         else
