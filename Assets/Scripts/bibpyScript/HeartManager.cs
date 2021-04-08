@@ -5,57 +5,71 @@ using UnityEngine.SceneManagement;
 
 public class HeartManager : MonoBehaviour
 {
-    public GameObject[] heart;
+    //public GameObject[] hearts;
     public AudioSource bgm;
     public AudioSource Gameoversfx;
-    int life;
+    public int life;
+    public GameObject heartItem;
     public GameObject gameOverBG, startBG;
     public bool losslife;
-    
+
     // Start is called before the first frame update
     void Start()
     {
-        life = 3;
         startbgentrance();
+    }
+
+    public void DestroyHearts()
+    {
+        foreach (Transform item in transform)
+        {
+            GameObject.Destroy(item.gameObject);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (life == 2)
+        if (transform.childCount < life)
         {
-            heart[0].SetActive(false);   
+            for (int i = 0; i < 1; i++)
+            {
+                var heart = Instantiate(heartItem, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+                heart.transform.parent = transform;
+                heart.transform.localScale = new Vector3(1, 1, 1);
+            }
         }
-         if (life == 1)
+        else
         {
-            heart[1].SetActive(false);   
+            int diff = transform.childCount - life;
+            for (int i = 0; i < diff; i++)
+            {
+                GameObject.Destroy(transform.GetChild(i).gameObject);
+            }
+
+            if (life == 0)
+            {
+                Time.timeScale = 0.4f;
+                life = 3;
+
+                StartCoroutine(actionreset());
+                StartCoroutine(gameover());
+            }
         }
-        
-        if (life == 0)
-        {
-            heart[2].SetActive(false);
-            Time.timeScale = 0.4f;
-            life = 3;
-            
-            StartCoroutine(actionreset());  
-            StartCoroutine(gameover());
-        }  
+
     }
     IEnumerator actionreset()
     {
         yield return new WaitForSeconds(3);
-        
-        heart[0].SetActive(true);
-        heart[1].SetActive(true);
-        heart[2].SetActive(true); 
-        
+        // TODO: Get data from playerprefs
+        life = 3;
     }
     IEnumerator gameover()
     {
         bgm.Stop();
         Gameoversfx.Play();
         StartCoroutine(endBGgone());
-       yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(2);
         SceneManager.LoadScene("LevelOne");
         Time.timeScale = 1f;
     }
@@ -65,20 +79,20 @@ public class HeartManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         gameOverBG.SetActive(false);
     }
-     
-    
+
+
     public IEnumerator startBGgone()
     {
-      startBG.SetActive(true);
-      yield return new WaitForSeconds(1);  
-      startBG.SetActive(false);
+        startBG.SetActive(true);
+        yield return new WaitForSeconds(1);
+        startBG.SetActive(false);
 
     }
     public void startbgentrance()
     {
         StartCoroutine(startBGgone());
     }
-    public void losinglife()
+    public void ReduceLife()
     {
         if (losslife == false)
         {
