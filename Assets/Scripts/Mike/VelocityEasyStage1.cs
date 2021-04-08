@@ -59,6 +59,8 @@ public class VelocityEasyStage1 : MonoBehaviour
                 if(currentPos >= distance)
                 {
                     StartCoroutine(StuntResult());
+                
+
                     rubblesStopper.SetActive(false);
                     myPlayer.moveSpeed = 0; 
                     myPlayer.transform.position = new Vector2(distance, -0.75f);

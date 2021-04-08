@@ -116,7 +116,7 @@ public class StageTwoManager : MonoBehaviour
                 SimulationManager.isAnswerCorrect= false;
                 if(currentPos >= playerDistance)
                 {
-                    theHeart.losinglife();
+                    theHeart.ReduceLife();
                     thePlayer.moveSpeed = 0;
                     if(currentPos < 25)
                     {
@@ -144,7 +144,7 @@ public class StageTwoManager : MonoBehaviour
                 }
                 if (currentPos >= 25)
                 {
-                    theHeart.losinglife();
+                    theHeart.ReduceLife();
                     thePlayer.moveSpeed = 0;
                     rubbleStopper.SetActive(false);
                     thePlayer.standup = true;
