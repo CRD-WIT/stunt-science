@@ -6,6 +6,8 @@ using TMPro;
 public class StageTwoManager : MonoBehaviour
 {
     private Player thePlayer;
+    private CeillingGenerator theCeiling;
+    private HeartManager theHeart;
     float distance;
     float speed;
     float finalSpeed;
@@ -18,12 +20,13 @@ public class StageTwoManager : MonoBehaviour
     public TMP_Text playerNameText, messageText, timer;
     public GameObject AfterStuntMessage;
     public GameObject safePoint;
-    private CeillingGenerator theCeiling;
+    
     public GameObject rubbleStopper;
     float currentPos;
     
     private RumblingManager theRumbling;
     public GameObject rubbleBlocker;
+    private ScoreManager theScorer;
 
 
     //TimeSpan duration;
@@ -46,6 +49,8 @@ public class StageTwoManager : MonoBehaviour
         PlayerStartPoint = thePlayer.transform.position;
         theCeiling = FindObjectOfType<CeillingGenerator>();
         theRumbling = FindObjectOfType<RumblingManager>();
+        theHeart = FindObjectOfType<HeartManager>();
+        theScorer = FindObjectOfType<ScoreManager>();
         
         
         
@@ -93,6 +98,7 @@ public class StageTwoManager : MonoBehaviour
                 SimulationManager.isAnswerCorrect= true;
                 if(currentPos >= distance)
                 {
+                    theScorer.finalstar();
                     thePlayer.moveSpeed = 0;
                     rubbleStopper.SetActive(false);
                     thePlayer.happy = true;
@@ -100,6 +106,9 @@ public class StageTwoManager : MonoBehaviour
                     timer.text = playerAnswer.ToString("f2")+"s";
                     SimulationManager.isSimulating = false;
                     theRumbling.collapse();
+                    //StartCoroutine(StuntResult());
+                    SimulationManager.isAnswerCorrect= true;
+                    messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
                 }
             }
             if (playerAnswer != answerRO)
@@ -107,6 +116,7 @@ public class StageTwoManager : MonoBehaviour
                 SimulationManager.isAnswerCorrect= false;
                 if(currentPos >= playerDistance)
                 {
+                    theHeart.ReduceLife();
                     thePlayer.moveSpeed = 0;
                     if(currentPos < 25)
                     {
@@ -134,6 +144,7 @@ public class StageTwoManager : MonoBehaviour
                 }
                 if (currentPos >= 25)
                 {
+                    theHeart.ReduceLife();
                     thePlayer.moveSpeed = 0;
                     rubbleStopper.SetActive(false);
                     thePlayer.standup = true;
@@ -208,6 +219,7 @@ public class StageTwoManager : MonoBehaviour
         theCeiling.createQuadtilemap();
         ragdollSpawn.SetActive(true);
         rubbleStopper.SetActive(true);
+        theHeart.losslife = false;
 
     }
     public void play()
@@ -228,6 +240,7 @@ public class StageTwoManager : MonoBehaviour
         resetTime();
         theRumbling.collapsing = true;
         rubbleBlocker.SetActive(false);
+
         
     }
     IEnumerator StuntResult()
