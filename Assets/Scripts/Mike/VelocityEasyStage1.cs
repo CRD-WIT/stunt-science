@@ -88,7 +88,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         dimensionLine.SetActive(true);
         DimensionManager.dimensionLength = distance;
         theCeiling.createQuadtilemap(); 
-        safeZone.transform.position = new Vector2(distance, 0.23f);
+        safeZone.transform.position = new Vector2(distance, 0.2f);
         timer.text = "0.00s";
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
         elapsed=0;  
