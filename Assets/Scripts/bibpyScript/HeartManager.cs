@@ -50,7 +50,6 @@ public class HeartManager : MonoBehaviour
             if (life == 0)
             {
                 Time.timeScale = 0.4f;
-                life = 3;
 
                 StartCoroutine(actionreset());
                 StartCoroutine(gameover());
