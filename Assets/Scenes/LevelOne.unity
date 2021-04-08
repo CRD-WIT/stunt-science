@@ -12900,8 +12900,9 @@ GameObject:
   m_Component:
   - component: {fileID: 648379329}
   - component: {fileID: 648379330}
+  - component: {fileID: 648379331}
   m_Layer: 0
-  m_Name: actionCountManager
+  m_Name: heartManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12933,6 +12934,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e6ba4ef8af67a43a7cdd3dad1f3508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &648379331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648379328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a91cd66ce83354cabe8a7c097f4f9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heart: []
+  bgm: {fileID: 1234338736}
+  Gameoversfx: {fileID: 350885675}
+  gameOverBG: {fileID: 1660774277}
+  startBG: {fileID: 1497083372}
 --- !u!1 &650058545
 GameObject:
   m_ObjectHideFlags: 0
@@ -23721,15 +23739,15 @@ RectTransform:
   m_GameObject: {fileID: 1209190270}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 439367150}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 108, y: -20}
-  m_SizeDelta: {x: 140.5, y: 82.72}
+  m_AnchoredPosition: {x: 154, y: -16}
+  m_SizeDelta: {x: 302.41, y: 98.86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1209190272
 MonoBehaviour:
@@ -23758,13 +23776,15 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 60
-    m_Alignment: 1
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 00
+  m_Text: '100
+
+'
 --- !u!222 &1209190273
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34489,7 +34509,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344e64345280d49a19a830342af53fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transition: {fileID: 1497083372}
   directorsBubble: {fileID: 364984815}
   jumpers: {fileID: 255499643}
   ragdollSpawn: {fileID: 30185254}

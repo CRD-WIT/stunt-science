@@ -5,7 +5,7 @@ using TMPro;
 
 public class SimulationManager : MonoBehaviour
 {
-    public GameObject transition, directorsBubble;
+    public GameObject directorsBubble;
     public GameObject jumpers;
     public GameObject ragdollSpawn;
     public VelocityEasyStage1 VelocityEasyStage1;
@@ -23,6 +23,7 @@ public class SimulationManager : MonoBehaviour
     int stage;
     public static bool playerDead;
     public bool destroyPrefab;
+    private HeartManager theHeart;
 
 
     StageManager sm = new StageManager();
@@ -31,6 +32,7 @@ public class SimulationManager : MonoBehaviour
     {
         stage = 1;
         thePlayer = FindObjectOfType<Player>();
+        theHeart = FindObjectOfType<HeartManager>();
 
     }
 
@@ -74,8 +76,21 @@ public class SimulationManager : MonoBehaviour
             directorIsCalling = true;
             //answerField.placeholder = playerAnswer.ToString()+"m/s";
             playerAnswer = float.Parse(answerField.text);
-            answerField.text = playerAnswer.ToString() + "m/s";
+            
             answerButton.interactable = false;
+            if (stage == 1)
+        {
+            
+            answerField.text = playerAnswer.ToString() + "m/s";
+        }
+        else if (stage == 2)
+        {
+            answerField.text = playerAnswer.ToString() + "s";
+        }
+        else
+        {
+            answerField.text = playerAnswer.ToString() + "m";
+        }
         }
     }
     public IEnumerator DirectorsCall()
@@ -142,14 +157,12 @@ public class SimulationManager : MonoBehaviour
     IEnumerator ExitStage()
     {
         VelocityEasyStage1.AfterStuntMessage.SetActive(false);
-        thePlayer.moveSpeed = 3;
-        yield return new WaitForSeconds(3);
-        transition.SetActive(true);
-        yield return new WaitForSeconds(1);
-        thePlayer.moveSpeed = 0;
-        yield return new WaitForSeconds(0.5f);
-        transition.SetActive(false);
+        thePlayer.moveSpeed = 5;
+        yield return new WaitForSeconds(3f);
+        StartCoroutine(theHeart.endBGgone());
+        yield return new WaitForSeconds(2.8f);
         thePlayer.transform.position = new Vector2(0f, thePlayer.transform.position.y);
+        thePlayer.moveSpeed = 0;
         if (stage == 2)
         {
             theManager2.generateProblem();
