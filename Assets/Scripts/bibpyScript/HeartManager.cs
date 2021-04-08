@@ -8,7 +8,7 @@ public class HeartManager : MonoBehaviour
     public GameObject[] heart;
     public AudioSource bgm;
     public AudioSource Gameoversfx;
-    int life;
+    public int life;
     public GameObject gameOverBG, startBG;
     public bool losslife;
     

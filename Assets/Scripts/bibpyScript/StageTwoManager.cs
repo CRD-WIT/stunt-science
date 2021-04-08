@@ -26,6 +26,7 @@ public class StageTwoManager : MonoBehaviour
     
     private RumblingManager theRumbling;
     public GameObject rubbleBlocker;
+    private ScoreManager theScorer;
 
 
     //TimeSpan duration;
@@ -49,6 +50,7 @@ public class StageTwoManager : MonoBehaviour
         theCeiling = FindObjectOfType<CeillingGenerator>();
         theRumbling = FindObjectOfType<RumblingManager>();
         theHeart = FindObjectOfType<HeartManager>();
+        theScorer = FindObjectOfType<ScoreManager>();
         
         
         
@@ -96,6 +98,7 @@ public class StageTwoManager : MonoBehaviour
                 SimulationManager.isAnswerCorrect= true;
                 if(currentPos >= distance)
                 {
+                    theScorer.finalstar();
                     thePlayer.moveSpeed = 0;
                     rubbleStopper.SetActive(false);
                     thePlayer.happy = true;
@@ -103,7 +106,7 @@ public class StageTwoManager : MonoBehaviour
                     timer.text = playerAnswer.ToString("f2")+"s";
                     SimulationManager.isSimulating = false;
                     theRumbling.collapse();
-                    StartCoroutine(StuntResult());
+                    //StartCoroutine(StuntResult());
                     SimulationManager.isAnswerCorrect= true;
                     messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
                 }
