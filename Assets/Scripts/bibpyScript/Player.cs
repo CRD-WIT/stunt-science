@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float moveSpeed;
-    private Rigidbody2D myRigidbody;
+    public Rigidbody2D myRigidbody;
     private Animator myAnimator;
 
     
@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
      private Collider2D myCollider;
      public float jumpforce;
      public bool standup;
+     
+     
     
      
      
@@ -102,6 +104,13 @@ public class Player : MonoBehaviour
         stick.transform.position = stickmanpoint.transform.position;
        ragdollblow = false;        
     }
+    public void driverspawn()
+    {
+        
+        GameObject stick = Instantiate(stickprefab);
+        stick.transform.position = stickmanpoint.transform.position;
+        ragdollblow = false;        
+    }
     public void startstunt()
     {
         StartCoroutine(stunt());
@@ -150,6 +159,7 @@ public class Player : MonoBehaviour
             ragdollspawn();
             standup = true;
         }
+        
     }
 
     public void jump()
