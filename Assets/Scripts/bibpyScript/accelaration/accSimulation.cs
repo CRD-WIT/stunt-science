@@ -6,18 +6,28 @@ using TMPro;
 public class accSimulation : MonoBehaviour
 {
     public Button playButton;
-    //public Player thePlayer;
+    private BikeManager theBike;
+    public AccManagerOne theManagerOne;
     public TMP_InputField answerField;
     public static string question;
-    public TMP_Text questionTextBox, errorTextBox, levelText;
+    public TMP_Text questionTextBox, errorTextBox, levelText, diretorsSpeech;
     public static float playerAnswer;
     public static bool simulate;
     public static bool playerDead;
+    public static int stage;
+    public Quaternion startRotation;
+    public Vector2 startPosition;
     
+    public GameObject driver, afterStuntMessage;
+    bool directorIsCalling;
+    public GameObject directorBubble;
     // Start is called before the first frame update
     void Start()
     {
-    
+        theBike = FindObjectOfType<BikeManager>();
+        stage = 1;
+        startRotation = theBike.transform.rotation;
+        startPosition = theBike.transform.position;
     }
 
     // Update is called once per frame
@@ -29,8 +39,8 @@ public class accSimulation : MonoBehaviour
     }
     public void PlayButton()
     {
-        
-
+        directorIsCalling = true;
+        StartCoroutine(DirectorsCall());
         if (answerField.text == "")
         {
             errorTextBox.SetText("Please enter your answer!");
@@ -41,7 +51,7 @@ public class accSimulation : MonoBehaviour
             directorIsCalling = true;
             //answerField.placeholder = playerAnswer.ToString()+"m/s";*/
             playerAnswer = float.Parse(answerField.text);
-            simulate = true;
+            
             playButton.interactable = false;
             
             {
@@ -49,6 +59,51 @@ public class accSimulation : MonoBehaviour
                 answerField.text = playerAnswer.ToString() + "m/s²";
             }
         
+        }
+    }
+    public void retry()
+    {
+        theBike.transform.rotation = startRotation;
+        theBike.transform.position = startPosition;
+        theBike.moveSpeed = 0;
+        driver.SetActive(true);
+        afterStuntMessage.SetActive(false);
+        theBike.decelarate = false;
+        theBike.collided = false;
+        playButton.interactable = true;
+        playerAnswer = 0;
+        answerField.text = ("");
+        if(stage == 1)
+        {
+            theManagerOne.generateProblem();
+            theManagerOne.gas = true;
+            theManagerOne.timer = 0;
+        }
+
+    }
+    public IEnumerator DirectorsCall()
+    {
+        if (directorIsCalling)
+        {
+            directorBubble.SetActive(true);
+            diretorsSpeech.text = "Lights!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Camera!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Action!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "";
+            directorBubble.SetActive(false);
+            simulate = true;
+            directorIsCalling = false;
+        }
+        else
+        {
+            directorBubble.SetActive(true);
+            diretorsSpeech.text = "Cut!";
+            yield return new WaitForSeconds(0.75f);
+            directorBubble.SetActive(false);
+            diretorsSpeech.text = "";
         }
     }
 }

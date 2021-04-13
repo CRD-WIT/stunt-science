@@ -5,12 +5,15 @@ using UnityEngine;
 public class ragdollScript : MonoBehaviour
 {
     public float moveSpeedforward;
+    public float moveSpeedbackward;
     private Rigidbody2D myRigidbody;
     public GameObject stick;
     public GameObject stickloc;
      private SimulationManager theSimulation;
      private accSimulation theAccsimulate;
      private BikeManager theBike;
+     bool forward;
+     bool backward;
     
     // Start is called before the first frame update
     void Start()
@@ -18,16 +21,20 @@ public class ragdollScript : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         theSimulation = FindObjectOfType<SimulationManager>();
         theBike = FindObjectOfType<BikeManager>();
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         moveSpeedforward -= 2 * Time.deltaTime;
-        myRigidbody.velocity = new Vector2(moveSpeedforward, myRigidbody.velocity.y);
-        if (moveSpeedforward <= 0)
+        moveSpeedbackward += 2 * Time.deltaTime;
+        
+        if (moveSpeedforward <= 0 || moveSpeedbackward >= 0)
         {
-            moveSpeedforward = 0;
+            moveSpeedforward = myRigidbody.velocity.x;
+            moveSpeedbackward = myRigidbody.velocity.x;
         }
         if (SimulationManager.playerDead == true)
         {
@@ -37,11 +44,23 @@ public class ragdollScript : MonoBehaviour
         {
             StartCoroutine(driverSpawn());
         }
+        if(theBike.decelarate)
+        {
+            backward = true;
+        }
+        if(forward)
+        {
+            myRigidbody.velocity = new Vector2(moveSpeedforward, myRigidbody.velocity.y);
+        }
+        if(backward)
+        {
+            myRigidbody.velocity = new Vector2(moveSpeedbackward, myRigidbody.velocity.y);
+        }
     }
     IEnumerator driverSpawn()
     {
         accSimulation.playerDead = false;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         Destroy(stick.gameObject);
         theBike.driverPrefab.SetActive(true);
         theBike.driverPrefab.transform.position = stickloc.transform.position;
