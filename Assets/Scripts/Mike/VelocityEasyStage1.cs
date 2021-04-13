@@ -87,6 +87,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         } 
         RumblingManager.shakeON = true;
         dimensionLine.SetActive(true);
+        DimensionManager.startLength = 0;
         DimensionManager.dimensionLength = distance;
         theCeiling.createQuadtilemap(); 
         safeZone.transform.position = new Vector2(distance, -2);
@@ -104,5 +105,12 @@ public class VelocityEasyStage1 : MonoBehaviour
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(1.5f); 
         AfterStuntMessage.SetActive(true);        
-    }   
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is VelocityEasyStage1 stage &&
+               base.Equals(obj) &&
+               pPronoun == stage.pPronoun;
+    }
 }

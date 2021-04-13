@@ -197,6 +197,7 @@ public class StageTwoManager : MonoBehaviour
         SimulationManager.question = "The ceiling is still crumbling and the next safe spot is <color=red>" + distance.ToString() + " meters</color> away from " + PlayerPrefs.GetString("Name") + ". If " + pronoun + " runs at a constant velocity of <color=purple>" + finalSpeed.ToString() + " meters per second</color>, how <color=#006400>long</color> should " + pronoun + " run so " + pronoun + " will stop exactly on the same spot?";
         answerRO = (float)System.Math.Round(answer, 2);
         dimensionLine.SetActive(true);
+        DimensionManager.startLength = 0;
         DimensionManager.dimensionLength = distance;
         resetTime();
         safePoint.transform.position = new Vector2(distance, -2);

@@ -10,8 +10,7 @@ public class SimulationManager : MonoBehaviour
     public GameObject ragdollSpawn;
     public VelocityEasyStage1 VelocityEasyStage1;
     public StageTwoManager theManager2;
-
-    public StageThreeManager StageThreeManager;
+    public VelocityEasyStage3 StageThreeManager;
     public Player thePlayer;
     //public GameObject PlayerObject;
     public Button answerButton, retryButton, nextButton;
@@ -21,7 +20,7 @@ public class SimulationManager : MonoBehaviour
     public static float playerAnswer;
     public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead;
     public static int stage;
-    public bool destroyPrefab;
+    public bool destroyPrefab, stage3Flag;
     private HeartManager theHeart;
 
 
@@ -37,6 +36,20 @@ public class SimulationManager : MonoBehaviour
     // Update is called once per frame
     public void FixedUpdate()
     {
+        if (stage3Flag)
+        {
+            if (thePlayer.transform.position.x < (40 - playerAnswer))
+            {
+                thePlayer.moveSpeed = 1.5f;
+            }
+            else
+            {
+                thePlayer.moveSpeed = 0;
+                isStartOfStunt = true;
+                directorIsCalling = true;
+                stage3Flag = false;
+            }
+        }
         levelText.text = sm.GetGameLevel();
         questionTextBox.SetText(question);
         if (isAnswerCorrect)
@@ -68,20 +81,23 @@ public class SimulationManager : MonoBehaviour
         }
         else
         {
-            isStartOfStunt = true;
-            directorIsCalling = true;
             playerAnswer = float.Parse(answerField.text);
             answerButton.interactable = false;
             if (stage == 1)
             {
+                isStartOfStunt = true;
+                directorIsCalling = true;
                 answerField.text = playerAnswer.ToString() + "m/s";
             }
             else if (stage == 2)
             {
+                isStartOfStunt = true;
+                directorIsCalling = true;
                 answerField.text = playerAnswer.ToString() + "s";
             }
             else
             {
+                stage3Flag = true;
                 answerField.text = playerAnswer.ToString() + "m";
             }
         }
@@ -146,9 +162,7 @@ public class SimulationManager : MonoBehaviour
         else if (stage == 2)
         {
             stage = 3;
-            VelocityEasyStage1.gameObject.SetActive(false);
             theManager2.gameObject.SetActive(false);
-            StageThreeManager.gameObject.SetActive(true);
         }
         StartCoroutine(ExitStage());
     }
@@ -167,6 +181,7 @@ public class SimulationManager : MonoBehaviour
         }
         if (stage == 3)
         {
+            StageThreeManager.gameObject.SetActive(true);
             StageThreeManager.Stage3SetUp();
         }
         answerField.text = "";
