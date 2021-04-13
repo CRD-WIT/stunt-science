@@ -9,12 +9,13 @@ public class StageThreeManager : MonoBehaviour
     string levelName = "Free Fall";
     float height = 5.0f;
     float targetTime = 0f;
-    string question = $"[name] is hanging from a rope and [pronoun] is instructed to let go of it, drop down, and hang again to the horizontal pole below. If [name] will let go ang grab the pole after exactly [t] seconds, at what distance should [pronoun] hands above the pole before letting go?";
+    string question;
     public float elapsed;
     public TMP_Text playerNameText, messageText, timerText, questionText;
     public GameObject AfterStuntMessage;
     public GameObject dimensionLine;
     Animator thePlayerAnimation;
+    public GameObject playerOnRope;
     bool isSimulating = false;
     public GameObject playerHingeJoint;
     public GameObject thePlayer;
@@ -26,10 +27,15 @@ public class StageThreeManager : MonoBehaviour
 
     public GameObject platformBar;
 
-    Vector3 platformBar_position;
+    Vector3 playerOnRopeTransform;
+
+    float timeProblem;
 
     void Start()
     {
+        timeProblem = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1.0f), 2);
+
+        question = $"[name] is hanging from a rope and [pronoun] is instructed to let go of it, drop down, and hang again to the horizontal pole below. If [name] will let go ang grab the pole after exactly <color=purple>{timeProblem} sec</color>, at what <color=red>distance</color> should [pronoun] hands above the pole before letting go?";
         if (questionText != null)
         {
             questionText.SetText(question);
@@ -44,21 +50,24 @@ public class StageThreeManager : MonoBehaviour
         {
             dimensionLine.SetActive(true);
         }
-        platformBar_position = platformBar.transform.position;
         thePlayerAnimation.SetBool("isHanging", true);
         thePlayer_position = thePlayer.transform.position;
+        playerOnRopeTransform = playerOnRope.transform.position;
     }
 
     public void StartSimulation()
     {
         isSimulating = true;
     }
-
     void FixedUpdate()
     {
+        Vector2 spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
+        float distance = transform.Find("Annotation1").GetComponent<Annotation>().distance;
+        platformBar.transform.position = new Vector3(spawnPointValue.x - 9, spawnPointValue.y, 1);
         float thePlayer_x = thePlayer_position.x;
         float thePlayer_y = thePlayer_position.y;
-        Vector3 playerHangingFixed_position = playerHangingFixed.transform.position;
+
+
         if (isSimulating)
         {
             elapsed += Time.fixedDeltaTime;
@@ -70,9 +79,10 @@ public class StageThreeManager : MonoBehaviour
             {
                 FirstCamera.SetActive(false);
                 SecondCamera.SetActive(true);
-                playerHangingFixed.transform.position = new Vector3(thePlayer_x, platformBar_position.y - 1.59f, 1);
+               
                 thePlayer.SetActive(false);
                 playerHangingFixed.SetActive(true);
+                playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y-1.5f, 1);
                 platformBar.GetComponent<Animator>().SetBool("collided", true);
                 playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                 isSimulating = false;

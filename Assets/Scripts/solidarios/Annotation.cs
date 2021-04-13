@@ -26,6 +26,11 @@ public class Annotation : MonoBehaviour
         textDimension = transform.Find("Text").gameObject;
     }
 
+    public Vector2 SpawnPointValue(){
+        return spawnPoint;
+    }
+
+
     // Update is called once per frame
     void Update()
     {
