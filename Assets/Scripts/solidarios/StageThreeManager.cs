@@ -16,6 +16,28 @@ public class StageThreeManager : MonoBehaviour
     StageManager sm = new StageManager();
     
     // Start is called before the first frame update
+    string levelName = "Free Fall";
+    float height = 5.0f;
+    float targetTime = 0f;
+    string question = $"[name] is hanging from a rope and [pronoun] is instructed to let go of it, drop down, and hang again to the horizontal pole below. If [name] will let go ang grab the pole after exactly [t] seconds, at what distance should [pronoun] hands above the pole before letting go?";
+    public float elapsed;
+    public TMP_Text playerNameText, messageText, timerText, questionText;
+    public GameObject AfterStuntMessage;
+    public GameObject dimensionLine;
+    Animator thePlayerAnimation;
+    bool isSimulating = false;
+    public GameObject playerHingeJoint;
+    public GameObject thePlayer;
+    public GameObject playerHangingFixed;
+    public GameObject FirstCamera;
+    public GameObject SecondCamera;
+    Vector3 thePlayer_position;
+    public GameObject accurateCollider;
+
+    public GameObject platformBar;
+
+    Vector3 platformBar_position;
+
     void Start()
     {
         theCeiling = FindObjectOfType<CeillingGenerator>();           
@@ -26,8 +48,7 @@ public class StageThreeManager : MonoBehaviour
         Stage3SetUp();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Stage3SetUp();
     }
