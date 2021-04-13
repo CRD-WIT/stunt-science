@@ -29,6 +29,7 @@ public class Annotation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float dimensionTextLength = textDimension.GetComponent<TextMeshPro>().text.Length;
         if (arrowMode == Mode.Vertical)
         {
             foreach (var item in verticalArrows)
@@ -43,9 +44,9 @@ public class Annotation : MonoBehaviour
 
             horizontalArrows[0].transform.position = new Vector3(spawnPoint.x, (distance + spawnPoint.y), 0);
             horizontalArrows[1].transform.position = new Vector3(spawnPoint.x, spawnPoint.y, 0);
-            line1.SetPosition(0, new Vector3(spawnPoint.x, ((distance / 2) - 0.2f) + spawnPoint.y, 0));
+            line1.SetPosition(0, new Vector3(spawnPoint.x, ((distance / 2) - 0.4f) + spawnPoint.y, 0));
             line1.SetPosition(1, new Vector3(spawnPoint.x, spawnPoint.y, 0));
-            line2.SetPosition(0, new Vector3(spawnPoint.x, ((distance / 2) + 0.2f) + spawnPoint.y, 0));
+            line2.SetPosition(0, new Vector3(spawnPoint.x, ((distance / 2) + 0.4f) + spawnPoint.y, 0));
             line2.SetPosition(1, new Vector3(spawnPoint.x, (distance + spawnPoint.y), 0));
             textDimension.transform.position = new Vector3(spawnPoint.x, (distance / 2) + spawnPoint.y, 0);
 
@@ -63,9 +64,9 @@ public class Annotation : MonoBehaviour
             }
             verticalArrows[0].transform.position = new Vector3((distance + spawnPoint.x), spawnPoint.y, 0);
             verticalArrows[1].transform.position = new Vector3(spawnPoint.x, spawnPoint.y, 0);
-            line1.SetPosition(0, new Vector3(((distance / 2) - 0.2f) + spawnPoint.x, spawnPoint.y, 0));
+            line1.SetPosition(0, new Vector3(((distance / 2) - (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y, 0));
             line1.SetPosition(1, new Vector3(spawnPoint.x, spawnPoint.y, 0));
-            line2.SetPosition(0, new Vector3(((distance / 2) + 0.2f) + spawnPoint.y, spawnPoint.y, 0));
+            line2.SetPosition(0, new Vector3(((distance / 2) + (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y, 0));
             line2.SetPosition(1, new Vector3((distance + spawnPoint.x), spawnPoint.y, 0));
             textDimension.transform.position = new Vector3((distance / 2) + spawnPoint.x, spawnPoint.y, 0);
 
