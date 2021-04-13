@@ -4,58 +4,54 @@ using UnityEngine;
 
 public class CeillingGenerator : MonoBehaviour
 {
-    public int mapwitdh ;
-    public float mapheight ;
+    public int mapWitdh, stage;
+    public float mapheight;
     //public GameObject tileprefab;
     //public GameObject ceilingprefab;
     public GameObject[] rubble;
-
     public float tileoffset = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        stage = SimulationManager.stage;
     }
 
     // Update is called once per frame
     void Update()
     {
-        GameObject debris = rubble[Random.Range(0,2)];
-    }
-    
-    public void createQuadtilemap ()
-    {
-        /*for(int x =+ 0; x < mapwitdh; x++)
-        {
-            for(int y = 0; y <= mapheight; y++)
-            {
-                GameObject TempGo = Instantiate(tileprefab);
-                TempGo.transform.position = new Vector3(x * tileoffset, -1 * tileoffset,1);
-                
-                TempGo.transform.parent = transform;
-                TempGo.name = x.ToString() + ", " + y.ToString();
-                 SetTileInfo(TempGo, x, y);
 
-            }
-        }*/
-        
-        for(int x =+ 0; x < mapwitdh + 3; x++)
+        GameObject debris = rubble[Random.Range(0, 2)];
+    }
+
+    public void createQuadtilemap()
+    {
+        if (stage == 1)
         {
-             GameObject debris = rubble[Random.Range(0,2)];
-             GameObject TempGo2 = Instantiate(debris);
-             TempGo2.transform.position = new Vector3(x-3 * tileoffset, mapheight * tileoffset,1);
+            mapWitdh = 25;
+        }
+        else if (stage == 2)
+        {
+            mapWitdh = 30;
+        }
+        else
+        {
+            mapWitdh = 42;
+        }
+        for (int x = +0; x < mapWitdh + 3; x++)
+        {
+            GameObject debris = rubble[Random.Range(0, 2)];
+            GameObject TempGo2 = Instantiate(debris);
+            TempGo2.transform.position = new Vector3(x - 3 * tileoffset, 9 * tileoffset, 1);
         }
     }
-    public void createQuadtilemap2 ()
+    public void createQuadtilemap2()
     {
-       
-        
-        for(int x =+ 0; x < mapwitdh + 3; x++)
+        for (int x = +0; x < mapWitdh + 3; x++)
         {
-             GameObject debris = rubble[Random.Range(0,2)];
-             GameObject TempGo2 = Instantiate(debris);
-            TempGo2.transform.position = new Vector3(x-3 * tileoffset, 8.1f * tileoffset,1);
+            GameObject debris = rubble[Random.Range(0, 2)];
+            GameObject TempGo2 = Instantiate(debris);
+            TempGo2.transform.position = new Vector3(x - 3 * tileoffset, 8.1f * tileoffset, 1);
         }
     }
     /*void SetTileInfo(GameObject GO, int x, int y)
