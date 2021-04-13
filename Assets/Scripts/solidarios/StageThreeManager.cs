@@ -6,12 +6,12 @@ using TMPro;
 public class StageThreeManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    string levelName = "Free Fall";
+
     float height = 5.0f;
     float targetTime = 0f;
     string question;
     public float elapsed;
-    public TMP_Text playerNameText, messageText, timerText, questionText;
+    public TMP_Text playerNameText, messageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
     public GameObject dimensionLine;
     Animator thePlayerAnimation;
@@ -33,6 +33,7 @@ public class StageThreeManager : MonoBehaviour
 
     void Start()
     {
+        levelName.SetText("Free Fall | Stage 1");
         timeProblem = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1.0f), 2);
 
         question = $"[name] is hanging from a rope and [pronoun] is instructed to let go of it, drop down, and hang again to the horizontal pole below. If [name] will let go ang grab the pole after exactly <color=purple>{timeProblem} sec</color>, at what <color=red>distance</color> should [pronoun] hands above the pole before letting go?";
