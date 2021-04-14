@@ -7141,7 +7141,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 732250310}
-  - component: {fileID: 732250311}
   - component: {fileID: 732250309}
   m_Layer: 0
   m_Name: SimulationManager
@@ -7171,11 +7170,11 @@ MonoBehaviour:
   AfterStuntMessage: {fileID: 1318250021}
   playerAnswer: {fileID: 2002144011}
   thePlayer: {fileID: 2021995314}
-  playerHangingFixed: {fileID: 0}
-  FirstCamera: {fileID: 0}
-  SecondCamera: {fileID: 0}
+  playerHangingFixed: {fileID: 1661425371}
+  FirstCamera: {fileID: 2041564159}
+  SecondCamera: {fileID: 1690406789}
   accurateCollider: {fileID: 0}
-  platformBar: {fileID: 0}
+  platformBarBottom: {fileID: 1447615126}
 --- !u!4 &732250310
 Transform:
   m_ObjectHideFlags: 0
@@ -7206,34 +7205,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &732250311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732250308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 486b7cccb1df6390aa1cef6e1cefb64d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  elapsed: 0
-  playerNameText: {fileID: 0}
-  stuntMessageText: {fileID: 1668217925}
-  timerText: {fileID: 636778914}
-  questionText: {fileID: 551932274}
-  levelName: {fileID: 1891993974}
-  AfterStuntMessage: {fileID: 1318250021}
-  playerAnswer: {fileID: 2002144011}
-  playerOnRope: {fileID: 0}
-  playerHingeJoint: {fileID: 0}
-  thePlayer: {fileID: 2021995314}
-  playerHangingFixed: {fileID: 1661425371}
-  FirstCamera: {fileID: 2041564159}
-  SecondCamera: {fileID: 1690406789}
-  accurateCollider: {fileID: 0}
-  platformBar: {fileID: 1447615126}
 --- !u!1 &799587974
 GameObject:
   m_ObjectHideFlags: 0
@@ -8468,7 +8439,7 @@ PrefabInstance:
     - target: {fileID: 21478578348999072, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 732250311}
+      objectReference: {fileID: 0}
     - target: {fileID: 21478578348999072, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartSimulation
@@ -10414,7 +10385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1919375450109449381, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.02
+      value: 6.059
       objectReference: {fileID: 0}
     - target: {fileID: 1919375450109449381, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -17771,19 +17742,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4790556043621576706, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6918142
+      value: 0.69181675
       objectReference: {fileID: 0}
     - target: {fileID: 4790556043621576706, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0022666503
+      value: 0.0012844412
       objectReference: {fileID: 0}
     - target: {fileID: 4790556043621576706, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.72206813
+      value: -0.72207075
       objectReference: {fileID: 0}
     - target: {fileID: 4790556043621576706, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0023657738
+      value: 0.0013406115
       objectReference: {fileID: 0}
     - target: {fileID: 4790556043621576707, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
@@ -17791,19 +17762,19 @@ PrefabInstance:
       objectReference: {fileID: 1778736737}
     - target: {fileID: 4790556044303989891, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6926881
+      value: 0.69271076
       objectReference: {fileID: 0}
     - target: {fileID: 4790556044303989891, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.017396236
+      value: 0.016468486
       objectReference: {fileID: 0}
     - target: {fileID: 4790556044303989891, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7208002
+      value: -0.7208238
       objectReference: {fileID: 0}
     - target: {fileID: 4790556044303989891, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.018102247
+      value: 0.017136846
       objectReference: {fileID: 0}
     - target: {fileID: 4790556044303989892, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
