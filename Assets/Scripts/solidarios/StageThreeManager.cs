@@ -13,8 +13,8 @@ public class StageThreeManager : MonoBehaviour
     public float elapsed;
     public TMP_Text playerNameText, messageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
-    public GameObject dimensionLine;
     Animator thePlayerAnimation;
+    public TMP_InputField playerAnswer;
     public GameObject playerOnRope;
     bool isSimulating = false;
     public GameObject playerHingeJoint;
@@ -34,12 +34,8 @@ public class StageThreeManager : MonoBehaviour
     float correctAnswer;
     Vector2 spawnPointValue;
     float distance;
-
     void Start()
     {
-        //Problem
-        levelName.SetText("Free Fall | Stage 1");
-        question = $"[name] is hanging from a rope and [pronoun] is instructed to let go of it, drop down, and hang again to the horizontal pole below. If [name] will let go ang grab the pole after exactly <color=purple>{timeGiven} sec</color>, at what <color=red>distance</color> should [pronoun] hands above the pole before letting go?";
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1.0f), 2);
         gravityGiven = Physics2D.gravity;
@@ -47,12 +43,16 @@ public class StageThreeManager : MonoBehaviour
         correctAnswer = Mathf.Abs((gravityGiven.y / 2) * Mathf.Pow(timeGiven, 2));
 
         transform.Find("Annotation1").GetComponent<Annotation>().SetDistance(correctAnswer);
+        transform.Find("Annotation1").GetComponent<Annotation>().SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
+
         Debug.Log($"Distance: {correctAnswer}");
         Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
         Debug.Log($"Time Generated: {timeGiven}");
-        transform.Find("Annotation1").GetComponent<Annotation>().SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
+        Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
 
-        Debug.Log($"Correct Answer: {correctAnswer}");
+        //Problem
+        levelName.SetText("Free Fall | Stage 1");
+        question = $"[name] is hanging from a rope and [pronoun] is instructed to let go of it, drop down, and hang again to the horizontal pole below. If [name] will let go ang grab the pole after exactly <color=purple>{timeGiven} sec</color>, at what <color=red>distance</color> should [pronoun] hands above the pole before letting go?";
 
         if (questionText != null)
         {
@@ -64,11 +64,6 @@ public class StageThreeManager : MonoBehaviour
         }
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
 
-        if (dimensionLine != null)
-        {
-            dimensionLine.SetActive(true);
-        }
-
         thePlayerAnimation.SetBool("isHanging", true);
         thePlayer_position = thePlayer.transform.position;
 
@@ -77,7 +72,9 @@ public class StageThreeManager : MonoBehaviour
 
         spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
 
-        platformBar.transform.position = new Vector3(spawnPointValue.x-9, spawnPointValue.y, 0);
+        platformBar.transform.position = new Vector3(spawnPointValue.x - 9, spawnPointValue.y, 0);
+
+
     }
 
     public void StartSimulation()
@@ -91,24 +88,53 @@ public class StageThreeManager : MonoBehaviour
 
         if (isSimulating)
         {
+            transform.Find("Annotation1").GetComponent<Annotation>().Hide();
             elapsed += Time.fixedDeltaTime;
             timerText.text = elapsed.ToString("f2") + "s";
 
             playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
             thePlayerAnimation.SetBool("isFalling", true);
-            if (accurateCollider.GetComponent<StageThreePlayerScript>().isCollided)
-            {
-                FirstCamera.SetActive(false);
-                SecondCamera.SetActive(true);
 
-                thePlayer.SetActive(false);
-                playerHangingFixed.SetActive(true);
-                playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1.5f, 1);
-                platformBar.GetComponent<Animator>().SetBool("collided", true);
-                playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
-                isSimulating = false;
+
+            // Correct Answer
+            if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
+            {
+                Debug.Log("Distance is correct!");
+                if (accurateCollider.GetComponent<StageThreePlayerScript>().isCollided)
+                {
+                    FirstCamera.SetActive(false);
+                    SecondCamera.SetActive(true);
+
+                    thePlayer.SetActive(false);
+                    playerHangingFixed.SetActive(true);
+                    playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1.5f, 1);
+                    platformBar.GetComponent<Animator>().SetBool("collided", true);
+                    playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
+                    isSimulating = false;
+                }
             }
-            // dimensionLine.SetActive(false);
+            else
+            {
+                if (float.Parse(playerAnswer.text) < System.Math.Round(correctAnswer, 2))
+                {
+                    if (accurateCollider.GetComponent<StageThreePlayerScript>().isCollided)
+                    {
+                        Debug.Log("Distance is too short!");
+                        isSimulating = false;
+
+                    }
+                }
+                else
+                {
+                    if (accurateCollider.GetComponent<StageThreePlayerScript>().isCollided)
+                    {
+                        Debug.Log("Distance is too long!");
+                        isSimulating = false;
+
+                    }
+                }
+            }
+
         }
         else
         {

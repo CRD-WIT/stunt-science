@@ -15,6 +15,7 @@ public class Annotation : MonoBehaviour
     LineRenderer line1;
     LineRenderer line2;
     GameObject textDimension;
+    public bool revealValue = true;
     public GameObject[] verticalArrows = new GameObject[2];
     public GameObject[] horizontalArrows = new GameObject[2];
 
@@ -24,6 +25,10 @@ public class Annotation : MonoBehaviour
         line1 = transform.Find("Line1").GetComponent<LineRenderer>();
         line2 = transform.Find("Line2").GetComponent<LineRenderer>();
         textDimension = transform.Find("Text").gameObject;
+    }
+
+    public void Hide(){
+        transform.gameObject.SetActive(false);
     }
 
     public Vector2 SpawnPointValue()
@@ -88,7 +93,15 @@ public class Annotation : MonoBehaviour
 
         }
 
-        textDimension.GetComponent<TextMeshPro>().SetText($"{distance}m");
+        if (revealValue)
+        {
+            textDimension.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}m");
+        }
+        else
+        {
+            textDimension.GetComponent<TextMeshPro>().SetText("?");
+        }
+
 
     }
 }
