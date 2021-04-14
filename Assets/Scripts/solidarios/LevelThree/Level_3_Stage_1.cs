@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class StageThreeManager : MonoBehaviour
+public class Level_3_Stage_1 : MonoBehaviour
 {
     // Start is called before the first frame update
 
@@ -11,7 +11,7 @@ public class StageThreeManager : MonoBehaviour
     float targetTime = 0f;
     string question;
     public float elapsed;
-    public TMP_Text playerNameText, messageText, timerText, questionText, levelName;
+    public TMP_Text playerNameText, stuntMessageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
     Animator thePlayerAnimation;
     public TMP_InputField playerAnswer;
@@ -77,7 +77,7 @@ public class StageThreeManager : MonoBehaviour
 
     }
 
-        IEnumerator StuntResult()
+    IEnumerator StuntResult()
     {
         //messageFlag = false;
         yield return new WaitForSeconds(4f);
@@ -120,6 +120,8 @@ public class StageThreeManager : MonoBehaviour
                         platformBar.GetComponent<Animator>().SetBool("collided", true);
                         playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                         isSimulating = false;
+                        stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
+                        StartCoroutine(StuntResult());
                     }
                 }
                 else
@@ -130,7 +132,8 @@ public class StageThreeManager : MonoBehaviour
                         {
                             Debug.Log("Distance is too short!");
                             isSimulating = false;
-
+                            stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} hand distance to the pole is shorter.</color>";
+                            StartCoroutine(StuntResult());
                         }
                     }
                     else
@@ -139,6 +142,8 @@ public class StageThreeManager : MonoBehaviour
                         {
                             Debug.Log("Distance is too long!");
                             isSimulating = false;
+                            stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} hand distance to the pole is longer.</color>";
+                            StartCoroutine(StuntResult());
                         }
                     }
                 }

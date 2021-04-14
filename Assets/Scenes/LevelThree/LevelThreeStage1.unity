@@ -7229,7 +7229,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 732250310}
-  - component: {fileID: 732250309}
+  - component: {fileID: 732250311}
   m_Layer: 0
   m_Name: SimulationManager
   m_TagString: Untagged
@@ -7237,35 +7237,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &732250309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732250308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba9fecf9a1e1d8788c765eaa9a522e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  elapsed: 0
-  playerNameText: {fileID: 0}
-  messageText: {fileID: 0}
-  timerText: {fileID: 636778914}
-  questionText: {fileID: 551932274}
-  levelName: {fileID: 1891993974}
-  AfterStuntMessage: {fileID: 0}
-  dimensionLine: {fileID: 0}
-  playerAnswer: {fileID: 2002144011}
-  playerOnRope: {fileID: 458103489}
-  playerHingeJoint: {fileID: 1275316748}
-  thePlayer: {fileID: 2021995314}
-  playerHangingFixed: {fileID: 1661425371}
-  FirstCamera: {fileID: 2041564159}
-  SecondCamera: {fileID: 1690406789}
-  accurateCollider: {fileID: 1183227345}
-  platformBar: {fileID: 1447615126}
 --- !u!4 &732250310
 Transform:
   m_ObjectHideFlags: 0
@@ -7296,6 +7267,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &732250311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732250308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486b7cccb1df6390aa1cef6e1cefb64d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elapsed: 0
+  playerNameText: {fileID: 0}
+  stuntMessageText: {fileID: 1668217925}
+  timerText: {fileID: 636778914}
+  questionText: {fileID: 551932274}
+  levelName: {fileID: 1891993974}
+  AfterStuntMessage: {fileID: 1318250021}
+  playerAnswer: {fileID: 2002144011}
+  playerOnRope: {fileID: 458103489}
+  playerHingeJoint: {fileID: 1275316748}
+  thePlayer: {fileID: 2021995314}
+  playerHangingFixed: {fileID: 1661425371}
+  FirstCamera: {fileID: 2041564159}
+  SecondCamera: {fileID: 1690406789}
+  accurateCollider: {fileID: 1183227345}
+  platformBar: {fileID: 1447615126}
 --- !u!1 &799587974
 GameObject:
   m_ObjectHideFlags: 0
@@ -8705,6 +8704,10 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 21478578115360776, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
+      propertyPath: m_Name
+      value: QuestionText
+      objectReference: {fileID: 0}
     - target: {fileID: 21478578115360777, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_text
       value: '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -8734,14 +8737,14 @@ PrefabInstance:
     - target: {fileID: 21478578348999072, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 732250309}
+      objectReference: {fileID: 732250311}
     - target: {fileID: 21478578348999072, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartSimulation
       objectReference: {fileID: 0}
     - target: {fileID: 21478578348999072, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: StageThreeManager, Assembly-CSharp
+      value: Level_3_Stage_1, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 21478578348999102, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_Name
@@ -8762,6 +8765,10 @@ PrefabInstance:
     - target: {fileID: 21478578348999103, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 48.200012
+      objectReference: {fileID: 0}
+    - target: {fileID: 21478578508978699, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
+      propertyPath: m_Name
+      value: LevelName
       objectReference: {fileID: 0}
     - target: {fileID: 21478578508978701, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_fontSize
@@ -12122,7 +12129,7 @@ GameObject:
   - component: {fileID: 1668217926}
   - component: {fileID: 1668217925}
   m_Layer: 5
-  m_Name: StuntMessage
+  m_Name: StuntMessageText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

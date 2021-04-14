@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class StageThreeManager : MonoBehaviour
+public class Level_3_Stage_2 : MonoBehaviour
 {
     // Start is called before the first frame update
 
@@ -11,13 +11,12 @@ public class StageThreeManager : MonoBehaviour
     float targetTime = 0f;
     string question;
     public float elapsed;
-    public TMP_Text playerNameText, messageText, timerText, questionText, levelName;
+    public TMP_Text playerNameText, stuntMessageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
     Animator thePlayerAnimation;
     public TMP_InputField playerAnswer;
-    public GameObject playerOnRope;
     bool isSimulating = false;
-    public GameObject playerHingeJoint;
+    // public GameObject playerHingeJoint;
     public GameObject thePlayer;
     public GameObject playerHangingFixed;
     public GameObject FirstCamera;
@@ -25,7 +24,7 @@ public class StageThreeManager : MonoBehaviour
     Vector3 thePlayer_position;
     public GameObject accurateCollider;
 
-    public GameObject platformBar;
+    public GameObject platformBarBottom;
 
     Vector3 playerOnRopeTransform;
 
@@ -34,24 +33,26 @@ public class StageThreeManager : MonoBehaviour
     float correctAnswer;
     Vector2 spawnPointValue;
     float distance;
+    float distanceGiven;
     void Start()
     {
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1.0f), 2);
+        distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(5.0f, 5.55f), 2);
         gravityGiven = Physics2D.gravity;
         // Formula
         correctAnswer = Mathf.Abs((gravityGiven.y / 2) * Mathf.Pow(timeGiven, 2));
 
         transform.Find("Annotation1").GetComponent<Annotation>().SetDistance(correctAnswer);
-        transform.Find("Annotation1").GetComponent<Annotation>().SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
+        //transform.Find("Annotation1").GetComponent<Annotation>().SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
 
         Debug.Log($"Distance: {correctAnswer}");
-        Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
+        //Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
         Debug.Log($"Time Generated: {timeGiven}");
         Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
-        levelName.SetText("Free Fall | Stage 1");
+        levelName.SetText("Free Fall | Stage 2");
         question = $"[name] is hanging from a rope and [pronoun] is instructed to let go of it, drop down, and hang again to the horizontal pole below. If [name] will let go ang grab the pole after exactly <color=purple>{timeGiven} sec</color>, at what <color=red>distance</color> should [pronoun] hands above the pole before letting go?";
 
         if (questionText != null)
@@ -63,21 +64,21 @@ public class StageThreeManager : MonoBehaviour
             Debug.Log("QuestionText object not loaded.");
         }
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
-
-        thePlayerAnimation.SetBool("isHanging", true);
+        thePlayerAnimation.SetBool("isHangingInBar", true);
         thePlayer_position = thePlayer.transform.position;
 
         distance = transform.Find("Annotation1").GetComponent<Annotation>().distance;
-        playerOnRopeTransform = playerOnRope.transform.position;
+        
+       // playerOnRopeTransform = playerOnRope.transform.position;
 
         spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
 
-        platformBar.transform.position = new Vector3(spawnPointValue.x - 9, spawnPointValue.y, 0);
+        platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, spawnPointValue.y, 0);
 
 
     }
 
-        IEnumerator StuntResult()
+    IEnumerator StuntResult()
     {
         //messageFlag = false;
         yield return new WaitForSeconds(4f);
@@ -101,7 +102,7 @@ public class StageThreeManager : MonoBehaviour
                 elapsed += Time.fixedDeltaTime;
                 timerText.text = elapsed.ToString("f2") + "s";
 
-                playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
+                //playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
                 thePlayerAnimation.SetBool("isFalling", true);
 
 
@@ -116,10 +117,12 @@ public class StageThreeManager : MonoBehaviour
 
                         thePlayer.SetActive(false);
                         playerHangingFixed.SetActive(true);
-                        playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1.5f, 1);
-                        platformBar.GetComponent<Animator>().SetBool("collided", true);
+                        playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBarBottom.transform.position.y - 1.5f, 1);
+                        platformBarBottom.GetComponent<Animator>().SetBool("collided", true);
                         playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                         isSimulating = false;
+                        stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
+                        StartCoroutine(StuntResult());
                     }
                 }
                 else
@@ -130,7 +133,8 @@ public class StageThreeManager : MonoBehaviour
                         {
                             Debug.Log("Distance is too short!");
                             isSimulating = false;
-
+                            stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} hand distance to the pole is shorter.</color>";
+                            StartCoroutine(StuntResult());
                         }
                     }
                     else
@@ -139,6 +143,8 @@ public class StageThreeManager : MonoBehaviour
                         {
                             Debug.Log("Distance is too long!");
                             isSimulating = false;
+                            stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} hand distance to the pole is longer.</color>";
+                            StartCoroutine(StuntResult());
                         }
                     }
                 }
@@ -152,7 +158,7 @@ public class StageThreeManager : MonoBehaviour
         }
         else
         {
-            //platformBar.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);
+            //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);
             timerText.text = elapsed.ToString("f2") + "s";
             isSimulating = false;
         }
