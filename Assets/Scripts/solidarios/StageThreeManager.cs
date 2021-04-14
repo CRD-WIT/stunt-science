@@ -29,14 +29,31 @@ public class StageThreeManager : MonoBehaviour
 
     Vector3 playerOnRopeTransform;
 
-    float timeProblem;
+    float timeGiven;
+    Vector2 gravityGiven;
+    float correctAnswer;
+    Vector2 spawnPointValue;
+    float distance;
 
     void Start()
     {
+        //Problem
         levelName.SetText("Free Fall | Stage 1");
-        timeProblem = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1.0f), 2);
+        question = $"[name] is hanging from a rope and [pronoun] is instructed to let go of it, drop down, and hang again to the horizontal pole below. If [name] will let go ang grab the pole after exactly <color=purple>{timeGiven} sec</color>, at what <color=red>distance</color> should [pronoun] hands above the pole before letting go?";
+        // Given        
+        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1.0f), 2);
+        gravityGiven = Physics2D.gravity;
+        // Formula
+        correctAnswer = Mathf.Abs((gravityGiven.y / 2) * Mathf.Pow(timeGiven, 2));
 
-        question = $"[name] is hanging from a rope and [pronoun] is instructed to let go of it, drop down, and hang again to the horizontal pole below. If [name] will let go ang grab the pole after exactly <color=purple>{timeProblem} sec</color>, at what <color=red>distance</color> should [pronoun] hands above the pole before letting go?";
+        transform.Find("Annotation1").GetComponent<Annotation>().SetDistance(correctAnswer);
+        Debug.Log($"Distance: {correctAnswer}");
+        Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
+        Debug.Log($"Time Generated: {timeGiven}");
+        transform.Find("Annotation1").GetComponent<Annotation>().SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
+
+        Debug.Log($"Correct Answer: {correctAnswer}");
+
         if (questionText != null)
         {
             questionText.SetText(question);
@@ -51,9 +68,16 @@ public class StageThreeManager : MonoBehaviour
         {
             dimensionLine.SetActive(true);
         }
+
         thePlayerAnimation.SetBool("isHanging", true);
         thePlayer_position = thePlayer.transform.position;
+
+        distance = transform.Find("Annotation1").GetComponent<Annotation>().distance;
         playerOnRopeTransform = playerOnRope.transform.position;
+
+        spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
+
+        platformBar.transform.position = new Vector3(spawnPointValue.x-9, spawnPointValue.y, 0);
     }
 
     public void StartSimulation()
@@ -62,12 +86,8 @@ public class StageThreeManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-        Vector2 spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
-        float distance = transform.Find("Annotation1").GetComponent<Annotation>().distance;
-        platformBar.transform.position = new Vector3(spawnPointValue.x - 9, spawnPointValue.y, 1);
         float thePlayer_x = thePlayer_position.x;
         float thePlayer_y = thePlayer_position.y;
-
 
         if (isSimulating)
         {
@@ -80,10 +100,10 @@ public class StageThreeManager : MonoBehaviour
             {
                 FirstCamera.SetActive(false);
                 SecondCamera.SetActive(true);
-               
+
                 thePlayer.SetActive(false);
                 playerHangingFixed.SetActive(true);
-                playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y-1.5f, 1);
+                playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1.5f, 1);
                 platformBar.GetComponent<Animator>().SetBool("collided", true);
                 playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                 isSimulating = false;
@@ -92,6 +112,7 @@ public class StageThreeManager : MonoBehaviour
         }
         else
         {
+            //platformBar.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);
             timerText.text = elapsed.ToString("f2") + "s";
         }
 

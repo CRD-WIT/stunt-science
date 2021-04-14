@@ -26,10 +26,21 @@ public class Annotation : MonoBehaviour
         textDimension = transform.Find("Text").gameObject;
     }
 
-    public Vector2 SpawnPointValue(){
+    public Vector2 SpawnPointValue()
+    {
         return spawnPoint;
     }
 
+
+    public void SetSpawningPoint(Vector2 point)
+    {
+        this.spawnPoint = point;
+    }
+
+    public void SetDistance(float value)
+    {
+        this.distance = Mathf.Abs(value);
+    }
 
     // Update is called once per frame
     void Update()
