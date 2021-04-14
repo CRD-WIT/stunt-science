@@ -76,7 +76,7 @@ public class AccManagerOne : MonoBehaviour
                      walls.SetActive(true);
                      retry.gameObject.SetActive(true);
                      
-                    if (accelaration < correctAns & accelaration > correctAns - 1)
+                    /*if (accelaration < correctAns & accelaration > correctAns - 1)
                     {
                         
                         if (currentPos >= playerDistance)
@@ -95,7 +95,7 @@ public class AccManagerOne : MonoBehaviour
                             
                            
                         }
-                    }
+                    }*/
                     if(accelaration < correctAns)
                     {
                         stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") +"m/s².";

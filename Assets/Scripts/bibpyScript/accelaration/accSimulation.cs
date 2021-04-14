@@ -8,13 +8,14 @@ public class accSimulation : MonoBehaviour
     public Button playButton;
     private BikeManager theBike;
     public AccManagerOne theManagerOne;
+    public AccManagerTwo theManagerTwo;
     public TMP_InputField answerField;
     public static string question;
     public TMP_Text questionTextBox, errorTextBox, levelText, diretorsSpeech;
     public static float playerAnswer;
     public static bool simulate;
     public static bool playerDead;
-    public static int stage;
+    public int stage;
     public Quaternion startRotation;
     public Vector2 startPosition;
     
@@ -25,7 +26,7 @@ public class accSimulation : MonoBehaviour
     void Start()
     {
         theBike = FindObjectOfType<BikeManager>();
-        stage = 1;
+        //stage = 1;
         startRotation = theBike.transform.rotation;
         startPosition = theBike.transform.position;
     }
@@ -39,14 +40,16 @@ public class accSimulation : MonoBehaviour
     }
     public void PlayButton()
     {
-        directorIsCalling = true;
-        StartCoroutine(DirectorsCall());
+        
+        
         if (answerField.text == "")
         {
             errorTextBox.SetText("Please enter your answer!");
         }
         else
         {
+            directorIsCalling = true;
+            StartCoroutine(DirectorsCall());
             /*isStartOfStunt = true;
             directorIsCalling = true;
             //answerField.placeholder = playerAnswer.ToString()+"m/s";*/
@@ -64,7 +67,6 @@ public class accSimulation : MonoBehaviour
     public void retry()
     {
         theBike.transform.rotation = startRotation;
-        theBike.transform.position = startPosition;
         theBike.moveSpeed = 0;
         driver.SetActive(true);
         afterStuntMessage.SetActive(false);
@@ -78,6 +80,14 @@ public class accSimulation : MonoBehaviour
             theManagerOne.generateProblem();
             theManagerOne.gas = true;
             theManagerOne.timer = 0;
+            theBike.transform.position = startPosition;
+        }
+        if(stage == 2)
+        {
+            theManagerTwo.generateProblem();
+            theManagerTwo.timer = 0;
+            theBike.brake = false;
+            theBike.transform.position = new Vector2(-10, 0.1f);
         }
 
     }

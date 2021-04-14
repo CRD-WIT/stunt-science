@@ -5,6 +5,7 @@ using UnityEngine;
 public class BikeManager : MonoBehaviour
 {
     private Player thePlayer;
+    private Animator myAnimator;
     public bool collided;
     public GameObject driverPrefab;
     
@@ -20,7 +21,7 @@ public class BikeManager : MonoBehaviour
     void Start()
     {
         thePlayer = FindObjectOfType<Player>();
-        
+        myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
     }
@@ -28,6 +29,7 @@ public class BikeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+         myAnimator.SetFloat("speed", myRigidbody.velocity.x);
       
        if (decelarate)
        {
@@ -66,7 +68,8 @@ public class BikeManager : MonoBehaviour
     {
         
         GameObject stick = Instantiate(stickprefab);
-        stick.transform.position = stickmanpoint.transform.position;      
+        stick.transform.position = stickmanpoint.transform.position;  
+        stick.transform.rotation = stickmanpoint.transform.rotation;    
     }
     
     

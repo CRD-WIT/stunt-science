@@ -65,6 +65,35 @@ public class AccManagerTwo : MonoBehaviour
         {
             gas = true;
             time = accSimulation.playerAnswer;
+             if (time != correctAns)
+                {
+                     walls.SetActive(true);
+                     retry.gameObject.SetActive(true);
+                     
+                    if (time < correctAns & time > correctAns - 0.5f)
+                    {
+                        time -= 0.5f;
+                    }
+                    if (time > correctAns & time < correctAns + 0.5f)
+                    {
+                        time += 0.5f;
+                    }
+                    if(time < correctAns)
+                    {
+                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " deccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") +"seconds.";
+                    }
+                    if(time > correctAns)
+                    {
+                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " deccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") +"seconds.";
+                    }
+                }
+                if (time == correctAns)
+                {
+                    next.gameObject.SetActive(true);
+                    stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " went through the tunnel</color>";
+                    
+
+                }          
             if (theBike.brake == true)
             {
                 gas = false;
@@ -80,47 +109,7 @@ public class AccManagerTwo : MonoBehaviour
                 StartCoroutine(StuntResult());
                 accSimulation.simulate = false;
                 //theBike.moveSpeed = theBike.myRigidbody.velocity.x;
-                if (deceleration != correctAns)
-                {
-                     walls.SetActive(true);
-                     retry.gameObject.SetActive(true);
-                     
-                    if (deceleration < correctAns & deceleration > correctAns - 1)
-                    {
-                        
-                        if (currentPos >= playerDistance)
-                        {
-                            //theBike.moveSpeed = Vf - 1;
-                            
-                            
-                        }
-                    }
-                    if (deceleration > correctAns & deceleration < correctAns + 1)
-                    {
-                        
-                        if (currentPos >= playerDistance)
-                        {
-                            //theBike.moveSpeed = Vf + 1;
-                            
-                           
-                        }
-                    }
-                    if(deceleration < correctAns)
-                    {
-                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") +"m/s².";
-                    }
-                    if(deceleration > correctAns)
-                    {
-                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated the motorcycle too fast and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") +"m/s².";
-                    }
-                }
-                if (deceleration == correctAns)
-                {
-                    next.gameObject.SetActive(true);
-                    stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " went through the tunnel</color>";
-                    theBike.moveSpeed = Vf;
-
-                }
+               
             }
 
 
@@ -134,7 +123,7 @@ public class AccManagerTwo : MonoBehaviour
     {
          Vi = 20;
         //time = (float)System.Math.Round(generateTime, 2);
-        accSimulation.question = (("In order for <b>") + PlayerPrefs.GetString("Name") + ("</b> to enter the tunnel on the otherside of the platform where  <b>") + pronoun + ("</b>is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete standstill to a speed of <b>") + Vf.ToString("F1") + ("</b> m/s, after ") + time.ToString("F1") + ("seconds. What should be ") + pronoun + (" deceleration in order to achieve the final velocity?"));
+        accSimulation.question = (PlayerPrefs.GetString("Name") + ("</b> is initially speeding is motorcycle at <b>") + Vi.ToString("F1") + ("</b> m/s and must decelerate to a final velocity of 10 m/s right before dropping the ledge so it could safely enter the tunnel across it. How long should <b>") + pronoun + ("</b> apply brake if braking deccelerates the motorcycle by <b>") + deceleration.ToString("F1") + ("</b> m/s²?"));
 
         //theHeart.losslife = false;
 
