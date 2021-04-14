@@ -46,8 +46,8 @@ public class RumblingManager : MonoBehaviour
         if (shakeDuration > 0)
         {
             rumbling.SetActive(true);
-            camTransform.localPosition = originalPos + Random.insideUnitSphere * (shakeAmount * 8);
-            shakeDuration -= Time.deltaTime * decreaseFactor;
+            camTransform.localPosition = originalPos + Random.insideUnitSphere * (shakeAmount * 3);
+            shakeDuration -= Time.deltaTime * (decreaseFactor*2);
         }
         else
         {

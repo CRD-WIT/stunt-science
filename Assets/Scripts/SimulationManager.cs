@@ -126,6 +126,14 @@ public class SimulationManager : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             directorsBubble.SetActive(false);
             diretorsSpeech.text = "";
+            if (isAnswerCorrect)
+            {
+                thePlayer.happy = true;
+            }
+            else
+            {
+                thePlayer.standup = true;
+            }
         }
     }
     public void RetryButton()
@@ -163,6 +171,10 @@ public class SimulationManager : MonoBehaviour
         {
             stage = 3;
             theManager2.gameObject.SetActive(false);
+        }
+        else
+        {
+            sm.SetDifficulty(2);
         }
         StartCoroutine(ExitStage());
     }

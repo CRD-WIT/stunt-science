@@ -16,11 +16,10 @@ public class VelocityEasyStage1 : MonoBehaviour
     void Start()
     {
         sm.SetGameLevel(1);
+        sm.SetDifficulty(1);
         theCeiling = FindObjectOfType<CeillingGenerator>();           
         myPlayer = FindObjectOfType<Player>();
         HeartManager = FindObjectOfType<HeartManager>();
-        //myPlayer.gameObject.SetActive(true);
-        string difficulty= sm.GetDifficulty();
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         VelocityEasyStage1SetUp();
@@ -43,14 +42,12 @@ public class VelocityEasyStage1 : MonoBehaviour
                 timer.text = gameTime.ToString("f2")+"s";
                 if ((answer == Speed))
                 {
-                    myPlayer.happy = true;
                     messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b><color=green>safe</color></b>.";
                     SimulationManager.isAnswerCorrect= true;
                     myPlayer.transform.position = new Vector2(distance, myPlayer.transform.position.y);
                 }
                 else{ 
                     HeartManager.ReduceLife();
-                    myPlayer.standup = true;
                     myPlayer.lost = true;
                     currentPos = SimulationManager.playerAnswer*gameTime;
                     if(answer < Speed){
@@ -85,6 +82,7 @@ public class VelocityEasyStage1 : MonoBehaviour
             gameTime = (float)System.Math.Round(t,2);
             Speed = (float)System.Math.Round((distance/t), 2);
         } 
+        HeartManager.losslife = false;
         RumblingManager.shakeON = true;
         dimensionLine.SetActive(true);
         DimensionManager.startLength = 0;
@@ -100,17 +98,10 @@ public class VelocityEasyStage1 : MonoBehaviour
         SimulationManager.question = "The ceiling is crumbling and the safe area is <color=red>"+distance.ToString()+" meters</color> away from "+playerName+". If "+pronoun+" has exactly <color=#006400>"+gameTime.ToString()+" seconds</color> to go to the safe spot, what should be "+pNoun+" <color=purple>velocity</color>?";         
     } 
     IEnumerator StuntResult(){
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.75f);
         SimulationManager.directorIsCalling = true;
         SimulationManager.isStartOfStunt = false;
-        yield return new WaitForSeconds(1.5f); 
+        yield return new WaitForSeconds(5.25f); 
         AfterStuntMessage.SetActive(true);        
-    }
-
-    public override bool Equals(object obj)
-    {
-        return obj is VelocityEasyStage1 stage &&
-               base.Equals(obj) &&
-               pPronoun == stage.pPronoun;
     }
 }
