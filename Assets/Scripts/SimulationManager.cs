@@ -5,9 +5,7 @@ using TMPro;
 
 public class SimulationManager : MonoBehaviour
 {
-    public GameObject directorsBubble;
-    //public GameObject jumpers;
-    public GameObject ragdollSpawn;
+    public GameObject directorsBubble, ragdollSpawn, afterStuntMessage;
     public VelocityEasyStage1 VelocityEasyStage1;
     public StageTwoManager theManager2;
     public VelocityEasyStage3 StageThreeManager;
@@ -18,9 +16,9 @@ public class SimulationManager : MonoBehaviour
     public TMP_Text questionTextBox, errorTextBox, diretorsSpeech, levelText;
     public static string question;
     public static float playerAnswer;
-    public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead;
+    public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
     public static int stage;
-    public bool destroyPrefab, stage3Flag;
+    public bool destroyPrefab;
     private HeartManager theHeart;
 
 
@@ -55,7 +53,12 @@ public class SimulationManager : MonoBehaviour
         if (isAnswerCorrect)
         {
             retryButton.gameObject.SetActive(false);
-            nextButton.gameObject.SetActive(true);
+            if (stage == 3)
+            {
+                nextButton.gameObject.SetActive(false);
+            }
+            else
+                nextButton.gameObject.SetActive(true);
         }
         else
         {
@@ -180,7 +183,8 @@ public class SimulationManager : MonoBehaviour
     }
     IEnumerator ExitStage()
     {
-        VelocityEasyStage1.AfterStuntMessage.SetActive(false);
+        thePlayer.standup = false;
+        afterStuntMessage.SetActive(false);
         thePlayer.moveSpeed = 5;
         yield return new WaitForSeconds(3f);
         StartCoroutine(theHeart.endBGgone());

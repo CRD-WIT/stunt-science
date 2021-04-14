@@ -30,7 +30,70 @@ public class StageTwoManager : MonoBehaviour
     {
         currentPos = thePlayer.transform.position.x;
         playerAnswer = SimulationManager.playerAnswer;
-        playerDistance = playerAnswer * speed;
+        if (SimulationManager.isSimulating)
+        {
+            dimensionLine.SetActive(false);
+            thePlayer.moveSpeed = speed;
+            elapsed += Time.fixedDeltaTime;
+            timer.text = elapsed.ToString("f2") + "s";
+            if (currentPos > 30)
+            {
+                thePlayer.moveSpeed = 0;
+                thePlayer.transform.position = new Vector2(currentPos, -10);
+            }
+            if (elapsed >= SimulationManager.playerAnswer)
+            {
+                timer.text = playerAnswer.ToString("f2") + "s";
+                thePlayer.moveSpeed = 0;
+                RumblingManager.isCrumbling = true;
+                rubbleStopper.SetActive(false);
+                thePlayer.transform.position = new Vector2(distance, -3);
+                SimulationManager.isSimulating = false;
+                theRumbling.collapse();
+                StartCoroutine(StuntResult());
+                if (playerAnswer == answerRO)
+                {
+                    SimulationManager.isAnswerCorrect = true;
+                    messageText.text = "<b>Stunt Successful!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " ran at exact speed.\n Now, " + pronoun + " is <b>safe</b> from falling down the ground.";
+                    thePlayer.transform.position = new Vector2(distance, thePlayer.transform.position.y);
+                }
+                else//if (playerAnswer != answerRO)
+                {
+                    SimulationManager.isAnswerCorrect = false;
+                    theHeart.ReduceLife();
+                    if (SimulationManager.isRagdollActive)
+                    {
+                        thePlayer.lost = false;
+                        SimulationManager.isRagdollActive = false;
+                    }
+                    else
+                    {
+                        thePlayer.lost = true;
+                    }
+                    playerDistance = playerAnswer * speed;
+                    if (playerAnswer < answerRO)
+                    {
+                        thePlayer.transform.position = new Vector2(playerDistance - 0.1f, thePlayer.transform.position.y);
+                        messageText.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " ran too short!</color>";
+                    }
+                    else if (playerAnswer > answerRO)
+                    {
+                        if (currentPos > 30)
+                        {
+                            thePlayer.transform.position = new Vector2(currentPos, -10);
+                        }
+                        else
+                            thePlayer.transform.position = new Vector2(playerDistance + 0.1f, thePlayer.transform.position.y);
+                        messageText.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " ran too long!</color>";
+                    }
+
+                }
+            }
+        }
+    }
+    public void generateProblem()
+    {
+        answer = 0;
         if (gender == "Male")
         {
             pronoun = ("he");
@@ -39,86 +102,7 @@ public class StageTwoManager : MonoBehaviour
         {
             pronoun = ("she");
         }
-        if (SimulationManager.isSimulating)
-        {
-            dimensionLine.SetActive(false);
-            thePlayer.moveSpeed = speed;
-            if (elapsed <= SimulationManager.playerAnswer)
-            {
-                elapsed += Time.fixedDeltaTime;
-                timer.text = elapsed.ToString("f2") + "s";
-            }
-            if (playerAnswer == answerRO)
-            {
-                SimulationManager.isAnswerCorrect = true;
-                if (currentPos >= distance)
-                {
-                    thePlayer.moveSpeed = 0;
-                    RumblingManager.isCrumbling = true;
-                    rubbleStopper.SetActive(false);
-                    thePlayer.transform.position = new Vector2(distance, -3);
-                    timer.text = playerAnswer.ToString("f2") + "s";
-                    SimulationManager.isSimulating = false;
-                    theRumbling.collapse();
-                    StartCoroutine(StuntResult());
-                    SimulationManager.isAnswerCorrect = true;
-                    messageText.text = "<b>Stunt Successful!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " ran at exact speed.\n Now, " + pronoun + " is <b>safe</b> from falling down the ground.";
-                }
-            }
-            if (playerAnswer != answerRO)
-            {
-                SimulationManager.isAnswerCorrect = false;
-                if (currentPos >= playerDistance)
-                {
-                    theHeart.ReduceLife();
-                    thePlayer.moveSpeed = 0;
-                    if (currentPos < 25)
-                    {
-                        RumblingManager.isCrumbling = true;
-                        rubbleStopper.SetActive(false);
-                        thePlayer.lost = true;
-                        thePlayer.transform.position = new Vector2(playerDistance, -3);
-                        timer.text = playerAnswer.ToString("f2") + "s";
-                        SimulationManager.isSimulating = false;
-                        theRumbling.collapse();
-                        StartCoroutine(StuntResult());
-                        safeSpot();
-                    }
-
-                    if (playerAnswer < answerRO)
-                    {
-
-                        messageText.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " ran too short!</color>";
-                    }
-                    else if (playerAnswer > answerRO)
-                    {
-                        messageText.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " ran too long!</color>";
-
-                    }
-                }
-                if (currentPos >= 25)
-                {
-                    theHeart.ReduceLife();
-                    thePlayer.moveSpeed = 0;
-                    RumblingManager.isCrumbling = true;
-                    rubbleStopper.SetActive(false);
-                    thePlayer.lost = true;
-                    SimulationManager.isSimulating = false;
-                    theRumbling.collapse();
-                    StartCoroutine(StuntResult());
-                    safeSpot();
-                }
-
-            }
-        }
-        else
-        {
-            timer.text = ("0.00s");
-        }
-    }
-    public void generateProblem()
-    {
-        while ((answer<2.63f)||(answer>3.1f))
+        while ((answer < 2.63f) || (answer > 3.1f))
         {
             float d = UnityEngine.Random.Range(21f, 28f);
             distance = (float)System.Math.Round(d, 2);
@@ -128,6 +112,7 @@ public class StageTwoManager : MonoBehaviour
         }
         thePlayer.transform.position = new Vector2(0, -3);
         RumblingManager.shakeON = true;
+        timer.text = "0.00s";
         SimulationManager.question = "The ceiling is still crumbling and the next safe spot is <color=red>" + distance.ToString() + " meters</color> away from " + PlayerPrefs.GetString("Name") + ". If " + pronoun + " runs at a constant velocity of <color=purple>" + finalSpeed.ToString() + " meters per second</color>, how <color=#006400>long</color> should " + pronoun + " run so " + pronoun + " will stop exactly on the same spot?";
         answerRO = (float)System.Math.Round(answer, 2);
         dimensionLine.SetActive(true);
@@ -154,12 +139,13 @@ public class StageTwoManager : MonoBehaviour
         theRumbling.collapsing = true;
         rubbleBlocker.SetActive(false);
     }
-   IEnumerator StuntResult(){
-        yield return new WaitForSeconds(0.75f);
+    IEnumerator StuntResult()
+    {
+        yield return new WaitForSeconds(1f);
         SimulationManager.directorIsCalling = true;
         SimulationManager.isStartOfStunt = false;
-        yield return new WaitForSeconds(5.25f); 
-        AfterStuntMessage.SetActive(true);        
+        yield return new WaitForSeconds(3f);
+        AfterStuntMessage.SetActive(true);
     }
     void resetTime()
     {
