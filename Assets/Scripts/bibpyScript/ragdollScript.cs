@@ -44,7 +44,7 @@ public class ragdollScript : MonoBehaviour
         {
             StartCoroutine(driverSpawn());
         }
-        if(theBike.decelarate)
+        if(theBike.stopBackward)
         {
             backward = true;
         }

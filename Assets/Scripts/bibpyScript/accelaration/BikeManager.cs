@@ -5,6 +5,7 @@ using UnityEngine;
 public class BikeManager : MonoBehaviour
 {
     private Player thePlayer;
+    private accSimulation theSimulate;
     private Animator myAnimator;
     public bool collided;
     public GameObject driverPrefab;
@@ -15,12 +16,14 @@ public class BikeManager : MonoBehaviour
     public GameObject driverStickman;
      public GameObject stickprefab;
      public GameObject stickmanpoint;
-     public bool decelarate;
+     public bool stopBackward;
+     public bool stopForward;
      public bool brake;
     // Start is called before the first frame update
     void Start()
     {
         thePlayer = FindObjectOfType<Player>();
+        theSimulate = FindObjectOfType<accSimulation>();
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
@@ -31,7 +34,7 @@ public class BikeManager : MonoBehaviour
     {
          myAnimator.SetFloat("speed", myRigidbody.velocity.x);
       
-       if (decelarate)
+       if (stopBackward || stopForward)
        {
            myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, myRigidbody.velocity.y);
        }
@@ -46,10 +49,17 @@ public class BikeManager : MonoBehaviour
         { 
             if (collided == false)
             {
+                if(theSimulate.stage < 3)
+                {
+                    stopBackward = true;
+                }
+                if(theSimulate.stage == 3)
+                {
+                    stopForward = true;
+                }
                 driverspawn();
-                decelarate = true;
                 thePlayer.standup = true;
-                accSimulation.playerDead = true;
+                //accSimulation.playerDead = true;
                 collided = true;
                 thePlayer.standup = true;
                 driverPrefab.SetActive(false);

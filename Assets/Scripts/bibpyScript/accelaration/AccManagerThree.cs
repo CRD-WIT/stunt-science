@@ -4,13 +4,13 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class AccManagerTwo : MonoBehaviour
+public class AccManagerThree : MonoBehaviour
 {
-
     public float Vi;
     public float Vf;
     public float timer;
     public float time;
+    float generateTime;
     float generateAcceleration;
     public float deacceleration;
     private Player thePlayer;
@@ -50,10 +50,13 @@ public class AccManagerTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        generateAns = 60 / time;
+        correctAns = (float)System.Math.Round(generateAns, 2);
         playerDistance = (time * time) * deacceleration / 2;
         playerVf = (2 * playerDistance) / time;
         currentPos = theBike.transform.position.x;
-        
+        deacceleration = generateAns / time;
+        Vi = accSimulation.playerAnswer;
         if (gas)
             {
                 theBike.moveSpeed = Vi;
@@ -62,30 +65,30 @@ public class AccManagerTwo : MonoBehaviour
         if (accSimulation.simulate)
         {
             gas = true;
-            time = accSimulation.playerAnswer;
-             if (time != correctAns)
+            
+             if (Vi != correctAns)
                 {
                      walls.SetActive(true);
                      retry.gameObject.SetActive(true);
                      
-                    if (time < correctAns & time > correctAns - 0.5f)
+                    if (Vi < correctAns & Vi > correctAns - 1f)
                     {
-                        time -= 0.5f;
+                        Vi -= 1f;
                     }
-                    if (time > correctAns & time < correctAns + 0.5f)
+                    if (Vi > correctAns & Vi < correctAns +1f)
                     {
-                        time += 0.5f;
+                        Vi += 1f;
                     }
-                    if(time < correctAns)
+                    if(Vi < correctAns)
                     {
                         stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " deccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") +"seconds.";
                     }
-                    if(time > correctAns)
+                    if(Vi > correctAns)
                     {
                         stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " deccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") +"seconds.";
                     }
                 }
-                if (time == correctAns)
+                if (Vi == correctAns)
                 {
                     next.gameObject.SetActive(true);
                     stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " went through the tunnel</color>";
@@ -99,15 +102,15 @@ public class AccManagerTwo : MonoBehaviour
                 if (timer < time)
                 {
                     theBike.moveSpeed -= deacceleration * Time.fixedDeltaTime;
-                    if(theBike.moveSpeed <= 1f)
+                    if(theBike.moveSpeed <= 0)
                     {
-                        theBike.moveSpeed = theBike.myRigidbody.velocity.x;
+                        theBike.moveSpeed = 0;
                     }
                 }
             }
             if (timer >= time)
             {
-                theBike.moveSpeed = theBike.myRigidbody.velocity.x;
+                theBike.moveSpeed = 0;
                 StartCoroutine(StuntResult());
                 accSimulation.simulate = false;
                 //theBike.moveSpeed = theBike.myRigidbody.velocity.x;
@@ -123,13 +126,12 @@ public class AccManagerTwo : MonoBehaviour
     }
     public void generateProblem()
     {
-        Vi = Random.Range(20, 30);
-        generateAns = 60 / (Vi + 10);
-        correctAns = (float)System.Math.Round(generateAns, 2);
-        deacceleration = -(10 - Vi) / correctAns;
-        //time = (float)System.Math.Round(generateTime, 2);
-        accSimulation.question = (PlayerPrefs.GetString("Name") + ("</b> is initially speeding is motorcycle at <b>") + Vi.ToString("F1") + ("</b> m/s and must decelerate to a final velocity of 10 m/s right before dropping the ledge so it could safely enter the tunnel across it. How long should <b>") + pronoun + ("</b> apply brake if braking deccelerates the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²?"));
+        generateTime = Random.Range(2.5f, 4.5f);
         theBike.transform.position = new Vector2(-10, theBike.transform.position.y);
+        time = (float)System.Math.Round(generateTime, 2);
+        
+        accSimulation.question = (PlayerPrefs.GetString("Name") + ("</b> must park his motorcycle perfectly at the back of truck. If braking the motorcycle deaccelerates it by <b>") + deacceleration.ToString("F1") + ("</b> m/s, what should be its initial velocity(Vi) so it will come into complete stop after braking it for exactly  <b>") + time.ToString("F2") + ("</b> seconds?"));
+        
         //theHeart.losslife = false;
 
     }

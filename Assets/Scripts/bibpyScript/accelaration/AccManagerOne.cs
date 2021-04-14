@@ -64,38 +64,18 @@ public class AccManagerOne : MonoBehaviour
             {
                 theBike.moveSpeed += accelaration * Time.fixedDeltaTime;
             }
-            timer += Time.fixedDeltaTime;
-            if (timer >= time)
-            {
-                StartCoroutine(StuntResult());
-                gas = false;
-                accSimulation.simulate = false;
-                //theBike.moveSpeed -= theBike.myRigidbody.velocity.x * Time.fixedDeltaTime;
-                if (accelaration != correctAns)
+            if (accelaration != correctAns)
                 {
                      walls.SetActive(true);
                      retry.gameObject.SetActive(true);
-                     
-                    /*if (accelaration < correctAns & accelaration > correctAns - 1)
-                    {
-                        
-                        if (currentPos >= playerDistance)
-                        {
-                            //theBike.moveSpeed = Vf - 1;
-                            
-                            
-                        }
-                    }
-                    if (accelaration > correctAns & accelaration < correctAns + 1)
-                    {
-                        
-                        if (currentPos >= playerDistance)
-                        {
-                            //theBike.moveSpeed = Vf + 1;
-                            
-                           
-                        }
-                    }*/
+                     if (accelaration < correctAns & accelaration > correctAns - 0.5f)
+                     {
+                         accelaration -= 0.5f;
+                     }
+                     if (accelaration > correctAns & accelaration < correctAns + 0.5f)
+                     {
+                         accelaration += 1f;
+                     }
                     if(accelaration < correctAns)
                     {
                         stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") +"m/s².";
@@ -112,6 +92,14 @@ public class AccManagerOne : MonoBehaviour
                     theBike.moveSpeed = Vf;
 
                 }
+            timer += Time.fixedDeltaTime;
+            if (timer >= time)
+            {
+                StartCoroutine(StuntResult());
+                gas = false;
+                accSimulation.simulate = false;
+                //theBike.moveSpeed -= theBike.myRigidbody.velocity.x * Time.fixedDeltaTime;
+                
             }
 
 

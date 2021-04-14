@@ -18,7 +18,7 @@ public class accSimulation : MonoBehaviour
     public int stage;
     public Quaternion startRotation;
     public Vector2 startPosition;
-    
+
     public GameObject driver, afterStuntMessage;
     bool directorIsCalling;
     public GameObject directorBubble;
@@ -34,34 +34,63 @@ public class accSimulation : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+
         questionTextBox.SetText(question);
-        
+
     }
     public void PlayButton()
     {
-        
-        
-        if (answerField.text == "")
+        playerAnswer = float.Parse(answerField.text);
+        if (stage == 1)
         {
-            errorTextBox.SetText("Please enter your answer!");
-        }
-        else
-        {
-            directorIsCalling = true;
-            StartCoroutine(DirectorsCall());
-            /*isStartOfStunt = true;
-            directorIsCalling = true;
-            //answerField.placeholder = playerAnswer.ToString()+"m/s";*/
-            playerAnswer = float.Parse(answerField.text);
-            
-            playButton.interactable = false;
-            
+            if (answerField.text == "" || playerAnswer > 200)
             {
-            
-                answerField.text = playerAnswer.ToString() + "m/s²";
+                errorTextBox.SetText("Please enter a valid answer!");
             }
-        
+            else
+            {
+                directorIsCalling = true;
+                StartCoroutine(DirectorsCall());
+                playButton.interactable = false;
+                {
+                    answerField.text = playerAnswer.ToString() + "m/s²";
+                }
+
+            }
+        }
+        if (stage == 2)
+        {
+            if (answerField.text == "" || playerAnswer > 100)
+            {
+                errorTextBox.SetText("Please enter a valid answer!");
+            }
+            else
+            {
+                directorIsCalling = true;
+                StartCoroutine(DirectorsCall());
+                playButton.interactable = false;
+                {
+                    answerField.text = playerAnswer.ToString() + "sec";
+                }
+
+            }
+        }
+        if (stage == 3)
+        {
+            if (answerField.text == "" || playerAnswer > 100)
+            {
+                errorTextBox.SetText("Please enter a valid answer!");
+            }
+            else
+            {
+                directorIsCalling = true;
+                StartCoroutine(DirectorsCall());
+                playButton.interactable = false;
+                {
+                    answerField.text = playerAnswer.ToString() + "sec";
+                }
+
+            }
         }
     }
     public void retry()
@@ -70,19 +99,19 @@ public class accSimulation : MonoBehaviour
         theBike.moveSpeed = 0;
         driver.SetActive(true);
         afterStuntMessage.SetActive(false);
-        theBike.decelarate = false;
+        theBike.stopBackward = false;
         theBike.collided = false;
         playButton.interactable = true;
         playerAnswer = 0;
         answerField.text = ("");
-        if(stage == 1)
+        if (stage == 1)
         {
             theManagerOne.generateProblem();
             theManagerOne.gas = true;
             theManagerOne.timer = 0;
             theBike.transform.position = startPosition;
         }
-        if(stage == 2)
+        if (stage == 2)
         {
             theManagerTwo.generateProblem();
             theManagerTwo.timer = 0;
