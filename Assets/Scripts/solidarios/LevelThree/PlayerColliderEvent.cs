@@ -12,7 +12,7 @@ public class PlayerColliderEvent : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name == "PlatformBar")
+        if (other.gameObject.tag == "PlatformBar")
         {
             isCollided = true;
         }

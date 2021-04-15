@@ -73,8 +73,6 @@ public class Level_3_Stage_1 : MonoBehaviour
         spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
 
         platformBar.transform.position = new Vector3(spawnPointValue.x - 9, spawnPointValue.y, 0);
-
-
     }
 
     IEnumerator StuntResult()
@@ -109,7 +107,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                 if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
                 {
                     Debug.Log("Distance is correct!");
-                    if (accurateCollider.GetComponent<StageThreePlayerScript>().isCollided)
+                    if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                     {
                         FirstCamera.SetActive(false);
                         SecondCamera.SetActive(true);
@@ -128,7 +126,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                 {
                     if (float.Parse(playerAnswer.text) < System.Math.Round(correctAnswer, 2))
                     {
-                        if (accurateCollider.GetComponent<StageThreePlayerScript>().isCollided)
+                        if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
                             Debug.Log("Distance is too short!");
                             isSimulating = false;
@@ -138,7 +136,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                     }
                     else
                     {
-                        if (accurateCollider.GetComponent<StageThreePlayerScript>().isCollided)
+                        if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
                             Debug.Log("Distance is too long!");
                             isSimulating = false;
