@@ -50,16 +50,17 @@ public class VelocityEasyStage3 : MonoBehaviour
             StartCoroutine(RagdollCollider());
             if (elapsed >= gameTime)
             {
+                StartCoroutine(StuntResult());
                 SimulationManager.isSimulating = false;
                 RumblingManager.isCrumbling = true;
                 rubblesStopper.SetActive(false);
-                StartCoroutine(StuntResult());
-                StartCoroutine(ManholeCover());
                 myPlayer.moveSpeed = 0;
                 timer.text = gameTime.ToString("f2") + "s";
+                StartCoroutine(ManholeCover());
                 if ((answer == distance))
                 {
-                    messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran at exact distance.\n Now, " + pronoun + " is <b><color=green>safe</color></b>.";
+                    myPlayer.slide = true;
+                    messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " is finally <b><color=green>safe</color></b>.";
                     SimulationManager.isAnswerCorrect = true;
                     myPlayer.transform.position = new Vector2(40, myPlayer.transform.position.y);
                 }
@@ -80,12 +81,12 @@ public class VelocityEasyStage3 : MonoBehaviour
                     if (answer < distance)
                     {
                         myPlayer.transform.position = new Vector2(currentPos + 0.4f, myPlayer.transform.position.y);
-                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too near and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + distance + "m/s</color>.";
+                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too near from the manhole and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                     else
                     {
                         myPlayer.transform.position = new Vector2(currentPos - 0.4f, myPlayer.transform.position.y);
-                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too far and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m/s</color>.";
+                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                 }
             }
@@ -143,14 +144,16 @@ public class VelocityEasyStage3 : MonoBehaviour
             AfterStuntMessage.SetActive(false);
         }
     }
-    IEnumerator ManholeCover(){
-        yield return new WaitUntil(() => myPlayer.moveSpeed >= 0);
-        manholeCover.SetActive(false);
-    }
-    IEnumerator RagdollCollider(){
-        yield return new WaitUntil(()=>SimulationManager.isRagdollActive);
+    IEnumerator RagdollCollider()
+    {
+        yield return new WaitUntil(() => SimulationManager.isRagdollActive);
         ragdollSpawn.SetActive(false);
-       
+    }
+    IEnumerator ManholeCover()
+    {
+        manholeCover.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        manholeCover.SetActive(true);
     }
 }
 

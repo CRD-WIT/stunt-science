@@ -20,8 +20,6 @@ public class SimulationManager : MonoBehaviour
     public static int stage;
     public bool destroyPrefab;
     private HeartManager theHeart;
-
-
     StageManager sm = new StageManager();
     // Start is called before the first frame update
     void Start()
@@ -38,7 +36,7 @@ public class SimulationManager : MonoBehaviour
         {
             if (thePlayer.transform.position.x < (40 - playerAnswer))
             {
-                thePlayer.moveSpeed = 1.5f;
+                thePlayer.moveSpeed = 1.99f;
             }
             else
             {
@@ -124,6 +122,7 @@ public class SimulationManager : MonoBehaviour
         else
         {
             RumblingManager.shakeON = false;
+            yield return new WaitForSeconds(1.25f);
             directorsBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
             yield return new WaitForSeconds(0.75f);
@@ -131,7 +130,10 @@ public class SimulationManager : MonoBehaviour
             diretorsSpeech.text = "";
             if (isAnswerCorrect)
             {
-                thePlayer.happy = true;
+                if (stage==3)
+                    thePlayer.slide = true;
+                else
+                    thePlayer.happy = true;
             }
             else
             {
@@ -141,6 +143,7 @@ public class SimulationManager : MonoBehaviour
     }
     public void RetryButton()
     {
+        RumblingManager.isCrumbling = false;
         answerField.text = "";
         answerButton.interactable = true;
         StartCoroutine(resetPrefab());
@@ -160,7 +163,6 @@ public class SimulationManager : MonoBehaviour
     }
     public void NextButton()
     {
-        //jumpers.SetActive(true);
         thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
         StartCoroutine(resetPrefab());
@@ -203,6 +205,7 @@ public class SimulationManager : MonoBehaviour
         answerField.text = "";
         answerButton.interactable = true;
         playerAnswer = 0;
+        RumblingManager.isCrumbling = false;
     }
     IEnumerator resetPrefab()
     {

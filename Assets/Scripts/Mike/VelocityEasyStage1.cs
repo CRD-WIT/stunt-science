@@ -7,7 +7,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     public Player myPlayer;
     private HeartManager HeartManager;
     public TMP_Text playerNameText, messageText, timer;
-    public GameObject AfterStuntMessage, safeZone, rubblesStopper, dimensionLine;
+    public GameObject AfterStuntMessage, safeZone, rubblesStopper, dimensionLine, ragdollSpawn, rubbleBlocker;
     string pronoun, pPronoun, pNoun, playerName, playerGender;
     public float distance, gameTime, Speed, elapsed, currentPos;
     private CeillingGenerator theCeiling;
@@ -15,6 +15,7 @@ public class VelocityEasyStage1 : MonoBehaviour
 
     void Start()
     {
+        RumblingManager.isCrumbling = false;
         sm.SetGameLevel(1);
         sm.SetDifficulty(1);
         theCeiling = FindObjectOfType<CeillingGenerator>();
@@ -41,9 +42,11 @@ public class VelocityEasyStage1 : MonoBehaviour
                 myPlayer.moveSpeed = 0;
                 SimulationManager.isSimulating = false;
                 timer.text = gameTime.ToString("f2") + "s";
+                
                 if ((answer == Speed))
                 {
-                    messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran at exact speed.\n Now, " + pronoun + " is <b><color=green>safe</color></b>.";
+                    rubbleBlocker.SetActive(true);
+                    messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
                     SimulationManager.isAnswerCorrect = true;
                     myPlayer.transform.position = new Vector2(distance, myPlayer.transform.position.y);
                 }
@@ -63,12 +66,12 @@ public class VelocityEasyStage1 : MonoBehaviour
                     currentPos = SimulationManager.playerAnswer * gameTime;
                     if (answer < Speed)
                     {
-                        myPlayer.transform.position = new Vector2(currentPos - 0.1f, myPlayer.transform.position.y);
+                        myPlayer.transform.position = new Vector2(currentPos - 0.2f, myPlayer.transform.position.y);
                         messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too slow and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
                     else //if(answer > Speed)
                     {
-                        myPlayer.transform.position = new Vector2(currentPos + 0.1f, myPlayer.transform.position.y);
+                        myPlayer.transform.position = new Vector2(currentPos + 0.2f, myPlayer.transform.position.y);
                         messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
                 }
@@ -100,6 +103,8 @@ public class VelocityEasyStage1 : MonoBehaviour
             gameTime = (float)System.Math.Round(t, 2);
             Speed = (float)System.Math.Round((distance / t), 2);
         }
+        rubbleBlocker.SetActive(false);
+        ragdollSpawn.SetActive(true);
         HeartManager.losslife = false;
         RumblingManager.shakeON = true;
         dimensionLine.SetActive(true);
@@ -121,6 +126,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         SimulationManager.directorIsCalling = true;
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
+        rubbleBlocker.SetActive(false);
         AfterStuntMessage.SetActive(true);
     }
 }

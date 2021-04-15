@@ -54,9 +54,9 @@ public class RumblingManager : MonoBehaviour
             shakeDuration = 0f;
             camTransform.localPosition = originalPos;
         }
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.75f);
+        shakeDuration = 0f;
         shakeON = false;
-        isCrumbling = false;
     }
     IEnumerator camshake()
     {
@@ -71,14 +71,15 @@ public class RumblingManager : MonoBehaviour
             shakeDuration = 0f;
             camTransform.localPosition = originalPos;
         }
-        if (isCrumbling)
-        {
-            yield break;
-        }
+        
         yield return new WaitForSeconds(2);
         shakeON = false;
         rumbling.SetActive(false);
         yield return new WaitForSeconds(5);
+        if (isCrumbling)
+        {
+            yield break;
+        }
         shakeON = true;
         shakeDuration = 0.5f;
     }

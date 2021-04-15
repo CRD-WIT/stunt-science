@@ -11,6 +11,7 @@ public class CeillingGenerator : MonoBehaviour
     public GameObject[] rubble;
     public float tileoffset = 1f;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,11 +29,11 @@ public class CeillingGenerator : MonoBehaviour
     {
         if (stage == 1)
         {
-            mapWitdh = 25;
+            mapWitdh = 26;
         }
         else if (stage == 2)
         {
-            mapWitdh = 30;
+            mapWitdh = 31;
         }
         else
         {
