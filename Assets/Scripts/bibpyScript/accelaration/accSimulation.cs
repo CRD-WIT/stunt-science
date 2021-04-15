@@ -9,6 +9,7 @@ public class accSimulation : MonoBehaviour
     private BikeManager theBike;
     public AccManagerOne theManagerOne;
     public AccManagerTwo theManagerTwo;
+    public AccManagerThree theManagerThree;
     public TMP_InputField answerField;
     public static string question;
     public TMP_Text questionTextBox, errorTextBox, levelText, diretorsSpeech;
@@ -19,9 +20,11 @@ public class accSimulation : MonoBehaviour
     public Quaternion startRotation;
     public Vector2 startPosition;
 
-    public GameObject driver, afterStuntMessage;
+    public GameObject driver, afterStuntMessage, truck, retryButton, nextButton;
+    public GameObject[] ground;
     bool directorIsCalling;
     public GameObject directorBubble;
+    private ragdollScript theRagdoll;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +37,7 @@ public class accSimulation : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        theRagdoll = FindObjectOfType<ragdollScript>();
         questionTextBox.SetText(question);
 
     }
@@ -87,7 +90,7 @@ public class accSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "sec";
+                    answerField.text = playerAnswer.ToString() + "m/s²";
                 }
 
             }
@@ -100,10 +103,16 @@ public class accSimulation : MonoBehaviour
         driver.SetActive(true);
         afterStuntMessage.SetActive(false);
         theBike.stopBackward = false;
-        theBike.collided = false;
+        theBike.stopForward = false;
         playButton.interactable = true;
         playerAnswer = 0;
         answerField.text = ("");
+        retryButton.SetActive(false);
+        if(theBike.collided == true)
+        {
+            Destroy(theRagdoll.gameObject);
+            theBike.collided = false;
+        }
         if (stage == 1)
         {
             theManagerOne.generateProblem();
@@ -118,7 +127,35 @@ public class accSimulation : MonoBehaviour
             theBike.brake = false;
             theBike.transform.position = new Vector2(-10, 0.1f);
         }
-
+        if (stage == 3)
+        {
+            theManagerThree.generateProblem();
+            theManagerThree.timer = 0;
+            theBike.brake = false;
+            theBike.transform.position = new Vector2(-10, 0.1f);
+        }
+    }
+    public void next()
+    {
+        nextButton.SetActive(false);
+        if(stage == 1)
+        {
+            theManagerOne.gameObject.SetActive(false);
+            theManagerTwo.gameObject.SetActive(true);
+            ground[0].SetActive(false);
+            ground[1].SetActive(true);
+            
+            
+        }
+         if(stage == 2)
+        {
+            theManagerTwo.gameObject.SetActive(false);
+            theManagerThree.gameObject.SetActive(true);
+            ground[1].SetActive(false);
+            ground[2].SetActive(true);
+            truck.SetActive(true);
+           
+        }
     }
     public IEnumerator DirectorsCall()
     {

@@ -60,17 +60,14 @@ public class AccManagerOne : MonoBehaviour
         if (accSimulation.simulate)
         {
             accelaration = accSimulation.playerAnswer;
-            if (gas)
-            {
-                theBike.moveSpeed += accelaration * Time.fixedDeltaTime;
-            }
+            
             if (accelaration != correctAns)
                 {
                      walls.SetActive(true);
                      retry.gameObject.SetActive(true);
-                     if (accelaration < correctAns & accelaration > correctAns - 0.5f)
+                     if (accelaration < correctAns & accelaration > correctAns - .5f)
                      {
-                         accelaration -= 0.5f;
+                         accelaration -= .5f;
                      }
                      if (accelaration > correctAns & accelaration < correctAns + 0.5f)
                      {
@@ -90,8 +87,13 @@ public class AccManagerOne : MonoBehaviour
                     next.gameObject.SetActive(true);
                     stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " went through the tunnel</color>";
                     theBike.moveSpeed = Vf;
+                    
 
                 }
+            if (gas)
+            {
+                theBike.moveSpeed += accelaration * Time.fixedDeltaTime;
+            }
             timer += Time.fixedDeltaTime;
             if (timer >= time)
             {
@@ -114,6 +116,7 @@ public class AccManagerOne : MonoBehaviour
         generateTime = Random.Range(3.0f, 3.5f);
         time = (float)System.Math.Round(generateTime, 2);
         accSimulation.question = (("In order for <b>") + PlayerPrefs.GetString("Name") + ("</b> to enter the tunnel on the otherside of the platform where  <b>") + pronoun + ("</b>is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete standstill to a speed of <b>") + Vf.ToString("F1") + ("</b> m/s, after ") + time.ToString("F1") + ("seconds. What should be ") + pronoun + (" accelaration in order to achieve the final velocity?"));
+
 
         //theHeart.losslife = false;
 
