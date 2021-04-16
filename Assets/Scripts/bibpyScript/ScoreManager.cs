@@ -18,7 +18,7 @@ public class ScoreManager : MonoBehaviour
     public GameObject starscreen;
     public Button taptocon;
     public Button replay;
-    int scorestar;
+    public int scorestar;
     bool scoreready = true;
     public AudioSource starfx;
 
@@ -49,10 +49,10 @@ public class ScoreManager : MonoBehaviour
     public void finalstar()
     {
         StartCoroutine(scoringstar());
-        if(scorestar > mystar)
+        /*if(scorestar > mystar)
         {
            PlayerPrefs.SetInt("VstarE", scorestar);
-        }
+        }*/
     }
     IEnumerator scoringstar()
     {
@@ -117,7 +117,8 @@ public class ScoreManager : MonoBehaviour
     }
     public void replaylevel()
     {
-        SceneManager.LoadScene("LevelOne");
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
     
     public void addingoOneCoin()
