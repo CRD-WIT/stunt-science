@@ -25,13 +25,17 @@ public class accSimulation : MonoBehaviour
     bool directorIsCalling;
     public GameObject directorBubble;
     private ragdollScript theRagdoll;
+    //string accelaration;
     // Start is called before the first frame update
     void Start()
     {
+        //accelaration = "accelaration";
         theBike = FindObjectOfType<BikeManager>();
         //stage = 1;
         startRotation = theBike.transform.rotation;
         startPosition = theBike.transform.position;
+        PlayerPrefs.SetString("CurrentString", ("Accelaration"));
+        PlayerPrefs.SetInt("level", 3);
     }
 
     // Update is called once per frame
@@ -46,7 +50,7 @@ public class accSimulation : MonoBehaviour
         playerAnswer = float.Parse(answerField.text);
         if (stage == 1)
         {
-            if (answerField.text == "" || playerAnswer > 200)
+            if (answerField.text == "" || playerAnswer > 200 || playerAnswer < 1)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
             }
@@ -119,6 +123,7 @@ public class accSimulation : MonoBehaviour
             theManagerOne.gas = true;
             theManagerOne.timer = 0;
             theBike.transform.position = startPosition;
+            theManagerOne.walls.SetActive(false);
         }
         if (stage == 2)
         {
@@ -177,7 +182,7 @@ public class accSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";
         }

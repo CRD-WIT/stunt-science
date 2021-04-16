@@ -12,11 +12,13 @@ public class HeartManager : MonoBehaviour
     public GameObject gameOverBG, startBG;
     public bool losslife;
     
+    
     // Start is called before the first frame update
     void Start()
     {
         life = 3;
         startbgentrance();
+        
     }
 
     // Update is called once per frame
@@ -56,7 +58,7 @@ public class HeartManager : MonoBehaviour
         Gameoversfx.Play();
         StartCoroutine(endBGgone());
        yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("LevelOne");
+        reloadScene();
         Time.timeScale = 1f;
     }
     public IEnumerator endBGgone()
@@ -85,5 +87,10 @@ public class HeartManager : MonoBehaviour
             life -= 1;
             losslife = true;
         }
+    }
+    public void reloadScene()
+    {
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
 }

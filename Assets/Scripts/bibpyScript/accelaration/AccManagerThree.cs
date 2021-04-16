@@ -31,6 +31,10 @@ public class AccManagerThree : MonoBehaviour
     public Button retry, next;
     private TruckManager theTruck;
     Vector2 truckPosition;
+    private HeartManager theHeart;
+    private ScoreManager theScorer;
+    int currentLevel;
+    int currentStar;
 
     // Start is called before the first frame update
     void Start()
@@ -40,8 +44,12 @@ public class AccManagerThree : MonoBehaviour
         theTruck = FindObjectOfType<TruckManager>();
         gender = PlayerPrefs.GetString("Gender");
         theSimulation = FindObjectOfType<accSimulation>();
+        theHeart = FindObjectOfType<HeartManager>();
+        theScorer = FindObjectOfType<ScoreManager>();
         truckPosition = theTruck.transform.position;
-         theSimulation.stage = 3;
+        currentLevel = PlayerPrefs.GetInt("level");
+        currentStar = PlayerPrefs.GetInt("AcstarE");
+        theSimulation.stage = 3;
         if (gender == "Male")
         {
             pronoun = ("he");
@@ -56,6 +64,7 @@ public class AccManagerThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
         generateAns = 60 / time;
         correctAns = (float)System.Math.Round(generateAns, 2);
         playerDistance = (time * time) * deacceleration / 2;
@@ -77,7 +86,6 @@ public class AccManagerThree : MonoBehaviour
                 if (timer >= time)
                 {
                     theBike.moveSpeed = 0;
-                    StartCoroutine(StuntResult());
                     accSimulation.simulate = false;
                     StartCoroutine(truckWillGo());
                 }
@@ -95,11 +103,11 @@ public class AccManagerThree : MonoBehaviour
                 }
                 if (Vi < correctAns)
                 {
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drive to slow and unable to park the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.";
+                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drive too slow and unable to park the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.";
                 }
                 if (Vi > correctAns)
                 {
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drive to fast and unable to park and crashed the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.";
+                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drive too fast and unable to park and crashed the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.";
                 }
             }
             if (Vi == correctAns)
@@ -110,13 +118,13 @@ public class AccManagerThree : MonoBehaviour
                     if (currentPos >= 30)
                     {
                         theBike.moveSpeed = 0;
-                        StartCoroutine(StuntResult());
+                        //StartCoroutine(StuntResult());
                         accSimulation.simulate = false;
                         StartCoroutine(truckWillGo());
                     }
 
                 }
-                next.gameObject.SetActive(true);
+                
                 stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " has succesfully parked inside the truck! </color>";
 
 
@@ -154,20 +162,35 @@ public class AccManagerThree : MonoBehaviour
         stopper.SetActive(false);
         accSimulation.question = (PlayerPrefs.GetString("Name") + ("</b> must park his motorcycle perfectly at the back of truck. If braking the motorcycle deaccelerates it by <b>") + deacceleration.ToString("F1") + ("</b> m/s, what should be its initial velocity(Vi) so it will come into complete stop after braking it for exactly  <b>") + time.ToString("F2") + ("</b> seconds?"));
 
-        //theHeart.losslife = false;
+        theHeart.losslife = false;
 
     }
     IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(2);
+         if (Vi == correctAns)
+        {
+            theScorer.finalstar();
+            if(theHeart.life > currentStar)
+            {
+                PlayerPrefs.SetInt("AcstarE", theHeart.life);
+            }
+            if (currentLevel < 4)
+            {
+                PlayerPrefs.SetInt("level", currentLevel + 1);
+            }
+        }
         StartCoroutine(theSimulation.DirectorsCall());
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(1);
         AfterStuntMessage.SetActive(true);
+        yield return new WaitForSeconds(1);
+        
         walls.SetActive(false);
     }
     IEnumerator truckWillGo()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
+        StartCoroutine(StuntResult());
         theTruck.moveSpeed = 10;
         if (Vi == correctAns)
         {
@@ -175,11 +198,12 @@ public class AccManagerThree : MonoBehaviour
         }
         if (Vi != correctAns)
         {
+            theHeart.losinglife();
             if (Vi < correctAns)
             {
                 if (currentPos > 28)
                 {
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drive to slow and unable to park the motorcycle properly inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.";
+                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drive too slow, unable to park the motorcycle properly inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.";
 
                     theBike.moveSpeed = 4;
                 }

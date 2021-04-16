@@ -15,6 +15,7 @@ public class AccManagerOne : MonoBehaviour
     public float accelaration;
     private Player thePlayer;
     private accSimulation theSimulation;
+    private HeartManager theHeart;
     private BikeManager theBike;
     public bool gas = true;
     float correctAns;
@@ -29,13 +30,16 @@ public class AccManagerOne : MonoBehaviour
     public GameObject AfterStuntMessage;
     public TMP_Text stuntMessageTxt;
     public Button retry, next;
+    bool tooSlow;
     // Start is called before the first frame update
     void Start()
     {
+        AfterStuntMessage.SetActive(false);
         //thePlayer = FindObjectOfType<Player>();
         theBike = FindObjectOfType<BikeManager>();
         gender = PlayerPrefs.GetString("Gender");
         theSimulation = FindObjectOfType<accSimulation>();
+        theHeart = FindObjectOfType<HeartManager>();
         if (gender == "Male")
         {
             pronoun = ("he");
@@ -56,6 +60,17 @@ public class AccManagerOne : MonoBehaviour
         correctDistance = (time * time) * correctAns / 2;
         playerVf = (2 * playerDistance) / time;
         currentPos = theBike.transform.position.x;
+        if(tooSlow)
+        {
+            theBike.moveSpeed -= 2 * Time.fixedDeltaTime;
+            if(theBike.moveSpeed <= 0)
+            {
+                tooSlow = false;
+                theBike.moveSpeed = 0;
+                StartCoroutine(StuntResult());
+                theHeart.losinglife();
+            }
+        }
         
         if (accSimulation.simulate)
         {
@@ -88,6 +103,7 @@ public class AccManagerOne : MonoBehaviour
                     stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " went through the tunnel</color>";
                     theBike.moveSpeed = Vf;
                     
+                    
 
                 }
             if (gas)
@@ -97,10 +113,17 @@ public class AccManagerOne : MonoBehaviour
             timer += Time.fixedDeltaTime;
             if (timer >= time)
             {
-                StartCoroutine(StuntResult());
+                if (accelaration == correctAns)
+                {
+                    StartCoroutine(StuntResult());
+                }
                 gas = false;
                 accSimulation.simulate = false;
-                //theBike.moveSpeed -= theBike.myRigidbody.velocity.x * Time.fixedDeltaTime;
+                
+                if(currentPos < 10)
+                {  
+                   tooSlow = true;   
+                }
                 
             }
 
@@ -116,17 +139,17 @@ public class AccManagerOne : MonoBehaviour
         generateTime = Random.Range(3.0f, 3.5f);
         time = (float)System.Math.Round(generateTime, 2);
         accSimulation.question = (("In order for <b>") + PlayerPrefs.GetString("Name") + ("</b> to enter the tunnel on the otherside of the platform where  <b>") + pronoun + ("</b>is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete standstill to a speed of <b>") + Vf.ToString("F1") + ("</b> m/s, after ") + time.ToString("F1") + ("seconds. What should be ") + pronoun + (" accelaration in order to achieve the final velocity?"));
-
-
-        //theHeart.losslife = false;
+        theHeart.losslife = false;
+        theBike.moveSpeed = 0;
 
     }
     IEnumerator StuntResult()
     {
-        yield return new WaitForSeconds(2);
+        
         StartCoroutine(theSimulation.DirectorsCall());
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         AfterStuntMessage.SetActive(true);
         walls.SetActive(false);
     }
+    
 }

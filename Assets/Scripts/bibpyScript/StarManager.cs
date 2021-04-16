@@ -14,6 +14,7 @@ public class StarManager : MonoBehaviour
     void Start()
     {
         VstarE = PlayerPrefs.GetInt("VstarE");
+        AcstarE = PlayerPrefs.GetInt("AcstarE");
     }
 
     // Update is called once per frame

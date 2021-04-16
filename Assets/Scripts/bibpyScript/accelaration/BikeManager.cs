@@ -19,6 +19,8 @@ public class BikeManager : MonoBehaviour
      public bool stopBackward;
      public bool stopForward;
      public bool brake;
+     public GameObject afterStuntMessage;
+     private HeartManager theHeart;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +29,7 @@ public class BikeManager : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
+        theHeart = FindObjectOfType<HeartManager>();
     }
 
     // Update is called once per frame
@@ -49,8 +52,10 @@ public class BikeManager : MonoBehaviour
         { 
             if (collided == false)
             {
+               
                 if(theSimulate.stage < 3)
                 {
+                    StartCoroutine(StuntResult());
                     stopBackward = true;
                 }
                 if(theSimulate.stage == 3)
@@ -81,6 +86,12 @@ public class BikeManager : MonoBehaviour
         stick.transform.position = stickmanpoint.transform.position;  
         stick.transform.rotation = stickmanpoint.transform.rotation;    
     }
-    
+    IEnumerator StuntResult()
+    {
+        theHeart.losinglife();
+        StartCoroutine(theSimulate.DirectorsCall());
+        yield return new WaitForSeconds(2);
+         afterStuntMessage.SetActive(true);
+    }
     
 }

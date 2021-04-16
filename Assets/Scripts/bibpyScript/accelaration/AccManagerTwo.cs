@@ -29,6 +29,7 @@ public class AccManagerTwo : MonoBehaviour
     public GameObject AfterStuntMessage;
     public TMP_Text stuntMessageTxt;
     public Button retry, next;
+    private HeartManager theHeart;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +37,7 @@ public class AccManagerTwo : MonoBehaviour
         theBike = FindObjectOfType<BikeManager>();
         gender = PlayerPrefs.GetString("Gender");
         theSimulation = FindObjectOfType<accSimulation>();
+        theHeart = FindObjectOfType<HeartManager>();
         theSimulation.stage = 2;
         if (gender == "Male")
         {
@@ -109,9 +111,12 @@ public class AccManagerTwo : MonoBehaviour
             if (timer >= time)
             {
                 theBike.moveSpeed = theBike.myRigidbody.velocity.x;
-                StartCoroutine(StuntResult());
                 accSimulation.simulate = false;
                 //theBike.moveSpeed = theBike.myRigidbody.velocity.x;
+                if (time == correctAns)
+                {
+                    StartCoroutine(StuntResult());
+                }
                
             }
 
@@ -131,7 +136,7 @@ public class AccManagerTwo : MonoBehaviour
         //time = (float)System.Math.Round(generateTime, 2);
         accSimulation.question = (PlayerPrefs.GetString("Name") + ("</b> is initially speeding is motorcycle at <b>") + Vi.ToString("F1") + ("</b> m/s and must decelerate to a final velocity of 10 m/s right before dropping the ledge so it could safely enter the tunnel across it. How long should <b>") + pronoun + ("</b> apply brake if braking deccelerates the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²?"));
         theBike.transform.position = new Vector2(-10, theBike.transform.position.y);
-        //theHeart.losslife = false;
+        theHeart.losslife = false;
 
     }
     IEnumerator StuntResult()
