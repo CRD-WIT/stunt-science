@@ -29,11 +29,11 @@ public class CeillingGenerator : MonoBehaviour
     {
         if (stage == 1)
         {
-            mapWitdh = 26;
+            mapWitdh = 25;
         }
         else if (stage == 2)
         {
-            mapWitdh = 31;
+            mapWitdh = 30;
         }
         else
         {

@@ -175,7 +175,7 @@ public class Player : MonoBehaviour
         slideCollider.enabled = true;
         myCollider.enabled =false;
         myRigidbody.mass = 0.00001f;
-        myRigidbody.gravityScale = 70;
+        myRigidbody.gravityScale = 90;
         yield return new WaitForSeconds(3.5f);
         myRigidbody.mass = 10;
         myRigidbody.gravityScale = 1;

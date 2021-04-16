@@ -37,18 +37,28 @@ public class StageTwoManager : MonoBehaviour
             thePlayer.moveSpeed = speed;
             elapsed += Time.fixedDeltaTime;
             timer.text = elapsed.ToString("f2") + "s";
-            if (currentPos > 30)
+            /*if (currentPos > 30)
             {
+                SimulationManager.isSimulating = false;
+                timer.text = elapsed.ToString("f2") + "s";
                 thePlayer.moveSpeed = 0;
                 thePlayer.transform.position = new Vector2(currentPos, -10);
-            }
-            if (elapsed >= SimulationManager.playerAnswer)
+            }*/
+            if ((elapsed >= SimulationManager.playerAnswer) || (currentPos > 30))
             {
-                timer.text = playerAnswer.ToString("f2") + "s";
+                if (currentPos > 30)
+                {
+                    rubbleStopper.SetActive(true);
+                    timer.text = elapsed.ToString("f2") + "s";
+                }
+                else
+                {
+                    timer.text = playerAnswer.ToString("f2") + "s";
+                    rubbleStopper.SetActive(false);
+                }
                 thePlayer.moveSpeed = 0;
                 RumblingManager.isCrumbling = true;
-                rubbleStopper.SetActive(false);
-                thePlayer.transform.position = new Vector2(distance, -3);
+                //thePlayer.transform.position = new Vector2(distance, -3);
                 SimulationManager.isSimulating = false;
                 theRumbling.collapse();
                 StartCoroutine(StuntResult());
@@ -76,7 +86,7 @@ public class StageTwoManager : MonoBehaviour
                     if (playerAnswer < answerRO)
                     {
                         thePlayer.transform.position = new Vector2(playerDistance - 0.2f, thePlayer.transform.position.y);
-                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " stopped too early and "+pronoun+" stopped before the safe spot!\nThe correct answer is <color=red>"+answerRO+"s.</color>";
+                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " stopped too early and " + pronoun + " stopped before the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
                     }
                     else if (playerAnswer > answerRO)
                     {
@@ -86,7 +96,7 @@ public class StageTwoManager : MonoBehaviour
                         }
                         else
                             thePlayer.transform.position = new Vector2(playerDistance + 0.2f, thePlayer.transform.position.y);
-                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " stopped too late and "+pronoun+" stopped after the safe spot!\nThe correct answer is <color=red>"+answerRO+"s.</color>";
+                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
                     }
 
                 }

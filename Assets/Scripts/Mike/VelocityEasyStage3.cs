@@ -77,7 +77,7 @@ public class VelocityEasyStage3 : MonoBehaviour
                         myPlayer.lost = true;
                     }
                     SimulationManager.isAnswerCorrect = false;
-                    currentPos = (40 - answer) + answer;
+                    currentPos = (40 - answer) + (Speed*gameTime);
                     if (answer < distance)
                     {
                         myPlayer.transform.position = new Vector2(currentPos + 0.4f, myPlayer.transform.position.y);

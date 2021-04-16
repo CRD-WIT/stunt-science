@@ -125,7 +125,7 @@ public class SimulationManager : MonoBehaviour
             yield return new WaitForSeconds(1.25f);
             directorsBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
             diretorsSpeech.text = "";
             if (isAnswerCorrect)
