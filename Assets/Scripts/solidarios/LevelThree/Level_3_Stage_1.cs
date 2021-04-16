@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class Level_3_Stage_1 : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class Level_3_Stage_1 : MonoBehaviour
     float height = 5.0f;
     float targetTime = 0f;
     string question;
+    GameObject[] ropeBones;
     public float elapsed;
     public TMP_Text playerNameText, stuntMessageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
@@ -24,18 +27,22 @@ public class Level_3_Stage_1 : MonoBehaviour
     public GameObject SecondCamera;
     Vector3 thePlayer_position;
     public GameObject accurateCollider;
-
     public GameObject platformBar;
-
     Vector3 playerOnRopeTransform;
-
     float timeGiven;
     Vector2 gravityGiven;
     float correctAnswer;
     Vector2 spawnPointValue;
     float distance;
+    bool letGoRope = false;
+    float testy;
     void Start()
     {
+        DOTween.Init();
+
+        ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
+
+
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1.0f), 2);
         gravityGiven = Physics2D.gravity;
@@ -82,6 +89,11 @@ public class Level_3_Stage_1 : MonoBehaviour
         AfterStuntMessage.SetActive(true);
     }
 
+    void FallFromRope()
+    {
+        this.letGoRope = true;
+    }
+
     public void StartSimulation()
     {
         isSimulating = true;
@@ -93,18 +105,33 @@ public class Level_3_Stage_1 : MonoBehaviour
 
         if (isSimulating)
         {
+
+
+
+            foreach (GameObject item in ropeBones)
+            {
+                item.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+            }
+
             if (playerAnswer.text.Length > 0)
             {
+
+                //Debug.Log(ropeBones.Length);
+
+                //playerOnRope.transform.position = new Vector3(spawnPointValue.x - 0.2f, spawnPointValue.y + float.Parse(playerAnswer.text), 0);
+
+                Tween myTween = playerOnRope.transform.DOMove(new Vector3(spawnPointValue.x - 0.2f, spawnPointValue.y + float.Parse(playerAnswer.text), 0), 5f);
+
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
-                elapsed += Time.fixedDeltaTime;
-                timerText.text = elapsed.ToString("f2") + "s";
 
-                playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
-                thePlayerAnimation.SetBool("isFalling", true);
+                // elapsed += Time.fixedDeltaTime;
+                // timerText.text = elapsed.ToString("f2") + "s";
 
+                // playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
+                // thePlayerAnimation.SetBool("isFalling", true);
 
                 // Correct Answer
-                if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
+                if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 1))
                 {
                     Debug.Log("Distance is correct!");
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
@@ -158,6 +185,11 @@ public class Level_3_Stage_1 : MonoBehaviour
             //platformBar.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);
             timerText.text = elapsed.ToString("f2") + "s";
             isSimulating = false;
+            foreach (GameObject item in ropeBones)
+            {
+                item.GetComponent<Rigidbody2D>().Sleep();
+            }
+
         }
 
 
