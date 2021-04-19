@@ -101,7 +101,7 @@ public class VelocityEasyStage1 : MonoBehaviour
             distance = (float)System.Math.Round(d, 2);
             float t = Random.Range(1.5f, 2.5f);
             gameTime = (float)System.Math.Round(t, 2);
-            Speed = (float)System.Math.Round((distance / t), 2);
+            Speed = (float)System.Math.Round((distance / gameTime), 2);
         }
         rubbleBlocker.SetActive(false);
         ragdollSpawn.SetActive(true);

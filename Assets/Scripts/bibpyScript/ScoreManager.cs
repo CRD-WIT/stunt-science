@@ -40,7 +40,7 @@ public class ScoreManager : MonoBehaviour
         if (scoreready)
         {
             scoreready = false;
-            yield return new WaitForSeconds(3);
+            //yield return new WaitForSeconds(1);
             starscreen.SetActive(true);
             victorysfx.Play();
             bgm.Stop();

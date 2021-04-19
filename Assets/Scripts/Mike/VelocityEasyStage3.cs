@@ -139,7 +139,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         AfterStuntMessage.SetActive(true);
         if ((answer == distance))
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
             Scorer.finalstar();
             AfterStuntMessage.SetActive(false);
         }
