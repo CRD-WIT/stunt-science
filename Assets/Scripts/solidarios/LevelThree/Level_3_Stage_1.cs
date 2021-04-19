@@ -32,10 +32,12 @@ public class Level_3_Stage_1 : MonoBehaviour
     float timeGiven;
     Vector2 gravityGiven;
     float correctAnswer;
+    // float playerOnRopeY = 0f;
     Vector2 spawnPointValue;
+    bool respositioned = false;
     float distance;
     bool letGoRope = false;
-    float testy;
+    float accurateColliderInitialPointY;
     void Start()
     {
         DOTween.Init();
@@ -78,8 +80,11 @@ public class Level_3_Stage_1 : MonoBehaviour
         playerOnRopeTransform = playerOnRope.transform.position;
 
         spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
-
+        // playerOnRopeY = spawnPointValue.y;
         platformBar.transform.position = new Vector3(spawnPointValue.x - 9, spawnPointValue.y, 0);
+
+        accurateColliderInitialPointY = accurateCollider.transform.position.y;
+
     }
 
     IEnumerator StuntResult()
@@ -87,6 +92,12 @@ public class Level_3_Stage_1 : MonoBehaviour
         //messageFlag = false;
         yield return new WaitForSeconds(4f);
         AfterStuntMessage.SetActive(true);
+    }
+
+
+    void RepositionRopeComplete()
+    {
+        this.respositioned = true;
     }
 
     void FallFromRope()
@@ -106,72 +117,108 @@ public class Level_3_Stage_1 : MonoBehaviour
         if (isSimulating)
         {
 
-
-
-            foreach (GameObject item in ropeBones)
-            {
-                item.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
-            }
-
             if (playerAnswer.text.Length > 0)
             {
 
-                //Debug.Log(ropeBones.Length);
-
-                //playerOnRope.transform.position = new Vector3(spawnPointValue.x - 0.2f, spawnPointValue.y + float.Parse(playerAnswer.text), 0);
-
-                Tween myTween = playerOnRope.transform.DOMove(new Vector3(spawnPointValue.x - 0.2f, spawnPointValue.y + float.Parse(playerAnswer.text), 0), 5f);
-
-                transform.Find("Annotation1").GetComponent<Annotation>().Hide();
-
-                // elapsed += Time.fixedDeltaTime;
-                // timerText.text = elapsed.ToString("f2") + "s";
-
-                // playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
-                // thePlayerAnimation.SetBool("isFalling", true);
-
-                // Correct Answer
-                if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 1))
+                if (float.Parse(playerAnswer.text) > System.Math.Round(correctAnswer, 2))
                 {
-                    Debug.Log("Distance is correct!");
-                    if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
-                    {
-                        FirstCamera.SetActive(false);
-                        SecondCamera.SetActive(true);
 
-                        thePlayer.SetActive(false);
-                        playerHangingFixed.SetActive(true);
-                        playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1.5f, 1);
-                        platformBar.GetComponent<Animator>().SetBool("collided", true);
-                        playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
-                        isSimulating = false;
-                        stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
-                        StartCoroutine(StuntResult());
+                    double current_pos = System.Math.Round(accurateCollider.transform.position.y, 2);
+
+                    double diff = ((System.Math.Round(correctAnswer, 2) - System.Math.Round(accurateColliderInitialPointY, 2) * -1));
+                    Debug.Log("Greater");
+                    Debug.Log($"cp: {current_pos}");
+                    Debug.Log($"do: {diff}");
+                    Debug.Log($"di: {distance}");
+                    Debug.Log($"da: {diff - System.Math.Round(distance)}");
+
+                    if (current_pos <= diff)
+                    {
+                        playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 1f, 0);
+                    }
+                    else
+                    {
+                        playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
                     }
                 }
                 else
                 {
-                    if (float.Parse(playerAnswer.text) < System.Math.Round(correctAnswer, 2))
+
+                    Debug.Log("Lesser");
+                    double current_pos = System.Math.Round(accurateCollider.transform.position.y, 2);
+
+                    double diff = ((System.Math.Round(correctAnswer, 2) - System.Math.Round(accurateColliderInitialPointY, 2) * -1));
+
+                    Debug.Log($"cp: {current_pos}");
+                    Debug.Log($"da: {diff - System.Math.Round(distance)}");
+
+                    if (current_pos <= diff - System.Math.Round(distance))
                     {
+                        playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0f, 0);
+                    }
+                    else
+                    {
+                        playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -1f, 0);
+                    }
+                }
+
+                //    Tween myTween = playerOnRope.transform.DOMove(new Vector3(spawnPointValue.x - 0.2f, spawnPointValue.y + float.Parse(playerAnswer.text), 0), 5f);
+                //    myTween.OnComplete(RepositionRopeComplete);
+
+                transform.Find("Annotation1").GetComponent<Annotation>().Hide();
+
+                if (respositioned)
+                {
+                    // elapsed += Time.fixedDeltaTime;
+                    // timerText.text = elapsed.ToString("f2") + "s";
+
+                    playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
+                    // thePlayerAnimation.SetBool("isFalling", true);
+
+                    // Correct Answer
+                    if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
+                    {
+                        Debug.Log("Distance is correct!");
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
-                            Debug.Log("Distance is too short!");
+                            FirstCamera.SetActive(false);
+                            SecondCamera.SetActive(true);
+
+                            thePlayer.SetActive(false);
+                            playerHangingFixed.SetActive(true);
+                            playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1.5f, 1);
+                            platformBar.GetComponent<Animator>().SetBool("collided", true);
+                            playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                             isSimulating = false;
-                            stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} hand distance to the pole is shorter.</color>";
-                            StartCoroutine(StuntResult());
+                            stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
+                            //StartCoroutine(StuntResult());
                         }
                     }
                     else
                     {
-                        if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
+                        if (float.Parse(playerAnswer.text) < System.Math.Round(correctAnswer, 2))
                         {
-                            Debug.Log("Distance is too long!");
-                            isSimulating = false;
-                            stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} hand distance to the pole is longer.</color>";
-                            StartCoroutine(StuntResult());
+                            if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
+                            {
+                                Debug.Log("Distance is too short!");
+                                isSimulating = false;
+                                stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} hand distance to the pole is shorter.</color>";
+                                //StartCoroutine(StuntResult());
+                            }
+                        }
+                        else
+                        {
+                            if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
+                            {
+                                Debug.Log("Distance is too long!");
+                                isSimulating = false;
+                                stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} hand distance to the pole is longer.</color>";
+                                //StartCoroutine(StuntResult());
+                            }
                         }
                     }
                 }
+
             }
             else
             {
