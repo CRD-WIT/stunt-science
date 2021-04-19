@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     
     public GameObject player;
     public GameObject stickmanpoint;
-    public bool lost;
+    public bool lost, brake;
     public bool happy;
    
      public bool ragdollblow;
@@ -60,6 +60,11 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("happy", happy);
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("standup", standup);
+        myAnimator.SetBool("brake", brake);
+        if(brake == true)
+        {
+            brake = false;
+        }
         
         if (posready == true)
         {

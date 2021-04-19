@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ragdollScript : MonoBehaviour
+public class AccelarationRagdoll : MonoBehaviour
 {
     public float moveSpeedforward;
     public float moveSpeedbackward;
@@ -10,14 +10,19 @@ public class ragdollScript : MonoBehaviour
     private Rigidbody2D myRigidbody;
     public GameObject stick;
     public GameObject stickloc;
-       bool forward = true;
+    private SimulationManager theSimulation;
+    private accSimulation theAccsimulate;
+    private BikeManager theBike;
+    bool forward = true;
     bool backward;
 
     // Start is called before the first frame update
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
-       
+        theSimulation = FindObjectOfType<SimulationManager>();
+        theBike = FindObjectOfType<BikeManager>();
+
 
     }
 
@@ -32,7 +37,11 @@ public class ragdollScript : MonoBehaviour
         {
             StartCoroutine(driverSpawn());
         }
-        
+        if (theBike.stopBackward)
+        {
+            backward = true;
+            forward = false;
+        }
         
         if (forward)
         {
@@ -59,7 +68,10 @@ public class ragdollScript : MonoBehaviour
         accSimulation.playerDead = false;
         yield return new WaitForSeconds(5);
         Destroy(stick.gameObject);
-       
+        theBike.driverPrefab.SetActive(true);
+        theBike.driverPrefab.transform.position = stickloc.transform.position;
+
+
 
 
 
@@ -72,7 +84,10 @@ public class ragdollScript : MonoBehaviour
         SimulationManager.playerDead = false;
         yield return new WaitForSeconds(3);
         Destroy(stick.gameObject);
-        
+        theSimulation.thePlayer.gameObject.transform.position = stickloc.transform.position;
+        theSimulation.thePlayer.gameObject.SetActive(true);
 
     }
 }
+
+

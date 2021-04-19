@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ragdollScript : MonoBehaviour
+public class ragdollForces : MonoBehaviour
 {
     public float moveSpeedforward;
     public float moveSpeedbackward;
@@ -10,38 +10,49 @@ public class ragdollScript : MonoBehaviour
     private Rigidbody2D myRigidbody;
     public GameObject stick;
     public GameObject stickloc;
-       bool forward = true;
+    private ForceSimulation theSimulate;
+    private ForceManagerOne theManagerOne;
+    
+    
+    
+    bool forward;
     bool backward;
 
     // Start is called before the first frame update
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
-       
+        theSimulate = FindObjectOfType<ForceSimulation>();
+        theManagerOne = FindObjectOfType<ForceManagerOne>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (SimulationManager.playerDead == true)
-        {
-            StartCoroutine(playerSpawn());
-        }
-        if (accSimulation.playerDead == true)
-        {
+       if(theSimulate.playerDead == true)
+       {
             StartCoroutine(driverSpawn());
+       }
+        if(theManagerOne.tooWeak)
+        {
+            backward = true;
+        }
+        if(theManagerOne.tooStrong)
+        {
+            forward = true;
         }
         
         
         if (forward)
         {
-            moveSpeedforward -= 2 * Time.deltaTime;
-            moveSpeedupward -= 2 * Time.deltaTime;
-            myRigidbody.velocity = new Vector2(moveSpeedforward, moveSpeedupward);
+            moveSpeedforward -= 3 * Time.deltaTime;
+            myRigidbody.velocity = new Vector2(moveSpeedforward, myRigidbody.velocity.y);
             if (moveSpeedforward <= 0)
         {
-            moveSpeedforward = myRigidbody.velocity.x;
+            
+            forward = false;
+            moveSpeedforward = 0;
         }
         }
         if (backward)
@@ -50,7 +61,7 @@ public class ragdollScript : MonoBehaviour
             moveSpeedbackward += 6 * Time.deltaTime;
             if (moveSpeedbackward >= 0)
             {
-                moveSpeedbackward = myRigidbody.velocity.x;
+                moveSpeedbackward = 0;
             }
         }
     }
@@ -59,7 +70,10 @@ public class ragdollScript : MonoBehaviour
         accSimulation.playerDead = false;
         yield return new WaitForSeconds(5);
         Destroy(stick.gameObject);
-       
+        theSimulate.thePlayer.gameObject.SetActive(true);
+        //theSimulate.thePlayer.transform.position = new Vector2()
+
+
 
 
 
@@ -72,7 +86,7 @@ public class ragdollScript : MonoBehaviour
         SimulationManager.playerDead = false;
         yield return new WaitForSeconds(3);
         Destroy(stick.gameObject);
-        
-
+       
     }
+    
 }
