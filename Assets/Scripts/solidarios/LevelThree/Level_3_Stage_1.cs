@@ -8,9 +8,6 @@ using UnityEngine.SceneManagement;
 public class Level_3_Stage_1 : MonoBehaviour
 {
     // Start is called before the first frame update
-
-    float height = 5.0f;
-    float targetTime = 0f;
     string question;
     GameObject[] ropeBones;
     public float elapsed;
@@ -32,7 +29,6 @@ public class Level_3_Stage_1 : MonoBehaviour
     float timeGiven;
     Vector2 gravityGiven;
     float correctAnswer;
-
     Vector2 spawnPointValue;
     bool respositioned = false;
     float distance;
@@ -69,12 +65,15 @@ public class Level_3_Stage_1 : MonoBehaviour
         {
             Debug.Log("QuestionText object not loaded.");
         }
+
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
 
         thePlayerAnimation.SetBool("isHanging", true);
+
         thePlayer_position = thePlayer.transform.position;
 
         distance = transform.Find("Annotation1").GetComponent<Annotation>().distance;
+
         playerOnRopeTransform = playerOnRope.transform.position;
 
         spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
@@ -84,7 +83,6 @@ public class Level_3_Stage_1 : MonoBehaviour
         accurateColliderInitialPointY = accurateCollider.transform.position.y;
 
         playerOnRopeInitialY = (float)Math.Round(playerOnRope.transform.position.y, 2);
-
     }
 
     IEnumerator StuntResult()
@@ -94,10 +92,10 @@ public class Level_3_Stage_1 : MonoBehaviour
         AfterStuntMessage.SetActive(true);
     }
 
-
     void RepositionRopeComplete()
     {
         this.respositioned = true;
+
     }
 
     void FallFromRope()
@@ -137,37 +135,52 @@ public class Level_3_Stage_1 : MonoBehaviour
                         else
                         {
                             playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                            RepositionRopeComplete();
                         }
-                        Debug.Log($"rope: {playerOnRopeY} | correct: {correct} | answer: {answer}");
-
+                        //Debug.Log($"rope: {playerOnRopeY} | correct: {correct} | answer: {answer}");
                     }
                     else
                     {
                         float diff = correct - answer;
                         float target = playerOnRopeInitialY - diff;
-                        Debug.Log($"{playerOnRopeY < target} | {playerOnRopeY} < {target}");
                         if (playerOnRopeY > target)
                         {
-                            Debug.Log($"{playerOnRopeY < target} | {playerOnRopeY} < {target}");
                             playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -1f, 0);
                         }
                         else
                         {
                             playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                            RepositionRopeComplete();
                         }
                         //Debug.Log($"rope: {playerOnRopeY} | correct: {correct} | answer: {answer}");
                     }
                 }
                 else
                 {
-                    Debug.Log("Correct");
+                    RepositionRopeComplete();
+                    if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
+                    {
+                        FirstCamera.SetActive(false);
+                        SecondCamera.SetActive(true);
+
+                        thePlayer.SetActive(false);
+                        playerHangingFixed.SetActive(true);
+                        playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
+                        isSimulating = false;
+                        stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
+
+                    }
+
                 }
 
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
 
                 if (respositioned)
                 {
+                    elapsed += Time.fixedDeltaTime;
+
                     playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
+                    thePlayerAnimation.SetBool("isFalling", true);
 
                     // Correct Answer
                     if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
@@ -212,27 +225,21 @@ public class Level_3_Stage_1 : MonoBehaviour
                         }
                     }
                 }
-
             }
             else
             {
                 Debug.Log("No value was added");
             }
-
-
+            timerText.text = $"{(elapsed).ToString("f2")}s";
         }
         else
         {
-            //platformBar.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);
-            timerText.text = elapsed.ToString("f2") + "s";
-            isSimulating = false;
-            foreach (GameObject item in ropeBones)
+            // platformBar.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);           
+            if (respositioned)
             {
-                item.GetComponent<Rigidbody2D>().Sleep();
+                timerText.text = $"{(timeGiven).ToString("f2")}s";
             }
 
         }
-
-
     }
 }
