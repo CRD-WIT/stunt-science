@@ -23,11 +23,7 @@ public class Level_3_Stage_3 : MonoBehaviour
     public GameObject SecondCamera;
     Vector3 thePlayer_position;
     public GameObject accurateCollider;
-
     public GameObject platformBarTop;
-
-    Vector3 playerOnRopeTransform;
-
     float timeGiven;
     Vector2 gravityGiven;
     float correctAnswer;
@@ -36,21 +32,16 @@ public class Level_3_Stage_3 : MonoBehaviour
     float distanceGiven;
     void Start()
     {
+
         // Given        
-        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1.0f), 2);
-        distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(5.0f, 5.55f), 2);
+        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
+        distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(25.0f, 30.0f), 2);
         gravityGiven = Physics2D.gravity;
 
         // Formula
         correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
 
         transform.Find("Annotation1").GetComponent<Annotation>().SetDistance(distanceGiven);
-        //transform.Find("Annotation1").GetComponent<Annotation>().SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
-
-        //Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
-        Debug.Log($"Distance Generated: {distanceGiven}");
-        Debug.Log($"Correct Answer: {correctAnswer}");
-        Debug.Log($"Correct Answer Rounded: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
         levelName.SetText("Free Fall | Stage 3");
@@ -73,9 +64,9 @@ public class Level_3_Stage_3 : MonoBehaviour
         // playerOnRopeTransform = playerOnRope.transform.position;
 
         spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
-        playerHingeJoint.transform.position = new Vector3(spawnPointValue.x - 1, distanceGiven, 0);
-    
-        platformBarTop.transform.position = new Vector3(spawnPointValue.x - 9, distanceGiven, 0);
+        playerHingeJoint.transform.position = new Vector3(spawnPointValue.x - 1, distanceGiven - (spawnPointValue.y * -1), 0);
+
+        platformBarTop.transform.position = new Vector3(spawnPointValue.x - 9, distanceGiven - (spawnPointValue.y * -1), 0);
     }
 
     IEnumerator StuntResult()
@@ -115,13 +106,13 @@ public class Level_3_Stage_3 : MonoBehaviour
                         SecondCamera.SetActive(true);
 
                         thePlayer.SetActive(false);
-                        playerHangingFixed.SetActive(true);                       
-                        playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);                        
-                        elapsed-=0.01f;
+                        playerHangingFixed.SetActive(true);
+                        playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
+                        elapsed -= 0.01f;
                         isSimulating = false;
                         stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
                         StartCoroutine(StuntResult());
-                    }                    
+                    }
                 }
                 else
                 {
@@ -146,7 +137,6 @@ public class Level_3_Stage_3 : MonoBehaviour
                         }
                     }
                 }
-                 
             }
             else
             {
