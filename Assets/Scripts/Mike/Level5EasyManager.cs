@@ -9,7 +9,7 @@ public class Level5EasyManager : MonoBehaviour
     //UI
     [SerializeField]
     TMP_Text questionTxtBox, timerTxtBox, levelTxtBox, noAnswerMessage, messageTxt;
-    public TMP_InputField  AnswerField;
+    public TMP_InputField AnswerField;
     [SerializeField]
     Button playButton, retryButton, nextButton;
     string pronoun, pPronoun, pNoun, playerName, playerGender;
@@ -18,7 +18,9 @@ public class Level5EasyManager : MonoBehaviour
     [SerializeField]
     GameObject gear, afterStuntMessage;
     Player myPlayer;
-    public float gameTime, aVelocity, elapsed, currentPos, stage, playerAnswer;
+    [SerializeField]
+    float gameTime, aVelocity, elapsed, currentPos, stage, playerAnswer, currentTime;
+    Vector2 playerPos;
     StageManager sm = new StageManager();
     HeartManager playerHeart;
     bool isAnswered, isAnswerCorrect;
@@ -26,9 +28,11 @@ public class Level5EasyManager : MonoBehaviour
     //Director
     [SerializeField]
     GameObject directorsBubble;
+    [SerializeField]
     TMP_Text directorsSpeech;
-    bool directorIsCalling, isStartOfStunt;
-
+    bool directorIsCalling, isStartOfStunt, stuntReady;
+    public static bool isHanging;
+    float a;
     void Start()
     {
         myPlayer = FindObjectOfType<Player>();
@@ -40,24 +44,50 @@ public class Level5EasyManager : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         levelTxtBox.text = sm.GetGameLevel();
+        playerPos = myPlayer.transform.position;
         Lvl5EasySetUp();
+    }
+    void Update()
+    {
+        if (directorIsCalling)
+        {
+            StartCoroutine(DirectorsCall());
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (isAnswered)
+        if (stuntReady)
+        {
+            if (myPlayer.transform.position.x < (0-1))
+            {
+                myPlayer.moveSpeed = 2.99f;
+            }else{
+                stuntReady = false;
+                myPlayer.moveSpeed = 0f;
+                isStartOfStunt = true;
+                directorIsCalling = true;
+            }
+        }
+        else if (isAnswered)
         {
             switch (stage)
             {
                 case 1:
+                    //gear.transform.rotation = Quaternion.Slerp(gear.transform.rotation, Quaternion.(0, 0, -a), playerAnswer * Time.deltaTime);
+                    //a = playerAnswer * gameTime;
+                    gear.transform.eulerAngles = (Vector3.back * playerAnswer * elapsed);
+                    //gear.transform.RotateAround(gear.transform.position, Vector3.back, playerAnswer * elapsed);
+                    elapsed = Time.realtimeSinceStartup - currentTime;
                     timerTxtBox.text = elapsed.ToString("f2") + "s";
-                    elapsed += Time.fixedDeltaTime;
                     if (elapsed >= gameTime)
                     {
                         StartCoroutine(StuntResult());
                         isAnswered = false;
                         timerTxtBox.text = gameTime.ToString("f2") + "s";
+                        isHanging = false;
+                        directorIsCalling = true;
                         if ((playerAnswer == aVelocity))
                         {
                             messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
@@ -91,12 +121,14 @@ public class Level5EasyManager : MonoBehaviour
 
     void Lvl5EasySetUp()
     {
+        gear.transform.eulerAngles = (Vector3.back * 0);
         elapsed = 0;
         timerTxtBox.text = "0.00s";
         aVelocity = 0;
         gameTime = 0;
         retryButton.gameObject.SetActive(true);
         nextButton.gameObject.SetActive(true);
+        myPlayer.transform.position = playerPos;
         if (playerGender == "Male")
         {
             pronoun = "he";
@@ -112,69 +144,70 @@ public class Level5EasyManager : MonoBehaviour
         switch (stage)
         {
             case 1:
+                //float angle = (float)(210 * (System.Math.PI/180));
+                //a = angle;
                 float t = Random.Range(3.1f, 3.7f);
                 gameTime = (float)System.Math.Round(t, 2);
                 aVelocity = (float)System.Math.Round((210 / gameTime), 2);
-                questionTxtBox.text = playerName+" is trying to go accross the other platform by hanging at the tooth or the rotating gear from the starting platform and letting it go after <color=#006400>" + gameTime.ToString()+ " seconds</color>. If the safe release point of the tooth is <color=red>210 degrees</color> from the grab point. At what <color=purple>angular velocity</color> should " + playerName + " set the spinning gear at?";
+                questionTxtBox.text = playerName + " is trying to go accross the other platform by hanging at the tooth or the rotating gear from the starting platform and letting it go after <color=#006400>" + gameTime.ToString() + " seconds</color>. If the safe release point of the tooth is <color=red>210 degrees</color> from the grab point. At what <color=purple>angular velocity</color> should " + playerName + " set the spinning gear at?";
                 break;
         }
     }
-    public void ButtonManager()
+    public void PlayButton()
     {
-        switch (this.gameObject.name)
+
+        if (AnswerField.text == "")
         {
-            case "playButton":
-                if (AnswerField.text == "")
-                {
-                    noAnswerMessage.text = "Please enter your playerAnswer!";
-                }
-                else
-                {
-                    playerAnswer = float.Parse(AnswerField.text);
-                    playButton.interactable = false;
-                    if (stage == 1)
-                    {
-                        isStartOfStunt = true;
-                        directorIsCalling = true;
-                        AnswerField.text = playerAnswer.ToString() + "°/s";
-                    }
-                    else if (stage == 2)
-                    {
-                        isStartOfStunt = true;
-                        directorIsCalling = true;
-                        AnswerField.text = playerAnswer.ToString() + "s";
-                    }
-                    else
-                    {
-                        AnswerField.text = playerAnswer.ToString() + "°";
-                    }
-                }
-                break;
-
-            case "retryButton":
-                AnswerField.text = "";
-                playButton.interactable = true;
-                Lvl5EasySetUp();
-                myPlayer.gameObject.SetActive(true);
-                break;
-
-            case "nextButton":
-                myPlayer.SetEmotion("");
-                if (stage == 1)
-                {
-                    stage = 2;
-                }
-                else if (stage == 2)
-                {
-                    stage = 3;
-                }
-                else
-                {
-                    sm.SetDifficulty(2);
-                }
-                StartCoroutine(ExitStage());
-                break;
+            noAnswerMessage.text = "Please enter your playerAnswer!";
         }
+        else
+        {
+            playerAnswer = float.Parse(AnswerField.text);
+            playButton.interactable = false;
+            if (stage == 1)
+            {
+                stuntReady = true;
+                AnswerField.text = playerAnswer.ToString() + "°/s";
+                //StartCoroutine(DirectorsCall());
+            }
+            else if (stage == 2)
+            {
+                isStartOfStunt = true;
+                directorIsCalling = true;
+                AnswerField.text = playerAnswer.ToString() + "s";
+            }
+            else
+            {
+                AnswerField.text = playerAnswer.ToString() + "°";
+            }
+        }
+        //currentTime = Time.fixedTime;
+    }
+    public void RetryButton()
+    {
+
+        AnswerField.text = "";
+        playButton.interactable = true;
+        Lvl5EasySetUp();
+        myPlayer.gameObject.SetActive(true);
+        afterStuntMessage.SetActive(false);
+    }
+    public void NextButton()
+    {
+        myPlayer.SetEmotion("");
+        if (stage == 1)
+        {
+            stage = 2;
+        }
+        else if (stage == 2)
+        {
+            stage = 3;
+        }
+        else
+        {
+            sm.SetDifficulty(2);
+        }
+        StartCoroutine(ExitStage());
     }
     public IEnumerator DirectorsCall()
     {
