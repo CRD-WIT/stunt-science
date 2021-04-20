@@ -15,6 +15,7 @@ public class ragdollForces : MonoBehaviour
     
     
     
+    
     bool forward;
     bool backward;
 
@@ -53,6 +54,10 @@ public class ragdollForces : MonoBehaviour
             
             forward = false;
             moveSpeedforward = 0;
+            if(moveSpeedforward == 0)
+            {
+                moveSpeedforward = myRigidbody.velocity.x;
+            }
         }
         }
         if (backward)
@@ -62,6 +67,10 @@ public class ragdollForces : MonoBehaviour
             if (moveSpeedbackward >= 0)
             {
                 moveSpeedbackward = 0;
+                if(moveSpeedbackward == 0)
+                {
+                    moveSpeedbackward = myRigidbody.velocity.x;
+                }
             }
         }
     }
