@@ -61,10 +61,7 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("standup", standup);
         myAnimator.SetBool("brake", brake);
-        if(brake == true)
-        {
-            brake = false;
-        }
+       
         
         if (posready == true)
         {

@@ -4,24 +4,19 @@ using UnityEngine;
 
 public class ForceManagerOne : MonoBehaviour
 {
-    private Player thePlayer;
+    public Player thePlayer;
     private ColliderManager theCollider;
-    float generateAccelaration;
-    float accelaration;
-    float playerAccelaration;
-    float generateMass;
-    float mass;
-    float generateCorrectAnswer;
-    float correctAnswer;
-    float playerAnswer;
-    float currentPos;
-    public GameObject glassHolder, stickPrefab, stickmanpoint;
+    float generateAccelaration, accelaration, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
+    public float correctAnswer,playerAnswer;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge;
     public bool tooWeak, tooStrong, ragdollReady;
+    public bool throwBomb;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        thePlayer = FindObjectOfType<Player>();
+        //thePlayer = FindObjectOfType<Player>();
         theCollider = FindObjectOfType<ColliderManager>();
         GenerateProblem();
     }
@@ -36,20 +31,27 @@ public class ForceManagerOne : MonoBehaviour
         
         if (ForceSimulation.simulate == true)
         {
+             
+                thePlayer.brake = true;
+             
             thePlayer.moveSpeed += accelaration * Time.fixedDeltaTime;
             if (theCollider.collide == true)
             {
                 if(playerAnswer == correctAnswer)
                 {
                     glassHolder.SetActive(false);
-                   
+                    
                     if(currentPos >= 22)
                     {
-                        thePlayer.moveSpeed = 0;
-                        thePlayer.brake = true;
+                        StartCoroutine(braking());
+                        thePlayer.moveSpeed = 0; 
                         thePlayer.transform.position = new Vector2(22, -0.63f);
                         ForceSimulation.simulate = false;
+                        throwBomb = true;
+                        bombHinge.SetActive(false);
                         theCollider.collide = false;
+                        
+                        
                     }
                 }
                 if(playerAnswer < correctAnswer)
@@ -60,6 +62,7 @@ public class ForceManagerOne : MonoBehaviour
                     {
                         ragdollSpawn();
                     }
+                    StartCoroutine(collision());
                 }
                 if(playerAnswer > correctAnswer)
                 {
@@ -70,13 +73,14 @@ public class ForceManagerOne : MonoBehaviour
                     {
                         ragdollSpawn();
                     }
+                    theCollider.collide = false;
                 }
             }
         }
     }
     public void GenerateProblem()
     {
-        generateAccelaration = Random.Range(4f, 6f);
+        generateAccelaration = Random.Range(7f, 9f);
         accelaration = (float)System.Math.Round(generateAccelaration, 2);
         generateMass = Random.Range(70f, 75f);
         mass = (float)System.Math.Round(generateMass, 2);
@@ -91,4 +95,17 @@ public class ForceManagerOne : MonoBehaviour
         stick.transform.position = stickmanpoint.transform.position;
         ragdollReady = false;
     }
+    IEnumerator braking()
+    {
+        thePlayer.brake = true;
+        yield return new WaitForSeconds(.5f);
+        thePlayer.brake = false;
+    }
+    IEnumerator collision()
+    {
+        yield return new WaitForEndOfFrame();
+        theCollider.collide = false;
+
+    }
+
 }
