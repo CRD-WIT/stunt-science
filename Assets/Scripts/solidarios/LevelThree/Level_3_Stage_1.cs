@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 using UnityEngine.SceneManagement;
-using DG.Tweening;
 
 public class Level_3_Stage_1 : MonoBehaviour
 {
@@ -32,18 +32,16 @@ public class Level_3_Stage_1 : MonoBehaviour
     float timeGiven;
     Vector2 gravityGiven;
     float correctAnswer;
-    // float playerOnRopeY = 0f;
+
     Vector2 spawnPointValue;
     bool respositioned = false;
     float distance;
     bool letGoRope = false;
+    float playerOnRopeInitialY;
     float accurateColliderInitialPointY;
     void Start()
     {
-        DOTween.Init();
-
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
-
 
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1.0f), 2);
@@ -80,10 +78,12 @@ public class Level_3_Stage_1 : MonoBehaviour
         playerOnRopeTransform = playerOnRope.transform.position;
 
         spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
-        // playerOnRopeY = spawnPointValue.y;
+
         platformBar.transform.position = new Vector3(spawnPointValue.x - 9, spawnPointValue.y, 0);
 
         accurateColliderInitialPointY = accurateCollider.transform.position.y;
+
+        playerOnRopeInitialY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
     }
 
@@ -119,61 +119,55 @@ public class Level_3_Stage_1 : MonoBehaviour
 
             if (playerAnswer.text.Length > 0)
             {
+                float answer = float.Parse(playerAnswer.text);
+                float correct = (float)Math.Round(correctAnswer, 2);
+                float playerOnRopeY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
-                if (float.Parse(playerAnswer.text) > System.Math.Round(correctAnswer, 2))
+                if (answer != correct)
                 {
-
-                    double current_pos = System.Math.Round(accurateCollider.transform.position.y, 2);
-
-                    double diff = ((System.Math.Round(correctAnswer, 2) - System.Math.Round(accurateColliderInitialPointY, 2) * -1));
-                    Debug.Log("Greater");
-                    Debug.Log($"cp: {current_pos}");
-                    Debug.Log($"do: {diff}");
-                    Debug.Log($"di: {distance}");
-                    Debug.Log($"da: {diff - System.Math.Round(distance)}");
-
-                    if (current_pos <= diff)
+                    if (answer > correct)
                     {
-                        playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 1f, 0);
+                        float diff = answer - correct;
+                        float target = playerOnRopeInitialY + diff;
+                        if (playerOnRopeY < target)
+                        {
+                            Debug.Log($"{playerOnRopeY < target} | {playerOnRopeY} < {target}");
+                            playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 1f, 0);
+                        }
+                        else
+                        {
+                            playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                        }
+                        Debug.Log($"rope: {playerOnRopeY} | correct: {correct} | answer: {answer}");
+
                     }
                     else
                     {
-                        playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                        float diff = correct - answer;
+                        float target = playerOnRopeInitialY - diff;
+                        Debug.Log($"{playerOnRopeY < target} | {playerOnRopeY} < {target}");
+                        if (playerOnRopeY > target)
+                        {
+                            Debug.Log($"{playerOnRopeY < target} | {playerOnRopeY} < {target}");
+                            playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -1f, 0);
+                        }
+                        else
+                        {
+                            playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                        }
+                        //Debug.Log($"rope: {playerOnRopeY} | correct: {correct} | answer: {answer}");
                     }
                 }
                 else
                 {
-
-                    Debug.Log("Lesser");
-                    double current_pos = System.Math.Round(accurateCollider.transform.position.y, 2);
-
-                    double diff = ((System.Math.Round(correctAnswer, 2) - System.Math.Round(accurateColliderInitialPointY, 2) * -1));
-
-                    Debug.Log($"cp: {current_pos}");
-                    Debug.Log($"da: {diff - System.Math.Round(distance)}");
-
-                    if (current_pos <= diff - System.Math.Round(distance))
-                    {
-                        playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0f, 0);
-                    }
-                    else
-                    {
-                        playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -1f, 0);
-                    }
+                    Debug.Log("Correct");
                 }
-
-                //    Tween myTween = playerOnRope.transform.DOMove(new Vector3(spawnPointValue.x - 0.2f, spawnPointValue.y + float.Parse(playerAnswer.text), 0), 5f);
-                //    myTween.OnComplete(RepositionRopeComplete);
 
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
 
                 if (respositioned)
                 {
-                    // elapsed += Time.fixedDeltaTime;
-                    // timerText.text = elapsed.ToString("f2") + "s";
-
                     playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
-                    // thePlayerAnimation.SetBool("isFalling", true);
 
                     // Correct Answer
                     if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
