@@ -14,6 +14,7 @@ public class Annotation : MonoBehaviour
     public Vector2 spawnPoint;
     public float distance;
     public Mode arrowMode;
+    public float fontSize = 4;
     LineRenderer line1;
     LineRenderer line2;
     GameObject textDimension;
@@ -98,10 +99,12 @@ public class Annotation : MonoBehaviour
         if (revealValue)
         {
             textDimension.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}m");
+            textDimension.GetComponent<TextMeshPro>().fontSize = fontSize;
         }
         else
         {
             textDimension.GetComponent<TextMeshPro>().SetText("?");
+            textDimension.GetComponent<TextMeshPro>().fontSize = fontSize;
         }
 
 
