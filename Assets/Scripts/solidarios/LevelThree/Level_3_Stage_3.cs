@@ -35,7 +35,7 @@ public class Level_3_Stage_3 : MonoBehaviour
 
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
-        distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(25.0f, 30.0f), 2);
+        distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(20.0f, 25.0f), 2);
         gravityGiven = Physics2D.gravity;
 
         // Formula
@@ -64,9 +64,9 @@ public class Level_3_Stage_3 : MonoBehaviour
         // playerOnRopeTransform = playerOnRope.transform.position;
 
         spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
-        playerHingeJoint.transform.position = new Vector3(spawnPointValue.x - 1, distanceGiven - (spawnPointValue.y * -1), 0);
+        playerHingeJoint.transform.position = new Vector3(spawnPointValue.x - 2, distanceGiven - (spawnPointValue.y * -1), 0);
 
-        platformBarTop.transform.position = new Vector3(spawnPointValue.x - 9, distanceGiven - (spawnPointValue.y * -1), 0);
+        platformBarTop.transform.position = new Vector3(spawnPointValue.x - 8, distanceGiven - (spawnPointValue.y * -1), 0);
     }
 
     IEnumerator StuntResult()
