@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private Collider2D myCollider;
     public EdgeCollider2D slideCollider;
     public float jumpforce;
-    public bool standup, slide;
+    public bool standup, slide, isHanging;
 
 
 
@@ -60,6 +60,8 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("standup", standup);
         myAnimator.SetBool("slide", slide);
+        myAnimator.SetBool("cranking",Level5EasyManager.cranked);
+        myAnimator.SetBool("isHanging",isHanging);
         if (posready == true)
         {
             if (currentpos >= 0)
