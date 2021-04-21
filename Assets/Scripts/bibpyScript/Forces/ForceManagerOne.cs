@@ -5,10 +5,11 @@ using UnityEngine;
 public class ForceManagerOne : MonoBehaviour
 {
     public Player thePlayer;
+    private ForceSimulation theSimulate;
     private ColliderManager theCollider;
     float generateAccelaration, accelaration, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
     public float correctAnswer,playerAnswer;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, afterStuntMessage, retry, next;
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
 
@@ -18,6 +19,7 @@ public class ForceManagerOne : MonoBehaviour
     {
         //thePlayer = FindObjectOfType<Player>();
         theCollider = FindObjectOfType<ColliderManager>();
+        theSimulate = FindObjectOfType<ForceSimulation>();
         GenerateProblem();
     }
 
@@ -32,7 +34,7 @@ public class ForceManagerOne : MonoBehaviour
         if (ForceSimulation.simulate == true)
         {
              
-                thePlayer.brake = true;
+                
              
             thePlayer.moveSpeed += accelaration * Time.fixedDeltaTime;
             if (theCollider.collide == true)
@@ -47,9 +49,7 @@ public class ForceManagerOne : MonoBehaviour
                         thePlayer.moveSpeed = 0; 
                         thePlayer.transform.position = new Vector2(22, -0.63f);
                         ForceSimulation.simulate = false;
-                        throwBomb = true;
-                        bombHinge.SetActive(false);
-                        theCollider.collide = false;
+                        StartCoroutine(collision());
                         
                         
                     }
@@ -61,19 +61,27 @@ public class ForceManagerOne : MonoBehaviour
                     if(ragdollReady)
                     {
                         ragdollSpawn();
+                        thePlayer.standup = true;
                     }
+                    thePlayer.moveSpeed = 0;
+                    retry.SetActive(true);
                     StartCoroutine(collision());
+                    StartCoroutine(StuntResult());
+                    theSimulate.playerDead = true;
                 }
                 if(playerAnswer > correctAnswer)
                 {
                     tooStrong = true;
                     thePlayer.gameObject.SetActive(false);
                     glassHolder.SetActive(false);
+                    throwBomb = true;
                     if(ragdollReady)
                     {
                         ragdollSpawn();
                     }
-                    theCollider.collide = false;
+                   StartCoroutine(collision());
+                   retry.SetActive(true);
+                   StartCoroutine(StuntResult());
                 }
             }
         }
@@ -84,6 +92,7 @@ public class ForceManagerOne : MonoBehaviour
         accelaration = (float)System.Math.Round(generateAccelaration, 2);
         generateMass = Random.Range(70f, 75f);
         mass = (float)System.Math.Round(generateMass, 2);
+        //ForceSimulation.question = ((PlayerPrefs.GetString("Name") + ("</b> is   <b>") + pronoun + ("</b>is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete standstill to a speed of <b>") + Vf.ToString("F1") + ("</b> m/s, after ") + time.ToString("F1") + ("seconds. What should be ") + pronoun + (" accelaration in order to achieve the final velocity?"));
         
         
 
@@ -98,7 +107,10 @@ public class ForceManagerOne : MonoBehaviour
     IEnumerator braking()
     {
         thePlayer.brake = true;
-        yield return new WaitForSeconds(.5f);
+        thePlayer.throwing = true;
+        yield return new WaitForSeconds(1);
+        bombHinge.SetActive(false);
+        throwBomb = true;
         thePlayer.brake = false;
     }
     IEnumerator collision()
@@ -106,6 +118,14 @@ public class ForceManagerOne : MonoBehaviour
         yield return new WaitForEndOfFrame();
         theCollider.collide = false;
 
+    }
+    IEnumerator StuntResult()
+    {
+        ForceSimulation.simulate = false;
+        StartCoroutine(theSimulate.DirectorsCall());
+        yield return new WaitForSeconds(3);
+        afterStuntMessage.SetActive(true);
+        
     }
 
 }

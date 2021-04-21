@@ -97,11 +97,21 @@ public class ForceSimulation : MonoBehaviour
     }
     public void retry()
     {
+        thePlayer.standup = false;
+        simulate = false;
         afterStuntMessage.SetActive(false);
         playButton.interactable = true;
         playerAnswer = 0;
         answerField.text = ("");
         retryButton.SetActive(false);
+        thePlayer.brake = false;
+        thePlayer.moveSpeed = 0;
+        thePlayer.gameObject.SetActive(true);
+        thePlayer.transform.position = new Vector2(1, -0.6f);
+        if(stage == 1)
+        {
+                
+        }
         
     }
     public IEnumerator DirectorsCall()

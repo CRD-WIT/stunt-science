@@ -33,7 +33,7 @@ public class ragdollForces : MonoBehaviour
     {
        if(theSimulate.playerDead == true)
        {
-            StartCoroutine(driverSpawn());
+            StartCoroutine(playerSpawn());
        }
         if(theManagerOne.tooWeak)
         {
@@ -66,11 +66,8 @@ public class ragdollForces : MonoBehaviour
             moveSpeedbackward += 6 * Time.deltaTime;
             if (moveSpeedbackward >= 0)
             {
-                moveSpeedbackward = 0;
-                if(moveSpeedbackward == 0)
-                {
-                    moveSpeedbackward = myRigidbody.velocity.x;
-                }
+                moveSpeedbackward = myRigidbody.velocity.x;
+               
             }
         }
     }
@@ -94,6 +91,8 @@ public class ragdollForces : MonoBehaviour
     {
         SimulationManager.playerDead = false;
         yield return new WaitForSeconds(3);
+        theSimulate.thePlayer.gameObject.SetActive(true);
+        theSimulate.thePlayer.transform.position = stickloc.transform.position;
         Destroy(stick.gameObject);
        
     }

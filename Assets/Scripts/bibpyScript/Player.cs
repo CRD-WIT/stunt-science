@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
      float currentpos;
      public bool posready;
      public bool grounded;
+     public bool throwing;
      public LayerMask whatIsGround;
      public Transform groundCheck;
      public float groundedRadius;
@@ -61,6 +62,7 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("standup", standup);
         myAnimator.SetBool("brake", brake);
+        myAnimator.SetBool("throwing", throwing);
        
         
         if (posready == true)
