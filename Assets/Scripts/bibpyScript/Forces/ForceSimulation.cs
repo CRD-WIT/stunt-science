@@ -29,8 +29,8 @@ public class ForceSimulation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.SetString("CurrentString", ("Accelaration"));
-        PlayerPrefs.SetInt("level", 3);
+        PlayerPrefs.SetString("CurrentString", ("Forces"));
+        PlayerPrefs.SetInt("level", 4);
     }
 
     // Update is called once per frame

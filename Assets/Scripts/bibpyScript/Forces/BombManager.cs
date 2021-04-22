@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class BombManager : MonoBehaviour
 {
+    private ForceSimulation theSimulate;
     private ColliderManager theCollide;
     private ForceManagerOne theManagerOne;
-    public GameObject bomb, explosionPrefab, glassHolder, otherGlassHolder;
+    private ForceManagerTwo theManagerTwo;
+    public GameObject bomb, explosionPrefab;
+    public GameObject[] glassHolder;
+    public GameObject[] otherGlassHolder;
     private Rigidbody2D bombRigidbody;
     public bool followRagdoll;
     // Start is called before the first frame update
@@ -14,67 +18,128 @@ public class BombManager : MonoBehaviour
     {
         theCollide = FindObjectOfType<ColliderManager>();
         theManagerOne = FindObjectOfType<ForceManagerOne>();
+        theManagerTwo = FindObjectOfType<ForceManagerTwo>();
         bombRigidbody = bomb.gameObject.GetComponent<Rigidbody2D>();
+        theSimulate = FindObjectOfType<ForceSimulation>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (theCollide.collide == true)
+        if (theSimulate.stage == 1)
         {
-            StartCoroutine(explode());
-            followRagdoll = true;
-        }
-        if (theManagerOne.throwBomb == true)
-        {
-            if (theManagerOne.playerAnswer == theManagerOne.correctAnswer)
+            if (theCollide.collide == true)
             {
-                bombRigidbody.velocity = new Vector2(12, bombRigidbody.velocity.y);
+                StartCoroutine(explode());
+                if (theManagerOne.playerAnswer > theManagerOne.correctAnswer || theManagerOne.playerAnswer < theManagerOne.correctAnswer)
+                {
+                    followRagdoll = true;
+                }
+
             }
-
-            /*if (theManagerOne.playerAnswer > theManagerOne.correctAnswer)
+            if (theManagerOne.throwBomb == true)
             {
-                bombRigidbody.velocity = new Vector2(12, bombRigidbody.velocity.y);
-            }*/
+                if (theManagerOne.playerAnswer == theManagerOne.correctAnswer)
+                {
+                    bombRigidbody.velocity = new Vector2(12, bombRigidbody.velocity.y);
+                }
+            }
+        }
+        if (theSimulate.stage == 2)
+        {
+            if (theCollide.collide == true)
+            {
+                StartCoroutine(explode());
+                if (theManagerTwo.playerAnswer > theManagerTwo.correctAnswer)
+                {
+                    followRagdoll = true;
+                }
 
-            //theManagerOne.throwBomb = false;
+            }
+            if (theManagerTwo.throwBomb == true)
+            {
+                if (theManagerTwo.playerAnswer == theManagerTwo.correctAnswer)
+                {
+                    bombRigidbody.velocity = new Vector2(-12, bombRigidbody.velocity.y);
+                }
+            }
         }
     }
     IEnumerator explode()
     {
-        if (theManagerOne.playerAnswer <= theManagerOne.correctAnswer)
+        if (theSimulate.stage == 1)
         {
-            yield return new WaitForSeconds(2.1f);
-            GameObject explosion = Instantiate(explosionPrefab);
-            explosion.transform.position = bomb.transform.position;
-            bomb.SetActive(false);
-
-            yield return new WaitForSeconds(.1f);
-            if (theManagerOne.tooWeak == true)
+            if (theManagerOne.playerAnswer <= theManagerOne.correctAnswer)
             {
-                glassHolder.SetActive(false);
-                otherGlassHolder.SetActive(false);
+                yield return new WaitForSeconds(2.1f);
+                GameObject explosion = Instantiate(explosionPrefab);
+                explosion.transform.position = bomb.transform.position;
+                bomb.SetActive(false);
+
+                yield return new WaitForSeconds(.1f);
+                if (theManagerOne.tooWeak == true)
+                {
+                    glassHolder[0].SetActive(false);
+                    otherGlassHolder[0].SetActive(false);
+                }
+                yield return new WaitForSeconds(.4f);
+                Destroy(explosion);
             }
-            yield return new WaitForSeconds(.4f);
-            Destroy(explosion);
+            if (theManagerOne.playerAnswer > theManagerOne.correctAnswer)
+            {
+                theManagerOne.throwBomb = false;
+                yield return new WaitForSeconds(1.2f);
+                GameObject explosion = Instantiate(explosionPrefab);
+                explosion.transform.position = bomb.transform.position;
+                bomb.SetActive(false);
+
+                yield return new WaitForSeconds(.1f);
+                if (theManagerOne.tooWeak == true)
+                {
+                    glassHolder[0].SetActive(false);
+                    otherGlassHolder[0].SetActive(false);
+                }
+                yield return new WaitForSeconds(.4f);
+                Destroy(explosion);
+            }
         }
-        if (theManagerOne.playerAnswer > theManagerOne.correctAnswer)
+        if (theSimulate.stage == 2)
         {
-            theManagerOne.throwBomb = false;
-            yield return new WaitForSeconds(1.2f);
-            GameObject explosion = Instantiate(explosionPrefab);
-            explosion.transform.position = bomb.transform.position;
-            bomb.SetActive(false);
-
-            yield return new WaitForSeconds(.1f);
-            if (theManagerOne.tooWeak == true)
+            if (theManagerTwo.playerAnswer <= theManagerTwo.correctAnswer)
             {
-                glassHolder.SetActive(false);
-                otherGlassHolder.SetActive(false);
+                yield return new WaitForSeconds(2.1f);
+                GameObject explosion = Instantiate(explosionPrefab);
+                explosion.transform.position = bomb.transform.position;
+                bomb.SetActive(false);
+
+                yield return new WaitForSeconds(.1f);
+                if (theManagerTwo.tooWeak == true)
+                {
+                    glassHolder[1].SetActive(false);
+                    otherGlassHolder[1].SetActive(false);
+                }
+                yield return new WaitForSeconds(.4f);
+                Destroy(explosion);
             }
-            yield return new WaitForSeconds(.4f);
-            Destroy(explosion);
+            if (theManagerTwo.playerAnswer > theManagerTwo.correctAnswer)
+            {
+                theManagerTwo.throwBomb = false;
+                yield return new WaitForSeconds(1.2f);
+                GameObject explosion = Instantiate(explosionPrefab);
+                explosion.transform.position = bomb.transform.position;
+                bomb.SetActive(false);
+
+                yield return new WaitForSeconds(.1f);
+                if (theManagerTwo.tooWeak == true)
+                {
+                    glassHolder[1].SetActive(false);
+                    otherGlassHolder[1].SetActive(false);
+                }
+                yield return new WaitForSeconds(.4f);
+                Destroy(explosion);
+            }
         }
+        ForceSimulation.simulate = false;
 
     }
 }

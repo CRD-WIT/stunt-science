@@ -9,7 +9,8 @@ public class ForceManagerOne : MonoBehaviour
     private ColliderManager theCollider;
     float generateAccelaration, accelaration, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
     public float correctAnswer,playerAnswer;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, afterStuntMessage, retry, next;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, afterStuntMessage, retry, next, glassDebri;
+    public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
 
@@ -92,6 +93,7 @@ public class ForceManagerOne : MonoBehaviour
         accelaration = (float)System.Math.Round(generateAccelaration, 2);
         generateMass = Random.Range(70f, 75f);
         mass = (float)System.Math.Round(generateMass, 2);
+        glassRespawn();
         //ForceSimulation.question = ((PlayerPrefs.GetString("Name") + ("</b> is   <b>") + pronoun + ("</b>is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete standstill to a speed of <b>") + Vf.ToString("F1") + ("</b> m/s, after ") + time.ToString("F1") + ("seconds. What should be ") + pronoun + (" accelaration in order to achieve the final velocity?"));
         
         
@@ -126,6 +128,18 @@ public class ForceManagerOne : MonoBehaviour
         yield return new WaitForSeconds(3);
         afterStuntMessage.SetActive(true);
         
+    }
+    public void glassRespawn()
+    {
+        GameObject glass1 = Instantiate(glassDebri);
+        glass1.transform.position = glassDebriLoc[0].transform.position;
+        GameObject glass2 = Instantiate(glassDebri);
+        glass2.transform.position = glassDebriLoc[1].transform.position;
+        GameObject glass3 = Instantiate(glassDebri);
+        glass3.transform.position = glassDebriLoc[2].transform.position;
+
+        
+
     }
 
 }

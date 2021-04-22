@@ -12,10 +12,11 @@ public class ragdollForces : MonoBehaviour
     public GameObject stickloc;
     private ForceSimulation theSimulate;
     private ForceManagerOne theManagerOne;
-    
-    
-    
-    
+    private ForceManagerTwo theManagerTwo;
+
+
+
+
     bool forward;
     bool backward;
 
@@ -25,40 +26,61 @@ public class ragdollForces : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         theSimulate = FindObjectOfType<ForceSimulation>();
         theManagerOne = FindObjectOfType<ForceManagerOne>();
+        theManagerTwo = FindObjectOfType<ForceManagerTwo>();
+        if (theSimulate.stage == 1)
+        {
+            moveSpeedforward = 12;
+            moveSpeedbackward = -6;
+        }
+        if (theSimulate.stage == 2)
+        {
+            moveSpeedforward = 8;
+            moveSpeedbackward = -16;
+        }
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-       if(theSimulate.playerDead == true)
-       {
+        if (theSimulate.playerDead == true)
+        {
             StartCoroutine(playerSpawn());
-       }
-        if(theManagerOne.tooWeak)
-        {
-            backward = true;
         }
-        if(theManagerOne.tooStrong)
+        if (theSimulate.stage == 1)
         {
-            forward = true;
-        }
-        
-        
-        if (forward)
-        {
-            moveSpeedforward -= 3 * Time.deltaTime;
-            myRigidbody.velocity = new Vector2(moveSpeedforward, myRigidbody.velocity.y);
-            if (moveSpeedforward <= 0)
-        {
-            
-            forward = false;
-            moveSpeedforward = 0;
-            if(moveSpeedforward == 0)
+            if (theManagerOne.tooWeak)
             {
-                moveSpeedforward = myRigidbody.velocity.x;
+                backward = true;
+            }
+            if (theManagerOne.tooStrong)
+            {
+                forward = true;
             }
         }
+        if (theSimulate.stage == 2)
+        {
+            if (theManagerTwo.tooStrong)
+            {
+                backward = true;
+            }
+            if (theManagerTwo.tooWeak)
+            {
+                forward = true;
+            }
+        }
+
+
+        if (forward)
+        {
+            moveSpeedforward -= 6 * Time.deltaTime;
+            myRigidbody.velocity = new Vector2(moveSpeedforward, myRigidbody.velocity.y);
+            if (moveSpeedforward <= 0)
+            {
+                moveSpeedforward = 0;
+                
+            }
         }
         if (backward)
         {
@@ -66,8 +88,8 @@ public class ragdollForces : MonoBehaviour
             moveSpeedbackward += 6 * Time.deltaTime;
             if (moveSpeedbackward >= 0)
             {
-                moveSpeedbackward = myRigidbody.velocity.x;
-               
+                moveSpeedbackward = 0;
+
             }
         }
     }
@@ -90,11 +112,11 @@ public class ragdollForces : MonoBehaviour
     IEnumerator playerSpawn()
     {
         SimulationManager.playerDead = false;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         theSimulate.thePlayer.gameObject.SetActive(true);
         theSimulate.thePlayer.transform.position = stickloc.transform.position;
         Destroy(stick.gameObject);
-       
+
     }
-    
+
 }
