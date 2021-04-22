@@ -11,6 +11,7 @@ public class Level_3_Stage_3 : MonoBehaviour
     float targetTime = 0f;
     string question;
     public float elapsed;
+    public GameObject rope;
     public TMP_Text playerNameText, stuntMessageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
     Animator thePlayerAnimation;
@@ -24,6 +25,7 @@ public class Level_3_Stage_3 : MonoBehaviour
     Vector3 thePlayer_position;
     public GameObject accurateCollider;
     public GameObject platformBarTop;
+    public GameObject playerHangingBottom;
     float timeGiven;
     Vector2 gravityGiven;
     float correctAnswer;
@@ -35,7 +37,7 @@ public class Level_3_Stage_3 : MonoBehaviour
 
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
-        distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(20.0f, 25.0f), 2);
+        distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(25f, 28.0f), 2);
         gravityGiven = Physics2D.gravity;
 
         // Formula
@@ -45,7 +47,7 @@ public class Level_3_Stage_3 : MonoBehaviour
 
         //Problem
         levelName.SetText("Free Fall | Stage 3");
-        question = $"[name] is hanging on a horizontal pole and [pronoun] is instructed to let go of it, drop down, and hang again to another pole below. If the hands of [name] is exactly <color=red>{distanceGiven}</color> meters above the second pole, <color=purple>how long</color> should [name] fall down before [pronoun] grabs the second pole?";
+        question = $"[name] is hanging on a horizontal pole and [pronoun] is instructed to let go of it, drop down, and grab the elastic cord below to slow down his fall and safely land him into the ground. If the hands of [name] is exactly <color=red>{distanceGiven}</color> meters above the second pole, <color=purple>how long</color> should [name] fall down before [pronoun] grabs the second pole?";
 
         if (questionText != null)
         {
@@ -102,38 +104,48 @@ public class Level_3_Stage_3 : MonoBehaviour
                     Debug.Log("Time is correct!");
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                     {
+
                         FirstCamera.SetActive(false);
                         SecondCamera.SetActive(true);
-
+                        rope.SetActive(false);
+                        playerHangingBottom.SetActive(true);
                         thePlayer.SetActive(false);
                         playerHangingFixed.SetActive(true);
                         playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                         elapsed -= 0.01f;
                         isSimulating = false;
                         stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
-                        StartCoroutine(StuntResult());
+                        //StartCoroutine(StuntResult());
                     }
                 }
                 else
                 {
                     if (float.Parse(playerAnswer.text) < System.Math.Round(correctAnswer, 2))
                     {
+
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
+                            rope.SetActive(false);
+                            playerHangingBottom.SetActive(true);
                             Debug.Log("Distance is too short!");
                             isSimulating = false;
+                            thePlayer.SetActive(false);
                             stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} grabbed the pole too soon.</color>";
-                            StartCoroutine(StuntResult());
+                            //StartCoroutine(StuntResult());
                         }
                     }
                     else
                     {
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
+                            rope.SetActive(false);
+                            playerHangingBottom.SetActive(true);
+
                             Debug.Log("Distance is too long!");
                             isSimulating = false;
+                            thePlayer.SetActive(false);
                             stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} grabbed the pole too late.</color>";
-                            StartCoroutine(StuntResult());
+                            //StartCoroutine(StuntResult());
                         }
                     }
                 }
