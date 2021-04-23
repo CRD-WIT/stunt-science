@@ -6,12 +6,9 @@ using TMPro;
 public class Level_3_Stage_3 : MonoBehaviour
 {
     // Start is called before the first frame update
-
-    float height = 5.0f;
-    float targetTime = 0f;
     string question;
     public float elapsed;
-    public GameObject rope;
+    public GameObject platformCollider;
     public TMP_Text playerNameText, stuntMessageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
     Animator thePlayerAnimation;
@@ -44,6 +41,8 @@ public class Level_3_Stage_3 : MonoBehaviour
         correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
 
         transform.Find("Annotation1").GetComponent<Annotation>().SetDistance(distanceGiven);
+
+        Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
         levelName.SetText("Free Fall | Stage 3");
@@ -104,15 +103,14 @@ public class Level_3_Stage_3 : MonoBehaviour
                     Debug.Log("Time is correct!");
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                     {
-
                         FirstCamera.SetActive(false);
                         SecondCamera.SetActive(true);
-                        rope.SetActive(false);
+                        platformCollider.SetActive(false);
                         playerHangingBottom.SetActive(true);
                         thePlayer.SetActive(false);
                         playerHangingFixed.SetActive(true);
                         playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
-                        elapsed -= 0.01f;
+                        elapsed -= 0.02f;
                         isSimulating = false;
                         stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
                         //StartCoroutine(StuntResult());
@@ -125,11 +123,8 @@ public class Level_3_Stage_3 : MonoBehaviour
 
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
-                            rope.SetActive(false);
-                            playerHangingBottom.SetActive(true);
                             Debug.Log("Distance is too short!");
                             isSimulating = false;
-                            thePlayer.SetActive(false);
                             stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} grabbed the pole too soon.</color>";
                             //StartCoroutine(StuntResult());
                         }
@@ -138,12 +133,8 @@ public class Level_3_Stage_3 : MonoBehaviour
                     {
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
-                            rope.SetActive(false);
-                            playerHangingBottom.SetActive(true);
-
                             Debug.Log("Distance is too long!");
                             isSimulating = false;
-                            thePlayer.SetActive(false);
                             stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} grabbed the pole too late.</color>";
                             //StartCoroutine(StuntResult());
                         }
@@ -159,6 +150,7 @@ public class Level_3_Stage_3 : MonoBehaviour
         {
             //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
             isSimulating = false;
+       
             timerText.text = $"{(elapsed).ToString("f2")}s";
         }
     }
