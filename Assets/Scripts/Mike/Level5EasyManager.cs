@@ -12,15 +12,15 @@ public class Level5EasyManager : MonoBehaviour
     public TMP_InputField AnswerField;
     [SerializeField]
     Button playButton, retryButton, nextButton;
-    string pronoun, pPronoun, pNoun, playerName, playerGender;
+    string pronoun, pNoun, playerName, playerGender;
 
     //Gameplay
     [SerializeField]
-    GameObject gear, afterStuntMessage, playerHangerTrigger;
-    Player myPlayer;
+    GameObject gear, afterStuntMessage, playerHangerTrigger, ragdollPrefab;
+    public Player myPlayer;
     [SerializeField]
-    float gameTime, aVelocity, elapsed, currentPos, stage, playerAnswer, currentTime;
-    Vector2 playerPos;
+    float gameTime, aVelocity, elapsed, stage, playerAnswer, currentTime;
+    Vector2 playerPos, currentPos;
     StageManager sm = new StageManager();
     HeartManager playerHeart;
     bool isAnswered, isAnswerCorrect;
@@ -29,15 +29,15 @@ public class Level5EasyManager : MonoBehaviour
 
     //Director
     [SerializeField]
-    GameObject directorsBubble;
+    GameObject directorsBubble, ragdoll;
     [SerializeField]
     TMP_Text directorsSpeech;
     [SerializeField]
-    bool directorIsCalling, isStartOfStunt, stuntReady, DC, isCranking, crankingDone, crankReset, DCisOn;
+    bool directorIsCalling, isStartOfStunt, stuntReady, DC, isCranking, crankingDone, crankReset, DCisOn, ragdollActive;
     public static bool isHanging, cranked;
     [SerializeField]
     float a;
-    Rigidbody2D gearRB;
+    Rigidbody2D gearRB, player;
     void Start()
     {
         myPlayer = FindObjectOfType<Player>();
@@ -51,6 +51,7 @@ public class Level5EasyManager : MonoBehaviour
         levelTxtBox.text = sm.GetGameLevel();
         playerPos = myPlayer.transform.position;
         gearRB = gear.gameObject.GetComponent<Rigidbody2D>();
+        player = myPlayer.gameObject.GetComponent<Rigidbody2D>();
         Lvl5EasySetUp();
     }
     void FixedUpdate()
@@ -64,40 +65,43 @@ public class Level5EasyManager : MonoBehaviour
             switch (stage)
             {
                 case 1:
-                    //gear.transform.rotation = Quaternion.Slerp(gear.transform.rotation, Quaternion.(0, 0, -a), playerAnswer * Time.deltaTime);
-                    //a = playerAnswer * gameTime;
-                    //gear.transform.RotateAround(gear.transform.position, Vector3.back, playerAnswer * elapsed);
-                    //gear.transform.eulerAngles = (Vector3.back * playerAnswer * elapsed);
-                    //gearRB.angularVelocity = -playerAnswer;
                     myPlayer.isHanging = true;
                     elapsed += Time.fixedDeltaTime;
                     timerTxtBox.text = elapsed.ToString("f2") + "s";
+                    currentPos = myPlayer.transform.position;
                     if (elapsed >= gameTime)
                     {
-                        StartCoroutine(StuntResult());
-                        myPlayer.isHanging = false;
-                        isAnswered = false;
                         timerTxtBox.text = gameTime.ToString("f2") + "s";
                         isHanging = false;
-                        if ((playerAnswer == aVelocity))
+                        myPlayer.isHanging = false;
+                        if (playerAnswer == aVelocity)
                         {
-                            messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
+                            messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " has landed <color=green>safely</color> at the other platform!";
                             nextButton.gameObject.SetActive(true);
+                            myPlayer.transform.position = new Vector2(8.5f, myPlayer.transform.position.y);
+                            Debug.Log("x " + myPlayer.transform.position.x);
                         }
                         else
                         {
+                            if (!ragdollActive)
+                            {
+                                RagdollSpawn();
+                            }
+                            myPlayer.transform.position = new Vector2(8, myPlayer.transform.position.y);
+                            Debug.Log("x " + myPlayer.transform.position.x);
                             playerHeart.ReduceLife();
-                            myPlayer.transform.position = new Vector2(-0.2f, myPlayer.transform.position.y);
-                            retryButton.gameObject.SetActive(true);
                             if (playerAnswer < aVelocity)
                             {
-                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too slow and " + pronoun + " stopped before the safe spot.\nThe correct playerAnswer is <color=red>" + aVelocity + "m/s</color>.";
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " spinned the gear too slow and " + pronoun + " fell doen too soon before the release point.\nThe correct answer is <color=red>" + aVelocity + "°/s</color>.";
                             }
                             else //if(playerAnswer > Speed)
                             {
-                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct playerAnswer is <color=red>" + aVelocity + "m/s</color>.";
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " spinned the gear too fast and " + pronoun + " fell down too late after the release point.\nThe correct answer is <color=red>" + aVelocity + "°/s</color>.";
                             }
+                            retryButton.gameObject.SetActive(true);
                         }
+                        StartCoroutine(StuntResult());
+                        isAnswered = false;
                     }
                     break;
 
@@ -110,8 +114,6 @@ public class Level5EasyManager : MonoBehaviour
         }
         else
         {
-            float angle = (float)((playerAnswer * gameTime) * (System.Math.PI / 180));
-            //a = angle / gameTime;
             crank.SetBool("crank", cranked);
             crank.SetBool("crankReset", crankReset);
             if (stuntReady)
@@ -145,15 +147,13 @@ public class Level5EasyManager : MonoBehaviour
 
     void Lvl5EasySetUp()
     {
-        //isHanging = true;
-
+        playerAnswer = 0;
+        myPlayer.happy = false;
         DC = true;
         DCisOn = false;
         crankReset = true;
-
         myPlayer.lost = false;
         myPlayer.standup = false;
-        //gear.transform.eulerAngles = (Vector3.back * 0);
         gearRB.rotation = 0;
         elapsed = 0;
         timerTxtBox.text = "0.00s";
@@ -162,27 +162,28 @@ public class Level5EasyManager : MonoBehaviour
         playerHangerTrigger.SetActive(false);
         retryButton.gameObject.SetActive(false);
         nextButton.gameObject.SetActive(false);
+        myPlayer.gameObject.SetActive(true);
         myPlayer.transform.position = playerPos;
         if (playerGender == "Male")
         {
             pronoun = "he";
-            pPronoun = "him";
             pNoun = "his";
         }
         else
         {
             pronoun = "she";
-            pPronoun = "her";
             pNoun = "her";
         }
         switch (stage)
         {
             case 1:
+                ragdollActive = false;
                 float t = Random.Range(3.1f, 3.7f);
                 gameTime = (float)System.Math.Round(t, 2);
                 aVelocity = (float)System.Math.Round((210 / gameTime), 2);
                 questionTxtBox.text = playerName + " is trying to go accross the other platform by hanging at the tooth or the rotating gear from the starting platform and letting it go after <color=#006400>" + gameTime.ToString() + " seconds</color>. If the safe release point of the tooth is <color=red>210 degrees</color> from the grab point. At what <color=purple>angular velocity</color> should " + playerName + " set the spinning gear at?";
                 gearRB.angularVelocity = -20;
+                GearHangers.gameTime = gameTime;
                 break;
         }
     }
@@ -268,6 +269,8 @@ public class Level5EasyManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
             directorsSpeech.text = "";
+            yield return new WaitForEndOfFrame();
+            myPlayer.happy = true;
         }
     }
     IEnumerator ExitStage()
@@ -292,6 +295,7 @@ public class Level5EasyManager : MonoBehaviour
         isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
         afterStuntMessage.SetActive(true);
+        Destroy(ragdoll);
     }
     IEnumerator Cranking()
     {
@@ -308,9 +312,17 @@ public class Level5EasyManager : MonoBehaviour
             crankingDone = true;
         }
     }
-    IEnumerator Hanging(){
-        myPlayer.isHanging =true;
+    IEnumerator Hanging()
+    {
+        myPlayer.isHanging = true;
         yield return new WaitForSeconds(gameTime);
         myPlayer.isHanging = false;
+    }
+    public void RagdollSpawn()
+    {
+        myPlayer.gameObject.SetActive(false);
+        ragdoll = Instantiate(ragdollPrefab);
+        ragdoll.transform.position = currentPos;
+        ragdollActive = true;
     }
 }

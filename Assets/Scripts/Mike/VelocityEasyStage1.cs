@@ -8,7 +8,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     private HeartManager HeartManager;
     public TMP_Text playerNameText, messageText, timer;
     public GameObject AfterStuntMessage, safeZone, rubblesStopper, dimensionLine, ragdollSpawn, rubbleBlocker;
-    string pronoun, pPronoun, pNoun, playerName, playerGender;
+    string pronoun, pNoun, playerName, playerGender;
     public float distance, gameTime, Speed, elapsed, currentPos;
     private CeillingGenerator theCeiling;
     StageManager sm = new StageManager();
@@ -86,13 +86,11 @@ public class VelocityEasyStage1 : MonoBehaviour
         if (playerGender == "Male")
         {
             pronoun = "he";
-            pPronoun = "him";
             pNoun = "his";
         }
         else
         {
             pronoun = "she";
-            pPronoun = "her";
             pNoun = "her";
         }
         while ((Speed < 1.5f) || (Speed > 10f))
