@@ -69,6 +69,7 @@ public class Level5EasyManager : MonoBehaviour
                     elapsed += Time.fixedDeltaTime;
                     timerTxtBox.text = elapsed.ToString("f2") + "s";
                     currentPos = myPlayer.transform.position;
+                    myPlayer.gameObject.transform.localScale = new Vector2(-0.4f, 0.4f);
                     if (elapsed >= gameTime)
                     {
                         timerTxtBox.text = gameTime.ToString("f2") + "s";
@@ -78,8 +79,6 @@ public class Level5EasyManager : MonoBehaviour
                         {
                             messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " has landed <color=green>safely</color> at the other platform!";
                             nextButton.gameObject.SetActive(true);
-                            myPlayer.transform.position = new Vector2(8.5f, myPlayer.transform.position.y);
-                            Debug.Log("x " + myPlayer.transform.position.x);
                         }
                         else
                         {
@@ -87,8 +86,6 @@ public class Level5EasyManager : MonoBehaviour
                             {
                                 RagdollSpawn();
                             }
-                            myPlayer.transform.position = new Vector2(8, myPlayer.transform.position.y);
-                            Debug.Log("x " + myPlayer.transform.position.x);
                             playerHeart.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
@@ -151,15 +148,12 @@ public class Level5EasyManager : MonoBehaviour
         myPlayer.happy = false;
         DC = true;
         DCisOn = false;
-        crankReset = true;
         myPlayer.lost = false;
         myPlayer.standup = false;
-        gearRB.rotation = 0;
         elapsed = 0;
         timerTxtBox.text = "0.00s";
         aVelocity = 0;
         gameTime = 0;
-        playerHangerTrigger.SetActive(false);
         retryButton.gameObject.SetActive(false);
         nextButton.gameObject.SetActive(false);
         myPlayer.gameObject.SetActive(true);
@@ -177,6 +171,7 @@ public class Level5EasyManager : MonoBehaviour
         switch (stage)
         {
             case 1:
+                myPlayer.gameObject.transform.localScale = new Vector2(0.4f, 0.4f);
                 ragdollActive = false;
                 float t = Random.Range(3.1f, 3.7f);
                 gameTime = (float)System.Math.Round(t, 2);
@@ -184,6 +179,9 @@ public class Level5EasyManager : MonoBehaviour
                 questionTxtBox.text = playerName + " is trying to go accross the other platform by hanging at the tooth or the rotating gear from the starting platform and letting it go after <color=#006400>" + gameTime.ToString() + " seconds</color>. If the safe release point of the tooth is <color=red>210 degrees</color> from the grab point. At what <color=purple>angular velocity</color> should " + playerName + " set the spinning gear at?";
                 gearRB.angularVelocity = -20;
                 GearHangers.gameTime = gameTime;
+                playerHangerTrigger.SetActive(false);
+                gearRB.rotation = 0;
+                crankReset = true;
                 break;
         }
     }
@@ -263,6 +261,9 @@ public class Level5EasyManager : MonoBehaviour
         }
         else
         {
+            myPlayer.brake = true;
+            yield return new WaitForSeconds(1f);
+            myPlayer.brake = false;
             yield return new WaitForSeconds(1.25f);
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
