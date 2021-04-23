@@ -1,30 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ForceManagerTwo : MonoBehaviour
 {
     public Player thePlayer;
     private ForceSimulation theSimulate;
+    private BombManager theBomb;
+    public BombScript theBombScript;
     private ColliderManager theCollider;
     float generateForce, Force, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
     public float correctAnswer,playerAnswer;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, afterStuntMessage, retry, next, glassDebri, bomb, wordedBoard, director;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, afterStuntMessage, retry, next, glassDebri, bomb, wordedBoard, director, speechBubble;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
+    public TMP_Text stuntMessageTxt;
+    string gender, pronoun;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //thePlayer = FindObjectOfType<Player>();
+        if (gender == "Male")
+        {
+            pronoun = ("he");
+        }
+        if (gender == "Female")
+        {
+            pronoun = ("she");
+        }
         theCollider = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
+        theBomb = FindObjectOfType<BombManager>();
         wordedBoard.transform.position = new Vector2(20, wordedBoard.transform.position.y);
         GenerateProblem();
         director.transform.position = new Vector2(-5.2f, 2.4f);
         director.transform.localScale = new Vector2(-director.transform.localScale.x, director.transform.localScale.y);
+        speechBubble.transform.localScale = new Vector2(-speechBubble.transform.localScale.x, speechBubble.transform.localScale.y);
+        thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
     }
 
     // Update is called once per frame
@@ -46,7 +61,7 @@ public class ForceManagerTwo : MonoBehaviour
                 if(playerAnswer == correctAnswer)
                 {
                     glassHolder.SetActive(false);
-                    
+                    stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " has broken the glass</color>";
                     if(currentPos <= 5.7f)
                     {
                         StartCoroutine(braking());
@@ -60,6 +75,7 @@ public class ForceManagerTwo : MonoBehaviour
                 }
                 if(playerAnswer < correctAnswer)
                 {
+                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated too slow and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².";
                     tooWeak = true;
                     thePlayer.gameObject.SetActive(false);
                     if(ragdollReady)
@@ -75,6 +91,7 @@ public class ForceManagerTwo : MonoBehaviour
                 }
                 if(playerAnswer > correctAnswer)
                 {
+                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated too fast and able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².";
                     tooStrong = true;
                     thePlayer.gameObject.SetActive(false);
                     glassHolder.SetActive(false);
@@ -97,12 +114,14 @@ public class ForceManagerTwo : MonoBehaviour
         generateMass = Random.Range(70f, 75f);
         mass = (float)System.Math.Round(generateMass, 2);
         glassRespawn();
-        bomb.SetActive(true);
-        bomb.transform.position = new Vector2(32, -0.6f);
+        ragdollReady = true;
+        theBomb.bomb.SetActive(true);
+        theBomb.bomb.transform.position = thePlayer.transform.position;
+        theBomb.followRagdoll = false;
+        theBomb.glassHolder[1].SetActive(true);
+        theBomb.otherGlassHolder[1].SetActive(true);
         thePlayer.transform.position = new Vector2(31,-0.6f);
-        thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
-        //ForceSimulation.question = ((PlayerPrefs.GetString("Name") + ("</b> is   <b>") + pronoun + ("</b>is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete standstill to a speed of <b>") + Vf.ToString("F1") + ("</b> m/s, after ") + time.ToString("F1") + ("seconds. What should be ") + pronoun + (" Force in order to achieve the final velocity?"));
-        
+        ForceSimulation.question = ((PlayerPrefs.GetString("Name") + ("</b> must break another glass wall to throw out the 2nd bomb. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and the glass wall has an impact force breaking point of <b>") + Force.ToString("F2") + ("</b> Newtons, how fast should ") + pronoun + (" accelerate towards the glass wall just enough to break it and not go through it?")));
         
 
 
@@ -123,6 +142,7 @@ public class ForceManagerTwo : MonoBehaviour
         bombHinge.SetActive(false);
         throwBomb = true;
         thePlayer.brake = false;
+        theBombScript.inPlayer = false;
     }
     IEnumerator collision()
     {
@@ -134,7 +154,7 @@ public class ForceManagerTwo : MonoBehaviour
     {
         ForceSimulation.simulate = false;
         StartCoroutine(theSimulate.DirectorsCall());
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         afterStuntMessage.SetActive(true);
         
     }

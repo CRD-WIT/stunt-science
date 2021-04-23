@@ -50,7 +50,7 @@ public class BombManager : MonoBehaviour
             if (theCollide.collide == true)
             {
                 StartCoroutine(explode());
-                if (theManagerTwo.playerAnswer > theManagerTwo.correctAnswer)
+                if (theManagerTwo.playerAnswer > theManagerTwo.correctAnswer || theManagerTwo.playerAnswer < theManagerTwo.correctAnswer)
                 {
                     followRagdoll = true;
                 }
@@ -71,7 +71,7 @@ public class BombManager : MonoBehaviour
         {
             if (theManagerOne.playerAnswer <= theManagerOne.correctAnswer)
             {
-                yield return new WaitForSeconds(2.1f);
+                yield return new WaitForSeconds(2f);
                 GameObject explosion = Instantiate(explosionPrefab);
                 explosion.transform.position = bomb.transform.position;
                 bomb.SetActive(false);

@@ -5,22 +5,33 @@ using UnityEngine;
 public class BombScript : MonoBehaviour
 {
     private float distanceToMoveX;
+    private Player thePlayer;
     private float distanceToMoveY;
     private ragdollForces theRagdoll;
     private Vector2 ragDollLastPOs;
     private BombManager theBomb;
+    public GameObject bombPos;
+    public bool inPlayer;
+   
 
     // Start is called before the first frame update
     void Start()
     {
         
         theBomb = FindObjectOfType<BombManager>();
+        thePlayer = FindObjectOfType<Player>();
         ragDollLastPOs = new Vector2(22, -0.6f);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (inPlayer)
+        {
+            transform.position = bombPos.transform.position;
+            transform.rotation = bombPos.transform.rotation;
+        }
         theRagdoll = FindObjectOfType<ragdollForces>();
         if (theBomb.followRagdoll == true)
         {

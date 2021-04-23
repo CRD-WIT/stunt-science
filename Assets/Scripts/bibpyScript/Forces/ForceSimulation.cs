@@ -55,7 +55,7 @@ public class ForceSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m/s²";
+                    answerField.text = playerAnswer.ToString() + "N";
                 }
 
             }
@@ -72,7 +72,7 @@ public class ForceSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "sec";
+                    answerField.text = playerAnswer.ToString() + "m/s²";
                 }
 
             }
@@ -89,7 +89,7 @@ public class ForceSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m/s²";
+                    answerField.text = playerAnswer.ToString() + "kg";
                 }
 
             }
@@ -107,12 +107,22 @@ public class ForceSimulation : MonoBehaviour
         thePlayer.brake = false;
         thePlayer.moveSpeed = 0;
         thePlayer.gameObject.SetActive(true);
-        thePlayer.transform.position = new Vector2(1, -0.6f);
-        if(stage == 1)
+
+        if (stage == 1)
         {
-                
+            theManagerOne.GenerateProblem();
+            theManagerOne.tooStrong = false;
+            theManagerOne.tooWeak = false;
+            thePlayer.transform.position = new Vector2(1, -0.6f);
         }
-        
+        if (stage == 2)
+        {
+            theManagerTwo.GenerateProblem();
+            theManagerTwo.tooStrong = false;
+            theManagerTwo.tooWeak = false;
+            
+        }
+
     }
     public IEnumerator DirectorsCall()
     {

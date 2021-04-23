@@ -29,13 +29,13 @@ public class ragdollForces : MonoBehaviour
         theManagerTwo = FindObjectOfType<ForceManagerTwo>();
         if (theSimulate.stage == 1)
         {
-            moveSpeedforward = 12;
+            moveSpeedforward = 8;
             moveSpeedbackward = -6;
         }
         if (theSimulate.stage == 2)
         {
             moveSpeedforward = 8;
-            moveSpeedbackward = -16;
+            moveSpeedbackward = -8;
         }
 
 
@@ -79,6 +79,7 @@ public class ragdollForces : MonoBehaviour
             if (moveSpeedforward <= 0)
             {
                 moveSpeedforward = 0;
+                forward = false;
                 
             }
         }
@@ -89,7 +90,7 @@ public class ragdollForces : MonoBehaviour
             if (moveSpeedbackward >= 0)
             {
                 moveSpeedbackward = 0;
-
+                backward = false;
             }
         }
     }
@@ -112,7 +113,7 @@ public class ragdollForces : MonoBehaviour
     IEnumerator playerSpawn()
     {
         SimulationManager.playerDead = false;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(4);
         theSimulate.thePlayer.gameObject.SetActive(true);
         theSimulate.thePlayer.transform.position = stickloc.transform.position;
         Destroy(stick.gameObject);
