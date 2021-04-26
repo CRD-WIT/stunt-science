@@ -79,7 +79,7 @@ public class ForceSimulation : MonoBehaviour
         }
         if (stage == 3)
         {
-            if (answerField.text == "" || playerAnswer > 100)
+            if (answerField.text == "" || playerAnswer > 400)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
             }

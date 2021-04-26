@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
      private Collider2D myCollider;
      public float jumpforce;
      public bool standup;
+     public bool addweights, thisway, godown;
      
      
     
@@ -63,6 +64,9 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("standup", standup);
         myAnimator.SetBool("brake", brake);
         myAnimator.SetBool("throwing", throwing);
+        myAnimator.SetBool("addweights", addweights);
+        myAnimator.SetBool("thisway", thisway);
+        myAnimator.SetBool("godown", godown);
        
         
         if (posready == true)

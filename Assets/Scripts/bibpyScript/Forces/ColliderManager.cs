@@ -5,11 +5,15 @@ using UnityEngine;
 public class ColliderManager : MonoBehaviour
 {
      public bool collide;
+     private Player thePlayer;
+     public GameObject braker; 
+     private ForceManagerThree theManagerThree;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        thePlayer = FindObjectOfType<Player>();
+        theManagerThree = FindObjectOfType<ForceManagerThree>();
     }
 
     // Update is called once per frame
@@ -24,6 +28,14 @@ public class ColliderManager : MonoBehaviour
         {
             
            collide = true;   
+        }
+        if (collision.gameObject.tag == ("braker"))
+        {
+           thePlayer.moveSpeed = 0; 
+           thePlayer.addweights = true;
+           braker.SetActive(false);
+           ForceSimulation.simulate = false;
+           theManagerThree.addingWeight = true;
         }
 
     }
