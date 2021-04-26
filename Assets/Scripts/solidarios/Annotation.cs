@@ -6,8 +6,6 @@ public enum Mode : byte
 {
     Vertical = 0,
     Horizontal = 1,
-
-    sdfsdfsdfsdf = 2
 }
 public class Annotation : MonoBehaviour
 {
