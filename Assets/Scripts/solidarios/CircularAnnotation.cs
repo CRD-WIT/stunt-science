@@ -24,6 +24,7 @@ public class CircularAnnotation : MonoBehaviour
     private float _previousHorizRadiusValue;
     private float _previousVertRadiusValue;
     private float _previousAngleValue;
+    public Vector2 textOffset;
 
     private float _previousOffsetValue;
     private Axis _previousAxisValue;
@@ -83,13 +84,13 @@ public class CircularAnnotation : MonoBehaviour
             textDimension.GetComponent<TextMeshPro>().fontSize = fontSize;
         }
 
-        textDimension.transform.position = new Vector3(_origin.x, _origin.y, 1);
+        textDimension.transform.position = new Vector3(_origin.x + textOffset.x, _origin.y + textOffset.y, 1);
 
         arrows[0].transform.position = new Vector3(_line.GetPosition(_segments).x, _line.GetPosition(_segments).y, 1);
         arrows[0].transform.rotation = Quaternion.Euler(0, 0, (_degrees * -1) - initialAngle);
 
         arrows[1].transform.position = new Vector3(_line.GetPosition(0).x, _line.GetPosition(0).y, 1);
-        arrows[1].transform.rotation = Quaternion.Inverse(Quaternion.Euler(0, 0, arrows[0].transform.rotation.z+initialAngle));
+        arrows[1].transform.rotation = Quaternion.Inverse(Quaternion.Euler(0, 0, arrows[0].transform.rotation.z + initialAngle));
     }
 
     void UpdateValuesChanged()
@@ -119,7 +120,7 @@ public class CircularAnnotation : MonoBehaviour
 
         for (int i = 0; i < (_segments + 1); i++)
         {
-            float targetAngel = initialAngle+angle;
+            float targetAngel = initialAngle + angle;
             x = Mathf.Sin(Mathf.Deg2Rad * targetAngel) * (_horizRadius);
             y = Mathf.Cos(Mathf.Deg2Rad * targetAngel) * (_vertRadius);
 

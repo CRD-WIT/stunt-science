@@ -35,8 +35,7 @@ public class Level_4_Stage_1 : MonoBehaviour
 
         // Formula
         correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
-
-        transform.Find("Annotation1").GetComponent<Annotation>().SetDistance(distanceGiven);
+    
 
         Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
 
