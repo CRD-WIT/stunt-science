@@ -53,6 +53,11 @@ public class CircularAnnotation : MonoBehaviour
         CreatePoints();
     }
 
+    public void Hide()
+    {
+        transform.gameObject.SetActive(false);
+    }
+
     // Update is called once per frame
     void Update()
     {
