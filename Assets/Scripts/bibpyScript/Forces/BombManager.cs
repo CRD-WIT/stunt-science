@@ -8,17 +8,19 @@ public class BombManager : MonoBehaviour
     private ColliderManager theCollide;
     private ForceManagerOne theManagerOne;
     private ForceManagerTwo theManagerTwo;
+    private ForceManagerThree theManagerThree;
     public GameObject bomb, explosionPrefab;
     public GameObject[] glassHolder;
     public GameObject[] otherGlassHolder;
     private Rigidbody2D bombRigidbody;
-    public bool followRagdoll;
+    public bool followRagdoll, explodebomb;
     // Start is called before the first frame update
     void Start()
     {
         theCollide = FindObjectOfType<ColliderManager>();
         theManagerOne = FindObjectOfType<ForceManagerOne>();
         theManagerTwo = FindObjectOfType<ForceManagerTwo>();
+        theManagerThree = FindObjectOfType<ForceManagerThree>();
         bombRigidbody = bomb.gameObject.GetComponent<Rigidbody2D>();
         theSimulate = FindObjectOfType<ForceSimulation>();
     }
@@ -63,6 +65,17 @@ public class BombManager : MonoBehaviour
                     bombRigidbody.velocity = new Vector2(-12, bombRigidbody.velocity.y);
                 }
             }
+        }
+        if (theSimulate.stage == 3)
+        {
+
+            if (explodebomb)
+            {
+                explodebomb = false;
+                StartCoroutine(explode());
+
+            }
+
         }
     }
     IEnumerator explode()
@@ -138,7 +151,18 @@ public class BombManager : MonoBehaviour
                 yield return new WaitForSeconds(.4f);
                 Destroy(explosion);
             }
+
         }
+        if (theSimulate.stage == 3)
+        {
+            yield return new WaitForSeconds(3);
+            GameObject explosion = Instantiate(explosionPrefab);
+            explosion.transform.position = bomb.transform.position;
+            bomb.SetActive(false);
+            yield return new WaitForSeconds(1);
+            otherGlassHolder[2].SetActive(false);
+        }
+
         ForceSimulation.simulate = false;
 
     }

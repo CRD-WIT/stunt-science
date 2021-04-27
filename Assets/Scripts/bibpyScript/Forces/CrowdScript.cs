@@ -8,7 +8,7 @@ public class CrowdScript : MonoBehaviour
     private Animator myAnimator;
     public float moveSpeedX;
     public float moveSpeedY;
-    public bool grounded, goDown;
+    public bool grounded, goDown, happy, move, goSafe;
     private ForceManagerThree theManagerThree;
     // Start is called before the first frame update
     void Start()
@@ -16,32 +16,43 @@ public class CrowdScript : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
         theManagerThree = FindObjectOfType<ForceManagerThree>();
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        grounded =true;
+        grounded = true;
         myRigidbody.velocity = new Vector2(moveSpeedX, moveSpeedY);
         myAnimator.SetFloat("speed", myRigidbody.velocity.x);
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("godown", goDown);
-        
-        if (transform.position.x >= 22.6)
+        myAnimator.SetBool("happy", happy);
+        if (theManagerThree.crowdExit)
         {
-            moveSpeedX = 0;
-            goDown = true;
-            theManagerThree.crowdExit = false;
-            transform.position = new Vector2(22.8f, transform.position.y);
+            moveSpeedX = Random.Range(4f, 5f);
+            if (transform.position.x >= 22.6)
+            {
+                moveSpeedX = 0;
+                goDown = true;
+                transform.position = new Vector2(22.8f, transform.position.y);
+            }
         }
-        if(theManagerThree.crowdExit == true)
-        {
-            moveSpeedX = 4;
-        }
-        if(goDown)
+        if (goDown)
         {
             moveSpeedY = -8;
+            if (transform.position.y <= -7.5f)
+            {
+                goDown = false;
+                theManagerThree.crowdExit = false;
+                moveSpeedY = 0;
+                goSafe = true;
+            }
+        }
+        if (goSafe)
+        {
+            moveSpeedX = Random.Range(3f, 4f);
+            StartCoroutine(inSafe());
         }
     }
     public void playfootstep()
@@ -49,4 +60,13 @@ public class CrowdScript : MonoBehaviour
         // TODO: Fix sound
         //footstep.Play(0);
     }
+    IEnumerator inSafe()
+    {
+        yield return new WaitForSeconds(Random.Range(1.5f, 2f));
+        moveSpeedX = 0;
+        yield return new WaitForSeconds(2);
+        happy = true;
+        goSafe = false;
+    }
+
 }

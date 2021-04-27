@@ -169,8 +169,12 @@ public class ForceManagerThree : MonoBehaviour
         yield return new WaitForSeconds(1);
         goExit = false;
         thePlayer.godown = false;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
+        theBomb.explodebomb = true;
         thePlayer.moveSpeed = 5;
+        yield return new WaitForSeconds(1.5f);
+        thePlayer.moveSpeed = 0;
+        thePlayer.happy = true;
     }
     IEnumerator collision()
     {
@@ -190,7 +194,15 @@ public class ForceManagerThree : MonoBehaviour
     {
         GameObject glass1 = Instantiate(glassDebri);
         glass1.transform.position = glassDebriLoc[0].transform.position;
-       
+        GameObject glass2 = Instantiate(glassDebri);
+        glass2.transform.position = glassDebriLoc[1].transform.position;
+        glass2.transform.rotation = glassDebriLoc[1].transform.rotation;
+        GameObject glass3 = Instantiate(glassDebri);
+        glass3.transform.position = glassDebriLoc[2].transform.position;
+        glass3.transform.rotation = glassDebriLoc[2].transform.rotation;
+        GameObject glass4 = Instantiate(glassDebri);
+        glass4.transform.position = glassDebriLoc[3].transform.position;
+        glass4.transform.rotation = glassDebriLoc[3].transform.rotation;
 
 
 
