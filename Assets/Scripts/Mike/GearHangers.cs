@@ -7,25 +7,25 @@ public class GearHangers : MonoBehaviour
     private CapsuleCollider2D hangers;
     [SerializeField]
     private HingeJoint2D playerHanger;
-    // Start is called before the first frame update
     bool isHangerOn, isHangerNumerator;
     string hangerName;
-    public static float gameTime;
+    public static float hangTime;
+    float startTime;
+    public static bool isHanging;
     void Start()
     {
         hangers = GetComponent<CapsuleCollider2D>();
         playerHanger = GetComponent<HingeJoint2D>();
     }
-
-    // Update is called once per frame
     void Update()
     {
-        Debug.Log(hangerName);
+        Debug.Log(hangTime);
         if (Level5EasyManager.isHanging)
         {
             isHangerNumerator = true;
             if (hangerName == this.gameObject.name)
             {
+                hangTime = Time.realtimeSinceStartup - startTime;
                 this.playerHanger.enabled = true;
             }
             else
@@ -38,10 +38,6 @@ public class GearHangers : MonoBehaviour
             playerHanger.enabled = false;
             isHangerOn = false;
         }
-        if (hangerName == "")
-        {
-            playerHanger.enabled = false;
-        }
         if (!isHangerOn)
         {
             StartCoroutine(HangerChange());
@@ -49,29 +45,24 @@ public class GearHangers : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "gearHangers")
-        {
-            other.gameObject.SetActive(false);
-            StartCoroutine(HangerName());
-            this.playerHanger.enabled = true;
-            Level5EasyManager.isHanging = true;
-        }
+        Level5EasyManager.isHanging = true;
+        other.gameObject.SetActive(false);
+        hangerName = this.gameObject.name;
+        startTime = Time.realtimeSinceStartup;
+        // StartCoroutine(HangerName());
     }
     IEnumerator HangerChange()
     {
         isHangerOn = true;
         if (isHangerNumerator)
         {
+            startTime = 0;
+            hangTime = 0;
+            hangerName = "";
             hangers.enabled = false;
             yield return new WaitForSeconds(2);
             hangers.enabled = true;
             isHangerNumerator = false;
         }
-    }
-    IEnumerator HangerName()
-    {
-        hangerName = this.gameObject.name;
-        yield return new WaitForSeconds(gameTime);
-        hangerName = "";
     }
 }
