@@ -155,7 +155,7 @@ public class BombManager : MonoBehaviour
         }
         if (theSimulate.stage == 3)
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1);
             GameObject explosion = Instantiate(explosionPrefab);
             explosion.transform.position = bomb.transform.position;
             bomb.SetActive(false);

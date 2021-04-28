@@ -20,11 +20,12 @@ public class accSimulation : MonoBehaviour
     public Quaternion startRotation;
     public Vector2 startPosition;
 
-    public GameObject driver, afterStuntMessage, truck, retryButton, nextButton;
+    public GameObject driver, afterStuntMessage, truck, retryButton, nextButton, player;
     public GameObject[] ground;
     bool directorIsCalling;
     public GameObject directorBubble;
     private ragdollScript theRagdoll;
+    Vector2 playerstartPos;
     //string accelaration;
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,8 @@ public class accSimulation : MonoBehaviour
         startPosition = theBike.transform.position;
         PlayerPrefs.SetString("CurrentString", ("Accelaration"));
         PlayerPrefs.SetInt("level", 3);
+        playerstartPos = player.transform.position;
+        theBike.moveSpeed = 0;
     }
 
     // Update is called once per frame
@@ -112,9 +115,10 @@ public class accSimulation : MonoBehaviour
         playerAnswer = 0;
         answerField.text = ("");
         retryButton.SetActive(false);
+        player.transform.position = playerstartPos;
         if(theBike.collided == true)
         {
-            Destroy(theRagdoll.gameObject);
+            //Destroy(theRagdoll.gameObject);
             theBike.collided = false;
         }
         if (stage == 1)

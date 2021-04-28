@@ -33,7 +33,7 @@ public class AccManagerTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //thePlayer = FindObjectOfType<Player>();
+        thePlayer = FindObjectOfType<Player>();
         theBike = FindObjectOfType<BikeManager>();
         gender = PlayerPrefs.GetString("Gender");
         theSimulation = FindObjectOfType<accSimulation>();
@@ -70,6 +70,7 @@ public class AccManagerTwo : MonoBehaviour
                 {
                      walls.SetActive(true);
                      retry.gameObject.SetActive(true);
+                     accSimulation.playerDead = true;
                      
                     if (time < correctAns & time > correctAns - 0.5f)
                     {

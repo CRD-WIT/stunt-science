@@ -40,6 +40,7 @@ public class AccManagerOne : MonoBehaviour
         gender = PlayerPrefs.GetString("Gender");
         theSimulation = FindObjectOfType<accSimulation>();
         theHeart = FindObjectOfType<HeartManager>();
+        theBike.moveSpeed = 0;
         if (gender == "Male")
         {
             pronoun = ("he");
@@ -80,6 +81,7 @@ public class AccManagerOne : MonoBehaviour
                 {
                      walls.SetActive(true);
                      retry.gameObject.SetActive(true);
+                     accSimulation.playerDead = true;
                      if (accelaration < correctAns & accelaration > correctAns - .5f)
                      {
                          accelaration -= .5f;

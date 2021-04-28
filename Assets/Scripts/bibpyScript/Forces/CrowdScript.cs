@@ -41,7 +41,7 @@ public class CrowdScript : MonoBehaviour
         if (goDown)
         {
             moveSpeedY = -8;
-            if (transform.position.y <= -7.5f)
+            if (transform.position.y <= -7.4f)
             {
                 goDown = false;
                 theManagerThree.crowdExit = false;
@@ -53,6 +53,7 @@ public class CrowdScript : MonoBehaviour
         {
             moveSpeedX = Random.Range(3f, 4f);
             StartCoroutine(inSafe());
+            goSafe = false;
         }
     }
     public void playfootstep()
@@ -66,7 +67,7 @@ public class CrowdScript : MonoBehaviour
         moveSpeedX = 0;
         yield return new WaitForSeconds(2);
         happy = true;
-        goSafe = false;
+        
     }
 
 }

@@ -6,11 +6,12 @@ public class GlassManager : MonoBehaviour
 {
     private ColliderManager theCollide;
     private ForceSimulation theSimulate;
-    // Start is called before the first frame update
+    private ForceManagerThree theManagerThree;
     void Start()
     {
         theCollide = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
+        theManagerThree = FindObjectOfType<ForceManagerThree>();
     }
 
     // Update is called once per frame
@@ -41,8 +42,16 @@ public class GlassManager : MonoBehaviour
     }
     IEnumerator glassDestroy2()
     {
-        yield return new WaitForSeconds(20);
-        Destroy(gameObject);
+        if (theManagerThree.playerAnswer != theManagerThree.correctAnswer)
+        {
+            yield return new WaitForSeconds(5);
+            Destroy(gameObject);
+        }
+        if (theManagerThree.playerAnswer == theManagerThree.correctAnswer)
+        {
+            yield return new WaitForSeconds(20);
+            Destroy(gameObject);
+        }
 
 
 

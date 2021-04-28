@@ -12,11 +12,11 @@ public class ForceManagerThree : MonoBehaviour
     private BombManager theBomb;
     float generateAccelaration, accelaration, playerAccelaration, generateForce, force, generateCorrectAnswer, currentPos;
     public float correctAnswer, playerAnswer,increaseMass;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, afterStuntMessage, retry, next, glassDebri;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, afterStuntMessage, retry, next, glassDebri, cameraman, playerSpeech;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady, startAddingMass, crowdExit;
     public bool throwBomb, addingWeight, startRunning, goExit;
-    public TMP_Text stuntMessageTxt, playerMass;
+    public TMP_Text stuntMessageTxt, playerMass, thisWaytxt;
 
 
 
@@ -29,6 +29,7 @@ public class ForceManagerThree : MonoBehaviour
         theSimulate = FindObjectOfType<ForceSimulation>();
         theBomb = FindObjectOfType<BombManager>();
         GenerateProblem();
+        cameraman.transform.position = new Vector2(cameraman.transform.position.x, 5.5f);
     }
 
     // Update is called once per frame
@@ -60,7 +61,7 @@ public class ForceManagerThree : MonoBehaviour
         }
         if (goExit)
         {
-            if(currentPos >= 22.6f)
+            if(currentPos >= 22.8f)
             {
                 thePlayer.moveSpeed = 0;
                 thePlayer.godown = true;
@@ -78,6 +79,7 @@ public class ForceManagerThree : MonoBehaviour
                 {
                     stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " has broken the glass</color>";
                     glassHolder.SetActive(false);
+                    StartCoroutine(thiswaySpeech());
 
                     if (currentPos >= 22)
                     {
@@ -105,6 +107,7 @@ public class ForceManagerThree : MonoBehaviour
                     StartCoroutine(collision());
                     StartCoroutine(StuntResult());
                     theSimulate.playerDead = true;
+                    startRunning = false;
                 }
                 if (playerAnswer > correctAnswer)
                 {
@@ -113,6 +116,8 @@ public class ForceManagerThree : MonoBehaviour
                     thePlayer.gameObject.SetActive(false);
                     glassHolder.SetActive(false);
                     throwBomb = true;
+                    thePlayer.moveSpeed = 0;
+                    thePlayer.standup = true;
                     if (ragdollReady)
                     {
                         ragdollSpawn();
@@ -121,6 +126,7 @@ public class ForceManagerThree : MonoBehaviour
                     retry.SetActive(true);
                     StartCoroutine(StuntResult());
                     theSimulate.playerDead = true;
+                    startRunning = false;
                 }
             }
         }
@@ -128,11 +134,12 @@ public class ForceManagerThree : MonoBehaviour
     }
     public void GenerateProblem()
     {
+        theCollider.braker.SetActive(true);
         generateAccelaration = Random.Range(3f, 3.5f);
         accelaration = (float)System.Math.Round(generateAccelaration, 2);
         generateForce = Random.Range(250, 300);
         force = (float)System.Math.Round(generateForce, 2);
-        theBomb.glassHolder[0].SetActive(true);
+        theBomb.glassHolder[2].SetActive(true);
         theBomb.otherGlassHolder[0].SetActive(true);
         ragdollReady = true;
         theBomb.bomb.SetActive(true);
@@ -169,9 +176,10 @@ public class ForceManagerThree : MonoBehaviour
         yield return new WaitForSeconds(1);
         goExit = false;
         thePlayer.godown = false;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.2f);
         theBomb.explodebomb = true;
         thePlayer.moveSpeed = 5;
+        StartCoroutine(StuntResult());
         yield return new WaitForSeconds(1.5f);
         thePlayer.moveSpeed = 0;
         thePlayer.happy = true;
@@ -185,8 +193,9 @@ public class ForceManagerThree : MonoBehaviour
     IEnumerator StuntResult()
     {
         ForceSimulation.simulate = false;
+        yield return new WaitForSeconds(1);
         StartCoroutine(theSimulate.DirectorsCall());
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(6);
         afterStuntMessage.SetActive(true);
 
     }
@@ -216,6 +225,23 @@ public class ForceManagerThree : MonoBehaviour
         yield return new WaitForSeconds(2);
         playerMass.gameObject.SetActive(false);
         startRunning = true;
+    }
+    IEnumerator thiswaySpeech()
+    {
+        yield return new WaitForSeconds(1.2f);
+        playerSpeech.SetActive(true);
+        thisWaytxt.text = ("this way!!!");
+        yield return new WaitForSeconds(1);
+        playerSpeech.SetActive(false);
+        yield return new WaitForSeconds(1);
+        playerSpeech.SetActive(true);
+        yield return new WaitForSeconds(1);
+        playerSpeech.SetActive(false);
+        yield return new WaitForSeconds(1);
+        playerSpeech.SetActive(true);
+        yield return new WaitForSeconds(1);
+        playerSpeech.SetActive(false);
+
     }
 
 }

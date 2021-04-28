@@ -122,6 +122,13 @@ public class ForceSimulation : MonoBehaviour
             theManagerTwo.tooWeak = false;
             
         }
+         if (stage == 3)
+        {
+            theManagerThree.GenerateProblem();
+            theManagerThree.tooStrong = false;
+            theManagerThree.tooWeak = false;
+            
+        }
 
     }
     public IEnumerator DirectorsCall()

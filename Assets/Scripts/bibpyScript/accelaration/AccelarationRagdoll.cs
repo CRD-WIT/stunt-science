@@ -66,7 +66,7 @@ public class AccelarationRagdoll : MonoBehaviour
     IEnumerator driverSpawn()
     {
         accSimulation.playerDead = false;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(2);
         Destroy(stick.gameObject);
         theBike.driverPrefab.SetActive(true);
         theBike.driverPrefab.transform.position = stickloc.transform.position;
