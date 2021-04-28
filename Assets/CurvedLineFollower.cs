@@ -8,8 +8,8 @@ public class CurvedLineFollower : MonoBehaviour
     [SerializeField] TMP_Text angleDegree;
     [SerializeField] LineRenderer line, straightLine;
     public Rigidbody2D gear2;
-    float arc;
-    public static float stage;
+    float angle;
+    public static float arc, stage;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,28 +24,32 @@ public class CurvedLineFollower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(arc);
         if (Level5EasyManager.gear2Speed == 0)
             gear2.rotation = 0;
         gear2.angularVelocity = Level5EasyManager.gear2Speed;
-        if (Level5EasyManager.isOnStunt)
-        {
-            arc = Level5EasyManager.playerAnswer * Level5EasyManager.gameTime;
-        }
-        else
-        {
-            arc = Level5EasyManager.playerAnswer * GearHangers.hangTime;//Level5EasyManager.elapsed;
-        }
         if (arc != 0)
         {
             angleDegree.text = "<color=#A15D04>" + System.Math.Round(arc, 2) + "</color>";
-            angleDegree.transform.position = new Vector3(line.GetPosition(25).x + 4, line.GetPosition(25).y + 1, 0);
-            straightLine.SetPosition(0, new Vector3(-5.196152f, -3, 0));
+            if (stage == 1)
+            {
+                angleDegree.transform.position = new Vector3(line.GetPosition(25).x + 4, line.GetPosition(25).y + 1, 0);
+            }else{
+                angleDegree.transform.position = new Vector3(line.GetPosition(25).x -3.8f, line.GetPosition(25).y + 1f, 0);
+            }
+
             straightLine.SetPosition(1, new Vector3(0, 0, 0));
             CreatePoints();
         }
         else
         {
-            angleDegree.text = "<color=#9A0000>210°</color>";
+            if (stage == 1)
+                angleDegree.text = "<color=#9A0000>210°</color>";
+            else
+            {
+                angleDegree.rectTransform.position = new Vector2(-6.7f, 2.3f);
+                angleDegree.text = "<color=#9A0000>118°</color>";
+            }
             line.enabled = false;
             straightLine.enabled = false;
         }
@@ -54,12 +58,18 @@ public class CurvedLineFollower : MonoBehaviour
     {
         line.enabled = true;
         straightLine.enabled = true;
-        float x;
-        float y;
-        float xSL;
-        float ySL;
-        float angle = -120;
-
+        float x, y, xSL, ySL;
+        switch (stage)
+        {
+            case 1:
+                angle = -120;
+                straightLine.SetPosition(0, new Vector3(-5.196152f, -3, 0));
+                break;
+            case 2:
+                angle = -118;
+                straightLine.SetPosition(0, new Vector3(-5.297686f, -2.816829f, 0));
+                break;
+        }
         for (int i = 0; i <= 50; i++)
         {
             x = Mathf.Sin(Mathf.Deg2Rad * angle) * 3f;
@@ -72,7 +82,5 @@ public class CurvedLineFollower : MonoBehaviour
 
             angle += ((float)System.Math.Round(arc, 2) / 50);
         }
-
-
     }
 }

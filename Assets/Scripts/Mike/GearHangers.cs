@@ -19,7 +19,6 @@ public class GearHangers : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log(hangTime);
         if (Level5EasyManager.isHanging)
         {
             isHangerNumerator = true;

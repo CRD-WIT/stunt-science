@@ -7,28 +7,21 @@ using UnityEditor;
 
 public class Level5EasyManager : MonoBehaviour
 {
-    //UI
-    [SerializeField] TMP_Text questionTxtBox1, questionTxtBox2, timerTxtBox, levelTxtBox, noAnswerMessage1, noAnswerMessage2, messageTxt;
+    [SerializeField] TMP_Text questionTxtBox1, questionTxtBox2, timerTxtBox, levelTxtBox, noAnswerMessage1, noAnswerMessage2, messageTxt, directorsSpeech;
     [SerializeField] TMP_InputField answerField1, answerField2;
     [SerializeField] Button playButton1, playButton2, retryButton, nextButton;
     string pronoun, pNoun, playerName, playerGender;
-
-    //Gameplay
-    [SerializeField] GameObject gear, afterStuntMessage, playerHangerTrigger, ragdollPrefab, stage1Layout, stage2Layout, gearSet;
+    [SerializeField] GameObject gear, afterStuntMessage, playerHangerTrigger1, playerHangerTrigger2, ragdollPrefab, stage1Layout, stage2Layout, gearSet, directorsBubble, ragdoll, directorPlatform;
     public Player myPlayer;
-    [SerializeField] float aVelocity, stage;
+    [SerializeField] float elapsed, aVelocity, stage, gameTime;
     Vector2 playerPos, currentPos;
     StageManager sm = new StageManager();
     HeartManager playerHeart;
     [SerializeField] Animator crank;
-
-    //Director
-    [SerializeField] GameObject directorsBubble, ragdoll;
-    [SerializeField] TMP_Text directorsSpeech;
-    [SerializeField] bool directorIsCalling, isStartOfStunt, stuntReady, DC, isCranking, crankingDone, crankReset, DCisOn, ragdollActive;
-    public static bool isHanging, cranked, isAnswered, isOnStunt;
+    bool directorIsCalling, isStartOfStunt, stuntReady, DC, isCranking, crankingDone, crankReset, DCisOn, ragdollActive;
+    public static bool isHanging, cranked, isAnswered;
     [SerializeField] Rigidbody2D gearRB, player;
-    [SerializeField] public static float elapsed, playerAnswer, gameTime, gear2Speed;
+    public static float playerAnswer, gear2Speed;
     void Start()
     {
         myPlayer = FindObjectOfType<Player>();
@@ -56,25 +49,26 @@ public class Level5EasyManager : MonoBehaviour
             switch (stage)
             {
                 case 1:
-                    elapsed = GearHangers.hangTime;
-                    myPlayer.isHanging = true;
                     timerTxtBox.text = elapsed.ToString("f2") + "s";
-                    myPlayer.gameObject.transform.localScale = new Vector2(-0.4f, 0.4f);
-                    if (elapsed >= gameTime)
+                    CurvedLineFollower.arc = playerAnswer * elapsed;
+                    if (elapsed < gameTime)
                     {
-                        timerTxtBox.text = gameTime.ToString("f2") + "s";
-                        isOnStunt = true;
+                        elapsed = GearHangers.hangTime;
+                        myPlayer.isHanging = true;
+                        myPlayer.gameObject.transform.localScale = new Vector2(-0.4f, 0.4f);
+                    }
+                    else //(elapsed >= gameTime)
+                    {
                         isHanging = false;
                         myPlayer.isHanging = false;
                         if (playerAnswer == aVelocity)
                         {
-
+                            elapsed = gameTime;
                             messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " has landed <color=green>safely</color> at the other platform!";
                             nextButton.gameObject.SetActive(true);
                         }
                         else
                         {
-
                             if (!ragdollActive)
                             {
                                 RagdollSpawn();
@@ -82,7 +76,7 @@ public class Level5EasyManager : MonoBehaviour
                             playerHeart.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
-                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " spinned the gear too slow and " + pronoun + " fell doen too soon before the release point.\nThe correct answer is <color=red>" + aVelocity + "°/s</color>.";
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " spinned the gear too slow and " + pronoun + " fell down too soon before the release point.\nThe correct answer is <color=red>" + aVelocity + "°/s</color>.";
                             }
                             else //if(playerAnswer > Speed)
                             {
@@ -96,25 +90,27 @@ public class Level5EasyManager : MonoBehaviour
                     break;
 
                 case 2:
-                    elapsed = GearHangers.hangTime;
-                    myPlayer.isHanging = true;
                     timerTxtBox.text = elapsed.ToString("f2") + "s";
-                    //myPlayer.gameObject.transform.localScale = new Vector2(-0.4f, 0.4f);
-                    if (elapsed >= playerAnswer)
+                    CurvedLineFollower.arc = aVelocity * elapsed;
+                    if (elapsed < playerAnswer)
                     {
-                        timerTxtBox.text = gameTime.ToString("f2") + "s";
-                        isOnStunt = true;
+                        elapsed = GearHangers.hangTime;
+                        myPlayer.isHanging = true;
+                        // myPlayer.gameObject.transform.localScale = new Vector2(-0.4f, 0.4f);
+                    }
+                    else //(elapsed >= gameTime)
+                    {
                         isHanging = false;
                         myPlayer.isHanging = false;
                         if (playerAnswer == gameTime)
                         {
-
-                            messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " has landed <color=green>safely</color> at the other platform!";
+                            elapsed = gameTime;
+                            messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " has crossed <color=green>safely</color> at the other platform!";
                             nextButton.gameObject.SetActive(true);
                         }
                         else
                         {
-
+                            elapsed = playerAnswer;
                             if (!ragdollActive)
                             {
                                 RagdollSpawn();
@@ -122,11 +118,11 @@ public class Level5EasyManager : MonoBehaviour
                             playerHeart.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
-                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " spinned the gear too slow and " + pronoun + " fell doen too soon before the release point.\nThe correct answer is <color=red>" + aVelocity + "°/s</color>.";
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " tried to grab the pipe too soon and " + pronoun + " fell down.\nThe correct answer is <color=red>" + gameTime + "s</color>.";
                             }
                             else //if(playerAnswer > Speed)
                             {
-                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " spinned the gear too fast and " + pronoun + " fell down too late after the release point.\nThe correct answer is <color=red>" + aVelocity + "°/s</color>.";
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " tried to grab the pipe too late and " + pronoun + " fell down.\nThe correct answer is <color=red>" + gameTime + "s</color>.";
                             }
                             retryButton.gameObject.SetActive(true);
                         }
@@ -141,13 +137,13 @@ public class Level5EasyManager : MonoBehaviour
         }
         else
         {
-            crank.SetBool("crank", cranked);
-            crank.SetBool("crankReset", crankReset);
             if (stuntReady)
             {
                 switch (stage)
                 {
                     case 1:
+                        crank.SetBool("crank", cranked);
+                        crank.SetBool("crankReset", crankReset);
                         if (isCranking)
                         {
                             StartCoroutine(Cranking());
@@ -193,10 +189,9 @@ public class Level5EasyManager : MonoBehaviour
     {
         stage1Layout.SetActive(false);
         stage2Layout.SetActive(false);
-        CurvedLineFollower.stage = stage;
+        CurvedLineFollower.arc = 0;
 
         playerHeart.losslife = false;
-        isOnStunt = false;
         playerAnswer = 0;
         myPlayer.happy = false;
         DC = true;
@@ -210,9 +205,11 @@ public class Level5EasyManager : MonoBehaviour
         retryButton.gameObject.SetActive(false);
         nextButton.gameObject.SetActive(false);
         myPlayer.gameObject.SetActive(true);
-        gear2Speed = 0;
         ragdollActive = false;
-        playerHangerTrigger.SetActive(false);
+        playerHangerTrigger1.SetActive(false);
+        playerHangerTrigger2.SetActive(false);
+        gear2Speed = 0;
+        gearRB.angularVelocity = 0;
         gearRB.rotation = 0f;
         if (playerGender == "Male")
         {
@@ -234,22 +231,31 @@ public class Level5EasyManager : MonoBehaviour
                 aVelocity = (float)System.Math.Round((210 / gameTime), 2);
                 questionTxtBox1.text = playerName + " is trying to go accross the other platform by hanging at the tooth or the rotating gear from the starting platform and letting it go after <color=#006400>" + gameTime.ToString() + " seconds</color>. If the safe release point of the tooth is <color=red>210 degrees</color> from the grab point. At what <color=purple>angular velocity</color> should " + playerName + " set the spinning gear at?";
 
+
+
+                CurvedLineFollower.stage = 1;
                 myPlayer.transform.position = playerPos;
                 gearSet.transform.position = new Vector3(gearSet.transform.position.x, gearSet.transform.position.y, gearSet.transform.position.z);
-                gearRB.angularVelocity = 0;
                 crankReset = true;
                 break;
             case 2:
+                directorPlatform.transform.position = new Vector3(-17, 2, 0);
+                directorPlatform.transform.localScale = new Vector3(-1.20f, 01.20f, 0);
+                directorsSpeech.transform.localScale = new Vector3(directorsSpeech.transform.localScale.x * -1,directorsSpeech.transform.localScale.y, directorsSpeech.transform.localScale.z);
                 playButton2.interactable = false;
                 stage2Layout.SetActive(true);
 
                 float av = Random.Range(30f, 40f);
                 aVelocity = (float)System.Math.Round(av, 2);
                 gameTime = (float)System.Math.Round((118 / aVelocity), 2);
-                questionTxtBox2.text = playerName + " is trying to cross the other platform by hanging at the rotating gear from the starting platform and grabbing the pipe above <color=#006400>" + gameTime.ToString() + " seconds</color>. If the safe release point of the tooth is <color=red>210 degrees</color> from the grab point. At what <color=purple>angular velocity</color> should " + playerName + " set the spinning gear at?";
+                questionTxtBox2.text = playerName + " is trying to cross the other platform by hanging at the rotating gear from the starting platform and grabbing the pipe above upon reaching the highest point of the gear. If the release point of the gear is <color=red>118 degrees</color> from teh grab point and the release point, and the angular velocity of the gear is <color=purple>" + aVelocity + " degrees per second</color>, how <color=#006400>long</color> " + pronoun + " should hold on to the gear before reaching for the pipe?";
 
+
+
+                CurvedLineFollower.stage = 2;
                 myPlayer.transform.position = new Vector2(playerPos.x - 12, playerPos.y);
                 gearSet.transform.position = new Vector3(-6.15f, gearSet.transform.position.y, gearSet.transform.position.z);
+                gear2Speed = aVelocity * 1.61f;
                 gearRB.angularVelocity = -aVelocity;
                 stuntReady = true;
                 break;
@@ -300,8 +306,16 @@ public class Level5EasyManager : MonoBehaviour
     }
     public void RetryButton()
     {
-        answerField1.text = "";
-        playButton1.interactable = true;
+        if (stage == 1)
+        {
+            answerField1.text = "";
+            playButton1.interactable = true;
+        }
+        else //if (stage == 2)
+        {
+            answerField2.text = "";
+            playButton2.interactable = true;
+        }
         Lvl5EasySetUp();
         myPlayer.gameObject.SetActive(true);
         afterStuntMessage.SetActive(false);
@@ -339,8 +353,11 @@ public class Level5EasyManager : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             directorsSpeech.text = "";
             directorsBubble.SetActive(false);
+            if (stage == 1)
+                playerHangerTrigger1.SetActive(true);
+            else if (stage == 2)
+                playerHangerTrigger2.SetActive(true);
             isAnswered = true;
-            playerHangerTrigger.SetActive(true);
         }
         else
         {
