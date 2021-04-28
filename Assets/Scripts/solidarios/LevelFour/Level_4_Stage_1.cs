@@ -25,22 +25,19 @@ public class Level_4_Stage_1 : MonoBehaviour
     float correctAnswer;
     Vector2 spawnPointValue;
     public GameObject hookLauncher;
+    public GameObject hookLine;
     public GameObject hookIndicator;
     float distance;
     float distanceGiven;
     bool doneFiring = false;
-
-    public GameObject rope;
     float angleGiven;
     float velocityX = 0;
     float velocityY = 0;
     float velocityInitial = 0;
-
     float totalRopeMass = 0f;
 
     void Start()
     {
-
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
         distanceGiven = transform.Find("Annotation1").GetComponent<Annotation>().distance;
@@ -68,7 +65,6 @@ public class Level_4_Stage_1 : MonoBehaviour
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
         thePlayer_position = thePlayer.transform.position;
 
-
         spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
 
         transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().SetAngle(angleGiven);
@@ -78,10 +74,7 @@ public class Level_4_Stage_1 : MonoBehaviour
 
         hookLauncher.transform.Rotate(new Vector3(0, 0, angleGiven));
 
-        foreach (var item in rope.GetComponentsInChildren<Rigidbody2D>())
-        {
-            totalRopeMass += item.mass;
-        }
+        
 
     }
 
@@ -97,7 +90,7 @@ public class Level_4_Stage_1 : MonoBehaviour
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven))));
         velocityInitial = Mathf.Abs(velocityX / Mathf.Cos(angleGiven));
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven));
-       
+
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
         Debug.Log($"VelocityInitial: {velocityInitial}");
@@ -119,14 +112,14 @@ public class Level_4_Stage_1 : MonoBehaviour
 
         if (isSimulating)
         {
+            hookLine.GetComponent<LineRenderer>().SetPosition(0, hookLauncher.transform.position);
+            hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
             if (playerAnswer.text.Length > 0)
             {
-
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
                 transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Hide();
                 elapsed += Time.fixedDeltaTime;
                 timerText.text = elapsed.ToString("f2") + "s";
-
 
                 if (!doneFiring)
                 {
@@ -137,8 +130,6 @@ public class Level_4_Stage_1 : MonoBehaviour
                     hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
                     doneFiring = true;
                 }
-
-
                 // Correct Answer
                 if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
                 {
