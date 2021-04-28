@@ -24,25 +24,37 @@ public class Level_4_Stage_1 : MonoBehaviour
     Vector2 gravityGiven;
     float correctAnswer;
     Vector2 spawnPointValue;
+    public GameObject hookLauncher;
+    public GameObject hookIndicator;
     float distance;
     float distanceGiven;
     bool doneFiring = false;
+
+    public GameObject rope;
+    float angleGiven;
+    float velocityX = 0;
+    float velocityY = 0;
+    float velocityInitial = 0;
+
+    float totalRopeMass = 0f;
+
     void Start()
     {
 
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
-        distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(25f, 28.0f), 2);
+        distanceGiven = transform.Find("Annotation1").GetComponent<Annotation>().distance;
+        angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(35f, 40f), 2);
         gravityGiven = Physics2D.gravity;
 
         // Formula
-        correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
+        //correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
 
         Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
         levelName.SetText("Free Fall | Stage 4");
-        question = $"[name] is hanging on a horizontal pole and [pronoun] is instructed to let go of it, drop down, and grab the elastic cord below to slow down his fall and safely land him into the ground. If the hands of [name] is exactly <color=red>{distanceGiven}</color> meters above the second pole, <color=purple>how long</color> should [name] fall down before [pronoun] grabs the second pole?";
+        question = $"Wants to cross to the cliff at the other side using his climbing device. If [pronoun] shoots its gripping projectile at a velocity of [vo] at an angle of [a] degrees, at what precise time should [name] trigger the gripper if it will grip at the exact moment when it will touch the gripping point of the cliff accross which is at the same horizontal level of the shooting device.";
 
         if (questionText != null)
         {
@@ -54,16 +66,22 @@ public class Level_4_Stage_1 : MonoBehaviour
         }
 
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
-        thePlayerAnimation.SetBool("isHangingInBar", true);
         thePlayer_position = thePlayer.transform.position;
 
-        distance = transform.Find("Annotation1").GetComponent<Annotation>().distance;
-
-        // playerOnRopeTransform = playerOnRope.transform.position;
 
         spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
 
+        transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().SetAngle(angleGiven);
+
         hook.GetComponent<Rigidbody2D>().Sleep();
+        hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+
+        hookLauncher.transform.Rotate(new Vector3(0, 0, angleGiven));
+
+        foreach (var item in rope.GetComponentsInChildren<Rigidbody2D>())
+        {
+            totalRopeMass += item.mass;
+        }
 
     }
 
@@ -74,6 +92,17 @@ public class Level_4_Stage_1 : MonoBehaviour
         AfterStuntMessage.SetActive(true);
     }
 
+    void GenerateVelocities()
+    {
+        velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven))));
+        velocityInitial = Mathf.Abs(velocityX / Mathf.Cos(angleGiven));
+        velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven));
+       
+        Debug.Log($"VelocityX: {velocityX}");
+        Debug.Log($"VelocityY: {velocityY}");
+        Debug.Log($"VelocityInitial: {velocityInitial}");
+    }
+
     public void StartSimulation()
     {
         isSimulating = true;
@@ -82,6 +111,12 @@ public class Level_4_Stage_1 : MonoBehaviour
     {
         float thePlayer_x = thePlayer_position.x;
         float thePlayer_y = thePlayer_position.y;
+
+        if (velocityX == 0 || velocityY == 0 || velocityInitial == 0)
+        {
+            GenerateVelocities();
+        }
+
         if (isSimulating)
         {
             if (playerAnswer.text.Length > 0)
@@ -92,11 +127,14 @@ public class Level_4_Stage_1 : MonoBehaviour
                 elapsed += Time.fixedDeltaTime;
                 timerText.text = elapsed.ToString("f2") + "s";
 
+
                 if (!doneFiring)
                 {
-                    hook.GetComponent<Rigidbody2D>().WakeUp();               
+                    hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                    hook.GetComponent<Rigidbody2D>().WakeUp();
                     // Use the angle from the indicator
-                    hook.GetComponent<Rigidbody2D>().velocity =  new Vector3(1,0.5f,0) * speed / hook.GetComponent<Rigidbody2D>().mass;
+                    Debug.Log(totalRopeMass);
+                    hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
                     doneFiring = true;
                 }
 

@@ -12,8 +12,7 @@ public class CircularAnnotation : MonoBehaviour
     private float _horizRadius = 2;
     [SerializeField]
     private float _vertRadius = 2;
-    [SerializeField]
-    private float _degrees = 360;
+    public float _degrees = 360;
     [SerializeField]
     private Axis _axis = Axis.Z;
     [SerializeField]
@@ -51,6 +50,11 @@ public class CircularAnnotation : MonoBehaviour
         UpdateValuesChanged();
 
         CreatePoints();
+    }
+
+    public void SetAngle(float angle){
+        this._degrees = angle;
+        this.initialAngle = angle + 16.7f;
     }
 
     public void Hide()
@@ -96,6 +100,12 @@ public class CircularAnnotation : MonoBehaviour
 
         arrows[1].transform.position = new Vector3(_line.GetPosition(0).x, _line.GetPosition(0).y, 1);
         arrows[1].transform.rotation = Quaternion.Inverse(Quaternion.Euler(0, 0, arrows[0].transform.rotation.z + initialAngle));
+
+        if(arrows[0].transform.position.y > 0){
+           initialAngle += 0.1f;
+        }else{
+            initialAngle -= 0.1f;
+        }
     }
 
     void UpdateValuesChanged()

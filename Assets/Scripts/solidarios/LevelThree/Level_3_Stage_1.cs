@@ -95,7 +95,6 @@ public class Level_3_Stage_1 : MonoBehaviour
     void RepositionRopeComplete()
     {
         this.respositioned = true;
-
     }
 
     void FallFromRope()
@@ -168,9 +167,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                         playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                         isSimulating = false;
                         stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
-
                     }
-
                 }
 
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
