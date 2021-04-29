@@ -28,6 +28,7 @@ public class Level_4_Stage_1 : MonoBehaviour
     public GameObject hookLauncher;
     public GameObject hookLine;
     public GameObject hookIndicator;
+    public TextMeshPro timeIndicator;
     float distance;
     float distanceGiven;
     bool doneFiring = false;
@@ -115,10 +116,12 @@ public class Level_4_Stage_1 : MonoBehaviour
             hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
             if (playerAnswer.text.Length > 0)
             {
+                timeIndicator.transform.position = new Vector3(hook.transform.position.x, hook.transform.position.y + 1, 1);
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
                 transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Hide();
                 elapsed += Time.fixedDeltaTime;
                 timerText.text = elapsed.ToString("f2") + "s";
+                timeIndicator.text = elapsed.ToString("f2") + "s";
 
                 if (!doneFiring)
                 {
@@ -132,6 +135,7 @@ public class Level_4_Stage_1 : MonoBehaviour
                 {
                     thinRope.gameObject.SetActive(true);
                     hookLine.SetActive(false);
+                    isSimulating = false;
                 }
                 // Correct Answer
                 if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
@@ -162,6 +166,7 @@ public class Level_4_Stage_1 : MonoBehaviour
             isSimulating = false;
 
             timerText.text = $"{(elapsed).ToString("f2")}s";
+            timeIndicator.text = $"{(elapsed).ToString("f2")}s";
         }
     }
 }
