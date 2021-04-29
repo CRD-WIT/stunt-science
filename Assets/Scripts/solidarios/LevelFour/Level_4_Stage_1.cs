@@ -46,9 +46,6 @@ public class Level_4_Stage_1 : MonoBehaviour
         angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(35f, 40f), 2);
         gravityGiven = Physics2D.gravity;
 
-        // Formula
-        //correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
-
         Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
@@ -75,7 +72,6 @@ public class Level_4_Stage_1 : MonoBehaviour
         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
 
         hookLauncher.transform.Rotate(new Vector3(0, 0, angleGiven));
-
     }
 
     IEnumerator StuntResult()
@@ -90,6 +86,9 @@ public class Level_4_Stage_1 : MonoBehaviour
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven))));
         velocityInitial = Mathf.Abs(velocityX / Mathf.Cos(angleGiven));
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven));
+
+        //Formula
+        // correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
 
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
