@@ -48,7 +48,6 @@ public class GearHangers : MonoBehaviour
         other.gameObject.SetActive(false);
         hangerName = this.gameObject.name;
         startTime = Time.realtimeSinceStartup;
-        // StartCoroutine(HangerName());
     }
     IEnumerator HangerChange()
     {
