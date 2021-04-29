@@ -18,8 +18,8 @@ public class BombScript : MonoBehaviour
     void Start()
     {
         
-        theBomb = FindObjectOfType<BombManager>();
-        thePlayer = FindObjectOfType<Player>();
+        
+        
         ragDollLastPOs = new Vector2(22, -0.6f);
         
     }
@@ -27,12 +27,14 @@ public class BombScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        thePlayer = FindObjectOfType<Player>();
+        theBomb = FindObjectOfType<BombManager>();
+        theRagdoll = FindObjectOfType<ragdollForces>();
         if (inPlayer)
         {
             transform.position = bombPos.transform.position;
             transform.rotation = bombPos.transform.rotation;
         }
-        theRagdoll = FindObjectOfType<ragdollForces>();
         if (theBomb.followRagdoll == true)
         {
             transform.position = theRagdoll.transform.position;

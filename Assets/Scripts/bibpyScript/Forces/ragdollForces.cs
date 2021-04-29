@@ -126,7 +126,18 @@ public class ragdollForces : MonoBehaviour
     IEnumerator playerSpawn()
     {
         SimulationManager.playerDead = false;
-        yield return new WaitForSeconds(2.5f);
+        if(theSimulate.stage == 1)
+        {
+            yield return new WaitForSeconds(4f); 
+        }
+        if(theSimulate.stage == 2)
+        {
+            yield return new WaitForSeconds(4); 
+        }
+        if(theSimulate.stage == 3)
+        {
+            yield return new WaitForSeconds(2.5f); 
+        }
         theSimulate.thePlayer.gameObject.SetActive(true);
         theSimulate.thePlayer.transform.position = stickloc.transform.position;
         Destroy(stick.gameObject);

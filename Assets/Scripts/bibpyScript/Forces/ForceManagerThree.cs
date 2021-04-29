@@ -10,9 +10,10 @@ public class ForceManagerThree : MonoBehaviour
     private ForceSimulation theSimulate;
     private ColliderManager theCollider;
     private BombManager theBomb;
+    private HeartManager theHeart;
     float generateAccelaration, accelaration, playerAccelaration, generateForce, force, generateCorrectAnswer, currentPos;
     public float correctAnswer, playerAnswer,increaseMass;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, afterStuntMessage, retry, next, glassDebri, cameraman, playerSpeech;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, afterStuntMessage, retry, next, glassDebri, cameraman, playerSpeech, napsack;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady, startAddingMass, crowdExit;
     public bool throwBomb, addingWeight, startRunning, goExit;
@@ -28,6 +29,7 @@ public class ForceManagerThree : MonoBehaviour
         theCollider = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
         theBomb = FindObjectOfType<BombManager>();
+        theHeart = FindObjectOfType<HeartManager>();
         GenerateProblem();
         cameraman.transform.position = new Vector2(cameraman.transform.position.x, 5.5f);
     }
@@ -35,15 +37,17 @@ public class ForceManagerThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        napsack.SetActive(true);
         currentPos = thePlayer.transform.position.x;
         playerAnswer = ForceSimulation.playerAnswer;
         generateCorrectAnswer = force / accelaration - 70;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
-        playerMass.text = increaseMass.ToString("F2") + ("kg");
+        
         if (addingWeight)
         {
             StartCoroutine(addingMass());
             addingWeight = false;
+           
         }
 
         if (ForceSimulation.simulate == true)
@@ -52,11 +56,13 @@ public class ForceManagerThree : MonoBehaviour
         }
         if (startAddingMass)
         {
+            playerMass.text = increaseMass.ToString("F2") + ("kg");
             increaseMass += 50 * Time.fixedDeltaTime;
             if(increaseMass >= playerAnswer + 70)
             {
                 startAddingMass = false;
                 increaseMass = playerAnswer + 70;
+                playerMass.text = "<color=green>" + increaseMass.ToString("F2") + ("kg</color>");
             }
         }
         if (goExit)
@@ -108,6 +114,7 @@ public class ForceManagerThree : MonoBehaviour
                     StartCoroutine(StuntResult());
                     theSimulate.playerDead = true;
                     startRunning = false;
+                    theHeart.losinglife();
                 }
                 if (playerAnswer > correctAnswer)
                 {
@@ -127,6 +134,7 @@ public class ForceManagerThree : MonoBehaviour
                     StartCoroutine(StuntResult());
                     theSimulate.playerDead = true;
                     startRunning = false;
+                    theHeart.losinglife();
                 }
             }
         }
@@ -134,6 +142,9 @@ public class ForceManagerThree : MonoBehaviour
     }
     public void GenerateProblem()
     {
+        increaseMass = 70;
+        playerMass.text = increaseMass.ToString("F2") + ("kg");
+        playerMass.gameObject.SetActive(true);
         theCollider.braker.SetActive(true);
         generateAccelaration = Random.Range(3f, 3.5f);
         accelaration = (float)System.Math.Round(generateAccelaration, 2);

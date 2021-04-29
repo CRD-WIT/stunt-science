@@ -10,6 +10,7 @@ public class ForceSimulation : MonoBehaviour
     public ForceManagerOne theManagerOne;
     public ForceManagerTwo theManagerTwo;
     public ForceManagerThree theManagerThree;
+    private HeartManager theHeart;
     public TMP_InputField answerField;
     public static string question;
     public TMP_Text questionTextBox, errorTextBox, levelText, diretorsSpeech;
@@ -20,7 +21,7 @@ public class ForceSimulation : MonoBehaviour
     public Quaternion startRotation;
     public Vector2 startPosition;
 
-    public GameObject afterStuntMessage, retryButton, nextButton;
+    public GameObject afterStuntMessage, retryButton, nextButton, fadeOut, fadeIn;
     public GameObject[] ground;
     bool directorIsCalling;
     public GameObject directorBubble;
@@ -31,6 +32,7 @@ public class ForceSimulation : MonoBehaviour
     {
         PlayerPrefs.SetString("CurrentString", ("Forces"));
         PlayerPrefs.SetInt("level", 4);
+        theHeart = FindObjectOfType<HeartManager>();
     }
 
     // Update is called once per frame
@@ -51,6 +53,7 @@ public class ForceSimulation : MonoBehaviour
             }
             else
             {
+                errorTextBox.SetText("");
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -62,12 +65,13 @@ public class ForceSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
-            if (answerField.text == "" || playerAnswer > 100)
+            if (answerField.text == "" || playerAnswer > 12.42)
             {
-                errorTextBox.SetText("Please enter a valid answer!");
+                errorTextBox.SetText("exceed human capabilities!");
             }
             else
             {
+                errorTextBox.SetText("");
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -79,12 +83,13 @@ public class ForceSimulation : MonoBehaviour
         }
         if (stage == 3)
         {
-            if (answerField.text == "" || playerAnswer > 400)
+            if (answerField.text == "" || playerAnswer > 100)
             {
-                errorTextBox.SetText("Please enter a valid answer!");
+                errorTextBox.SetText("too heavy for you!");
             }
             else
             {
+                errorTextBox.SetText("");
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -94,6 +99,13 @@ public class ForceSimulation : MonoBehaviour
 
             }
         }
+    }
+    public void next()
+    {
+        afterStuntMessage.SetActive(false);
+        StartCoroutine(theHeart.endBGgone());
+        StartCoroutine(nextStage());
+       
     }
     public void retry()
     {
@@ -107,6 +119,7 @@ public class ForceSimulation : MonoBehaviour
         thePlayer.brake = false;
         thePlayer.moveSpeed = 0;
         thePlayer.gameObject.SetActive(true);
+        theHeart.losslife = false;
 
         if (stage == 1)
         {
@@ -155,5 +168,23 @@ public class ForceSimulation : MonoBehaviour
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";
         }
+    }
+    IEnumerator nextStage()
+    {
+        yield return new WaitForSeconds(2.5f);
+        playButton.interactable = true;
+        answerField.text = ("");
+        nextButton.SetActive(false);
+        if(stage == 1)
+        {
+            stage = 2;
+            ground[0].SetActive(false);
+            ground[1].SetActive(true);
+            theManagerOne.gameObject.SetActive(false);
+            theManagerTwo.gameObject.SetActive(true);
+            //theManagerTwo.GenerateProblem();
+            
+        }
+        StartCoroutine(theHeart.startBGgone());
     }
 }

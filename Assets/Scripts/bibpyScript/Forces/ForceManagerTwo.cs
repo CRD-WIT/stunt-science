@@ -10,6 +10,7 @@ public class ForceManagerTwo : MonoBehaviour
     private BombManager theBomb;
     public BombScript theBombScript;
     private ColliderManager theCollider;
+    private HeartManager theHeart;
     float generateForce, Force, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
     public float correctAnswer,playerAnswer;
     public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, afterStuntMessage, retry, next, glassDebri, bomb, wordedBoard, director, speechBubble;
@@ -34,6 +35,7 @@ public class ForceManagerTwo : MonoBehaviour
         theCollider = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
         theBomb = FindObjectOfType<BombManager>();
+        theHeart = FindObjectOfType<HeartManager>();
         wordedBoard.transform.position = new Vector2(20, wordedBoard.transform.position.y);
         GenerateProblem();
         director.transform.position = new Vector2(-5.2f, 2.4f);
@@ -75,6 +77,7 @@ public class ForceManagerTwo : MonoBehaviour
                 }
                 if(playerAnswer < correctAnswer)
                 {
+                    theBombScript.inPlayer = false;
                     stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated too slow and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².";
                     tooWeak = true;
                     thePlayer.gameObject.SetActive(false);
@@ -88,6 +91,8 @@ public class ForceManagerTwo : MonoBehaviour
                     StartCoroutine(collision());
                     StartCoroutine(StuntResult());
                     theSimulate.playerDead = true;
+                    theHeart.losinglife();
+                    ForceSimulation.simulate = false;
                 }
                 if(playerAnswer > correctAnswer)
                 {
@@ -103,12 +108,15 @@ public class ForceManagerTwo : MonoBehaviour
                    StartCoroutine(collision());
                    retry.SetActive(true);
                    StartCoroutine(StuntResult());
+                   ForceSimulation.simulate = false;
+                   theHeart.losinglife();
                 }
             }
         }
     }
     public void GenerateProblem()
     {
+        theBombScript.inPlayer = true;
         generateForce = Random.Range(500, 700);
         Force = (float)System.Math.Round(generateForce, 2);
         generateMass = Random.Range(70f, 75f);
@@ -116,11 +124,10 @@ public class ForceManagerTwo : MonoBehaviour
         glassRespawn();
         ragdollReady = true;
         theBomb.bomb.SetActive(true);
-        theBomb.bomb.transform.position = thePlayer.transform.position;
-        theBomb.followRagdoll = false;
         theBomb.glassHolder[1].SetActive(true);
         theBomb.otherGlassHolder[1].SetActive(true);
         thePlayer.transform.position = new Vector2(31,-0.6f);
+        theBomb.bomb.transform.position = thePlayer.transform.position;
         ForceSimulation.question = ((PlayerPrefs.GetString("Name") + ("</b> must break another glass wall to throw out the 2nd bomb. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and the glass wall has an impact force breaking point of <b>") + Force.ToString("F2") + ("</b> Newtons, how fast should ") + pronoun + (" accelerate towards the glass wall just enough to break it and not go through it?")));
         
 
@@ -152,6 +159,7 @@ public class ForceManagerTwo : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
+        yield return new WaitForSeconds(1);
         ForceSimulation.simulate = false;
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(5);

@@ -19,8 +19,6 @@ public class BombManager : MonoBehaviour
     {
         theCollide = FindObjectOfType<ColliderManager>();
         theManagerOne = FindObjectOfType<ForceManagerOne>();
-        theManagerTwo = FindObjectOfType<ForceManagerTwo>();
-        theManagerThree = FindObjectOfType<ForceManagerThree>();
         bombRigidbody = bomb.gameObject.GetComponent<Rigidbody2D>();
         theSimulate = FindObjectOfType<ForceSimulation>();
     }
@@ -28,6 +26,8 @@ public class BombManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        theManagerTwo = FindObjectOfType<ForceManagerTwo>();
+        theManagerThree = FindObjectOfType<ForceManagerThree>();
         if (theSimulate.stage == 1)
         {
             if (theCollide.collide == true)
@@ -164,6 +164,7 @@ public class BombManager : MonoBehaviour
         }
 
         ForceSimulation.simulate = false;
+        followRagdoll = false;
 
     }
 }

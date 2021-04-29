@@ -17,6 +17,7 @@ public class ForceManagerOne : MonoBehaviour
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
     public TMP_Text stuntMessageTxt;
+    private HeartManager theHeart;
 
 
     // Start is called before the first frame update
@@ -26,6 +27,7 @@ public class ForceManagerOne : MonoBehaviour
         theCollider = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
         theBomb = FindObjectOfType<BombManager>();
+        theHeart = FindObjectOfType<HeartManager>();
         GenerateProblem();
     }
 
@@ -58,6 +60,8 @@ public class ForceManagerOne : MonoBehaviour
                         thePlayer.transform.position = new Vector2(22, -0.63f);
                         ForceSimulation.simulate = false;
                         StartCoroutine(collision());
+                        StartCoroutine(StuntResult());
+                        next.SetActive(true);
                         
                         
                     }
@@ -77,6 +81,8 @@ public class ForceManagerOne : MonoBehaviour
                     StartCoroutine(collision());
                     StartCoroutine(StuntResult());
                     theSimulate.playerDead = true;
+                    theHeart.losinglife();
+                    ForceSimulation.simulate = false;
                 }
                 if(playerAnswer > correctAnswer)
                 {
@@ -93,6 +99,9 @@ public class ForceManagerOne : MonoBehaviour
                    retry.SetActive(true);
                    StartCoroutine(StuntResult());
                    theSimulate.playerDead = true;
+                   theHeart.losinglife();
+                   thePlayer.moveSpeed = 0;
+                   ForceSimulation.simulate = false;
                 }
             }
         }
@@ -108,7 +117,6 @@ public class ForceManagerOne : MonoBehaviour
         ragdollReady = true;
         theBomb.bomb.SetActive(true);
         theBomb.bomb.transform.position = thePlayer.transform.position;
-        theBomb.followRagdoll = false;
         //bombHinge.transform.position = thePlayer.transform.position;
         glassRespawn();
         ForceSimulation.question = ((PlayerPrefs.GetString("Name") + ("</b> is instructed to break the glass wall by running into it using his own body mass. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and runs with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s², what should impact force breaking point of the glass wall? If the glass is too tough , it will not break. If the glass is too weak, ") + PlayerPrefs.GetString("Name") + (" will overshoot beyond the glass after breaking.")));
@@ -127,11 +135,14 @@ public class ForceManagerOne : MonoBehaviour
     {
         thePlayer.brake = true;
         thePlayer.throwing = true;
-        yield return new WaitForSeconds(1);
-        bombHinge.SetActive(false);
-        throwBomb = true;
+         yield return new WaitForSeconds(.7f);
+          theBombScript.inPlayer = false;
+           throwBomb = true;
+        yield return new WaitForSeconds(.3f);
+        //bombHinge.SetActive(false);
+       
         thePlayer.brake = false;
-        theBombScript.inPlayer = false;
+       
     }
     IEnumerator collision()
     {
@@ -141,9 +152,17 @@ public class ForceManagerOne : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
+        yield return new WaitForSeconds(.5f);
         ForceSimulation.simulate = false;
         StartCoroutine(theSimulate.DirectorsCall());
-        yield return new WaitForSeconds(5);
+       if(playerAnswer == correctAnswer)
+       {
+            yield return new WaitForSeconds(3);
+       }
+       if(playerAnswer != correctAnswer)
+       {
+            yield return new WaitForSeconds(6);
+       }
         afterStuntMessage.SetActive(true);
         
     }
