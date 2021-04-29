@@ -24,18 +24,19 @@ public class CurvedLineFollower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(arc);
         if (Level5EasyManager.gear2Speed == 0)
             gear2.rotation = 0;
         gear2.angularVelocity = Level5EasyManager.gear2Speed;
         if (arc != 0)
         {
-            angleDegree.text = "<color=#A15D04>" + System.Math.Round(arc, 2) + "</color>";
+            angleDegree.text = "<color=#A15D04>" + arc.ToString("f2") + "</color>";
             if (stage == 1)
             {
                 angleDegree.transform.position = new Vector3(line.GetPosition(25).x + 4, line.GetPosition(25).y + 1, 0);
-            }else{
-                angleDegree.transform.position = new Vector3(line.GetPosition(25).x -3.8f, line.GetPosition(25).y + 1f, 0);
+            }
+            else
+            {
+                angleDegree.transform.position = new Vector3(line.GetPosition(25).x - 3.8f, line.GetPosition(25).y + 1f, 0);
             }
 
             straightLine.SetPosition(1, new Vector3(0, 0, 0));

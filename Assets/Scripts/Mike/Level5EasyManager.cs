@@ -51,8 +51,10 @@ public class Level5EasyManager : MonoBehaviour
                     timerTxtBox.text = elapsed.ToString("f2") + "s";
                     if (elapsed < gameTime)
                     {
-                        CurvedLineFollower.arc = playerAnswer * elapsed;
                         elapsed = GearHangers.hangTime;
+                        //float e = Mathf.Round(elapsed * 100)*0.01f;
+                        Debug.Log(CurvedLineFollower.arc);
+                        CurvedLineFollower.arc = playerAnswer * elapsed;
                         myPlayer.isHanging = true;
                         myPlayer.gameObject.transform.localScale = new Vector2(-0.4f, 0.4f);
                     }
@@ -95,12 +97,11 @@ public class Level5EasyManager : MonoBehaviour
                     }
                     else //(elapsed >= gameTime)
                     {
-                        StartCoroutine(GrabPipe());
+                        isHanging = false;
                         if (playerAnswer == gameTime)
                         {
                             isAnswerCorect = true;
                             CurvedLineFollower.arc = 118;
-                            isHanging = false;
                             elapsed = gameTime;
                             messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " has crossed <color=green>safely</color> at the other platform!";
                             nextButton.gameObject.SetActive(true);
@@ -121,6 +122,7 @@ public class Level5EasyManager : MonoBehaviour
                             }
                             retryButton.gameObject.SetActive(true);
                         }
+                        StartCoroutine(GrabPipe());
                         isAnswered = false;
                     }
                     break;
@@ -179,29 +181,32 @@ public class Level5EasyManager : MonoBehaviour
 
     void Lvl5EasySetUp()
     {
+        StartCoroutine(playerHeart.startBGgone());
         stage1Layout.SetActive(false);
         stage2Layout.SetActive(false);
-        CurvedLineFollower.arc = 0;
+        retryButton.gameObject.SetActive(false);
+        nextButton.gameObject.SetActive(false);
+        myPlayer.gameObject.SetActive(true);
+
+
 
         playerHeart.losslife = false;
-        playerAnswer = 0;
         myPlayer.happy = false;
         DC = true;
         DCisOn = false;
         myPlayer.lost = false;
         myPlayer.standup = false;
+
+        playerAnswer = 0;
         elapsed = 0;
         timerTxtBox.text = "0.00s";
         aVelocity = 0;
         gameTime = 0;
-        retryButton.gameObject.SetActive(false);
-        nextButton.gameObject.SetActive(false);
-        myPlayer.gameObject.SetActive(true);
-        playerHangerTrigger1.SetActive(false);
-        playerHangerTrigger2.SetActive(false);
         gear2Speed = 0;
         gearRB.angularVelocity = 0;
         gearRB.rotation = 0f;
+        CurvedLineFollower.arc = 0;
+
         if (playerGender == "Male")
         {
             pronoun = "he";
@@ -215,23 +220,25 @@ public class Level5EasyManager : MonoBehaviour
         switch (stage)
         {
             case 1:
+                playerHangerTrigger1.SetActive(false);
                 stage1Layout.SetActive(true);
                 float t = Random.Range(3.1f, 3.7f);
                 gameTime = (float)System.Math.Round(t, 2);
                 aVelocity = (float)System.Math.Round((210 / gameTime), 2);
                 questionTxtBox1.text = playerName + " is trying to go accross the other platform by hanging at the tooth or the rotating gear from the starting platform and letting it go after <color=#006400>" + gameTime.ToString() + " seconds</color>. If the safe release point of the tooth is <color=red>210 degrees</color> from the grab point. At what <color=purple>angular velocity</color> should " + playerName + " set the spinning gear at?";
-               
+
                 CurvedLineFollower.stage = 1;
                 myPlayer.transform.position = playerPos;
                 gearSet.transform.position = new Vector3(gearSet.transform.position.x, gearSet.transform.position.y, gearSet.transform.position.z);
                 crankReset = true;
                 break;
             case 2:
+                playerHangerTrigger2.SetActive(false);
                 player.gravityScale = 1;
                 pipeHanger.enabled = false;
                 directorPlatform.transform.position = new Vector3(-17, 2, 0);
                 directorPlatform.transform.localScale = new Vector3(-1.20f, 01.20f, 0);
-                directorsSpeech.transform.localScale = new Vector3(directorsSpeech.transform.localScale.x * -1, directorsSpeech.transform.localScale.y, directorsSpeech.transform.localScale.z);
+                directorsSpeech.transform.localScale = new Vector3(-1, directorsSpeech.transform.localScale.y, directorsSpeech.transform.localScale.z);
                 playButton2.interactable = false;
                 stage2Layout.SetActive(true);
 
@@ -239,7 +246,7 @@ public class Level5EasyManager : MonoBehaviour
                 aVelocity = (float)System.Math.Round(av, 2);
                 gameTime = (float)System.Math.Round((118 / aVelocity), 2);
                 questionTxtBox2.text = playerName + " is trying to cross the other platform by hanging at the rotating gear from the starting platform and grabbing the pipe above upon reaching the highest point of the gear. If the release point of the gear is <color=red>118 degrees</color> from the grab point, and the angular velocity of the gear is <color=purple>" + aVelocity + " degrees per second</color>, how <color=#006400>long</color> " + pronoun + " should hold on to the gear before reaching for the pipe?";
-               
+
                 CurvedLineFollower.stage = 2;
                 myPlayer.transform.position = new Vector2(playerPos.x - 12, playerPos.y - 1);
                 gearSet.transform.position = new Vector3(-6.15f, -0.667f, gearSet.transform.position.z);
@@ -356,7 +363,10 @@ public class Level5EasyManager : MonoBehaviour
                 yield return new WaitForSeconds(1f);
                 myPlayer.brake = false;
             }
-            yield return new WaitForSeconds(1.25f);
+            else
+            {
+                yield return new WaitForSeconds(1f);
+            }
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
             yield return new WaitForSeconds(1f);
@@ -364,18 +374,19 @@ public class Level5EasyManager : MonoBehaviour
             directorsSpeech.text = "";
             myPlayer.gameObject.transform.position = new Vector2(myPlayer.gameObject.transform.position.x + 0.4f, myPlayer.gameObject.transform.position.y);
             myPlayer.gameObject.transform.localScale = new Vector2(0.4f, 0.4f);
-            yield return new WaitForEndOfFrame();
+            //yield return new WaitForEndOfFrame();
             myPlayer.happy = true;
         }
     }
     IEnumerator ExitStage()
     {
-        myPlayer.standup = false;
+        myPlayer.happy = false;
         afterStuntMessage.SetActive(false);
+        yield return new WaitForSeconds(1f);
         myPlayer.moveSpeed = 5;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         StartCoroutine(playerHeart.endBGgone());
-        yield return new WaitForSeconds(2.8f);
+        //yield return new WaitForSeconds(2.8f);
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);
         myPlayer.moveSpeed = 0;
         Lvl5EasySetUp();
@@ -412,7 +423,7 @@ public class Level5EasyManager : MonoBehaviour
     {
         myPlayer.gameObject.SetActive(false);
         ragdoll = Instantiate(ragdollPrefab);
-        ragdoll.transform.position = myPlayer.gameObject.transform.position * 1.05f;
+        ragdoll.transform.position = myPlayer.gameObject.transform.position;
     }
     IEnumerator HangWalk()
     {
@@ -435,15 +446,18 @@ public class Level5EasyManager : MonoBehaviour
         player.gravityScale = 0;
         if (isAnswerCorect)
         {
-            yield return new WaitForSeconds(1.07f);
+            yield return new WaitForSeconds(0.50f);
             StartCoroutine(HangWalk());
         }
         else
         {
             yield return new WaitForSeconds(0.29f);
+            myPlayer.isFalling = true;
             player.gravityScale = 1;
             myPlayer.isGrabbing = false;
             myPlayer.hangWalk = false;
+            yield return new WaitForSeconds(1.25f);
+            myPlayer.isFalling = false;
             myPlayer.isHanging = false;
             RagdollSpawn();
         }
