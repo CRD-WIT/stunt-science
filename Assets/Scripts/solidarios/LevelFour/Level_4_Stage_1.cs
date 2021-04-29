@@ -18,6 +18,7 @@ public class Level_4_Stage_1 : MonoBehaviour
     public float speed = 1f;
     public GameObject thePlayer;
     public GameObject FirstCamera;
+    public GameObject thinRope;
     public GameObject SecondCamera;
     Vector3 thePlayer_position;
     float timeGiven;
@@ -74,8 +75,6 @@ public class Level_4_Stage_1 : MonoBehaviour
 
         hookLauncher.transform.Rotate(new Vector3(0, 0, angleGiven));
 
-        
-
     }
 
     IEnumerator StuntResult()
@@ -125,10 +124,14 @@ public class Level_4_Stage_1 : MonoBehaviour
                 {
                     hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                     hook.GetComponent<Rigidbody2D>().WakeUp();
-                    // Use the angle from the indicator
-                    Debug.Log(totalRopeMass);
                     hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
                     doneFiring = true;
+                }
+
+                if (hook.GetComponent<Hook>().isCollided)
+                {
+                    thinRope.gameObject.SetActive(true);
+                    hookLine.SetActive(false);
                 }
                 // Correct Answer
                 if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
