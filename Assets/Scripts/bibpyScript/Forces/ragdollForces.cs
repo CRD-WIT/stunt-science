@@ -8,7 +8,7 @@ public class ragdollForces : MonoBehaviour
     public float moveSpeedbackward;
     public float moveSpeedupward;
     private Rigidbody2D myRigidbody;
-    public GameObject stick;
+    public GameObject stick, napsack;
     public GameObject stickloc;
     private ForceSimulation theSimulate;
     private ForceManagerOne theManagerOne;
@@ -39,7 +39,10 @@ public class ragdollForces : MonoBehaviour
             moveSpeedforward = 8;
             moveSpeedbackward = -8;
         }
-
+         if (theSimulate.stage == 3)
+         {
+            napsack.SetActive(true);
+         }
 
     }
 

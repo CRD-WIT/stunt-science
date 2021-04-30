@@ -13,15 +13,15 @@ public class ColliderManager : MonoBehaviour
     void Start()
     {
         thePlayer = FindObjectOfType<Player>();
-        theManagerThree = FindObjectOfType<ForceManagerThree>();
+        
     }
-
     // Update is called once per frame
     void Update()
     {
-        
-        
+        theManagerThree = FindObjectOfType<ForceManagerThree>();
     }
+        
+    
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == ("wall"))

@@ -175,6 +175,16 @@ public class ForceSimulation : MonoBehaviour
         playButton.interactable = true;
         answerField.text = ("");
         nextButton.SetActive(false);
+        if(stage == 2)
+        {
+            stage = 3;
+            ground[1].SetActive(false);
+            ground[2].SetActive(true);
+            theManagerTwo.gameObject.SetActive(false);
+            theManagerThree.gameObject.SetActive(true);
+            //theManagerTwo.GenerateProblem();
+            
+        }
         if(stage == 1)
         {
             stage = 2;
@@ -185,6 +195,7 @@ public class ForceSimulation : MonoBehaviour
             //theManagerTwo.GenerateProblem();
             
         }
+        
         StartCoroutine(theHeart.startBGgone());
     }
 }

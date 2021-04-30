@@ -120,7 +120,7 @@ public class BombManager : MonoBehaviour
         {
             if (theManagerTwo.playerAnswer <= theManagerTwo.correctAnswer)
             {
-                yield return new WaitForSeconds(2.1f);
+                yield return new WaitForSeconds(1.9f);
                 GameObject explosion = Instantiate(explosionPrefab);
                 explosion.transform.position = bomb.transform.position;
                 bomb.SetActive(false);

@@ -11,13 +11,15 @@ public class ForceManagerThree : MonoBehaviour
     private ColliderManager theCollider;
     private BombManager theBomb;
     private HeartManager theHeart;
+    private ScoreManager theScorer;
     float generateAccelaration, accelaration, playerAccelaration, generateForce, force, generateCorrectAnswer, currentPos;
     public float correctAnswer, playerAnswer,increaseMass;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, afterStuntMessage, retry, next, glassDebri, cameraman, playerSpeech, napsack;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, afterStuntMessage, retry, next, glassDebri, cameraman, playerSpeech, napsack, wordedBoard, speechBubble;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady, startAddingMass, crowdExit;
     public bool throwBomb, addingWeight, startRunning, goExit;
     public TMP_Text stuntMessageTxt, playerMass, thisWaytxt;
+    int currentStar, currentLevel;
 
 
 
@@ -30,8 +32,15 @@ public class ForceManagerThree : MonoBehaviour
         theSimulate = FindObjectOfType<ForceSimulation>();
         theBomb = FindObjectOfType<BombManager>();
         theHeart = FindObjectOfType<HeartManager>();
+        theScorer = FindObjectOfType<ScoreManager>();
+        currentLevel = PlayerPrefs.GetInt("level");
+        currentStar = PlayerPrefs.GetInt("FrstarE");
         GenerateProblem();
-        cameraman.transform.position = new Vector2(cameraman.transform.position.x, 5.5f);
+        wordedBoard.transform.position = new Vector2(8.9f, wordedBoard.transform.position.y);
+        cameraman.transform.position = new Vector2(35, 5.5f);
+        cameraman.transform.localScale = new Vector2(-cameraman.transform.localScale.x, cameraman.transform.localScale.y);
+        thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
+        speechBubble.transform.localScale = new Vector2(-speechBubble.transform.localScale.x, speechBubble.transform.localScale.y);
     }
 
     // Update is called once per frame
@@ -190,10 +199,10 @@ public class ForceManagerThree : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         theBomb.explodebomb = true;
         thePlayer.moveSpeed = 5;
-        StartCoroutine(StuntResult());
         yield return new WaitForSeconds(1.5f);
         thePlayer.moveSpeed = 0;
         thePlayer.happy = true;
+        StartCoroutine(StuntResult());
     }
     IEnumerator collision()
     {
@@ -206,8 +215,21 @@ public class ForceManagerThree : MonoBehaviour
         ForceSimulation.simulate = false;
         yield return new WaitForSeconds(1);
         StartCoroutine(theSimulate.DirectorsCall());
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(3);
         afterStuntMessage.SetActive(true);
+        if(playerAnswer == correctAnswer)
+        {
+            theScorer.finalstar();
+            if(theHeart.life > currentStar)
+            {
+                PlayerPrefs.SetInt("FrstarE", theHeart.life);
+            }
+            if (currentLevel < 16)
+            {
+                PlayerPrefs.SetInt("level", currentLevel + 1);
+            }
+            //afterStuntMessage.SetActive(false);
+        }
 
     }
     public void glassRespawn()

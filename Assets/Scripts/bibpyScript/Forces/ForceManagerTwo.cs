@@ -66,11 +66,13 @@ public class ForceManagerTwo : MonoBehaviour
                     stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " has broken the glass</color>";
                     if(currentPos <= 5.7f)
                     {
+                        next.SetActive(true);
                         StartCoroutine(braking());
                         thePlayer.moveSpeed = 0; 
                         thePlayer.transform.position = new Vector2(5.8f, -0.63f);
                         ForceSimulation.simulate = false;
                         StartCoroutine(collision());
+                        StartCoroutine(StuntResult());
                         
                         
                     }
@@ -145,11 +147,14 @@ public class ForceManagerTwo : MonoBehaviour
     {
         thePlayer.brake = true;
         thePlayer.throwing = true;
-        yield return new WaitForSeconds(1);
-        bombHinge.SetActive(false);
-        throwBomb = true;
-        thePlayer.brake = false;
+        yield return new WaitForSeconds(.7f);
         theBombScript.inPlayer = false;
+        throwBomb = true;
+        yield return new WaitForSeconds(.3f);
+        bombHinge.SetActive(false);
+        thePlayer.brake = false;
+        thePlayer.throwing = false;
+      
     }
     IEnumerator collision()
     {
