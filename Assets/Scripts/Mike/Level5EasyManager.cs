@@ -16,6 +16,7 @@ public class Level5EasyManager : MonoBehaviour
     [SerializeField] Animator crank;
     Vector2 playerPos;
     StageManager sm = new StageManager();
+    RoundOffHandler CustomRoundOff = new RoundOffHandler();
     HeartManager playerHeart;
     string pronoun, pNoun, playerName, playerGender;
     bool directorIsCalling, isStartOfStunt, stuntReady, DC, isCranking, crankingDone, crankReset, DCisOn, isAnswerCorect;
@@ -51,10 +52,12 @@ public class Level5EasyManager : MonoBehaviour
                     timerTxtBox.text = elapsed.ToString("f2") + "s";
                     if (elapsed < gameTime)
                     {
+                        
                         elapsed = GearHangers.hangTime;
-                        //float e = Mathf.Round(elapsed * 100)*0.01f;
-                        Debug.Log(CurvedLineFollower.arc);
+                        //float e = CustomRoundOff.Round(elapsed, 2);
                         CurvedLineFollower.arc = playerAnswer * elapsed;
+                        
+                        //Debug.Log(e);
                         myPlayer.isHanging = true;
                         myPlayer.gameObject.transform.localScale = new Vector2(-0.4f, 0.4f);
                     }

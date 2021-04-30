@@ -12,7 +12,7 @@ public class VelocityEasyStage3 : MonoBehaviour
     public TMP_Text playerNameText, messageText, timer;
     public float distance, gameTime, Speed, elapsed, currentPos;
     string pronoun, playerName, playerGender;
-    public GameObject slidePlatform, lowerGround, AfterStuntMessage, safeZone, rubblesStopper, dimensionLine, ragdollSpawn, manholeCover;
+    public GameObject slidePlatform, lowerGround, AfterStuntMessage, safeZone, rubblesStopper, dimensionLine, ragdollSpawn, manholeCover, templeBeam;
     bool director;
     float answer;
 
@@ -94,6 +94,7 @@ public class VelocityEasyStage3 : MonoBehaviour
     }
     public void Stage3SetUp()
     {
+        templeBeam.SetActive(false);
         distance = 0;
         dimensionLine.SetActive(false);
         rubblesStopper.SetActive(true);

@@ -16,7 +16,7 @@ public class SimulationManager : MonoBehaviour
     public TMP_Text questionTextBox, errorTextBox, diretorsSpeech, levelText;
     public static string question;
     public static float playerAnswer;
-    public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
+    public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag, isRubbleStatic;
     public static int stage;
     public bool destroyPrefab;
     private HeartManager theHeart;
@@ -181,6 +181,7 @@ public class SimulationManager : MonoBehaviour
         {
             sm.SetDifficulty(2);
         }
+        isRubbleStatic = false;
         StartCoroutine(ExitStage());
     }
     IEnumerator ExitStage()

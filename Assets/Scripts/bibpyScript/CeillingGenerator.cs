@@ -21,7 +21,6 @@ public class CeillingGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         GameObject debris = rubble[Random.Range(0, 2)];
     }
 

@@ -15,11 +15,17 @@ public class PrefabDestroyer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(theSimulate.destroyPrefab == true)
+        if (!SimulationManager.isRubbleStatic)
         {
-            Destroy(debriPrefab.gameObject);
+            Rigidbody2D rubbleRb = this.gameObject.GetComponent<Rigidbody2D>();
+            PolygonCollider2D rubbleCol = this.gameObject.GetComponent<PolygonCollider2D>();
+
         }
-        
+        if (theSimulate.destroyPrefab == true)
+        {
+            Destroy(debriPrefab);
+        }
+
     }
-    
+
 }
