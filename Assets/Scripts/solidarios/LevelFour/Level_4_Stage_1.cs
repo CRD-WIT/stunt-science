@@ -11,7 +11,10 @@ public class Level_4_Stage_1 : MonoBehaviour
 
     public TMP_Text playerNameText, stuntMessageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
+    public GameObject movingToHookHand;
     Animator thePlayerAnimation;
+    bool isMovingToHook;
+    public Animator levelAnimations;
     public TMP_InputField playerAnswer;
     public GameObject hook;
     bool isSimulating = false;
@@ -98,9 +101,15 @@ public class Level_4_Stage_1 : MonoBehaviour
 
     IEnumerator PullRope()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.3f + (elapsed/2));
+        isMovingToHook = true;
         thinRope.gameObject.SetActive(false);
         hookLine.SetActive(true);
+        thePlayerAnimation.SetBool("isPullingRope", true);
+        levelAnimations.SetBool("isMoving", true);
+        yield return new WaitForSeconds(1.59f);
+        thePlayerAnimation.SetBool("happy", true);
+        hookLine.SetActive(false);
     }
 
     public void StartSimulation()
@@ -117,10 +126,20 @@ public class Level_4_Stage_1 : MonoBehaviour
             GenerateVelocities();
         }
 
-        if (isSimulating)
+        if (isMovingToHook && !isSimulating)
+        {
+            hookLine.GetComponent<LineRenderer>().SetPosition(0, movingToHookHand.transform.position);
+            hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
+        }
+        else
         {
             hookLine.GetComponent<LineRenderer>().SetPosition(0, hookLauncher.transform.position);
             hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
+        }
+
+        if (isSimulating)
+        {
+
             if (playerAnswer.text.Length > 0)
             {
                 timeIndicator.transform.position = new Vector3(hook.transform.position.x, hook.transform.position.y + 1, 1);

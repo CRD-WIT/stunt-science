@@ -5238,6 +5238,7 @@ GameObject:
   - component: {fileID: 132249603}
   - component: {fileID: 132249601}
   - component: {fileID: 132249602}
+  - component: {fileID: 132249604}
   m_Layer: 0
   m_Name: bone_10
   m_TagString: Untagged
@@ -5275,7 +5276,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 132249600}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 380660237}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -5304,6 +5305,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &132249604
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132249600}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &139513102
 GameObject:
   m_ObjectHideFlags: 0
@@ -5415,6 +5442,7 @@ GameObject:
   - component: {fileID: 147512575}
   - component: {fileID: 147512573}
   - component: {fileID: 147512574}
+  - component: {fileID: 147512576}
   m_Layer: 0
   m_Name: bone_1
   m_TagString: Untagged
@@ -5452,7 +5480,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 147512572}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 2117548792}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -5481,6 +5509,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &147512576
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147512572}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &147882194
 GameObject:
   m_ObjectHideFlags: 0
@@ -5608,6 +5662,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &151242063 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 800244271678103138, guid: 7bc87c50c8303494c822786def94109f, type: 3}
+  m_PrefabInstance: {fileID: 1620750602}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &168131830
 GameObject:
   m_ObjectHideFlags: 0
@@ -6095,6 +6154,7 @@ GameObject:
   - component: {fileID: 215100574}
   - component: {fileID: 215100572}
   - component: {fileID: 215100573}
+  - component: {fileID: 215100575}
   m_Layer: 0
   m_Name: bone_29
   m_TagString: Untagged
@@ -6132,7 +6192,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 215100571}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 921004264}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -6161,6 +6221,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &215100575
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215100571}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &235915695
 GameObject:
   m_ObjectHideFlags: 0
@@ -6900,6 +6986,7 @@ GameObject:
   - component: {fileID: 355333920}
   - component: {fileID: 355333918}
   - component: {fileID: 355333919}
+  - component: {fileID: 355333921}
   m_Layer: 0
   m_Name: bone_7
   m_TagString: Untagged
@@ -6937,7 +7024,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 355333917}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1394539376}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -6966,6 +7053,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &355333921
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355333917}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &366137150
 GameObject:
   m_ObjectHideFlags: 0
@@ -6977,6 +7090,7 @@ GameObject:
   - component: {fileID: 366137153}
   - component: {fileID: 366137151}
   - component: {fileID: 366137152}
+  - component: {fileID: 366137154}
   m_Layer: 0
   m_Name: bone_18
   m_TagString: Untagged
@@ -7014,7 +7128,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 366137150}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1387134125}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -7043,6 +7157,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &366137154
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366137150}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &380660236
 GameObject:
   m_ObjectHideFlags: 0
@@ -7054,6 +7194,7 @@ GameObject:
   - component: {fileID: 380660239}
   - component: {fileID: 380660237}
   - component: {fileID: 380660238}
+  - component: {fileID: 380660240}
   m_Layer: 0
   m_Name: bone_9
   m_TagString: Untagged
@@ -7091,7 +7232,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 380660236}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 458340536}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -7120,6 +7261,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &380660240
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380660236}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &388738794
 GameObject:
   m_ObjectHideFlags: 0
@@ -7131,6 +7298,7 @@ GameObject:
   - component: {fileID: 388738797}
   - component: {fileID: 388738795}
   - component: {fileID: 388738796}
+  - component: {fileID: 388738798}
   m_Layer: 0
   m_Name: bone_34
   m_TagString: Untagged
@@ -7168,7 +7336,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 388738794}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1471016099}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -7197,6 +7365,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &388738798
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388738794}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!224 &395279243 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2288891998222853907, guid: 46c3bfb33141a7841899d06fb8457d43, type: 3}
@@ -7345,6 +7539,7 @@ GameObject:
   - component: {fileID: 420208704}
   - component: {fileID: 420208702}
   - component: {fileID: 420208703}
+  - component: {fileID: 420208705}
   m_Layer: 0
   m_Name: bone_22
   m_TagString: Untagged
@@ -7382,7 +7577,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 420208701}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 437925378}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -7411,6 +7606,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &420208705
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420208701}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &437404879
 GameObject:
   m_ObjectHideFlags: 0
@@ -7499,6 +7720,7 @@ GameObject:
   - component: {fileID: 437925380}
   - component: {fileID: 437925378}
   - component: {fileID: 437925379}
+  - component: {fileID: 437925381}
   m_Layer: 0
   m_Name: bone_21
   m_TagString: Untagged
@@ -7536,7 +7758,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 437925377}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1634106724}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -7565,6 +7787,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &437925381
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437925377}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &440643478
 GameObject:
   m_ObjectHideFlags: 0
@@ -7576,6 +7824,7 @@ GameObject:
   - component: {fileID: 440643481}
   - component: {fileID: 440643479}
   - component: {fileID: 440643480}
+  - component: {fileID: 440643482}
   m_Layer: 0
   m_Name: bone_42
   m_TagString: Untagged
@@ -7613,7 +7862,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 440643478}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1703260057}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -7642,6 +7891,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 42
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &440643482
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440643478}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &442665709
 GameObject:
   m_ObjectHideFlags: 0
@@ -7719,6 +7994,7 @@ GameObject:
   - component: {fileID: 458340538}
   - component: {fileID: 458340536}
   - component: {fileID: 458340537}
+  - component: {fileID: 458340539}
   m_Layer: 0
   m_Name: bone_8
   m_TagString: Untagged
@@ -7756,7 +8032,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 458340535}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 355333918}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -7785,6 +8061,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &458340539
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458340535}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &460537296
 GameObject:
   m_ObjectHideFlags: 0
@@ -7796,6 +8098,7 @@ GameObject:
   - component: {fileID: 460537299}
   - component: {fileID: 460537297}
   - component: {fileID: 460537298}
+  - component: {fileID: 460537300}
   m_Layer: 0
   m_Name: bone_24
   m_TagString: Untagged
@@ -7833,7 +8136,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 460537296}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 936138044}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -7862,6 +8165,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &460537300
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460537296}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &460965495
 GameObject:
   m_ObjectHideFlags: 0
@@ -7873,6 +8202,7 @@ GameObject:
   - component: {fileID: 460965498}
   - component: {fileID: 460965496}
   - component: {fileID: 460965497}
+  - component: {fileID: 460965499}
   m_Layer: 0
   m_Name: bone_27
   m_TagString: Untagged
@@ -7910,7 +8240,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 460965495}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1046609521}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -7939,6 +8269,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &460965499
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460965495}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &472872174
 GameObject:
   m_ObjectHideFlags: 0
@@ -8053,6 +8409,7 @@ GameObject:
   - component: {fileID: 486270018}
   - component: {fileID: 486270016}
   - component: {fileID: 486270017}
+  - component: {fileID: 486270019}
   m_Layer: 0
   m_Name: bone_12
   m_TagString: Untagged
@@ -8090,7 +8447,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 486270015}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1918796601}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -8119,6 +8476,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &486270019
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486270015}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &497541262
 GameObject:
   m_ObjectHideFlags: 0
@@ -8440,6 +8823,7 @@ GameObject:
   - component: {fileID: 559224848}
   - component: {fileID: 559224846}
   - component: {fileID: 559224847}
+  - component: {fileID: 559224849}
   m_Layer: 0
   m_Name: bone_15
   m_TagString: Untagged
@@ -8477,7 +8861,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 559224845}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1717997587}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -8506,6 +8890,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &559224849
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559224845}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &559820683
 GameObject:
   m_ObjectHideFlags: 0
@@ -9462,6 +9872,8 @@ MonoBehaviour:
   questionText: {fileID: 258368003}
   levelName: {fileID: 245399216}
   AfterStuntMessage: {fileID: 1318250021}
+  movingToHookHand: {fileID: 151242063}
+  levelAnimations: {fileID: 1800742034}
   playerAnswer: {fileID: 1553812261}
   hook: {fileID: 174643246}
   speed: 10
@@ -9813,6 +10225,7 @@ GameObject:
   - component: {fileID: 833437973}
   - component: {fileID: 833437971}
   - component: {fileID: 833437972}
+  - component: {fileID: 833437974}
   m_Layer: 0
   m_Name: bone_38
   m_TagString: Untagged
@@ -9850,7 +10263,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 833437970}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1976619711}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -9879,6 +10292,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 38
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &833437974
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833437970}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &844024536 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1919375450109449377, guid: 7bc87c50c8303494c822786def94109f, type: 3}
@@ -9911,6 +10350,7 @@ GameObject:
   - component: {fileID: 864959995}
   - component: {fileID: 864959993}
   - component: {fileID: 864959994}
+  - component: {fileID: 864959996}
   m_Layer: 0
   m_Name: bone_19
   m_TagString: Untagged
@@ -9948,7 +10388,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 864959992}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 366137151}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -9977,6 +10417,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &864959996
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864959992}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &877419807
 GameObject:
   m_ObjectHideFlags: 0
@@ -10002,14 +10468,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 877419807}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.118, y: 3.064, z: 0}
+  m_LocalPosition: {x: 26.082, y: 2.953, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1800742033}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &877419809
-CircleCollider2D:
+--- !u!61 &877419809
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -10022,8 +10488,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.21
+  m_Size: {x: 0.44, y: 0.46}
+  m_EdgeRadius: 0
 --- !u!1 &885991869
 GameObject:
   m_ObjectHideFlags: 0
@@ -10162,6 +10638,7 @@ GameObject:
   - component: {fileID: 902531444}
   - component: {fileID: 902531442}
   - component: {fileID: 902531443}
+  - component: {fileID: 902531445}
   m_Layer: 0
   m_Name: bone_30
   m_TagString: Untagged
@@ -10199,7 +10676,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 902531441}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 215100572}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -10228,6 +10705,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &902531445
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902531441}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &921004263
 GameObject:
   m_ObjectHideFlags: 0
@@ -10239,6 +10742,7 @@ GameObject:
   - component: {fileID: 921004266}
   - component: {fileID: 921004264}
   - component: {fileID: 921004265}
+  - component: {fileID: 921004267}
   m_Layer: 0
   m_Name: bone_28
   m_TagString: Untagged
@@ -10276,7 +10780,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 921004263}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 460965496}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -10305,6 +10809,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &921004267
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921004263}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &921525159
 GameObject:
   m_ObjectHideFlags: 0
@@ -10426,6 +10956,7 @@ GameObject:
   - component: {fileID: 936138046}
   - component: {fileID: 936138044}
   - component: {fileID: 936138045}
+  - component: {fileID: 936138047}
   m_Layer: 0
   m_Name: bone_23
   m_TagString: Untagged
@@ -10463,7 +10994,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 936138043}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 420208702}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -10492,6 +11023,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &936138047
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936138043}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &948109062
 GameObject:
   m_ObjectHideFlags: 0
@@ -10792,6 +11349,7 @@ GameObject:
   - component: {fileID: 1034192384}
   - component: {fileID: 1034192382}
   - component: {fileID: 1034192383}
+  - component: {fileID: 1034192385}
   m_Layer: 0
   m_Name: bone_36
   m_TagString: Untagged
@@ -10829,7 +11387,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1034192381}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1069399803}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -10858,6 +11416,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1034192385
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034192381}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1046609520
 GameObject:
   m_ObjectHideFlags: 0
@@ -10869,6 +11453,7 @@ GameObject:
   - component: {fileID: 1046609523}
   - component: {fileID: 1046609521}
   - component: {fileID: 1046609522}
+  - component: {fileID: 1046609524}
   m_Layer: 0
   m_Name: bone_26
   m_TagString: Untagged
@@ -10906,7 +11491,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1046609520}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 2031630580}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -10935,6 +11520,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1046609524
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046609520}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1057909985
 GameObject:
   m_ObjectHideFlags: 0
@@ -11200,6 +11811,7 @@ GameObject:
   - component: {fileID: 1069399805}
   - component: {fileID: 1069399803}
   - component: {fileID: 1069399804}
+  - component: {fileID: 1069399806}
   m_Layer: 0
   m_Name: bone_35
   m_TagString: Untagged
@@ -11237,7 +11849,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1069399802}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 388738795}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -11265,6 +11877,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1457831625}
   m_RootOrder: 35
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1069399806
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069399802}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
+--- !u!1 &1100082832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1100082833}
+  m_Layer: 6
+  m_Name: PlayerHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1100082833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100082832}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.82, y: 1.8222, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1778736737}
+  m_Father: {fileID: 1800742033}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1109113405
 GameObject:
@@ -11813,6 +12482,7 @@ GameObject:
   - component: {fileID: 1140613570}
   - component: {fileID: 1140613568}
   - component: {fileID: 1140613569}
+  - component: {fileID: 1140613571}
   m_Layer: 0
   m_Name: bone_2
   m_TagString: Untagged
@@ -11850,7 +12520,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1140613567}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 147512573}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -11879,6 +12549,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1140613571
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140613567}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1153497601
 GameObject:
   m_ObjectHideFlags: 0
@@ -12096,6 +12792,7 @@ GameObject:
   - component: {fileID: 1226597419}
   - component: {fileID: 1226597417}
   - component: {fileID: 1226597418}
+  - component: {fileID: 1226597420}
   m_Layer: 0
   m_Name: bone_43
   m_TagString: Untagged
@@ -12133,7 +12830,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1226597416}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 440643479}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -12162,6 +12859,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 43
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1226597420
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226597416}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1227275312
 GameObject:
   m_ObjectHideFlags: 0
@@ -12248,6 +12971,7 @@ GameObject:
   - component: {fileID: 1243716420}
   - component: {fileID: 1243716418}
   - component: {fileID: 1243716419}
+  - component: {fileID: 1243716421}
   m_Layer: 0
   m_Name: bone_31
   m_TagString: Untagged
@@ -12285,7 +13009,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1243716417}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 902531442}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -12314,6 +13038,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1243716421
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243716417}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1249379400
 GameObject:
   m_ObjectHideFlags: 0
@@ -12740,6 +13490,7 @@ GameObject:
   - component: {fileID: 1387134127}
   - component: {fileID: 1387134125}
   - component: {fileID: 1387134126}
+  - component: {fileID: 1387134128}
   m_Layer: 0
   m_Name: bone_17
   m_TagString: Untagged
@@ -12777,7 +13528,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1387134124}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 2144926041}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -12806,6 +13557,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1387134128
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387134124}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1394539375
 GameObject:
   m_ObjectHideFlags: 0
@@ -12817,6 +13594,7 @@ GameObject:
   - component: {fileID: 1394539378}
   - component: {fileID: 1394539376}
   - component: {fileID: 1394539377}
+  - component: {fileID: 1394539379}
   m_Layer: 0
   m_Name: bone_6
   m_TagString: Untagged
@@ -12854,7 +13632,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1394539375}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1770112127}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -12883,6 +13661,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1394539379
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394539375}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1402924170
 GameObject:
   m_ObjectHideFlags: 0
@@ -13652,6 +14456,7 @@ GameObject:
   - component: {fileID: 1471016101}
   - component: {fileID: 1471016099}
   - component: {fileID: 1471016100}
+  - component: {fileID: 1471016102}
   m_Layer: 0
   m_Name: bone_33
   m_TagString: Untagged
@@ -13689,7 +14494,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1471016098}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1493894061}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -13718,6 +14523,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1471016102
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471016098}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1485356983
 GameObject:
   m_ObjectHideFlags: 0
@@ -13817,6 +14648,7 @@ GameObject:
   - component: {fileID: 1493894063}
   - component: {fileID: 1493894061}
   - component: {fileID: 1493894062}
+  - component: {fileID: 1493894064}
   m_Layer: 0
   m_Name: bone_32
   m_TagString: Untagged
@@ -13854,7 +14686,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1493894060}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1243716418}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -13883,6 +14715,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1493894064
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493894060}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1500045359
 GameObject:
   m_ObjectHideFlags: 0
@@ -14274,7 +15132,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1800742033}
+    m_TransformParent: {fileID: 1100082833}
     m_Modifications:
     - target: {fileID: -6658107369212967051, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_Enabled
@@ -14318,7 +15176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1919375450109449381, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1919375450109449381, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_LocalScale.x
@@ -14334,11 +15192,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1919375450109449381, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.27
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1919375450109449381, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.822
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1919375450109449381, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -14926,7 +15784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7294000144750304840, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7848707180660387851, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_Layer
@@ -15088,6 +15946,7 @@ GameObject:
   - component: {fileID: 1634106726}
   - component: {fileID: 1634106724}
   - component: {fileID: 1634106725}
+  - component: {fileID: 1634106727}
   m_Layer: 0
   m_Name: bone_20
   m_TagString: Untagged
@@ -15125,7 +15984,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1634106723}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 864959993}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -15154,6 +16013,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1634106727
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634106723}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1657658654
 GameObject:
   m_ObjectHideFlags: 0
@@ -15508,6 +16393,7 @@ GameObject:
   - component: {fileID: 1698110222}
   - component: {fileID: 1698110220}
   - component: {fileID: 1698110221}
+  - component: {fileID: 1698110223}
   m_Layer: 0
   m_Name: bone_40
   m_TagString: Untagged
@@ -15545,7 +16431,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1698110219}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 2008412372}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -15574,6 +16460,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 40
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1698110223
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698110219}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1703260056
 GameObject:
   m_ObjectHideFlags: 0
@@ -15585,6 +16497,7 @@ GameObject:
   - component: {fileID: 1703260059}
   - component: {fileID: 1703260057}
   - component: {fileID: 1703260058}
+  - component: {fileID: 1703260060}
   m_Layer: 0
   m_Name: bone_41
   m_TagString: Untagged
@@ -15622,7 +16535,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1703260056}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1698110220}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -15651,6 +16564,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 41
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1703260060
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703260056}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1717997586
 GameObject:
   m_ObjectHideFlags: 0
@@ -15662,6 +16601,7 @@ GameObject:
   - component: {fileID: 1717997589}
   - component: {fileID: 1717997587}
   - component: {fileID: 1717997588}
+  - component: {fileID: 1717997590}
   m_Layer: 0
   m_Name: bone_14
   m_TagString: Untagged
@@ -15699,7 +16639,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1717997586}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1975364746}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -15728,6 +16668,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1717997590
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717997586}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1753899433
 GameObject:
   m_ObjectHideFlags: 0
@@ -16604,6 +17570,7 @@ GameObject:
   - component: {fileID: 1766329473}
   - component: {fileID: 1766329475}
   - component: {fileID: 1766329474}
+  - component: {fileID: 1766329476}
   m_Layer: 0
   m_Name: bone_44
   m_TagString: Untagged
@@ -16634,7 +17601,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1766329472}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1226597417}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -16670,6 +17637,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &1766329476
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766329472}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1770112126
 GameObject:
   m_ObjectHideFlags: 0
@@ -16681,6 +17674,7 @@ GameObject:
   - component: {fileID: 1770112129}
   - component: {fileID: 1770112127}
   - component: {fileID: 1770112128}
+  - component: {fileID: 1770112130}
   m_Layer: 0
   m_Name: bone_5
   m_TagString: Untagged
@@ -16718,7 +17712,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1770112126}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1801555607}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -16747,6 +17741,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1770112130
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770112126}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1774168668
 GameObject:
   m_ObjectHideFlags: 0
@@ -21771,6 +22791,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1800742033}
+  - component: {fileID: 1800742034}
   m_Layer: 6
   m_Name: Level
   m_TagString: Untagged
@@ -21794,11 +22815,30 @@ Transform:
   - {fileID: 1661425372}
   - {fileID: 1753899434}
   - {fileID: 1827930625}
-  - {fileID: 1778736737}
+  - {fileID: 1100082833}
   - {fileID: 877419808}
   m_Father: {fileID: 732250310}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1800742034
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800742032}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c5ba67cad88f899de985aa12b7402017, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1801555606
 GameObject:
   m_ObjectHideFlags: 0
@@ -21810,6 +22850,7 @@ GameObject:
   - component: {fileID: 1801555609}
   - component: {fileID: 1801555607}
   - component: {fileID: 1801555608}
+  - component: {fileID: 1801555610}
   m_Layer: 0
   m_Name: bone_4
   m_TagString: Untagged
@@ -21847,7 +22888,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1801555606}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1842077349}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -21876,6 +22917,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1801555610
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801555606}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1827930624
 GameObject:
   m_ObjectHideFlags: 0
@@ -21970,6 +23037,7 @@ GameObject:
   - component: {fileID: 1842077351}
   - component: {fileID: 1842077349}
   - component: {fileID: 1842077350}
+  - component: {fileID: 1842077352}
   m_Layer: 0
   m_Name: bone_3
   m_TagString: Untagged
@@ -22007,7 +23075,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1842077348}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1140613568}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -22036,6 +23104,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1842077352
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842077348}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1885933215
 GameObject:
   m_ObjectHideFlags: 0
@@ -22174,6 +23268,7 @@ GameObject:
   - component: {fileID: 1918796603}
   - component: {fileID: 1918796601}
   - component: {fileID: 1918796602}
+  - component: {fileID: 1918796604}
   m_Layer: 0
   m_Name: bone_11
   m_TagString: Untagged
@@ -22211,7 +23306,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1918796600}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 132249601}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -22240,6 +23335,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1918796604
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918796600}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1942465232
 GameObject:
   m_ObjectHideFlags: 0
@@ -22608,6 +23729,7 @@ GameObject:
   - component: {fileID: 1975364748}
   - component: {fileID: 1975364746}
   - component: {fileID: 1975364747}
+  - component: {fileID: 1975364749}
   m_Layer: 0
   m_Name: bone_13
   m_TagString: Untagged
@@ -22645,7 +23767,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1975364745}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 486270016}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -22674,6 +23796,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1975364749
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1975364745}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &1976619710
 GameObject:
   m_ObjectHideFlags: 0
@@ -22685,6 +23833,7 @@ GameObject:
   - component: {fileID: 1976619713}
   - component: {fileID: 1976619711}
   - component: {fileID: 1976619712}
+  - component: {fileID: 1976619714}
   m_Layer: 0
   m_Name: bone_37
   m_TagString: Untagged
@@ -22722,7 +23871,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 1976619710}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1034192382}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -22751,6 +23900,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 37
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1976619714
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976619710}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &2008412371
 GameObject:
   m_ObjectHideFlags: 0
@@ -22762,6 +23937,7 @@ GameObject:
   - component: {fileID: 2008412374}
   - component: {fileID: 2008412372}
   - component: {fileID: 2008412373}
+  - component: {fileID: 2008412375}
   m_Layer: 0
   m_Name: bone_39
   m_TagString: Untagged
@@ -22799,7 +23975,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 2008412371}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 833437971}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -22828,6 +24004,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2008412375
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008412371}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &2017307893
 GameObject:
   m_ObjectHideFlags: 0
@@ -22916,6 +24118,7 @@ GameObject:
   - component: {fileID: 2031630582}
   - component: {fileID: 2031630580}
   - component: {fileID: 2031630581}
+  - component: {fileID: 2031630583}
   m_Layer: 0
   m_Name: bone_25
   m_TagString: Untagged
@@ -22953,7 +24156,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 2031630579}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 460537297}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -22982,6 +24185,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2031630583
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031630579}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!4 &2041564161 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4790556043337702179, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
@@ -23466,6 +24695,7 @@ GameObject:
   - component: {fileID: 2144926043}
   - component: {fileID: 2144926041}
   - component: {fileID: 2144926042}
+  - component: {fileID: 2144926044}
   m_Layer: 0
   m_Name: bone_16
   m_TagString: Untagged
@@ -23503,7 +24733,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 2144926040}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 559224846}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -23532,6 +24762,32 @@ Transform:
   m_Father: {fileID: 1457831625}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2144926044
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144926040}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.03}
+  m_EdgeRadius: 0
 --- !u!1 &2145586606
 GameObject:
   m_ObjectHideFlags: 0
