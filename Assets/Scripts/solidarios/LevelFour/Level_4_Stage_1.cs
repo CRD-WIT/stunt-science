@@ -21,6 +21,7 @@ public class Level_4_Stage_1 : MonoBehaviour
     public GameObject thinRope;
     public GameObject SecondCamera;
     Vector3 thePlayer_position;
+    public GameObject Rope2HookEnd;
     float timeGiven;
     Vector2 gravityGiven;
     float correctAnswer;
@@ -95,6 +96,13 @@ public class Level_4_Stage_1 : MonoBehaviour
         Debug.Log($"VelocityInitial: {velocityInitial}");
     }
 
+    IEnumerator PullRope()
+    {
+        yield return new WaitForSeconds(2f);
+        thinRope.gameObject.SetActive(false);
+        hookLine.SetActive(true);
+    }
+
     public void StartSimulation()
     {
         isSimulating = true;
@@ -135,6 +143,8 @@ public class Level_4_Stage_1 : MonoBehaviour
                     thinRope.gameObject.SetActive(true);
                     hookLine.SetActive(false);
                     isSimulating = false;
+                    Rope2HookEnd.GetComponent<Rigidbody2D>().velocity = new Vector3(2, 0, 0);
+                    StartCoroutine(PullRope());
                 }
                 // Correct Answer
                 if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
