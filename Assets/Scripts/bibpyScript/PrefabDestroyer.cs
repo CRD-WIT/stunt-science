@@ -6,26 +6,32 @@ public class PrefabDestroyer : MonoBehaviour
 {
     public GameObject debriPrefab;
     private SimulationManager theSimulate;
+    Rigidbody2D rubbleRb;
+    PolygonCollider2D rubbleCol;
     // Start is called before the first frame update
     void Start()
     {
+        rubbleRb = this.gameObject.GetComponent<Rigidbody2D>();
+        rubbleCol = this.gameObject.GetComponent<PolygonCollider2D>();
         theSimulate = FindObjectOfType<SimulationManager>();
+        rubbleRb.bodyType = RigidbodyType2D.Dynamic;
+        rubbleCol.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!SimulationManager.isRubbleStatic)
+        if (theSimulate.destroyPrefab)
         {
-            Rigidbody2D rubbleRb = this.gameObject.GetComponent<Rigidbody2D>();
-            PolygonCollider2D rubbleCol = this.gameObject.GetComponent<PolygonCollider2D>();
-
+            StartCoroutine(OffRubbleCollider());
         }
-        if (theSimulate.destroyPrefab == true)
-        {
-            Destroy(debriPrefab);
-        }
-
     }
-
+    IEnumerator OffRubbleCollider()
+    {
+        rubbleRb.bodyType = RigidbodyType2D.Kinematic;
+        rubbleCol.enabled = false;
+        yield return new WaitForSeconds(4);
+        Destroy(this.debriPrefab);
+        Start();
+    }
 }
