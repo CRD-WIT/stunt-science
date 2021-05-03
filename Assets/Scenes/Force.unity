@@ -829,6 +829,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: transition
       objectReference: {fileID: 0}
+    - target: {fileID: 2298166935001262151, guid: 91f2a587cac6f5f4bb162b6cb5280514, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2298166935001262170, guid: 91f2a587cac6f5f4bb162b6cb5280514, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1997,6 +2001,7 @@ MonoBehaviour:
   playerSpeech: {fileID: 1830199349}
   napsack: {fileID: 1252568483}
   wordedBoard: {fileID: 21478578889468393}
+  speechBubble: {fileID: 1444900884}
   glassDebriLoc:
   - {fileID: 1996353862}
   - {fileID: 1966032729}
@@ -9367,6 +9372,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2371330203416982564, guid: e3f68d9a3285d704290a80c8d457545a, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 960244658}
+    - target: {fileID: 2371330203416982564, guid: e3f68d9a3285d704290a80c8d457545a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 2371330203416982565, guid: e3f68d9a3285d704290a80c8d457545a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -11272,9 +11285,61 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6248301970775548371, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 330180532}
+    - target: {fileID: 6248301970775548371, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: replaylevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248301970775548371, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ScoreManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248301970948243500, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 330180532}
+    - target: {fileID: 6248301970948243500, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: gotolevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248301971343716506, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248301971343716507, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_Color.b
+      value: 0.2924528
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248301971343716507, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_Color.g
+      value: 0.2924528
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248301971343716507, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_Color.r
+      value: 0.2924528
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248301971343716507, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6248301971477099842, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
       propertyPath: m_Name
       value: starsbg
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248301971477099842, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248301971477099870, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 960244658}
+    - target: {fileID: 6248301971477099870, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 6248301971477099871, guid: 08bb194b25f5dc74a8153454408f2c4e, type: 3}
       propertyPath: m_Pivot.x
@@ -12983,7 +13048,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 15
   m_TargetDisplay: 0
 --- !u!224 &21478578861712149
 RectTransform:
@@ -27371,7 +27436,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5892898072887775708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3069088, y: -2.1364963, z: 78.000946}
+  m_LocalPosition: {x: 2.3069088, y: -2.1364963, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 21478578438264825}

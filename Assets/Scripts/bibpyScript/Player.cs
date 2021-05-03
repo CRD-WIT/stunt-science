@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
      public float jumpforce;
      public bool standup;
      public bool addweights, thisway, godown;
+     public bool toJump;
      
      
     
@@ -67,6 +68,7 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("addweights", addweights);
         myAnimator.SetBool("thisway", thisway);
         myAnimator.SetBool("godown", godown);
+        myAnimator.SetBool("tojump", toJump);
        
         
         if (posready == true)
