@@ -9,7 +9,7 @@ public class Level_4_Stage_1 : MonoBehaviour
     string question;
     public float elapsed;
 
-    public TMP_Text playerNameText, stuntMessageText, timerText, questionText, levelName;
+    public TMP_Text initalVelociyText, playerNameText, stuntMessageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
     public GameObject movingToHookHand;
     Animator thePlayerAnimation;
@@ -41,6 +41,8 @@ public class Level_4_Stage_1 : MonoBehaviour
     float velocityY = 0;
     float velocityInitial = 0;
     float totalRopeMass = 0f;
+    float timeOfFlight = 0f;
+    public GameObject angularAnnotation;
 
     void Start()
     {
@@ -48,9 +50,8 @@ public class Level_4_Stage_1 : MonoBehaviour
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
         distanceGiven = transform.Find("Annotation1").GetComponent<Annotation>().distance;
         angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(35f, 40f), 2);
+        //angleGiven = 40f;
         gravityGiven = Physics2D.gravity;
-
-        Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
         levelName.SetText("Free Fall | Stage 4");
@@ -72,6 +73,8 @@ public class Level_4_Stage_1 : MonoBehaviour
 
         transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().SetAngle(angleGiven);
 
+        transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().SetAngle(angleGiven);
+
         hook.GetComponent<Rigidbody2D>().Sleep();
         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
 
@@ -87,21 +90,27 @@ public class Level_4_Stage_1 : MonoBehaviour
 
     void GenerateVelocities()
     {
-        velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven))));
-        velocityInitial = Mathf.Abs(velocityX / Mathf.Cos(angleGiven));
-        velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven));
+        velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
+        velocityInitial = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+        velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
 
-        //Formula
-        // correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
+        initalVelociyText.SetText($"{System.Math.Round(velocityInitial, 2)} m/s");
 
+        // Formula
+        timeOfFlight = Mathf.Abs((2 * velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad)) / gravityGiven.y);
+        Debug.Log($"Angle: {gravityGiven.y}");
+        Debug.Log($"Angle: {angleGiven}");
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
         Debug.Log($"VelocityInitial: {velocityInitial}");
+        Debug.Log($"TimeofFlight: {timeOfFlight}");
+
+
     }
 
     IEnumerator PullRope()
     {
-        yield return new WaitForSeconds(0.3f + (elapsed/2));
+        yield return new WaitForSeconds(0.3f + (elapsed / 2));
         isMovingToHook = true;
         thinRope.gameObject.SetActive(false);
         hookLine.SetActive(true);
@@ -145,6 +154,8 @@ public class Level_4_Stage_1 : MonoBehaviour
                 timeIndicator.transform.position = new Vector3(hook.transform.position.x, hook.transform.position.y + 1, 1);
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
                 transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Hide();
+                transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Hide();
+
                 elapsed += Time.fixedDeltaTime;
                 timerText.text = elapsed.ToString("f2") + "s";
                 timeIndicator.text = elapsed.ToString("f2") + "s";
@@ -161,7 +172,9 @@ public class Level_4_Stage_1 : MonoBehaviour
                 {
                     thinRope.gameObject.SetActive(true);
                     hookLine.SetActive(false);
+                    elapsed -= 0.01f;
                     isSimulating = false;
+
                     Rope2HookEnd.GetComponent<Rigidbody2D>().velocity = new Vector3(2, 0, 0);
                     StartCoroutine(PullRope());
                 }
