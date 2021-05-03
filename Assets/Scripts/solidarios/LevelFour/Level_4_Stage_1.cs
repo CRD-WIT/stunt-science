@@ -98,6 +98,9 @@ public class Level_4_Stage_1 : MonoBehaviour
 
         // Formula
         timeOfFlight = Mathf.Abs((2 * velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad)) / gravityGiven.y);
+
+        correctAnswer = timeOfFlight;
+
         Debug.Log($"Angle: {gravityGiven.y}");
         Debug.Log($"Angle: {angleGiven}");
         Debug.Log($"VelocityX: {velocityX}");
@@ -110,7 +113,7 @@ public class Level_4_Stage_1 : MonoBehaviour
 
     IEnumerator PullRope()
     {
-        yield return new WaitForSeconds(0.3f + (elapsed / 2));
+        yield return new WaitForSeconds(0.3f);
         isMovingToHook = true;
         thinRope.gameObject.SetActive(false);
         hookLine.SetActive(true);
@@ -160,7 +163,10 @@ public class Level_4_Stage_1 : MonoBehaviour
                 timerText.text = elapsed.ToString("f2") + "s";
                 timeIndicator.text = elapsed.ToString("f2") + "s";
 
-                if (!doneFiring)
+                // Correct Answer
+                if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
+                {
+                                   if (!doneFiring)
                 {
                     hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                     hook.GetComponent<Rigidbody2D>().WakeUp();
@@ -178,21 +184,18 @@ public class Level_4_Stage_1 : MonoBehaviour
                     Rope2HookEnd.GetComponent<Rigidbody2D>().velocity = new Vector3(2, 0, 0);
                     StartCoroutine(PullRope());
                 }
-                // Correct Answer
-                if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
-                {
-                    Debug.Log("Time is correct!");
                 }
                 else
                 {
                     if (float.Parse(playerAnswer.text) < System.Math.Round(correctAnswer, 2))
                     {
                         // Too short
-
+                        Debug.Log("Too short");
                     }
                     else
                     {
                         // Too long
+                        Debug.Log("Too long");
                     }
                 }
             }
