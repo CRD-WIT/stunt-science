@@ -31,7 +31,7 @@ public class Level5EasyManager : MonoBehaviour
         isAnswered = false;
         sm.SetGameLevel(5);
         sm.SetDifficulty(1);
-        playerName = PlayerPrefs.GetString("Name");
+        playerName = playerName;
         playerGender = PlayerPrefs.GetString("Gender");
         playerPos = myPlayer.transform.position;
         player = myPlayer.gameObject.GetComponent<Rigidbody2D>();
@@ -65,7 +65,7 @@ public class Level5EasyManager : MonoBehaviour
                         {
                             CurvedLineFollower.arc = 210;
                             elapsed = gameTime;
-                            messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " has landed <color=green>safely</color> at the other platform!";
+                            messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has landed <color=green>safely</color> at the other platform!";
                             nextButton.gameObject.SetActive(true);
                         }
                         else
@@ -74,11 +74,11 @@ public class Level5EasyManager : MonoBehaviour
                             playerHeart.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
-                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " spinned the gear too slow and " + pronoun + " fell down too soon before the release point.\nThe correct answer is <color=red>" + aVelocity + "°/s</color>.";
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " spinned the gear too slow and " + pronoun + " fell down too soon before the release point.\nThe correct answer is <color=red>" + aVelocity + "°/s</color>.";
                             }
                             else //if(playerAnswer > Speed)
                             {
-                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " spinned the gear too fast and " + pronoun + " fell down too late after the release point.\nThe correct answer is <color=red>" + aVelocity + "°/s</color>.";
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " spinned the gear too fast and " + pronoun + " fell down too late after the release point.\nThe correct answer is <color=red>" + aVelocity + "°/s</color>.";
                             }
                             retryButton.gameObject.SetActive(true);
                         }
@@ -102,7 +102,7 @@ public class Level5EasyManager : MonoBehaviour
                             isAnswerCorect = true;
                             CurvedLineFollower.arc = playerAnswer;
                             elapsed = gameTime;
-                            messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " has crossed <color=green>safely</color> at the other platform!";
+                            messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has crossed <color=green>safely</color> at the other platform!";
                             nextButton.gameObject.SetActive(true);
                         }
                         else
@@ -113,11 +113,11 @@ public class Level5EasyManager : MonoBehaviour
                             playerHeart.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
-                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " tried to grab the pipe too soon and " + pronoun + " fell down.\nThe correct answer is <color=red>" + gameTime + "s</color>.";
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " tried to grab the pipe too soon and " + pronoun + " fell down.\nThe correct answer is <color=red>" + gameTime + "s</color>.";
                             }
                             else //if(playerAnswer > Speed)
                             {
-                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " tried to grab the pipe too late and " + pronoun + " fell down.\nThe correct answer is <color=red>" + gameTime + "s</color>.";
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " tried to grab the pipe too late and " + pronoun + " fell down.\nThe correct answer is <color=red>" + gameTime + "s</color>.";
                             }
                             retryButton.gameObject.SetActive(true);
                         }
@@ -143,7 +143,7 @@ public class Level5EasyManager : MonoBehaviour
                             CurvedLineFollower.arc = playerAnswer;
                             isAnswerCorect = true;
                             elapsed = gameTime;
-                            messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " has crossed <color=green>safely</color> at the other platform!";
+                            messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has <color=green>entered</color> the tunnel!";
                             nextButton.gameObject.SetActive(true);
                         }
                         else
@@ -153,13 +153,13 @@ public class Level5EasyManager : MonoBehaviour
                             isAnswerCorect = false;
                             elapsed = playerAnswer;
                             playerHeart.ReduceLife();
-                            if (playerAnswer < aVelocity)
+                            if (playerAnswer < angle)
                             {
-                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " tried to grab the pipe too soon and " + pronoun + " fell down.\nThe correct answer is <color=red>" + gameTime + "s</color>.";
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " grab the gear too near from the release point and " + pronoun + " overshoot the tunnel entrance.\nThe correct answer is <color=red>" + angle + "°</color>.";
                             }
-                            else //if(playerAnswer > Speed)
+                            else //if(playerAnswer > angle)
                             {
-                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " tried to grab the pipe too late and " + pronoun + " fell down.\nThe correct answer is <color=red>" + gameTime + "s</color>.";
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + "grab the gear too near from the release point and " + pronoun + " fell too soon from the tunnel entrance.\nThe correct answer is <color=red>" + angle + "°</color>.";
                             }
                             retryButton.gameObject.SetActive(true);
                         }
