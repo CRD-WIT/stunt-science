@@ -31,7 +31,7 @@ public class Level5EasyManager : MonoBehaviour
         isAnswered = false;
         sm.SetGameLevel(5);
         sm.SetDifficulty(1);
-        playerName = playerName;
+        playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         playerPos = myPlayer.transform.position;
         player = myPlayer.gameObject.GetComponent<Rigidbody2D>();
@@ -48,9 +48,9 @@ public class Level5EasyManager : MonoBehaviour
             switch (stage)
             {
                 case 1:
-                    timerTxtBox1.text = elapsed.ToString("f2") + "s";
                     if (elapsed < gameTime)
                     {
+                        timerTxtBox1.text = elapsed.ToString("f2") + "s";
                         elapsed = GearHangers.hangTime;
                         //float e = CustomRoundOff.Round(elapsed, 2);
                         CurvedLineFollower.arc = playerAnswer * elapsed;
@@ -64,7 +64,7 @@ public class Level5EasyManager : MonoBehaviour
                         if (playerAnswer == aVelocity)
                         {
                             CurvedLineFollower.arc = 210;
-                            elapsed = gameTime;
+                            timerTxtBox1.text = gameTime.ToString("f2") + "s";
                             messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has landed <color=green>safely</color> at the other platform!";
                             nextButton.gameObject.SetActive(true);
                         }
@@ -87,9 +87,9 @@ public class Level5EasyManager : MonoBehaviour
                     }
                     break;
                 case 2:
-                    timerTxtBox2.text = elapsed.ToString("f2") + "s";
                     if (elapsed < playerAnswer)
                     {
+                        timerTxtBox2.text = elapsed.ToString("f2") + "s";
                         CurvedLineFollower.arc = aVelocity * elapsed;
                         elapsed = GearHangers.hangTime;
                         myPlayer.isHanging = true;
@@ -101,7 +101,7 @@ public class Level5EasyManager : MonoBehaviour
                         {
                             isAnswerCorect = true;
                             CurvedLineFollower.arc = playerAnswer;
-                            elapsed = gameTime;
+                            timerTxtBox2.text = gameTime.ToString("f2") + "s";
                             messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has crossed <color=green>safely</color> at the other platform!";
                             nextButton.gameObject.SetActive(true);
                         }
@@ -109,7 +109,7 @@ public class Level5EasyManager : MonoBehaviour
                         {
                             isAnswerCorect = false;
                             CurvedLineFollower.arc = aVelocity * playerAnswer;
-                            elapsed = playerAnswer;
+                            timerTxtBox2.text = playerAnswer.ToString("f2") + "s";
                             playerHeart.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
@@ -126,9 +126,9 @@ public class Level5EasyManager : MonoBehaviour
                     }
                     break;
                 case 3:
-                    timerTxtBox3.text = elapsed.ToString("f2") + "s";
                     if (elapsed < gameTime)
                     {
+                        timerTxtBox3.text = elapsed.ToString("f2") + "s";
                         CurvedLineFollower.arc = aVelocity * elapsed;
                         elapsed = GearHangers.hangTime;
                         myPlayer.isHanging = true;
@@ -142,7 +142,6 @@ public class Level5EasyManager : MonoBehaviour
                         {
                             CurvedLineFollower.arc = playerAnswer;
                             isAnswerCorect = true;
-                            elapsed = gameTime;
                             messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has <color=green>entered</color> the tunnel!";
                             nextButton.gameObject.SetActive(true);
                         }
@@ -151,7 +150,6 @@ public class Level5EasyManager : MonoBehaviour
                             //CurvedLineFollower.arc = playerAnswer;
                             RagdollSpawn();
                             isAnswerCorect = false;
-                            elapsed = playerAnswer;
                             playerHeart.ReduceLife();
                             if (playerAnswer < angle)
                             {
