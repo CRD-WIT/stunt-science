@@ -100,7 +100,7 @@ public class Level5EasyManager : MonoBehaviour
                         if (playerAnswer == gameTime)
                         {
                             isAnswerCorect = true;
-                            CurvedLineFollower.arc = 118;
+                            CurvedLineFollower.arc = playerAnswer;
                             elapsed = gameTime;
                             messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " has crossed <color=green>safely</color> at the other platform!";
                             nextButton.gameObject.SetActive(true);
@@ -126,6 +126,46 @@ public class Level5EasyManager : MonoBehaviour
                     }
                     break;
                 case 3:
+                    timerTxtBox3.text = elapsed.ToString("f2") + "s";
+                    if (elapsed < gameTime)
+                    {
+                        CurvedLineFollower.arc = aVelocity * elapsed;
+                        elapsed = GearHangers.hangTime;
+                        myPlayer.isHanging = true;
+                    }
+                    else //(elapsed >= gameTime)
+                    {
+                        timerTxtBox3.text = gameTime.ToString("f2") + "s";
+                        isHanging = false;
+                        myPlayer.isHanging = false;
+                        if (playerAnswer == angle)
+                        {
+                            CurvedLineFollower.arc = playerAnswer;
+                            isAnswerCorect = true;
+                            elapsed = gameTime;
+                            messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " has crossed <color=green>safely</color> at the other platform!";
+                            nextButton.gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            //CurvedLineFollower.arc = playerAnswer;
+                            RagdollSpawn();
+                            isAnswerCorect = false;
+                            elapsed = playerAnswer;
+                            playerHeart.ReduceLife();
+                            if (playerAnswer < aVelocity)
+                            {
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " tried to grab the pipe too soon and " + pronoun + " fell down.\nThe correct answer is <color=red>" + gameTime + "s</color>.";
+                            }
+                            else //if(playerAnswer > Speed)
+                            {
+                                messageTxt.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " tried to grab the pipe too late and " + pronoun + " fell down.\nThe correct answer is <color=red>" + gameTime + "s</color>.";
+                            }
+                            retryButton.gameObject.SetActive(true);
+                        }
+                        StartCoroutine(StuntResult());
+                        isAnswered = false;
+                    }
                     break;
             }
         }
@@ -197,7 +237,7 @@ public class Level5EasyManager : MonoBehaviour
 
         playerAnswer = 0;
         elapsed = 0;
-
+        angle = 0;
         aVelocity = 0;
         gameTime = 0;
         gear2Speed = 0;
@@ -262,18 +302,27 @@ public class Level5EasyManager : MonoBehaviour
                 gearRB = gear3.GetComponent<Rigidbody2D>();
                 levelTxtBox3.text = sm.GetGameLevel();
                 timerTxtBox3.text = "0.00s";
+                playerHangerTrigger3.SetActive(false);
                 gearSet.SetActive(false);
                 stage3Layout.SetActive(true);
                 gear3.SetActive(true);
 
-                float a = Random.Range(50f, 75f);
-                angle = (float)System.Math.Round(a, 2);
-                float t3 = Random.Range(2.5f, 3.5f);
-                gameTime = (float)System.Math.Round(t3, 2);
-                aVelocity = (float)System.Math.Round(angle / gameTime);
+                directorPlatform.transform.position = new Vector3(-8.5f, 6.7f, 90);
+                directorPlatform.transform.localScale = new Vector3(-1f, 01f, 0);
+                directorsSpeech.transform.localScale = new Vector3(-1, directorsSpeech.transform.localScale.y, directorsSpeech.transform.localScale.z);
+
+
+                while (angle < 50f || angle > 75f)
+                {
+                    float a = Random.Range(20f, 30f);
+                    aVelocity = (float)System.Math.Round(a, 2);
+                    float t3 = Random.Range(2.5f, 3.5f);
+                    gameTime = (float)System.Math.Round(t3, 2);
+                    angle = (float)System.Math.Round((aVelocity * gameTime), 2);
+                }
 
                 questionTxtBox3.text = playerName + " needs to enter the tunnel at the other side and the only way to do that is to hang into the rotating gear and let go upon reaching the lowest part of the gear and land at the very edge of the tunnel floor. If the gear rotates counterclockwise at <color=purple>" + aVelocity + " degrees per second</color> and " + pronoun + " will only hold on into the gear at exactly <color=#006400>" + gameTime + " seconds</color> before letting go, at what <color=red>angle</color> from the release point shoiuld " + playerName + " grab the gear?";
-                
+
                 CurvedLineFollower.stage = 3;
                 myPlayer.transform.position = new Vector2(0, 3);
                 gearRB.angularVelocity = aVelocity;
@@ -313,13 +362,17 @@ public class Level5EasyManager : MonoBehaviour
                 }
                 break;
             case 3:
-                if (answerField2.text == "")
+                if (answerField3.text == "")
                 {
-                    noAnswerMessage2.text = "Please enter your playerAnswer!";
+                    noAnswerMessage3.text = "Please enter your playerAnswer!";
                 }
                 else
                 {
-                    answerField1.text = playerAnswer.ToString() + "°";
+                    playerAnswer = float.Parse(answerField3.text);
+                    playButton3.interactable = false;
+                    isStartOfStunt = true;
+                    directorIsCalling = true;
+                    answerField3.text = playerAnswer.ToString() + "°";
                 }
                 break;
         }
@@ -332,10 +385,14 @@ public class Level5EasyManager : MonoBehaviour
             answerField1.text = "";
             playButton1.interactable = true;
         }
-        else //if (stage == 2)
+        else if (stage == 2)
         {
             answerField2.text = "";
-            playButton2.interactable = true;
+        }
+        else
+        {
+            answerField3.text = "";
+            playButton3.interactable = true;
         }
         myPlayer.gameObject.SetActive(true);
         afterStuntMessage.SetActive(false);
@@ -378,6 +435,8 @@ public class Level5EasyManager : MonoBehaviour
                 playerHangerTrigger1.SetActive(true);
             else if (stage == 2)
                 playerHangerTrigger2.SetActive(true);
+            else
+                playerHangerTrigger3.SetActive(true);
             isAnswered = true;
         }
         else
@@ -387,6 +446,8 @@ public class Level5EasyManager : MonoBehaviour
                 myPlayer.brake = true;
                 yield return new WaitForSeconds(1f);
                 myPlayer.brake = false;
+                myPlayer.gameObject.transform.position = new Vector2(myPlayer.gameObject.transform.position.x + 0.4f, myPlayer.gameObject.transform.position.y);
+                myPlayer.gameObject.transform.localScale = new Vector2(0.4f, 0.4f);
             }
             else
             {
@@ -397,8 +458,6 @@ public class Level5EasyManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
             directorsSpeech.text = "";
-            myPlayer.gameObject.transform.position = new Vector2(myPlayer.gameObject.transform.position.x + 0.4f, myPlayer.gameObject.transform.position.y);
-            myPlayer.gameObject.transform.localScale = new Vector2(0.4f, 0.4f);
             //yield return new WaitForEndOfFrame();
             myPlayer.happy = true;
         }
