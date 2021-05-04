@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Level_4_Stage_1 : MonoBehaviour
+public class Level_4_Stage_2 : MonoBehaviour
 {
     // Start is called before the first frame update
     string question;
