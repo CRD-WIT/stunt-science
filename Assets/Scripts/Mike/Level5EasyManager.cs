@@ -55,13 +55,11 @@ public class Level5EasyManager : MonoBehaviour
                         elapsed = GearHangers.hangTime;
                         //float e = CustomRoundOff.Round(elapsed, 2);
                         CurvedLineFollower.arc = playerAnswer * elapsed;
-                        //myPlayer.isHanging = true;
                         myPlayer.gameObject.transform.localScale = new Vector2(-0.4f, 0.4f);
                     }
                     else //(elapsed >= gameTime)
                     {
                         isHanging = false;
-                        //myPlayer.isHanging = false;
                         if (playerAnswer == aVelocity)
                         {
                             CurvedLineFollower.arc = 210;
@@ -97,6 +95,7 @@ public class Level5EasyManager : MonoBehaviour
                     }
                     else //(elapsed >= gameTime)
                     {
+
                         isHanging = false;
                         if (playerAnswer == gameTime)
                         {
@@ -137,7 +136,6 @@ public class Level5EasyManager : MonoBehaviour
                     {
                         timerTxtBox3.text = gameTime.ToString("f2") + "s";
                         isHanging = false;
-                        //myPlayer.isHanging = false;
                         if (playerAnswer == angle)
                         {
                             slider.enabled = false;
@@ -326,7 +324,7 @@ public class Level5EasyManager : MonoBehaviour
                 CurvedLineFollower.stage = 3;
                 myPlayer.transform.position = new Vector2(0, 3);
                 gearRB.angularVelocity = aVelocity;
-                safeZone.position = new Vector3(7.15f, -5.5f, 0);
+                safeZone.position = new Vector3(7.5f, -5.5f, 0);
                 break;
         }
     }
@@ -448,28 +446,31 @@ public class Level5EasyManager : MonoBehaviour
         {
             if (stage == 1)
             {
-                myPlayer.isFalling =true;
-                yield return new WaitForSeconds(0.5f);
-                myPlayer.isFalling =false;
-                myPlayer.isLanded =true;
-                yield return new WaitForSeconds(0.5f);
-                myPlayer.isLanded =false;
+                yield return new WaitForSeconds(0.3f);
+                myPlayer.isLanded = false;
                 myPlayer.brake = true;
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.7f);
                 myPlayer.brake = false;
                 myPlayer.gameObject.transform.position = new Vector2(myPlayer.gameObject.transform.position.x + 0.4f, myPlayer.gameObject.transform.position.y);
                 myPlayer.gameObject.transform.localScale = new Vector2(0.4f, 0.4f);
             }
+            else if (stage == 2)
+            {
+                yield return new WaitForSeconds(.5f);
+                myPlayer.isLanded = false;
+                yield return new WaitForSeconds(0.5f);
+            }
             else
             {
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(.5f);
+                myPlayer.isLanded = false;
+                yield return new WaitForSeconds(0.5f);
             }
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
             directorsSpeech.text = "";
-            //yield return new WaitForEndOfFrame();
             myPlayer.happy = true;
         }
     }
@@ -491,7 +492,23 @@ public class Level5EasyManager : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-        yield return new WaitForSeconds(1f);
+        if (stage == 1)
+        {
+            yield return new WaitForSeconds(0.7f);
+            myPlayer.isLanded = true;
+            yield return new WaitForSeconds(0.3f);
+        }
+        else if (stage == 2)
+        {
+            yield return new WaitForSeconds(0.15f);
+            myPlayer.isLanded = true;
+            yield return new WaitForSeconds(0.85f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1f);
+            myPlayer.isLanded = true;
+        }
         directorIsCalling = true;
         isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
@@ -533,6 +550,8 @@ public class Level5EasyManager : MonoBehaviour
         }
         myPlayer.hangWalk = false;
         pipeHanger.enabled = false;
+
+        StartCoroutine(StuntResult());
         //myPlayer.isHanging = false;
     }
     IEnumerator GrabPipe()
@@ -556,6 +575,5 @@ public class Level5EasyManager : MonoBehaviour
             //myPlayer.isHanging = false;
             RagdollSpawn();
         }
-        StartCoroutine(StuntResult());
     }
 }

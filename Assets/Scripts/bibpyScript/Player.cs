@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("isFalling", isFalling);
         myAnimator.SetBool("toJump", toJump);
         myAnimator.SetBool("jumpHang", jumpHang);
-        myAnimator.SetBool("lande", isLanded);
+        myAnimator.SetBool("landed", isLanded);
         if (posready == true)
         {
             if (currentpos >= 0)
