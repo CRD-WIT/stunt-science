@@ -9,31 +9,31 @@ public class Level_4_Stage_2 : MonoBehaviour
     string question;
     public TMP_Text questionText, levelName;
     public GameObject AfterStuntMessage;
-    public GameObject movingToHookHand;
     Animator thePlayerAnimation;
     public GameObject hook;
     bool isSimulating = false;
     public GameObject thePlayer;
     Vector3 thePlayer_position;
-    float timeGiven;
     Vector2 gravityGiven;
     Vector2 spawnPointValue;
     public GameObject hookLauncher;
     float distanceGiven;
     float angleGiven;
+    float velocityX = 0;
+    float velocityY = 0;
+    float velocityInitial = 0;
 
     void Start()
     {
-        // Given        
-        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
-        distanceGiven = transform.Find("Annotation1").GetComponent<Annotation>().distance;
-        angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(35f, 40f), 2);
+        // Given            
+        distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(22f, 25f), 2);
+        angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(40f, 45f), 2);
         //angleGiven = 40f;
         gravityGiven = Physics2D.gravity;
 
         //Problem
-        levelName.SetText("Free Fall | Stage 4");
-        question = $"Wants to cross to the cliff at the other side using his climbing device. If [pronoun] shoots its gripping projectile at a velocity of [vo] at an angle of [a] degrees, at what precise time should [name] trigger the gripper if it will grip at the exact moment when it will touch the gripping point of the cliff accross which is at the same horizontal level of the shooting device.";
+        levelName.SetText("Projectile Motion | Stage 2");
+        question = $"[name] is instructed to cross another diff using this climbing device. If [name] shoot its gripping projectle at an angle of [angle] degrees up to precisedlly git the corner of the cliff [distance] meters away horizontally from the shooting device, at what velocity should the projectile be shot to hit the gripping part?";
 
         if (questionText != null)
         {
@@ -57,6 +57,8 @@ public class Level_4_Stage_2 : MonoBehaviour
         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
 
         hookLauncher.transform.Rotate(new Vector3(0, 0, angleGiven));
+
+        GenerateVelocities();
     }
 
     IEnumerator StuntResult()
@@ -68,12 +70,18 @@ public class Level_4_Stage_2 : MonoBehaviour
 
     void GenerateVelocities()
     {
+        velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
+        velocityInitial = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+        velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
 
+        Debug.Log($"VelocityX: {velocityX}");
+        Debug.Log($"VelocityY: {velocityY}");
+        Debug.Log($"VelocityInitial: {velocityInitial}");
     }
 
     IEnumerator DropRope()
     {
-        yield return new WaitForSeconds(1.5f);      
+        yield return new WaitForSeconds(1.5f);
     }
 
     IEnumerator PullRope()

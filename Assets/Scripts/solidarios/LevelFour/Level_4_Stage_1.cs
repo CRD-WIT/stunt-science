@@ -102,7 +102,7 @@ public class Level_4_Stage_1 : MonoBehaviour
 
         correctAnswer = timeOfFlight;
 
-        Debug.Log($"Angle: {gravityGiven.y}");
+        Debug.Log($"Gravity: {gravityGiven.y}");
         Debug.Log($"Angle: {angleGiven}");
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
@@ -136,8 +136,6 @@ public class Level_4_Stage_1 : MonoBehaviour
     }
     void FixedUpdate()
     {
-        float thePlayer_x = thePlayer_position.x;
-        float thePlayer_y = thePlayer_position.y;
 
         if (velocityX == 0 || velocityY == 0 || velocityInitial == 0)
         {
