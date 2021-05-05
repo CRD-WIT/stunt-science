@@ -20,10 +20,11 @@ public class accSimulation : MonoBehaviour
     public Quaternion startRotation;
     public Vector2 startPosition;
 
-    public GameObject driver, afterStuntMessage, truck, retryButton, nextButton, player;
+    public GameObject driver, afterStuntMessage, truck, retryButton, nextButton, player, director;
     public GameObject[] ground;
     bool directorIsCalling;
     public GameObject directorBubble;
+    public GameObject[] dimensions, anotation;
     private ragdollScript theRagdoll;
     Vector2 playerstartPos;
     //string accelaration;
@@ -39,6 +40,8 @@ public class accSimulation : MonoBehaviour
         PlayerPrefs.SetInt("level", 3);
         playerstartPos = player.transform.position;
         theBike.moveSpeed = 0;
+        dimensions[0].SetActive(true);
+        anotation[0].SetActive(true);
     }
 
     // Update is called once per frame
@@ -50,9 +53,12 @@ public class accSimulation : MonoBehaviour
     }
     public void PlayButton()
     {
+        
         playerAnswer = float.Parse(answerField.text);
         if (stage == 1)
         {
+            dimensions[0].SetActive(false);
+            anotation[0].SetActive(false);
             if (answerField.text == "" || playerAnswer > 200 || playerAnswer < 1)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
@@ -70,6 +76,8 @@ public class accSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
+            dimensions[1].SetActive(false);
+            anotation[1].SetActive(false);
             if (answerField.text == "" || playerAnswer > 100)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
@@ -87,6 +95,8 @@ public class accSimulation : MonoBehaviour
         }
         if (stage == 3)
         {
+            dimensions[2].SetActive(false);
+            anotation[2].SetActive(false);
             if (answerField.text == "" || playerAnswer > 100)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
@@ -121,38 +131,61 @@ public class accSimulation : MonoBehaviour
             //Destroy(theRagdoll.gameObject);
             theBike.collided = false;
         }
-        if (stage == 1)
-        {
-            theManagerOne.generateProblem();
-            theManagerOne.gas = true;
-            theManagerOne.timer = 0;
-            theBike.transform.position = startPosition;
-            theManagerOne.walls.SetActive(false);
-        }
-        if (stage == 2)
-        {
-            theManagerTwo.generateProblem();
-            theManagerTwo.timer = 0;
-            theBike.brake = false;
-            theBike.transform.position = new Vector2(-10, 0.1f);
-        }
-        if (stage == 3)
+         if (stage == 3)
         {
             theManagerThree.generateProblem();
             theManagerThree.timer = 0;
             theBike.brake = false;
             theBike.transform.position = new Vector2(-10, 0.1f);
+            if(theManagerThree.Vi != theManagerThree.correctAns)
+            {
+                dimensions[2].SetActive(true);
+                anotation[2].SetActive(true);
+            }
         }
+        if (stage == 2)
+        {
+            
+            theManagerTwo.timer = 0;
+            theBike.brake = false;
+            theBike.transform.position = new Vector2(-10, 0.1f);
+            if(theManagerTwo.time != theManagerTwo.correctAns)
+            {
+                dimensions[1].SetActive(true);
+                anotation[1].SetActive(true);
+            }
+            theManagerTwo.generateProblem();
+        }
+        if (stage == 1)
+        {
+
+            theManagerOne.generateProblem();
+            theManagerOne.gas = true;
+            theManagerOne.timer = 0;
+            theBike.transform.position = startPosition;
+            theManagerOne.walls.SetActive(false);
+            if(theManagerOne.accelaration != theManagerOne.correctAns)
+            {
+                dimensions[0].SetActive(true);
+                anotation[0].SetActive(true);
+            }
+        }
+        
+       
     }
     public void next()
     {
         nextButton.SetActive(false);
         if(stage == 1)
         {
+            dimensions[0].SetActive(false);
             theManagerOne.gameObject.SetActive(false);
             theManagerTwo.gameObject.SetActive(true);
             ground[0].SetActive(false);
             ground[1].SetActive(true);
+            dimensions[1].SetActive(true);
+            anotation[1].SetActive(true);
+            director.transform.position = new Vector2(-1.31f, 4.98f);
             
             
         }
@@ -163,6 +196,9 @@ public class accSimulation : MonoBehaviour
             ground[1].SetActive(false);
             ground[2].SetActive(true);
             truck.SetActive(true);
+            dimensions[2].SetActive(true);
+            anotation[2].SetActive(true);
+            director.transform.position = new Vector2(1.1f, 4.98f);
            
         }
     }

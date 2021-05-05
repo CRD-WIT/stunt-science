@@ -9,7 +9,7 @@ public class AccMidSimulation : MonoBehaviour
     public Button playButton;
     public Player thePlayer;
     public TruckManager theTruck;
-    public Hellicopter theCopper;
+    public Hellicopter theChopper;
     public AccMediumOne theManagerOne;
     //public AccMediumTwo theManagerTwo;
     //public AccMediumThree theManagerThree;
@@ -30,17 +30,21 @@ public class AccMidSimulation : MonoBehaviour
     public GameObject directorBubble;
     
     Vector2 playerstartPos;
+    private Vector2 truckStartPos;
+    private Vector2 chopperStartpos;
+    private Quaternion TruckStartRot;
     //string accelaration;
     // Start is called before the first frame update
     void Start()
     {
-        
-        
-       
+        truckStartPos = theTruck.transform.position;
+        TruckStartRot = theTruck.transform.rotation;
+        chopperStartpos = theChopper.transform.position;      
         TruckStartPosition = theTruck.transform.position;
-        ChopperStartPosition = theCopper.transform.position;
+        ChopperStartPosition = theChopper.transform.position;
         PlayerPrefs.SetString("CurrentString", ("AccelarationMedium"));
         PlayerPrefs.SetInt("level", 4);
+        playerstartPos = thePlayer.transform.position;
        
         
     }
@@ -116,11 +120,20 @@ public class AccMidSimulation : MonoBehaviour
         playerAnswer = 0;
         answerField.text = ("");
         retryButton.SetActive(false);
+        simulate = false;
 
         
         if (stage == 1)
         {
-            
+            theManagerOne.generateProblem();
+            theChopper.transform.position = chopperStartpos;
+            theTruck.transform.position = truckStartPos;
+            theTruck.transform.rotation = TruckStartRot;
+            thePlayer.transform.position = playerstartPos;
+            theTruck.accelaration = 0;
+            theTruck.accelerating = true;
+            theChopper.flySpeed = 0;
+            thePlayer.standup = false;
         }
         if (stage == 2)
         {

@@ -18,7 +18,7 @@ public class AccManagerOne : MonoBehaviour
     private HeartManager theHeart;
     private BikeManager theBike;
     public bool gas = true;
-    float correctAns;
+    public float correctAns;
     float generateAns;
     float playerDistance;
     float playerVf;
@@ -28,7 +28,7 @@ public class AccManagerOne : MonoBehaviour
     string gender;
     public GameObject walls;
     public GameObject AfterStuntMessage;
-    public TMP_Text stuntMessageTxt;
+    public TMP_Text stuntMessageTxt, Vitxt, Vftxt, Acctxt;
     public Button retry, next;
     bool tooSlow;
     // Start is called before the first frame update
@@ -55,6 +55,9 @@ public class AccManagerOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        Vitxt.text = ("Vi = ") + Vi.ToString("F2") + ("m/s");
+        Vftxt.text = ("Vf = ") +Vf.ToString("F2") + ("m/s");
+        Acctxt.text = ("accelaration = ?");
         generateAns = (Vf - Vi) / time;
         correctAns = (float)System.Math.Round(generateAns, 2);
         playerDistance = (time * time) * accelaration / 2;
@@ -103,9 +106,7 @@ public class AccManagerOne : MonoBehaviour
                 {
                     next.gameObject.SetActive(true);
                     stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " went through the tunnel</color>";
-                    theBike.moveSpeed = Vf;
-                    
-                    
+                    theBike.moveSpeed = Vf;          
 
                 }
             if (gas)
@@ -143,6 +144,7 @@ public class AccManagerOne : MonoBehaviour
         accSimulation.question = (("In order for <b>") + PlayerPrefs.GetString("Name") + ("</b> to enter the tunnel on the otherside of the platform where  <b>") + pronoun + ("</b>is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete standstill to a speed of <b>") + Vf.ToString("F1") + ("</b> m/s, after ") + time.ToString("F1") + ("seconds. What should be ") + pronoun + (" accelaration in order to achieve the final velocity?"));
         theHeart.losslife = false;
         theBike.moveSpeed = 0;
+       
 
     }
     IEnumerator StuntResult()

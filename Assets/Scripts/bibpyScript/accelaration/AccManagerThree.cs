@@ -17,7 +17,7 @@ public class AccManagerThree : MonoBehaviour
     private accSimulation theSimulation;
     private BikeManager theBike;
     public bool gas;
-    float correctAns;
+    public float correctAns;
     float generateAns;
     float playerDistance;
     float playerVf;
@@ -27,7 +27,7 @@ public class AccManagerThree : MonoBehaviour
     string gender;
     public GameObject walls, stopper;
     public GameObject AfterStuntMessage;
-    public TMP_Text stuntMessageTxt;
+    public TMP_Text stuntMessageTxt, Vitxt, Vftxt, Acctxt;
     public Button retry, next;
     private TruckManager theTruck;
     Vector2 truckPosition;
@@ -64,7 +64,9 @@ public class AccManagerThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+        Vitxt.text = ("Vi = ?");
+        Vftxt.text = ("Vf = ") +Vf.ToString("F2") + ("m/s");
+        Acctxt.text = ("accelaration = ")+ deacceleration.ToString("F2") + ("m/s²");
         generateAns = 60 / time;
         correctAns = (float)System.Math.Round(generateAns, 2);
         playerDistance = (time * time) * deacceleration / 2;
