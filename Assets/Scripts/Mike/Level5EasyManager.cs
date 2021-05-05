@@ -15,6 +15,7 @@ public class Level5EasyManager : MonoBehaviour
     [SerializeField] Rigidbody2D gearRB, player;
     [SerializeField] Animator crank;
     [SerializeField] Transform safeZone;
+    [SerializeField] PolygonCollider2D slider;
     Vector2 playerPos;
     StageManager sm = new StageManager();
     RoundOffHandler CustomRoundOff = new RoundOffHandler();
@@ -54,13 +55,13 @@ public class Level5EasyManager : MonoBehaviour
                         elapsed = GearHangers.hangTime;
                         //float e = CustomRoundOff.Round(elapsed, 2);
                         CurvedLineFollower.arc = playerAnswer * elapsed;
-                        myPlayer.isHanging = true;
+                        //myPlayer.isHanging = true;
                         myPlayer.gameObject.transform.localScale = new Vector2(-0.4f, 0.4f);
                     }
                     else //(elapsed >= gameTime)
                     {
                         isHanging = false;
-                        myPlayer.isHanging = false;
+                        //myPlayer.isHanging = false;
                         if (playerAnswer == aVelocity)
                         {
                             CurvedLineFollower.arc = 210;
@@ -92,7 +93,7 @@ public class Level5EasyManager : MonoBehaviour
                         timerTxtBox2.text = elapsed.ToString("f2") + "s";
                         CurvedLineFollower.arc = aVelocity * elapsed;
                         elapsed = GearHangers.hangTime;
-                        myPlayer.isHanging = true;
+                        //myPlayer.isHanging = true;
                     }
                     else //(elapsed >= gameTime)
                     {
@@ -131,15 +132,15 @@ public class Level5EasyManager : MonoBehaviour
                         timerTxtBox3.text = elapsed.ToString("f2") + "s";
                         CurvedLineFollower.arc = aVelocity * elapsed;
                         elapsed = GearHangers.hangTime;
-                        myPlayer.isHanging = true;
                     }
                     else //(elapsed >= gameTime)
                     {
                         timerTxtBox3.text = gameTime.ToString("f2") + "s";
                         isHanging = false;
-                        myPlayer.isHanging = false;
+                        //myPlayer.isHanging = false;
                         if (playerAnswer == angle)
                         {
+                            slider.enabled = false;
                             CurvedLineFollower.arc = playerAnswer;
                             isAnswerCorect = true;
                             messageTxt.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has <color=green>entered</color> the tunnel!";
@@ -297,6 +298,7 @@ public class Level5EasyManager : MonoBehaviour
                 stuntReady = true;
                 break;
             case 3:
+                slider.enabled = true;
                 gearRB = gear3.GetComponent<Rigidbody2D>();
                 levelTxtBox3.text = sm.GetGameLevel();
                 timerTxtBox3.text = "0.00s";
@@ -434,13 +436,24 @@ public class Level5EasyManager : MonoBehaviour
             else if (stage == 2)
                 playerHangerTrigger2.SetActive(true);
             else
+            {
+                myPlayer.jumpHang = true;
+                yield return new WaitForSecondsRealtime(1.23f);
                 playerHangerTrigger3.SetActive(true);
+                myPlayer.jumpHang = false;
+            }
             isAnswered = true;
         }
         else
         {
             if (stage == 1)
             {
+                myPlayer.isFalling =true;
+                yield return new WaitForSeconds(0.5f);
+                myPlayer.isFalling =false;
+                myPlayer.isLanded =true;
+                yield return new WaitForSeconds(0.5f);
+                myPlayer.isLanded =false;
                 myPlayer.brake = true;
                 yield return new WaitForSeconds(1f);
                 myPlayer.brake = false;
@@ -520,7 +533,7 @@ public class Level5EasyManager : MonoBehaviour
         }
         myPlayer.hangWalk = false;
         pipeHanger.enabled = false;
-        myPlayer.isHanging = false;
+        //myPlayer.isHanging = false;
     }
     IEnumerator GrabPipe()
     {
@@ -540,7 +553,7 @@ public class Level5EasyManager : MonoBehaviour
             myPlayer.hangWalk = false;
             yield return new WaitForSeconds(1.25f);
             myPlayer.isFalling = false;
-            myPlayer.isHanging = false;
+            //myPlayer.isHanging = false;
             RagdollSpawn();
         }
         StartCoroutine(StuntResult());

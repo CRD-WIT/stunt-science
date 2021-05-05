@@ -5,8 +5,8 @@ using UnityEngine;
 public class GearHangers : MonoBehaviour
 {
     private CapsuleCollider2D hangers;
-    [SerializeField]
-    private HingeJoint2D playerHanger;
+    [SerializeField] private HingeJoint2D playerHanger;
+    Player myPlayer;
     bool isHangerOn, isHangerNumerator;
     string hangerName;
     public static float hangTime;
@@ -14,6 +14,7 @@ public class GearHangers : MonoBehaviour
     public static bool isHanging;
     void Start()
     {
+        myPlayer = FindObjectOfType<Player>();
         hangers = GetComponent<CapsuleCollider2D>();
         playerHanger = GetComponent<HingeJoint2D>();
     }
@@ -21,6 +22,7 @@ public class GearHangers : MonoBehaviour
     {
         if (Level5EasyManager.isHanging)
         {
+            myPlayer.isHanging =true;
             isHangerNumerator = true;
             if (hangerName == this.gameObject.name)
             {
@@ -34,6 +36,7 @@ public class GearHangers : MonoBehaviour
         }
         else
         {
+            myPlayer.isHanging = false;
             playerHanger.enabled = false;
             isHangerOn = false;
         }

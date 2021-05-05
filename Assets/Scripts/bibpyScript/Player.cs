@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private Collider2D myCollider;
     public EdgeCollider2D slideCollider;
     public float jumpforce;
-    public bool standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling;
+    public bool standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang, isLanded;
 
 
 
@@ -66,6 +66,9 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("grab", isGrabbing);
         myAnimator.SetBool("hangWalk", hangWalk);
         myAnimator.SetBool("isFalling", isFalling);
+        myAnimator.SetBool("toJump", toJump);
+        myAnimator.SetBool("jumpHang", jumpHang);
+        myAnimator.SetBool("lande", isLanded);
         if (posready == true)
         {
             if (currentpos >= 0)
