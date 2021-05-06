@@ -9997,10 +9997,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questionText: {fileID: 1865579199}
   levelName: {fileID: 136529497}
+  timerText: {fileID: 2089650735}
   AfterStuntMessage: {fileID: 1318250021}
+  HookAttachmentCollider: {fileID: 877419807}
   hook: {fileID: 174643246}
   thePlayer: {fileID: 1181529608}
+  playerAnswer: {fileID: 1234156796}
   hookLauncher: {fileID: 1508476257}
+  movingToHookHand: {fileID: 1759702103}
+  thinRope: {fileID: 1457831622}
+  hookLine: {fileID: 665602780}
+  Rope2HookEnd: {fileID: 593418721}
+  elapsed: 0
   dynamicPlatform: {fileID: 1091613499}
   grappingPointIndicator: {fileID: 1772449219}
 --- !u!4 &732250310
@@ -12399,14 +12407,14 @@ PrefabInstance:
     - target: {fileID: 21478578348999072, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 732250309}
     - target: {fileID: 21478578348999072, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartSimulation
       objectReference: {fileID: 0}
     - target: {fileID: 21478578348999072, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Level_4_Stage_1, Assembly-CSharp
+      value: Level_4_Stage_2, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 21478578348999102, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_Name
@@ -13193,6 +13201,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227275312}
   m_CullTransparentMesh: 1
+--- !u!114 &1234156796 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 21478578598410093, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
+  m_PrefabInstance: {fileID: 1132773844}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1243716417
 GameObject:
   m_ObjectHideFlags: 0
@@ -13321,7 +13340,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1249379400}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15, y: 0, z: 0}
+  m_LocalPosition: {x: 4.58, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1522917714}
@@ -13565,7 +13584,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0 m/s
+  m_text: '? m/s'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17939,6 +17958,11 @@ PrefabInstance:
     - {fileID: 1357513951798605506, guid: 7bc87c50c8303494c822786def94109f, type: 3}
     - {fileID: -6658107369212967051, guid: 7bc87c50c8303494c822786def94109f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7bc87c50c8303494c822786def94109f, type: 3}
+--- !u!1 &1759702103 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 800244271678103138, guid: 7bc87c50c8303494c822786def94109f, type: 3}
+  m_PrefabInstance: {fileID: 1759702102}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1766329472
 GameObject:
   m_ObjectHideFlags: 0
@@ -24825,6 +24849,17 @@ PrefabInstance:
     - {fileID: 4790556043337702178, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
     - {fileID: 3179697866478965129, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
+--- !u!114 &2089650735 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 21478577984491686, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
+  m_PrefabInstance: {fileID: 1132773844}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2095658783
 GameObject:
   m_ObjectHideFlags: 0
@@ -30070,7 +30105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9159924412010981208, guid: 1c837c3593c41c1038ed60a9e829d973, type: 3}
       propertyPath: _origin.x
-      value: 4.39
+      value: 4.58
       objectReference: {fileID: 0}
     - target: {fileID: 9159924412010981208, guid: 1c837c3593c41c1038ed60a9e829d973, type: 3}
       propertyPath: initialAngle

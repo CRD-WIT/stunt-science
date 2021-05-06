@@ -6,21 +6,30 @@ public class Level_4_Stage_2 : MonoBehaviour
 {
     // Start is called before the first frame update
     string question;
-    public TMP_Text questionText, levelName;
+    public TMP_Text questionText, levelName, timerText;
     public GameObject AfterStuntMessage;
     Animator thePlayerAnimation;
+    public GameObject HookAttachmentCollider;
     public GameObject hook;
     bool isSimulating = false;
     public GameObject thePlayer;
     Vector3 thePlayer_position;
+    public TMP_InputField playerAnswer;
     Vector2 gravityGiven;
-    Vector2 spawnPointValue;
     public GameObject hookLauncher;
     float distanceGiven;
     float angleGiven;
+    float correctAnswer;
+    public GameObject movingToHookHand;
     float velocityX = 0;
+    public GameObject thinRope;
+    bool doneFiring = false;
     float velocityY = 0;
     float velocityInitial = 0;
+    public GameObject hookLine;
+    public GameObject Rope2HookEnd;
+    bool isMovingToHook;
+    public float elapsed;
     public GameObject dynamicPlatform;
     public GameObject grappingPointIndicator;
 
@@ -50,8 +59,6 @@ public class Level_4_Stage_2 : MonoBehaviour
 
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
         thePlayer_position = thePlayer.transform.position;
-
-        spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
 
         transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().SetAngle(angleGiven);
 
@@ -102,5 +109,71 @@ public class Level_4_Stage_2 : MonoBehaviour
         Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
         dynamicPlatform.transform.position = new Vector3(line.distance + 32.34f, -15.69f, 1);
         grappingPointIndicator.transform.position = new Vector3(line.distance + 4.4f, 1, 1);
-    }            
+
+        if (isMovingToHook && !isSimulating)
+        {
+            hookLine.GetComponent<LineRenderer>().SetPosition(0, movingToHookHand.transform.position);
+            hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
+        }
+        else
+        {
+            hookLine.GetComponent<LineRenderer>().SetPosition(0, hookLauncher.transform.position);
+            hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
+        }
+
+        if (isSimulating)
+        {
+            if (playerAnswer.text.Length > 0)
+            {
+                transform.Find("Annotation").GetComponent<Annotation>().Hide();
+                transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Hide();
+                transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Hide();
+
+                elapsed += Time.fixedDeltaTime;
+                timerText.text = elapsed.ToString("f2") + "s";
+
+                // Correct Answer
+                if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
+                {
+                    if (!doneFiring)
+                    {
+                        hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                        hook.GetComponent<Rigidbody2D>().WakeUp();
+                        hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
+                        doneFiring = true;
+                    }
+
+                    if (hook.GetComponent<Hook>().isCollided)
+                    {
+                        thinRope.gameObject.SetActive(true);
+                        hookLine.SetActive(false);
+                        elapsed -= 0.01f;
+                        isSimulating = false;
+
+                        Rope2HookEnd.GetComponent<Rigidbody2D>().velocity = new Vector3(2, 0, 0);
+                        StartCoroutine(PullRope());
+                    }
+                }else{
+                        // Too long
+                        Debug.Log("Too long");
+                        HookAttachmentCollider.SetActive(false);
+
+                        if (!doneFiring)
+                        {
+                            hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                            hook.GetComponent<Rigidbody2D>().WakeUp();
+                            hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
+                            doneFiring = true;
+                        }
+
+                        if (hook.GetComponent<Hook>().isCollidedToFailCollider)
+                        {
+                            isSimulating = false;
+
+                        }
+
+                }
+            }
+        }
+    }
 }
