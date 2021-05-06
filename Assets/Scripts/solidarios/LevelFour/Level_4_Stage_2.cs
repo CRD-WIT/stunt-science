@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -22,7 +21,8 @@ public class Level_4_Stage_2 : MonoBehaviour
     float velocityX = 0;
     float velocityY = 0;
     float velocityInitial = 0;
-    public GameObject DynamicPlatform;
+    public GameObject dynamicPlatform;
+    public GameObject grappingPointIndicator;
 
     void Start()
     {
@@ -34,8 +34,6 @@ public class Level_4_Stage_2 : MonoBehaviour
         Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
 
         line.SetDistance(distanceGiven);
-
-        
 
         //Problem
         levelName.SetText("Projectile Motion | Stage 2");
@@ -80,8 +78,6 @@ public class Level_4_Stage_2 : MonoBehaviour
         velocityInitial = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
 
-
-
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
         Debug.Log($"VelocityInitial: {velocityInitial}");
@@ -103,6 +99,8 @@ public class Level_4_Stage_2 : MonoBehaviour
     }
     void FixedUpdate()
     {
-
-    }
+        Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
+        dynamicPlatform.transform.position = new Vector3(line.distance + 32.34f, -15.69f, 1);
+        grappingPointIndicator.transform.position = new Vector3(line.distance + 4.4f, 1, 1);
+    }            
 }

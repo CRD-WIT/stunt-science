@@ -6728,7 +6728,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.008, y: 0.947}
+  m_AnchoredPosition: {x: -10.99, y: 0.7}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &285235495
@@ -10001,6 +10001,8 @@ MonoBehaviour:
   hook: {fileID: 174643246}
   thePlayer: {fileID: 1181529608}
   hookLauncher: {fileID: 1508476257}
+  dynamicPlatform: {fileID: 1091613499}
+  grappingPointIndicator: {fileID: 1772449219}
 --- !u!4 &732250310
 Transform:
   m_ObjectHideFlags: 0
@@ -12031,7 +12033,7 @@ GameObject:
   - component: {fileID: 1091613500}
   - component: {fileID: 1091613501}
   m_Layer: 6
-  m_Name: DynamicPlatorm
+  m_Name: DynamicPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12045,7 +12047,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091613499}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 48.6921, y: -18.7, z: 173.6}
+  m_LocalPosition: {x: 0, y: -12.5, z: 173.6}
   m_LocalScale: {x: 55.858006, y: 31.440783, z: 1}
   m_Children:
   - {fileID: 224824940}
@@ -15699,7 +15701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1919375450109449381, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.705
+      value: 2.62
       objectReference: {fileID: 0}
     - target: {fileID: 1919375450109449381, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -17096,7 +17098,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1753899433}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 53.82, y: -12.4403, z: 173.6}
+  m_LocalPosition: {x: 47.5, y: -19.3, z: 173.6}
   m_LocalScale: {x: 51.03984, y: 31.440783, z: 1}
   m_Children:
   - {fileID: 1182016485}
@@ -18145,6 +18147,11 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.03}
   m_EdgeRadius: 0
+--- !u!1 &1772449219 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8261778667918475530, guid: f51b844fc77d65fdabdee9d303160e02, type: 3}
+  m_PrefabInstance: {fileID: 2125743604}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1772449222 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8261778667918475531, guid: f51b844fc77d65fdabdee9d303160e02, type: 3}
@@ -25092,7 +25099,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8261778667918475530, guid: f51b844fc77d65fdabdee9d303160e02, type: 3}
       propertyPath: m_Name
-      value: safezone_rectangle
+      value: GrappingPointIndicator
       objectReference: {fileID: 0}
     - target: {fileID: 8261778667918475531, guid: f51b844fc77d65fdabdee9d303160e02, type: 3}
       propertyPath: m_RootOrder

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 public enum Mode : byte
@@ -41,6 +39,10 @@ public class Annotation : MonoBehaviour
     public void SetSpawningPoint(Vector2 point)
     {
         this.spawnPoint = point;
+    }
+
+    public Vector2 GetEndPoint(){
+        return new Vector2(line2.GetPosition(1).x, line2.GetPosition(1).y);
     }
 
     public void SetDistance(float value)
