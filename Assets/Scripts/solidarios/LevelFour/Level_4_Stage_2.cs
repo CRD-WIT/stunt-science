@@ -80,13 +80,15 @@ public class Level_4_Stage_2 : MonoBehaviour
     void GenerateVelocities()
     {
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
-        velocityInitial = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+
         velocityInitial = float.Parse(playerAnswer.text);
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
 
+        correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
-        Debug.Log($"VelocityInitial: {velocityInitial}");
+        Debug.Log($"Correct Answer: {correctAnswer}");
     }
 
     IEnumerator DropRope()
