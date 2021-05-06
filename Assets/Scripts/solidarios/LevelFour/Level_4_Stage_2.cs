@@ -22,14 +22,20 @@ public class Level_4_Stage_2 : MonoBehaviour
     float velocityX = 0;
     float velocityY = 0;
     float velocityInitial = 0;
+    public GameObject DynamicPlatform;
 
     void Start()
     {
         // Given            
         distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(22f, 25f), 2);
         angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(40f, 45f), 2);
-        //angleGiven = 40f;
         gravityGiven = Physics2D.gravity;
+
+        Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
+
+        line.SetDistance(distanceGiven);
+
+        
 
         //Problem
         levelName.SetText("Projectile Motion | Stage 2");
@@ -73,6 +79,8 @@ public class Level_4_Stage_2 : MonoBehaviour
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
         velocityInitial = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
+
+
 
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
