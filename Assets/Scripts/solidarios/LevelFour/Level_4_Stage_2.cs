@@ -153,25 +153,25 @@ public class Level_4_Stage_2 : MonoBehaviour
                         Rope2HookEnd.GetComponent<Rigidbody2D>().velocity = new Vector3(2, 0, 0);
                         StartCoroutine(PullRope());
                     }
-                }else{
-                        // Too long
-                        Debug.Log("Too long");
-                        HookAttachmentCollider.SetActive(false);
+                }
+                else
+                {
+                    // Too long
+                    Debug.Log("Too long");
+                    HookAttachmentCollider.SetActive(false);
 
-                        if (!doneFiring)
-                        {
-                            hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                            hook.GetComponent<Rigidbody2D>().WakeUp();
-                            hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
-                            doneFiring = true;
-                        }
+                    if (!doneFiring)
+                    {
+                        hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                        hook.GetComponent<Rigidbody2D>().WakeUp();
+                        hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
+                        doneFiring = true;
+                    }
 
-                        if (hook.GetComponent<Hook>().isCollidedToFailCollider)
-                        {
-                            isSimulating = false;
-
-                        }
-
+                    if (hook.GetComponent<Hook>().isCollidedToFailCollider)
+                    {
+                        isSimulating = false;                
+                    }
                 }
             }
         }
