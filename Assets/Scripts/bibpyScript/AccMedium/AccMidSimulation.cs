@@ -24,8 +24,8 @@ public class AccMidSimulation : MonoBehaviour
     public Vector2 ChopperStartPosition;
     public Vector2 TruckStartPosition;
 
-    public GameObject afterStuntMessage, retryButton, nextButton,subChopper;
-    public GameObject[] ground;
+    public GameObject afterStuntMessage, retryButton, nextButton, subVan;
+    public GameObject[] ground, dimension, subChopper;
     bool directorIsCalling;
     public GameObject directorBubble;
     
@@ -59,9 +59,12 @@ public class AccMidSimulation : MonoBehaviour
     public void PlayButton()
     {
         playerAnswer = float.Parse(answerField.text);
-        subChopper.SetActive(false);
+        
+    
         if (stage == 1)
         {
+            subChopper[0].SetActive(false);
+            dimension[0].SetActive(false);
             if (answerField.text == "" || playerAnswer > 200 || playerAnswer < 1)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
@@ -79,6 +82,8 @@ public class AccMidSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
+            subChopper[1].SetActive(false);
+            subVan.SetActive(false);
             if (answerField.text == "" || playerAnswer > 100)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
@@ -114,8 +119,9 @@ public class AccMidSimulation : MonoBehaviour
     }
     public void retry()
     {
+        
         afterStuntMessage.SetActive(false);
-        subChopper.SetActive(true);
+        
         playButton.interactable = true;
         playerAnswer = 0;
         answerField.text = ("");
@@ -125,6 +131,8 @@ public class AccMidSimulation : MonoBehaviour
         
         if (stage == 1)
         {
+            subChopper[0].SetActive(true);
+            dimension[0].SetActive(true);
             theManagerOne.generateProblem();
             theChopper.transform.position = chopperStartpos;
             theTruck.transform.position = truckStartPos;
@@ -137,7 +145,8 @@ public class AccMidSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
-           
+           subChopper[1].SetActive(true);
+           subVan.SetActive(true);
         }
         if (stage == 3)
         {

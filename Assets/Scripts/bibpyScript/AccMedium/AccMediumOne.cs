@@ -6,7 +6,7 @@ using TMPro;
 
 public class AccMediumOne : MonoBehaviour
 {
-    public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, AfterStuntMessage, retry, next;
+    public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, AfterStuntMessage, retry, next, grabline;
     public Player thePlayer;
     public Hellicopter theChopper;
     public TruckManager theTruck;
@@ -18,6 +18,7 @@ public class AccMediumOne : MonoBehaviour
     public float chopperPos, truckPos, answer;
     public bool readyToJump;
     public TMP_Text timertxt, stuntMessageTxt;
+    float grabLineDistance;
     
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,7 @@ public class AccMediumOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
        
         if (AccMidSimulation.simulate == true)
         {
@@ -48,7 +50,7 @@ public class AccMediumOne : MonoBehaviour
                 timer += Time.fixedDeltaTime;
                 if (answer == correctAnswer)
                 {
-                    if (timer >= answer - .8f)
+                    if (timer >= answer - .45f)
                     {
                         if (readyToJump)
                         {
@@ -62,7 +64,7 @@ public class AccMediumOne : MonoBehaviour
                 if (answer < correctAnswer)
                 {
                     AccMidSimulation.playerDead = true;
-                    if (timer >= answer - .9f)
+                    if (timer >= answer - .45f)
                     {
                         if (readyToJump)
                         {
@@ -77,7 +79,7 @@ public class AccMediumOne : MonoBehaviour
                 if (answer > correctAnswer)
                 {
                     AccMidSimulation.playerDead = true;
-                    if (timer >= answer - .75f)
+                    if (timer >= answer - .4f)
                     {
                         if (readyToJump)
                         {
@@ -102,6 +104,8 @@ public class AccMediumOne : MonoBehaviour
         velocity = (float)System.Math.Round(generateVelocity, 2);
         generateCorrectAnswer = (2 * velocity) / accelaration;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
+        grabLineDistance = velocity * correctAnswer;
+        grabline.transform.position = new Vector2(grabLineDistance + 2.67f, grabline.transform.position.y);
         AccMidSimulation.question = (("<b>") + PlayerPrefs.GetString("Name") + ("</b> is standing in top of a non moving truck, waiting for the hellicopter to pass by, chase it with the truck, and grab the rope hanging from it, If the hellicopter flies forward at a constant speed of <b>") + velocity.ToString("F2") + ("</b> m/s and the truck follows to catch up with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s² the moment the rope passes by <b>") + PlayerPrefs.GetString("Name") + ("</b>, after how many seconds should <b>") + PlayerPrefs.GetString("Name") + ("</b> precisely grab the rope the moment the truck starts moving?"));
     }
     IEnumerator StuntResult()
@@ -115,9 +119,9 @@ public class AccMediumOne : MonoBehaviour
     IEnumerator jump()
     {
         readyToJump = false;
-        thePlayer.toJump = true;
-        yield return new WaitForSeconds(.8f);
-        thePlayer.toJump = false;
+        thePlayer.toReach= true;
+        yield return new WaitForSeconds(.5f);
+        thePlayer.toReach = false;
         thePlayer.gameObject.SetActive(false);
         if (answer == correctAnswer)
         {

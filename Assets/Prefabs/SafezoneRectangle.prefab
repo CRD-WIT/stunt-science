@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.38}
-  m_SizeDelta: {x: 1.53, y: 1.3}
+  m_SizeDelta: {x: 4.21, y: 1.81}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8729271154585868597
 MeshRenderer:
@@ -126,8 +126,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 2.5
-  m_fontSizeBase: 2.5
+  m_fontSize: 5.32
+  m_fontSizeBase: 5.32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 3.42
@@ -165,12 +165,12 @@ MonoBehaviour:
   m_margin: {x: -0.10920334, y: 0, z: -0.081905365, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 8729271154585868597}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!1 &8261778666658350814
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +245,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cbac9559c4b8e5c4bb4bc987e0d8e5e3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0aae8d87a737d792b9412e47db16a28a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -284,9 +284,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8261778667918475531}
+  - component: {fileID: 8261778667918475532}
   - component: {fileID: 7591140389502099526}
   m_Layer: 0
-  m_Name: safezone
+  m_Name: safezone_rectangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -300,13 +301,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8261778667918475530}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.89, y: 12.57, z: 0}
+  m_LocalPosition: {x: 5.89, y: 7.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8261778666658350784}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &8261778667918475532
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8261778667918475530}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 3.72}
+  serializedVersion: 2
+  m_Radius: 0.38
 --- !u!114 &7591140389502099526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +333,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8261778667918475530}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eb2421354a38b04eb43fd0c383e1be4, type: 3}
+  m_Script: {fileID: 11500000, guid: 96c1d78dac390f24bb2c1b580d1e6f5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   text: 

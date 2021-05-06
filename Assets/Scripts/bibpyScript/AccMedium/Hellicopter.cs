@@ -8,6 +8,8 @@ public class Hellicopter : MonoBehaviour
     public AccMediumOne theManagerOne;
     public Rigidbody2D myRigidbody;
     private Animator myAnimator;
+    public bool accelarating;
+    public float accelaration;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +23,11 @@ public class Hellicopter : MonoBehaviour
     {
         myRigidbody.velocity = new Vector2(flySpeed, myRigidbody.velocity.y);
         myAnimator.SetFloat("speed", myRigidbody.velocity.x);
+        if(accelarating)
+        {
+            flySpeed += accelaration * Time.fixedDeltaTime;
+        }
+
 
     }
     void OnTriggerEnter2D(Collider2D other)
