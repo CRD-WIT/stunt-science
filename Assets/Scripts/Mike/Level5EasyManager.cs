@@ -91,7 +91,6 @@ public class Level5EasyManager : MonoBehaviour
                         timerTxtBox2.text = elapsed.ToString("f2") + "s";
                         CurvedLineFollower.arc = aVelocity * elapsed;
                         elapsed = GearHangers.hangTime;
-                        //myPlayer.isHanging = true;
                     }
                     else //(elapsed >= gameTime)
                     {
@@ -146,7 +145,6 @@ public class Level5EasyManager : MonoBehaviour
                         }
                         else
                         {
-                            //CurvedLineFollower.arc = playerAnswer;
                             RagdollSpawn();
                             isAnswerCorect = false;
                             playerHeart.ReduceLife();
@@ -214,9 +212,9 @@ public class Level5EasyManager : MonoBehaviour
             }
         }
     }
-
     void Lvl5EasySetUp()
     {
+        Destroy(ragdoll);
         StartCoroutine(playerHeart.startBGgone());
         stage1Layout.SetActive(false);
         stage2Layout.SetActive(false);
@@ -224,14 +222,12 @@ public class Level5EasyManager : MonoBehaviour
         retryButton.gameObject.SetActive(false);
         nextButton.gameObject.SetActive(false);
         myPlayer.gameObject.SetActive(true);
-
         playerHeart.losslife = false;
         myPlayer.happy = false;
         DC = true;
         DCisOn = false;
         myPlayer.lost = false;
         myPlayer.standup = false;
-
         playerAnswer = 0;
         elapsed = 0;
         angle = 0;
@@ -241,7 +237,6 @@ public class Level5EasyManager : MonoBehaviour
         gearRB.angularVelocity = 0;
         gearRB.rotation = 0f;
         CurvedLineFollower.arc = 0;
-
         if (playerGender == "Male")
         {
             pronoun = "he";
@@ -257,14 +252,12 @@ public class Level5EasyManager : MonoBehaviour
             case 1:
                 levelTxtBox1.text = sm.GetGameLevel();
                 timerTxtBox1.text = "0.00s";
-
                 playerHangerTrigger1.SetActive(false);
                 stage1Layout.SetActive(true);
                 float t = Random.Range(3.1f, 3.7f);
                 gameTime = (float)System.Math.Round(t, 2);
                 aVelocity = (float)System.Math.Round((210 / gameTime), 2);
                 questionTxtBox1.text = playerName + " is trying to go accross the other platform by hanging at the tooth or the rotating gear from the starting platform and letting it go after <color=#006400>" + gameTime.ToString() + " seconds</color>. If the safe release point of the tooth is <color=red>210 degrees</color> from the grab point. At what <color=purple>angular velocity</color> should " + playerName + " set the spinning gear at?";
-
                 CurvedLineFollower.stage = 1;
                 myPlayer.transform.position = playerPos;
                 gearSet.transform.position = new Vector3(gearSet.transform.position.x, gearSet.transform.position.y, gearSet.transform.position.z);
@@ -281,12 +274,10 @@ public class Level5EasyManager : MonoBehaviour
                 directorsSpeech.transform.localScale = new Vector3(-1, directorsSpeech.transform.localScale.y, directorsSpeech.transform.localScale.z);
                 playButton2.interactable = false;
                 stage2Layout.SetActive(true);
-
                 float av = Random.Range(30f, 40f);
                 aVelocity = (float)System.Math.Round(av, 2);
                 gameTime = (float)System.Math.Round((118 / aVelocity), 2);
                 questionTxtBox2.text = playerName + " is trying to cross the other platform by hanging at the rotating gear from the starting platform and grabbing the pipe above upon reaching the highest point of the gear. If the release point of the gear is <color=red>118 degrees</color> from the grab point, and the angular velocity of the gear is <color=purple>" + aVelocity + " degrees per second</color>, how <color=#006400>long</color> " + pronoun + " should hold on to the gear before reaching for the pipe?";
-
                 CurvedLineFollower.stage = 2;
                 myPlayer.transform.position = new Vector2(playerPos.x - 12, playerPos.y - 1);
                 gearSet.transform.position = new Vector3(-6.15f, -0.667f, gearSet.transform.position.z);
@@ -304,12 +295,9 @@ public class Level5EasyManager : MonoBehaviour
                 gearSet.SetActive(false);
                 stage3Layout.SetActive(true);
                 gear3.SetActive(true);
-
                 directorPlatform.transform.position = new Vector3(-8.5f, 6.7f, 90);
                 directorPlatform.transform.localScale = new Vector3(-1f, 01f, 0);
                 directorsSpeech.transform.localScale = new Vector3(-1, directorsSpeech.transform.localScale.y, directorsSpeech.transform.localScale.z);
-
-
                 while (angle < 50f || angle > 75f)
                 {
                     float a = Random.Range(20f, 30f);
@@ -318,9 +306,7 @@ public class Level5EasyManager : MonoBehaviour
                     gameTime = (float)System.Math.Round(t3, 2);
                     angle = (float)System.Math.Round((aVelocity * gameTime), 2);
                 }
-
                 questionTxtBox3.text = playerName + " needs to enter the tunnel at the other side and the only way to do that is to hang into the rotating gear and let go upon reaching the lowest part of the gear and land at the very edge of the tunnel floor. If the gear rotates counterclockwise at <color=purple>" + aVelocity + " degrees per second</color> and " + pronoun + " will only hold on into the gear at exactly <color=#006400>" + gameTime + " seconds</color> before letting go, at what <color=red>angle</color> from the release point shoiuld " + playerName + " grab the gear?";
-
                 CurvedLineFollower.stage = 3;
                 myPlayer.transform.position = new Vector2(0, 3);
                 gearRB.angularVelocity = aVelocity;
@@ -482,7 +468,7 @@ public class Level5EasyManager : MonoBehaviour
         myPlayer.moveSpeed = 5;
         yield return new WaitForSeconds(2f);
         StartCoroutine(playerHeart.endBGgone());
-        //yield return new WaitForSeconds(2.8f);
+        yield return new WaitForSeconds(2.8f);
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);
         myPlayer.moveSpeed = 0;
         Lvl5EasySetUp();
@@ -513,7 +499,6 @@ public class Level5EasyManager : MonoBehaviour
         isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
         afterStuntMessage.SetActive(true);
-        Destroy(ragdoll);
     }
     IEnumerator Cranking()
     {
@@ -536,6 +521,7 @@ public class Level5EasyManager : MonoBehaviour
         myPlayer.gameObject.SetActive(false);
         ragdoll = Instantiate(ragdollPrefab);
         ragdoll.transform.position = myPlayer.gameObject.transform.position;
+        StartCoroutine(StuntResult());
     }
     IEnumerator HangWalk()
     {
@@ -552,7 +538,6 @@ public class Level5EasyManager : MonoBehaviour
         pipeHanger.enabled = false;
 
         StartCoroutine(StuntResult());
-        //myPlayer.isHanging = false;
     }
     IEnumerator GrabPipe()
     {
@@ -572,7 +557,6 @@ public class Level5EasyManager : MonoBehaviour
             myPlayer.hangWalk = false;
             yield return new WaitForSeconds(1.25f);
             myPlayer.isFalling = false;
-            //myPlayer.isHanging = false;
             RagdollSpawn();
         }
     }
