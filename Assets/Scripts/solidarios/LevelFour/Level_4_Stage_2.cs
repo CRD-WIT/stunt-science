@@ -68,8 +68,6 @@ public class Level_4_Stage_2 : MonoBehaviour
         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
 
         hookLauncher.transform.Rotate(new Vector3(0, 0, angleGiven));
-
-        GenerateVelocities();
     }
 
     IEnumerator StuntResult()
@@ -83,6 +81,7 @@ public class Level_4_Stage_2 : MonoBehaviour
     {
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
         velocityInitial = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+        velocityInitial = float.Parse(playerAnswer.text);
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
 
         Debug.Log($"VelocityX: {velocityX}");
@@ -132,6 +131,9 @@ public class Level_4_Stage_2 : MonoBehaviour
                 elapsed += Time.fixedDeltaTime;
                 timerText.text = elapsed.ToString("f2") + "s";
 
+
+                GenerateVelocities();
+
                 // Correct Answer
                 if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
                 {
@@ -164,13 +166,13 @@ public class Level_4_Stage_2 : MonoBehaviour
                     {
                         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                         hook.GetComponent<Rigidbody2D>().WakeUp();
-                        hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
+                        hook.GetComponent<Rigidbody2D>().velocity = new Vector3(float.Parse(playerAnswer.text), velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
                         doneFiring = true;
                     }
 
                     if (hook.GetComponent<Hook>().isCollidedToFailCollider)
                     {
-                        isSimulating = false;                
+                        isSimulating = false;
                     }
                 }
             }
