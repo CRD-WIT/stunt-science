@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-public class Level_4_Stage_2 : MonoBehaviour
+public class Level_4_Stage_3 : MonoBehaviour
 {
     // Start is called before the first frame update
     string question;
@@ -36,9 +36,10 @@ public class Level_4_Stage_2 : MonoBehaviour
 
     void Start()
     {
-        // Given            
-        distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(22f, 25f), 2);
-        angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(40f, 45f), 2);
+        // Given   
+        velocityInitial =  (float)System.Math.Round(UnityEngine.Random.Range(12f, 14f), 2);        
+        distanceGiven = 0;
+        angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(70f, 75f), 2);
         gravityGiven = Physics2D.gravity;
 
         Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
@@ -47,7 +48,7 @@ public class Level_4_Stage_2 : MonoBehaviour
 
         //Problem
         levelName.SetText("Projectile Motion | Stage 2");
-        question = $"[name] is instructed to cross another diff using this climbing device. If [name] shoot its gripping projectle at an angle of [angle] degrees up to precisedlly git the corner of the cliff [distance] meters away horizontally from the shooting device, at what velocity should the projectile be shot to hit the gripping part?";
+        question = $"[name] is instructed to cross the last cliff. If [name] shoots the gripping projectile at an angle of [angle] degrees up at a velocity of [vo] meters per second, how far precisely should [name] be away horizontally from the target gripping point in order to hit it?";
 
         if (questionText != null)
         {
@@ -76,20 +77,6 @@ public class Level_4_Stage_2 : MonoBehaviour
         //messageFlag = false;
         yield return new WaitForSeconds(4f);
         AfterStuntMessage.SetActive(true);
-    }
-
-    void GenerateInitialVelocities()
-    {
-        velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
-
-        velocityInitial = float.Parse(playerAnswer.text);
-        velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
-
-        correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
-
-        Debug.Log($"VelocityX: {velocityX}");
-        Debug.Log($"VelocityY: {velocityY}");
-        Debug.Log($"Correct Answer: {correctAnswer}");
     }
 
     void RegenerateVelocities()

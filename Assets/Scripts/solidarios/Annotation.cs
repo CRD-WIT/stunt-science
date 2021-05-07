@@ -30,6 +30,10 @@ public class Annotation : MonoBehaviour
         transform.gameObject.SetActive(false);
     }
 
+    public void Show(){
+        transform.gameObject.SetActive(true);
+    }
+
     public Vector2 SpawnPointValue()
     {
         return spawnPoint;

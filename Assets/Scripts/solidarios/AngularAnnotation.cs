@@ -18,7 +18,8 @@ public class AngularAnnotation : MonoBehaviour
         this.angle = angle;
     }
 
-    public void Hide(){
+    public void Hide()
+    {
         transform.gameObject.SetActive(false);
     }
 
@@ -27,5 +28,10 @@ public class AngularAnnotation : MonoBehaviour
     {
         transform.rotation = Quaternion.Euler(0, 0, angle);
         transform.position = new Vector3(origin.x, origin.y, 0);
+    }
+
+    public void Show()
+    {
+        transform.gameObject.SetActive(true);
     }
 }
