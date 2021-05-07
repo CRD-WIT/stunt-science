@@ -144,6 +144,7 @@ public class AccManagerOne : MonoBehaviour
         accSimulation.question = (("In order for <b>") + PlayerPrefs.GetString("Name") + ("</b> to enter the tunnel on the otherside of the platform where  <b>") + pronoun + ("</b>is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete standstill to a speed of <b>") + Vf.ToString("F1") + ("</b> m/s, after ") + time.ToString("F1") + ("seconds. What should be ") + pronoun + (" accelaration in order to achieve the final velocity?"));
         theHeart.losslife = false;
         theBike.moveSpeed = 0;
+    
        
 
     }
