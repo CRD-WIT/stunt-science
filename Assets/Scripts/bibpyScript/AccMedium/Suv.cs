@@ -7,6 +7,7 @@ public class Suv : MonoBehaviour
     public Rigidbody2D myRigidbody;
     public float moveSpeed, accelaration;
     public bool accelarating;
+    public bool deaccelarating;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,5 +22,6 @@ public class Suv : MonoBehaviour
         {
             moveSpeed -= accelaration * Time.fixedDeltaTime;
         }
+       
     }
 }

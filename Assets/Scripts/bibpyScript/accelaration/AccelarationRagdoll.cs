@@ -15,6 +15,7 @@ public class AccelarationRagdoll : MonoBehaviour
     private BikeManager theBike;
     bool forward = true;
     bool backward;
+    bool respawn = true;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class AccelarationRagdoll : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         theSimulation = FindObjectOfType<SimulationManager>();
         theBike = FindObjectOfType<BikeManager>();
+        theAccsimulate = FindObjectOfType<accSimulation>();
 
 
     }
@@ -42,16 +44,16 @@ public class AccelarationRagdoll : MonoBehaviour
             backward = true;
             forward = false;
         }
-        
+
         if (forward)
         {
             moveSpeedforward -= 2 * Time.deltaTime;
             moveSpeedupward -= 2 * Time.deltaTime;
             myRigidbody.velocity = new Vector2(moveSpeedforward, moveSpeedupward);
             if (moveSpeedforward <= 0)
-        {
-            moveSpeedforward = myRigidbody.velocity.x;
-        }
+            {
+                moveSpeedforward = myRigidbody.velocity.x;
+            }
         }
         if (backward)
         {
@@ -62,14 +64,22 @@ public class AccelarationRagdoll : MonoBehaviour
                 moveSpeedbackward = myRigidbody.velocity.x;
             }
         }
+        if (theAccsimulate.playButton.interactable == true)
+        {
+            Destroy(stick.gameObject);
+        }
+
     }
     IEnumerator driverSpawn()
     {
         accSimulation.playerDead = false;
-        yield return new WaitForSeconds(2);
-        Destroy(stick.gameObject);
-        theBike.driverPrefab.SetActive(true);
-        theBike.driverPrefab.transform.position = stickloc.transform.position;
+        yield return new WaitForSeconds(3);
+        if (respawn)
+        {
+            Destroy(stick.gameObject);
+            theBike.driverPrefab.SetActive(true);
+            theBike.driverPrefab.transform.position = stickloc.transform.position;
+        }
 
 
 
@@ -87,6 +97,13 @@ public class AccelarationRagdoll : MonoBehaviour
         theSimulation.thePlayer.gameObject.transform.position = stickloc.transform.position;
         theSimulation.thePlayer.gameObject.SetActive(true);
 
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == ("water"))
+        {
+            respawn = false;
+        }
     }
 }
 

@@ -626,6 +626,7 @@ GameObject:
   - component: {fileID: 3466479452137072273}
   - component: {fileID: 3466479452137072366}
   - component: {fileID: 3466479452137072367}
+  - component: {fileID: 2671093143414584165}
   m_Layer: 0
   m_Name: body
   m_TagString: Untagged
@@ -727,15 +728,32 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2671093143414584165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3466479452137072364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f922fbb5300be74096625e210c8ed54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeedforward: 6
+  moveSpeedbackward: -6
+  moveSpeedupward: 6
+  stick: {fileID: 3466479453583936867}
+  stickloc: {fileID: 5066331571863339688}
 --- !u!1 &3466479452367605802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,7 +1057,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1.5
   m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 2
@@ -1185,20 +1203,22 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.39499998, y: 0.51}
+    - - {x: 0.33594775, y: 0.49875957}
       - {x: 0.325, y: 0.59}
       - {x: 0.285, y: 0.59999996}
       - {x: 0.195, y: 0.59999996}
-      - {x: 0.105, y: 0.53}
-      - {x: -0.035, y: 0.26}
-      - {x: -0.39499998, y: -0.39}
-      - {x: -0.39499998, y: -0.51}
-      - {x: -0.355, y: -0.58}
-      - {x: -0.275, y: -0.59999996}
-      - {x: -0.175, y: -0.59999996}
-      - {x: -0.155, y: -0.59}
-      - {x: -0.055, y: -0.45}
-      - {x: 0.39499998, y: 0.39}
+      - {x: 0.1367968, y: 0.5360524}
+      - {x: 0.045662273, y: 0.27228168}
+      - {x: -0.022249332, y: 0.16828397}
+      - {x: -0.13557786, y: -0.046378855}
+      - {x: -0.3322687, y: -0.37335214}
+      - {x: -0.35562694, y: -0.46955538}
+      - {x: -0.31367835, y: -0.52506304}
+      - {x: -0.25725564, y: -0.5448449}
+      - {x: -0.15292113, y: -0.46870536}
+      - {x: -0.08272101, y: -0.3267652}
+      - {x: 0.014465518, y: -0.19671384}
+      - {x: 0.31063974, y: 0.38806376}
 --- !u!50 &3466479452511692160
 Rigidbody2D:
   serializedVersion: 4
@@ -1211,7 +1231,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 2
@@ -1544,7 +1564,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 2
@@ -1903,7 +1923,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3466479453583936866}
-  - component: {fileID: 5069735798372750862}
   - component: {fileID: 5092978544015572616}
   m_Layer: 0
   m_Name: ragdoll 2
@@ -1936,23 +1955,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -20.694}
---- !u!114 &5069735798372750862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3466479453583936867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f922fbb5300be74096625e210c8ed54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeedforward: 6
-  moveSpeedbackward: -6
-  moveSpeedupward: 6
-  stick: {fileID: 3466479453583936867}
-  stickloc: {fileID: 5066331571863339688}
 --- !u!50 &5092978544015572616
 Rigidbody2D:
   serializedVersion: 4

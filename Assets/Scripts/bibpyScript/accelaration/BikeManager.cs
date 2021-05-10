@@ -9,18 +9,18 @@ public class BikeManager : MonoBehaviour
     private Animator myAnimator;
     public bool collided;
     public GameObject driverPrefab;
-    
+
     public float moveSpeed;
     public Rigidbody2D myRigidbody;
-    private Collider2D myCollider;
+    public Collider2D myCollider;
     public GameObject driverStickman;
-     public GameObject stickprefab;
-     public GameObject stickmanpoint;
-     public bool stopBackward;
-     public bool stopForward;
-     public bool brake;
-     public GameObject afterStuntMessage;
-     private HeartManager theHeart;
+    public GameObject stickprefab;
+    public GameObject stickmanpoint;
+    public bool stopBackward;
+    public bool stopForward;
+    public bool brake;
+    public GameObject afterStuntMessage;
+    private HeartManager theHeart;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,30 +35,30 @@ public class BikeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         myAnimator.SetFloat("speed", myRigidbody.velocity.x);
-      
-       if (stopBackward || stopForward)
-       {
-           myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, myRigidbody.velocity.y);
-       }
-       else
-       {
+        myAnimator.SetFloat("speed", myRigidbody.velocity.x);
+
+        if (stopBackward || stopForward)
+        {
+            myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, myRigidbody.velocity.y);
+        }
+        else
+        {
             myRigidbody.velocity = new Vector2(moveSpeed, myRigidbody.velocity.y);
-       }
+        }
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-         if (other.gameObject.tag == ("wall"))
-        { 
+        if (other.gameObject.tag == ("wall"))
+        {
             if (collided == false)
             {
-               
-                if(theSimulate.stage < 3)
+
+                if (theSimulate.stage < 3)
                 {
                     StartCoroutine(StuntResult());
                     stopBackward = true;
                 }
-                if(theSimulate.stage == 3)
+                if (theSimulate.stage == 3)
                 {
                     stopForward = true;
                 }
@@ -69,29 +69,39 @@ public class BikeManager : MonoBehaviour
                 thePlayer.standup = true;
                 driverPrefab.SetActive(false);
                 driverStickman.SetActive(false);
-            }  
-        }
-         if (other.gameObject.tag == ("braker"))
-            {
-                brake = true;
             }
+        }
+        if (other.gameObject.tag == ("braker"))
+        {
+            brake = true;
+        }
+        if (other.gameObject.tag == ("water"))
+        {
+            StartCoroutine(disablecol());
+        }
 
 
     }
-    
+
     public void driverspawn()
     {
-        
+
         GameObject stick = Instantiate(stickprefab);
-        stick.transform.position = stickmanpoint.transform.position;  
-        stick.transform.rotation = stickmanpoint.transform.rotation;    
+        stick.transform.position = stickmanpoint.transform.position;
+        stick.transform.rotation = stickmanpoint.transform.rotation;
     }
     IEnumerator StuntResult()
     {
         theHeart.losinglife();
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(2);
-         afterStuntMessage.SetActive(true);
+        afterStuntMessage.SetActive(true);
     }
-    
+    IEnumerator disablecol()
+    {
+        myCollider.enabled = false;
+        yield return new WaitForSeconds(1);
+        myCollider.enabled = true;
+    }
+
 }

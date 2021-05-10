@@ -9,6 +9,7 @@ public class AccMediumOne : MonoBehaviour
     public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, AfterStuntMessage, retry, next, grabline;
     public Player thePlayer;
     public Hellicopter theChopper;
+    public SubHellicopter theSubChopper;
     public TruckManager theTruck;
     private AccMidSimulation theSimulate;
     public bool chase;

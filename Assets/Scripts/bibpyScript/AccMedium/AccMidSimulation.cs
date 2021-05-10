@@ -63,7 +63,7 @@ public class AccMidSimulation : MonoBehaviour
     
         if (stage == 1)
         {
-            subChopper[0].SetActive(false);
+            //subChopper[0].SetActive(false);
             dimension[0].SetActive(false);
             if (answerField.text == "" || playerAnswer > 200 || playerAnswer < 1)
             {

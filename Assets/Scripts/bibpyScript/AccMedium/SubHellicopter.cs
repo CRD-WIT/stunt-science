@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hellicopter : MonoBehaviour
+public class SubHellicopter : MonoBehaviour
 {
     public float flySpeed;
     public AccMediumOne theManagerOne;
-    public SubHellicopter theSubChopper;
     public Rigidbody2D myRigidbody;
     private Animator myAnimator;
-    public bool accelarating, deaccelaration;
+    public bool accelarating;
     public float accelaration;
-    
+    public bool fade;
 
     // Start is called before the first frame update
     void Start()
@@ -25,14 +24,14 @@ public class Hellicopter : MonoBehaviour
     {
         myRigidbody.velocity = new Vector2(flySpeed, myRigidbody.velocity.y);
         myAnimator.SetFloat("speed", myRigidbody.velocity.x);
-       
+         myAnimator.SetBool("fading", fade);
         if(accelarating)
         {
             flySpeed += accelaration * Time.fixedDeltaTime;
         }
-        if(deaccelaration)
+        if(fade == true)
         {
-            flySpeed -= accelaration * Time.fixedDeltaTime;
+           StartCoroutine(fadeout());
         }
 
 
@@ -42,7 +41,12 @@ public class Hellicopter : MonoBehaviour
          if (other.gameObject.tag == ("wall"))
         { 
             theManagerOne.chase = true;
-            theSubChopper.fade = true;
         }
+    }
+    IEnumerator fadeout()
+    {
+        yield return new WaitForSeconds(2);
+        gameObject.SetActive(false);
+        fade = false;
     }
 }
