@@ -54,8 +54,8 @@ public class Level_4_Stage_1 : MonoBehaviour
         gravityGiven = Physics2D.gravity;
 
         //Problem
-        levelName.SetText("Free Fall | Stage 4");
-        question = $"Wants to cross to the cliff at the other side using his climbing device. If [pronoun] shoots its gripping projectile at a velocity of [vo] at an angle of [a] degrees, at what precise time should [name] trigger the gripper if it will grip at the exact moment when it will touch the gripping point of the cliff accross which is at the same horizontal level of the shooting device.";
+        levelName.SetText("Free Fall | Stage 1");
+        question = $"[player] wants to cross to the cliff at the other side using his climbing device. If [pronoun] shoots its gripping projectile at a velocity of [vo] at an angle of [a] degrees, at what precise time should [name] trigger the gripper if it will grip at the exact moment when it will touch the gripping point of the cliff accross which is at the same horizontal level of the shooting device.";
 
         if (questionText != null)
         {
@@ -111,9 +111,11 @@ public class Level_4_Stage_1 : MonoBehaviour
 
     IEnumerator DropRope()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.3f);
         hookLauncher.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-
+        hookLauncher.SetActive(false);
+        yield return new WaitForSeconds(0.3f);
+        thePlayerAnimation.SetBool("failed", true);
     }
 
     IEnumerator PullRope()
@@ -210,6 +212,8 @@ public class Level_4_Stage_1 : MonoBehaviour
 
                         }
 
+
+
                     }
                     else
                     {
@@ -249,7 +253,7 @@ public class Level_4_Stage_1 : MonoBehaviour
                 hook.transform.position -= new Vector3(0.1f, -0.1f, 0);
                 hookIndicator.SetActive(false);
                 StartCoroutine(DropRope());
-                thePlayerAnimation.SetBool("lost", true);
+
             }
 
 
