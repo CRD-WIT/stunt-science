@@ -6,7 +6,7 @@ using TMPro;
 
 public class AccMediumOne : MonoBehaviour
 {
-    public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, AfterStuntMessage, retry, next, grabline;
+    public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, AfterStuntMessage, retry, next, grabline,playerGrabline;
     public Player thePlayer;
     public Hellicopter theChopper;
     public SubHellicopter theSubChopper;
@@ -18,8 +18,8 @@ public class AccMediumOne : MonoBehaviour
     float generateVelocity, generateAccelaration, generateCorrectAnswer;
     public float chopperPos, truckPos, answer;
     public bool readyToJump;
-    public TMP_Text timertxt, stuntMessageTxt;
-    float grabLineDistance;
+    public TMP_Text timertxt, stuntMessageTxt, vHtxt, viTtxt, aTtxt;
+    float grabLineDistance, playerGrabLineDistance;
     
     // Start is called before the first frame update
     void Start()
@@ -31,6 +31,10 @@ public class AccMediumOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        vHtxt.text = ("V = ")+ velocity.ToString("F2")+("m/s");
+        viTtxt.text = ("Vi = 0m/s ");
+        aTtxt.text = ("a = ")+ accelaration.ToString("F2")+("m/s²");
+        playerGrabLineDistance = velocity * AccMidSimulation.playerAnswer;
         
        
         if (AccMidSimulation.simulate == true)
@@ -40,6 +44,7 @@ public class AccMediumOne : MonoBehaviour
             chopperPos = theChopper.transform.position.x;
             hangingRagdoll.transform.position = ropeTip.transform.position;
             theChopper.flySpeed = velocity;
+            playerGrabline.transform.position = new Vector2(playerGrabLineDistance + 2.67f, playerGrabline.transform.position.y);
             if (chase)
             {
                 timertxt.text = timer.ToString("F2") + "s";
@@ -71,6 +76,8 @@ public class AccMediumOne : MonoBehaviour
                         {
                             StartCoroutine(StuntResult());
                             StartCoroutine(jump());
+                            playerGrabline.SetActive(true);
+                            grabline.SetActive(true);
                         }
                         
                     }
@@ -80,12 +87,14 @@ public class AccMediumOne : MonoBehaviour
                 if (answer > correctAnswer)
                 {
                     AccMidSimulation.playerDead = true;
-                    if (timer >= answer - .4f)
+                    if (timer >= answer - .7f)
                     {
                         if (readyToJump)
                         {
                             StartCoroutine(StuntResult());
                             StartCoroutine(jump());
+                            playerGrabline.SetActive(true);
+                            grabline.SetActive(true);
                         }
                     }
                     retry.SetActive(true);
@@ -115,6 +124,7 @@ public class AccMediumOne : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1);
         AfterStuntMessage.SetActive(true);
+        playerGrabline.SetActive(false);
         
     }
     IEnumerator jump()

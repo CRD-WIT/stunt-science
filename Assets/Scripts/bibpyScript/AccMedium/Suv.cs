@@ -8,10 +8,12 @@ public class Suv : MonoBehaviour
     public float moveSpeed, accelaration;
     public bool accelarating;
     public bool deaccelarating;
+    public Collider2D myCollider;
     // Start is called before the first frame update
     void Start()
     {
          myRigidbody = GetComponent<Rigidbody2D>();
+         myCollider = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
@@ -21,6 +23,10 @@ public class Suv : MonoBehaviour
         if(accelarating)
         {
             moveSpeed -= accelaration * Time.fixedDeltaTime;
+        }
+        if(deaccelarating)
+        {
+            moveSpeed += accelaration * Time.fixedDeltaTime;
         }
        
     }

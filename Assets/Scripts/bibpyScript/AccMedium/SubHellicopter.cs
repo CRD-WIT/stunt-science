@@ -24,7 +24,7 @@ public class SubHellicopter : MonoBehaviour
     {
         myRigidbody.velocity = new Vector2(flySpeed, myRigidbody.velocity.y);
         myAnimator.SetFloat("speed", myRigidbody.velocity.x);
-         myAnimator.SetBool("fading", fade);
+        myAnimator.SetBool("fade", fade);
         if(accelarating)
         {
             flySpeed += accelaration * Time.fixedDeltaTime;
@@ -45,7 +45,7 @@ public class SubHellicopter : MonoBehaviour
     }
     IEnumerator fadeout()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         gameObject.SetActive(false);
         fade = false;
     }
