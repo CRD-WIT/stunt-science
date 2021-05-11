@@ -12,16 +12,9 @@ public class CameraScript : MonoBehaviour
     void Start()
     {
         cameraImage = transform.Find("CameraTop").gameObject;
-        spotLight = transform.Find("CameraTop").gameObject;
+        spotLight = transform.Find("SpotLight").gameObject;
 
         cameraImage.GetComponent<LookAtConstraint2D>().SetTarget(target);
         spotLight.GetComponent<LookAtConstraint2D>().SetTarget(target);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
     }
 }

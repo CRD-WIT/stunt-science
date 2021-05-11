@@ -34,6 +34,9 @@ public class Level_4_Stage_2 : MonoBehaviour
     public GameObject dynamicPlatform;
     public GameObject grappingPointIndicator;
 
+        string playerName = "Junjun";
+    string pronoun = "he";
+
     void Start()
     {
         // Given            
@@ -44,19 +47,6 @@ public class Level_4_Stage_2 : MonoBehaviour
         Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
 
         line.SetDistance(distanceGiven);
-
-        //Problem
-        levelName.SetText("Projectile Motion | Stage 2");
-        question = $"[name] is instructed to cross another diff using this climbing device. If [name] shoot its gripping projectle at an angle of [angle] degrees up to precisedlly git the corner of the cliff [distance] meters away horizontally from the shooting device, at what velocity should the projectile be shot to hit the gripping part?";
-
-        if (questionText != null)
-        {
-            questionText.SetText(question);
-        }
-        else
-        {
-            Debug.Log("QuestionText object not loaded.");
-        }
 
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
         thePlayer_position = thePlayer.transform.position;
@@ -90,6 +80,8 @@ public class Level_4_Stage_2 : MonoBehaviour
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
         Debug.Log($"Correct Answer: {correctAnswer}");
+
+        
     }
 
     void RegenerateVelocities()
@@ -100,6 +92,19 @@ public class Level_4_Stage_2 : MonoBehaviour
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
 
         correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+
+        //Problem
+        levelName.SetText("Projectile Motion | Stage 2");
+        question = $"[name] is instructed to cross another diff using this climbing device. If [name] shoot its gripping projectle at an angle of [angle] degrees up to precisedlly git the corner of the cliff [distance] meters away horizontally from the shooting device, at what velocity should the projectile be shot to hit the gripping part?";
+
+        if (questionText != null)
+        {
+            questionText.SetText(question);
+        }
+        else
+        {
+            Debug.Log("QuestionText object not loaded.");
+        }
 
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");

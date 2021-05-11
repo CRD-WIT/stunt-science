@@ -11,6 +11,7 @@ public class Level_3_Stage_1 : MonoBehaviour
     string question;
     GameObject[] ropeBones;
     public float elapsed;
+    public GameObject timer;
     public TMP_Text playerNameText, stuntMessageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
     Animator thePlayerAnimation;
@@ -35,6 +36,7 @@ public class Level_3_Stage_1 : MonoBehaviour
     bool letGoRope = false;
     float playerOnRopeInitialY;
     float accurateColliderInitialPointY;
+    public GameObject playButton;
     void Start()
     {
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
@@ -54,7 +56,7 @@ public class Level_3_Stage_1 : MonoBehaviour
         Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
-        levelName.SetText("Free Fall | Stage 1");
+        levelName.SetText("Stage 1");
         question = $"[name] is hanging from a rope and [pronoun] is instructed to let go of it, drop down, and hang again to the horizontal pole below. If [name] will let go ang grab the pole after exactly <color=purple>{timeGiven} sec</color>, at what <color=red>distance</color> should [pronoun] hands above the pole before letting go?";
 
         if (questionText != null)
@@ -110,9 +112,10 @@ public class Level_3_Stage_1 : MonoBehaviour
     {
         float thePlayer_x = thePlayer_position.x;
         float thePlayer_y = thePlayer_position.y;
-
         if (isSimulating)
         {
+            timer.SetActive(true);
+            playButton.SetActive(false);
 
             if (playerAnswer.text.Length > 0)
             {

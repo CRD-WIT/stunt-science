@@ -43,28 +43,18 @@ public class Level_4_Stage_1 : MonoBehaviour
     float totalRopeMass = 0f;
     float timeOfFlight = 0f;
     public GameObject angularAnnotation;
+    string playerName = "Junjun";
+    string pronoun = "he";
 
     void Start()
     {
+
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
         distanceGiven = transform.Find("Annotation1").GetComponent<Annotation>().distance;
         angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(35f, 40f), 2);
         //angleGiven = 40f;
         gravityGiven = Physics2D.gravity;
-
-        //Problem
-        levelName.SetText("Free Fall | Stage 1");
-        question = $"[player] wants to cross to the cliff at the other side using his climbing device. If [pronoun] shoots its gripping projectile at a velocity of [vo] at an angle of [a] degrees, at what precise time should [name] trigger the gripper if it will grip at the exact moment when it will touch the gripping point of the cliff accross which is at the same horizontal level of the shooting device.";
-
-        if (questionText != null)
-        {
-            questionText.SetText(question);
-        }
-        else
-        {
-            Debug.Log("QuestionText object not loaded.");
-        }
 
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
         thePlayer_position = thePlayer.transform.position;
@@ -101,6 +91,20 @@ public class Level_4_Stage_1 : MonoBehaviour
 
         correctAnswer = timeOfFlight;
 
+        //Problem
+        levelName.SetText("Free Fall | Stage 1");
+        question = $"<b>{playerName}</b> wants to cross to the cliff at the other side using his climbing device. If {pronoun} shoots its gripping projectile at a velocity of <b><color=red>{System.Math.Round(velocityInitial, 2)}</color></b> at an angle of <b><color=orange>{angleGiven}</color></b> degrees, <b><color=purple>at what precise time</color></b> should <b>{playerName}</b> <b>trigger the gripper</b> if it will grip at the exact moment when it will touch the gripping point of the cliff accross which is at the same horizontal level of the shooting device.";
+
+        if (questionText != null)
+        {
+            questionText.SetText(question);
+        }
+        else
+        {
+            Debug.Log("QuestionText object not loaded.");
+        }
+
+
         Debug.Log($"Gravity: {gravityGiven.y}");
         Debug.Log($"Angle: {angleGiven}");
         Debug.Log($"VelocityX: {velocityX}");
@@ -129,6 +133,7 @@ public class Level_4_Stage_1 : MonoBehaviour
         yield return new WaitForSeconds(1.59f);
         thePlayerAnimation.SetBool("happy", true);
         hookLine.SetActive(false);
+        timeIndicator.enabled = false;
     }
 
     public void StartSimulation()
@@ -156,7 +161,6 @@ public class Level_4_Stage_1 : MonoBehaviour
 
         if (isSimulating)
         {
-
             if (playerAnswer.text.Length > 0)
             {
                 timeIndicator.transform.position = new Vector3(hook.transform.position.x, hook.transform.position.y + 1, 1);
@@ -209,11 +213,7 @@ public class Level_4_Stage_1 : MonoBehaviour
                         if (hook.GetComponent<Hook>().isCollidedToFailCollider)
                         {
                             isSimulating = false;
-
                         }
-
-
-
                     }
                     else
                     {
@@ -232,9 +232,7 @@ public class Level_4_Stage_1 : MonoBehaviour
                         if (hook.GetComponent<Hook>().isCollidedToFailCollider)
                         {
                             isSimulating = false;
-
                         }
-
                     }
                 }
             }
@@ -246,16 +244,12 @@ public class Level_4_Stage_1 : MonoBehaviour
         else
         {
             //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
-
-
             if (hook.GetComponent<Hook>().isCollidedToFailCollider)
             {
                 hook.transform.position -= new Vector3(0.1f, -0.1f, 0);
                 hookIndicator.SetActive(false);
                 StartCoroutine(DropRope());
-
             }
-
 
             timerText.text = $"{(elapsed).ToString("f2")}s";
             timeIndicator.text = $"{(elapsed).ToString("f2")}s";
