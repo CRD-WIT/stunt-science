@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class CeillingGenerator : MonoBehaviour
 {
-    public int mapWitdh, stage;
-    public float mapheight;
-    //public GameObject tileprefab;
-    //public GameObject ceilingprefab;
+    public int  stage;
     public GameObject[] rubble;
-    public float tileoffset = 1f;
+    public float mapheight, mapWitdh, tileoffset = 1f, startPoint = 0, endpoint;
+    bool ceillingPresent;
 
 
     // Start is called before the first frame update
     void Start()
     {
         stage = SimulationManager.stage;
+        endpoint = mapWitdh - startPoint;
+        ceillingPresent =false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        GameObject debris = rubble[Random.Range(0, 2)];
+        //GameObject debris = rubble[Random.Range(0, 2)];
     }
 
     public void createQuadtilemap()
@@ -38,20 +38,20 @@ public class CeillingGenerator : MonoBehaviour
         {
             mapWitdh = 42;
         }
-        for (int x = +0; x < mapWitdh + 3; x++)
+        for (int x = 0; x < mapWitdh + 3; x++)
         {
-            GameObject debris = rubble[Random.Range(0, 2)];
-            GameObject TempGo2 = Instantiate(debris);
+            GameObject TempGo2 = Instantiate(rubble[Random.Range(0, 2)]);
             TempGo2.transform.position = new Vector3(x - 3 * tileoffset, 9 * tileoffset, 1);
+            ceillingPresent = true;
         }
     }
     public void createQuadtilemap2()
     {
-        for (int x = +0; x < mapWitdh + 3; x++)
+        for (float x = startPoint; x < endpoint + 3; x++)
         {
-            GameObject debris = rubble[Random.Range(0, 2)];
-            GameObject TempGo2 = Instantiate(debris);
-            TempGo2.transform.position = new Vector3(x - 3 * tileoffset, 8.1f * tileoffset, 1);
+            GameObject TempGo2 = Instantiate(rubble[Random.Range(0, 2)]);
+            TempGo2.transform.position = new Vector3(x - 3 * tileoffset, mapheight * tileoffset, 1);
+            ceillingPresent = true;
         }
     }
     /*void SetTileInfo(GameObject GO, int x, int y)

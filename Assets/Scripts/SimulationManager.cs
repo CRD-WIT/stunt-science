@@ -18,7 +18,6 @@ public class SimulationManager : MonoBehaviour
     public static float playerAnswer;
     public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
     public static int stage;
-    public bool destroyPrefab;
     private HeartManager theHeart;
     StageManager sm = new StageManager();
     // Start is called before the first frame update
@@ -27,6 +26,7 @@ public class SimulationManager : MonoBehaviour
         stage = 1;
         thePlayer = FindObjectOfType<Player>();
         theHeart = FindObjectOfType<HeartManager>();
+        //destroyBoulders = FindObjectOfType<PrefabDestroyer>();
     }
 
     // Update is called once per frame
@@ -165,7 +165,8 @@ public class SimulationManager : MonoBehaviour
     {
         thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
-        StartCoroutine(resetPrefab());
+        PrefabDestroyer.destroyPrefab =true;
+        //StartCoroutine(resetPrefab());
         if (stage == 1)
         {
             stage = 2;
@@ -209,8 +210,9 @@ public class SimulationManager : MonoBehaviour
     }
     IEnumerator resetPrefab()
     {
-        destroyPrefab = true;
+        PrefabDestroyer.end = true;
         yield return new WaitForEndOfFrame();
-        destroyPrefab = false;
+        PrefabDestroyer.end = false;
+        PrefabDestroyer.destroyPrefab =false;
     }
 }

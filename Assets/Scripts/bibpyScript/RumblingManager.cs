@@ -6,6 +6,7 @@ public class RumblingManager : MonoBehaviour
 {
     // Transform of the camera to shake. Grabs the gameObject's transform
     // if null.
+    RockDestroyer reset = new RockDestroyer();
     public Transform camTransform;
     public float shakeDuration = 0f, shakeAmount = 0.8f, decreaseFactor = 1.0f, debrisRange = 1.4f;
     public bool rubbleON = true, collapsing = true;
@@ -30,11 +31,14 @@ public class RumblingManager : MonoBehaviour
     {
         if (shakeON == true)
         {
+            
             StartCoroutine(camshake());
             if (rubbleON == true)
             {
+                //FallingBoulders.isRumbling = true;
                 StartCoroutine(fallingrubble());
             }
+            reset.isDestroyed = false;
         }
         if (isCrumbling)
         {
@@ -42,12 +46,12 @@ public class RumblingManager : MonoBehaviour
         }
     }
     IEnumerator Crumbling()
-    {        
+    {
         if (shakeDuration > 0)
         {
             rumbling.SetActive(true);
             camTransform.localPosition = originalPos + Random.insideUnitSphere * (shakeAmount * 3);
-            shakeDuration -= Time.deltaTime * (decreaseFactor*2);
+            shakeDuration -= Time.deltaTime * (decreaseFactor * 2);
         }
         else
         {
@@ -60,6 +64,7 @@ public class RumblingManager : MonoBehaviour
     }
     IEnumerator camshake()
     {
+        
         if (shakeDuration > 0)
         {
             rumbling.SetActive(true);
@@ -71,7 +76,7 @@ public class RumblingManager : MonoBehaviour
             shakeDuration = 0f;
             camTransform.localPosition = originalPos;
         }
-        
+
         yield return new WaitForSeconds(2);
         shakeON = false;
         rumbling.SetActive(false);
@@ -85,6 +90,7 @@ public class RumblingManager : MonoBehaviour
     }
     IEnumerator fallingrubble()
     {
+        //StartCoroutine(BoulderDrop());
         GameObject TempGo2 = Instantiate(rubbles[Random.Range(0, 1)]);
         TempGo2.transform.position = new Vector2(Random.Range(-3f, 40f), 9f);
         GameObject TempGo3 = Instantiate(rubbles[Random.Range(0, 1)]);
@@ -130,5 +136,11 @@ public class RumblingManager : MonoBehaviour
             StartCoroutine(debrisFall());
             collapsing = false;
         }
+    }
+    IEnumerator BoulderDrop(){
+        FallingBoulders.isRumbling = true;
+        yield return new WaitUntil(()=> FallingBoulders.boulderDrop);
+        FallingBoulders.isRumbling = false;
+        FallingBoulders.boulderDrop =false;
     }
 }
