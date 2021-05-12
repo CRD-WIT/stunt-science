@@ -166,7 +166,6 @@ public class SimulationManager : MonoBehaviour
         thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
         PrefabDestroyer.destroyPrefab =true;
-        //StartCoroutine(resetPrefab());
         if (stage == 1)
         {
             stage = 2;
@@ -194,6 +193,11 @@ public class SimulationManager : MonoBehaviour
         yield return new WaitForSeconds(2.8f);
         thePlayer.transform.position = new Vector2(0f, thePlayer.transform.position.y);
         thePlayer.moveSpeed = 0;
+        
+        answerField.text = "";
+        answerButton.interactable = true;
+        playerAnswer = 0;
+        RumblingManager.isCrumbling = false;
         if (stage == 2)
         {
             theManager2.generateProblem();
@@ -203,16 +207,11 @@ public class SimulationManager : MonoBehaviour
             StageThreeManager.gameObject.SetActive(true);
             StageThreeManager.Stage3SetUp();
         }
-        answerField.text = "";
-        answerButton.interactable = true;
-        playerAnswer = 0;
-        RumblingManager.isCrumbling = false;
     }
     IEnumerator resetPrefab()
     {
         PrefabDestroyer.end = true;
         yield return new WaitForEndOfFrame();
         PrefabDestroyer.end = false;
-        PrefabDestroyer.destroyPrefab =false;
     }
 }

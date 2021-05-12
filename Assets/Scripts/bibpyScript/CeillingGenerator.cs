@@ -13,7 +13,7 @@ public class CeillingGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        stage = SimulationManager.stage;
+        
         endpoint = mapWitdh - startPoint;
         ceillingPresent =false;
     }
@@ -21,6 +21,7 @@ public class CeillingGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        stage = SimulationManager.stage;
         //GameObject debris = rubble[Random.Range(0, 2)];
     }
 

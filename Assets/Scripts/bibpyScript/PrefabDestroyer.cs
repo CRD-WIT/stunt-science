@@ -26,7 +26,8 @@ public class PrefabDestroyer : MonoBehaviour
         {
             StartCoroutine(OffRubbleCollider());
         }
-        if(end){
+        if (end)
+        {
             StartCoroutine(DestroyRubbles());
         }
     }
@@ -39,8 +40,8 @@ public class PrefabDestroyer : MonoBehaviour
     }
     IEnumerator DestroyRubbles()
     {
-        Destroy(this.gameObject);
-        yield return new WaitForEndOfFrame();
         destroyPrefab = false;
+        yield return new WaitForEndOfFrame();
+        Destroy(this.gameObject);
     }
 }

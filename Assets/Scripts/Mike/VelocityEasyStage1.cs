@@ -4,36 +4,55 @@ using TMPro;
 
 public class VelocityEasyStage1 : MonoBehaviour
 {
-    public Player myPlayer;
-    private HeartManager HeartManager;
-    public TMP_Text playerNameText, messageText, timer;
-    public GameObject AfterStuntMessage, safeZone, rubblesStopper, dimensionLine, ragdollSpawn, rubbleBlocker;
+    Player myPlayer;
+    HeartManager HeartManager;
+    [SerializeField] TMP_Text playerNameText, messageText, timer;
+    [SerializeField] GameObject AfterStuntMessage, safeZone, rubblesStopper, ragdollSpawn, rubbleBlocker, givenDistance, annotationFollower;
+    [SerializeField] LineRenderer endOfAnnotation;
     string pronoun, pNoun, playerName, playerGender;
     public float distance, gameTime, Speed, elapsed, currentPos;
-    private CeillingGenerator theCeiling;
+    CeillingGenerator theCeiling;
     StageManager sm = new StageManager();
+    Annotation dimensionLine;
+    IndicatorManager followLine;
+    void Awake()
+    {
+        if (SimulationManager.isSimulating)
+        {
+            
+        }
+    }
 
     void Start()
     {
         RumblingManager.isCrumbling = false;
         sm.SetGameLevel(1);
         sm.SetDifficulty(1);
+
+        dimensionLine = givenDistance.GetComponent<Annotation>();
+        followLine = annotationFollower.GetComponent<IndicatorManager>();
         theCeiling = FindObjectOfType<CeillingGenerator>();
         myPlayer = FindObjectOfType<Player>();
         HeartManager = FindObjectOfType<HeartManager>();
+
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         VelocityEasyStage1SetUp();
     }
     void FixedUpdate()
     {
+        followLine.distanceTraveled = currentPos;
         float answer = SimulationManager.playerAnswer;
         if (SimulationManager.isSimulating)
         {
-            dimensionLine.SetActive(false);
+            currentPos = myPlayer.transform.position.x;
+            givenDistance.SetActive(false);
             myPlayer.moveSpeed = answer;
             timer.text = elapsed.ToString("f2") + "s";
             elapsed += Time.fixedDeltaTime;
+            annotationFollower.SetActive(true);
+            followLine.playerVelocity = answer;
+            //followLine.distanceTraveled = myPlayer.transform.position.x;
             if (elapsed >= gameTime)
             {
                 RumblingManager.isCrumbling = true;
@@ -42,16 +61,18 @@ public class VelocityEasyStage1 : MonoBehaviour
                 myPlayer.moveSpeed = 0;
                 SimulationManager.isSimulating = false;
                 timer.text = gameTime.ToString("f2") + "s";
-                
                 if ((answer == Speed))
                 {
+                    followLine.AnswerIs("correct");
+                    currentPos = distance;
                     rubbleBlocker.SetActive(true);
                     messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
                     SimulationManager.isAnswerCorrect = true;
-                    myPlayer.transform.position = new Vector2(distance, myPlayer.transform.position.y);
+                    myPlayer.transform.position = new Vector2(currentPos, myPlayer.transform.position.y);
                 }
                 else
                 {
+                    followLine.AnswerIs("wrong");
                     HeartManager.ReduceLife();
                     if (SimulationManager.isRagdollActive)
                     {
@@ -80,6 +101,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     }
     public void VelocityEasyStage1SetUp()
     {
+        followLine.AnswerIs("");
         myPlayer.lost = false;
         myPlayer.standup = false;
         Speed = 0;
@@ -105,9 +127,14 @@ public class VelocityEasyStage1 : MonoBehaviour
         ragdollSpawn.SetActive(true);
         HeartManager.losslife = false;
         RumblingManager.shakeON = true;
-        dimensionLine.SetActive(true);
-        DimensionManager.startLength = 0;
-        DimensionManager.dimensionLength = distance;
+
+        givenDistance.SetActive(true);
+        annotationFollower.SetActive(false);
+        dimensionLine.distance = distance;
+        followLine.distance = distance;
+        endOfAnnotation.SetPosition(0, new Vector2(distance, -3));
+        endOfAnnotation.SetPosition(1, new Vector2(distance, -1.5f));
+
         theCeiling.createQuadtilemap();
         safeZone.transform.position = new Vector2(distance, -2);
         timer.text = "0.00s";
