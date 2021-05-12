@@ -5086,7 +5086,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 732250310}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5930,7 +5930,7 @@ GameObject:
   - component: {fileID: 400048293}
   - component: {fileID: 400048292}
   m_Layer: 0
-  m_Name: Text (00001)
+  m_Name: TimeAnnotation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5948,12 +5948,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 732250310}
-  m_RootOrder: 15
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 16.64, y: 7.9454}
-  m_SizeDelta: {x: 3.0477, y: 4.2246}
+  m_AnchoredPosition: {x: 16.846, y: 7.0009995}
+  m_SizeDelta: {x: 3.8071, y: 1.454}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &400048292
 MonoBehaviour:
@@ -5975,7 +5975,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: t=0
+  m_text: t=0.00s
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6038,7 +6038,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0.12334728, y: 1.5603101, z: 0.13241673, w: 1.6011231}
+  m_margin: {x: 0.12334728, y: 0.1941731, z: 0.13241673, w: 0.15802073}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6319,7 +6319,7 @@ Transform:
   - {fileID: 1275316749}
   - {fileID: 1762018059}
   m_Father: {fileID: 732250310}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &458103491
 Animator:
@@ -7675,11 +7675,11 @@ Transform:
   - {fileID: 1318250022}
   - {fileID: 695528562}
   - {fileID: 1800742033}
+  - {fileID: 400048291}
   - {fileID: 458103490}
   - {fileID: 117415614}
   - {fileID: 1690406791}
   - {fileID: 1490660805}
-  - {fileID: 400048291}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7713,6 +7713,7 @@ MonoBehaviour:
   accurateCollider: {fileID: 1454758158}
   platformBar: {fileID: 1447615126}
   playButton: {fileID: 1903197228}
+  timerAnnotation: {fileID: 400048290}
 --- !u!1 &792510179
 GameObject:
   m_ObjectHideFlags: 0
@@ -11682,7 +11683,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4790556043337702179, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4790556043337702179, guid: 2fffb1d0690e07b9ca22d9ab7b5b3dcb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11817,7 +11818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1919375450109449381, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1919375450109449381, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_LocalScale.x
@@ -11925,7 +11926,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5317370927810648054, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6404056151302407104, guid: 7bc87c50c8303494c822786def94109f, type: 3}
       propertyPath: m_Layer
@@ -24783,7 +24784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8623432539162996942, guid: 411e6cf79d20ad607aeb167e3c0fb93e, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8623432539162996942, guid: 411e6cf79d20ad607aeb167e3c0fb93e, type: 3}
       propertyPath: m_LocalPosition.x

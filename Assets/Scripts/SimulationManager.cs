@@ -10,8 +10,6 @@ public class SimulationManager : MonoBehaviour
     public GameObject ragdollSpawn;
     public VelocityEasyStage1 VelocityEasyStage1;
     public StageTwoManager theManager2;
-
-
     public Player thePlayer;
     //public GameObject PlayerObject;
     public Button answerButton, retryButton, nextButton;

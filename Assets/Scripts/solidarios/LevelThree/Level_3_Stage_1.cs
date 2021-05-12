@@ -9,6 +9,7 @@ public class Level_3_Stage_1 : MonoBehaviour
 {
     // Start is called before the first frame update
     string question;
+    float lastHitYPosition;
     GameObject[] ropeBones;
     public float elapsed;
     public GameObject timer;
@@ -37,6 +38,11 @@ public class Level_3_Stage_1 : MonoBehaviour
     float playerOnRopeInitialY;
     float accurateColliderInitialPointY;
     public GameObject playButton;
+    public GameObject timerAnnotation;
+
+    String playerName = "Junjun";
+    String pronoun = "he";
+    bool metTargetTime = false;
     void Start()
     {
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
@@ -57,7 +63,7 @@ public class Level_3_Stage_1 : MonoBehaviour
 
         //Problem
         levelName.SetText("Stage 1");
-        question = $"[name] is hanging from a rope and [pronoun] is instructed to let go of it, drop down, and hang again to the horizontal pole below. If [name] will let go ang grab the pole after exactly <color=purple>{timeGiven} sec</color>, at what <color=red>distance</color> should [pronoun] hands above the pole before letting go?";
+        question = $"{playerName} is hanging from a rope and {pronoun} is instructed to let go of it, drop down, and hang again to the horizontal pole below. If {playerName} will let go ang grab the pole after exactly <b><color=#006d00>{timeGiven} sec</color></b>, at what <b><color=#006d00>distance</color></b> should {pronoun} hands above the pole before letting go?";
 
         if (questionText != null)
         {
@@ -110,8 +116,8 @@ public class Level_3_Stage_1 : MonoBehaviour
     }
     void FixedUpdate()
     {
-        float thePlayer_x = thePlayer_position.x;
-        float thePlayer_y = thePlayer_position.y;
+
+
         if (isSimulating)
         {
             timer.SetActive(true);
@@ -231,6 +237,8 @@ public class Level_3_Stage_1 : MonoBehaviour
                 Debug.Log("No value was added");
             }
             timerText.text = $"{(elapsed).ToString("f2")}s";
+            timerAnnotation.GetComponent<TMP_Text>().text = $"t={(elapsed).ToString("f2")}s";
+
         }
         else
         {
@@ -238,8 +246,19 @@ public class Level_3_Stage_1 : MonoBehaviour
             if (respositioned)
             {
                 timerText.text = $"{(timeGiven).ToString("f2")}s";
+                // timerAnnotation.GetComponent<TMP_Text>().text = $"t={(timeGiven).ToString("f2")}s";
             }
 
+        }
+
+        if (elapsed == timeGiven)
+        {
+            timerAnnotation.transform.position = new Vector3(17, lastHitYPosition, 1);
+        }
+        else
+        {
+            timerAnnotation.transform.position = new Vector3(17, playerHingeJoint.transform.position.y, 1);
+            lastHitYPosition = playerHingeJoint.transform.position.y;
         }
     }
 }
