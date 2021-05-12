@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class AccMediumThree : MonoBehaviour
 {
-    public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos;
+    public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos, ropeLoc;
     public SubSuv theSubVan;
     public SubHellicopter theSubChopper;
     public Suv theSuv;
     public Player thePlayer;
     public Hellicopter theChopper;
-    float correctAnswer, accH, accV, velocity, dv, dx, dh = 40;
-    float time, suvPos, chopperPos, generateDv, generateVelocity, generateAccH, generateCorrectAnswer;
+    float correctAnswer, accH, accV, velocity, dv, dx, dh = 40, ropeDistance;
+    float time, suvPos, chopperPos, generateDv, generateVelocity, generateAccH, generateCorrectAnswer, playerTime;
     bool repos, ragdollReady;
+    public TMP_Text carVelocitytxt, chopperVelocitytxt;
 
     // Start is called before the first frame update
     void Start()
@@ -25,13 +28,29 @@ public class AccMediumThree : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        thePlayer.transform.position = playerPos.transform.position;
         thePlayer.myRigidbody.mass = 0;
         suvPos = theSuv.transform.position.x;
         chopperPos = theChopper.transform.position.x;
         accV = AccMidSimulation.playerAnswer;
         if (AccMidSimulation.simulate == true)
         {
-            thePlayer.transform.position = playerPos.transform.position;
+            carVelocitytxt.gameObject.SetActive(true);
+            chopperVelocitytxt.gameObject.SetActive(true);
+            carVelocitytxt.text = ("v = ")+ (-theSuv.moveSpeed).ToString("F2")+("m/s");
+            chopperVelocitytxt.text = ("v = ") + (-theChopper.flySpeed).ToString("F2")+("m/s");
+            carVelocitytxt.gameObject.transform.position = theSuv.transform.position;
+            chopperVelocitytxt.gameObject.transform.position = theChopper.transform.position;
+            playerTime = (-velocity + Mathf.Sqrt((velocity * velocity) - (4 * (accV / 2) * (-dv)))) / (2 * (accV / 2));
+            if(correctAnswer == accV)
+            {
+                ropeDistance = (velocity*playerTime) + ((accH*(playerTime*playerTime))/2);
+            }
+            if(correctAnswer != accV)
+            {
+                ropeDistance = (velocity*playerTime) + ((accH*(time*time))/2);
+            }
+            
             if (repos)
             {
                 theChopper.flySpeed = -velocity;
@@ -66,25 +85,38 @@ public class AccMediumThree : MonoBehaviour
             }
             if (suvPos <= 15)
             {
+                
                 if (accV == correctAnswer)
                 {
                     hangingRagdoll.SetActive(true);
                     hangingRagdoll.transform.position = ropeTip.transform.position;
+                   
                 }
-                if (accV != correctAnswer)
-                {
-                    if (ragdollReady)
-                    {
-                        ragdollSpawn();
-                        ragdollReady = false;
-                    }
-                }
+                
+                ropeLoc.transform.position = new Vector2(ropeDistance-25, ropeLoc.transform.position.y);
                 //Time.timeScale = 0;
                 theSuv.myCollider.enabled = false;
                 thePlayer.gameObject.SetActive(false);
                 theSuv.accelarating = false;
                 theSuv.deaccelarating = true;
                 theSuv.accelaration = accV * 3;
+                 if (accV != correctAnswer)
+                {
+                    ropeLoc.SetActive(true);
+                    if (ragdollReady)
+                    {
+                        ragdollSpawn();
+                        ragdollReady = false;
+                    }
+                    if(accV > correctAnswer)
+                    {
+                        ropeDistance += 0.2f;
+                    }
+                    if(accV < correctAnswer)
+                    {
+                        ropeDistance -= 0.2f;
+                    }
+                }
 
 
                 if (theSuv.moveSpeed >= 0)
@@ -99,6 +131,7 @@ public class AccMediumThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        ropeLoc.SetActive(false);
         repos = true;
         ragdollReady = true;
         generateDv = Random.Range(22f, 25f);

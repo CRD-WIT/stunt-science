@@ -18,7 +18,7 @@ public class AccMediumOne : MonoBehaviour
     float generateVelocity, generateAccelaration, generateCorrectAnswer;
     public float chopperPos, truckPos, answer;
     public bool readyToJump;
-    public TMP_Text timertxt, stuntMessageTxt, vHtxt, viTtxt, aTtxt;
+    public TMP_Text timertxt, stuntMessageTxt, vHtxt, viTtxt, aTtxt,carVelocitytxt, chopperVelocitytxt;
     float grabLineDistance, playerGrabLineDistance;
     
     // Start is called before the first frame update
@@ -34,7 +34,12 @@ public class AccMediumOne : MonoBehaviour
         vHtxt.text = ("V = ")+ velocity.ToString("F2")+("m/s");
         viTtxt.text = ("Vi = 0m/s ");
         aTtxt.text = ("a = ")+ accelaration.ToString("F2")+("m/s²");
-        playerGrabLineDistance = velocity * AccMidSimulation.playerAnswer;
+        //playerGrabLineDistance = velocity * AccMidSimulation.playerAnswer;
+        playerGrabLineDistance = (accelaration * (AccMidSimulation.playerAnswer*AccMidSimulation.playerAnswer))/2;
+        carVelocitytxt.text = ("v = ")+ theTruck.moveSpeed.ToString("F2")+("m/s");
+        chopperVelocitytxt.text = ("v = ") + theChopper.flySpeed.ToString("F2")+("m/s");
+        carVelocitytxt.gameObject.transform.position = theTruck.transform.position;
+        chopperVelocitytxt.gameObject.transform.position = theChopper.transform.position;
         
        
         if (AccMidSimulation.simulate == true)
@@ -48,8 +53,12 @@ public class AccMediumOne : MonoBehaviour
             if (chase)
             {
                 timertxt.text = timer.ToString("F2") + "s";
+                timertxt.gameObject.SetActive(true);
+                timertxt.gameObject.transform.position = theTruck.transform.position;
                 theTruck.accelerating = true;
                 theTruck.accelaration = accelaration;
+                carVelocitytxt.gameObject.SetActive(true);
+                chopperVelocitytxt.gameObject.SetActive(true);
 
 
                 thePlayer.transform.position = playerInTruck.transform.position;
@@ -62,6 +71,7 @@ public class AccMediumOne : MonoBehaviour
                         {
                             StartCoroutine(StuntResult());
                             StartCoroutine(jump());
+                            grabline.SetActive(true);
                         }
                         stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " has grabbed the rope and is now succesfully hanging from a hellicopter</color>";
                     }
@@ -87,7 +97,7 @@ public class AccMediumOne : MonoBehaviour
                 if (answer > correctAnswer)
                 {
                     AccMidSimulation.playerDead = true;
-                    if (timer >= answer - .7f)
+                    if (timer >= answer - .45f)
                     {
                         if (readyToJump)
                         {
@@ -98,13 +108,28 @@ public class AccMediumOne : MonoBehaviour
                         }
                     }
                     retry.SetActive(true);
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") +"seconds.";
+                    if(playerGrabLineDistance < 64)
+                    {
+                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") +"seconds.";
+                    }
+                    if(playerGrabLineDistance > 64)
+                    {
+                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " didnt get the chance to grab the rope. The correct answer is </color>" + correctAnswer.ToString("F2") +"seconds.";
+                    }
+                    
                 }
+                
             }
         }
     }
     public void generateProblem()
     {
+        timertxt.gameObject.SetActive(false);
+        theSubChopper.gameObject.SetActive(true);
+        theSubChopper.fade =false;
+        carVelocitytxt.gameObject.SetActive(false);
+        chopperVelocitytxt.gameObject.SetActive(false);
+        grabline.SetActive(false);
         timer = 0;
         timertxt.text = timer.ToString("F2") + "s";
         readyToJump = true;
