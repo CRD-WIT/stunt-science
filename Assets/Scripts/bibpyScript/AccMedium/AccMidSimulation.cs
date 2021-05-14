@@ -65,9 +65,9 @@ public class AccMidSimulation : MonoBehaviour
         {
             //subChopper[0].SetActive(false);
             dimension[0].SetActive(false);
-            if (answerField.text == "" || playerAnswer > 200 || playerAnswer < 1)
+            if (answerField.text == "" || playerAnswer > 7|| playerAnswer < 1)
             {
-                errorTextBox.SetText("Please enter a valid answer!");
+                errorTextBox.SetText("believe me! its too long!");
             }
             else
             {
@@ -133,7 +133,7 @@ public class AccMidSimulation : MonoBehaviour
         {
             subChopper[0].SetActive(true);
             dimension[0].SetActive(true);
-            theManagerOne.generateProblem();
+            
             theChopper.transform.position = chopperStartpos;
             theTruck.transform.position = truckStartPos;
             theTruck.transform.rotation = TruckStartRot;
@@ -142,6 +142,7 @@ public class AccMidSimulation : MonoBehaviour
             theTruck.accelerating = true;
             theChopper.flySpeed = 0;
             thePlayer.standup = false;
+            theManagerOne.generateProblem();
         }
         if (stage == 2)
         {

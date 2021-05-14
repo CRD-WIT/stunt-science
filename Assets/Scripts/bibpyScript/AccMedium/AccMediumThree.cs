@@ -6,7 +6,7 @@ using TMPro;
 
 public class AccMediumThree : MonoBehaviour
 {
-    public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos, ropeLoc;
+    public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos, ropeLoc, carInitials, chopperInitials,wordedBoard;
     public SubSuv theSubVan;
     public SubHellicopter theSubChopper;
     public Suv theSuv;
@@ -14,13 +14,14 @@ public class AccMediumThree : MonoBehaviour
     public Hellicopter theChopper;
     float correctAnswer, accH, accV, velocity, dv, dx, dh = 40, ropeDistance;
     float time, suvPos, chopperPos, generateDv, generateVelocity, generateAccH, generateCorrectAnswer, playerTime;
-    bool repos, ragdollReady;
-    public TMP_Text carVelocitytxt, chopperVelocitytxt;
+    bool repos, ragdollReady,follow;
+    public TMP_Text  viVtxt, viHtxt, aVtxt, aHtxt;
 
     // Start is called before the first frame update
     void Start()
     {
         generateProblem();
+        wordedBoard.transform.position = new Vector2(wordedBoard.transform.position.x + 19, wordedBoard.transform.position.y);
 
 
     }
@@ -35,20 +36,18 @@ public class AccMediumThree : MonoBehaviour
         accV = AccMidSimulation.playerAnswer;
         if (AccMidSimulation.simulate == true)
         {
-            carVelocitytxt.gameObject.SetActive(true);
-            chopperVelocitytxt.gameObject.SetActive(true);
-            carVelocitytxt.text = ("v = ")+ (-theSuv.moveSpeed).ToString("F2")+("m/s");
-            chopperVelocitytxt.text = ("v = ") + (-theChopper.flySpeed).ToString("F2")+("m/s");
-            carVelocitytxt.gameObject.transform.position = theSuv.transform.position;
-            chopperVelocitytxt.gameObject.transform.position = theChopper.transform.position;
+            viHtxt.text = ("vi = ")+ (-theChopper.flySpeed).ToString("F2")+("m/s");
+            viVtxt.text = ("vi = ") + (-theSuv.moveSpeed).ToString("F2")+("m/s");
+            aVtxt.text = ("a = ")+ accV.ToString("F2")+ ("m/s²");
             playerTime = (-velocity + Mathf.Sqrt((velocity * velocity) - (4 * (accV / 2) * (-dv)))) / (2 * (accV / 2));
-            if(correctAnswer == accV)
+            ropeDistance = (velocity*playerTime) + ((accH*(playerTime*playerTime))/2);
+            
+            
+           
+            if(follow)
             {
-                ropeDistance = (velocity*playerTime) + ((accH*(playerTime*playerTime))/2);
-            }
-            if(correctAnswer != accV)
-            {
-                ropeDistance = (velocity*playerTime) + ((accH*(time*time))/2);
+                carInitials.gameObject.transform.position = theSuv.transform.position;
+                chopperInitials.gameObject.transform.position = theChopper.transform.position;
             }
             
             if (repos)
@@ -64,8 +63,7 @@ public class AccMediumThree : MonoBehaviour
                     theSubVan.fade = true;
                     theSubChopper.fade = true;
                     repos = false;
-                   
-
+                    follow = true;
                 }
             }
             if (chopperPos <= 15)
@@ -93,7 +91,7 @@ public class AccMediumThree : MonoBehaviour
                    
                 }
                 
-                ropeLoc.transform.position = new Vector2(ropeDistance-25, ropeLoc.transform.position.y);
+                
                 //Time.timeScale = 0;
                 theSuv.myCollider.enabled = false;
                 thePlayer.gameObject.SetActive(false);
@@ -108,15 +106,16 @@ public class AccMediumThree : MonoBehaviour
                         ragdollSpawn();
                         ragdollReady = false;
                     }
-                    if(accV > correctAnswer)
+                    if(accV > correctAnswer & accV < correctAnswer + .5f)
                     {
-                        ropeDistance += 0.2f;
+                        ropeDistance -= .2f;
                     }
-                    if(accV < correctAnswer)
+                    if(accV < correctAnswer & accV > correctAnswer - .5f)
                     {
-                        ropeDistance -= 0.2f;
+                        ropeDistance += .2f;
                     }
                 }
+                ropeLoc.transform.position = new Vector2((dh-ropeDistance)+ 15, ropeLoc.transform.position.y);
 
 
                 if (theSuv.moveSpeed >= 0)
@@ -131,6 +130,7 @@ public class AccMediumThree : MonoBehaviour
     }
     public void generateProblem()
     {
+       
         ropeLoc.SetActive(false);
         repos = true;
         ragdollReady = true;
@@ -148,6 +148,15 @@ public class AccMediumThree : MonoBehaviour
         time = (-velocity + Mathf.Sqrt((velocity * velocity) - (4 * (accH / 2) * (-dh)))) / (2 * (accH / 2));
         generateCorrectAnswer = (2 * (dv - (velocity * time))) / (time * time);
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
+        carInitials.transform.position = theSubVan.transform.position;
+        chopperInitials.transform.position = theSubChopper.transform.position;
+        viHtxt.text = ("vi = ")+ velocity.ToString("F2")+("m/s");
+        viVtxt.text = ("vi = ") + velocity.ToString("F2")+("m/s");
+        aHtxt.text = ("a = ")+ accH.ToString("F2")+ ("m/s²");
+        aVtxt.text = ("a = ?");
+        follow = false;
+        
+        
 
 
     }
