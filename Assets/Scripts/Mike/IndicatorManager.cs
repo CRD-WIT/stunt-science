@@ -11,6 +11,7 @@ public class IndicatorManager : MonoBehaviour
     LineRenderer line1, line2, corretcAnswer, startLine;
     GameObject textDimension, answer, correctAnswer;
     public GameObject[] verticalArrows = new GameObject[2], horizontalArrows = new GameObject[2];
+    public Color color;
 
     string value;
     string playerAnswerIs;
