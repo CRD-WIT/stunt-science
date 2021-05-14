@@ -12,7 +12,7 @@ public class IndicatorManager : MonoBehaviour
     GameObject textDimension, answer, correctAnswer;
     public GameObject[] verticalArrows = new GameObject[2], horizontalArrows = new GameObject[2];
 
-    int value;
+    string value;
     string playerAnswerIs;
     // Start is called before the first frame update
     void Start()
@@ -24,6 +24,7 @@ public class IndicatorManager : MonoBehaviour
         textDimension = transform.Find("Text").gameObject;
         answer = transform.Find("Answer").gameObject;
         correctAnswer = transform.Find("CorrectAnswer").gameObject;
+
     }
 
     public void Hide()
@@ -50,7 +51,7 @@ public class IndicatorManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        line1.startColor = Color.ColorMode();
+
         float dimensionTextLength = textDimension.GetComponent<TextMeshPro>().text.Length;
         if (arrowMode == Mode.Vertical)
         {
@@ -115,17 +116,24 @@ public class IndicatorManager : MonoBehaviour
     }
 
     //change value to string
-    int ColorMode()
+    // LineRenderer LineColor()
+    // {
+    //     LineRenderer[] lines = {line1, line2, startLine};
+    //     if (playerAnswerIs == "correct")
+    //     {
+    //         this.line1.startColor = new Color(1, 0, 1, 1);
+    //         this.line1.endColor = new Color(1, 0, 1, 1);
+    //         lines[].startColor = new Color(1, 0, 1, 1);
+    //     }
+
+    //     else if (playerAnswerIs == "wrong")
+    //         value = "Red";
+    //     else
+    //         value = "Purple";
+    //     return lines;
+    // }
+    public void AnswerIs(string answer)
     {
-        if (playerAnswerIs == "correct")
-            value = 0xff0000;
-        else if (playerAnswerIs == "wrong")
-            value = 0xff0000;
-        else
-            value = 0x800080;
-        return value;
-    }
-    public void AnswerIs(string answer){
         this.playerAnswerIs = answer;
     }
 }

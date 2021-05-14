@@ -1,17 +1,16 @@
 using UnityEngine;
-
+[System.Serializable]
 public class StageManager
 {
-    public int stage;
-    static string[] levelDifficulties = { "", "easy", "medium", "hard" };
-    static string[] gameLevel = {"", "Velocity", "Acceleration", "Free Fall", "Projectile", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum", "Impulse"};
+    string[] levelDifficulties = { "", "easy", "medium", "hard" };
+    string[] gameLevel = {"","Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum"};
     string currentLevelDifficulty, currentGameLevel;
 
-    public void SetStage(int stageNumber)
-    {
-        PlayerPrefs.SetInt("stageNumber", stageNumber);
-        this.stage = stageNumber;
-    }
+    // public void SetStage(int stageNumber)
+    // {
+    //     PlayerPrefs.SetInt("stageNumber", stageNumber);
+    //     this.stage = stageNumber;
+    // }
     public int GetStageFromPlayerPrefs()
     {
         return PlayerPrefs.GetInt("stageNumber");
@@ -26,10 +25,10 @@ public class StageManager
         //return this.currentLevelDifficulty;
         return PlayerPrefs.GetString("Difficulty Level");
     }
-    public int GetStage()
-    {
-        return stage;
-    }
+    // public int GetStage()
+    // {
+    //     return stage;
+    // }
     public void SetGameLevel(int level){
         //this.currentGameLevel = gameLevel[level];
         PlayerPrefs.SetString("Level",gameLevel[level]);
@@ -38,4 +37,11 @@ public class StageManager
         return PlayerPrefs.GetString("Level");
     }
 }
+// public enum Level : byte{
+//     velocity = 1,
+//     acceleration = 2,
+//     freeFall = 3,
+//     projectile = 4,
+    
+// }
 
