@@ -36,8 +36,7 @@ public class QuestionController : MonoBehaviour
         energy = 9,//kW
         power = 10,//kWh
         momuntum = 11//kgm/s
-    }
-    TMP_Text resultHeadingText;
+    }    
     public Camera renderCamera;
     public Orientation orientation;
     public int stageNumber;
@@ -56,17 +55,24 @@ public class QuestionController : MonoBehaviour
 
     TMP_InputField answerField;
     Transform stageName;
+    public bool isModalOpen = true;
 
     // Start is called before the first frame update
     void Start()
     {
         baseComponent = transform.Find("Base");
         modalComponent = transform.Find("Modal");
-        problemBox = baseComponent.Find("ProblemBox");       
+        problemBox = baseComponent.Find("ProblemBox");
         stageName = problemBox.Find("StageBar2").Find("StageName");
         difficultyName = problemBox.Find("StageBar3").Find("DifficultyName");
         baseComponent.GetComponent<Canvas>().worldCamera = renderCamera;
-        modalComponent.GetComponent<Canvas>().worldCamera = renderCamera;
+        modalComponent.GetComponent<Canvas>().worldCamera = renderCamera;        
+        ToggleModal();
+    }
+
+    public void ToggleModal()
+    {
+        isModalOpen = !isModalOpen;
     }
 
     public void SetQuestion(string qstn)
@@ -154,7 +160,8 @@ public class QuestionController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        modalComponent.Find("ModalTitle").GetComponent<TMP_Text>().SetText(modalTitle);
+        modalComponent.gameObject.SetActive(isModalOpen);
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
         stageName.GetComponent<TMP_Text>().SetText($"Stage {stageNumber}");
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
