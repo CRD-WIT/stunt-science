@@ -109,7 +109,34 @@ public class IndicatorManager : MonoBehaviour
         answer.transform.position = new Vector3((distanceTraveled) + spawnPoint.x, spawnPoint.y - 1, 0);
         correctAnswer.transform.position = new Vector3((distance) + spawnPoint.x, spawnPoint.y + 2, 0);
         textDimension.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distanceTraveled, 2)}m");
-    
+    }
+    public void SetColor(LineRenderer[] line, AnswerChecker answer)
+    {
+        switch (answer)
+        {
+            case AnswerChecker.wrong:
+                for (int i = 0; line.Length < i; i++)
+                {
+                    line[i].startColor = new Color32(255, 0, 0, 255);
+                    line[i].endColor = new Color32(255, 0, 0, 255);
+                }
+                break;
+            case AnswerChecker.correct:
+                for (int i = 0; line.Length < i; i++)
+                {
+                    line[i].startColor = new Color32(0, 255, 0, 255);
+                    line[i].endColor = new Color32(0, 255, 0, 255);
+                }
+                break;
+            default:
+                for (int i = 0; line.Length < i; i++)
+                {
+                    line[i].startColor = new Color32(128, 0, 128, 255);
+                    line[i].endColor = new Color32(128, 0, 128, 255);
+                }
+                break;
+        }
+    }
 
     //change value to string
     // LineRenderer LineColor()
@@ -147,5 +174,9 @@ public enum Unit : byte
     energy = 8,
     power = 9,
     momentum = 10
+}
+public enum AnswerChecker : byte
+{
+    wrong = 0, correct = 1, given = 2
 }
 
