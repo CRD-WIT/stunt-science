@@ -16,6 +16,7 @@ public class SimulationUIManager : MonoBehaviour
     public UnitOf unitOf;
     public int stage;
     public float stuntTimer;
+    public Color color;
     StageManager level = new StageManager();
     public void SetQuestion(string qstn)
     {
@@ -37,6 +38,25 @@ public class SimulationUIManager : MonoBehaviour
             timerTxt.text = stuntTimer + "s";
         }
     }
+    public Color SetColor(bool isCorrect, bool isStuntDone)
+    {
+        if (isStuntDone)
+        {
+            if (isCorrect)
+            {
+                color = new Color(0, 1, 0, 1);
+            }
+            else
+            {
+                color = new Color(1, 0, 0, 1);
+            }
+        }
+        else
+        {
+            color = new Color(0.5f, 0, 0.5f, 1);
+        }
+        return color;
+    }
     public void ActivateResult(string message, bool isCorrect)
     {
         result.SetActive(true);
@@ -44,13 +64,15 @@ public class SimulationUIManager : MonoBehaviour
         {
             nextBtn.gameObject.SetActive(true);
             retryBtn.gameObject.SetActive(false);
-            resultHeadTxt.text = "Correct!";
+            resultHeadingTxt.text = "Correct!";
+            resultHeadingTxt.color = SetColor(true, true);
         }
         else
         {
             retryBtn.gameObject.SetActive(true);
             nextBtn.gameObject.SetActive(false);
-            resultHeadTxt.text = "Wrong!";
+            resultHeadingTxt.text = "Wrong!";
+            resultHeadingTxt.color = SetColor(false, true);
         }
         resultMessageTxt.text = message;
         playBtn.interactable = true;

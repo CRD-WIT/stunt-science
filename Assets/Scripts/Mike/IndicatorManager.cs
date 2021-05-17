@@ -25,7 +25,6 @@ public class IndicatorManager : MonoBehaviour
         textDimension = transform.Find("Text").gameObject;
         answer = transform.Find("Answer").gameObject;
         correctAnswer = transform.Find("CorrectAnswer").gameObject;
-
     }
 
     public void Hide()
@@ -37,7 +36,6 @@ public class IndicatorManager : MonoBehaviour
     {
         return spawnPoint;
     }
-
 
     public void SetSpawningPoint(Vector2 point)
     {
@@ -72,7 +70,6 @@ public class IndicatorManager : MonoBehaviour
             line2.SetPosition(0, new Vector3(spawnPoint.x, ((distanceTraveled / 2) + 0.4f) + spawnPoint.y, 0));
             line2.SetPosition(1, new Vector3(spawnPoint.x, (distanceTraveled + spawnPoint.y), 0));
             textDimension.transform.position = new Vector3(spawnPoint.x, (distanceTraveled / 2) + spawnPoint.y, 0);
-
         }
         else
         {
@@ -81,7 +78,6 @@ public class IndicatorManager : MonoBehaviour
             {
                 item.SetActive(false);
             }
-
             foreach (var item in verticalArrows)
             {
                 item.SetActive(true);
@@ -97,7 +93,6 @@ public class IndicatorManager : MonoBehaviour
             corretcAnswer.SetPosition(0, new Vector2(spawnPoint.x + distance, spawnPoint.y - 0.25f));
             corretcAnswer.SetPosition(1, new Vector2(spawnPoint.x + distance, spawnPoint.y + 1.5f));
             textDimension.transform.position = new Vector3((distanceTraveled / 2) + spawnPoint.x, spawnPoint.y, 0);
-
         }
         switch (whatIsAsk)
         {
@@ -114,7 +109,7 @@ public class IndicatorManager : MonoBehaviour
         answer.transform.position = new Vector3((distanceTraveled) + spawnPoint.x, spawnPoint.y - 1, 0);
         correctAnswer.transform.position = new Vector3((distance) + spawnPoint.x, spawnPoint.y + 2, 0);
         textDimension.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distanceTraveled, 2)}m");
-    }
+    
 
     //change value to string
     // LineRenderer LineColor()
