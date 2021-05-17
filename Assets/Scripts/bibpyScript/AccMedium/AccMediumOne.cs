@@ -7,6 +7,7 @@ using TMPro;
 public class AccMediumOne : MonoBehaviour
 {
     public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, AfterStuntMessage, retry, next, grabline, playerGrabline, carInitials, chopperInitials;
+    public GameObject ragdollPause, ropePoint;
     public Player thePlayer;
     public Hellicopter theChopper;
     public SubHellicopter theSubChopper;
@@ -14,18 +15,21 @@ public class AccMediumOne : MonoBehaviour
     private AccMidSimulation theSimulate;
     public bool chase;
     public float timer, correctAnswer;
-    public float velocity, accelaration, vf;
+    public float velocity, accelaration, vf, distanceH;
     float generateVelocity, generateAccelaration, generateCorrectAnswer;
     public float chopperPos, truckPos, answer;
     public bool readyToJump, follow;
     public TMP_Text timertxt, stuntMessageTxt, vHtxt, viTtxt, aTtxt;
     float grabLineDistance, playerGrabLineDistance;
+    private Vector2 subChopperStartPos;
 
     // Start is called before the first frame update
     void Start()
     {
+        subChopperStartPos = theSubChopper.transform.position;
         theSimulate = FindObjectOfType<AccMidSimulation>();
         generateProblem();
+
     }
 
     // Update is called once per frame
@@ -42,8 +46,10 @@ public class AccMediumOne : MonoBehaviour
 
         if (AccMidSimulation.simulate == true)
         {
-            timertxt.gameObject.SetActive(true);
             answer = AccMidSimulation.playerAnswer;
+            distanceH = answer * velocity + 0.67f;
+            timertxt.gameObject.SetActive(true);
+
             truckPos = theTruck.transform.position.x;
             chopperPos = theChopper.transform.position.x;
             hangingRagdoll.transform.position = ropeTip.transform.position;
@@ -71,7 +77,7 @@ public class AccMediumOne : MonoBehaviour
                         {
                             StartCoroutine(StuntResult());
                             StartCoroutine(jump());
-                            grabline.SetActive(true);
+                            //grabline.SetActive(true);
                         }
                         stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " has grabbed the rope and is now succesfully hanging from a hellicopter</color>";
                     }
@@ -82,12 +88,13 @@ public class AccMediumOne : MonoBehaviour
                     AccMidSimulation.playerDead = true;
                     if (timer >= answer - .45f)
                     {
+
                         if (readyToJump)
                         {
                             StartCoroutine(StuntResult());
                             StartCoroutine(jump());
                             playerGrabline.SetActive(true);
-                            grabline.SetActive(true);
+                            //grabline.SetActive(true);
                         }
 
                     }
@@ -104,7 +111,7 @@ public class AccMediumOne : MonoBehaviour
                             StartCoroutine(StuntResult());
                             StartCoroutine(jump());
                             playerGrabline.SetActive(true);
-                            grabline.SetActive(true);
+                            //grabline.SetActive(true);
                         }
                         if (playerGrabLineDistance < 56)
                         {
@@ -126,11 +133,19 @@ public class AccMediumOne : MonoBehaviour
             if (follow)
             {
                 chopperInitials.transform.position = new Vector2(theChopper.transform.position.x + 2.1f, theChopper.transform.position.y);
+                carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2.1f, theTruck.transform.position.y);
+                timertxt.gameObject.transform.position = theTruck.transform.position;
             }
         }
     }
     public void generateProblem()
     {
+        theTruck.moveSpeed = 0;
+        timertxt.gameObject.SetActive(false);
+        carInitials.SetActive(true);
+        ropePoint.SetActive(false);
+        ragdollPause.SetActive(false);
+        theSubChopper.transform.position = subChopperStartPos;
         follow = false;
         timertxt.gameObject.transform.position = theTruck.transform.position;
         timertxt.gameObject.SetActive(false);
@@ -164,16 +179,15 @@ public class AccMediumOne : MonoBehaviour
     }
     IEnumerator jump()
     {
-         if (playerGrabLineDistance > 57)
+        if (playerGrabLineDistance > 57)
         {
             yield return new WaitForSeconds(2f);
             chase = false;
 
             follow = true;
             timertxt.text = answer.ToString("F2") + "s";
-            viTtxt.text = ("v= ") + vf.ToString("F2") + ("m/s");
+            //viTtxt.text = ("v= ") + vf.ToString("F2") + ("m/s");
             velocity = 0;
-            theTruck.accelerating = false;
             theTruck.moveSpeed = 0;
         }
         if (playerGrabLineDistance < 57)
@@ -181,27 +195,31 @@ public class AccMediumOne : MonoBehaviour
             readyToJump = false;
             thePlayer.toReach = true;
             yield return new WaitForSeconds(.5f);
+
             thePlayer.toReach = false;
             thePlayer.gameObject.SetActive(false);
             chase = false;
             if (answer == correctAnswer)
             {
-                carInitials.transform.position = new Vector2(grabline.transform.position.x + 2.1f, theTruck.transform.position.y);
                 hangingRagdoll.SetActive(true);
             }
             if (answer != correctAnswer)
             {
+                ropePoint.SetActive(true);
+                ragdollPause.SetActive(true);
+                ragdollPause.transform.position = new Vector2(playerGrabLineDistance + 2.67f, ragdollPrefab.transform.position.y);
+                theSubChopper.gameObject.SetActive(true);
+                theSubChopper.transform.position = new Vector2(distanceH, theSubChopper.transform.position.y);
                 ragdollSpawn();
             }
             thePlayer.standup = true;
 
             follow = true;
-            carInitials.transform.position = new Vector2(playerGrabline.transform.position.x, theTruck.transform.position.y);
             timertxt.text = answer.ToString("F2") + "s";
-            viTtxt.text = ("v= ") + vf.ToString("F2") + ("m/s");
+            //viTtxt.text = ("v= ") + vf.ToString("F2") + ("m/s");
             yield return new WaitForSeconds(5f);
             velocity = 0;
-            theTruck.accelerating = false;
+            //theTruck.accelerating = false;
             theTruck.moveSpeed = 0;
         }
 

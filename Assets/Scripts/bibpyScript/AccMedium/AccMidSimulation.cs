@@ -9,10 +9,10 @@ public class AccMidSimulation : MonoBehaviour
     public Button playButton;
     public Player thePlayer;
     public TruckManager theTruck;
-    public Hellicopter theChopper;
+    public Hellicopter[] theChopper;
     public AccMediumOne theManagerOne;
     //public AccMediumTwo theManagerTwo;
-    //public AccMediumThree theManagerThree;
+    public AccMediumThree theManagerThree;
     public TMP_InputField answerField;
     public static string question;
     public TMP_Text questionTextBox, errorTextBox, levelText, diretorsSpeech;
@@ -21,17 +21,19 @@ public class AccMidSimulation : MonoBehaviour
     public static bool playerDead;
     public int stage;
     
-    public Vector2 ChopperStartPosition;
+    public Vector2 ChopperStartPosition, Chopper2StartPosition, Chopper3StartPosition;
     public Vector2 TruckStartPosition;
 
-    public GameObject afterStuntMessage, retryButton, nextButton, subVan;
-    public GameObject[] ground, dimension, subChopper;
+    public GameObject afterStuntMessage, retryButton, nextButton;
+    public GameObject[] ground, dimension, subChopper, subVan;
     bool directorIsCalling;
     public GameObject directorBubble;
     
     Vector2 playerstartPos;
     private Vector2 truckStartPos;
-    private Vector2 chopperStartpos;
+    
+    private Vector2 chopper1Startpos, chopper2Startpos, chopper3Startpos;
+
     private Quaternion TruckStartRot;
     //string accelaration;
     // Start is called before the first frame update
@@ -39,9 +41,11 @@ public class AccMidSimulation : MonoBehaviour
     {
         truckStartPos = theTruck.transform.position;
         TruckStartRot = theTruck.transform.rotation;
-        chopperStartpos = theChopper.transform.position;      
+        chopper1Startpos = theChopper[0].transform.position;
+        chopper3Startpos = theChopper[2].transform.position;      
         TruckStartPosition = theTruck.transform.position;
-        ChopperStartPosition = theChopper.transform.position;
+        ChopperStartPosition = theChopper[0].transform.position;
+        Chopper3StartPosition = theChopper[2].transform.position;
         PlayerPrefs.SetString("CurrentString", ("AccelarationMedium"));
         PlayerPrefs.SetInt("level", 4);
         playerstartPos = thePlayer.transform.position;
@@ -83,7 +87,7 @@ public class AccMidSimulation : MonoBehaviour
         if (stage == 2)
         {
             subChopper[1].SetActive(false);
-            subVan.SetActive(false);
+            subVan[0].SetActive(false);
             if (answerField.text == "" || playerAnswer > 100)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
@@ -134,24 +138,26 @@ public class AccMidSimulation : MonoBehaviour
             subChopper[0].SetActive(true);
             dimension[0].SetActive(true);
             
-            theChopper.transform.position = chopperStartpos;
+            theChopper[0].transform.position = chopper1Startpos;
             theTruck.transform.position = truckStartPos;
             theTruck.transform.rotation = TruckStartRot;
             thePlayer.transform.position = playerstartPos;
             theTruck.accelaration = 0;
             theTruck.accelerating = true;
-            theChopper.flySpeed = 0;
+            theChopper[0].flySpeed = 0;
             thePlayer.standup = false;
             theManagerOne.generateProblem();
         }
         if (stage == 2)
         {
            subChopper[1].SetActive(true);
-           subVan.SetActive(true);
+           subVan[0].SetActive(true);
         }
         if (stage == 3)
         {
-            
+            theChopper[2].transform.position = chopper3Startpos;
+            theChopper[2].flySpeed = 0;
+            theManagerThree.generateProblem();
         }
     }
     public void next()

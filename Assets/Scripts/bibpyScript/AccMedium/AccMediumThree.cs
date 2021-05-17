@@ -6,22 +6,35 @@ using TMPro;
 
 public class AccMediumThree : MonoBehaviour
 {
-    public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos, ropeLoc, carInitials, chopperInitials,wordedBoard;
+    public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos, carInitials, chopperInitials, wordedBoard, edgeline, ropehere ,AfterStuntMessage;
+    public GameObject retry, next;
     public SubSuv theSubVan;
     public SubHellicopter theSubChopper;
+    private AccMidSimulation theSimulate;
     public Suv theSuv;
     public Player thePlayer;
     public Hellicopter theChopper;
     float correctAnswer, accH, accV, velocity, dv, dx, dh = 40, ropeDistance;
     float time, suvPos, chopperPos, generateDv, generateVelocity, generateAccH, generateCorrectAnswer, playerTime;
-    bool repos, ragdollReady,follow;
-    public TMP_Text  viVtxt, viHtxt, aVtxt, aHtxt;
+    bool repos, ragdollReady, follow, pausePos, resultReady;
+    public TMP_Text viVtxt, viHtxt, aVtxt, aHtxt;
+    string pronoun, gender;
 
     // Start is called before the first frame update
     void Start()
     {
-        generateProblem();
+        theSimulate = FindObjectOfType<AccMidSimulation>();
         wordedBoard.transform.position = new Vector2(wordedBoard.transform.position.x + 19, wordedBoard.transform.position.y);
+        gender = PlayerPrefs.GetString("Gender");
+        if (gender == "Male")
+        {
+            pronoun = ("him");
+        }
+        if (gender == "Female")
+        {
+            pronoun = ("her");
+        }
+         generateProblem();
 
 
     }
@@ -36,20 +49,21 @@ public class AccMediumThree : MonoBehaviour
         accV = AccMidSimulation.playerAnswer;
         if (AccMidSimulation.simulate == true)
         {
-            viHtxt.text = ("vi = ")+ (-theChopper.flySpeed).ToString("F2")+("m/s");
-            viVtxt.text = ("vi = ") + (-theSuv.moveSpeed).ToString("F2")+("m/s");
-            aVtxt.text = ("a = ")+ accV.ToString("F2")+ ("m/s²");
+            viHtxt.text = ("vi = ") + (-theChopper.flySpeed).ToString("F2") + ("m/s");
+            viVtxt.text = ("vi = ") + (-theSuv.moveSpeed).ToString("F2") + ("m/s");
+            aVtxt.text = ("a = ") + accV.ToString("F2") + ("m/s²");
             playerTime = (-velocity + Mathf.Sqrt((velocity * velocity) - (4 * (accV / 2) * (-dv)))) / (2 * (accV / 2));
-            ropeDistance = (velocity*playerTime) + ((accH*(playerTime*playerTime))/2);
-            
-            
-           
-            if(follow)
+            ropeDistance = (dh - ((velocity * playerTime) + ((accH * (playerTime * playerTime)) / 2))) + 15;
+            edgeline.SetActive(false);
+
+
+
+            if (follow)
             {
                 carInitials.gameObject.transform.position = theSuv.transform.position;
                 chopperInitials.gameObject.transform.position = theChopper.transform.position;
             }
-            
+
             if (repos)
             {
                 theChopper.flySpeed = -velocity;
@@ -73,49 +87,69 @@ public class AccMediumThree : MonoBehaviour
                 theChopper.accelarating = true;
                 theChopper.myRigidbody.constraints = RigidbodyConstraints2D.None;
                 theChopper.flyUp = 4;
-                 if (theChopper.flySpeed >= 0)
-                    {
-                        theChopper.accelarating = false;
-                        theChopper.flySpeed = 0;
-                        theChopper.flyUp = 0;
-                        theChopper.myRigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
-                    }
+                if (theChopper.flySpeed >= 0)
+                {
+                    theChopper.accelarating = false;
+                    theChopper.flySpeed = 0;
+                    theChopper.flyUp = 0;
+                    theChopper.myRigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+                }
             }
             if (suvPos <= 15)
             {
+                if(resultReady)
+                {
+                    StartCoroutine(StuntResult());
+                }
                 
                 if (accV == correctAnswer)
                 {
+                    next.SetActive(true);
                     hangingRagdoll.SetActive(true);
                     hangingRagdoll.transform.position = ropeTip.transform.position;
-                   
+
                 }
-                
-                
+
+
                 //Time.timeScale = 0;
                 theSuv.myCollider.enabled = false;
                 thePlayer.gameObject.SetActive(false);
                 theSuv.accelarating = false;
                 theSuv.deaccelarating = true;
                 theSuv.accelaration = accV * 3;
-                 if (accV != correctAnswer)
+                if (accV != correctAnswer)
                 {
-                    ropeLoc.SetActive(true);
+                    retry.SetActive(true);
+                    if (ropeDistance > 15)
+                    {
+                        theSubChopper.transform.position = new Vector2(ropeDistance, theSubChopper.transform.position.y);
+                    }
+                    if (ropeDistance < 15)
+                    {
+                        if (pausePos)
+                        {
+                            chopperPause();
+                        }
+                    }
+                    theSubChopper.fade = false;
+                    theSubChopper.gameObject.SetActive(true);
+                    ropehere.SetActive(true);
                     if (ragdollReady)
                     {
                         ragdollSpawn();
                         ragdollReady = false;
                     }
-                    if(accV > correctAnswer & accV < correctAnswer + .5f)
+                    if (accV > correctAnswer & accV < correctAnswer + .5f)
                     {
                         ropeDistance -= .2f;
                     }
-                    if(accV < correctAnswer & accV > correctAnswer - .5f)
+                    if (accV < correctAnswer & accV > correctAnswer - .5f)
                     {
                         ropeDistance += .2f;
                     }
+
                 }
-                ropeLoc.transform.position = new Vector2((dh-ropeDistance)+ 15, ropeLoc.transform.position.y);
+
 
 
                 if (theSuv.moveSpeed >= 0)
@@ -130,8 +164,10 @@ public class AccMediumThree : MonoBehaviour
     }
     public void generateProblem()
     {
-       
-        ropeLoc.SetActive(false);
+        resultReady = true;
+        pausePos = true;
+        ropehere.SetActive(false);
+        edgeline.SetActive(true);
         repos = true;
         ragdollReady = true;
         generateDv = Random.Range(22f, 25f);
@@ -150,13 +186,14 @@ public class AccMediumThree : MonoBehaviour
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         carInitials.transform.position = theSubVan.transform.position;
         chopperInitials.transform.position = theSubChopper.transform.position;
-        viHtxt.text = ("vi = ")+ velocity.ToString("F2")+("m/s");
-        viVtxt.text = ("vi = ") + velocity.ToString("F2")+("m/s");
-        aHtxt.text = ("a = ")+ accH.ToString("F2")+ ("m/s²");
+        viHtxt.text = ("vi = ") + velocity.ToString("F2") + ("m/s");
+        viVtxt.text = ("vi = ") + velocity.ToString("F2") + ("m/s");
+        aHtxt.text = ("a = ") + accH.ToString("F2") + ("m/s²");
         aVtxt.text = ("a = ?");
         follow = false;
-        
-        
+        AccMidSimulation.question = (("<b>") + PlayerPrefs.GetString("Name") + ("</b> is instructed to drive the van off the ledge and hang on into the rope of the helicopter just before it drops, If the helicopter id flying at <b>") + velocity.ToString("F2") + ("</b> m/s while accelarating at  <b>") + accH.ToString("F2") + ("</b> m/s², what should be the accelaration of the van running at  <b>") + velocity.ToString("F2") + ("</b> m/s, so <b>") + PlayerPrefs.GetString("Name") + ("</b> can grab the rope at exactly at the edge of the ledge") + dv.ToString("F2") + ("</b> meters in front of ") + pronoun + (" ?"));
+
+
 
 
     }
@@ -173,6 +210,21 @@ public class AccMediumThree : MonoBehaviour
         GameObject stick = Instantiate(ragdollPrefab);
         stick.transform.position = stickmanPoint.transform.position;
         stick.transform.localScale = new Vector2(-stick.transform.localScale.x, stick.transform.localScale.y);
+    }
+    void chopperPause()
+    {
+        theSubChopper.transform.position = theChopper.transform.position;
+        pausePos = false;
+    }
+     IEnumerator StuntResult()
+    {
+        resultReady = false;
+        yield return new WaitForSeconds(4);
+        StartCoroutine(theSimulate.DirectorsCall());
+        yield return new WaitForSeconds(1);
+        AfterStuntMessage.SetActive(true);
+       
+
     }
 
 }
