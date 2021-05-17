@@ -3,71 +3,73 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-
-
-
+using GameConfig;
 
 public class QuestionController : MonoBehaviour
 {
-    public enum Difficulty : byte
-    {
-        Easy = 0,
-        Hard = 1,
-        Difficult = 2
-    }
-
-    public enum Orientation : byte
-    {
-        Horizontal = 0,
-        Vertical = 1
-    }
-
-    public enum UnitOf : byte
-    {
-        distance = 0,
-        time = 1,
-        velocity = 2,
-        acceleration = 3,
-        angle = 4,
-        angularVelocity = 5,
-        force = 6,
-        mass = 7,
-        work = 8, //J
-        energy = 9,//kW
-        power = 10,//kWh
-        momuntum = 11//kgm/s
-    }    
-    public Camera renderCamera;
-    public Orientation orientation;
-    public int stageNumber;
-    public int levelNumber;
-    public UnitOf unitOf;
-    public Difficulty levelDifficulty;
+    float playerAnswer;
+    GameObject correctIcon;
+    GameObject wrongIcon;
     private Transform baseComponent;
     private Transform modalComponent;
+    private Transform extraComponent;
+    private Transform problemBox;
+    public bool answerIsCorrect = false;
+    public bool isModalOpen = true;
+    public Camera renderCamera;
+    public Color correctAnswerColor;
+    public Color givenColor;
+    public Color wrongAnswerColor;
+    public Difficulty levelDifficulty;
+    public int levelNumber;
+    public int stageNumber;
+    public Orientation orientation;
+    public string levelName;
     public string modalTitle;
     public string question;
-    private Transform problemBox;
-    public string levelName;
-    Transform difficultyName;
+    public TextColorMode colorMode;
+    public UnitOf unitOf;
     string answerUnit;
-    float playerAnswer;
-
     TMP_InputField answerField;
+    Transform difficultyName;
     Transform stageName;
-    public bool isModalOpen = true;
+    public bool isSimulating;
+    GameObject playButton;
+    GameObject timerComponent;
+
+
+
 
     // Start is called before the first frame update
     void Start()
     {
+
         baseComponent = transform.Find("Base");
         modalComponent = transform.Find("Modal");
+        extraComponent = transform.Find("Extra");
+
+        Transform[] components = { baseComponent, modalComponent, extraComponent };
+
+        foreach (Transform component in components)
+        {
+            component.GetComponent<Canvas>().worldCamera = renderCamera;
+        }
+
+
         problemBox = baseComponent.Find("ProblemBox");
+        playButton = problemBox.Find("ProblemBoxHorizontal").Find("AnswerBox").Find("PlayButton").gameObject;
         stageName = problemBox.Find("StageBar2").Find("StageName");
         difficultyName = problemBox.Find("StageBar3").Find("DifficultyName");
-        baseComponent.GetComponent<Canvas>().worldCamera = renderCamera;
-        modalComponent.GetComponent<Canvas>().worldCamera = renderCamera;        
-        ToggleModal();
+        correctIcon = modalComponent.Find("WrongIcon").gameObject;
+        wrongIcon = modalComponent.Find("CorrectIcon").gameObject;
+        timerComponent = extraComponent.Find("Timer").gameObject;
+
+        correctIcon.SetActive(false);
+        wrongIcon.SetActive(false);
+
+        givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
+        correctAnswerColor = new Color32(150, 217, 72, 255);
+        wrongAnswerColor = new Color32(237, 66, 66, 255);
     }
 
     public void ToggleModal()
@@ -157,12 +159,60 @@ public class QuestionController : MonoBehaviour
         return answerUnit;
     }
 
-    // Update is called once per frame
+    public string getHexColor(TextColorMode mode)
+    {
+        switch (mode)
+        {
+            case TextColorMode.Wrong:
+                return ColorUtility.ToHtmlStringRGB(wrongAnswerColor);
+            case TextColorMode.Correct:
+                return ColorUtility.ToHtmlStringRGB(correctAnswerColor);
+            default:
+                return ColorUtility.ToHtmlStringRGB(givenColor);
+        }
+    }
+
+    public void SetColor(TMP_Text target, TextColorMode mode)
+    {
+        switch (mode)
+        {
+            case TextColorMode.Wrong:
+                target.color = wrongAnswerColor;
+                break;
+            case TextColorMode.Correct:
+                target.color = correctAnswerColor;
+                break;
+            default:
+                target.color = givenColor;
+                break;
+        }
+    }
+
+
+
     void Update()
     {
-        modalComponent.Find("ModalTitle").GetComponent<TMP_Text>().SetText(modalTitle);
+        TMP_Text modalTitleObj = modalComponent.Find("ModalTitle").GetComponent<TMP_Text>();
+        modalTitleObj.SetText(modalTitle);
+
+        playButton.SetActive(!isSimulating);
+        timerComponent.SetActive(isSimulating);
+
+        correctIcon.SetActive(!answerIsCorrect);
+        wrongIcon.SetActive(answerIsCorrect);
+
+        if (answerIsCorrect)
+        {
+            SetColor(modalTitleObj, TextColorMode.Correct);
+        }
+        else
+        {
+            SetColor(modalTitleObj, TextColorMode.Wrong);
+
+        }
         modalComponent.gameObject.SetActive(isModalOpen);
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
+        extraComponent.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");
         stageName.GetComponent<TMP_Text>().SetText($"Stage {stageNumber}");
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
         problemBox.Find("ProblemTextHorizontal").GetComponent<TMP_Text>().SetText(question);
