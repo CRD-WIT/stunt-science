@@ -10,7 +10,7 @@ public class AccMediumTwo : MonoBehaviour
     public Suv theVan;
     float A, B, C;
     float generateViH, Vih, generateAccH, accH, generateViV, Viv, generateAccV, accV, generateDistance, distance;
-    float chopperCurrentPos, vanCurrentPos, chopperAccPoint, vanAccPoint, kickpointTime, timer,kickDistance;
+    float chopperCurrentPos, vanCurrentPos, chopperAccPoint, vanAccPoint, kickpointTimeA, kickpointTimeB, timer,kickDistance;
     bool reposition = true;
     // Start is called before the first frame update
     void Start()
@@ -53,7 +53,7 @@ public class AccMediumTwo : MonoBehaviour
             if(reposition == false)
             {
                 timer += Time.fixedDeltaTime;
-                if(timer >= kickpointTime)
+                if(timer >= kickpointTimeA)
                 {
                     Time.timeScale = 0;
                     AccMidSimulation.simulate = false;
@@ -83,11 +83,12 @@ public class AccMediumTwo : MonoBehaviour
         theChopper.transform.position = new Vector2(30 - (distance/2 + 30), theChopper.transform.position.y);
         theVan.transform.position = new Vector2(30 + (distance/2 + 30), theVan.transform.position.y);
         B = ((accH + accV)/ 2);
-        A = Vih + Viv;
+        A = (Vih + Viv);
         C = -distance;
         //kickpointTime = Mathf.Abs(((accH* (kickpointTime * kickpointTime))/(2*Vih)) - (distance/Vih)); 
-        kickpointTime = (-((accH + accV)/2) + (Mathf.Sqrt((((accH + accV)/2)*((accH + accV)/2)) -(4 * (Vih + Viv))*(-distance)))) / (2*(Vih + Viv));
-        kickpointTime =(-B + Mathf.Sqrt((B*B) - (4*A*C)))/ 2*A;
+        //kickpointTime = (-((accH + accV)/2) + (Mathf.Sqrt((((accH + accV)/2)*((accH + accV)/2)) -(4 * (Vih + Viv))*(-distance)))) / (2*(Vih + Viv));
+        kickpointTimeA =(B + Mathf.Sqrt((B*B) - (4*A*C)))/ (2*A);
+        kickpointTimeB =(-B + Mathf.Sqrt((B*B) - (4*A*C)))/ (2*A);
         //kickDistance = (Vih * kickpointTime) + (accH * ((kickpointTime*kickpointTime)/2));
         
         //kickpointTime = (((distance/2)/(accH+Vih)) + ((distance/2)/(accV+Viv))) / 2;
