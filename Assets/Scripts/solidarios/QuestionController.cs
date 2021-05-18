@@ -8,11 +8,14 @@ using GameConfig;
 public class QuestionController : MonoBehaviour
 {
     float playerAnswer;
-    GameObject correctIcon;
-    GameObject wrongIcon;
+    GameObject correctIconHorizontal;
+    GameObject wrongIconHorizontal;
     private Transform baseComponent;
-    private Transform modalComponent;
-    private Transform extraComponent;
+    [SerializeField]
+    Transform modalComponentHorizontal;
+    [SerializeField]
+    Transform modalComponentVertical;
+    Transform extraComponent;
     private Transform problemBox;
     public bool answerIsCorrect = false;
     public bool isModalOpen = true;
@@ -30,13 +33,29 @@ public class QuestionController : MonoBehaviour
     public TextColorMode colorMode;
     public UnitOf unitOf;
     string answerUnit;
-    TMP_InputField answerField;
+    [SerializeField]
+    TMP_InputField answerFieldHorizontal;
+    [SerializeField]
+    TMP_InputField answerFieldVertical;
     Transform difficultyName;
     Transform stageName;
     public bool isSimulating;
-    GameObject playButton;
-    GameObject timerComponent;
-
+    [SerializeField]
+    GameObject playButtonVertical;
+    [SerializeField]
+    GameObject playButtonHorizontal;
+    [SerializeField]
+    GameObject timerComponentHorizontal;
+    [SerializeField]
+    GameObject timerComponentVertical;
+    [SerializeField]
+    GameObject problemBoxVertical;
+    [SerializeField]
+    GameObject problemBoxHorizontal;
+    [SerializeField]
+    GameObject problemTextVertical;
+    [SerializeField]
+    GameObject problemTextHorizontal;
 
 
 
@@ -45,27 +64,23 @@ public class QuestionController : MonoBehaviour
     {
 
         baseComponent = transform.Find("Base");
-        modalComponent = transform.Find("Modal");
         extraComponent = transform.Find("Extra");
 
-        Transform[] components = { baseComponent, modalComponent, extraComponent };
+        Transform[] components = { baseComponent, modalComponentHorizontal, modalComponentVertical, extraComponent };
 
         foreach (Transform component in components)
         {
             component.GetComponent<Canvas>().worldCamera = renderCamera;
         }
 
-
         problemBox = baseComponent.Find("ProblemBox");
-        playButton = problemBox.Find("ProblemBoxHorizontal").Find("AnswerBox").Find("PlayButton").gameObject;
         stageName = problemBox.Find("StageBar2").Find("StageName");
         difficultyName = problemBox.Find("StageBar3").Find("DifficultyName");
-        correctIcon = modalComponent.Find("WrongIcon").gameObject;
-        wrongIcon = modalComponent.Find("CorrectIcon").gameObject;
-        timerComponent = extraComponent.Find("Timer").gameObject;
+        correctIconHorizontal = modalComponentHorizontal.Find("wrongIconHorizontal").gameObject;
+        wrongIconHorizontal = modalComponentHorizontal.Find("correctIconHorizontal").gameObject;
 
-        correctIcon.SetActive(false);
-        wrongIcon.SetActive(false);
+        correctIconHorizontal.SetActive(false);
+        wrongIconHorizontal.SetActive(false);
 
         givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
         correctAnswerColor = new Color32(150, 217, 72, 255);
@@ -89,20 +104,18 @@ public class QuestionController : MonoBehaviour
 
     public void SetAnswer()
     {
-        if (answerField.text == "")
+        if (answerFieldHorizontal.text == "")
             StartCoroutine(IsEmpty());
         else
         {
-            playerAnswer = float.Parse(answerField.text);
-            answerField.text = playerAnswer + answerUnit;
-            // playBtn.interactable = false;
-            // timerTxt.text = stuntTimer + "s";
+            playerAnswer = float.Parse(answerFieldHorizontal.text);
+            answerFieldHorizontal.text = playerAnswer + answerUnit;
         }
     }
 
     public void Retry()
     {
-        modalComponent.gameObject.SetActive(false);
+        modalComponentHorizontal.gameObject.SetActive(false);
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
@@ -116,7 +129,7 @@ public class QuestionController : MonoBehaviour
 
     public string Unit()
     {
-        //TODO: passed the appropriate unit in the answerField suffixed to the answer
+        //TODO: passed the appropriate unit in the answerFieldHorizontal suffixed to the answer
         switch (unitOf)
         {
             case UnitOf.distance:
@@ -188,18 +201,38 @@ public class QuestionController : MonoBehaviour
         }
     }
 
-
+    void ToggleOrientation(Orientation o)
+    {
+        bool condition = o == Orientation.Horizontal;
+        problemBoxHorizontal.SetActive(condition);
+        problemTextHorizontal.SetActive(condition);
+        problemBoxVertical.SetActive(!condition);
+        problemTextVertical.SetActive(!condition);
+    }
 
     void Update()
     {
-        TMP_Text modalTitleObj = modalComponent.Find("ModalTitle").GetComponent<TMP_Text>();
+        TMP_Text modalTitleObj = modalComponentHorizontal.Find("ModalTitle").GetComponent<TMP_Text>();
         modalTitleObj.SetText(modalTitle);
 
-        playButton.SetActive(!isSimulating);
-        timerComponent.SetActive(isSimulating);
+        ToggleOrientation(orientation);
 
-        correctIcon.SetActive(!answerIsCorrect);
-        wrongIcon.SetActive(answerIsCorrect);
+        if (orientation == Orientation.Horizontal)
+        {
+            playButtonHorizontal.SetActive(!isSimulating);
+            problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
+        }
+        else
+        {
+            playButtonVertical.SetActive(!isSimulating);
+            problemTextVertical.GetComponent<TMP_Text>().SetText(question);
+        }
+
+        timerComponentHorizontal.SetActive(isSimulating && (orientation == Orientation.Horizontal));
+        timerComponentVertical.SetActive(isSimulating && (orientation == Orientation.Vertical));
+
+        // correctIconHorizontal.SetActive(!answerIsCorrect);
+        // wrongIconHorizontal.SetActive(answerIsCorrect);
 
         if (answerIsCorrect)
         {
@@ -208,13 +241,12 @@ public class QuestionController : MonoBehaviour
         else
         {
             SetColor(modalTitleObj, TextColorMode.Wrong);
-
         }
-        modalComponent.gameObject.SetActive(isModalOpen);
+        modalComponentHorizontal.gameObject.SetActive(isModalOpen);
+        modalComponentVertical.gameObject.SetActive(isModalOpen);
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
         extraComponent.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");
         stageName.GetComponent<TMP_Text>().SetText($"Stage {stageNumber}");
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
-        problemBox.Find("ProblemTextHorizontal").GetComponent<TMP_Text>().SetText(question);
     }
 }
