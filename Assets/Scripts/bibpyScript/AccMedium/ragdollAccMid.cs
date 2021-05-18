@@ -15,7 +15,7 @@ public class ragdollAccMid : MonoBehaviour
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
-       
+
     }
 
     // Update is called once per frame
@@ -44,17 +44,21 @@ public class ragdollAccMid : MonoBehaviour
             {
                 StartCoroutine(playerSpawn());
             }
-            
+
         }
         if (theSimulate.stage == 3)
+        {
+            myRigidbody.velocity = new Vector2(moveSpeedbackward, myRigidbody.velocity.y);
+            moveSpeedbackward += 10 * Time.deltaTime;
+            if (moveSpeedbackward >= 0)
             {
-                myRigidbody.velocity = new Vector2(moveSpeedbackward, myRigidbody.velocity.y);
-                moveSpeedbackward += 10 * Time.deltaTime;
-                if (moveSpeedbackward >= 0)
-                {
-                    moveSpeedbackward = 0;
-                }
+                moveSpeedbackward = 0;
             }
+        }
+        if (theSimulate.playButton.interactable == true)
+        {
+            Destroy(stick.gameObject);
+        }
     }
 
     IEnumerator playerSpawn()

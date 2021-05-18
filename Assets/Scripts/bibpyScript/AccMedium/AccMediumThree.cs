@@ -17,12 +17,18 @@ public class AccMediumThree : MonoBehaviour
     float correctAnswer, accH, accV, velocity, dv, dx, dh = 40, ropeDistance;
     float time, suvPos, chopperPos, generateDv, generateVelocity, generateAccH, generateCorrectAnswer, playerTime;
     bool repos, ragdollReady, follow, pausePos, resultReady;
-    public TMP_Text viVtxt, viHtxt, aVtxt, aHtxt;
+    public TMP_Text viVtxt, viHtxt, aVtxt, aHtxt,stuntMessageTxt;
     string pronoun, gender;
+    private Vector2 chopperStartPos, vanStartPos;
+    private Quaternion vanstartRot;
 
     // Start is called before the first frame update
     void Start()
     {
+        thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
+        chopperStartPos = theChopper.transform.position;
+        vanStartPos = theSuv.transform.position;
+        vanstartRot = theSuv.transform.rotation;
         theSimulate = FindObjectOfType<AccMidSimulation>();
         wordedBoard.transform.position = new Vector2(wordedBoard.transform.position.x + 19, wordedBoard.transform.position.y);
         gender = PlayerPrefs.GetString("Gender");
@@ -147,6 +153,14 @@ public class AccMediumThree : MonoBehaviour
                     {
                         ropeDistance += .2f;
                     }
+                    if(accV > correctAnswer)
+                    {
+                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².";
+                    }
+                     if(accV < correctAnswer)
+                    {
+                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drove the van too slow and  was still behind when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².";
+                    }
 
                 }
 
@@ -164,6 +178,12 @@ public class AccMediumThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        theChopper.transform.position = chopperStartPos;
+        theSuv.transform.position = vanStartPos;
+        theSuv.transform.rotation = vanstartRot;
+        thePlayer.gameObject.SetActive(true);
+        theSuv.moveSpeed = 0;
+        theSuv.deaccelarating = false;
         resultReady = true;
         pausePos = true;
         ropehere.SetActive(false);
@@ -180,7 +200,7 @@ public class AccMediumThree : MonoBehaviour
         theSubVan.transform.position = new Vector2(edge.transform.position.x + dv, theSubVan.transform.position.y);
         theSubChopper.transform.position = new Vector2(theSubVan.transform.position.x + dx, theSubChopper.transform.position.y);
         theChopper.transform.position = new Vector2(theSuv.transform.position.x + dx, theChopper.transform.position.y);
-        thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
+        
         time = (-velocity + Mathf.Sqrt((velocity * velocity) - (4 * (accH / 2) * (-dh)))) / (2 * (accH / 2));
         generateCorrectAnswer = (2 * (dv - (velocity * time))) / (time * time);
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);

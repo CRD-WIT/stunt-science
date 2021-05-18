@@ -9,7 +9,8 @@ public class AccMidSimulation : MonoBehaviour
     public Button playButton;
     public Player thePlayer;
     public TruckManager theTruck;
-    public Hellicopter[] theChopper;
+    public Suv [] theSuv;
+    public SubSuv[] theSubVan;
     public AccMediumOne theManagerOne;
     //public AccMediumTwo theManagerTwo;
     public AccMediumThree theManagerThree;
@@ -20,19 +21,15 @@ public class AccMidSimulation : MonoBehaviour
     public static bool simulate;
     public static bool playerDead;
     public int stage;
-    
-    public Vector2 ChopperStartPosition, Chopper2StartPosition, Chopper3StartPosition;
-    public Vector2 TruckStartPosition;
 
     public GameObject afterStuntMessage, retryButton, nextButton;
-    public GameObject[] ground, dimension, subChopper, subVan;
+    public GameObject[] ground, dimension;
     bool directorIsCalling;
     public GameObject directorBubble;
     
     Vector2 playerstartPos;
     private Vector2 truckStartPos;
     
-    private Vector2 chopper1Startpos, chopper2Startpos, chopper3Startpos;
 
     private Quaternion TruckStartRot;
     //string accelaration;
@@ -41,11 +38,6 @@ public class AccMidSimulation : MonoBehaviour
     {
         truckStartPos = theTruck.transform.position;
         TruckStartRot = theTruck.transform.rotation;
-        chopper1Startpos = theChopper[0].transform.position;
-        chopper3Startpos = theChopper[2].transform.position;      
-        TruckStartPosition = theTruck.transform.position;
-        ChopperStartPosition = theChopper[0].transform.position;
-        Chopper3StartPosition = theChopper[2].transform.position;
         PlayerPrefs.SetString("CurrentString", ("AccelarationMedium"));
         PlayerPrefs.SetInt("level", 4);
         playerstartPos = thePlayer.transform.position;
@@ -86,8 +78,6 @@ public class AccMidSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
-            subChopper[1].SetActive(false);
-            subVan[0].SetActive(false);
             if (answerField.text == "" || playerAnswer > 100)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
@@ -135,28 +125,24 @@ public class AccMidSimulation : MonoBehaviour
         
         if (stage == 1)
         {
-            subChopper[0].SetActive(true);
             dimension[0].SetActive(true);
-            
-            theChopper[0].transform.position = chopper1Startpos;
             theTruck.transform.position = truckStartPos;
             theTruck.transform.rotation = TruckStartRot;
             thePlayer.transform.position = playerstartPos;
             theTruck.accelaration = 0;
             theTruck.accelerating = true;
-            theChopper[0].flySpeed = 0;
             thePlayer.standup = false;
             theManagerOne.generateProblem();
         }
         if (stage == 2)
         {
-           subChopper[1].SetActive(true);
-           subVan[0].SetActive(true);
+
         }
         if (stage == 3)
         {
-            theChopper[2].transform.position = chopper3Startpos;
-            theChopper[2].flySpeed = 0;
+            theSubVan[1].fade = false;
+            theSuv[1].myCollider.enabled = true;
+            theSubVan[1].gameObject.SetActive(true);
             theManagerThree.generateProblem();
         }
     }

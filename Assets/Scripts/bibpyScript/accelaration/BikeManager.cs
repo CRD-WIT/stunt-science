@@ -5,6 +5,7 @@ using UnityEngine;
 public class BikeManager : MonoBehaviour
 {
     private Player thePlayer;
+    private AccManagerTwo theManagerTwo;
     private accSimulation theSimulate;
     private Animator myAnimator;
     public bool collided;
@@ -30,11 +31,13 @@ public class BikeManager : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
         theHeart = FindObjectOfType<HeartManager>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        theManagerTwo = FindObjectOfType<AccManagerTwo>(); 
         myAnimator.SetFloat("speed", myRigidbody.velocity.x);
 
         if (stopBackward || stopForward)
@@ -74,6 +77,7 @@ public class BikeManager : MonoBehaviour
         if (other.gameObject.tag == ("braker"))
         {
             brake = true;
+            theManagerTwo.follow = true;
         }
         if (other.gameObject.tag == ("water"))
         {

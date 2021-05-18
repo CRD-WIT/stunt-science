@@ -5434,10 +5434,12 @@ MonoBehaviour:
   playButton: {fileID: 981443740}
   thePlayer: {fileID: 2565264667830371353}
   theTruck: {fileID: 1678539254}
-  theChopper:
-  - {fileID: 447464571}
-  - {fileID: 186556980}
-  - {fileID: 574515705}
+  theSuv:
+  - {fileID: 0}
+  - {fileID: 1883357144}
+  theSubVan:
+  - {fileID: 0}
+  - {fileID: 1475038453}
   theManagerOne: {fileID: 1593105044}
   theManagerThree: {fileID: 753629766}
   answerField: {fileID: 21478578513916692}
@@ -5445,24 +5447,13 @@ MonoBehaviour:
   errorTextBox: {fileID: 21478578995525694}
   levelText: {fileID: 21478578595536500}
   diretorsSpeech: {fileID: 596383506}
-  stage: 3
-  ChopperStartPosition: {x: 0, y: 0}
-  Chopper2StartPosition: {x: 0, y: 0}
-  Chopper3StartPosition: {x: 0, y: 0}
-  TruckStartPosition: {x: 0, y: 0}
+  stage: 1
   afterStuntMessage: {fileID: 888700817}
   retryButton: {fileID: 1209126364}
   nextButton: {fileID: 629674026}
   ground: []
   dimension:
   - {fileID: 373557496}
-  subChopper:
-  - {fileID: 105607687}
-  - {fileID: 1493763883}
-  - {fileID: 1121541200}
-  subVan:
-  - {fileID: 320809891}
-  - {fileID: 1475038448}
   directorBubble: {fileID: 797493949}
 --- !u!4 &742297393
 Transform:
@@ -5577,7 +5568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &753629765
 Transform:
   m_ObjectHideFlags: 0
@@ -5627,6 +5618,7 @@ MonoBehaviour:
   viHtxt: {fileID: 2113766474}
   aVtxt: {fileID: 1478478604}
   aHtxt: {fileID: 1021574687}
+  stuntMessageTxt: {fileID: 29497864}
 --- !u!1 &754672237
 GameObject:
   m_ObjectHideFlags: 0
@@ -8886,7 +8878,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1233839157
 Transform:
   m_ObjectHideFlags: 0
@@ -12271,7 +12263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1593105043
 Transform:
   m_ObjectHideFlags: 0
@@ -14972,7 +14964,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1883357141}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 70.1, y: 11.46, z: 3.4741273}
+  m_LocalPosition: {x: 70.1, y: 11.96, z: 3.4741273}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 1974264921}
@@ -14996,7 +14988,7 @@ Rigidbody2D:
   m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -16015,19 +16007,19 @@ PrefabInstance:
       objectReference: {fileID: 1919375448176089033}
     - target: {fileID: 2070458416814834350, guid: 24ba22a54339d534da7f4777f48f3d31, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.55185187
+      value: 0.5439421
       objectReference: {fileID: 0}
     - target: {fileID: 2070458416814834350, guid: 24ba22a54339d534da7f4777f48f3d31, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.16901825
+      value: 0.17266653
       objectReference: {fileID: 0}
     - target: {fileID: 2070458416814834350, guid: 24ba22a54339d534da7f4777f48f3d31, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.78083277
+      value: -0.78267854
       objectReference: {fileID: 0}
     - target: {fileID: 2070458416814834350, guid: 24ba22a54339d534da7f4777f48f3d31, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.23914945
+      value: 0.2484501
       objectReference: {fileID: 0}
     - target: {fileID: 2070458417291506017, guid: 24ba22a54339d534da7f4777f48f3d31, type: 3}
       propertyPath: m_SortingOrder
@@ -16200,7 +16192,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2031621679
 Transform:
   m_ObjectHideFlags: 0
@@ -20162,7 +20154,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1919375448176089037}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.28, y: 1.04, z: -2}
+  m_LocalPosition: {x: 1.01, y: 1.04, z: -2}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children:
   - {fileID: 6643490682142684138}
@@ -21119,8 +21111,8 @@ MonoBehaviour:
   - {fileID: 6643490682142684138}
   - {fileID: 6643490683502669611}
   m_Bounds:
-    m_Center: {x: -0.74961394, y: -3.5890412, z: 0}
-    m_Extent: {x: 0.2026478, y: 0.81286, z: 0}
+    m_Center: {x: -0.7496139, y: -3.5890412, z: 0}
+    m_Extent: {x: 0.20264763, y: 0.81286, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &6643490681605022843
@@ -21524,7 +21516,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490682880135303}
   m_Bounds:
-    m_Center: {x: 1.6077931, y: -2.7224717, z: 0}
+    m_Center: {x: 1.6077929, y: -2.7224717, z: 0}
     m_Extent: {x: 0.16812557, y: 0.42652488, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -21727,7 +21719,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490682665696884}
   m_Bounds:
-    m_Center: {x: -1.3016465, y: -4.002256, z: 0}
+    m_Center: {x: -1.3016467, y: -4.002256, z: 0}
     m_Extent: {x: 0.35943368, y: 0.3562516, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -21902,7 +21894,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490683521699612}
   m_Bounds:
-    m_Center: {x: 0.0042439997, y: -4.2142243, z: 0}
+    m_Center: {x: 0.004243523, y: -4.2142243, z: 0}
     m_Extent: {x: 0.23704082, y: 0.5062728, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -22072,7 +22064,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490681676156433}
   m_Bounds:
-    m_Center: {x: 0.7919922, y: -4.4625006, z: 0}
+    m_Center: {x: 0.79199195, y: -4.4625006, z: 0}
     m_Extent: {x: 0.2716261, y: 0.5656438, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -22389,7 +22381,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490682527163541}
   m_Bounds:
-    m_Center: {x: -1.0405245, y: -3.9996378, z: 0}
+    m_Center: {x: -1.0405247, y: -3.9996378, z: 0}
     m_Extent: {x: 0.5289979, y: 0.3088882, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -22459,8 +22451,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490681794365426}
   m_Bounds:
-    m_Center: {x: 0.71759415, y: -3.9656453, z: 0}
-    m_Extent: {x: 0.3596611, y: 0.3585286, z: 0}
+    m_Center: {x: 0.71759427, y: -3.9656453, z: 0}
+    m_Extent: {x: 0.35966104, y: 0.3585286, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!212 &6643490683703334931
@@ -22692,7 +22684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7327295574426658832
 Transform:
   m_ObjectHideFlags: 0

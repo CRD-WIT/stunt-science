@@ -21,12 +21,13 @@ public class AccMediumOne : MonoBehaviour
     public bool readyToJump, follow;
     public TMP_Text timertxt, stuntMessageTxt, vHtxt, viTtxt, aTtxt;
     float grabLineDistance, playerGrabLineDistance;
-    private Vector2 subChopperStartPos;
+    private Vector2 subChopperStartPos, chopperStartPos;
 
     // Start is called before the first frame update
     void Start()
     {
         subChopperStartPos = theSubChopper.transform.position;
+        chopperStartPos = theChopper.transform.position;
         theSimulate = FindObjectOfType<AccMidSimulation>();
         generateProblem();
 
@@ -145,6 +146,7 @@ public class AccMediumOne : MonoBehaviour
         carInitials.SetActive(true);
         ropePoint.SetActive(false);
         ragdollPause.SetActive(false);
+        theChopper.transform.position = chopperStartPos;
         theSubChopper.transform.position = subChopperStartPos;
         follow = false;
         timertxt.gameObject.transform.position = theTruck.transform.position;
