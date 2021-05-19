@@ -17,9 +17,9 @@ public class VelocityMediumManager : MonoBehaviour
     [SerializeField] Button answerButton, nextButton, retryButton;
     [SerializeField] float playerVelocity, boulderVelocity, boulder2Velocity, stuntTime, distance, jumpDistance, correctAnswer;
     public int stage;
-    Rigidbody2D boulderRB;
+    Rigidbody2D boulderRB, boulder2RB;
     GameObject ragdoll;
-    float playerPos, playerAnswer, elapsed, currentPlayerPos, jumpTime, jumpForce;
+    float playerPos, playerAnswer, elapsed, distanceTraveled, currentPlayerPos, jumpTime, jumpForce;
     string question, playerName, playerGender, pronoun, pPronoun, messageTxt;
     bool isStartOfStunt, directorIsCalling, isAnswered, isAnswerCorrect, isEndOfStunt;
     // Start is called before the first frame update
@@ -29,6 +29,8 @@ public class VelocityMediumManager : MonoBehaviour
         distanceMeassure = FindObjectOfType<Annotation>();
         createCeilling = FindObjectOfType<CeillingGenerator>();
         boulderRB = boulder.GetComponent<Rigidbody2D>();
+        boulder2RB = boulderA.GetComponent<Rigidbody2D>();
+
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         sm.SetGameLevel(1);
@@ -36,7 +38,7 @@ public class VelocityMediumManager : MonoBehaviour
         if (playerGender == "Male")
         {
             pronoun = "he";
-            pPronoun = "his";
+            pPronoun = "him";
         }
         else
         {
@@ -55,33 +57,88 @@ public class VelocityMediumManager : MonoBehaviour
         currentPlayerPos = myPlayer.transform.position.x;
         if (isAnswered)
         {
-            timer.text = elapsed.ToString("f2") + "s";
-            elapsed += Time.deltaTime;
-            myPlayer.moveSpeed = playerVelocity;
-            boulderRB.velocity = new Vector2(-boulderVelocity, 0);
-            if (playerAnswer < elapsed)
+            switch (stage)
             {
-                elapsed = playerAnswer;
-                if (playerAnswer == stuntTime)
-                {
-                    myPlayer.jumpforce = jumpForce;
-                    nextButton.gameObject.SetActive(true);
-                    messageTxt = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has jumped over the boulder <color=green>safely</color>!";
-                }
-                else
-                {
-                    myPlayer.jumpforce = jumpForce - 0.13f;
-                    retryButton.gameObject.SetActive(true);
-                    if (playerAnswer < stuntTime)
+                case 1:
+                    timer.text = elapsed.ToString("f2") + "s";
+                    elapsed += Time.deltaTime;
+                    myPlayer.moveSpeed = playerVelocity;
+                    boulderRB.velocity = new Vector2(-boulderVelocity, 0);
+                    if (playerAnswer <= elapsed)
                     {
-                        messageTxt = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " jumped too soon and hit the boulder.\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
+                        elapsed = playerAnswer;
+                        if (playerAnswer == stuntTime)
+                        {
+                            myPlayer.jumpforce = jumpForce;
+                            nextButton.gameObject.SetActive(true);
+                            messageTxt = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has jumped over the boulder <color=green>safely</color>!";
+                        }
+                        else
+                        {
+                            myPlayer.jumpforce = jumpForce - 0.13f;
+                            retryButton.gameObject.SetActive(true);
+                            if (playerAnswer < stuntTime)
+                            {
+                                messageTxt = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " jumped too soon and hit the boulder.\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
+                            }
+
+                            else
+                                messageTxt = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " jumped too late and hit the boulder.\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
+                        }
+                        isEndOfStunt = true;
+                        StartCoroutine(Jump());
+                    }
+                    break;
+                case 2:
+                    timer.text = elapsed.ToString("f2") + "s";
+                    elapsed += Time.deltaTime;
+                    myPlayer.moveSpeed = playerVelocity;
+                    boulderRB.velocity = new Vector2(+boulderVelocity, 0);
+                    if (stuntTime <= elapsed)
+                    {
+                        currentPlayerPos = myPlayer.transform.position.x;
+                        if (playerAnswer == correctAnswer)
+                        {
+                            elapsed = stuntTime;
+                            myPlayer.jumpforce = jumpForce;
+                            nextButton.gameObject.SetActive(true);
+                            messageTxt = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has jumped over the boulder <color=green>safely</color>!";
+                        }
+                        else
+                        {
+                            elapsed = playerAnswer;
+                            myPlayer.jumpforce = jumpForce - 0.13f;
+                            retryButton.gameObject.SetActive(true);
+                            if (playerAnswer < stuntTime)
+                            {
+                                messageTxt = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " jumped too far from the boulder, and hits it!\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
+                            }
+
+                            else
+                                messageTxt = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " jumped too n from the boulder, and hits it!\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
+                        }
+                        isEndOfStunt = true;
+                        StartCoroutine(Jump());
+                    }
+                    break;
+                case 3:
+                    //timer
+                    elapsed += Time.deltaTime;
+                    myPlayer.moveSpeed = playerAnswer;
+                    boulderRB.velocity = new Vector2(boulderVelocity, 0);
+                    boulder2RB.velocity = new Vector2(-boulder2Velocity, 0);
+                    if (stuntTime <= elapsed)
+                    {
+                        myPlayer.jumpforce = jumpForce;
+                        elapsed = stuntTime;
+                        myPlayer.moveSpeed = 0;
+                        boulderRB.velocity = new Vector2(boulderRB.velocity.x, boulderRB.velocity.y);
+                        boulder2RB.velocity = new Vector2(boulder2RB.velocity.x, boulder2RB.velocity.y);
+                        isEndOfStunt = true;
+                        StartCoroutine(Jump());
                     }
 
-                    else
-                        messageTxt = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " jumped too late and hit the boulder.\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
-                }
-                isEndOfStunt = true;
-                StartCoroutine(Jump());
+                    break;
             }
         }
         if (isEndOfStunt)
@@ -121,20 +178,18 @@ public class VelocityMediumManager : MonoBehaviour
                 playerVelocity = (float)System.Math.Round(Va, 2);
                 boulderVelocity = (float)System.Math.Round(Vb, 2);
                 distance = (float)System.Math.Round(d, 2);
-                //t = (2 * distance) / (3 * (playerVelocity + boulderVelocity)); //this is divided by 2
                 Dj = ((Va + Vb) / 2) + 0.53f;
                 t = (d - Dj) / (Va + Vb);
-                //t = (4 * distance) / (3 * (playerVelocity + boulderVelocity)); //this is divided by 4
-                //tm = distance / (playerVelocity + boulderVelocity);
-                //t = tm - Random.Range(0.375f, 0.625f);
                 stuntTime = (float)System.Math.Round(t, 2);
                 Da = playerVelocity * stuntTime;
                 Db = boulderVelocity * stuntTime;
+                correctAnswer = stuntTime;
 
                 myPlayer.transform.position = new Vector2(playerPos, 0);
 
                 boulder.transform.position = new Vector2(distance, boulder.transform.position.y);
                 boulderRB.freezeRotation = false;
+                jumpTime = Dj / Va;
 
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming boulder at the front <color=red>" + distance + " meters</color> away is rolling at the velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=#006400>seconds</color> will " + playerName + " jump if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
@@ -160,13 +215,14 @@ public class VelocityMediumManager : MonoBehaviour
                 myPlayer.transform.position = new Vector2(distance, boulder.transform.position.y);
                 boulderRB.rotation = 180;
                 boulderRB.freezeRotation = false;
+                jumpTime = Dj / Va;
 
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=red>meters</color> should " + playerName + " be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 3:
                 boulder.SetActive(true);
                 boulderA.SetActive(true);
-                float Vp, Dp, Tp, Dac = Random.Range(19f, 22f);
+                float Vp, Dp, Tp, Dac = (float)System.Math.Round(Random.Range(19f, 22f), 2);
                 Va = Random.Range(7f, 8f);
                 Vb = Random.Range(3f, 4f);
                 d = Random.Range(29f, 30f);
@@ -175,16 +231,15 @@ public class VelocityMediumManager : MonoBehaviour
                 boulder2Velocity = (float)System.Math.Round(Vb, 2);
                 distance = (float)System.Math.Round(d, 2);
 
-                t = d / (Va + Vb);
+                t = distance / (Va + Vb);
                 Tp = t - 0.5f;
-
-                //Dj = (Vb - Va) / 2;
-                //t = (distance - Dj) / (boulderVelocity - playerVelocity);
-                stuntTime = (float)System.Math.Round(t, 2);
-                Db = boulder2Velocity * stuntTime;
+                Db = boulder2Velocity * t;
+                Da = boulderVelocity * t;
                 Dp = Dac - Db;
 
-                Vp = Dp / Tp;
+                stuntTime = (float)System.Math.Round(Tp, 2);
+                Vp = Dp / stuntTime;
+
 
                 correctAnswer = (float)System.Math.Round(Vp, 2);
 
@@ -194,11 +249,11 @@ public class VelocityMediumManager : MonoBehaviour
 
                 boulderRB.rotation = 180;
                 boulderRB.freezeRotation = false;
+                jumpTime = 0.5f;
 
-                question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=red>meters</color> should " + playerName + " be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
+                question = playerName + " is instructed to vertically jump over between two incoming boulders at precisely <color=#006400>0.5 seconds</color> before they collide. If the boulder in front is <color=red>" + Dac + " meters</color> away from " + playerName + " is approaching at <color=purple>" + boulder2Velocity + " meters per second</color>, and the boulder behind " + pPronoun + " is <color=red>" + distance + " meters</color> away from the first boulder and is approaching at <color=purple>" + boulderVelocity + "meters per second</color>, at what <cplpr=purple>velocity</color> should " + pronoun + " run forward for <color=#006400>" + stuntTime + " seconds</color> before doing the vertical jump?";
                 break;
         }
-        jumpTime = Dj / Va;
         jumpForce = 1.07f / jumpTime;
         jumpDistance = (float)System.Math.Round(Dj, 2);
         distanceMeassure.distance = distance;
@@ -213,8 +268,8 @@ public class VelocityMediumManager : MonoBehaviour
 
         myPlayer.moveSpeed = 0;
         boulderRB.velocity = new Vector2(0, 0);
-        //createCeilling.mapWitdh = distance;
-        // createCeilling.createQuadtilemap2();
+        createCeilling.mapWitdh = distance;
+        createCeilling.createQuadtilemap2();
     }
     public void PlayButton()
     {
@@ -241,11 +296,13 @@ public class VelocityMediumManager : MonoBehaviour
                 directorIsCalling = true;
                 answerField.text = playerAnswer.ToString() + "s";
             }
-            // else
-            // {
-            //     stage3Flag = true;
-            //     answerField.text = playerAnswer.ToString() + "m";
-            // }
+            else
+            {
+                isStartOfStunt = true;
+                directorIsCalling = true;
+                // stage3Flag = true;
+                answerField.text = playerAnswer.ToString() + "m";
+            }
         }
     }
     public void RetryButton()
