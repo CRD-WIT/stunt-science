@@ -12,9 +12,9 @@ public class QuestionController : MonoBehaviour
     GameObject wrongIconHorizontal;
     private Transform baseComponent;
     [SerializeField]
-    Transform modalComponentHorizontal;
+    GameObject modalComponentHorizontal;
     [SerializeField]
-    Transform modalComponentVertical;
+    GameObject modalComponentVertical;
     Transform extraComponent;
     private Transform problemBox;
     public bool answerIsCorrect = false;
@@ -56,8 +56,10 @@ public class QuestionController : MonoBehaviour
     GameObject problemTextVertical;
     [SerializeField]
     GameObject problemTextHorizontal;
-
-
+    [SerializeField]
+    GameObject modalTitleVertical;
+    [SerializeField]
+    GameObject modalTitleHorizontal;
 
     // Start is called before the first frame update
     void Start()
@@ -66,7 +68,7 @@ public class QuestionController : MonoBehaviour
         baseComponent = transform.Find("Base");
         extraComponent = transform.Find("Extra");
 
-        Transform[] components = { baseComponent, modalComponentHorizontal, modalComponentVertical, extraComponent };
+        Transform[] components = { baseComponent, modalComponentHorizontal.transform, modalComponentVertical.transform, extraComponent };
 
         foreach (Transform component in components)
         {
@@ -76,11 +78,6 @@ public class QuestionController : MonoBehaviour
         problemBox = baseComponent.Find("ProblemBox");
         stageName = problemBox.Find("StageBar2").Find("StageName");
         difficultyName = problemBox.Find("StageBar3").Find("DifficultyName");
-        correctIconHorizontal = modalComponentHorizontal.Find("wrongIconHorizontal").gameObject;
-        wrongIconHorizontal = modalComponentHorizontal.Find("correctIconHorizontal").gameObject;
-
-        correctIconHorizontal.SetActive(false);
-        wrongIconHorizontal.SetActive(false);
 
         givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
         correctAnswerColor = new Color32(150, 217, 72, 255);
@@ -212,20 +209,43 @@ public class QuestionController : MonoBehaviour
 
     void Update()
     {
-        TMP_Text modalTitleObj = modalComponentHorizontal.Find("ModalTitle").GetComponent<TMP_Text>();
-        modalTitleObj.SetText(modalTitle);
 
         ToggleOrientation(orientation);
 
         if (orientation == Orientation.Horizontal)
         {
+            modalComponentHorizontal.gameObject.SetActive(isModalOpen);
+            modalComponentVertical.SetActive(false);
+            modalTitleVertical.SetActive(false);
+            modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
             playButtonHorizontal.SetActive(!isSimulating);
             problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
+            if (answerIsCorrect)
+            {
+                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+            }
+            else
+            {
+                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
+            }
         }
         else
         {
+            modalComponentVertical.gameObject.SetActive(isModalOpen);
+            modalComponentHorizontal.SetActive(false);
+            modalTitleHorizontal.SetActive(false);
             playButtonVertical.SetActive(!isSimulating);
             problemTextVertical.GetComponent<TMP_Text>().SetText(question);
+            modalComponentVertical.GetComponent<TMP_Text>().SetText(modalTitle);
+            if (answerIsCorrect)
+            {
+
+                SetColor(modalComponentVertical.GetComponent<TMP_Text>(), TextColorMode.Correct);
+            }
+            else
+            {
+                SetColor(modalComponentVertical.GetComponent<TMP_Text>(), TextColorMode.Wrong);
+            }
         }
 
         timerComponentHorizontal.SetActive(isSimulating && (orientation == Orientation.Horizontal));
@@ -234,16 +254,9 @@ public class QuestionController : MonoBehaviour
         // correctIconHorizontal.SetActive(!answerIsCorrect);
         // wrongIconHorizontal.SetActive(answerIsCorrect);
 
-        if (answerIsCorrect)
-        {
-            SetColor(modalTitleObj, TextColorMode.Correct);
-        }
-        else
-        {
-            SetColor(modalTitleObj, TextColorMode.Wrong);
-        }
-        modalComponentHorizontal.gameObject.SetActive(isModalOpen);
-        modalComponentVertical.gameObject.SetActive(isModalOpen);
+
+
+
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
         extraComponent.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");
         stageName.GetComponent<TMP_Text>().SetText($"Stage {stageNumber}");
