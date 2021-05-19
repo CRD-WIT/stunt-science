@@ -7,14 +7,10 @@ using GameConfig;
 
 public class QuestionController : MonoBehaviour
 {
+    [Header("Settings")]
+    [Space(10)]
     float playerAnswer;
-    GameObject correctIconHorizontal;
-    GameObject wrongIconHorizontal;
     private Transform baseComponent;
-    [SerializeField]
-    GameObject modalComponentHorizontal;
-    [SerializeField]
-    GameObject modalComponentVertical;
     Transform extraComponent;
     private Transform problemBox;
     public bool answerIsCorrect = false;
@@ -40,6 +36,15 @@ public class QuestionController : MonoBehaviour
     Transform difficultyName;
     Transform stageName;
     public bool isSimulating;
+
+    [Header("Components")]
+    [Space(10)]
+
+    [SerializeField]
+    GameObject modalComponentHorizontal;
+    [SerializeField]
+    GameObject modalComponentVertical;
+
     [SerializeField]
     GameObject playButtonVertical;
     [SerializeField]
@@ -60,6 +65,10 @@ public class QuestionController : MonoBehaviour
     GameObject modalTitleVertical;
     [SerializeField]
     GameObject modalTitleHorizontal;
+    [SerializeField]
+    GameObject wrongIconHorizontal;
+    [SerializeField]
+    GameObject correctIconHorizontal;
 
     // Start is called before the first frame update
     void Start()
