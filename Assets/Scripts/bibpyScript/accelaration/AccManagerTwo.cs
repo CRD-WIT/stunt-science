@@ -27,9 +27,10 @@ public class AccManagerTwo : MonoBehaviour
     string gender;
     public GameObject walls, bikeInitials;
     public GameObject AfterStuntMessage;
-    public TMP_Text stuntMessageTxt, Vitxt, Vftxt, Acctxt;
+    public TMP_Text stuntMessageTxt, Vitxt, Vftxt, Acctxt, timertxt;
     public Button retry, next;
     private HeartManager theHeart;
+    private Vector2 bikeInitialStartPos;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +40,7 @@ public class AccManagerTwo : MonoBehaviour
         gender = PlayerPrefs.GetString("Gender");
         theSimulation = FindObjectOfType<accSimulation>();
         theHeart = FindObjectOfType<HeartManager>();
+        bikeInitialStartPos = bikeInitials.transform.position;
         theSimulation.stage = 2;
         if (gender == "Male")
         {
@@ -58,6 +60,19 @@ public class AccManagerTwo : MonoBehaviour
         Vftxt.text = ("Vf = ") + Vf.ToString("F2") + ("m/s");
         playerVf = (-deacceleration * accSimulation.playerAnswer) + Vi;
         currentPos = theBike.transform.position.x;
+        if (theBike.brake == true)
+        {
+            
+            if(timer <= accSimulation.playerAnswer)
+            {
+                timer += Time.fixedDeltaTime;
+                timertxt.text = timer.ToString("F2") + ("s");
+            }
+            if(timer >= accSimulation.playerAnswer)
+            {
+                timertxt.text = accSimulation.playerAnswer.ToString("F2") + ("s");
+            }
+        }
         if (follow)
         {
             bikeInitials.transform.position = theBike.transform.position;
@@ -112,7 +127,7 @@ public class AccManagerTwo : MonoBehaviour
 
                 Acctxt.text = ("a = -") + deacceleration.ToString("F2") + ("m/s²");
                 gas = false;
-                timer += Time.fixedDeltaTime;
+                
                 if (time > correctAns)
                 {
                     
@@ -175,6 +190,7 @@ public class AccManagerTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        bikeInitials.transform.position = bikeInitialStartPos;
         Vi = Random.Range(20, 30);
         generateAns = 60 / (Vi + 10);
         correctAns = (float)System.Math.Round(generateAns, 2);
@@ -186,6 +202,7 @@ public class AccManagerTwo : MonoBehaviour
         walls.SetActive(false);
         Vitxt.text = ("Vi = ") + Vi.ToString("F2") + ("m/s");
         Acctxt.text = ("a = -") + deacceleration.ToString("F2") + ("m/s²");
+        timertxt.text = timer.ToString("F2") + ("s");
     }
     IEnumerator StuntResult()
     {
@@ -194,5 +211,6 @@ public class AccManagerTwo : MonoBehaviour
         yield return new WaitForSeconds(2);
         AfterStuntMessage.SetActive(true);
         walls.SetActive(false);
+        theBike.moveSpeed = 0;
     }
 }

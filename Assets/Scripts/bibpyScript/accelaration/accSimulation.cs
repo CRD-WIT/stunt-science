@@ -31,6 +31,7 @@ public class accSimulation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        simulate = false;
         //accelaration = "accelaration";
         theBike = FindObjectOfType<BikeManager>();
         //stage = 1;
@@ -92,7 +93,7 @@ public class accSimulation : MonoBehaviour
         if (stage == 3)
         {
             
-            if (answerField.text == "" || playerAnswer > 100)
+            if (answerField.text == "" || playerAnswer > 70)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
             }

@@ -188,6 +188,8 @@ public class AccManagerOne : MonoBehaviour
         yield return new WaitForSeconds(3);
         AfterStuntMessage.SetActive(true);
         walls.SetActive(false);
+        accSimulation.simulate = false;
+        theBike.moveSpeed = 0;
     }
 
 }

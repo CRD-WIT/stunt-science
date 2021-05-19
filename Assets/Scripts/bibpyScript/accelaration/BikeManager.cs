@@ -77,7 +77,10 @@ public class BikeManager : MonoBehaviour
         if (other.gameObject.tag == ("braker"))
         {
             brake = true;
-            theManagerTwo.follow = true;
+            if(theSimulate.stage == 2)
+            {
+                theManagerTwo.follow = true;
+            }
         }
         if (other.gameObject.tag == ("water"))
         {

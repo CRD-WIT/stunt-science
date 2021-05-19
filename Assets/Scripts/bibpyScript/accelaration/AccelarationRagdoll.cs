@@ -13,7 +13,7 @@ public class AccelarationRagdoll : MonoBehaviour
     private SimulationManager theSimulation;
     private accSimulation theAccsimulate;
     private BikeManager theBike;
-    bool forward = true;
+    bool forward = false;
     bool backward;
     bool respawn = true;
 
@@ -47,12 +47,16 @@ public class AccelarationRagdoll : MonoBehaviour
 
         if (forward)
         {
-            moveSpeedforward -= 2 * Time.deltaTime;
-            moveSpeedupward -= 2 * Time.deltaTime;
+            moveSpeedforward -= 3 * Time.deltaTime;
+            moveSpeedupward -= 6 * Time.deltaTime;
             myRigidbody.velocity = new Vector2(moveSpeedforward, moveSpeedupward);
-            if (moveSpeedforward <= 0)
+            if (moveSpeedupward <= 0)
             {
+                moveSpeedforward = 0;
+                moveSpeedupward = 0;
+                moveSpeedupward = myRigidbody.velocity.y;
                 moveSpeedforward = myRigidbody.velocity.x;
+                forward = false;
             }
         }
         if (backward)

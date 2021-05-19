@@ -23,7 +23,7 @@ public class AccMidSimulation : MonoBehaviour
     public int stage;
 
     public GameObject afterStuntMessage, retryButton, nextButton;
-    public GameObject[] ground, dimension;
+    public GameObject[] ground, dimension, arrow;
     bool directorIsCalling;
     public GameObject directorBubble;
     
@@ -50,6 +50,11 @@ public class AccMidSimulation : MonoBehaviour
     {
         
         questionTextBox.SetText(question);
+        if(stage == 3)
+        {
+            arrow[0].transform.localScale = new Vector2(-5, arrow[0].transform.localScale.y);
+            arrow[1].transform.localScale = new Vector2(-5, arrow[1].transform.localScale.y);
+        }
 
     }
     public void PlayButton()
