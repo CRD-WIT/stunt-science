@@ -13,15 +13,17 @@ public class AccMediumOne : MonoBehaviour
     public SubHellicopter theSubChopper;
     public TruckManager theTruck;
     private AccMidSimulation theSimulate;
-    public bool chase;
+    public bool chase, togreen, tored;
     public float timer, correctAnswer;
     public float velocity, accelaration, vf, distanceH;
+    public QuestionController theQuestion;
     float generateVelocity, generateAccelaration, generateCorrectAnswer;
     public float chopperPos, truckPos, answer;
     public bool readyToJump, follow;
     public TMP_Text timertxt, stuntMessageTxt, vHtxt, viTtxt, aTtxt;
     float grabLineDistance, playerGrabLineDistance;
     private Vector2 subChopperStartPos, chopperStartPos;
+    public Animator questionAnim;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +38,8 @@ public class AccMediumOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        questionAnim.SetBool("wrong", tored);
+        questionAnim.SetBool("correct", togreen);
         vHtxt.text = ("v = ") + velocity.ToString("F2") + ("m/s");
         vf = accelaration * AccMidSimulation.playerAnswer;
         aTtxt.text = ("a = ") + accelaration.ToString("F2") + ("m/s²");
@@ -141,6 +145,8 @@ public class AccMediumOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        togreen = false;
+        tored = false;
         theTruck.moveSpeed = 0;
         timertxt.gameObject.SetActive(false);
         carInitials.SetActive(true);
@@ -168,15 +174,23 @@ public class AccMediumOne : MonoBehaviour
         carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2f, theTruck.transform.position.y);
         chopperInitials.transform.position = new Vector2(theSubChopper.transform.position.x + 2.2f, theSubChopper.transform.position.y);
         viTtxt.text = ("vi = 0m/s ");
-        AccMidSimulation.question = (("<b>") + PlayerPrefs.GetString("Name") + ("</b> is standing in top of a non moving truck, waiting for the hellicopter to pass by, chase it with the truck, and grab the rope hanging from it, If the hellicopter flies forward at a constant speed of <b>") + velocity.ToString("F2") + ("</b> m/s and the truck follows to catch up with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s² the moment the rope passes by <b>") + PlayerPrefs.GetString("Name") + ("</b>, after how many seconds should <b>") + PlayerPrefs.GetString("Name") + ("</b> precisely grab the rope the moment the truck starts moving?"));
+        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is standing in top of a non moving truck, waiting for the hellicopter to pass by, chase it with the truck, and grab the rope hanging from it, If the hellicopter flies forward at a constant speed of <b>") + velocity.ToString("F2") + ("</b> m/s and the truck follows to catch up with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s² the moment the rope passes by <b>") + PlayerPrefs.GetString("Name") + ("</b>, after how many seconds should <b>") + PlayerPrefs.GetString("Name") + ("</b> precisely grab the rope the moment the truck starts moving?")));
     }
     IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(6);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1);
-        AfterStuntMessage.SetActive(true);
+        //AfterStuntMessage.SetActive(true);
         playerGrabline.SetActive(false);
+        if(answer != correctAnswer)
+        {
+            tored = true;
+        }
+        if(answer == correctAnswer)
+        {
+            togreen= true;
+        }
 
     }
     IEnumerator jump()

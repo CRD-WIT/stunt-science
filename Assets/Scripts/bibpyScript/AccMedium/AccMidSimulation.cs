@@ -76,7 +76,7 @@ public class AccMidSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m/s²";
+                    answerField.text = playerAnswer.ToString() + "s";
                 }
 
             }
