@@ -104,7 +104,6 @@ public class Level_4_Stage_1 : MonoBehaviour
             Debug.Log("QuestionText object not loaded.");
         }
 
-
         Debug.Log($"Gravity: {gravityGiven.y}");
         Debug.Log($"Angle: {angleGiven}");
         Debug.Log($"VelocityX: {velocityX}");
