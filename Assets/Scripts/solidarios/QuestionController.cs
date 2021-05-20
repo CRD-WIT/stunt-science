@@ -7,8 +7,7 @@ using GameConfig;
 
 public class QuestionController : MonoBehaviour
 {
-    [Header("Settings")]
-    [Space(10)]
+
     float playerAnswer;
     private Transform baseComponent;
     Transform extraComponent;
@@ -28,6 +27,7 @@ public class QuestionController : MonoBehaviour
     public string question;
     public TextColorMode colorMode;
     public UnitOf unitOf;
+
     string answerUnit;
     [SerializeField]
     TMP_InputField answerFieldHorizontal;
@@ -36,6 +36,8 @@ public class QuestionController : MonoBehaviour
     Transform difficultyName;
     Transform stageName;
     public bool isSimulating;
+    [SerializeField]
+    string modalText;
 
     [Header("Components")]
     [Space(10)]
@@ -64,11 +66,20 @@ public class QuestionController : MonoBehaviour
     [SerializeField]
     GameObject modalTitleVertical;
     [SerializeField]
+    GameObject modalTextHorizontal;
+    [SerializeField]
+    GameObject modalTextVertical;
+    [SerializeField]
     GameObject modalTitleHorizontal;
+
     [SerializeField]
     GameObject wrongIconHorizontal;
     [SerializeField]
     GameObject correctIconHorizontal;
+    [SerializeField]
+    GameObject wrongIconVertical;
+    [SerializeField]
+    GameObject correctIconVertical;
 
     // Start is called before the first frame update
     void Start()
@@ -96,6 +107,13 @@ public class QuestionController : MonoBehaviour
     public void ToggleModal()
     {
         isModalOpen = !isModalOpen;
+    }
+    public void SetModalText(string s){
+        modalText = s;
+    }
+
+    public void SetModalTitle(string s){
+        modalTitle = s;
     }
 
     public void SetQuestion(string qstn)
@@ -225,16 +243,22 @@ public class QuestionController : MonoBehaviour
         {
             modalComponentHorizontal.gameObject.SetActive(isModalOpen);
             modalComponentVertical.SetActive(false);
+            modalTitleHorizontal.SetActive(true);
             modalTitleVertical.SetActive(false);
             modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
             playButtonHorizontal.SetActive(!isSimulating);
             problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
+            modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
             if (answerIsCorrect)
             {
+                wrongIconHorizontal.SetActive(false);
+                correctIconHorizontal.SetActive(true);
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
             }
             else
             {
+                wrongIconHorizontal.SetActive(true);
+                correctIconHorizontal.SetActive(false);
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
             }
         }
@@ -243,17 +267,22 @@ public class QuestionController : MonoBehaviour
             modalComponentVertical.gameObject.SetActive(isModalOpen);
             modalComponentHorizontal.SetActive(false);
             modalTitleHorizontal.SetActive(false);
+            modalTitleVertical.SetActive(true);
             playButtonVertical.SetActive(!isSimulating);
             problemTextVertical.GetComponent<TMP_Text>().SetText(question);
-            modalComponentVertical.GetComponent<TMP_Text>().SetText(modalTitle);
+            modalTitleVertical.GetComponent<TMP_Text>().SetText(modalTitle);
+            modalTextVertical.GetComponent<TMP_Text>().SetText(modalText);
             if (answerIsCorrect)
             {
-
-                SetColor(modalComponentVertical.GetComponent<TMP_Text>(), TextColorMode.Correct);
+                wrongIconVertical.SetActive(false);
+                correctIconVertical.SetActive(true);
+                SetColor(modalTitleVertical.GetComponent<TMP_Text>(), TextColorMode.Correct);
             }
             else
             {
-                SetColor(modalComponentVertical.GetComponent<TMP_Text>(), TextColorMode.Wrong);
+                wrongIconVertical.SetActive(true);
+                correctIconVertical.SetActive(false);
+                SetColor(modalTitleVertical.GetComponent<TMP_Text>(), TextColorMode.Wrong);
             }
         }
 
@@ -262,9 +291,6 @@ public class QuestionController : MonoBehaviour
 
         // correctIconHorizontal.SetActive(!answerIsCorrect);
         // wrongIconHorizontal.SetActive(answerIsCorrect);
-
-
-
 
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
         extraComponent.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");

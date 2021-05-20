@@ -1648,7 +1648,7 @@ GameObject:
   - component: {fileID: 578106285}
   - component: {fileID: 578106284}
   m_Layer: 7
-  m_Name: ModalText
+  m_Name: ModalTextHorizontal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2715,8 +2715,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab1fb6fc663d24e7ac9eb3be73ee5bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modalComponentHorizontal: {fileID: 1314656311}
-  modalComponentVertical: {fileID: 1044117542}
   answerIsCorrect: 0
   isModalOpen: 0
   renderCamera: {fileID: 1344132603}
@@ -2735,6 +2733,9 @@ MonoBehaviour:
   answerFieldHorizontal: {fileID: 1601943789}
   answerFieldVertical: {fileID: 1566852351}
   isSimulating: 0
+  modalText: Test
+  modalComponentHorizontal: {fileID: 1314656307}
+  modalComponentVertical: {fileID: 1044117541}
   playButtonVertical: {fileID: 1018511928}
   playButtonHorizontal: {fileID: 753556458}
   timerComponentHorizontal: {fileID: 1558914246}
@@ -2743,6 +2744,14 @@ MonoBehaviour:
   problemBoxHorizontal: {fileID: 475916454}
   problemTextVertical: {fileID: 192696577}
   problemTextHorizontal: {fileID: 283218334}
+  modalTitleVertical: {fileID: 1157364986}
+  modalTextHorizontal: {fileID: 578106282}
+  modalTextVertical: {fileID: 1134696325}
+  modalTitleHorizontal: {fileID: 935590308}
+  wrongIconHorizontal: {fileID: 1747413434}
+  correctIconHorizontal: {fileID: 63442450}
+  wrongIconVertical: {fileID: 146525925}
+  correctIconVertical: {fileID: 1829837579}
 --- !u!1 &935590308
 GameObject:
   m_ObjectHideFlags: 0
@@ -2755,7 +2764,7 @@ GameObject:
   - component: {fileID: 935590311}
   - component: {fileID: 935590310}
   m_Layer: 7
-  m_Name: ModalTitle
+  m_Name: ModalTitleHorizontal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3058,7 +3067,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1044117542
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3316,7 +3325,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 151, y: -244.9}
+  m_AnchoredPosition: {x: 151, y: 67.4}
   m_SizeDelta: {x: 104.49, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1117643113
@@ -3413,7 +3422,7 @@ GameObject:
   - component: {fileID: 1134696328}
   - component: {fileID: 1134696327}
   m_Layer: 7
-  m_Name: ModalText
+  m_Name: ModalTextVertical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3435,8 +3444,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 15.900024, y: 24.24}
-  m_SizeDelta: {x: 462.59, y: 622.07}
+  m_AnchoredPosition: {x: 15.900024, y: 227.91}
+  m_SizeDelta: {x: 462.59, y: 214.73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1134696327
 MonoBehaviour:
@@ -3613,7 +3622,7 @@ GameObject:
   - component: {fileID: 1157364989}
   - component: {fileID: 1157364988}
   m_Layer: 7
-  m_Name: ModalTitle
+  m_Name: ModalTitleVertical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5456,7 +5465,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941527837}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -49, y: 57.62, z: -9720}
+  m_LocalPosition: {x: -49, y: 213.43, z: -9720}
   m_LocalScale: {x: 68, y: 68, z: 68}
   m_Children: []
   m_Father: {fileID: 1044117542}
@@ -5508,7 +5517,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 9.82, y: 10.623521}
+  m_Size: {x: 9.82, y: 6.0408006}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
