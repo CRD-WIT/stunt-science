@@ -1,30 +1,36 @@
-using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using GameConfig;
 
 public class IndicatorManager : MonoBehaviour
 {
     public Vector2 spawnPoint;
     public float fontSize = 4, distance, distanceTraveled, playerVelocity, stuntTime;
     public Mode arrowMode;
-    public Unit whatIsAsk;
-    LineRenderer line1, line2, corretcAnswer, startLine;
+    public UnitOf whatIsAsk;
+    public TextColorMode valueIs;
+    public LineRenderer line1, line2, startLine, endLine, correctAnswerIndicator;
+    LineRenderer[] linesObj = new LineRenderer[4];
     GameObject textDimension, answer, correctAnswer;
     public GameObject[] verticalArrows = new GameObject[2], horizontalArrows = new GameObject[2];
-    public Color color;
-
-    string value;
-    string playerAnswerIs;
+    // string playerAnswerIs;
+    Color32 color;
     // Start is called before the first frame update
     void Start()
     {
         line1 = transform.Find("Line1").GetComponent<LineRenderer>();
         line2 = transform.Find("Line2").GetComponent<LineRenderer>();
-        corretcAnswer = transform.Find("CorrectAnswerIndicator").GetComponent<LineRenderer>();
+        correctAnswerIndicator = transform.Find("CorrectAnswerIndicator").GetComponent<LineRenderer>();
         startLine = transform.Find("StartLine").GetComponent<LineRenderer>();
-        textDimension = transform.Find("Text").gameObject;
+        endLine = transform.Find("EndLine").GetComponent<LineRenderer>();
+        textDimension = transform.Find("length").gameObject;
         answer = transform.Find("Answer").gameObject;
         correctAnswer = transform.Find("CorrectAnswer").gameObject;
+        linesObj[0] = line1;
+        linesObj[1] = line2;
+        linesObj[2] = startLine;
+        linesObj[3] = endLine;
     }
 
     public void Hide()
@@ -50,7 +56,6 @@ public class IndicatorManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         float dimensionTextLength = textDimension.GetComponent<TextMeshPro>().text.Length;
         if (arrowMode == Mode.Vertical)
         {
@@ -62,6 +67,7 @@ public class IndicatorManager : MonoBehaviour
             foreach (var item in horizontalArrows)
             {
                 item.SetActive(true);
+                item.GetComponent<SpriteRenderer>().color = color;
             }
             horizontalArrows[0].transform.position = new Vector3(spawnPoint.x, (distanceTraveled + spawnPoint.y), 0);
             horizontalArrows[1].transform.position = new Vector3(spawnPoint.x, spawnPoint.y, 0);
@@ -69,11 +75,18 @@ public class IndicatorManager : MonoBehaviour
             line1.SetPosition(1, new Vector3(spawnPoint.x, spawnPoint.y, 0));
             line2.SetPosition(0, new Vector3(spawnPoint.x, ((distanceTraveled / 2) + 0.4f) + spawnPoint.y, 0));
             line2.SetPosition(1, new Vector3(spawnPoint.x, (distanceTraveled + spawnPoint.y), 0));
+            startLine.SetPosition(0, new Vector2(spawnPoint.x - 0.25f, spawnPoint.y));
+            startLine.SetPosition(1, new Vector2(spawnPoint.x + 0.25f, spawnPoint.y));
+            endLine.SetPosition(0, new Vector2(spawnPoint.x - 0.25f, (distanceTraveled + spawnPoint.y)));
+            endLine.SetPosition(1, new Vector2(spawnPoint.x + 0.25f, (distanceTraveled + spawnPoint.y)));
+            correctAnswerIndicator.SetPosition(0, new Vector2(spawnPoint.x - 0.25f, spawnPoint.y + distance));
+            correctAnswerIndicator.SetPosition(1, new Vector2(spawnPoint.x + 1.5f, spawnPoint.y + distance));
             textDimension.transform.position = new Vector3(spawnPoint.x, (distanceTraveled / 2) + spawnPoint.y, 0);
+            answer.transform.position = new Vector2(spawnPoint.x - 1, spawnPoint.y + (distanceTraveled));
+            correctAnswer.transform.position = new Vector2(spawnPoint.x + 2, (distance) + spawnPoint.y);
         }
         else
         {
-            //distanceTraveled = FindObjectOfType<Player>().GetComponent<Transform>().position.x;
             foreach (var item in horizontalArrows)
             {
                 item.SetActive(false);
@@ -81,6 +94,7 @@ public class IndicatorManager : MonoBehaviour
             foreach (var item in verticalArrows)
             {
                 item.SetActive(true);
+                item.GetComponent<SpriteRenderer>().color = color;
             }
             verticalArrows[0].transform.position = new Vector3((distanceTraveled + spawnPoint.x), spawnPoint.y, 0);
             verticalArrows[1].transform.position = new Vector3(spawnPoint.x, spawnPoint.y, 0);
@@ -89,94 +103,54 @@ public class IndicatorManager : MonoBehaviour
             line2.SetPosition(0, new Vector3(((distanceTraveled / 2) + (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y, 0));
             line2.SetPosition(1, new Vector3((distanceTraveled + spawnPoint.x), spawnPoint.y, 0));
             startLine.SetPosition(0, new Vector2(spawnPoint.x, spawnPoint.y - 0.25f));
-            startLine.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y + 0.5f));
-            corretcAnswer.SetPosition(0, new Vector2(spawnPoint.x + distance, spawnPoint.y - 0.25f));
-            corretcAnswer.SetPosition(1, new Vector2(spawnPoint.x + distance, spawnPoint.y + 1.5f));
+            startLine.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y + 0.25f));
+            endLine.SetPosition(0, new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y - 0.25f));
+            endLine.SetPosition(1, new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y + 0.25f));
+            correctAnswerIndicator.SetPosition(0, new Vector2(spawnPoint.x + distance, spawnPoint.y - 0.25f));
+            correctAnswerIndicator.SetPosition(1, new Vector2(spawnPoint.x + distance, spawnPoint.y + 1.5f));
             textDimension.transform.position = new Vector3((distanceTraveled / 2) + spawnPoint.x, spawnPoint.y, 0);
+            answer.transform.position = new Vector3((distanceTraveled) + spawnPoint.x, spawnPoint.y - 1, 0);
+            correctAnswer.transform.position = new Vector3((distance) + spawnPoint.x, spawnPoint.y + 2, 0);
         }
         switch (whatIsAsk)
         {
-            case Unit.distance:
+            case UnitOf.distance:
                 answer.GetComponent<TMP_Text>().text = System.Math.Round(distanceTraveled, 2) + "m";
                 break;
-            case Unit.time:
-                answer.GetComponent<TMP_Text>().text = System.Math.Round(stuntTime) + "s";
+            case UnitOf.time:
+                answer.GetComponent<TMP_Text>().text = System.Math.Round(stuntTime, 2) + "s";
                 break;
-            case Unit.velocity:
-                answer.GetComponent<TMP_Text>().text = System.Math.Round(playerVelocity) + "m/s";
+            case UnitOf.velocity:
+                answer.GetComponent<TMP_Text>().text = System.Math.Round(playerVelocity, 2) + "m/s";
                 break;
         }
-        answer.transform.position = new Vector3((distanceTraveled) + spawnPoint.x, spawnPoint.y - 1, 0);
-        correctAnswer.transform.position = new Vector3((distance) + spawnPoint.x, spawnPoint.y + 2, 0);
+        answer.GetComponent<TMP_Text>().color = color;
         textDimension.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distanceTraveled, 2)}m");
-    }
-    public void SetColor(LineRenderer[] line, AnswerChecker answer)
-    {
-        switch (answer)
+
+        switch (valueIs)
         {
-            case AnswerChecker.wrong:
-                for (int i = 0; line.Length < i; i++)
-                {
-                    line[i].startColor = new Color32(255, 0, 0, 255);
-                    line[i].endColor = new Color32(255, 0, 0, 255);
-                }
+            case TextColorMode.Wrong:
+                color = new Color32(255, 0, 0, 255);
                 break;
-            case AnswerChecker.correct:
-                for (int i = 0; line.Length < i; i++)
-                {
-                    line[i].startColor = new Color32(0, 255, 0, 255);
-                    line[i].endColor = new Color32(0, 255, 0, 255);
-                }
+            case TextColorMode.Correct:
+                color = new Color32(0, 255, 0, 255);
                 break;
-            default:
-                for (int i = 0; line.Length < i; i++)
-                {
-                    line[i].startColor = new Color32(128, 0, 128, 255);
-                    line[i].endColor = new Color32(128, 0, 128, 255);
-                }
+            case TextColorMode.Given:
+                color = new Color32(128, 0, 128, 255);
                 break;
         }
-    }
+        for (int i = 0; linesObj.Length > i; i++)
+        {
+            linesObj[i].startColor = color;
+            linesObj[i].endColor = color;
+        }
+        textDimension.GetComponent<TMP_Text>().color = color;
+        correctAnswerIndicator.startColor = new Color32(0, 255, 0, 255);
+        correctAnswerIndicator.endColor = new Color32(0, 255, 0, 255);
+        correctAnswer.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}m");
 
-    //change value to string
-    // LineRenderer LineColor()
-    // {
-    //     LineRenderer[] lines = {line1, line2, startLine};
-    //     if (playerAnswerIs == "correct")
-    //     {
-    //         this.line1.startColor = new Color(1, 0, 1, 1);
-    //         this.line1.endColor = new Color(1, 0, 1, 1);
-    //         lines[].startColor = new Color(1, 0, 1, 1);
-    //     }
-
-    //     else if (playerAnswerIs == "wrong")
-    //         value = "Red";
-    //     else
-    //         value = "Purple";
-    //     return lines;
-    // }
-    public void AnswerIs(string answer)
-    {
-        this.playerAnswerIs = answer;
+        QuestionController qc = new QuestionController();
+        string longprob = $"<color={qc.getHexColor(TextColorMode.Given)}>sample</color>";
+        Debug.Log(qc.getHexColor(TextColorMode.Given));
     }
 }
-
-public enum Unit : byte
-{
-    distance = 0,
-    time = 1,
-    velocity = 2,
-    acceleration = 3,
-    angle = 4,
-    angularVelocity = 5,
-    force = 6,
-    work = 7,
-    energy = 8,
-    power = 9,
-    momentum = 10
-}
-public enum AnswerChecker : byte
-{
-    wrong = 0, correct = 1, given = 2
-}
-

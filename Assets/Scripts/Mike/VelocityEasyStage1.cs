@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using GameConfig;
 
 public class VelocityEasyStage1 : MonoBehaviour
 {
@@ -28,13 +29,11 @@ public class VelocityEasyStage1 : MonoBehaviour
         RumblingManager.isCrumbling = false;
         sm.SetGameLevel(1);
         sm.SetDifficulty(1);
-
         dimensionLine = givenDistance.GetComponent<Annotation>();
         followLine = annotationFollower.GetComponent<IndicatorManager>();
         theCeiling = FindObjectOfType<CeillingGenerator>();
         myPlayer = FindObjectOfType<Player>();
         HeartManager = FindObjectOfType<HeartManager>();
-
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         VelocityEasyStage1SetUp();
@@ -63,7 +62,8 @@ public class VelocityEasyStage1 : MonoBehaviour
                 timer.text = gameTime.ToString("f2") + "s";
                 if ((answer == Speed))
                 {
-                    followLine.AnswerIs("correct");
+                    followLine.valueIs = TextColorMode.Correct;
+                    // followLine.AnswerIs("correct");
                     currentPos = distance;
                     rubbleBlocker.SetActive(true);
                     messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
@@ -72,7 +72,8 @@ public class VelocityEasyStage1 : MonoBehaviour
                 }
                 else
                 {
-                    followLine.AnswerIs("wrong");
+                    followLine.valueIs = TextColorMode.Wrong;
+                    // followLine.AnswerIs("wrong");
                     HeartManager.ReduceLife();
                     if (SimulationManager.isRagdollActive)
                     {
@@ -101,7 +102,9 @@ public class VelocityEasyStage1 : MonoBehaviour
     }
     public void VelocityEasyStage1SetUp()
     {
-        followLine.AnswerIs("");
+        followLine.valueIs = TextColorMode.Given;
+        followLine.whatIsAsk = UnitOf.velocity;
+        // followLine.AnswerIs("");
         myPlayer.lost = false;
         myPlayer.standup = false;
         Speed = 0;

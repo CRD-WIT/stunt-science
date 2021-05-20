@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using GameConfig;
 
 public class VelocityEasyStage3 : MonoBehaviour
 {
@@ -12,9 +13,10 @@ public class VelocityEasyStage3 : MonoBehaviour
     public TMP_Text playerNameText, messageText, timer;
     public float distance, gameTime, Speed, elapsed, currentPos;
     string pronoun, playerName, playerGender;
-    public GameObject slidePlatform, lowerGround, AfterStuntMessage, safeZone, rubblesStopper, dimensionLine, ragdollSpawn, manholeCover, templeBeam;
+    public GameObject slidePlatform, lowerGround, AfterStuntMessage, safeZone, rubblesStopper, dimensionLine, ragdollSpawn, manholeCover, templeBeam, annotationFollower;
     bool director;
     float answer;
+    IndicatorManager followLine;
 
     StageManager sm = new StageManager();
 
@@ -28,10 +30,12 @@ public class VelocityEasyStage3 : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         Scorer = FindObjectOfType<ScoreManager>();
+        followLine = annotationFollower.GetComponent<IndicatorManager>();
         Stage3SetUp();
     }
     void FixedUpdate()
     {
+        followLine.distanceTraveled = currentPos;
         answer = SimulationManager.playerAnswer;
         if (SimulationManager.stage3Flag)
         {
@@ -43,6 +47,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         }
         if (SimulationManager.isSimulating)
         {
+            followLine.distance = answer;
             dimensionLine.SetActive(false);
             myPlayer.moveSpeed = Speed;
             timer.text = elapsed.ToString("f2") + "s";
@@ -59,6 +64,7 @@ public class VelocityEasyStage3 : MonoBehaviour
                 StartCoroutine(ManholeCover());
                 if ((answer == distance))
                 {
+                    followLine.valueIs = TextColorMode.Correct;
                     myPlayer.slide = true;
                     messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " is finally <b><color=green>safe</color></b>.";
                     SimulationManager.isAnswerCorrect = true;
@@ -66,6 +72,7 @@ public class VelocityEasyStage3 : MonoBehaviour
                 }
                 else
                 {
+                    followLine.valueIs = TextColorMode.Wrong;
                     HeartManager.ReduceLife();
                     if (SimulationManager.isRagdollActive)
                     {
@@ -94,6 +101,8 @@ public class VelocityEasyStage3 : MonoBehaviour
     }
     public void Stage3SetUp()
     {
+        followLine.valueIs = TextColorMode.Given;
+        followLine.whatIsAsk = UnitOf.distance;
         templeBeam.SetActive(false);
         distance = 0;
         dimensionLine.SetActive(false);

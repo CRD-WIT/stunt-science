@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using GameConfig;
 
 
 public class StageTwoManager : MonoBehaviour
@@ -33,7 +34,6 @@ public class StageTwoManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-        followLine.stuntTime = elapsed;
         followLine.distanceTraveled = currentPos;
         playerAnswer = SimulationManager.playerAnswer;
         if (SimulationManager.isSimulating)
@@ -45,6 +45,7 @@ public class StageTwoManager : MonoBehaviour
             thePlayer.moveSpeed = speed;
             elapsed += Time.fixedDeltaTime;
             timer.text = elapsed.ToString("f2") + "s";
+            followLine.stuntTime = playerAnswer;
             if ((elapsed >= SimulationManager.playerAnswer) || (currentPos > 30))
             {
                 if (currentPos > 30)
@@ -64,6 +65,7 @@ public class StageTwoManager : MonoBehaviour
                 StartCoroutine(StuntResult());
                 if (playerAnswer == answerRO)
                 {
+                    followLine.valueIs = TextColorMode.Correct;
                     currentPos = distance;
                     rubbleBlocker.SetActive(true);
                     SimulationManager.isAnswerCorrect = true;
@@ -72,6 +74,7 @@ public class StageTwoManager : MonoBehaviour
                 }
                 else//if (playerAnswer != answerRO)
                 {
+                    followLine.valueIs = TextColorMode.Wrong;
                     currentPos = playerAnswer * speed;
                     SimulationManager.isAnswerCorrect = false;
                     theHeart.ReduceLife();
@@ -107,6 +110,9 @@ public class StageTwoManager : MonoBehaviour
     }
     public void generateProblem()
     {
+        followLine.valueIs = TextColorMode.Given;
+        followLine.whatIsAsk = UnitOf.time;
+        // followLine.AnswerIs("");
         answer = 0;
         elapsed = 0;
         if (gender == "Male")
