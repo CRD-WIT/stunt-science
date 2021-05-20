@@ -38,12 +38,24 @@ public class QuestionController : MonoBehaviour
     public bool isSimulating;
     [SerializeField]
     string modalText;
+    [SerializeField]
+    string errorText;
+    [SerializeField]
+    bool popupVisible;
 
     [Header("Components")]
     [Space(10)]
 
     [SerializeField]
     GameObject modalComponentHorizontal;
+    [SerializeField]
+    GameObject popupComponentHorizontal;
+    [SerializeField]
+    GameObject popupComponentVertical;
+    [SerializeField]
+    TMP_Text popupTextHorizontal;
+    [SerializeField]
+    TMP_Text popupTextVertical;
     [SerializeField]
     GameObject modalComponentVertical;
 
@@ -104,15 +116,19 @@ public class QuestionController : MonoBehaviour
         wrongAnswerColor = new Color32(237, 66, 66, 255);
     }
 
+
+
     public void ToggleModal()
     {
         isModalOpen = !isModalOpen;
     }
-    public void SetModalText(string s){
+    public void SetModalText(string s)
+    {
         modalText = s;
     }
 
-    public void SetModalTitle(string s){
+    public void SetModalTitle(string s)
+    {
         modalTitle = s;
     }
 
@@ -128,13 +144,27 @@ public class QuestionController : MonoBehaviour
 
     public void SetAnswer()
     {
-        if (answerFieldHorizontal.text == "")
-            StartCoroutine(IsEmpty());
+        if (orientation == Orientation.Horizontal)
+        {
+            if (answerFieldHorizontal.text == "")
+                StartCoroutine(IsEmpty());
+            else
+            {
+                playerAnswer = float.Parse(answerFieldHorizontal.text);
+                answerFieldHorizontal.text = playerAnswer + answerUnit;
+            }
+        }
         else
         {
-            playerAnswer = float.Parse(answerFieldHorizontal.text);
-            answerFieldHorizontal.text = playerAnswer + answerUnit;
+            if (answerFieldVertical.text == "")
+                StartCoroutine(IsEmpty());
+            else
+            {
+                playerAnswer = float.Parse(answerFieldVertical.text);
+                answerFieldVertical.text = playerAnswer + answerUnit;
+            }
         }
+
     }
 
     public void Retry()
@@ -241,6 +271,9 @@ public class QuestionController : MonoBehaviour
 
         if (orientation == Orientation.Horizontal)
         {
+            popupComponentHorizontal.SetActive(popupVisible);
+            popupComponentVertical.SetActive(false);
+            popupTextHorizontal.SetText(errorText);
             modalComponentHorizontal.gameObject.SetActive(isModalOpen);
             modalComponentVertical.SetActive(false);
             modalTitleHorizontal.SetActive(true);
@@ -264,6 +297,9 @@ public class QuestionController : MonoBehaviour
         }
         else
         {
+            popupComponentVertical.SetActive(popupVisible);
+            popupComponentHorizontal.SetActive(false);
+            popupTextVertical.SetText(errorText);
             modalComponentVertical.gameObject.SetActive(isModalOpen);
             modalComponentHorizontal.SetActive(false);
             modalTitleHorizontal.SetActive(false);
