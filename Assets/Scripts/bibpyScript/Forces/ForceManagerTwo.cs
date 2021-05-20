@@ -12,12 +12,12 @@ public class ForceManagerTwo : MonoBehaviour
     private ColliderManager theCollider;
     private HeartManager theHeart;
     float generateForce, Force, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
-    public float correctAnswer,playerAnswer;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, afterStuntMessage, retry, next, glassDebri, bomb, wordedBoard, director, speechBubble;
+    public float correctAnswer,playerAnswer,playerForce;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, afterStuntMessage, retry, next, glassDebri, bomb, wordedBoard, director, speechBubble, playerInitials;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
-    public TMP_Text stuntMessageTxt;
+    public TMP_Text stuntMessageTxt, masstxt, acctxt, breakingforcetxt, forcetxt;
     string gender, pronoun;
 
 
@@ -51,12 +51,23 @@ public class ForceManagerTwo : MonoBehaviour
         playerAnswer = ForceSimulation.playerAnswer;
         generateCorrectAnswer = Force/mass;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
+        playerForce = playerAnswer * mass;
+        
+
         
         if (ForceSimulation.simulate == true)
         {
-             
-                
-             
+            if(playerAnswer == correctAnswer)
+            {
+                forcetxt.text = ("f = ")+ Force.ToString("F2")+("N");
+            }
+            if(playerAnswer != correctAnswer) 
+            {
+                forcetxt.text = ("f = ")+ playerForce.ToString("F2")+("N");
+            }
+            forcetxt.gameObject.SetActive(true);    
+            forcetxt.gameObject.transform.position = new Vector2(thePlayer.transform.position.x + 4,thePlayer.transform.position.y);  
+            playerInitials.SetActive(false);
             thePlayer.moveSpeed -= playerAnswer * Time.fixedDeltaTime;
             if (theCollider.collide == true)
             {
@@ -79,15 +90,16 @@ public class ForceManagerTwo : MonoBehaviour
                 }
                 if(playerAnswer < correctAnswer)
                 {
-                    theBombScript.inPlayer = false;
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated too slow and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².";
-                    tooWeak = true;
-                    thePlayer.gameObject.SetActive(false);
-                    if(ragdollReady)
+                     if(ragdollReady)
                     {
                         ragdollSpawn();
                         thePlayer.standup = true;
                     }
+                    theBombScript.inPlayer = false;
+                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated too slow and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².";
+                    tooWeak = true;
+                    thePlayer.gameObject.SetActive(false);
+                   
                     thePlayer.moveSpeed = 0;
                     retry.SetActive(true);
                     StartCoroutine(collision());
@@ -98,15 +110,16 @@ public class ForceManagerTwo : MonoBehaviour
                 }
                 if(playerAnswer > correctAnswer)
                 {
+                    if(ragdollReady)
+                    {
+                        ragdollSpawn();
+                    }
                     stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated too fast and able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².";
                     tooStrong = true;
                     thePlayer.gameObject.SetActive(false);
                     glassHolder.SetActive(false);
                     throwBomb = true;
-                    if(ragdollReady)
-                    {
-                        ragdollSpawn();
-                    }
+                    
                    StartCoroutine(collision());
                    retry.SetActive(true);
                    StartCoroutine(StuntResult());
@@ -131,7 +144,12 @@ public class ForceManagerTwo : MonoBehaviour
         thePlayer.transform.position = new Vector2(31,-0.6f);
         theBomb.bomb.transform.position = thePlayer.transform.position;
         ForceSimulation.question = ((PlayerPrefs.GetString("Name") + ("</b> must break another glass wall to throw out the 2nd bomb. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and the glass wall has an impact force breaking point of <b>") + Force.ToString("F2") + ("</b> Newtons, how fast should ") + pronoun + (" accelerate towards the glass wall just enough to break it and not go through it?")));
-        
+        masstxt.text = mass.ToString("F2") + ("kg");
+        acctxt.text = "a = ?";
+        breakingforcetxt.text = ("Breaking Impact Force = ")+ Force.ToString("F2") + ("N");
+        playerInitials.SetActive(true);
+        forcetxt.gameObject.SetActive(false);
+
 
 
     }

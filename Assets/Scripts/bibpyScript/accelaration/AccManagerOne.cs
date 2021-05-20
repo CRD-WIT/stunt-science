@@ -175,7 +175,7 @@ public class AccManagerOne : MonoBehaviour
         theHeart.losslife = false;
         theBike.moveSpeed = 0;
         Acctxt.text = ("a = ?");
-        Vitxt.text = ("v = ") + Vi.ToString("F2") + ("m/s");
+        Vitxt.text = ("vi = ") + Vi.ToString("F2") + ("m/s");
         Vftxt.text = ("vf = ") + Vf.ToString("F2") + ("m/s");
 
 

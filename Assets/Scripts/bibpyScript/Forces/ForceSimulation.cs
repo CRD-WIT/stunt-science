@@ -126,7 +126,7 @@ public class ForceSimulation : MonoBehaviour
             theManagerOne.GenerateProblem();
             theManagerOne.tooStrong = false;
             theManagerOne.tooWeak = false;
-            thePlayer.transform.position = new Vector2(1, -0.6f);
+            thePlayer.transform.position = new Vector2(0, -0.6f);
         }
         if (stage == 2)
         {

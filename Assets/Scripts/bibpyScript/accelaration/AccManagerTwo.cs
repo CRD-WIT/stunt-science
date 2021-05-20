@@ -200,7 +200,7 @@ public class AccManagerTwo : MonoBehaviour
         theBike.transform.position = new Vector2(-10, theBike.transform.position.y);
         theHeart.losslife = false;
         walls.SetActive(false);
-        Vitxt.text = ("Vi = ") + Vi.ToString("F2") + ("m/s");
+        Vitxt.text = ("vi = ") + Vi.ToString("F2") + ("m/s");
         Acctxt.text = ("a = -") + deacceleration.ToString("F2") + ("m/s²");
         timertxt.text = timer.ToString("F2") + ("s");
     }

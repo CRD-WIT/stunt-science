@@ -25,7 +25,7 @@ public class BombScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         thePlayer = FindObjectOfType<Player>();
         theBomb = FindObjectOfType<BombManager>();

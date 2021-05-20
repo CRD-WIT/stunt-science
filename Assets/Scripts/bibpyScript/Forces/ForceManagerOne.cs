@@ -12,11 +12,11 @@ public class ForceManagerOne : MonoBehaviour
     private BombManager theBomb;
     float generateAccelaration, accelaration, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
     public float correctAnswer,playerAnswer;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, afterStuntMessage, retry, next, glassDebri;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, afterStuntMessage, retry, next, glassDebri, playerInitials;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
-    public TMP_Text stuntMessageTxt;
+    public TMP_Text stuntMessageTxt, masstxt,  acctxt, breakingforcetxt, forcetxt;
     private HeartManager theHeart;
 
 
@@ -38,12 +38,14 @@ public class ForceManagerOne : MonoBehaviour
         playerAnswer = ForceSimulation.playerAnswer;
         generateCorrectAnswer = mass * accelaration;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
+        forcetxt.text = ("f = ")+ correctAnswer.ToString("F2")+("N");
         
         if (ForceSimulation.simulate == true)
         {
              
-                
-             
+            forcetxt.gameObject.SetActive(true); 
+            forcetxt.gameObject.transform.position = new Vector2(thePlayer.transform.position.x - 4,thePlayer.transform.position.y);  
+            playerInitials.SetActive(false);
             thePlayer.moveSpeed += accelaration * Time.fixedDeltaTime;
             if (theCollider.collide == true)
             {
@@ -66,9 +68,9 @@ public class ForceManagerOne : MonoBehaviour
                         
                     }
                 }
-                if(playerAnswer < correctAnswer)
+                if(playerAnswer > correctAnswer)
                 {
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + " the glass was too tough for </color>" + PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F1") +"Newtons.";
+                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + " the glass was too tough for </color>" + PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.";
                     tooWeak = true;
                     thePlayer.gameObject.SetActive(false);
                     if(ragdollReady)
@@ -84,9 +86,9 @@ public class ForceManagerOne : MonoBehaviour
                     theHeart.losinglife();
                     ForceSimulation.simulate = false;
                 }
-                if(playerAnswer > correctAnswer)
+                if(playerAnswer < correctAnswer)
                 {
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + " the glass was too weak for </color>" + PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F1") +"Newtons.";
+                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + " the glass was too weak for </color>" + PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.";
                     tooStrong = true;
                     thePlayer.gameObject.SetActive(false);
                     glassHolder.SetActive(false);
@@ -108,6 +110,7 @@ public class ForceManagerOne : MonoBehaviour
     }
     public void GenerateProblem()
     {
+        
         generateAccelaration = Random.Range(7f, 9f);
         accelaration = (float)System.Math.Round(generateAccelaration, 2);
         generateMass = Random.Range(70f, 75f);
@@ -120,6 +123,12 @@ public class ForceManagerOne : MonoBehaviour
         //bombHinge.transform.position = thePlayer.transform.position;
         glassRespawn();
         ForceSimulation.question = ((PlayerPrefs.GetString("Name") + ("</b> is instructed to break the glass wall by running into it using his own body mass. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and runs with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s², what should impact force breaking point of the glass wall? If the glass is too tough , it will not break. If the glass is too weak, ") + PlayerPrefs.GetString("Name") + (" will overshoot beyond the glass after breaking.")));
+        masstxt.text = mass.ToString("F2") + ("kg");
+        acctxt.text = ("a = ") + accelaration.ToString("F2") + ("m/s²");
+        breakingforcetxt.text = "Breaking Impact Force = ?";
+        playerInitials.SetActive(true);
+        forcetxt.gameObject.SetActive(false);
+
         
         
 
@@ -148,7 +157,7 @@ public class ForceManagerOne : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         theCollider.collide = false;
-
+        
     }
     IEnumerator StuntResult()
     {

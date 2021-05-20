@@ -13,13 +13,14 @@ public class ForceManagerThree : MonoBehaviour
     private HeartManager theHeart;
     private ScoreManager theScorer;
     float generateAccelaration, accelaration, playerAccelaration, generateForce, force, generateCorrectAnswer, currentPos;
-    public float correctAnswer, playerAnswer,increaseMass;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, afterStuntMessage, retry, next, glassDebri, cameraman, playerSpeech, napsack, wordedBoard, speechBubble;
+    public float correctAnswer, playerAnswer,increaseMass, playerForce;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, afterStuntMessage, retry, next, glassDebri, cameraman, playerSpeech, napsack, wordedBoard, speechBubble, playerInitials;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady, startAddingMass, crowdExit;
     public bool throwBomb, addingWeight, startRunning, goExit;
-    public TMP_Text stuntMessageTxt, playerMass, thisWaytxt;
+    public TMP_Text stuntMessageTxt, playerMass, thisWaytxt, acctxt, breakingforcetxt, forcetxt;
     int currentStar, currentLevel;
+    string gender, pronoun1, pronoun2;
 
 
 
@@ -35,12 +36,24 @@ public class ForceManagerThree : MonoBehaviour
         theScorer = FindObjectOfType<ScoreManager>();
         currentLevel = PlayerPrefs.GetInt("level");
         currentStar = PlayerPrefs.GetInt("FrstarE");
-        GenerateProblem();
+        
         wordedBoard.transform.position = new Vector2(8.9f, wordedBoard.transform.position.y);
         cameraman.transform.position = new Vector2(35, 5.5f);
         cameraman.transform.localScale = new Vector2(-cameraman.transform.localScale.x, cameraman.transform.localScale.y);
         thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
         speechBubble.transform.localScale = new Vector2(-speechBubble.transform.localScale.x, speechBubble.transform.localScale.y);
+        gender = PlayerPrefs.GetString("Gender");
+         if (gender == "Male")
+        {
+            pronoun1 = ("he");
+            pronoun2 = ("his");
+        }
+        if (gender == "Female")
+        {
+            pronoun1 = ("she");
+            pronoun2 = ("her");
+        }
+        GenerateProblem();
     }
 
     // Update is called once per frame
@@ -51,6 +64,7 @@ public class ForceManagerThree : MonoBehaviour
         playerAnswer = ForceSimulation.playerAnswer;
         generateCorrectAnswer = force / accelaration - 70;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
+        playerForce = (playerAnswer + 70) * accelaration;
         
         if (addingWeight)
         {
@@ -71,7 +85,7 @@ public class ForceManagerThree : MonoBehaviour
             {
                 startAddingMass = false;
                 increaseMass = playerAnswer + 70;
-                playerMass.text = "<color=green>" + increaseMass.ToString("F2") + ("kg</color>");
+                //playerMass.text = "<color=green>" + increaseMass.ToString("F2") + ("kg</color>");
             }
         }
         if (goExit)
@@ -86,6 +100,17 @@ public class ForceManagerThree : MonoBehaviour
 
         if (startRunning)
         {
+             if(playerAnswer == correctAnswer)
+            {
+                forcetxt.text = ("f = ")+ force.ToString("F2")+("N");
+            }
+            if(playerAnswer != correctAnswer) 
+            {
+                forcetxt.text = ("f = ")+ playerForce.ToString("F2")+("N");
+            }
+            forcetxt.gameObject.SetActive(true);
+            forcetxt.gameObject.transform.position = new Vector2(thePlayer.transform.position.x - 4,thePlayer.transform.position.y);  
+            playerInitials.SetActive(false);
             ForceSimulation.simulate = false;
             thePlayer.moveSpeed += accelaration * Time.fixedDeltaTime;
             if (theCollider.collide == true)
@@ -168,8 +193,12 @@ public class ForceManagerThree : MonoBehaviour
         thePlayer.transform.position = new Vector2(0, 3.2f);
         theBombScript.gameObject.transform.position = new Vector2(7.8f, 1.5f);
         glassRespawn();
-        ForceSimulation.question = ((PlayerPrefs.GetString("Name") + ("</b> is instructed to break the glass wall by running into it using his own body force. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a force of  <b>") + force.ToString("F2") + ("</b> kg and runs with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s², what should impact force breaking point of the glass wall? If the glass is too tough , it will not break. If the glass is too weak, ") + PlayerPrefs.GetString("Name") + (" will overshoot beyond the glass after breaking.")));
-
+        ForceSimulation.question = ((PlayerPrefs.GetString("Name") + ("</b> cannot find the third bomb to throw out and decided to help the trapped persons inside the building get out instead by breaking the glass and letting them slide down the rope outside, If  <b>") + PlayerPrefs.GetString("Name") + ("</b> runs with the accelaration of  <b>") + accelaration.ToString("F2") + ("</b> m/s² and the glass breaks at an impact force of <b>") + force.ToString("F2") + ("</b> N, how much  mass ")+ pronoun1 + (" should add to ")+ pronoun2 + (" 70kg body in order to run into the glass and break it without overshooting?")));
+        acctxt.text = ("a = ")+ accelaration.ToString("F2")+ ("m/s²");
+        breakingforcetxt.text = ("Breaking Impact Force = ")+ force.ToString("F2");
+        playerInitials.SetActive(true);
+        forcetxt.gameObject.SetActive(false);
+    
 
 
 
