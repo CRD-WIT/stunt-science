@@ -36,7 +36,7 @@ public class StageTwoManager : MonoBehaviour
     {
         followLine.distanceTraveled = currentPos;
         playerAnswer = SimulationManager.playerAnswer;
-        if (SimulationManager.isSimulating)
+        if (SimulationManager.isAnswered)
         {
             currentPos = thePlayer.transform.position.x;
             givenDistance.SetActive(false);
@@ -60,7 +60,7 @@ public class StageTwoManager : MonoBehaviour
                 }
                 thePlayer.moveSpeed = 0;
                 RumblingManager.isCrumbling = true;
-                SimulationManager.isSimulating = false;
+                SimulationManager.isAnswered = false;
                 theRumbling.collapse();
                 StartCoroutine(StuntResult());
                 if (playerAnswer == answerRO)

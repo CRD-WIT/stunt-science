@@ -16,9 +16,11 @@ public class IndicatorManager : MonoBehaviour
     public GameObject[] verticalArrows = new GameObject[2], horizontalArrows = new GameObject[2];
     // string playerAnswerIs;
     Color32 color;
+    private QuestionControllerVThree qc;
     // Start is called before the first frame update
     void Start()
     {
+        qc = FindObjectOfType<QuestionControllerVThree>();
         line1 = transform.Find("Line1").GetComponent<LineRenderer>();
         line2 = transform.Find("Line2").GetComponent<LineRenderer>();
         correctAnswerIndicator = transform.Find("CorrectAnswerIndicator").GetComponent<LineRenderer>();
@@ -33,28 +35,8 @@ public class IndicatorManager : MonoBehaviour
         linesObj[3] = endLine;
     }
 
-    public void Hide()
-    {
-        transform.gameObject.SetActive(false);
-    }
-
-    public Vector2 SpawnPointValue()
-    {
-        return spawnPoint;
-    }
-
-    public void SetSpawningPoint(Vector2 point)
-    {
-        this.spawnPoint = point;
-    }
-
-    public void SetDistance(float value)
-    {
-        this.distanceTraveled = Mathf.Abs(value);
-    }
-
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         float dimensionTextLength = textDimension.GetComponent<TextMeshPro>().text.Length;
         if (arrowMode == Mode.Vertical)
@@ -112,18 +94,8 @@ public class IndicatorManager : MonoBehaviour
             answer.transform.position = new Vector3((distanceTraveled) + spawnPoint.x, spawnPoint.y - 1, 0);
             correctAnswer.transform.position = new Vector3((distance) + spawnPoint.x, spawnPoint.y + 2, 0);
         }
-        switch (whatIsAsk)
-        {
-            case UnitOf.distance:
-                answer.GetComponent<TMP_Text>().text = System.Math.Round(distanceTraveled, 2) + "m";
-                break;
-            case UnitOf.time:
-                answer.GetComponent<TMP_Text>().text = System.Math.Round(stuntTime, 2) + "s";
-                break;
-            case UnitOf.velocity:
-                answer.GetComponent<TMP_Text>().text = System.Math.Round(playerVelocity, 2) + "m/s";
-                break;
-        }
+        answer.GetComponent<TMP_Text>().text = System.Math.Round(stuntTime, 2) + qc.Unit(whatIsAsk);
+
         answer.GetComponent<TMP_Text>().color = color;
         textDimension.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distanceTraveled, 2)}m");
 
@@ -149,8 +121,28 @@ public class IndicatorManager : MonoBehaviour
         correctAnswerIndicator.endColor = new Color32(0, 255, 0, 255);
         correctAnswer.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}m");
 
-        QuestionController qc = new QuestionController();
         string longprob = $"<color={qc.getHexColor(TextColorMode.Given)}>sample</color>";
         Debug.Log(qc.getHexColor(TextColorMode.Given));
     }
+
+    public void Hide()
+    {
+        transform.gameObject.SetActive(false);
+    }
+
+    public Vector2 SpawnPointValue()
+    {
+        return spawnPoint;
+    }
+
+    public void SetSpawningPoint(Vector2 point)
+    {
+        this.spawnPoint = point;
+    }
+
+    public void SetDistance(float value)
+    {
+        this.distanceTraveled = Mathf.Abs(value);
+    }
+
 }

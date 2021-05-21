@@ -45,7 +45,7 @@ public class VelocityEasyStage3 : MonoBehaviour
             DimensionManager.startLength = initialDistance;
             DimensionManager.dimensionLength = answer;
         }
-        if (SimulationManager.isSimulating)
+        if (SimulationManager.isAnswered)
         {
             followLine.distance = answer;
             dimensionLine.SetActive(false);
@@ -56,7 +56,7 @@ public class VelocityEasyStage3 : MonoBehaviour
             if (elapsed >= gameTime)
             {
                 StartCoroutine(StuntResult());
-                SimulationManager.isSimulating = false;
+                SimulationManager.isAnswered = false;
                 RumblingManager.isCrumbling = true;
                 rubblesStopper.SetActive(false);
                 myPlayer.moveSpeed = 0;
@@ -137,7 +137,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         timer.text = "0.00s";
         myPlayer.transform.position = new Vector2(0f, -3);
         elapsed = 0;
-        SimulationManager.isSimulating = false;
+        SimulationManager.isAnswered = false;
         SimulationManager.question = "The entire ceiling is now crumbling and the only safe way out is for " + playerName + " to jump and slide down the manhole. If " + pronoun + " runs at constant velocity of <color=purple>" + Speed.ToString() + " meters per second</color> for exactly <color=#006400>" + gameTime.ToString() + " seconds</color>, how  <color=red>far</color> from the center of the manhole should " + playerName + " start running so that " + pronoun + " will fall down in it when " + pronoun + " stops?";
     }
     IEnumerator StuntResult()

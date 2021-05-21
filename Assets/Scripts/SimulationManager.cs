@@ -16,14 +16,16 @@ public class SimulationManager : MonoBehaviour
     public TMP_Text questionTextBox, errorTextBox, diretorsSpeech, levelText;
     public static string question;
     public static float playerAnswer;
-    public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
+    public static bool isAnswered, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
     public static int stage;
     private HeartManager theHeart;
+    QuestionControllerVThree qc;
     StageManager sm = new StageManager();
     // Start is called before the first frame update
     void Start()
     {
         stage = 1;
+        qc = FindObjectOfType<QuestionControllerVThree>();
         thePlayer = FindObjectOfType<Player>();
         theHeart = FindObjectOfType<HeartManager>();
         //destroyBoulders = FindObjectOfType<PrefabDestroyer>();
@@ -32,22 +34,32 @@ public class SimulationManager : MonoBehaviour
     // Update is called once per frame
     public void FixedUpdate()
     {
-        if (stage3Flag)
+        if (qc.isSimulating)
         {
-            if (thePlayer.transform.position.x < (40 - playerAnswer))
+            if(stage == 3)
             {
-                thePlayer.moveSpeed = 1.99f;
+                if (thePlayer.transform.position.x < (40 - playerAnswer))
+                {
+                    thePlayer.moveSpeed = 1.99f;
+                }
+                else
+                {
+                    thePlayer.moveSpeed = 0;
+                    isStartOfStunt = true;
+                    directorIsCalling = true;
+                    stage3Flag = false;
+                }
+                // answerField.text = playerAnswer.ToString() + "m";
             }
             else
             {
-                thePlayer.moveSpeed = 0;
                 isStartOfStunt = true;
                 directorIsCalling = true;
-                stage3Flag = false;
+                // answerField.text = playerAnswer.ToString() + "s";
             }
         }
-        levelText.text = sm.GetGameLevel();
-        questionTextBox.SetText(question);
+        //levelText.text = sm.GetGameLevel();
+        //questionTextBox.SetText(question);
         if (isAnswerCorrect)
         {
             retryButton.gameObject.SetActive(false);
@@ -105,6 +117,7 @@ public class SimulationManager : MonoBehaviour
     }
     public IEnumerator DirectorsCall()
     {
+        qc.isSimulating =false;
         directorIsCalling = false;
         if (isStartOfStunt)
         {
@@ -117,7 +130,7 @@ public class SimulationManager : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorsBubble.SetActive(false);
-            isSimulating = true;
+            isAnswered = true;
         }
         else
         {
@@ -130,7 +143,7 @@ public class SimulationManager : MonoBehaviour
             diretorsSpeech.text = "";
             if (isAnswerCorrect)
             {
-                if (stage==3)
+                if (stage == 3)
                     thePlayer.slide = true;
                 else
                     thePlayer.happy = true;
@@ -165,7 +178,7 @@ public class SimulationManager : MonoBehaviour
     {
         thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
-        PrefabDestroyer.destroyPrefab =true;
+        PrefabDestroyer.destroyPrefab = true;
         if (stage == 1)
         {
             stage = 2;
@@ -193,7 +206,7 @@ public class SimulationManager : MonoBehaviour
         yield return new WaitForSeconds(2.8f);
         thePlayer.transform.position = new Vector2(0f, thePlayer.transform.position.y);
         thePlayer.moveSpeed = 0;
-        
+
         answerField.text = "";
         answerButton.interactable = true;
         playerAnswer = 0;

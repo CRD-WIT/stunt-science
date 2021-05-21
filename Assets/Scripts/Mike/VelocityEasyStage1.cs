@@ -10,25 +10,21 @@ public class VelocityEasyStage1 : MonoBehaviour
     [SerializeField] TMP_Text playerNameText, messageText, timer;
     [SerializeField] GameObject AfterStuntMessage, safeZone, rubblesStopper, ragdollSpawn, rubbleBlocker, givenDistance, annotationFollower;
     [SerializeField] LineRenderer endOfAnnotation;
-    string pronoun, pNoun, playerName, playerGender;
+    string pronoun, pNoun, playerName, playerGender, question, errorMessage;
+    bool answerIs;
     public float distance, gameTime, Speed, elapsed, currentPos;
     CeillingGenerator theCeiling;
     StageManager sm = new StageManager();
     Annotation dimensionLine;
+    QuestionControllerVThree qc;
     IndicatorManager followLine;
-    void Awake()
-    {
-        if (SimulationManager.isSimulating)
-        {
-            
-        }
-    }
 
     void Start()
     {
         RumblingManager.isCrumbling = false;
         sm.SetGameLevel(1);
         sm.SetDifficulty(1);
+        qc = FindObjectOfType<QuestionControllerVThree>();
         dimensionLine = givenDistance.GetComponent<Annotation>();
         followLine = annotationFollower.GetComponent<IndicatorManager>();
         theCeiling = FindObjectOfType<CeillingGenerator>();
@@ -36,44 +32,44 @@ public class VelocityEasyStage1 : MonoBehaviour
         HeartManager = FindObjectOfType<HeartManager>();
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
+        followLine.whatIsAsk = UnitOf.velocity;
+        qc.Unit(followLine.whatIsAsk);
         VelocityEasyStage1SetUp();
     }
     void FixedUpdate()
     {
         followLine.distanceTraveled = currentPos;
-        float answer = SimulationManager.playerAnswer;
-        if (SimulationManager.isSimulating)
+        float answer = qc.GetPlayerAnswer();
+        Debug.Log(answer);
+        if (SimulationManager.isAnswered)
         {
             currentPos = myPlayer.transform.position.x;
             givenDistance.SetActive(false);
             myPlayer.moveSpeed = answer;
-            timer.text = elapsed.ToString("f2") + "s";
+            qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.fixedDeltaTime;
             annotationFollower.SetActive(true);
             followLine.playerVelocity = answer;
-            //followLine.distanceTraveled = myPlayer.transform.position.x;
             if (elapsed >= gameTime)
             {
                 RumblingManager.isCrumbling = true;
                 rubblesStopper.SetActive(false);
                 StartCoroutine(StuntResult());
                 myPlayer.moveSpeed = 0;
-                SimulationManager.isSimulating = false;
-                timer.text = gameTime.ToString("f2") + "s";
+                SimulationManager.isAnswered = false;
+                qc.timer = gameTime.ToString("f2") + "s";
                 if ((answer == Speed))
                 {
                     followLine.valueIs = TextColorMode.Correct;
-                    // followLine.AnswerIs("correct");
                     currentPos = distance;
                     rubbleBlocker.SetActive(true);
-                    messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
-                    SimulationManager.isAnswerCorrect = true;
+                    errorMessage = PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
+                    answerIs = true;
                     myPlayer.transform.position = new Vector2(currentPos, myPlayer.transform.position.y);
                 }
                 else
                 {
                     followLine.valueIs = TextColorMode.Wrong;
-                    // followLine.AnswerIs("wrong");
                     HeartManager.ReduceLife();
                     if (SimulationManager.isRagdollActive)
                     {
@@ -84,12 +80,12 @@ public class VelocityEasyStage1 : MonoBehaviour
                     {
                         myPlayer.lost = true;
                     }
-                    SimulationManager.isAnswerCorrect = false;
+                    answerIs = false;
                     currentPos = SimulationManager.playerAnswer * gameTime;
                     if (answer < Speed)
                     {
                         myPlayer.transform.position = new Vector2(currentPos - 0.2f, myPlayer.transform.position.y);
-                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too slow and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
+                        errorMessage = PlayerPrefs.GetString("Name") + " ran too slow and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
                     else //if(answer > Speed)
                     {
@@ -104,7 +100,6 @@ public class VelocityEasyStage1 : MonoBehaviour
     {
         followLine.valueIs = TextColorMode.Given;
         followLine.whatIsAsk = UnitOf.velocity;
-        // followLine.AnswerIs("");
         myPlayer.lost = false;
         myPlayer.standup = false;
         Speed = 0;
@@ -140,13 +135,14 @@ public class VelocityEasyStage1 : MonoBehaviour
 
         theCeiling.createQuadtilemap();
         safeZone.transform.position = new Vector2(distance, -2);
-        timer.text = "0.00s";
+        qc.timer = "0.00s";
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);
         elapsed = 0;
         rubblesStopper.SetActive(true);
-        SimulationManager.isSimulating = false;
+        SimulationManager.isAnswered = false;
         AfterStuntMessage.SetActive(false);
-        SimulationManager.question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from " + playerName + ". If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
+        question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from " + playerName + ". If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
+        qc.SetQuestion(question);
     }
     IEnumerator StuntResult()
     {
@@ -155,6 +151,6 @@ public class VelocityEasyStage1 : MonoBehaviour
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
         rubbleBlocker.SetActive(false);
-        AfterStuntMessage.SetActive(true);
+        qc.ActivateResult(errorMessage, answerIs);
     }
 }
