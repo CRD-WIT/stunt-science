@@ -69,6 +69,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 }
                 else
                 {
+                    currentPos = answer * gameTime;
                     followLine.valueIs = TextColorMode.Wrong;
                     HeartManager.ReduceLife();
                     if (SimulationManager.isRagdollActive)
@@ -81,7 +82,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                         myPlayer.lost = true;
                     }
                     answerIs = false;
-                    currentPos = SimulationManager.playerAnswer * gameTime;
+                    
                     if (answer < Speed)
                     {
                         myPlayer.transform.position = new Vector2(currentPos - 0.2f, myPlayer.transform.position.y);

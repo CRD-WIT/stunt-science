@@ -94,10 +94,20 @@ public class IndicatorManager : MonoBehaviour
             answer.transform.position = new Vector3((distanceTraveled) + spawnPoint.x, spawnPoint.y - 1, 0);
             correctAnswer.transform.position = new Vector3((distance) + spawnPoint.x, spawnPoint.y + 2, 0);
         }
-        answer.GetComponent<TMP_Text>().text = System.Math.Round(stuntTime, 2) + qc.Unit(whatIsAsk);
-
+        switch (whatIsAsk)
+        {
+            case UnitOf.distance:
+                answer.GetComponent<TMP_Text>().text = System.Math.Round(distance, 2) + qc.Unit(whatIsAsk);
+                break;
+            case UnitOf.time:
+                answer.GetComponent<TMP_Text>().text = System.Math.Round(stuntTime, 2) + qc.Unit(whatIsAsk);
+                break;
+            case UnitOf.velocity:
+                answer.GetComponent<TMP_Text>().text = System.Math.Round(playerVelocity, 2) + qc.Unit(whatIsAsk);
+                break;
+        }
         answer.GetComponent<TMP_Text>().color = color;
-        textDimension.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distanceTraveled, 2)}m");
+        textDimension.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distanceTraveled, 2)}{qc.Unit(UnitOf.distance)}");
 
         switch (valueIs)
         {
@@ -119,12 +129,12 @@ public class IndicatorManager : MonoBehaviour
         textDimension.GetComponent<TMP_Text>().color = color;
         correctAnswerIndicator.startColor = new Color32(0, 255, 0, 255);
         correctAnswerIndicator.endColor = new Color32(0, 255, 0, 255);
-        correctAnswer.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}m");
+        correctAnswer.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
 
         string longprob = $"<color={qc.getHexColor(TextColorMode.Given)}>sample</color>";
         Debug.Log(qc.getHexColor(TextColorMode.Given));
     }
-
+    
     public void Hide()
     {
         transform.gameObject.SetActive(false);
