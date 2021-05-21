@@ -21,6 +21,7 @@ public class AccMidSimulation : MonoBehaviour
     public static bool simulate;
     public static bool playerDead;
     public int stage;
+    public QuestionController theQuestion;
 
     public GameObject afterStuntMessage, retryButton, nextButton;
     public GameObject[] ground, dimension, arrow;
@@ -68,10 +69,12 @@ public class AccMidSimulation : MonoBehaviour
             dimension[0].SetActive(false);
             if (answerField.text == "" || playerAnswer > 7|| playerAnswer < 1)
             {
-                errorTextBox.SetText("believe me! its too long!");
+                StartCoroutine(errorMesage());
+                theQuestion.errorText = ("believe me! its too long!");
             }
             else
             {
+                theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -83,12 +86,14 @@ public class AccMidSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
+            
             if (answerField.text == "" || playerAnswer > 100)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
             }
             else
             {
+                theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -106,6 +111,7 @@ public class AccMidSimulation : MonoBehaviour
             }
             else
             {
+                theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -120,7 +126,7 @@ public class AccMidSimulation : MonoBehaviour
     {
         
         afterStuntMessage.SetActive(false);
-        
+        theQuestion.isSimulating = false;
         playButton.interactable = true;
         playerAnswer = 0;
         answerField.text = ("");
@@ -192,6 +198,25 @@ public class AccMidSimulation : MonoBehaviour
             yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";
+        }
+    }
+    IEnumerator errorMesage()
+    {
+        theQuestion.popupVisible = true;
+        yield return new WaitForSeconds(3);
+        theQuestion.popupVisible = false;
+    }
+    public void action()
+    {
+        theQuestion.ToggleModal();
+        if(theQuestion.answerIsCorrect == false)
+        {
+            retry();
+            
+        }
+        else
+        {
+            next();
         }
     }
 }
