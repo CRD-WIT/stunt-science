@@ -7,6 +7,10 @@ using GameConfig;
 
 public class QuestionController : MonoBehaviour
 {
+    [SerializeField] TMP_InputField answerFieldHorizontal;
+    [SerializeField] TMP_InputField answerFieldVertical;
+    [SerializeField] Transform difficultyName;
+    [SerializeField] Transform stageName;
     float playerAnswer;
     public bool answerIsCorrect = false;
     public bool isModalOpen = true;
@@ -23,47 +27,44 @@ public class QuestionController : MonoBehaviour
     public string question;
     public TextColorMode colorMode;
     public UnitOf unitOf;
-
     string answerUnit;
-    [SerializeField] TMP_InputField answerFieldHorizontal;
-    [SerializeField] TMP_InputField answerFieldVertical;
-    [SerializeField] Transform difficultyName;
-    [SerializeField] Transform stageName;
     public bool isSimulating;
     [SerializeField] string modalText;
     [SerializeField] string errorText;
     [SerializeField] bool popupVisible;
+    [SerializeField] string actionButtonText;
 
     [Header("Components")]
     [Space(10)]
-    [SerializeField] private Transform baseComponent;
-    [SerializeField] Transform extraComponent;
-    [SerializeField] private Transform problemBox;
-    [SerializeField] GameObject problemBoxContainer;
+    [SerializeField] GameObject actionButtonHorizontal;
+    [SerializeField] GameObject actionButtonVertical;
+    [SerializeField] GameObject correctIconHorizontal;
+    [SerializeField] GameObject correctIconVertical;
     [SerializeField] GameObject levelBadge;
     [SerializeField] GameObject modalComponentHorizontal;
-    [SerializeField] GameObject popupComponentHorizontal;
-    [SerializeField] GameObject popupComponentVertical;
-    [SerializeField] TMP_Text popupTextHorizontal;
-    [SerializeField] TMP_Text popupTextVertical;
     [SerializeField] GameObject modalComponentVertical;
-    [SerializeField] GameObject playButtonVertical;
-    [SerializeField] GameObject playButtonHorizontal;
-    [SerializeField] GameObject timerComponentHorizontal;
-    [SerializeField] GameObject timerComponentVertical;
-    [SerializeField] GameObject problemBoxVertical;
-    [SerializeField] GameObject problemBoxHorizontal;
-    [SerializeField] GameObject problemTextVertical;
-    [SerializeField] GameObject problemTextHorizontal;
-    [SerializeField] GameObject modalTitleVertical;
     [SerializeField] GameObject modalTextHorizontal;
     [SerializeField] GameObject modalTextVertical;
     [SerializeField] GameObject modalTitleHorizontal;
+    [SerializeField] GameObject modalTitleVertical;
+    [SerializeField] GameObject playButtonHorizontal;
+    [SerializeField] GameObject playButtonVertical;
+    [SerializeField] GameObject popupComponentHorizontal;
+    [SerializeField] GameObject popupComponentVertical;
+    [SerializeField] GameObject problemBoxContainer;
+    [SerializeField] GameObject problemBoxHorizontal;
+    [SerializeField] GameObject problemBoxVertical;
+    [SerializeField] GameObject problemTextHorizontal;
+    [SerializeField] GameObject problemTextVertical;
+    [SerializeField] GameObject timerComponentHorizontal;
+    [SerializeField] GameObject timerComponentVertical;
     [SerializeField] GameObject wrongIconHorizontal;
-    [SerializeField] GameObject correctIconHorizontal;
     [SerializeField] GameObject wrongIconVertical;
-    [SerializeField] GameObject correctIconVertical;
-    public Transform[] allComponentTransforms;
+    [SerializeField] Transform baseComponent;
+    [SerializeField] Transform problemBox;
+    [SerializeField] TMP_Text popupTextHorizontal;
+    [SerializeField] TMP_Text popupTextVertical;
+    [SerializeField] Transform extraComponent;
 
     // Start is called before the first frame update
     void Start()
@@ -77,14 +78,14 @@ public class QuestionController : MonoBehaviour
         givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
         correctAnswerColor = new Color32(150, 217, 72, 255);
         wrongAnswerColor = new Color32(237, 66, 66, 255);
-
     }
-
-
-
     public void ToggleModal()
     {
         isModalOpen = !isModalOpen;
+    }
+    public void TogglePopup()
+    {
+        popupVisible = !popupVisible;
     }
     public void SetModalText(string s)
     {
@@ -235,6 +236,8 @@ public class QuestionController : MonoBehaviour
 
         if (orientation == Orientation.Horizontal)
         {
+            actionButtonHorizontal.SetActive(isModalOpen);
+            actionButtonVertical.SetActive(false);
             popupComponentHorizontal.SetActive(popupVisible);
             popupComponentVertical.SetActive(false);
             popupTextHorizontal.SetText(errorText);
@@ -245,7 +248,7 @@ public class QuestionController : MonoBehaviour
             modalTitleVertical.SetActive(false);
             modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
             playButtonHorizontal.SetActive(!isSimulating);
-            playButtonHorizontal.SetActive(!isModalOpen);
+            // playButtonHorizontal.SetActive(!isModalOpen);
             answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
             problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
             modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
@@ -264,6 +267,8 @@ public class QuestionController : MonoBehaviour
         }
         else
         {
+            actionButtonHorizontal.SetActive(false);
+            actionButtonVertical.SetActive(isModalOpen);
             popupComponentVertical.SetActive(popupVisible);
             popupComponentHorizontal.SetActive(false);
             popupTextVertical.SetText(errorText);
@@ -273,7 +278,7 @@ public class QuestionController : MonoBehaviour
             modalTitleHorizontal.SetActive(false);
             modalTitleVertical.SetActive(true);
             playButtonVertical.SetActive(!isSimulating);
-            playButtonVertical.SetActive(!isModalOpen);
+            // playButtonVertical.SetActive(!isModalOpen);
             answerFieldVertical.gameObject.SetActive(!isModalOpen);
             problemTextVertical.GetComponent<TMP_Text>().SetText(question);
             modalTitleVertical.GetComponent<TMP_Text>().SetText(modalTitle);
