@@ -81,9 +81,9 @@ public class HeartManager : MonoBehaviour
 
     public IEnumerator startBGgone()
     {
-        startBG.SetActive(true);
+        // startBG.SetActive(true);
         yield return new WaitForSeconds(1);
-        startBG.SetActive(false);
+        // startBG.SetActive(false);
 
     }
     public void startbgentrance()

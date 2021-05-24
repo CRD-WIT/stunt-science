@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
 using GameConfig;
 
 public class QuestionController : MonoBehaviour
@@ -79,9 +80,17 @@ public class QuestionController : MonoBehaviour
         correctAnswerColor = new Color32(150, 217, 72, 255);
         wrongAnswerColor = new Color32(237, 66, 66, 255);
     }
-    public void ToggleModal()
+
+    public void SetActionButtonName(string text)
+    {
+        actionButtonText = text;
+    }
+    public void ToggleModal(string title, string text, string actionButtonName)
     {
         isModalOpen = !isModalOpen;
+        SetModalTitle(title);
+        SetModalText(text);
+        SetActionButtonName(actionButtonName);
     }
     public void TogglePopup()
     {
@@ -102,20 +111,32 @@ public class QuestionController : MonoBehaviour
         question = qstn;
     }
 
+    public void TriggerActionButton(Action callback)
+    {
+        callback();
+    }
+
     public float GetPlayerAnswer()
     {
         return playerAnswer;
     }
 
+    public string GetUnit()
+    {
+        return answerUnit;
+    }
+
     public void SetAnswer()
     {
+        SetUnit();
         if (orientation == Orientation.Horizontal)
         {
             if (answerFieldHorizontal.text == "")
                 StartCoroutine(IsEmpty());
             else
             {
-                playerAnswer = float.Parse(answerFieldHorizontal.text);
+
+                playerAnswer = float.Parse(answerFieldHorizontal.text.Split(new string[] { answerUnit }, System.StringSplitOptions.None)[0]);
                 answerFieldHorizontal.text = playerAnswer + answerUnit;
             }
         }
@@ -125,8 +146,10 @@ public class QuestionController : MonoBehaviour
                 StartCoroutine(IsEmpty());
             else
             {
-                playerAnswer = float.Parse(answerFieldVertical.text);
+
+                playerAnswer = float.Parse(answerFieldVertical.text.Split(new string[] { answerUnit }, System.StringSplitOptions.None)[0]);
                 answerFieldVertical.text = playerAnswer + answerUnit;
+
             }
         }
 
@@ -146,7 +169,7 @@ public class QuestionController : MonoBehaviour
         // warningTxt.text = "";
     }
 
-    public string Unit()
+    public string SetUnit()
     {
         //TODO: passed the appropriate unit in the answerFieldHorizontal suffixed to the answer
         switch (unitOf)
@@ -236,7 +259,9 @@ public class QuestionController : MonoBehaviour
 
         if (orientation == Orientation.Horizontal)
         {
+
             actionButtonHorizontal.SetActive(isModalOpen);
+            actionButtonHorizontal.transform.Find("Text (TMP)").GetComponent<TMP_Text>().SetText(actionButtonText);
             actionButtonVertical.SetActive(false);
             popupComponentHorizontal.SetActive(popupVisible);
             popupComponentVertical.SetActive(false);
@@ -248,7 +273,10 @@ public class QuestionController : MonoBehaviour
             modalTitleVertical.SetActive(false);
             modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
             playButtonHorizontal.SetActive(!isSimulating);
-            // playButtonHorizontal.SetActive(!isModalOpen);
+            if (!isSimulating && isModalOpen)
+            {
+                playButtonHorizontal.SetActive(!isModalOpen);
+            }
             answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
             problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
             modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
@@ -269,6 +297,7 @@ public class QuestionController : MonoBehaviour
         {
             actionButtonHorizontal.SetActive(false);
             actionButtonVertical.SetActive(isModalOpen);
+            actionButtonVertical.transform.Find("Text (TMP)").GetComponent<TMP_Text>().SetText(actionButtonText);
             popupComponentVertical.SetActive(popupVisible);
             popupComponentHorizontal.SetActive(false);
             popupTextVertical.SetText(errorText);
@@ -278,7 +307,10 @@ public class QuestionController : MonoBehaviour
             modalTitleHorizontal.SetActive(false);
             modalTitleVertical.SetActive(true);
             playButtonVertical.SetActive(!isSimulating);
-            // playButtonVertical.SetActive(!isModalOpen);
+            if (!isSimulating && isModalOpen)
+            {
+                playButtonVertical.SetActive(!isModalOpen);
+            }
             answerFieldVertical.gameObject.SetActive(!isModalOpen);
             problemTextVertical.GetComponent<TMP_Text>().SetText(question);
             modalTitleVertical.GetComponent<TMP_Text>().SetText(modalTitle);
