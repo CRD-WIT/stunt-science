@@ -25,16 +25,16 @@ public class AccManagerTwo : MonoBehaviour
     public float correctDistance;
     string pronoun;
     string gender;
-    public GameObject walls, bikeInitials;
-    public GameObject AfterStuntMessage;
-    public TMP_Text stuntMessageTxt, Vitxt, Vftxt, Acctxt, timertxt;
-    public Button retry, next;
+    public GameObject walls, bikeInitials, cam, directionArrow;
+    public TMP_Text Vitxt, Vftxt, Acctxt, timertxt, actiontxt;
     private HeartManager theHeart;
     private Vector2 bikeInitialStartPos;
+    public QuestionController theQuestion;
 
     // Start is called before the first frame update
     void Start()
     {
+        cam.transform.position = new Vector3(17.5f, cam.transform.position.y, cam.transform.position.z);
         thePlayer = FindObjectOfType<Player>();
         theBike = FindObjectOfType<BikeManager>();
         gender = PlayerPrefs.GetString("Gender");
@@ -90,13 +90,15 @@ public class AccManagerTwo : MonoBehaviour
 
         if (accSimulation.simulate)
         {
+            directionArrow.SetActive(false);
             gas = true;
             time = accSimulation.playerAnswer;
             if (time != correctAns)
             {
+                actiontxt.text = "retry";
                 walls.SetActive(true);
-                retry.gameObject.SetActive(true);
                 accSimulation.playerDead = true;
+                theQuestion.SetModalTitle("Stunt failed");
 
                 if (time < correctAns & time > correctAns - 0.5f)
                 {
@@ -108,17 +110,19 @@ public class AccManagerTwo : MonoBehaviour
                 }
                 if (time < correctAns)
                 {
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " deaccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F2") + "seconds.";
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " deaccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
                 }
                 if (time > correctAns)
                 {
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " deaccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F2") + "seconds.";
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " deaccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
                 }
             }
             if (time == correctAns)
             {
-                next.gameObject.SetActive(true);
-                stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " went through the tunnel</color>";
+                actiontxt.text = "Next";
+                theQuestion.answerIsCorrect = true;
+                theQuestion.SetModalTitle("Stunt Success");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " went through the tunnel</color>");
 
 
             }
@@ -156,7 +160,7 @@ public class AccManagerTwo : MonoBehaviour
                 {
                     if (timer < time)
                     {
-                        Vitxt.text = ("V = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
+                        Vitxt.text = ("v = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
                         theBike.moveSpeed -= deacceleration * Time.fixedDeltaTime;
                         if (theBike.moveSpeed <= 1f)
                         {
@@ -165,7 +169,7 @@ public class AccManagerTwo : MonoBehaviour
                     }
                     if (timer >= time)
                     {
-                        Vitxt.text = ("V = ") + playerVf.ToString("F2") + ("m/s");
+                        Vitxt.text = ("v = ") + playerVf.ToString("F2") + ("m/s");
                     }
                 }
             }
@@ -196,20 +200,21 @@ public class AccManagerTwo : MonoBehaviour
         correctAns = (float)System.Math.Round(generateAns, 2);
         deacceleration = -(10 - Vi) / correctAns;
         //time = (float)System.Math.Round(generateTime, 2);
-        accSimulation.question = (PlayerPrefs.GetString("Name") + ("</b> is initially speeding is motorcycle at <b>") + Vi.ToString("F1") + ("</b> m/s and must deacelerate to a final velocity of 10 m/s right before dropping the ledge so it could safely enter the tunnel across it. How long should <b>") + pronoun + ("</b> apply brake if braking deaccelerates the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²?"));
-        theBike.transform.position = new Vector2(-10, theBike.transform.position.y);
+        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> is initially speeding is motorcycle at <b>") + Vi.ToString("F1") + ("</b> m/s and must deacelerate to a final velocity of 10 m/s right before dropping the ledge so it could safely enter the tunnel across it. How long should <b>") + pronoun + ("</b> apply brake if braking deaccelerates the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²?")));
+        theBike.transform.position = new Vector2(-15, .2f);
         theHeart.losslife = false;
         walls.SetActive(false);
         Vitxt.text = ("vi = ") + Vi.ToString("F2") + ("m/s");
         Acctxt.text = ("a = -") + deacceleration.ToString("F2") + ("m/s²");
         timertxt.text = timer.ToString("F2") + ("s");
+        directionArrow.SetActive(true);
     }
     IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(2);
         StartCoroutine(theSimulation.DirectorsCall());
         yield return new WaitForSeconds(2);
-        AfterStuntMessage.SetActive(true);
+        theQuestion.ToggleModal();
         walls.SetActive(false);
         theBike.moveSpeed = 0;
     }
