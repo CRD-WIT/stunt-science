@@ -20,8 +20,8 @@ public class BikeManager : MonoBehaviour
     public bool stopBackward;
     public bool stopForward;
     public bool brake;
-    public GameObject afterStuntMessage;
     private HeartManager theHeart;
+    public QuestionController theQuestion;
     // Start is called before the first frame update
     void Start()
     {
@@ -100,9 +100,10 @@ public class BikeManager : MonoBehaviour
     IEnumerator StuntResult()
     {
         theHeart.losinglife();
+        yield return new WaitForSeconds(2);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(2);
-        afterStuntMessage.SetActive(true);
+        theQuestion.ToggleModal();
     }
     IEnumerator disablecol()
     {

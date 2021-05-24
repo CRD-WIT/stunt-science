@@ -13,7 +13,7 @@ public class AccManagerOne : MonoBehaviour
     public float time;
     float generateTime;
     public float accelaration;
-    private Player thePlayer;
+    public Player thePlayer;
     private accSimulation theSimulation;
     private HeartManager theHeart;
     private BikeManager theBike;
@@ -26,17 +26,15 @@ public class AccManagerOne : MonoBehaviour
     float correctDistance;
     string pronoun;
     string gender;
-    public GameObject walls, bikeInitials;
-    public GameObject AfterStuntMessage;
-    public TMP_Text stuntMessageTxt, Vitxt, Vftxt, Acctxt, timertxt;
-    public Button retry, next;
+    public GameObject walls, bikeInitials,directionArrow;
+    public TMP_Text Vitxt, Vftxt, Acctxt, timertxt, actiontxt;
     bool tooSlow, follow;
     private Vector2 bikeInitialsPos;
+    public QuestionController theQuestion;
     // Start is called before the first frame update
     void Start()
     {
         bikeInitialsPos = bikeInitials.transform.position;
-        AfterStuntMessage.SetActive(false);
         //thePlayer = FindObjectOfType<Player>();
         theBike = FindObjectOfType<BikeManager>();
         gender = PlayerPrefs.GetString("Gender");
@@ -68,7 +66,7 @@ public class AccManagerOne : MonoBehaviour
         {
              bikeInitials.transform.position = theBike.transform.position;
         }
-        if(currentPos >= 37)
+        if(currentPos >= 35)
         {
             follow = false;
         }
@@ -87,18 +85,19 @@ public class AccManagerOne : MonoBehaviour
 
         if (accSimulation.simulate)
         {
+            directionArrow.SetActive(false);
             timertxt.text = timer.ToString("F2") + ("s");
             accelaration = accSimulation.playerAnswer;
             Acctxt.text = ("a = ") + accelaration.ToString("F2") + ("m/s²");
             Vitxt.text = ("v = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
-            follow = true;
+            
            
 
             if (accelaration != correctAns)
             {
                 walls.SetActive(true);
-                retry.gameObject.SetActive(true);
                 accSimulation.playerDead = true;
+                theQuestion.SetModalTitle("Stunt failed");
                 if (accelaration < correctAns & accelaration > correctAns - .5f)
                 {
                     accelaration -= .5f;
@@ -108,16 +107,19 @@ public class AccManagerOne : MonoBehaviour
                     accelaration += 1f;
                 }
 
-                if (accelaration > correctAns)
+                if (accSimulation.playerAnswer > correctAns)
                 {
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated the motorcycle too fast and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².";
+                   theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
                 }
+                
 
             }
             if (accelaration == correctAns)
             {
-                next.gameObject.SetActive(true);
-                stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " went through the tunnel</color>";
+                actiontxt.text = "Next";
+                theQuestion.answerIsCorrect = true;
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " went through the tunnel</color>");
+                theQuestion.SetModalTitle("Stunt Success");
 
             }
             if (gas)
@@ -144,11 +146,11 @@ public class AccManagerOne : MonoBehaviour
                     }
                     if (currentPos < 38)
                     {
-                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and not able to cross tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².";
+                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and not able to cross tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
                     }
                     if (currentPos >= 38)
                     {
-                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².";
+                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
                     }
 
                 }
@@ -166,30 +168,33 @@ public class AccManagerOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        follow = true;
         bikeInitials.transform.position = bikeInitialsPos;
         timer = 0;
         timertxt.text = ("0.00s");
         generateTime = Random.Range(3.0f, 3.5f);
         time = (float)System.Math.Round(generateTime, 2);
-        accSimulation.question = (("In order for <b>") + PlayerPrefs.GetString("Name") + ("</b> to enter the tunnel on the otherside of the platform where  <b>") + pronoun + ("</b>is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete standstill to a speed of <b>") + Vf.ToString("F2") + ("</b> m/s, after ") + time.ToString("F2") + ("seconds. What should be ") + pronoun + (" accelaration in order to achieve the final velocity?"));
+        theQuestion.SetQuestion(("In order for <b>") + PlayerPrefs.GetString("Name") + ("</b> to enter the tunnel on the otherside of the platform where  <b>") + pronoun + ("</b>is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete standstill to a speed of <b>") + Vf.ToString("F2") + ("</b> m/s, after ") + time.ToString("F2") + ("seconds. What should be ") + pronoun + (" accelaration in order to achieve the final velocity?"));
         theHeart.losslife = false;
         theBike.moveSpeed = 0;
         Acctxt.text = ("a = ?");
         Vitxt.text = ("vi = ") + Vi.ToString("F2") + ("m/s");
         Vftxt.text = ("vf = ") + Vf.ToString("F2") + ("m/s");
-
+        directionArrow.SetActive(true);
 
 
     }
     IEnumerator StuntResult()
     {
 
-        StartCoroutine(theSimulation.DirectorsCall());
+        
         yield return new WaitForSeconds(3);
-        AfterStuntMessage.SetActive(true);
+        StartCoroutine(theSimulation.DirectorsCall());
         walls.SetActive(false);
         accSimulation.simulate = false;
         theBike.moveSpeed = 0;
+        theQuestion.ToggleModal();
     }
+
 
 }

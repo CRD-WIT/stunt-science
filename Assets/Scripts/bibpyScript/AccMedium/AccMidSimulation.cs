@@ -14,14 +14,14 @@ public class AccMidSimulation : MonoBehaviour
     public AccMediumOne theManagerOne;
     //public AccMediumTwo theManagerTwo;
     public AccMediumThree theManagerThree;
-    public TMP_InputField answerField;
+    public TMP_InputField[] answerField;
     public static string question;
     public TMP_Text questionTextBox, errorTextBox, levelText, diretorsSpeech;
     public static float playerAnswer;
     public static bool simulate;
     public static bool playerDead;
     public int stage;
-    public QuestionController theQuestion;
+    public QuestionController[] theQuestion;
 
     public GameObject afterStuntMessage, retryButton, nextButton;
     public GameObject[] ground, dimension, arrow;
@@ -49,8 +49,6 @@ public class AccMidSimulation : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
-        questionTextBox.SetText(question);
         if(stage == 3)
         {
             arrow[0].transform.localScale = new Vector2(-5, arrow[0].transform.localScale.y);
@@ -60,26 +58,27 @@ public class AccMidSimulation : MonoBehaviour
     }
     public void PlayButton()
     {
-        playerAnswer = float.Parse(answerField.text);
+        
         
     
         if (stage == 1)
         {
+            playerAnswer = float.Parse(answerField[0].text);
             //subChopper[0].SetActive(false);
             dimension[0].SetActive(false);
-            if (answerField.text == "" || playerAnswer > 7|| playerAnswer < 1)
+            if (answerField[0].text == "" || playerAnswer > 7|| playerAnswer < 1)
             {
-                StartCoroutine(errorMesage());
-                theQuestion.errorText = ("believe me! its too long!");
+                StartCoroutine(theManagerOne.errorMesage());
+                theQuestion[0].errorText = ("believe me! its too long!");
             }
             else
             {
-                theQuestion.isSimulating = true;
+                theQuestion[0].isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "s";
+                    answerField[0].text = playerAnswer.ToString() + "s";
                 }
 
             }
@@ -87,36 +86,37 @@ public class AccMidSimulation : MonoBehaviour
         if (stage == 2)
         {
             
-            if (answerField.text == "" || playerAnswer > 100)
+            if (answerField[1].text == "" || playerAnswer > 100)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
             }
             else
             {
-                theQuestion.isSimulating = true;
+                theQuestion[1].isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "sec";
+                    answerField[1].text = playerAnswer.ToString() + "sec";
                 }
 
             }
         }
         if (stage == 3)
         {
-            if (answerField.text == "" || playerAnswer > 100)
+            playerAnswer = float.Parse(answerField[2].text);
+            if (answerField[2].text == "" || playerAnswer > 100)
             {
                 errorTextBox.SetText("Please enter a valid answer!");
             }
             else
             {
-                theQuestion.isSimulating = true;
+                theQuestion[2].isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m/s²";
+                    answerField[2].text = playerAnswer.ToString() + "m/s²";
                 }
 
             }
@@ -126,16 +126,18 @@ public class AccMidSimulation : MonoBehaviour
     {
         
         afterStuntMessage.SetActive(false);
-        theQuestion.isSimulating = false;
+        
         playButton.interactable = true;
         playerAnswer = 0;
-        answerField.text = ("");
+        
         retryButton.SetActive(false);
         simulate = false;
 
         
         if (stage == 1)
         {
+            answerField[0].text = ("");
+            theQuestion[0].isSimulating = false;
             dimension[0].SetActive(true);
             theTruck.transform.position = truckStartPos;
             theTruck.transform.rotation = TruckStartRot;
@@ -147,10 +149,12 @@ public class AccMidSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
-
+            
         }
         if (stage == 3)
         {
+             answerField[0].text = ("");
+            theQuestion[2].isSimulating = false;
             theSubVan[1].fade = false;
             theSuv[1].myCollider.enabled = true;
             theSubVan[1].gameObject.SetActive(true);
@@ -200,23 +204,6 @@ public class AccMidSimulation : MonoBehaviour
             diretorsSpeech.text = "";
         }
     }
-    IEnumerator errorMesage()
-    {
-        theQuestion.popupVisible = true;
-        yield return new WaitForSeconds(3);
-        theQuestion.popupVisible = false;
-    }
-    public void action()
-    {
-        theQuestion.ToggleModal();
-        if(theQuestion.answerIsCorrect == false)
-        {
-            retry();
-            
-        }
-        else
-        {
-            next();
-        }
-    }
+    
+    
 }

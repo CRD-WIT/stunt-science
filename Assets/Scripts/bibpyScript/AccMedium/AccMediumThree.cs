@@ -6,7 +6,7 @@ using TMPro;
 
 public class AccMediumThree : MonoBehaviour
 {
-    public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos, carInitials, chopperInitials, wordedBoard, edgeline, ropehere ,AfterStuntMessage;
+    public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos, carInitials, chopperInitials, wordedBoard, edgeline, ropehere;
     public GameObject retry, next;
     public SubSuv theSubVan;
     public SubHellicopter theSubChopper;
@@ -17,10 +17,11 @@ public class AccMediumThree : MonoBehaviour
     float correctAnswer, accH, accV, velocity, dv, dx, dh = 40, ropeDistance;
     float time, suvPos, chopperPos, generateDv, generateVelocity, generateAccH, generateCorrectAnswer, playerTime;
     bool repos, ragdollReady, follow, pausePos, resultReady;
-    public TMP_Text viVtxt, viHtxt, aVtxt, aHtxt,stuntMessageTxt;
+    public TMP_Text viVtxt, viHtxt, aVtxt, aHtxt,stuntMessageTxt, actiontxt;
     string pronoun, gender;
     private Vector2 chopperStartPos, vanStartPos;
     private Quaternion vanstartRot;
+    public QuestionController theQuestion;
 
     // Start is called before the first frame update
     void Start()
@@ -110,9 +111,13 @@ public class AccMediumThree : MonoBehaviour
                 
                 if (accV == correctAnswer)
                 {
+                    actiontxt.text = "Next";
+                    theQuestion.answerIsCorrect = true;
+                    theQuestion.SetModalTitle("Stunt Success");
                     next.SetActive(true);
                     hangingRagdoll.SetActive(true);
                     hangingRagdoll.transform.position = ropeTip.transform.position;
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grabbed the rope before the van fell on the water");
 
                 }
 
@@ -125,6 +130,7 @@ public class AccMediumThree : MonoBehaviour
                 theSuv.accelaration = accV * 3;
                 if (accV != correctAnswer)
                 {
+                    theQuestion.SetModalTitle("Stunt Failed");
                     retry.SetActive(true);
                     if (ropeDistance > 15)
                     {
@@ -155,11 +161,11 @@ public class AccMediumThree : MonoBehaviour
                     }
                     if(accV > correctAnswer)
                     {
-                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².";
+                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².");
                     }
                      if(accV < correctAnswer)
                     {
-                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drove the van too slow and  was still behind when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².";
+                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drove the van too slow and  was still behind when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².");
                     }
 
                 }
@@ -211,7 +217,7 @@ public class AccMediumThree : MonoBehaviour
         aHtxt.text = ("a = ") + accH.ToString("F2") + ("m/s²");
         aVtxt.text = ("a = ?");
         follow = false;
-        AccMidSimulation.question = (("<b>") + PlayerPrefs.GetString("Name") + ("</b> is instructed to drive the van off the ledge and hang on into the rope of the helicopter just before it drops, If the helicopter id flying at <b>") + velocity.ToString("F2") + ("</b> m/s while accelarating at  <b>") + accH.ToString("F2") + ("</b> m/s², what should be the accelaration of the van running at  <b>") + velocity.ToString("F2") + ("</b> m/s, so <b>") + PlayerPrefs.GetString("Name") + ("</b> can grab the rope at exactly at the edge of the ledge") + dv.ToString("F2") + ("</b> meters in front of ") + pronoun + (" ?"));
+        theQuestion.SetQuestion(("<b>") + PlayerPrefs.GetString("Name") + ("</b> is instructed to drive the van off the ledge and hang on into the rope of the helicopter just before it drops, If the helicopter id flying at <b>") + velocity.ToString("F2") + ("</b> m/s while accelarating at  <b>") + accH.ToString("F2") + ("</b> m/s², what should be the accelaration of the van running at  <b>") + velocity.ToString("F2") + ("</b> m/s, so <b>") + PlayerPrefs.GetString("Name") + ("</b> can grab the rope at exactly at the edge of the ledge") + dv.ToString("F2") + ("</b> meters in front of ") + pronoun + (" ?"));
 
 
 
@@ -242,9 +248,29 @@ public class AccMediumThree : MonoBehaviour
         yield return new WaitForSeconds(4);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1);
-        AfterStuntMessage.SetActive(true);
+        theQuestion.ToggleModal();
        
 
     }
+    public IEnumerator errorMesage()
+    {
+        theQuestion.popupVisible = true;
+        yield return new WaitForSeconds(3);
+        theQuestion.popupVisible = false;
+    }
+    public void action()
+    {
+        theQuestion.ToggleModal();
+        if(theQuestion.answerIsCorrect == false)
+        {
+            theSimulate.retry();
+            
+        }
+        else
+        {
+            theSimulate.next();
+        }
+    }
+
 
 }

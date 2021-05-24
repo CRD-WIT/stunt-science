@@ -12,7 +12,7 @@ public class accSimulation : MonoBehaviour
     public AccManagerThree theManagerThree;
     public TMP_InputField answerField;
     public static string question;
-    public TMP_Text questionTextBox, errorTextBox, levelText, diretorsSpeech;
+    public TMP_Text diretorsSpeech;
     public static float playerAnswer;
     public static bool simulate;
     public static bool playerDead;
@@ -20,13 +20,14 @@ public class accSimulation : MonoBehaviour
     public Quaternion startRotation;
     public Vector2 startPosition;
 
-    public GameObject driver, afterStuntMessage, truck, retryButton, nextButton, player, director;
+    public GameObject driver, truck, player, director;
     public GameObject[] ground;
     bool directorIsCalling;
     public GameObject directorBubble;
 
     private ragdollScript theRagdoll;
     Vector2 playerstartPos;
+    public QuestionController theQuestion;
     //string accelaration;
     // Start is called before the first frame update
     void Start()
@@ -47,22 +48,24 @@ public class accSimulation : MonoBehaviour
     void FixedUpdate()
     {
         theRagdoll = FindObjectOfType<ragdollScript>();
-        questionTextBox.SetText(question);
 
     }
     public void PlayButton()
     {
         
+        
         playerAnswer = float.Parse(answerField.text);
         if (stage == 1)
         {
            
-            if (answerField.text == "" || playerAnswer > 200 || playerAnswer < 1)
+            if (answerField.text == "" || playerAnswer > 100 || playerAnswer < 1)
             {
-                errorTextBox.SetText("Please enter a valid answer!");
+                theQuestion.errorText = ("you're exaggerating!");
+                StartCoroutine(errorMesage());
             }
             else
             {
+                theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -77,10 +80,11 @@ public class accSimulation : MonoBehaviour
            
             if (answerField.text == "" || playerAnswer > 100)
             {
-                errorTextBox.SetText("Please enter a valid answer!");
+                theQuestion.errorText = ("Please enter a valid answer!");
             }
             else
             {
+                theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -95,10 +99,11 @@ public class accSimulation : MonoBehaviour
             
             if (answerField.text == "" || playerAnswer > 70)
             {
-                errorTextBox.SetText("Please enter a valid answer!");
+                theQuestion.errorText = ("Please enter a valid answer!");
             }
             else
             {
+                theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -111,16 +116,16 @@ public class accSimulation : MonoBehaviour
     }
     public void retry()
     {
+        theQuestion.answerIsCorrect = false;
+        theQuestion.isSimulating = false;
         theBike.transform.rotation = startRotation;
         theBike.moveSpeed = 0;
         driver.SetActive(true);
-        afterStuntMessage.SetActive(false);
         theBike.stopBackward = false;
         theBike.stopForward = false;
         playButton.interactable = true;
         playerAnswer = 0;
         answerField.text = ("");
-        retryButton.SetActive(false);
         player.transform.position = playerstartPos;
         if(theBike.collided == true)
         {
@@ -132,7 +137,7 @@ public class accSimulation : MonoBehaviour
             theManagerThree.generateProblem();
             theManagerThree.timer = 0;
             theBike.brake = false;
-            theBike.transform.position = new Vector2(-10, 0.1f);
+            theBike.transform.position = new Vector2(-15, 0.2f);
             
         }
         if (stage == 2)
@@ -140,7 +145,7 @@ public class accSimulation : MonoBehaviour
             
             theManagerTwo.timer = 0;
             theBike.brake = false;
-            theBike.transform.position = new Vector2(-10, 0.1f);
+            theBike.transform.position = new Vector2(-10, 0.2f);
             
             theManagerTwo.generateProblem();
         }
@@ -159,7 +164,10 @@ public class accSimulation : MonoBehaviour
     }
     public void next()
     {
-        nextButton.SetActive(false);
+        theQuestion.isSimulating = false;
+        answerField.text = ("");
+        playButton.interactable = true;
+        theQuestion.answerIsCorrect = false;
         if(stage == 1)
         {
             theManagerOne.gameObject.SetActive(false);
@@ -167,7 +175,7 @@ public class accSimulation : MonoBehaviour
             ground[0].SetActive(false);
             ground[1].SetActive(true);
            
-            director.transform.position = new Vector2(-1.31f, 4.98f);
+            //director.transform.position = new Vector2(-1.31f, 4.98f);
             
             
         }
@@ -178,8 +186,9 @@ public class accSimulation : MonoBehaviour
             ground[1].SetActive(false);
             ground[2].SetActive(true);
             truck.SetActive(true);
+            theBike.brake = false;
             
-            director.transform.position = new Vector2(1.1f, 4.98f);
+            //director.transform.position = new Vector2(1.1f, 4.98f);
            
         }
     }
@@ -208,4 +217,25 @@ public class accSimulation : MonoBehaviour
             diretorsSpeech.text = "";
         }
     }
+    public IEnumerator errorMesage()
+    {
+        theQuestion.popupVisible = true;
+        yield return new WaitForSeconds(3);
+        theQuestion.popupVisible = false;
+    }
+    
+    public void action()
+    {
+        theQuestion.ToggleModal();
+        if(theQuestion.answerIsCorrect == false)
+        {
+            retry();
+            
+        }
+        else
+        {
+            next();
+        }
+    }
+
 }

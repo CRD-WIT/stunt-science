@@ -26,24 +26,25 @@ public class AccManagerThree : MonoBehaviour
     public float correctDistance;
     string pronoun;
     string gender;
-    public GameObject walls, stopper, bikeInitials;
-    public GameObject AfterStuntMessage;
-    public TMP_Text stuntMessageTxt, Vitxt, Vftxt, Acctxt, timertxt;
-    public Button retry, next;
-    private TruckManager theTruck;
+    public GameObject walls, stopper, bikeInitials, actionButton,cam, directionArrow;
+
+    public TMP_Text velocitytxt, Vftxt, Acctxt, timertxt, actiontxt, vitxt;
+
+    public TruckManager theTruck;
     Vector2 truckPosition;
     private HeartManager theHeart;
     private ScoreManager theScorer;
     int currentLevel;
     int currentStar;
     private Vector2 bikeInitialStartPos;
+    public QuestionController theQuestion;
 
     // Start is called before the first frame update
     void Start()
     {
+        cam.transform.position = new Vector3(18f, cam.transform.position.y, cam.transform.position.z);
         //thePlayer = FindObjectOfType<Player>();
         theBike = FindObjectOfType<BikeManager>();
-        theTruck = FindObjectOfType<TruckManager>();
         gender = PlayerPrefs.GetString("Gender");
         theSimulation = FindObjectOfType<accSimulation>();
         theHeart = FindObjectOfType<HeartManager>();
@@ -78,7 +79,8 @@ public class AccManagerThree : MonoBehaviour
         if (gas)
         {
             theBike.moveSpeed = Vi;
-            Vitxt.text = ("v = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
+            velocitytxt.text = ("v = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
+            vitxt.text = ("vi = ")+ Vi.ToString("F2")+("m/s");
         }
 
         if (accSimulation.simulate)
@@ -87,6 +89,8 @@ public class AccManagerThree : MonoBehaviour
 
             if (Vi != correctAns)
             {
+                actiontxt.text = "retry";
+                theQuestion.SetModalTitle("Stunt failed");
                 accSimulation.playerDead = true;
                 if (timer >= time)
                 {
@@ -95,7 +99,6 @@ public class AccManagerThree : MonoBehaviour
                     StartCoroutine(truckWillGo());
                 }
                 walls.SetActive(true);
-                retry.gameObject.SetActive(true);
                 if (addingAcc)
                 {
                     if (Vi < correctAns & Vi > correctAns - 1f)
@@ -106,15 +109,15 @@ public class AccManagerThree : MonoBehaviour
                     if (Vi > correctAns & Vi < correctAns + 1f)
                     {
                         deacceleration -= 0.5f;
-                        
+
                     }
                     if (Vi < correctAns)
                     {
-                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drive too slow and unable to park the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.";
+                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drive too slow and unable to park the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
                     }
                     if (Vi > correctAns)
                     {
-                        stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drive too fast and unable to park and crashed the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.";
+                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drive too fast and unable to park and crashed the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
                     }
                     addingAcc = false;
                 }
@@ -122,8 +125,12 @@ public class AccManagerThree : MonoBehaviour
             }
             if (Vi == correctAns)
             {
+                theQuestion.SetModalTitle("Stunt Success");
                 if (timer >= time)
                 {
+                    actionButton.SetActive(false);
+                    theQuestion.answerIsCorrect = true;
+                    theQuestion.SetModalTitle("Stunt Success");
                     theBike.moveSpeed = 0.5f;
                     if (currentPos >= 30)
                     {
@@ -135,37 +142,37 @@ public class AccManagerThree : MonoBehaviour
 
                 }
 
-                stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " has succesfully parked inside the truck! </color>";
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has succesfully parked inside the truck! </color>");
 
 
             }
             if (theBike.brake == true)
             {
                 gas = false;
-                
-                timertxt.text = timer.ToString("F2");
+                directionArrow.SetActive(false);
+                timertxt.text = timer.ToString("F2")+("s");
                 bikeInitials.transform.position = theBike.transform.position;
                 if (timer < time)
                 {
                     timer += Time.fixedDeltaTime;
-                    Vitxt.text = ("v = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
+                    velocitytxt.text = ("v = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
                     theBike.moveSpeed -= deacceleration * Time.fixedDeltaTime;
 
                 }
-                if(timer >= time)
+                if (timer >= time)
                 {
                     timer = time;
                 }
                 if (theBike.moveSpeed <= 0)
                 {
                     theBike.moveSpeed = 0;
-                    if(Vi == correctAns)
+                    if (Vi == correctAns)
                     {
-                        Vitxt.text = ("vf = 0.00 m/s");
+                        velocitytxt.text = ("vf = 0.00 m/s");
                     }
 
                 }
-                
+
             }
 
 
@@ -181,7 +188,7 @@ public class AccManagerThree : MonoBehaviour
         bikeInitials.transform.position = bikeInitialStartPos;
         addingAcc = true;
         generateTime = Random.Range(2.5f, 4.5f);
-        theBike.transform.position = new Vector2(-10, theBike.transform.position.y);
+        theBike.transform.position = new Vector2(-15, 0.2f);
         time = (float)System.Math.Round(generateTime, 2);
         theTruck.transform.position = truckPosition;
         theTruck.moveSpeed = 0;
@@ -189,13 +196,14 @@ public class AccManagerThree : MonoBehaviour
         generateAns = 60 / time;
         generateAcceleration = generateAns / time;
         deacceleration = (float)System.Math.Round(generateAcceleration, 2);
-        accSimulation.question = (PlayerPrefs.GetString("Name") + ("</b> must park his motorcycle perfectly at the back of truck. If braking the motorcycle deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s, what should be its initial velocity(Vi) so it will come into complete stop after braking it for exactly  <b>") + time.ToString("F2") + ("</b> seconds?"));
-
+        theQuestion.SetQuestion(PlayerPrefs.GetString("Name") + ("</b> must park his motorcycle perfectly at the back of truck. If braking the motorcycle deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s, what should be its initial velocity(Vi) so it will come into complete stop after braking it for exactly  <b>") + time.ToString("F2") + ("</b> seconds?"));
+        vitxt.text = ("vi = ?");
         theHeart.losslife = false;
-        Vitxt.text = ("vi = ?");
+        velocitytxt.text = ("v = 0 m/s");
         Vftxt.text = ("vf = ") + Vf.ToString("F2") + ("m/s");
         Acctxt.text = ("a = -") + deacceleration.ToString("F2") + ("m/s²");
-        timertxt.text = timer.ToString("F2");
+        timertxt.text = timer.ToString("F2")+("s");
+        directionArrow.SetActive(true);
 
     }
     IEnumerator StuntResult()
@@ -215,7 +223,7 @@ public class AccManagerThree : MonoBehaviour
         }
         StartCoroutine(theSimulation.DirectorsCall());
         yield return new WaitForSeconds(1);
-        AfterStuntMessage.SetActive(true);
+        theQuestion.ToggleModal();
         yield return new WaitForSeconds(1);
         walls.SetActive(false);
     }
@@ -231,7 +239,7 @@ public class AccManagerThree : MonoBehaviour
         theTruck.moveSpeed = 10;
         if (Vi == correctAns)
         {
-            theBike.moveSpeed = 10.5f;
+            theBike.moveSpeed = 10f;
         }
         if (Vi != correctAns)
         {
@@ -240,7 +248,7 @@ public class AccManagerThree : MonoBehaviour
             {
                 if (currentPos > 28)
                 {
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " drive too slow, unable to park the motorcycle properly inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.";
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drive too slow, unable to park the motorcycle properly inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
 
                     theBike.moveSpeed = 4;
                 }

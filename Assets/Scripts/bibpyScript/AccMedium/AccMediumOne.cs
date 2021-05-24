@@ -20,7 +20,7 @@ public class AccMediumOne : MonoBehaviour
     float generateVelocity, generateAccelaration, generateCorrectAnswer;
     public float chopperPos, truckPos, answer;
     public bool readyToJump, follow;
-    public TMP_Text timertxt, stuntMessageTxt, vHtxt, viTtxt, aTtxt,actiontxt,playTimertxt;
+    public TMP_Text timertxt, vHtxt, viTtxt, aTtxt,actiontxt,playTimertxt;
     float grabLineDistance, playerGrabLineDistance;
     private Vector2 subChopperStartPos, chopperStartPos;
     // Start is called before the first frame update
@@ -103,7 +103,7 @@ public class AccMediumOne : MonoBehaviour
                         }
 
                     }
-                    retry.SetActive(true);
+                   
                     theQuestion.SetModalTitle("Stunt Failed!!!");
                     theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds.");
                 }
@@ -183,10 +183,6 @@ public class AccMediumOne : MonoBehaviour
     {
         yield return new WaitForSeconds(7);
         StartCoroutine(theSimulate.DirectorsCall());
-        yield return new WaitForSeconds(1);
-        //AfterStuntMessage.SetActive(true);
-        //playerGrabline.SetActive(false);
-        theQuestion.ToggleModal();
 
 
     }
@@ -247,5 +243,11 @@ public class AccMediumOne : MonoBehaviour
         GameObject stick = Instantiate(ragdollPrefab);
         stick.transform.position = stickmanPoint.transform.position;
     }
-
+    public IEnumerator errorMesage()
+    {
+        theQuestion.popupVisible = true;
+        yield return new WaitForSeconds(3);
+        theQuestion.popupVisible = false;
+    }
+    
 }
