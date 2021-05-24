@@ -40,8 +40,8 @@ public class ScoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        scorestar = theHeart.life;
-        mycoin.text = coin.ToString("F0");
+        // scorestar = theHeart.life;
+        // mycoin.text = coin.ToString("F0");
 
         
         
