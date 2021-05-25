@@ -14,11 +14,11 @@ public class ForceManagerTwo : MonoBehaviour
     private HeartManager theHeart;
     float generateForce, Force, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
     public float correctAnswer,playerAnswer,playerForce;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, afterStuntMessage, retry, next, glassDebri, bomb, wordedBoard, director, speechBubble, playerInitials;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, glassDebri, bomb, director, speechBubble, playerInitials, navigator;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
-    public TMP_Text stuntMessageTxt, masstxt, acctxt, breakingforcetxt, forcetxt;
+    public TMP_Text  masstxt, acctxt, breakingforcetxt, forcetxt, actiontxt;
     string gender, pronoun;
 
 
@@ -37,12 +37,12 @@ public class ForceManagerTwo : MonoBehaviour
         theSimulate = FindObjectOfType<ForceSimulation>();
         theBomb = FindObjectOfType<BombManager>();
         theHeart = FindObjectOfType<HeartManager>();
-        wordedBoard.transform.position = new Vector2(20, wordedBoard.transform.position.y);
         GenerateProblem();
         director.transform.position = new Vector2(-5.2f, 2.4f);
         director.transform.localScale = new Vector2(-director.transform.localScale.x, director.transform.localScale.y);
         speechBubble.transform.localScale = new Vector2(-speechBubble.transform.localScale.x, speechBubble.transform.localScale.y);
         thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
+        navigator.transform.position = new Vector2(25.6f, navigator.transform.position.y);
     }
 
     // Update is called once per frame
@@ -74,11 +74,13 @@ public class ForceManagerTwo : MonoBehaviour
             {
                 if(playerAnswer == correctAnswer)
                 {
+                    actiontxt.text = "Next";
+                    theQuestion.answerIsCorrect = true;
                     glassHolder.SetActive(false);
-                    stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " has broken the glass</color>";
+                    theQuestion.SetModalTitle("Stunt Success");
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass</color>");
                     if(currentPos <= 5.7f)
                     {
-                        next.SetActive(true);
                         StartCoroutine(braking());
                         thePlayer.moveSpeed = 0; 
                         thePlayer.transform.position = new Vector2(5.8f, -0.63f);
@@ -91,18 +93,20 @@ public class ForceManagerTwo : MonoBehaviour
                 }
                 if(playerAnswer < correctAnswer)
                 {
+                    actiontxt.text = "retry";
+                    theQuestion.answerIsCorrect = false;
                      if(ragdollReady)
                     {
                         ragdollSpawn();
                         thePlayer.standup = true;
                     }
                     theBombScript.inPlayer = false;
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated too slow and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².";
+                    theQuestion.SetModalTitle("Stunt Failed");
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated too slow and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².");
                     tooWeak = true;
                     thePlayer.gameObject.SetActive(false);
                    
                     thePlayer.moveSpeed = 0;
-                    retry.SetActive(true);
                     StartCoroutine(collision());
                     StartCoroutine(StuntResult());
                     theSimulate.playerDead = true;
@@ -111,18 +115,20 @@ public class ForceManagerTwo : MonoBehaviour
                 }
                 if(playerAnswer > correctAnswer)
                 {
+                    actiontxt.text = "retry";
+                    theQuestion.answerIsCorrect = false;
                     if(ragdollReady)
                     {
                         ragdollSpawn();
                     }
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " accelerated too fast and able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².";
+                    theQuestion.SetModalTitle("Stunt Failed");
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated too fast and able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².");
                     tooStrong = true;
                     thePlayer.gameObject.SetActive(false);
                     glassHolder.SetActive(false);
                     throwBomb = true;
                     
                    StartCoroutine(collision());
-                   retry.SetActive(true);
                    StartCoroutine(StuntResult());
                    ForceSimulation.simulate = false;
                    theHeart.losinglife();
@@ -187,7 +193,7 @@ public class ForceManagerTwo : MonoBehaviour
         ForceSimulation.simulate = false;
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(5);
-        afterStuntMessage.SetActive(true);
+         theQuestion.ToggleModal();
         
     }
     public void glassRespawn()

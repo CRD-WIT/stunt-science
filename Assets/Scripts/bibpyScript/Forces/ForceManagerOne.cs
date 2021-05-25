@@ -17,7 +17,7 @@ public class ForceManagerOne : MonoBehaviour
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
-    public TMP_Text masstxt,  acctxt, breakingforcetxt, forcetxt;
+    public TMP_Text masstxt,  acctxt, breakingforcetxt, forcetxt, actiontxt;
     private HeartManager theHeart;
 
 
@@ -52,7 +52,10 @@ public class ForceManagerOne : MonoBehaviour
             {
                 if(playerAnswer == correctAnswer)
                 {
-                     theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass</color>");
+                    actiontxt.text = "Next";
+                    theQuestion.answerIsCorrect = true;
+                    theQuestion.SetModalTitle("Stunt Success");
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass</color>");
                     glassHolder.SetActive(false);
                     
                     if(currentPos >= 22)
@@ -70,6 +73,7 @@ public class ForceManagerOne : MonoBehaviour
                 }
                 if(playerAnswer > correctAnswer)
                 {
+                    theQuestion.SetModalTitle("Stunt Failed");
                     theQuestion.SetModalText(" the glass was too tough for </color>" + PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.");
                     tooWeak = true;
                     thePlayer.gameObject.SetActive(false);
@@ -87,6 +91,7 @@ public class ForceManagerOne : MonoBehaviour
                 }
                 if(playerAnswer < correctAnswer)
                 {
+                    theQuestion.SetModalTitle("Stunt Failed");
                     theQuestion.SetModalText(" the glass was too weak for </color>" + PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.");
                     tooStrong = true;
                     thePlayer.gameObject.SetActive(false);
@@ -108,7 +113,6 @@ public class ForceManagerOne : MonoBehaviour
     }
     public void GenerateProblem()
     {
-        
         generateAccelaration = Random.Range(7f, 9f);
         accelaration = (float)System.Math.Round(generateAccelaration, 2);
         generateMass = Random.Range(70f, 75f);

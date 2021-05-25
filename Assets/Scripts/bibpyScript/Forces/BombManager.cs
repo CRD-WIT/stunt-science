@@ -33,10 +33,6 @@ public class BombManager : MonoBehaviour
             if (theCollide.collide == true)
             {
                 StartCoroutine(explode());
-                if (theManagerOne.playerAnswer > theManagerOne.correctAnswer || theManagerOne.playerAnswer < theManagerOne.correctAnswer)
-                {
-                    followRagdoll = true;
-                }
 
             }
             if (theManagerOne.throwBomb == true)
@@ -79,11 +75,16 @@ public class BombManager : MonoBehaviour
         }
     }
     IEnumerator explode()
-    {
+    { yield return new WaitForSeconds(0.05f);
         if (theSimulate.stage == 1)
         {
+            if (theManagerOne.playerAnswer > theManagerOne.correctAnswer || theManagerOne.playerAnswer < theManagerOne.correctAnswer)
+                {
+                    followRagdoll = true;
+                }
             if (theManagerOne.playerAnswer <= theManagerOne.correctAnswer)
             {
+                
                 yield return new WaitForSeconds(2f);
                 GameObject explosion = Instantiate(explosionPrefab);
                 explosion.transform.position = bomb.transform.position;

@@ -105,12 +105,12 @@ public class AccMediumOne : MonoBehaviour
 
                     }
                    
-                    theQuestion.SetModalTitle("Stunt Failed!!!");
+                    theQuestion.SetModalTitle("Stunt Failed");
                     theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds.");
                 }
                 if (answer > correctAnswer)
                 {
-                    theQuestion.SetModalTitle("Stunt Failed!!!");
+                    theQuestion.SetModalTitle("Stunt Failed");
                     AccMidSimulation.playerDead = true;
                     if (timer >= answer - .45f)
                     {

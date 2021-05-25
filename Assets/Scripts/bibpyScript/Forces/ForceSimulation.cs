@@ -200,4 +200,17 @@ public class ForceSimulation : MonoBehaviour
         yield return new WaitForSeconds(3);
         theQuestion.popupVisible = false;
     }
+    public void action()
+    {
+        theQuestion.ToggleModal();
+        if(theQuestion.answerIsCorrect == false)
+        {
+            retry();
+            
+        }
+        else
+        {
+            next();
+        }
+    }
 }

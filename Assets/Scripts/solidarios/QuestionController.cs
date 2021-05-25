@@ -27,8 +27,8 @@ public class QuestionController : MonoBehaviour
     string answerUnit;
     [SerializeField] TMP_InputField answerFieldHorizontal;
     [SerializeField] TMP_InputField answerFieldVertical;
-    [SerializeField] Transform difficultyName;
-    [SerializeField] Transform stageName;
+    [SerializeField] GameObject difficultyName;
+    [SerializeField] GameObject stageName;
     public bool isSimulating;
     [SerializeField] string modalText;
     public string errorText;
@@ -38,7 +38,7 @@ public class QuestionController : MonoBehaviour
     [Space(10)]
     [SerializeField] private Transform baseComponent;
     [SerializeField] Transform extraComponent;
-    [SerializeField] private Transform problemBox;
+    [SerializeField] GameObject levelNameBox;
     [SerializeField] GameObject problemBoxContainer;
     [SerializeField] GameObject levelBadge;
     [SerializeField] GameObject modalComponentHorizontal;
@@ -69,10 +69,6 @@ public class QuestionController : MonoBehaviour
     void Start()
     {
         baseComponent.gameObject.GetComponent<Canvas>().worldCamera = renderCamera;
-
-        problemBox = baseComponent.Find("ProblemBox");
-        stageName = problemBox.Find("StageBar2").Find("StageName");
-        difficultyName = problemBox.Find("StageBar3").Find("DifficultyName");
 
         givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
         correctAnswerColor = new Color32(150, 217, 72, 255);
@@ -138,7 +134,7 @@ public class QuestionController : MonoBehaviour
         SceneManager.LoadScene(currentScene.name);
     }
 
-    
+
 
     public string Unit()
     {
@@ -292,7 +288,7 @@ public class QuestionController : MonoBehaviour
         // correctIconHorizontal.SetActive(!answerIsCorrect);
         // wrongIconHorizontal.SetActive(answerIsCorrect);
 
-        problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
+        levelNameBox.GetComponent<TMP_Text>().SetText($"{levelName}");
         extraComponent.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");
         stageName.GetComponent<TMP_Text>().SetText($"Stage {stageNumber}");
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
