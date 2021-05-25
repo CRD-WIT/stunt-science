@@ -132,7 +132,6 @@ public class IndicatorManager : MonoBehaviour
         correctAnswer.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
 
         string longprob = $"<color={qc.getHexColor(TextColorMode.Given)}>sample</color>";
-        Debug.Log(qc.getHexColor(TextColorMode.Given));
     }
     
     public void Hide()

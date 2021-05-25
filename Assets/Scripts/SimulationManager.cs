@@ -5,30 +5,25 @@ using TMPro;
 
 public class SimulationManager : MonoBehaviour
 {
-    public GameObject directorsBubble, ragdollSpawn, afterStuntMessage;
+    public GameObject directorsBubble, ragdollSpawn;
     public VelocityEasyStage1 VelocityEasyStage1;
     public StageTwoManager theManager2;
     public VelocityEasyStage3 StageThreeManager;
     public Player thePlayer;
-    //public GameObject PlayerObject;
-    public Button answerButton, retryButton, nextButton;
-    public TMP_InputField answerField;
-    public TMP_Text questionTextBox, errorTextBox, diretorsSpeech, levelText;
+    public TMP_Text diretorsSpeech;
     public static string question;
     public static float playerAnswer;
     public static bool isAnswered, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
-    public static int stage;
     private HeartManager theHeart;
     QuestionControllerVThree qc;
-    StageManager sm = new StageManager();
     // Start is called before the first frame update
     void Start()
     {
-        stage = 1;
         qc = FindObjectOfType<QuestionControllerVThree>();
         thePlayer = FindObjectOfType<Player>();
         theHeart = FindObjectOfType<HeartManager>();
         //destroyBoulders = FindObjectOfType<PrefabDestroyer>();
+        qc.stage = 1;
     }
 
     // Update is called once per frame
@@ -36,7 +31,7 @@ public class SimulationManager : MonoBehaviour
     {
         if (qc.isSimulating)
         {
-            if(stage == 3)
+            if (qc.stage == 3)
             {
                 if (thePlayer.transform.position.x < (40 - playerAnswer))
                 {
@@ -49,32 +44,15 @@ public class SimulationManager : MonoBehaviour
                     directorIsCalling = true;
                     stage3Flag = false;
                 }
-                // answerField.text = playerAnswer.ToString() + "m";
             }
             else
             {
                 isStartOfStunt = true;
                 directorIsCalling = true;
-                // answerField.text = playerAnswer.ToString() + "s";
             }
         }
         //levelText.text = sm.GetGameLevel();
         //questionTextBox.SetText(question);
-        if (isAnswerCorrect)
-        {
-            retryButton.gameObject.SetActive(false);
-            if (stage == 3)
-            {
-                nextButton.gameObject.SetActive(false);
-            }
-            else
-                nextButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            retryButton.gameObject.SetActive(true);
-            nextButton.gameObject.SetActive(false);
-        }
 
         if (directorIsCalling)
         {
@@ -84,40 +62,12 @@ public class SimulationManager : MonoBehaviour
         {
             directorIsCalling = false;
         }
-    }
-
-    public void PlayButton()
-    {
-        if (answerField.text == "")
-        {
-            errorTextBox.SetText("Please enter your answer!");
-        }
-        else
-        {
-            playerAnswer = float.Parse(answerField.text);
-            answerButton.interactable = false;
-            if (stage == 1)
-            {
-                isStartOfStunt = true;
-                directorIsCalling = true;
-                answerField.text = playerAnswer.ToString() + "m/s";
-            }
-            else if (stage == 2)
-            {
-                isStartOfStunt = true;
-                directorIsCalling = true;
-                answerField.text = playerAnswer.ToString() + "s";
-            }
-            else
-            {
-                stage3Flag = true;
-                answerField.text = playerAnswer.ToString() + "m";
-            }
-        }
+        if (qc.nextStage)
+            StartCoroutine(ExitStage());
     }
     public IEnumerator DirectorsCall()
     {
-        qc.isSimulating =false;
+        qc.isSimulating = false;
         directorIsCalling = false;
         if (isStartOfStunt)
         {
@@ -143,7 +93,7 @@ public class SimulationManager : MonoBehaviour
             diretorsSpeech.text = "";
             if (isAnswerCorrect)
             {
-                if (stage == 3)
+                if (qc.stage == 3)
                     thePlayer.slide = true;
                 else
                     thePlayer.happy = true;
@@ -154,68 +104,30 @@ public class SimulationManager : MonoBehaviour
             }
         }
     }
-    public void RetryButton()
+    
+    IEnumerator ExitStage()
     {
-        RumblingManager.isCrumbling = false;
-        answerField.text = "";
-        answerButton.interactable = true;
-        StartCoroutine(resetPrefab());
-        if (stage == 1)
-        {
-            VelocityEasyStage1.VelocityEasyStage1SetUp();
-        }
-        else if (stage == 2)
-        {
-            theManager2.reset();
-        }
-        else
-        {
-            StageThreeManager.Stage3SetUp();
-        }
-        thePlayer.gameObject.SetActive(true);
-    }
-    public void NextButton()
-    {
+        qc.nextStage = false;
+        VelocityEasyStage1.gameObject.SetActive(false);
         thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
         PrefabDestroyer.destroyPrefab = true;
-        if (stage == 1)
-        {
-            stage = 2;
-            VelocityEasyStage1.gameObject.SetActive(false);
-            theManager2.gameObject.SetActive(true);
-        }
-        else if (stage == 2)
-        {
-            stage = 3;
-            theManager2.gameObject.SetActive(false);
-        }
-        else
-        {
-            sm.SetDifficulty(2);
-        }
-        StartCoroutine(ExitStage());
-    }
-    IEnumerator ExitStage()
-    {
         thePlayer.standup = false;
-        afterStuntMessage.SetActive(false);
         thePlayer.moveSpeed = 5;
         yield return new WaitForSeconds(3f);
         StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(2.8f);
         thePlayer.transform.position = new Vector2(0f, thePlayer.transform.position.y);
         thePlayer.moveSpeed = 0;
-
-        answerField.text = "";
-        answerButton.interactable = true;
         playerAnswer = 0;
         RumblingManager.isCrumbling = false;
-        if (stage == 2)
+        if (qc.stage == 2)
         {
+            theManager2.gameObject.SetActive(true);
+            Debug.Log(qc.stage);
             theManager2.generateProblem();
         }
-        if (stage == 3)
+        if (qc.stage == 3)
         {
             StageThreeManager.gameObject.SetActive(true);
             StageThreeManager.Stage3SetUp();

@@ -2,40 +2,41 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using GameConfig;
-
-
 public class StageTwoManager : MonoBehaviour
 {
     private Player thePlayer;
     private CeillingGenerator theCeiling;
     private HeartManager theHeart;
     [SerializeField] float distance, speed, finalSpeed, answer, answerRO, currentPos, playerAnswer, playerDistance;
-    string gender, pronoun;
+    string gender, pronoun, question, errorMessage;
     Vector2 PlayerStartPoint;
-    public float gameTime, elapsed;
-    public TMP_Text playerNameText, messageText, timer;
+    public float elapsed;
     public GameObject AfterStuntMessage, safePoint, rubbleStopper, rubbleBlocker, ragdollSpawn, groundPlatform, givenDistance, annotationFollower;
     private RumblingManager theRumbling;
     private ScoreManager theScorer;
-    bool simulate;
+    bool answerIs;
     Annotation dimensionLine;
     IndicatorManager followLine;
+    QuestionControllerVThree qc;
     [SerializeField] LineRenderer endOfAnnotation;
     void Start()
     {
+        qc = FindObjectOfType<QuestionControllerVThree>();
         dimensionLine = givenDistance.GetComponent<Annotation>();
         followLine = annotationFollower.GetComponent<IndicatorManager>();
         thePlayer = FindObjectOfType<Player>();
+        theScorer = FindObjectOfType<ScoreManager>();
         gender = PlayerPrefs.GetString("Gender");
         PlayerStartPoint = thePlayer.transform.position;
         theCeiling = FindObjectOfType<CeillingGenerator>();
         theRumbling = FindObjectOfType<RumblingManager>();
         theHeart = FindObjectOfType<HeartManager>();
+        reset();
     }
     void FixedUpdate()
     {
         followLine.distanceTraveled = currentPos;
-        playerAnswer = SimulationManager.playerAnswer;
+        playerAnswer = qc.GetPlayerAnswer();
         if (SimulationManager.isAnswered)
         {
             currentPos = thePlayer.transform.position.x;
@@ -44,18 +45,18 @@ public class StageTwoManager : MonoBehaviour
             //followLine.distance = currentPos;
             thePlayer.moveSpeed = speed;
             elapsed += Time.fixedDeltaTime;
-            timer.text = elapsed.ToString("f2") + "s";
+            qc.timer = elapsed.ToString("f2") + "s";
             followLine.stuntTime = playerAnswer;
-            if ((elapsed >= SimulationManager.playerAnswer) || (currentPos > 30))
+            if ((elapsed >= playerAnswer) || (currentPos > 30))
             {
                 if (currentPos > 30)
                 {
                     rubbleStopper.SetActive(true);
-                    timer.text = elapsed.ToString("f2") + "s";
+                    qc.timer = elapsed.ToString("f2") + "s";
                 }
                 else
                 {
-                    timer.text = playerAnswer.ToString("f2") + "s";
+                    qc.timer = playerAnswer.ToString("f2") + "s";
                     rubbleStopper.SetActive(false);
                 }
                 thePlayer.moveSpeed = 0;
@@ -68,15 +69,15 @@ public class StageTwoManager : MonoBehaviour
                     followLine.valueIs = TextColorMode.Correct;
                     currentPos = distance;
                     rubbleBlocker.SetActive(true);
-                    SimulationManager.isAnswerCorrect = true;
-                    messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
+                    answerIs = true;
+                    errorMessage = PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
                     thePlayer.transform.position = new Vector2(currentPos, thePlayer.transform.position.y);
                 }
                 else//if (playerAnswer != answerRO)
                 {
                     followLine.valueIs = TextColorMode.Wrong;
                     currentPos = playerAnswer * speed;
-                    SimulationManager.isAnswerCorrect = false;
+                    answerIs = false;
                     theHeart.ReduceLife();
                     if (SimulationManager.isRagdollActive)
                     {
@@ -91,7 +92,7 @@ public class StageTwoManager : MonoBehaviour
                     if (playerAnswer < answerRO)
                     {
                         thePlayer.transform.position = new Vector2(playerDistance - 0.2f, thePlayer.transform.position.y);
-                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " stopped too early and " + pronoun + " stopped before the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
+                        errorMessage = PlayerPrefs.GetString("Name") + " stopped too early and " + pronoun + " stopped before the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
                     }
                     else if (playerAnswer > answerRO)
                     {
@@ -101,7 +102,7 @@ public class StageTwoManager : MonoBehaviour
                         }
                         else
                             thePlayer.transform.position = new Vector2(playerDistance + 0.2f, thePlayer.transform.position.y);
-                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
+                        errorMessage = PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
                     }
 
                 }
@@ -112,16 +113,16 @@ public class StageTwoManager : MonoBehaviour
     {
         followLine.valueIs = TextColorMode.Given;
         followLine.whatIsAsk = UnitOf.time;
-        // followLine.AnswerIs("");
+        playerAnswer = 0;
         answer = 0;
         elapsed = 0;
         if (gender == "Male")
         {
-            pronoun = ("he");
+            pronoun = "he";
         }
         if (gender == "Female")
         {
-            pronoun = ("she");
+            pronoun = "she";
         }
         while ((answer < 2.63f) || (answer > 3.1f))
         {
@@ -133,8 +134,9 @@ public class StageTwoManager : MonoBehaviour
         }
         thePlayer.transform.position = new Vector2(0, -3);
         RumblingManager.shakeON = true;
-        timer.text = "0.00s";
-        SimulationManager.question = "The ceiling is still crumbling and the next safe spot is <color=red>" + distance.ToString() + " meters</color> away from " + PlayerPrefs.GetString("Name") + ". If " + pronoun + " runs at a constant velocity of <color=purple>" + finalSpeed.ToString() + " meters per second</color>, how <color=#006400>long</color> should " + pronoun + " run so " + pronoun + " will stop exactly on the same spot?";
+        qc.timer = "0.00s";
+        question = "The ceiling is still crumbling and the next safe spot is <color=red>" + distance.ToString() + " meters</color> away from " + PlayerPrefs.GetString("Name") + ". If " + pronoun + " runs at a constant velocity of <color=purple>" + finalSpeed.ToString() + " meters per second</color>, how <color=#006400>long</color> should " + pronoun + " run so " + pronoun + " will stop exactly on the same spot?";
+        qc.SetQuestion(question);
         answerRO = (float)System.Math.Round(answer, 2);
         safePoint.transform.position = new Vector2(distance, -2);
         givenDistance.SetActive(true);
@@ -168,7 +170,7 @@ public class StageTwoManager : MonoBehaviour
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
         rubbleBlocker.SetActive(false);
-        AfterStuntMessage.SetActive(true);
+        qc.ActivateResult(errorMessage,answerIs);
     }
     void safeSpot()
     {

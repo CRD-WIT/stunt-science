@@ -9,14 +9,14 @@ public class QuestionControllerVThree : MonoBehaviour
 {
     float playerAnswer;
     private Transform baseComponent, problemBox, extraComponent, levelBadge;
-    public bool answerIsCorrect = false, isModalOpen = true, isSimulating;
+    public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage;
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
     public Difficulty levelDifficulty;
-    public int levelNumber, stageNumber, stage;
+    public int levelNumber, stage;
     public string levelName, modalTitle, question, timer;
     public TextColorMode colorMode;
     public UnitOf unitOf;
-    string answerUnit;
+    string answerUnit, difficulty;
     int passedLevel;
     bool timerOn = false;
     [SerializeField] TMP_InputField answerFieldHorizontal;
@@ -45,6 +45,21 @@ public class QuestionControllerVThree : MonoBehaviour
         givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
         correctAnswerColor = new Color32(150, 217, 72, 255);
         wrongAnswerColor = new Color32(237, 66, 66, 255);
+
+        levelName = level.GetGameLevel();
+        switch (levelDifficulty)
+        {
+            case Difficulty.Easy:
+                difficulty = level.GetDifficulty();
+                break;
+            case Difficulty.Hard:
+                difficulty = level.GetDifficulty();
+                break;
+            case Difficulty.Difficult:
+                difficulty = level.GetDifficulty();
+                break;
+        }
+        difficultyName.GetComponent<TMP_Text>().text = difficulty;
     }
     public void ActionBtn()
     {
@@ -52,6 +67,7 @@ public class QuestionControllerVThree : MonoBehaviour
             Next();
         else
             Retry();
+        StartCoroutine(PlayBtnToggle());
     }
     public void ToggleModal()
     {
@@ -87,6 +103,12 @@ public class QuestionControllerVThree : MonoBehaviour
     {
         return this.playerAnswer;
     }
+    IEnumerator PlayBtnToggle()
+    {
+        yield return new WaitForSeconds(5.8f);
+        timerOn = !timerOn;
+        answerFieldHorizontal.text = "";
+    }
 
     public void SetAnswer()
     {
@@ -107,9 +129,15 @@ public class QuestionControllerVThree : MonoBehaviour
     {
         ToggleModal();
         if (stage == 1)
+        {
             stage = 2;
+            nextStage = true;
+        }
         else if (stage == 2)
+        {
             stage = 3;
+            nextStage = true;
+        }
         else
         {
             string difficulty = level.GetDifficulty();
@@ -278,7 +306,7 @@ public class QuestionControllerVThree : MonoBehaviour
 
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
         levelBadge.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");
-        stageName.GetComponent<TMP_Text>().SetText($"Stage {stageNumber}");
+        stageName.GetComponent<TMP_Text>().SetText($"Stage {stage}");
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
     }
 }

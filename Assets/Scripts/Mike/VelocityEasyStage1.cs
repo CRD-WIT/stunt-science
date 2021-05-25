@@ -7,7 +7,6 @@ public class VelocityEasyStage1 : MonoBehaviour
 {
     Player myPlayer;
     HeartManager HeartManager;
-    [SerializeField] TMP_Text playerNameText, messageText, timer;
     [SerializeField] GameObject AfterStuntMessage, safeZone, rubblesStopper, ragdollSpawn, rubbleBlocker, givenDistance, annotationFollower;
     [SerializeField] LineRenderer endOfAnnotation;
     string pronoun, pNoun, playerName, playerGender, question, errorMessage;
@@ -40,7 +39,6 @@ public class VelocityEasyStage1 : MonoBehaviour
     {
         followLine.distanceTraveled = currentPos;
         float answer = qc.GetPlayerAnswer();
-        Debug.Log(answer);
         if (SimulationManager.isAnswered)
         {
             currentPos = myPlayer.transform.position.x;
@@ -91,7 +89,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                     else //if(answer > Speed)
                     {
                         myPlayer.transform.position = new Vector2(currentPos + 0.2f, myPlayer.transform.position.y);
-                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
+                        errorMessage = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
                 }
             }

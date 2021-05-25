@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class CeillingGenerator : MonoBehaviour
 {
-    public int  stage;
+    public int stage;
     public GameObject[] rubble;
     public float mapheight, mapWitdh, tileoffset = 1f, startPoint = 0, endpoint;
     bool ceillingPresent;
-
+    QuestionControllerVThree qc;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        qc = FindObjectOfType<QuestionControllerVThree>();
         endpoint = mapWitdh - startPoint;
-        ceillingPresent =false;
+        ceillingPresent = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        stage = SimulationManager.stage;
+        stage = qc.stage;
         //GameObject debris = rubble[Random.Range(0, 2)];
     }
 

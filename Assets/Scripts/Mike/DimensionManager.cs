@@ -10,9 +10,11 @@ public class DimensionManager : MonoBehaviour
     public GameObject endAnnotationArrow, startAnnotationArrow;
     public static float dimensionLength, startLength;
     Vector3[] position;
+    QuestionControllerVThree qc;
     // Start is called before the first frame update
     void Start()
     {
+        qc = FindObjectOfType<QuestionControllerVThree>();
         dimensionLine.useWorldSpace =false;
     }
 
@@ -20,7 +22,7 @@ public class DimensionManager : MonoBehaviour
     void Update()
     {
         float XDistanceFromGround = -2f;
-        if (SimulationManager.stage != 3)
+        if (qc.stage != 3)
         {
             switch (this.gameObject.name)
             {
