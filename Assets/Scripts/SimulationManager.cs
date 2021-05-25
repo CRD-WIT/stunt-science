@@ -181,7 +181,4 @@ public class SimulationManager : MonoBehaviour
         destroyPrefab = false;
     }
 
-
-
-
 }
