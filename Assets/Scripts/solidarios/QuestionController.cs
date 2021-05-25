@@ -8,10 +8,6 @@ using GameConfig;
 
 public class QuestionController : MonoBehaviour
 {
-    [SerializeField] TMP_InputField answerFieldHorizontal;
-    [SerializeField] TMP_InputField answerFieldVertical;
-    [SerializeField] Transform difficultyName;
-    [SerializeField] Transform stageName;
     float playerAnswer;
     public bool answerIsCorrect = false;
     public bool isModalOpen = true;
@@ -37,6 +33,12 @@ public class QuestionController : MonoBehaviour
 
     [Header("Components")]
     [Space(10)]
+    [SerializeField] TMP_InputField answerFieldHorizontal;
+    [SerializeField] TMP_InputField answerFieldVertical;
+    [SerializeField] GameObject difficultyName;
+
+    [SerializeField] GameObject levelNameBox;
+    [SerializeField] GameObject stageName;
     [SerializeField] GameObject actionButtonHorizontal;
     [SerializeField] GameObject actionButtonVertical;
     [SerializeField] GameObject correctIconHorizontal;
@@ -71,10 +73,6 @@ public class QuestionController : MonoBehaviour
     void Start()
     {
         baseComponent.gameObject.GetComponent<Canvas>().worldCamera = renderCamera;
-
-        problemBox = baseComponent.Find("ProblemBox");
-        stageName = problemBox.Find("StageBar2").Find("StageName");
-        difficultyName = problemBox.Find("StageBar3").Find("DifficultyName");
 
         givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
         correctAnswerColor = new Color32(150, 217, 72, 255);
@@ -335,7 +333,7 @@ public class QuestionController : MonoBehaviour
         // correctIconHorizontal.SetActive(!answerIsCorrect);
         // wrongIconHorizontal.SetActive(answerIsCorrect);
 
-        problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
+        levelNameBox.GetComponent<TMP_Text>().SetText($"{levelName}");
         extraComponent.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");
         stageName.GetComponent<TMP_Text>().SetText($"Stage {stageNumber}");
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
