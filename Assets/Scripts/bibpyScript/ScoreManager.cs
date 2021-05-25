@@ -42,9 +42,6 @@ public class ScoreManager : MonoBehaviour
     {
         // scorestar = theHeart.life;
         // mycoin.text = coin.ToString("F0");
-
-        
-        
     }
     public void finalstar()
     {
@@ -98,9 +95,7 @@ public class ScoreManager : MonoBehaviour
                 for(int i=0; i <10; i++){
                     yield return new WaitForEndOfFrame();
                     coin ++;
-                }
-                
-               
+                }                           
             }
             yield return new WaitForSeconds(1);
             taptocon.gameObject.SetActive(true);

@@ -39,7 +39,6 @@ public class Level_3_Stage_1 : MonoBehaviour
     public GameObject playButton;
     public GameObject timerAnnotation;
     public QuestionController questionController;
-
     String playerName = "Junjun";
     String pronoun = "he";
     bool metTargetTime = false;
@@ -91,6 +90,29 @@ public class Level_3_Stage_1 : MonoBehaviour
         accurateColliderInitialPointY = accurateCollider.transform.position.y;
 
         playerOnRopeInitialY = (float)Math.Round(playerOnRope.transform.position.y, 2);
+    }
+
+    public void ResetLevel()
+    {
+         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void GotoNextScene()
+    {
+       
+    }
+
+    public void CallAction()
+    {
+        Debug.Log(questionController.answerIsCorrect);
+        if (questionController.answerIsCorrect)
+        {
+            GotoNextScene();
+        }
+        else
+        {
+            ResetLevel();
+        }
     }
 
     IEnumerator StuntResult(Action callback)
@@ -175,7 +197,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                         thePlayer.SetActive(false);
                         playerHangingFixed.SetActive(true);
                         playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
-                        isSimulating = false;                       
+                        isSimulating = false;
                     }
                 }
 
@@ -191,7 +213,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                     // Correct Answer
                     if (System.Math.Round(answer, 2) == System.Math.Round(correctAnswer, 2))
                     {
-                        Debug.Log("Distance is correct!");                        
+                        Debug.Log("Distance is correct!");
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
                             FirstCamera.SetActive(false);
@@ -204,9 +226,10 @@ public class Level_3_Stage_1 : MonoBehaviour
                             playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                             isSimulating = false;
                             questionController.answerIsCorrect = true;
+
                             StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
                         }
-                        
+
                     }
                     else
                     {
