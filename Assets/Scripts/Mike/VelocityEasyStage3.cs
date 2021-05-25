@@ -12,31 +12,34 @@ public class VelocityEasyStage3 : MonoBehaviour
     public HeartManager HeartManager;
     public TMP_Text playerNameText, messageText, timer;
     public float distance, gameTime, Speed, elapsed, currentPos;
-    string pronoun, playerName, playerGender;
+    string pronoun, playerName, playerGender, answerMessage;
     public GameObject slidePlatform, lowerGround, AfterStuntMessage, safeZone, rubblesStopper, dimensionLine, ragdollSpawn, manholeCover, templeBeam, annotationFollower;
-    bool director;
+    bool director, answerIs;
     float answer;
     IndicatorManager followLine;
-
+    Annotation AL;
     StageManager sm = new StageManager();
+    QuestionControllerVThree qc;
 
     // Start is called before the first frame update
 
     public void Start()
     {
+        qc = FindObjectOfType<QuestionControllerVThree>();
         theCeiling = FindObjectOfType<CeillingGenerator>();
         myPlayer = FindObjectOfType<Player>();
         HeartManager = FindObjectOfType<HeartManager>();
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         Scorer = FindObjectOfType<ScoreManager>();
+        AL = dimensionLine.GetComponent<Annotation>();
         followLine = annotationFollower.GetComponent<IndicatorManager>();
         Stage3SetUp();
     }
     void FixedUpdate()
     {
         followLine.distanceTraveled = currentPos;
-        answer = SimulationManager.playerAnswer;
+        answer = qc.GetPlayerAnswer();
         if (SimulationManager.stage3Flag)
         {
             dimensionLine.SetActive(true);
@@ -50,7 +53,7 @@ public class VelocityEasyStage3 : MonoBehaviour
             followLine.distance = answer;
             dimensionLine.SetActive(false);
             myPlayer.moveSpeed = Speed;
-            timer.text = elapsed.ToString("f2") + "s";
+            qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.fixedDeltaTime;
             StartCoroutine(RagdollCollider());
             if (elapsed >= gameTime)
@@ -60,20 +63,21 @@ public class VelocityEasyStage3 : MonoBehaviour
                 RumblingManager.isCrumbling = true;
                 rubblesStopper.SetActive(false);
                 myPlayer.moveSpeed = 0;
-                timer.text = gameTime.ToString("f2") + "s";
+                qc.timer = gameTime.ToString("f2") + "s";
                 StartCoroutine(ManholeCover());
                 if ((answer == distance))
                 {
                     followLine.valueIs = TextColorMode.Correct;
                     myPlayer.slide = true;
-                    messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " is finally <b><color=green>safe</color></b>.";
-                    SimulationManager.isAnswerCorrect = true;
+                    answerMessage = PlayerPrefs.GetString("Name") + " is finally <b><color=green>safe</color></b>.";
+                    answerIs = true;
                     myPlayer.transform.position = new Vector2(40, myPlayer.transform.position.y);
                 }
                 else
                 {
                     followLine.valueIs = TextColorMode.Wrong;
                     HeartManager.ReduceLife();
+                    answerIs = false;
                     if (SimulationManager.isRagdollActive)
                     {
                         myPlayer.lost = false;
@@ -88,12 +92,12 @@ public class VelocityEasyStage3 : MonoBehaviour
                     if (answer < distance)
                     {
                         myPlayer.transform.position = new Vector2(currentPos + 0.4f, myPlayer.transform.position.y);
-                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too near from the manhole and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
+                        answerMessage = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too near from the manhole and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                     else
                     {
                         myPlayer.transform.position = new Vector2(currentPos - 0.4f, myPlayer.transform.position.y);
-                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
+                        answerMessage = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                 }
             }
@@ -101,13 +105,13 @@ public class VelocityEasyStage3 : MonoBehaviour
     }
     public void Stage3SetUp()
     {
+        string question;
         followLine.valueIs = TextColorMode.Given;
         followLine.whatIsAsk = UnitOf.distance;
         templeBeam.SetActive(false);
         distance = 0;
-        dimensionLine.SetActive(false);
+        dimensionLine.SetActive(true);
         rubblesStopper.SetActive(true);
-        AfterStuntMessage.SetActive(false);
         rubblesStopper.SetActive(true);
         slidePlatform.SetActive(true);
         lowerGround.SetActive(false);
@@ -138,7 +142,10 @@ public class VelocityEasyStage3 : MonoBehaviour
         myPlayer.transform.position = new Vector2(0f, -3);
         elapsed = 0;
         SimulationManager.isAnswered = false;
-        SimulationManager.question = "The entire ceiling is now crumbling and the only safe way out is for " + playerName + " to jump and slide down the manhole. If " + pronoun + " runs at constant velocity of <color=purple>" + Speed.ToString() + " meters per second</color> for exactly <color=#006400>" + gameTime.ToString() + " seconds</color>, how  <color=red>far</color> from the center of the manhole should " + playerName + " start running so that " + pronoun + " will fall down in it when " + pronoun + " stops?";
+        question = "The entire ceiling is now crumbling and the only safe way out is for " + playerName + " to jump and slide down the manhole. If " + pronoun + " runs at constant velocity of <color=purple>" + Speed.ToString() + " meters per second</color> for exactly <color=#006400>" + gameTime.ToString() + " seconds</color>, how  <color=red>far</color> from the center of the manhole should " + playerName + " start running so that " + pronoun + " will fall down in it when " + pronoun + " stops?";
+        qc.SetQuestion(question);
+        AL.distance = distance;
+        AL.revealValue =false;
     }
     IEnumerator StuntResult()
     {
@@ -146,12 +153,11 @@ public class VelocityEasyStage3 : MonoBehaviour
         SimulationManager.directorIsCalling = true;
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
-        AfterStuntMessage.SetActive(true);
         if ((answer == distance))
         {
             yield return new WaitForSeconds(3);
             Scorer.finalstar();
-            AfterStuntMessage.SetActive(false);
+            qc.ActivateResult(answerMessage, answerIs);
         }
     }
     IEnumerator RagdollCollider()

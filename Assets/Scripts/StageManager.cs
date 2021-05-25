@@ -33,15 +33,14 @@ public class StageManager
         //this.currentGameLevel = gameLevel[level];
         PlayerPrefs.SetString("Level",gameLevel[level]);
     }
+    public int GetLevelNum(string n){
+        int i =0;
+        while(gameLevel[i] != n){
+            i++;
+        }
+        return i;
+    }
     public string GetGameLevel(){
         return PlayerPrefs.GetString("Level");
     }
 }
-// public enum Level : byte{
-//     velocity = 1,
-//     acceleration = 2,
-//     freeFall = 3,
-//     projectile = 4,
-    
-// }
-

@@ -60,6 +60,7 @@ public class QuestionControllerVThree : MonoBehaviour
                 break;
         }
         difficultyName.GetComponent<TMP_Text>().text = difficulty;
+        levelNumber = level.GetLevelNum(levelName);
     }
     public void ActionBtn()
     {
@@ -286,6 +287,7 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     void Update()
     {
+        //levelNumber = level.GetLevelNum(levelName);
         correctIconHorizontal.SetActive(answerIsCorrect);
         wrongIconHorizontal.SetActive(!answerIsCorrect);
         popupComponentHorizontal.SetActive(popupVisible);

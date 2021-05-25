@@ -6011,9 +6011,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aea23a03b3bc7a45b5af56c4f919c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNameText: {fileID: 0}
-  messageText: {fileID: 1997243099}
-  timer: {fileID: 0}
   AfterStuntMessage: {fileID: 316639226}
   safeZone: {fileID: 8261778667139495324}
   rubblesStopper: {fileID: 846979896}
@@ -8311,7 +8308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
       propertyPath: m_RootOrder
-      value: 32
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9384,17 +9381,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &648113158 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5690177139716395063, guid: 4c4e171aa951d8545a70fb0a4ac606f2, type: 3}
-  m_PrefabInstance: {fileID: 5690177139273989169}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &669477533
 GameObject:
   m_ObjectHideFlags: 0
@@ -15533,11 +15519,7 @@ MonoBehaviour:
   currentPos: 0
   playerAnswer: 0
   playerDistance: 0
-  gameTime: 0
   elapsed: 0
-  playerNameText: {fileID: 0}
-  messageText: {fileID: 1997243099}
-  timer: {fileID: 0}
   AfterStuntMessage: {fileID: 316639226}
   safePoint: {fileID: 8261778667139495324}
   rubbleStopper: {fileID: 846979896}
@@ -17006,11 +16988,6 @@ Animator:
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 5897525655379437648, guid: 12a0f11ef46f7c3419f7b1e38857ff1e, type: 3}
   m_PrefabInstance: {fileID: 5897525654181014496}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1258836717 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6881706517148939209, guid: 53d7b9918023a0a47a46bec2ec54b83e, type: 3}
-  m_PrefabInstance: {fileID: 6881706517456656682}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1266269363
 GameObject:
@@ -22624,17 +22601,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1420888964 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5690177137869879221, guid: 4c4e171aa951d8545a70fb0a4ac606f2, type: 3}
-  m_PrefabInstance: {fileID: 5690177139273989169}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1421866410
 GameObject:
   m_ObjectHideFlags: 0
@@ -22886,7 +22852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
       propertyPath: m_RootOrder
-      value: 35
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 4591410588665230474, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24177,19 +24143,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directorsBubble: {fileID: 364984815}
   ragdollSpawn: {fileID: 30185254}
-  afterStuntMessage: {fileID: 316639226}
   VelocityEasyStage1: {fileID: 164883564}
   theManager2: {fileID: 880082390}
   StageThreeManager: {fileID: 1898880061}
   thePlayer: {fileID: 9199672116012258599}
-  answerButton: {fileID: 0}
-  retryButton: {fileID: 1420888964}
-  nextButton: {fileID: 648113158}
-  answerField: {fileID: 0}
-  questionTextBox: {fileID: 0}
-  errorTextBox: {fileID: 0}
   diretorsSpeech: {fileID: 1887909031}
-  levelText: {fileID: 0}
 --- !u!4 &1781809436
 Transform:
   m_ObjectHideFlags: 0
@@ -24648,7 +24606,7 @@ MonoBehaviour:
   Scorer: {fileID: 673351193}
   myPlayer: {fileID: 9199672116012258599}
   theCeiling: {fileID: 2019217496}
-  HeartManager: {fileID: 0}
+  HeartManager: {fileID: 6474938745207081298}
   playerNameText: {fileID: 0}
   messageText: {fileID: 1997243099}
   timer: {fileID: 0}
@@ -24662,7 +24620,7 @@ MonoBehaviour:
   AfterStuntMessage: {fileID: 316639226}
   safeZone: {fileID: 8261778667139495324}
   rubblesStopper: {fileID: 846979896}
-  dimensionLine: {fileID: 1258836717}
+  dimensionLine: {fileID: 709612296}
   ragdollSpawn: {fileID: 30185254}
   manholeCover: {fileID: 1313890266}
   templeBeam: {fileID: 353770344}
@@ -24711,7 +24669,7 @@ Transform:
   - {fileID: 190246393}
   - {fileID: 66239759}
   m_Father: {fileID: 0}
-  m_RootOrder: 37
+  m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1960527065
 GameObject:
@@ -25084,7 +25042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1113569468032106779, guid: 8f60c49fdf2f4c740812f9df023d81c7, type: 3}
       propertyPath: m_RootOrder
-      value: 36
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 1113569468032106779, guid: 8f60c49fdf2f4c740812f9df023d81c7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25346,36 +25304,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &2101175639
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2101175640}
-  m_Layer: 0
-  m_Name: Stage1Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2101175640
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2101175639}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.232382, y: 3.5560126, z: -15.568211}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 31
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2110122906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25391,12 +25319,12 @@ MonoBehaviour:
   answerIsCorrect: 0
   isModalOpen: 0
   isSimulating: 0
+  nextStage: 0
   correctAnswerColor: {r: 0, g: 0, b: 0, a: 0}
   givenColor: {r: 0, g: 0, b: 0, a: 0}
   wrongAnswerColor: {r: 0, g: 0, b: 0, a: 0}
   levelDifficulty: 0
   levelNumber: 0
-  stageNumber: 0
   stage: 0
   levelName: 
   modalTitle: 
@@ -31482,6 +31410,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -9.724607
       objectReference: {fileID: 0}
+    - target: {fileID: 2191845577152124244, guid: 3224e857ca9255c4b94804ad57b7a84e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191845577152124246, guid: 3224e857ca9255c4b94804ad57b7a84e, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 2191845577152124251, guid: 3224e857ca9255c4b94804ad57b7a84e, type: 3}
       propertyPath: m_TagString
       value: Untagged
@@ -31504,7 +31440,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2191845577487293838, guid: 3224e857ca9255c4b94804ad57b7a84e, type: 3}
       propertyPath: m_RootOrder
-      value: 33
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 2191845577487293838, guid: 3224e857ca9255c4b94804ad57b7a84e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -32186,7 +32122,7 @@ Transform:
   - {fileID: 3931283652068858138}
   - {fileID: 3931283653627877161}
   m_Father: {fileID: 0}
-  m_RootOrder: 38
+  m_RootOrder: 37
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3931283651757176221
 GameObject:
@@ -33763,7 +33699,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 32
   m_Sprite: {fileID: 21300000, guid: d884e332825e6c75d814763d997bc78a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -34057,7 +33993,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &3931283652861906690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41345,7 +41281,7 @@ Transform:
   m_Children:
   - {fileID: 1447598905}
   m_Father: {fileID: 0}
-  m_RootOrder: 34
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1818360608 &7423591014021668536
 PositionConstraint:

@@ -11,7 +11,6 @@ public class SimulationManager : MonoBehaviour
     public VelocityEasyStage3 StageThreeManager;
     public Player thePlayer;
     public TMP_Text diretorsSpeech;
-    public static string question;
     public static float playerAnswer;
     public static bool isAnswered, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
     private HeartManager theHeart;
@@ -129,6 +128,7 @@ public class SimulationManager : MonoBehaviour
         }
         if (qc.stage == 3)
         {
+            theManager2.gameObject.SetActive(false);
             StageThreeManager.gameObject.SetActive(true);
             StageThreeManager.Stage3SetUp();
         }
