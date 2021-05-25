@@ -6,6 +6,7 @@ using TMPro;
 public class ForceManagerTwo : MonoBehaviour
 {
     public Player thePlayer;
+    public QuestionController theQuestion;
     private ForceSimulation theSimulate;
     private BombManager theBomb;
     public BombScript theBombScript;
@@ -143,7 +144,7 @@ public class ForceManagerTwo : MonoBehaviour
         theBomb.otherGlassHolder[1].SetActive(true);
         thePlayer.transform.position = new Vector2(31,-0.6f);
         theBomb.bomb.transform.position = thePlayer.transform.position;
-        ForceSimulation.question = ((PlayerPrefs.GetString("Name") + ("</b> must break another glass wall to throw out the 2nd bomb. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and the glass wall has an impact force breaking point of <b>") + Force.ToString("F2") + ("</b> Newtons, how fast should ") + pronoun + (" accelerate towards the glass wall just enough to break it and not go through it?")));
+        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> must break another glass wall to throw out the 2nd bomb. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and the glass wall has an impact force breaking point of <b>") + Force.ToString("F2") + ("</b> Newtons, how fast should ") + pronoun + (" accelerate towards the glass wall just enough to break it and not go through it?")));
         masstxt.text = mass.ToString("F2") + ("kg");
         acctxt.text = "a = ?";
         breakingforcetxt.text = ("Breaking Impact Force = ")+ Force.ToString("F2") + ("N");

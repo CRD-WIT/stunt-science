@@ -23,7 +23,7 @@ public class AccMidSimulation : MonoBehaviour
     public int stage;
     public QuestionController[] theQuestion;
 
-    public GameObject afterStuntMessage, retryButton, nextButton;
+    
     public GameObject[] ground, dimension, arrow;
     bool directorIsCalling;
     public GameObject directorBubble;
@@ -49,11 +49,6 @@ public class AccMidSimulation : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(stage == 3)
-        {
-            arrow[0].transform.localScale = new Vector2(-5, arrow[0].transform.localScale.y);
-            arrow[1].transform.localScale = new Vector2(-5, arrow[1].transform.localScale.y);
-        }
 
     }
     public void PlayButton()
@@ -123,14 +118,9 @@ public class AccMidSimulation : MonoBehaviour
         }
     }
     public void retry()
-    {
-        
-        afterStuntMessage.SetActive(false);
-        
+    {  
         playButton.interactable = true;
         playerAnswer = 0;
-        
-        retryButton.SetActive(false);
         simulate = false;
 
         
@@ -153,7 +143,7 @@ public class AccMidSimulation : MonoBehaviour
         }
         if (stage == 3)
         {
-             answerField[0].text = ("");
+            answerField[2].text = ("");
             theQuestion[2].isSimulating = false;
             theSubVan[1].fade = false;
             theSuv[1].myCollider.enabled = true;
@@ -163,7 +153,6 @@ public class AccMidSimulation : MonoBehaviour
     }
     public void next()
     {
-        nextButton.SetActive(false);
         if(stage == 1)
         {
             theManagerOne.gameObject.SetActive(false);

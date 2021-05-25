@@ -7,13 +7,13 @@ public class ForceSimulation : MonoBehaviour
 {
     public Button playButton;
     public Player thePlayer;
+    public QuestionController theQuestion;
     public ForceManagerOne theManagerOne;
     public ForceManagerTwo theManagerTwo;
     public ForceManagerThree theManagerThree;
     private HeartManager theHeart;
     public TMP_InputField answerField;
-    public static string question;
-    public TMP_Text questionTextBox, errorTextBox, levelText, diretorsSpeech;
+    public TMP_Text diretorsSpeech;
     public static float playerAnswer;
     public static bool simulate;
     public bool playerDead;
@@ -21,7 +21,7 @@ public class ForceSimulation : MonoBehaviour
     public Quaternion startRotation;
     public Vector2 startPosition;
 
-    public GameObject afterStuntMessage, retryButton, nextButton, fadeOut, fadeIn;
+    public GameObject  fadeOut, fadeIn;
     public GameObject[] ground;
     bool directorIsCalling;
     public GameObject directorBubble;
@@ -39,7 +39,6 @@ public class ForceSimulation : MonoBehaviour
     void FixedUpdate()
     {
         theRagdoll = FindObjectOfType<ragdollScript>();
-        questionTextBox.SetText(question);
 
     }
     public void PlayButton()
@@ -49,11 +48,11 @@ public class ForceSimulation : MonoBehaviour
         {
             if (answerField.text == "" || playerAnswer < 200 || playerAnswer < 1)
             {
-                errorTextBox.SetText("Please enter a valid answer!");
+                StartCoroutine(errorMesage());
+               theQuestion.errorText = ("Please enter a valid answer!");
             }
             else
             {
-                errorTextBox.SetText("");
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -67,11 +66,11 @@ public class ForceSimulation : MonoBehaviour
         {
             if (answerField.text == "" || playerAnswer > 12.42)
             {
-                errorTextBox.SetText("exceed human capabilities!");
+                StartCoroutine(errorMesage());
+                theQuestion.errorText = ("exceed human capabilities!");
             }
             else
             {
-                errorTextBox.SetText("");
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -85,11 +84,11 @@ public class ForceSimulation : MonoBehaviour
         {
             if (answerField.text == "" || playerAnswer > 100)
             {
-                errorTextBox.SetText("too heavy for you!");
+                StartCoroutine(errorMesage());
+                theQuestion.errorText = ("too heavy for you!");
             }
             else
             {
-                errorTextBox.SetText("");
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -102,7 +101,7 @@ public class ForceSimulation : MonoBehaviour
     }
     public void next()
     {
-        afterStuntMessage.SetActive(false);
+
         StartCoroutine(theHeart.endBGgone());
         StartCoroutine(nextStage());
        
@@ -111,11 +110,9 @@ public class ForceSimulation : MonoBehaviour
     {
         thePlayer.standup = false;
         simulate = false;
-        afterStuntMessage.SetActive(false);
         playButton.interactable = true;
         playerAnswer = 0;
         answerField.text = ("");
-        retryButton.SetActive(false);
         thePlayer.brake = false;
         thePlayer.moveSpeed = 0;
         thePlayer.gameObject.SetActive(true);
@@ -174,7 +171,6 @@ public class ForceSimulation : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         playButton.interactable = true;
         answerField.text = ("");
-        nextButton.SetActive(false);
         if(stage == 2)
         {
             stage = 3;
@@ -197,5 +193,11 @@ public class ForceSimulation : MonoBehaviour
         }
         
         StartCoroutine(theHeart.startBGgone());
+    }
+    public IEnumerator errorMesage()
+    {
+        theQuestion.popupVisible = true;
+        yield return new WaitForSeconds(3);
+        theQuestion.popupVisible = false;
     }
 }

@@ -6,8 +6,8 @@ using TMPro;
 
 public class AccMediumOne : MonoBehaviour
 {
-    public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, retry, next, grabline, playerGrabline, carInitials, chopperInitials;
-    public GameObject ragdollPause, ropePoint;
+    public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, grabline, playerGrabline, carInitials, chopperInitials;
+    public GameObject ragdollPause, ropePoint, carArrow, chopperArrow;
     public Player thePlayer;
     public Hellicopter theChopper;
     public SubHellicopter theSubChopper;
@@ -58,6 +58,8 @@ public class AccMediumOne : MonoBehaviour
             playerGrabline.transform.position = new Vector2(playerGrabLineDistance + 2.67f, playerGrabline.transform.position.y);
             if (chase)
             {
+                carArrow.SetActive(false);
+                chopperArrow.SetActive(false);
                 carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2.1f, theTruck.transform.position.y);
                 chopperInitials.transform.position = new Vector2(theChopper.transform.position.x + 2.1f, theChopper.transform.position.y);
                 timertxt.text = timer.ToString("F2") + "s";
@@ -86,7 +88,6 @@ public class AccMediumOne : MonoBehaviour
                         theQuestion.SetModalTitle("Stunt Success");
                          theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" has grabbed the rope and is now succesfully hanging from a hellicopter</color>"));
                     }
-                    next.SetActive(true);
                 }
                 if (answer < correctAnswer)
                 {
@@ -131,7 +132,6 @@ public class AccMediumOne : MonoBehaviour
                         }
 
                     }
-                    retry.SetActive(true);
 
 
                 }
@@ -141,12 +141,17 @@ public class AccMediumOne : MonoBehaviour
             {
                 chopperInitials.transform.position = new Vector2(theChopper.transform.position.x + 2.1f, theChopper.transform.position.y);
                 carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2.1f, theTruck.transform.position.y);
-                timertxt.gameObject.transform.position = theTruck.transform.position;
+                if(answer == correctAnswer)
+                {
+                    timertxt.gameObject.transform.position = new Vector2(theChopper.transform.position.x, timertxt.gameObject.transform.position.y);
+                }
             }
         }
     }
     public void generateProblem()
     {
+        carArrow.SetActive(true);
+        chopperArrow.SetActive(true);
         togreen = false;
         tored = false;
         theTruck.moveSpeed = 0;
@@ -183,6 +188,7 @@ public class AccMediumOne : MonoBehaviour
     {
         yield return new WaitForSeconds(7);
         StartCoroutine(theSimulate.DirectorsCall());
+        theQuestion.ToggleModal();
 
 
     }
@@ -249,5 +255,17 @@ public class AccMediumOne : MonoBehaviour
         yield return new WaitForSeconds(3);
         theQuestion.popupVisible = false;
     }
-    
+    public void action()
+    {
+        theQuestion.ToggleModal();
+        if(theQuestion.answerIsCorrect == false)
+        {
+            theSimulate.retry();
+            
+        }
+        else
+        {
+            theSimulate.next();
+        }
+    }
 }
