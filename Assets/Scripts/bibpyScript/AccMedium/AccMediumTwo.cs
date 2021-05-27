@@ -10,7 +10,7 @@ public class AccMediumTwo : MonoBehaviour
     public Suv theVan;
     float A, B, C, D;
     float generateViH, Vih, generateAccH, accH, generateViV, Viv, generateAccV, accV, generateDistance, distance;
-    float chopperCurrentPos, vanCurrentPos, chopperAccPoint, vanAccPoint, kickpointTimeA, kickpointTimeB, timer,kickDistance;
+    float chopperCurrentPos, vanCurrentPos, chopperAccPoint, vanAccPoint, kickpointTimeA, kickpointTimeB, timer,kickDistance, kickpointTimeC;
     bool reposition = true;
     public QuestionController theQuestion;
     // Start is called before the first frame update
@@ -54,7 +54,7 @@ public class AccMediumTwo : MonoBehaviour
             if(reposition == false)
             {
                 timer += Time.fixedDeltaTime;
-                if(timer >= kickpointTimeA)
+                if(timer >= kickpointTimeC)
                 {
                     Time.timeScale = 0;
                     AccMidSimulation.simulate = false;
@@ -73,7 +73,7 @@ public class AccMediumTwo : MonoBehaviour
     {
         generateViH = Random.Range(5, 6);
         Vih = (float)System.Math.Round(generateViH, 2);
-        generateAccH = Random.Range(1, 2);
+        generateAccH = Random.Range(3, 5);
         accH = (float)System.Math.Round(generateAccH, 2);
         generateViV = Random.Range(7, 8);
         Viv = (float)System.Math.Round(generateViV, 2);
@@ -89,8 +89,9 @@ public class AccMediumTwo : MonoBehaviour
         D = Mathf.Sqrt((B*B) - (4*A*C));
         //kickpointTime = Mathf.Abs(((accH* (kickpointTime * kickpointTime))/(2*Vih)) - (distance/Vih)); 
         //kickpointTime = (-((accH + accV)/2) + (Mathf.Sqrt((((accH + accV)/2)*((accH + accV)/2)) -(4 * (Vih + Viv))*(-distance)))) / (2*(Vih + Viv));
-        kickpointTimeA =(B + D)/ (2*A);
-        kickpointTimeB =(B + Mathf.Sqrt((B*B) - (4*A*C)))/ (2*A);
+        kickpointTimeA =(B + Mathf.Sqrt((B*B) - (4*A*C)))/ (2*A);
+        kickpointTimeB =(B - Mathf.Sqrt((B*B) - (4*A*C)))/ (2*A);
+        kickpointTimeC = (kickpointTimeA - kickpointTimeB)/ 2;
         //kickDistance = (Vih * kickpointTime) + (accH * ((kickpointTime*kickpointTime)/2));
         
         //kickpointTime = (((distance/2)/(accH+Vih)) + ((distance/2)/(accV+Viv))) / 2;
