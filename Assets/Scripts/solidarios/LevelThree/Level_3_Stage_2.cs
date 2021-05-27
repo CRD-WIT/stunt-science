@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class Level_3_Stage_2 : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -35,6 +35,9 @@ public class Level_3_Stage_2 : MonoBehaviour
     Vector2 spawnPointValue;
     float distance;
     float distanceGiven;
+    string playerName = "Junjun";
+    string pronoun = "he";
+    public QuestionController questionController;
     void Start()
     {
         // Given        
@@ -55,16 +58,17 @@ public class Level_3_Stage_2 : MonoBehaviour
 
         //Problem
         levelName.SetText("Free Fall | Stage 2");
-        question = $"[name] is hanging on a horizontal pole and [pronoun] is instructed to let go of it, drop down, and hang again to another pole below. If the hands of [name] is exactly <color=red>{distanceGiven}</color> meters above the second pole, <color=purple>how long</color> should [name] fall down before [pronoun] grabs the second pole?";
+        question = $"{playerName} is hanging on a horizontal pole and {pronoun} is instructed to let go of it, drop down, and hang again to another pole below. If the hands of {playerName} is exactly <color=red>{distanceGiven}</color> meters above the second pole, <color=purple>how long</color> should [name] fall down before {pronoun} grabs the second pole?";
 
         if (questionText != null)
         {
-            questionText.SetText(question);
+            questionController.SetQuestion(question);
         }
         else
         {
             Debug.Log("QuestionText object not loaded.");
         }
+
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
         thePlayerAnimation.SetBool("isHangingInBar", true);
         thePlayer_position = thePlayer.transform.position;
@@ -79,6 +83,29 @@ public class Level_3_Stage_2 : MonoBehaviour
         platformBarTop.transform.position = new Vector3(spawnPointValue.x - 9, distanceGiven, 0);
     }
 
+    public void CallAction()
+    {
+        Debug.Log(questionController.answerIsCorrect);
+        if (questionController.answerIsCorrect)
+        {
+            GotoNextScene();
+        }
+        else
+        {
+            ResetLevel();
+        }
+    }
+
+    public void ResetLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void GotoNextScene()
+    {
+
+    }
+
     IEnumerator StuntResult()
     {
         //messageFlag = false;
@@ -89,6 +116,8 @@ public class Level_3_Stage_2 : MonoBehaviour
     public void StartSimulation()
     {
         isSimulating = true;
+        questionController.isSimulating = true;
+        questionController.SetAnswer();
     }
     void FixedUpdate()
     {
@@ -120,12 +149,12 @@ public class Level_3_Stage_2 : MonoBehaviour
                         playerHangingFixed.SetActive(true);
                         playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 1f, platformBarBottom.transform.position.y - 1.5f, 1);
                         platformBarBottom.GetComponent<Animator>().SetBool("collided", true);
-                        playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);                        
-                        elapsed-=0.01f;
+                        playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
+                        elapsed -= 0.01f;
                         isSimulating = false;
                         stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
                         StartCoroutine(StuntResult());
-                    }                    
+                    }
                 }
                 else
                 {
