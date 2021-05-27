@@ -111,6 +111,8 @@ public class StageTwoManager : MonoBehaviour
     }
     public void generateProblem()
     {
+        followLine.whatIsAsk = UnitOf.time;
+        qc.Unit(followLine.whatIsAsk);
         followLine.valueIs = TextColorMode.Given;
         followLine.whatIsAsk = UnitOf.time;
         playerAnswer = 0;

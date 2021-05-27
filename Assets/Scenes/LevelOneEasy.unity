@@ -385,11 +385,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &55465647 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3862542999471713386, guid: 7c804646cd255ba4aa527cd7fd96f487, type: 3}
-  m_PrefabInstance: {fileID: 3862542999115272573}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &57385606
 GameObject:
   m_ObjectHideFlags: 0
@@ -22937,6 +22932,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1508462862 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3862543000677480184, guid: 7c804646cd255ba4aa527cd7fd96f487, type: 3}
+  m_PrefabInstance: {fileID: 3862542999115272573}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1555008150
 GameObject:
   m_ObjectHideFlags: 0
@@ -30148,6 +30148,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4176326099221787777, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176326099221787777, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176326099221787777, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4176326099306593612, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
       propertyPath: m_Name
       value: QuestionControlV2
@@ -30200,6 +30212,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 4176326099789815762, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
 --- !u!4 &1155559127486121600
@@ -37422,7 +37438,7 @@ MonoBehaviour:
   Gameoversfx: {fileID: 350885675}
   life: 3
   heartItem: {fileID: 5539719138855858559, guid: 220ae2a7f8f9d0522b1b2d002e19321c, type: 3}
-  gameOverBG: {fileID: 55465647}
+  gameOverBG: {fileID: 1508462862}
   startBG: {fileID: 1397531453}
   losslife: 0
 --- !u!212 &6481451598365771212

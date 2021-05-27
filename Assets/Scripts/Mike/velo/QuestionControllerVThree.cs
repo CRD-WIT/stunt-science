@@ -52,10 +52,10 @@ public class QuestionControllerVThree : MonoBehaviour
             case Difficulty.Easy:
                 difficulty = level.GetDifficulty();
                 break;
-            case Difficulty.Hard:
+            case Difficulty.Medium:
                 difficulty = level.GetDifficulty();
                 break;
-            case Difficulty.Difficult:
+            case Difficulty.Hard:
                 difficulty = level.GetDifficulty();
                 break;
         }
@@ -294,7 +294,6 @@ public class QuestionControllerVThree : MonoBehaviour
         popupTextHorizontal.SetText(errorText);
         modalComponentHorizontal.gameObject.SetActive(isModalOpen);
         modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
-        playButtonHorizontal.SetActive(!isSimulating);
         problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
         modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
         problemTextHorizontal.SetActive(!isModalOpen);

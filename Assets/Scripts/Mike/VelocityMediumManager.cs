@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using GameConfig;
 
 public class VelocityMediumManager : MonoBehaviour
 {
+    QuestionControllerVThree qc;
+    IndicatorManager labels;
     StageManager sm = new StageManager();
-    [SerializeField] GameObject boulder, directorsBubble, floor, afterStuntMessage, ragdollPrefab, boulderA;
+    [SerializeField] GameObject boulder, directorsBubble, floor, ragdollPrefab, boulderA;
     [SerializeField] LineRenderer EndOfAnnotation, correctAnswerIndicator, playerAnswerIndicator;
     Annotation distanceMeassure;
     Player myPlayer;
     CeillingGenerator createCeilling;
-    [SerializeField] TMP_Text timer, level, errorTxtBox, directorsSpeech;
-    [SerializeField] TMP_InputField answerField;
-    [SerializeField] Button answerButton, nextButton, retryButton;
+    [SerializeField] TMP_Text directorsSpeech;
     [SerializeField] float playerVelocity, boulderVelocity, boulder2Velocity, stuntTime, distance, jumpDistance, correctAnswer;
-    public int stage;
+    int stage;
     Rigidbody2D boulderRB, boulder2RB;
     GameObject ragdoll;
     float playerPos, playerAnswer, elapsed, distanceTraveled, currentPlayerPos, jumpTime, jumpForce;
@@ -25,6 +26,8 @@ public class VelocityMediumManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        qc = FindObjectOfType<QuestionControllerVThree>();
+        labels = FindObjectOfType<IndicatorManager>();
         myPlayer = FindObjectOfType<Player>();
         distanceMeassure = FindObjectOfType<Annotation>();
         createCeilling = FindObjectOfType<CeillingGenerator>();
@@ -45,85 +48,78 @@ public class VelocityMediumManager : MonoBehaviour
             pronoun = "she";
             pPronoun = "her";
         }
-        level.text = sm.GetGameLevel();
+        qc.levelName = sm.GetGameLevel();
+        qc.levelDifficulty = Difficulty.Medium;
         VeloMediumSetUp();
     }
-
     // Update is called once per frame
     void Update()
     {
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
-        currentPlayerPos = myPlayer.transform.position.x;
         if (isAnswered)
         {
+            playerAnswer = qc.GetPlayerAnswer();
+            currentPlayerPos = myPlayer.transform.position.x;
+            qc.timer = elapsed.ToString("f2") + "s";
+            elapsed += Time.deltaTime;
+            myPlayer.moveSpeed = playerVelocity;
             switch (stage)
             {
                 case 1:
-                    timer.text = elapsed.ToString("f2") + "s";
-                    elapsed += Time.deltaTime;
-                    myPlayer.moveSpeed = playerVelocity;
                     boulderRB.velocity = new Vector2(-boulderVelocity, 0);
                     if (playerAnswer <= elapsed)
                     {
                         elapsed = playerAnswer;
+                        StartCoroutine(Jump());
                         if (playerAnswer == stuntTime)
                         {
+                            isAnswerCorrect = true;
                             myPlayer.jumpforce = jumpForce;
-                            nextButton.gameObject.SetActive(true);
-                            messageTxt = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has jumped over the boulder <color=green>safely</color>!";
+                            messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
                         }
                         else
                         {
+                            isAnswerCorrect = false;
                             myPlayer.jumpforce = jumpForce - 0.13f;
-                            retryButton.gameObject.SetActive(true);
                             if (playerAnswer < stuntTime)
                             {
-                                messageTxt = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " jumped too soon and hit the boulder.\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
+                                messageTxt = playerName + " jumped too soon and hit the boulder.\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
                             }
-
                             else
-                                messageTxt = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " jumped too late and hit the boulder.\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
+                                messageTxt = playerName + " jumped too late and hit the boulder.\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
                         }
-                        isEndOfStunt = true;
-                        StartCoroutine(Jump());
                     }
                     break;
                 case 2:
-                    timer.text = elapsed.ToString("f2") + "s";
-                    elapsed += Time.deltaTime;
-                    myPlayer.moveSpeed = playerVelocity;
                     boulderRB.velocity = new Vector2(+boulderVelocity, 0);
                     if (stuntTime <= elapsed)
                     {
                         currentPlayerPos = myPlayer.transform.position.x;
                         if (playerAnswer == correctAnswer)
                         {
+                            isAnswerCorrect = true;
                             elapsed = stuntTime;
                             myPlayer.jumpforce = jumpForce;
-                            nextButton.gameObject.SetActive(true);
-                            messageTxt = "<b><color=green>Stunt Successful!</color></b>\n\n\n" + playerName + " has jumped over the boulder <color=green>safely</color>!";
+                            messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
                         }
                         else
                         {
+                            isAnswerCorrect = false;
                             elapsed = playerAnswer;
                             myPlayer.jumpforce = jumpForce - 0.13f;
-                            retryButton.gameObject.SetActive(true);
                             if (playerAnswer < stuntTime)
                             {
-                                messageTxt = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " jumped too far from the boulder, and hits it!\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
+                                messageTxt = playerName + " jumped too far from the boulder, and hits it!\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
                             }
 
                             else
-                                messageTxt = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + playerName + " jumped too n from the boulder, and hits it!\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
+                                messageTxt = playerName + " jumped too n from the boulder, and hits it!\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
                         }
-                        isEndOfStunt = true;
                         StartCoroutine(Jump());
                     }
                     break;
                 case 3:
-                    //timer
-                    elapsed += Time.deltaTime;
                     myPlayer.moveSpeed = playerAnswer;
                     boulderRB.velocity = new Vector2(boulderVelocity, 0);
                     boulder2RB.velocity = new Vector2(-boulder2Velocity, 0);
@@ -134,28 +130,47 @@ public class VelocityMediumManager : MonoBehaviour
                         myPlayer.moveSpeed = 0;
                         boulderRB.velocity = new Vector2(boulderRB.velocity.x, boulderRB.velocity.y);
                         boulder2RB.velocity = new Vector2(boulder2RB.velocity.x, boulder2RB.velocity.y);
-                        isEndOfStunt = true;
+                        currentPlayerPos = myPlayer.transform.position.x;
+                        if (playerAnswer == correctAnswer)
+                        {
+                            isAnswerCorrect = true;
+                            elapsed = stuntTime;
+                            myPlayer.jumpforce = jumpForce;
+                            messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
+                        }
+                        else
+                        {
+                            isAnswerCorrect = false;
+                            elapsed = playerAnswer;
+                            myPlayer.jumpforce = jumpForce - 0.13f;
+                            if (playerAnswer < stuntTime)
+                            {
+                                messageTxt = playerName + " jumped too far from the boulder, and hits it!\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
+                            }
+
+                            else
+                                messageTxt = playerName + " jumped too n from the boulder, and hits it!\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
+                        }
                         StartCoroutine(Jump());
                     }
-
                     break;
             }
         }
-        if (isEndOfStunt)
-        {
-            isEndOfStunt = false;
-            StartCoroutine(StuntResult());
-        }
+        if (qc.isSimulating)
+            Play();
+        if (qc.nextStage)
+            Next();
     }
     void VeloMediumSetUp()
     {
+        stage = qc.stage;
+        myPlayer.isLanded = false;
+        qc.isSimulating = false;
         float Va = 0, Vb = 0, d = 0, Da = 0, Db = 0, Dj = 0, t = 0;//, tm = 0;
         playerAnswer = 0;
         elapsed = 0;
         //Destroy(ragdollPrefab);
-        nextButton.gameObject.SetActive(false);
-        retryButton.gameObject.SetActive(false);
-        timer.text = "0.00s";
+        qc.timer = "0.00s";
         RumblingManager.shakeON = true;
         distanceMeassure.gameObject.SetActive(true);
 
@@ -189,6 +204,8 @@ public class VelocityMediumManager : MonoBehaviour
 
                 boulder.transform.position = new Vector2(distance, boulder.transform.position.y);
                 boulderRB.freezeRotation = false;
+
+                jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
 
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming boulder at the front <color=red>" + distance + " meters</color> away is rolling at the velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=#006400>seconds</color> will " + playerName + " jump if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
@@ -215,6 +232,8 @@ public class VelocityMediumManager : MonoBehaviour
                 myPlayer.transform.position = new Vector2(distance, boulder.transform.position.y);
                 boulderRB.rotation = 180;
                 boulderRB.freezeRotation = false;
+
+                jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
 
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=red>meters</color> should " + playerName + " be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
@@ -240,7 +259,6 @@ public class VelocityMediumManager : MonoBehaviour
                 stuntTime = (float)System.Math.Round(Tp, 2);
                 Vp = Dp / stuntTime;
 
-
                 correctAnswer = (float)System.Math.Round(Vp, 2);
 
                 boulder.transform.position = new Vector2(0, 0);
@@ -251,11 +269,11 @@ public class VelocityMediumManager : MonoBehaviour
                 boulderRB.freezeRotation = false;
                 jumpTime = 0.5f;
 
-                question = playerName + " is instructed to vertically jump over between two incoming boulders at precisely <color=#006400>0.5 seconds</color> before they collide. If the boulder in front is <color=red>" + Dac + " meters</color> away from " + playerName + " is approaching at <color=purple>" + boulder2Velocity + " meters per second</color>, and the boulder behind " + pPronoun + " is <color=red>" + distance + " meters</color> away from the first boulder and is approaching at <color=purple>" + boulderVelocity + "meters per second</color>, at what <cplpr=purple>velocity</color> should " + pronoun + " run forward for <color=#006400>" + stuntTime + " seconds</color> before doing the vertical jump?";
+                question = playerName + " is instructed to vertically jump over between two incoming boulders at precisely <color=#006400>0.5 seconds</color> before they collide. If the boulder in front is <color=red>" + Dac + " meters</color> away from " + playerName + " is approaching at <color=purple>" + boulder2Velocity + " meters per second</color>, and the boulder behind " + pPronoun + " is <color=red>" + distance + " meters</color> away from the first boulder and is approaching at <color=purple>" + boulderVelocity + "meters per second</color>, at what <color=purple>velocity</color> should " + pronoun + " run forward for <color=#006400>" + stuntTime + " seconds</color> before doing the vertical jump?";
                 break;
         }
+        qc.SetQuestion(question);
         jumpForce = 1.07f / jumpTime;
-        jumpDistance = (float)System.Math.Round(Dj, 2);
         distanceMeassure.distance = distance;
 
         EndOfAnnotation.SetPosition(0, new Vector2(distance, 0));
@@ -271,72 +289,36 @@ public class VelocityMediumManager : MonoBehaviour
         createCeilling.mapWitdh = distance;
         createCeilling.createQuadtilemap2();
     }
-    public void PlayButton()
+    public void Play()
     {
-        if (answerField.text == "")
-        {
-            errorTxtBox.text = "Please enter your answer!";
-        }
-        else
-        {
-            playerAnswer = float.Parse(answerField.text);
-            answerButton.interactable = false;
-            distanceMeassure.gameObject.SetActive(false);
-            if (stage == 1)
-            {
-                isStartOfStunt = true;
-                directorIsCalling = true;
-                answerField.text = playerAnswer.ToString() + "s";
-                playerAnswerIndicator.SetPosition(0, new Vector2((playerAnswer * playerVelocity), 0));
-                playerAnswerIndicator.SetPosition(1, new Vector2((playerAnswer * playerVelocity), 1.5f));
-            }
-            else if (stage == 2)
-            {
-                isStartOfStunt = true;
-                directorIsCalling = true;
-                answerField.text = playerAnswer.ToString() + "s";
-            }
-            else
-            {
-                isStartOfStunt = true;
-                directorIsCalling = true;
-                // stage3Flag = true;
-                answerField.text = playerAnswer.ToString() + "m";
-            }
-        }
-    }
-    public void RetryButton()
-    {
-        isAnswered = false;
-        answerField.text = "";
-        answerButton.interactable = true;
-        myPlayer.gameObject.SetActive(true);
-        afterStuntMessage.SetActive(false);
-        VeloMediumSetUp();
-    }
-    public void NextButton()
-    {
-        myPlayer.SetEmotion("");
-        //ragdollSpawn.SetActive(false);
-        //StartCoroutine(resetPrefab());
+        qc.isSimulating = false;
         if (stage == 1)
         {
-            stage = 2;
-            //VelocityEasyStage1.gameObject.SetActive(false);
-            //theManager2.gameObject.SetActive(true);
-            VeloMediumSetUp();
+            playerAnswerIndicator.SetPosition(0, new Vector2((playerAnswer * playerVelocity), 0));
+            playerAnswerIndicator.SetPosition(1, new Vector2((playerAnswer * playerVelocity), 1.5f));
         }
         else if (stage == 2)
         {
-            stage = 3;
-            VeloMediumSetUp();
-            //theManager2.gameObject.SetActive(false);
         }
         else
         {
-            sm.SetDifficulty(2);
+            // stage3Flag = true;
         }
-        //StartCoroutine(ExitStage());
+        isStartOfStunt = true;
+        directorIsCalling = true;
+    }
+    public void RetryButton()
+    {
+        myPlayer.gameObject.SetActive(true);
+        VeloMediumSetUp();
+    }
+    public void Next()
+    {
+        qc.nextStage = false;
+        myPlayer.SetEmotion("");
+        //ragdollSpawn.SetActive(false);
+        //StartCoroutine(resetPrefab());
+        VeloMediumSetUp();
     }
     public IEnumerator DirectorsCall()
     {
@@ -353,8 +335,8 @@ public class VelocityMediumManager : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             directorsSpeech.text = "";
             directorsBubble.SetActive(false);
-            //boulder.transform.position = new Vector2(boulder.transform.position.x - 0.5f, boulder.transform.position.y);
             isAnswered = true;
+            //boulder.transform.position = new Vector2(boulder.transform.position.x - 0.5f, boulder.transform.position.y);
         }
         else
         {
@@ -365,37 +347,34 @@ public class VelocityMediumManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
             directorsSpeech.text = "";
-            if (isAnswerCorrect)
-            {
-                correctAnswerIndicator.gameObject.SetActive(true);
-            }
-            else
-            {
-                correctAnswerIndicator.gameObject.SetActive(true);
-                playerAnswerIndicator.gameObject.SetActive(true);
-                myPlayer.moveSpeed = 0;
-                myPlayer.transform.position = ragdoll.transform.position;
-                myPlayer.gameObject.SetActive(true);
-                Destroy(ragdollPrefab);
-                myPlayer.standup = true;
-            }
+            // if (isAnswerCorrect)
+            // {
+            //     correctAnswerIndicator.gameObject.SetActive(true);
+            // }
+            // else
+            // {
+            //     correctAnswerIndicator.gameObject.SetActive(true);
+            //     playerAnswerIndicator.gameObject.SetActive(true);
+            //     myPlayer.moveSpeed = 0;
+            //     myPlayer.transform.position = ragdoll.transform.position;
+            //     myPlayer.gameObject.SetActive(true);
+            //     Destroy(ragdollPrefab);
+            //     myPlayer.standup = true;
+            // }
             boulderVelocity = 0;
         }
     }
     IEnumerator StuntResult()
     {
-        //yield return new WaitForSeconds(1);
         directorIsCalling = true;
         isStartOfStunt = false;
-        yield return new WaitForSeconds(4f);
-        afterStuntMessage.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        qc.ActivateResult(messageTxt, isAnswerCorrect);
     }
     IEnumerator Jump()
     {
         myPlayer.jump();
-        yield return new WaitForEndOfFrame();
-        //if(isAnswerCorrect)
-        playerAnswerIndicator.gameObject.SetActive(true);
+        StartCoroutine(StuntResult());
         yield return new WaitForSeconds(jumpTime);
         isAnswered = false;
     }
