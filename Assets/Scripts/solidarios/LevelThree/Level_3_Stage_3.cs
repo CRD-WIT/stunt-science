@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
+using UnityEngine.SceneManagement;
 
 public class Level_3_Stage_3 : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class Level_3_Stage_3 : MonoBehaviour
     public GameObject platformCollider;
     public TMP_Text playerNameText, stuntMessageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
+    public QuestionController questionController;
     Animator thePlayerAnimation;
     public TMP_InputField playerAnswer;
     bool isSimulating = false;
@@ -22,6 +25,8 @@ public class Level_3_Stage_3 : MonoBehaviour
     Vector3 thePlayer_position;
     public GameObject accurateCollider;
     public GameObject platformBarTop;
+    string playerName = "Junjun";
+    string pronoun = "he";
     public GameObject playerHangingBottom;
     float timeGiven;
     Vector2 gravityGiven;
@@ -31,7 +36,6 @@ public class Level_3_Stage_3 : MonoBehaviour
     float distanceGiven;
     void Start()
     {
-
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
         distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(25f, 28.0f), 2);
@@ -46,11 +50,11 @@ public class Level_3_Stage_3 : MonoBehaviour
 
         //Problem
         levelName.SetText("Free Fall | Stage 3");
-        question = $"[name] is hanging on a horizontal pole and [pronoun] is instructed to let go of it, drop down, and grab the elastic cord below to slow down his fall and safely land him into the ground. If the hands of [name] is exactly <color=red>{distanceGiven}</color> meters above the second pole, <color=purple>how long</color> should [name] fall down before [pronoun] grabs the second pole?";
+        question = $"{playerName} is hanging on a horizontal pole and {pronoun} is instructed to let go of it, drop down, and grab the elastic cord below to slow down his fall and safely land him into the ground. If the hands of {playerName} is exactly <color=red>{distanceGiven}</color> meters above the second pole, <color=purple>how long</color> should {playerName} fall down before {pronoun} grabs the second pole?";
 
         if (questionText != null)
         {
-            questionText.SetText(question);
+            questionController.SetQuestion(question);
         }
         else
         {
@@ -70,16 +74,41 @@ public class Level_3_Stage_3 : MonoBehaviour
         platformBarTop.transform.position = new Vector3(spawnPointValue.x - 8, distanceGiven - (spawnPointValue.y * -1), 0);
     }
 
-    IEnumerator StuntResult()
+    IEnumerator StuntResult(Action callback)
     {
         //messageFlag = false;
-        yield return new WaitForSeconds(4f);
-        AfterStuntMessage.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        callback();
+    }
+
+    public void GotoNextScene()
+    {
+
+    }
+
+    public void ResetLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void CallAction()
+    {
+        Debug.Log(questionController.answerIsCorrect);
+        if (questionController.answerIsCorrect)
+        {
+            GotoNextScene();
+        }
+        else
+        {
+            ResetLevel();
+        }
     }
 
     public void StartSimulation()
     {
         isSimulating = true;
+        questionController.isSimulating = true;
+        questionController.SetAnswer();
     }
     void FixedUpdate()
     {
@@ -90,6 +119,7 @@ public class Level_3_Stage_3 : MonoBehaviour
         {
             if (playerAnswer.text.Length > 0)
             {
+                float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
                 elapsed += Time.fixedDeltaTime;
                 timerText.text = elapsed.ToString("f2") + "s";
@@ -98,7 +128,7 @@ public class Level_3_Stage_3 : MonoBehaviour
                 thePlayerAnimation.SetBool("isFalling", true);
 
                 // Correct Answer
-                if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
+                if (System.Math.Round(answer, 2) == System.Math.Round(correctAnswer, 2))
                 {
                     Debug.Log("Time is correct!");
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
@@ -112,21 +142,20 @@ public class Level_3_Stage_3 : MonoBehaviour
                         playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                         elapsed -= 0.02f;
                         isSimulating = false;
-                        stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
-                        //StartCoroutine(StuntResult());
+                        questionController.answerIsCorrect = true;
+                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
                     }
                 }
                 else
                 {
-                    if (float.Parse(playerAnswer.text) < System.Math.Round(correctAnswer, 2))
+                    if (answer < System.Math.Round(correctAnswer, 2))
                     {
-
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
                             Debug.Log("Distance is too short!");
                             isSimulating = false;
-                            stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} grabbed the pole too soon.</color>";
-                            //StartCoroutine(StuntResult());
+                            questionController.answerIsCorrect = false;
+                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon!", "Retry")));
                         }
                     }
                     else
@@ -135,8 +164,8 @@ public class Level_3_Stage_3 : MonoBehaviour
                         {
                             Debug.Log("Distance is too long!");
                             isSimulating = false;
-                            stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} grabbed the pole too late.</color>";
-                            //StartCoroutine(StuntResult());
+                            questionController.answerIsCorrect = false;                            
+                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late!", "Retry")));
                         }
                     }
                 }
@@ -150,7 +179,7 @@ public class Level_3_Stage_3 : MonoBehaviour
         {
             //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
             isSimulating = false;
-       
+
             timerText.text = $"{(elapsed).ToString("f2")}s";
         }
     }

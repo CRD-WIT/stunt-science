@@ -156,7 +156,6 @@ public class Level_3_Stage_2 : MonoBehaviour
                         isSimulating = false;
                         stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
 
-
                         questionController.answerIsCorrect = true;
 
                         StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
@@ -170,9 +169,7 @@ public class Level_3_Stage_2 : MonoBehaviour
                         {
                             Debug.Log("Distance is too short!");
                             isSimulating = false;
-
-                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon.", "Retry")));
-
+                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon. The correct answer is {correctAnswer}.", "Retry")));
                         }
                     }
                     else
@@ -181,7 +178,7 @@ public class Level_3_Stage_2 : MonoBehaviour
                         {
                             Debug.Log("Distance is too long!");
                             isSimulating = false;
-                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late.", "Retry")));
+                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late. The correct answer is {correctAnswer}.", "Retry")));
                         }
                     }
                 }
