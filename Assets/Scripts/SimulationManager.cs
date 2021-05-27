@@ -11,7 +11,7 @@ public class SimulationManager : MonoBehaviour
     public VelocityEasyStage3 StageThreeManager;
     public Player thePlayer;
     public TMP_Text diretorsSpeech;
-    public static float playerAnswer;
+    public static float playerAnswer, life;
     public static bool isAnswered, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
     private HeartManager theHeart;
     QuestionControllerVThree qc;
@@ -22,6 +22,8 @@ public class SimulationManager : MonoBehaviour
         thePlayer = FindObjectOfType<Player>();
         theHeart = FindObjectOfType<HeartManager>();
         //destroyBoulders = FindObjectOfType<PrefabDestroyer>();
+        //theHeart.life = PlayerPrefs.GetInt("life");
+        theHeart.life = (int)life;
         qc.stage = 1;
     }
 
@@ -32,6 +34,8 @@ public class SimulationManager : MonoBehaviour
         {
             if (qc.stage == 3)
             {
+                stage3Flag = true;
+                playerAnswer = qc.GetPlayerAnswer();
                 if (thePlayer.transform.position.x < (40 - playerAnswer))
                 {
                     thePlayer.moveSpeed = 1.99f;
@@ -108,10 +112,11 @@ public class SimulationManager : MonoBehaviour
     {
         qc.nextStage = false;
         VelocityEasyStage1.gameObject.SetActive(false);
+        theManager2.gameObject.SetActive(false);
         thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
         PrefabDestroyer.destroyPrefab = true;
-        thePlayer.standup = false;
+         thePlayer.standup = false;
         thePlayer.moveSpeed = 5;
         yield return new WaitForSeconds(3f);
         StartCoroutine(theHeart.endBGgone());
@@ -128,7 +133,6 @@ public class SimulationManager : MonoBehaviour
         }
         if (qc.stage == 3)
         {
-            theManager2.gameObject.SetActive(false);
             StageThreeManager.gameObject.SetActive(true);
             StageThreeManager.Stage3SetUp();
         }

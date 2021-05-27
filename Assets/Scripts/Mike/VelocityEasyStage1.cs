@@ -70,6 +70,8 @@ public class VelocityEasyStage1 : MonoBehaviour
                     currentPos = answer * gameTime;
                     followLine.valueIs = TextColorMode.Wrong;
                     HeartManager.ReduceLife();
+                    //PlayerPrefs.SetInt("life", HeartManager.life);
+                    SimulationManager.life = HeartManager.life;
                     if (SimulationManager.isRagdollActive)
                     {
                         myPlayer.lost = false;
