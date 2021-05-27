@@ -33,6 +33,7 @@ public class ForceManagerTwo : MonoBehaviour
         {
             pronoun = ("she");
         }
+        theQuestion.stageNumber = 2;
         theCollider = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
         theBomb = FindObjectOfType<BombManager>();
@@ -151,7 +152,7 @@ public class ForceManagerTwo : MonoBehaviour
         thePlayer.transform.position = new Vector2(31,-0.6f);
         theBomb.bomb.transform.position = thePlayer.transform.position;
         theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> must break another glass wall to throw out the 2nd bomb. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and the glass wall has an impact force breaking point of <b>") + Force.ToString("F2") + ("</b> Newtons, how fast should ") + pronoun + (" accelerate towards the glass wall just enough to break it and not go through it?")));
-        masstxt.text = mass.ToString("F2") + ("kg");
+        masstxt.text = ("m = ")+mass.ToString("F2") + ("kg");
         acctxt.text = "a = ?";
         breakingforcetxt.text = ("Breaking Impact Force = ")+ Force.ToString("F2") + ("N");
         playerInitials.SetActive(true);

@@ -34,6 +34,7 @@ public class AccManagerTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        theQuestion.stageNumber = 2;
         cam.transform.position = new Vector3(17.5f, cam.transform.position.y, cam.transform.position.z);
         thePlayer = FindObjectOfType<Player>();
         theBike = FindObjectOfType<BikeManager>();

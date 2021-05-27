@@ -24,6 +24,7 @@ public class ForceManagerOne : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        theQuestion.stageNumber = 1;
         //thePlayer = FindObjectOfType<Player>();
         theCollider = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
@@ -125,7 +126,7 @@ public class ForceManagerOne : MonoBehaviour
         //bombHinge.transform.position = thePlayer.transform.position;
         glassRespawn();
         theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> is instructed to break the glass wall by running into it using his own body mass. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and runs with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s², what should impact force breaking point of the glass wall? If the glass is too tough , it will not break. If the glass is too weak, ") + PlayerPrefs.GetString("Name") + (" will overshoot beyond the glass after breaking.")));
-        masstxt.text = mass.ToString("F2") + ("kg");
+        masstxt.text = ("m = ")+mass.ToString("F2") + ("kg");
         acctxt.text = ("a = ") + accelaration.ToString("F2") + ("m/s²");
         breakingforcetxt.text = "Breaking Impact Force = ?";
         playerInitials.SetActive(true);

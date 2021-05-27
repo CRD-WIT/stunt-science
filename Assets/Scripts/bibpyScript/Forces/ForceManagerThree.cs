@@ -15,11 +15,11 @@ public class ForceManagerThree : MonoBehaviour
     private ScoreManager theScorer;
     float generateAccelaration, accelaration, playerAccelaration, generateForce, force, generateCorrectAnswer, currentPos;
     public float correctAnswer, playerAnswer,increaseMass, playerForce;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, afterStuntMessage, retry, next, glassDebri, cameraman, playerSpeech, napsack, wordedBoard, speechBubble, playerInitials;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, glassDebri, cameraman, playerSpeech, napsack, speechBubble, playerInitials, action, navigator;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady, startAddingMass, crowdExit;
     public bool throwBomb, addingWeight, startRunning, goExit;
-    public TMP_Text stuntMessageTxt, playerMass, thisWaytxt, acctxt, breakingforcetxt, forcetxt;
+    public TMP_Text playerMass, thisWaytxt, acctxt, breakingforcetxt, forcetxt, actiontxt;
     int currentStar, currentLevel;
     string gender, pronoun1, pronoun2;
 
@@ -30,6 +30,7 @@ public class ForceManagerThree : MonoBehaviour
     void Start()
     {
         //thePlayer = FindObjectOfType<Player>();
+        theQuestion.stageNumber = 3;
         theCollider = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
         theBomb = FindObjectOfType<BombManager>();
@@ -38,7 +39,7 @@ public class ForceManagerThree : MonoBehaviour
         currentLevel = PlayerPrefs.GetInt("level");
         currentStar = PlayerPrefs.GetInt("FrstarE");
         
-        wordedBoard.transform.position = new Vector2(8.9f, wordedBoard.transform.position.y);
+        navigator.transform.position = new Vector2(14.44f, navigator.transform.position.y);
         cameraman.transform.position = new Vector2(35, 5.5f);
         cameraman.transform.localScale = new Vector2(-cameraman.transform.localScale.x, cameraman.transform.localScale.y);
         thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
@@ -80,7 +81,7 @@ public class ForceManagerThree : MonoBehaviour
         }
         if (startAddingMass)
         {
-            playerMass.text = increaseMass.ToString("F2") + ("kg");
+            playerMass.text = ("m = ")+increaseMass.ToString("F2") + ("kg");
             increaseMass += 50 * Time.fixedDeltaTime;
             if(increaseMass >= playerAnswer + 70)
             {
@@ -118,7 +119,9 @@ public class ForceManagerThree : MonoBehaviour
             {
                 if (playerAnswer == correctAnswer)
                 {
-                    stuntMessageTxt.text = "<b><color=green>Your Answer is Correct!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " has broken the glass</color>";
+                    theQuestion.answerIsCorrect = true;
+                    action.SetActive(false);
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass</color>");
                     glassHolder.SetActive(false);
                     StartCoroutine(thiswaySpeech());
 
@@ -135,7 +138,9 @@ public class ForceManagerThree : MonoBehaviour
                 }
                 if (playerAnswer < correctAnswer)
                 {
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + " the glass was too tough for </color>" + PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.";
+                    actiontxt.text = "retry";
+                    theQuestion.answerIsCorrect = false;
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");
                     tooWeak = true;
                     thePlayer.gameObject.SetActive(false);
                     if (ragdollReady)
@@ -144,7 +149,6 @@ public class ForceManagerThree : MonoBehaviour
                         thePlayer.standup = true;
                     }
                     thePlayer.moveSpeed = 0;
-                    retry.SetActive(true);
                     StartCoroutine(collision());
                     StartCoroutine(StuntResult());
                     theSimulate.playerDead = true;
@@ -153,7 +157,9 @@ public class ForceManagerThree : MonoBehaviour
                 }
                 if (playerAnswer > correctAnswer)
                 {
-                    stuntMessageTxt.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + " the glass was too weak for </color>" + PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.";
+                    actiontxt.text = "retry";
+                    theQuestion.answerIsCorrect = false;
+                   theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");
                     tooStrong = true;
                     thePlayer.gameObject.SetActive(false);
                     glassHolder.SetActive(false);
@@ -165,7 +171,6 @@ public class ForceManagerThree : MonoBehaviour
                         ragdollSpawn();
                     }
                     StartCoroutine(collision());
-                    retry.SetActive(true);
                     StartCoroutine(StuntResult());
                     theSimulate.playerDead = true;
                     startRunning = false;
@@ -178,12 +183,12 @@ public class ForceManagerThree : MonoBehaviour
     public void GenerateProblem()
     {
         increaseMass = 70;
-        playerMass.text = increaseMass.ToString("F2") + ("kg");
+        playerMass.text = ("m = ")+increaseMass.ToString("F2") + ("kg");
         playerMass.gameObject.SetActive(true);
         theCollider.braker.SetActive(true);
         generateAccelaration = Random.Range(3f, 3.5f);
         accelaration = (float)System.Math.Round(generateAccelaration, 2);
-        generateForce = Random.Range(250, 300);
+        generateForce = Random.Range(300, 500);
         force = (float)System.Math.Round(generateForce, 2);
         theBomb.glassHolder[2].SetActive(true);
         theBomb.otherGlassHolder[0].SetActive(true);
@@ -194,7 +199,7 @@ public class ForceManagerThree : MonoBehaviour
         thePlayer.transform.position = new Vector2(0, 3.2f);
         theBombScript.gameObject.transform.position = new Vector2(7.8f, 1.5f);
         glassRespawn();
-       theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> cannot find the third bomb to throw out and decided to help the trapped persons inside the building get out instead by breaking the glass and letting them slide down the rope outside, If  <b>") + PlayerPrefs.GetString("Name") + ("</b> runs with the accelaration of  <b>") + accelaration.ToString("F2") + ("</b> m/s² and the glass breaks at an impact force of <b>") + force.ToString("F2") + ("</b> N, how much  mass ")+ pronoun1 + (" should add to ")+ pronoun2 + (" 70kg body in order to run into the glass and break it without overshooting?")));
+        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> cannot find the third bomb to throw out and decided to help the trapped persons inside the building get out instead by breaking the glass and letting them slide down the rope outside, If  <b>") + PlayerPrefs.GetString("Name") + ("</b> runs with the accelaration of  <b>") + accelaration.ToString("F2") + ("</b> m/s² and the glass breaks at an impact force of <b>") + force.ToString("F2") + ("</b> N, how much  mass ")+ pronoun1 + (" should add to ")+ pronoun2 + (" 70kg body in order to run into the glass and break it without overshooting?")));
         acctxt.text = ("a = ")+ accelaration.ToString("F2")+ ("m/s²");
         breakingforcetxt.text = ("Breaking Impact Force = ")+ force.ToString("F2");
         playerInitials.SetActive(true);
@@ -246,7 +251,7 @@ public class ForceManagerThree : MonoBehaviour
         yield return new WaitForSeconds(1);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(3);
-        afterStuntMessage.SetActive(true);
+        theQuestion.ToggleModal();
         if(playerAnswer == correctAnswer)
         {
             theScorer.finalstar();

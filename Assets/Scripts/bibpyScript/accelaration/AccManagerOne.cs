@@ -34,6 +34,7 @@ public class AccManagerOne : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        theQuestion.stageNumber = 1;
         bikeInitialsPos = bikeInitials.transform.position;
         //thePlayer = FindObjectOfType<Player>();
         theBike = FindObjectOfType<BikeManager>();

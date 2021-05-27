@@ -99,7 +99,7 @@ public class AccMediumOne : MonoBehaviour
                         {
                             StartCoroutine(StuntResult());
                             StartCoroutine(jump());
-                            playerGrabline.SetActive(true);
+                            
                             //grabline.SetActive(true);
                         }
 
@@ -118,7 +118,7 @@ public class AccMediumOne : MonoBehaviour
                         {
                             StartCoroutine(StuntResult());
                             StartCoroutine(jump());
-                            playerGrabline.SetActive(true);
+                            
                             //grabline.SetActive(true);
                         }
                         if (playerGrabLineDistance < 56)
@@ -195,7 +195,7 @@ public class AccMediumOne : MonoBehaviour
     IEnumerator jump()
     {
         readyToJump = false;
-        if (playerGrabLineDistance > 57)
+        if (playerGrabLineDistance > 55)
         {
             yield return new WaitForSeconds(2f);
             chase = false;
@@ -207,8 +207,9 @@ public class AccMediumOne : MonoBehaviour
             velocity = 0;
             theTruck.moveSpeed = 0;
         }
-        if (playerGrabLineDistance < 57)
+        if (playerGrabLineDistance < 55)
         {
+            playerGrabline.SetActive(true);
             readyToJump = false;
             thePlayer.toReach = true;
             yield return new WaitForSeconds(.5f);

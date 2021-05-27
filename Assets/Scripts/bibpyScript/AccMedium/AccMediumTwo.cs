@@ -12,6 +12,7 @@ public class AccMediumTwo : MonoBehaviour
     float generateViH, Vih, generateAccH, accH, generateViV, Viv, generateAccV, accV, generateDistance, distance;
     float chopperCurrentPos, vanCurrentPos, chopperAccPoint, vanAccPoint, kickpointTimeA, kickpointTimeB, timer,kickDistance;
     bool reposition = true;
+    public QuestionController theQuestion;
     // Start is called before the first frame update
     void Start()
     {

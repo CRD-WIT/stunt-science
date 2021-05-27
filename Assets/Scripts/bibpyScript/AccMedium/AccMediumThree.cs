@@ -57,8 +57,8 @@ public class AccMediumThree : MonoBehaviour
         theDistance.distance = dv;
         if (AccMidSimulation.simulate == true)
         {
-            viHtxt.text = ("vi = ") + (-theChopper.flySpeed).ToString("F2") + ("m/s");
-            viVtxt.text = ("vi = ") + (-theSuv.moveSpeed).ToString("F2") + ("m/s");
+            viHtxt.text = ("v = ") + (-theChopper.flySpeed).ToString("F2") + ("m/s");
+            viVtxt.text = ("v = ") + (-theSuv.moveSpeed).ToString("F2") + ("m/s");
             aVtxt.text = ("a = ") + accV.ToString("F2") + ("m/s²");
             playerTime = (-velocity + Mathf.Sqrt((velocity * velocity) - (4 * (accV / 2) * (-dv)))) / (2 * (accV / 2));
             ropeDistance = (dh - ((velocity * playerTime) + ((accH * (playerTime * playerTime)) / 2))) + 15;
