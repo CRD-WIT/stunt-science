@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using TMPro;
 using UnityEngine.SceneManagement;
 public class Level_3_Stage_2 : MonoBehaviour
@@ -106,11 +107,11 @@ public class Level_3_Stage_2 : MonoBehaviour
 
     }
 
-    IEnumerator StuntResult()
+    IEnumerator StuntResult(Action callback)
     {
         //messageFlag = false;
-        yield return new WaitForSeconds(4f);
-        AfterStuntMessage.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        callback();
     }
 
     public void StartSimulation()
@@ -128,6 +129,7 @@ public class Level_3_Stage_2 : MonoBehaviour
         {
             if (playerAnswer.text.Length > 0)
             {
+                float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
                 elapsed += Time.fixedDeltaTime;
                 timerText.text = elapsed.ToString("f2") + "s";
@@ -137,7 +139,7 @@ public class Level_3_Stage_2 : MonoBehaviour
 
 
                 // Correct Answer
-                if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
+                if (System.Math.Round(answer, 2) == System.Math.Round(correctAnswer, 2))
                 {
                     Debug.Log("Time is correct!");
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
@@ -153,19 +155,24 @@ public class Level_3_Stage_2 : MonoBehaviour
                         elapsed -= 0.01f;
                         isSimulating = false;
                         stuntMessageText.text = $"<b>Stunt Success!!!</b>\n\n{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
-                        StartCoroutine(StuntResult());
+
+
+                        questionController.answerIsCorrect = true;
+
+                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
                     }
                 }
                 else
                 {
-                    if (float.Parse(playerAnswer.text) < System.Math.Round(correctAnswer, 2))
+                    if (answer < System.Math.Round(correctAnswer, 2))
                     {
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
                             Debug.Log("Distance is too short!");
                             isSimulating = false;
-                            stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} grabbed the pole too soon.</color>";
-                            StartCoroutine(StuntResult());
+
+                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon.", "Retry")));
+
                         }
                     }
                     else
@@ -174,8 +181,7 @@ public class Level_3_Stage_2 : MonoBehaviour
                         {
                             Debug.Log("Distance is too long!");
                             isSimulating = false;
-                            stuntMessageText.text = $"<b><color=red>Stunt Failed!!!</b>\n\n{PlayerPrefs.GetString("Name")} grabbed the pole too late.</color>";
-                            StartCoroutine(StuntResult());
+                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late.", "Retry")));
                         }
                     }
                 }
@@ -184,7 +190,6 @@ public class Level_3_Stage_2 : MonoBehaviour
             {
                 Debug.Log("No value was added");
             }
-
 
         }
         else

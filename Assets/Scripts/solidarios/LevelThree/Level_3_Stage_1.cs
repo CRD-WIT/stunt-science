@@ -118,7 +118,7 @@ public class Level_3_Stage_1 : MonoBehaviour
     IEnumerator StuntResult(Action callback)
     {
         //messageFlag = false;
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2f);
         callback();
     }
 
