@@ -238,7 +238,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                                 Debug.Log("Distance is too short!");
                                 isSimulating = false;
                                 questionController.answerIsCorrect = false;
-                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is shorter! The correct answer is {System.Math.Round(correctAnswer, 2)}.", "Retry")));
+                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                             }
                         }
                         else
@@ -248,7 +248,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                                 Debug.Log("Distance is too long!");
                                 isSimulating = false;
                                 questionController.answerIsCorrect = false;
-                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is {System.Math.Round(correctAnswer, 2)}.", "Retry")));
+                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                             }
                         }
                     }
