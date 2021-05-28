@@ -93,12 +93,12 @@ public class Level_3_Stage_1 : MonoBehaviour
 
     public void ResetLevel()
     {
-         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void GotoNextScene()
     {
-       
+
     }
 
     public void CallAction()
@@ -238,7 +238,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                                 Debug.Log("Distance is too short!");
                                 isSimulating = false;
                                 questionController.answerIsCorrect = false;
-                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is shorter! The correct answer is {correctAnswer}.", "Retry")));
+                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is shorter! The correct answer is {System.Math.Round(correctAnswer, 2)}.", "Retry")));
                             }
                         }
                         else
@@ -248,7 +248,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                                 Debug.Log("Distance is too long!");
                                 isSimulating = false;
                                 questionController.answerIsCorrect = false;
-                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is {correctAnswer}.", "Retry")));
+                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is {System.Math.Round(correctAnswer, 2)}.", "Retry")));
                             }
                         }
                     }
@@ -260,7 +260,6 @@ public class Level_3_Stage_1 : MonoBehaviour
             }
             timerText.text = $"{(elapsed).ToString("f2")}s";
             timerAnnotation.GetComponent<TMP_Text>().text = $"t={(elapsed).ToString("f2")}s";
-
         }
         else
         {

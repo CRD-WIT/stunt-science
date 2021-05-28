@@ -77,7 +77,6 @@ public class Annotation : MonoBehaviour
             line2.SetPosition(0, new Vector3(spawnPoint.x, ((distance / 2) + 0.4f) + spawnPoint.y, 0));
             line2.SetPosition(1, new Vector3(spawnPoint.x, (distance + spawnPoint.y), 0));
             textDimension.transform.position = new Vector3(spawnPoint.x, (distance / 2) + spawnPoint.y, 0);
-
         }
         else
         {

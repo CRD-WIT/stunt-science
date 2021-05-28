@@ -22,12 +22,12 @@ public class LookAtConstraint2D : MonoBehaviour
         {
             if (flipped)
             {
-                direction = new Vector2(((target.transform.position.x-12f) - transform.position.x) * -1, (target.transform.position.y - transform.position.y) * -1);
+                direction = new Vector2(((target.transform.position.x) - transform.position.x) * -1, (target.transform.position.y - transform.position.y) * -1);
                 transform.up = direction;
             }
             else
             {
-                direction = new Vector2(((target.transform.position.x) - transform.position.x) * -1, (target.transform.position.y - transform.position.y) * -1);
+                direction = new Vector2(((target.transform.position.x) - transform.position.x), (target.transform.position.y - transform.position.y));
                 transform.up = direction;
             }
         }
