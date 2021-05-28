@@ -79,7 +79,7 @@ public class ForceManagerTwo : MonoBehaviour
                     theQuestion.answerIsCorrect = true;
                     glassHolder.SetActive(false);
                     theQuestion.SetModalTitle("Stunt Success");
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass</color>");
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully thrown the bomb</color>");
                     if(currentPos <= 5.7f)
                     {
                         StartCoroutine(braking());

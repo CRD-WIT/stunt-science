@@ -56,7 +56,7 @@ public class ForceManagerOne : MonoBehaviour
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
                     theQuestion.SetModalTitle("Stunt Success");
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass</color>");
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully thrown the bomb</color>");
                     glassHolder.SetActive(false);
                     
                     if(currentPos >= 22)
@@ -131,6 +131,7 @@ public class ForceManagerOne : MonoBehaviour
         breakingforcetxt.text = "Breaking Impact Force = ?";
         playerInitials.SetActive(true);
         forcetxt.gameObject.SetActive(false);
+        theBombScript.inPlayer = true;
 
         
         

@@ -13,7 +13,7 @@ public class ForceManagerThree : MonoBehaviour
     private BombManager theBomb;
     private HeartManager theHeart;
     private ScoreManager theScorer;
-    float generateAccelaration, accelaration, playerAccelaration, generateForce, force, generateCorrectAnswer, currentPos;
+    float generateAccelaration, accelaration, playerAccelaration, generateForce, force, generateCorrectAnswer, currentPos, totalMass;
     public float correctAnswer, playerAnswer,increaseMass, playerForce;
     public GameObject glassHolder, stickPrefab, stickmanpoint, glassDebri, cameraman, playerSpeech, napsack, speechBubble, playerInitials, action, navigator;
     public GameObject[] glassDebriLoc;
@@ -67,6 +67,7 @@ public class ForceManagerThree : MonoBehaviour
         generateCorrectAnswer = force / accelaration - 70;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         playerForce = (playerAnswer + 70) * accelaration;
+        totalMass = playerAnswer + 70f;
         
         if (addingWeight)
         {
@@ -82,11 +83,12 @@ public class ForceManagerThree : MonoBehaviour
         if (startAddingMass)
         {
             playerMass.text = ("m = ")+increaseMass.ToString("F2") + ("kg");
-            increaseMass += 50 * Time.fixedDeltaTime;
-            if(increaseMass >= playerAnswer + 70)
+            increaseMass += 40 * Time.fixedDeltaTime;
+            if(increaseMass >= totalMass)
             {
+                increaseMass = totalMass;
+                playerMass.text = ("m = ")+totalMass.ToString("F2") + ("kg");
                 startAddingMass = false;
-                increaseMass = playerAnswer + 70;
                 //playerMass.text = "<color=green>" + increaseMass.ToString("F2") + ("kg</color>");
             }
         }
@@ -121,7 +123,7 @@ public class ForceManagerThree : MonoBehaviour
                 {
                     theQuestion.answerIsCorrect = true;
                     action.SetActive(false);
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass</color>");
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully escaped from the explosion </color>");
                     glassHolder.SetActive(false);
                     StartCoroutine(thiswaySpeech());
 

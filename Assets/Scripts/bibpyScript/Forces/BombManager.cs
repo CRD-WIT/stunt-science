@@ -39,7 +39,7 @@ public class BombManager : MonoBehaviour
             {
                 if (theManagerOne.playerAnswer == theManagerOne.correctAnswer)
                 {
-                    bombRigidbody.velocity = new Vector2(12, bombRigidbody.velocity.y);
+                    bombRigidbody.velocity = new Vector2(8, bombRigidbody.velocity.y);
                 }
             }
         }
@@ -48,17 +48,14 @@ public class BombManager : MonoBehaviour
             if (theCollide.collide == true)
             {
                 StartCoroutine(explode());
-                if (theManagerTwo.playerAnswer > theManagerTwo.correctAnswer || theManagerTwo.playerAnswer < theManagerTwo.correctAnswer)
-                {
-                    followRagdoll = true;
-                }
+                
 
             }
             if (theManagerTwo.throwBomb == true)
             {
                 if (theManagerTwo.playerAnswer == theManagerTwo.correctAnswer)
                 {
-                    bombRigidbody.velocity = new Vector2(-12, bombRigidbody.velocity.y);
+                    bombRigidbody.velocity = new Vector2(-8, bombRigidbody.velocity.y);
                 }
             }
         }
@@ -82,7 +79,7 @@ public class BombManager : MonoBehaviour
                 {
                     followRagdoll = true;
                 }
-            if (theManagerOne.playerAnswer <= theManagerOne.correctAnswer)
+            if (theManagerOne.playerAnswer == theManagerOne.correctAnswer)
             {
                 
                 yield return new WaitForSeconds(2f);
@@ -99,7 +96,7 @@ public class BombManager : MonoBehaviour
                 yield return new WaitForSeconds(.4f);
                 Destroy(explosion);
             }
-            if (theManagerOne.playerAnswer > theManagerOne.correctAnswer)
+            /*if (theManagerOne.playerAnswer > theManagerOne.correctAnswer)
             {
                 theManagerOne.throwBomb = false;
                 yield return new WaitForSeconds(1.2f);
@@ -115,11 +112,15 @@ public class BombManager : MonoBehaviour
                 }
                 yield return new WaitForSeconds(.4f);
                 Destroy(explosion);
-            }
+            }*/
         }
         if (theSimulate.stage == 2)
         {
-            if (theManagerTwo.playerAnswer <= theManagerTwo.correctAnswer)
+            if (theManagerTwo.playerAnswer > theManagerTwo.correctAnswer || theManagerTwo.playerAnswer < theManagerTwo.correctAnswer)
+                {
+                    followRagdoll = true;
+                }
+            if (theManagerTwo.playerAnswer == theManagerTwo.correctAnswer)
             {
                 yield return new WaitForSeconds(1.9f);
                 GameObject explosion = Instantiate(explosionPrefab);
@@ -135,7 +136,7 @@ public class BombManager : MonoBehaviour
                 yield return new WaitForSeconds(.4f);
                 Destroy(explosion);
             }
-            if (theManagerTwo.playerAnswer > theManagerTwo.correctAnswer)
+            /*if (theManagerTwo.playerAnswer > theManagerTwo.correctAnswer)
             {
                 theManagerTwo.throwBomb = false;
                 yield return new WaitForSeconds(1.2f);
@@ -151,7 +152,7 @@ public class BombManager : MonoBehaviour
                 }
                 yield return new WaitForSeconds(.4f);
                 Destroy(explosion);
-            }
+            }*/
 
         }
         if (theSimulate.stage == 3)
@@ -165,6 +166,8 @@ public class BombManager : MonoBehaviour
         }
 
         ForceSimulation.simulate = false;
+        yield  return new WaitForSeconds(3);
+        
         followRagdoll = false;
 
     }
