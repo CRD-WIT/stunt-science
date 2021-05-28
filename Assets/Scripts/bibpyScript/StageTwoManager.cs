@@ -46,7 +46,7 @@ public class StageTwoManager : MonoBehaviour
             thePlayer.moveSpeed = speed;
             elapsed += Time.fixedDeltaTime;
             qc.timer = elapsed.ToString("f2") + "s";
-            followLine.stuntTime = playerAnswer;
+            followLine.stuntTime = elapsed;
             if ((elapsed >= playerAnswer) || (currentPos > 30))
             {
                 if (currentPos > 30)
@@ -59,6 +59,7 @@ public class StageTwoManager : MonoBehaviour
                     qc.timer = playerAnswer.ToString("f2") + "s";
                     rubbleStopper.SetActive(false);
                 }
+                followLine.stuntTime = playerAnswer;
                 thePlayer.moveSpeed = 0;
                 RumblingManager.isCrumbling = true;
                 SimulationManager.isAnswered = false;
@@ -104,17 +105,16 @@ public class StageTwoManager : MonoBehaviour
                             thePlayer.transform.position = new Vector2(playerDistance + 0.2f, thePlayer.transform.position.y);
                         errorMessage = PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
                     }
-
                 }
             }
         }
+        SimulationManager.isAnswerCorrect = answerIs;
     }
     public void generateProblem()
     {
         followLine.whatIsAsk = UnitOf.time;
         qc.Unit(followLine.whatIsAsk);
         followLine.valueIs = TextColorMode.Given;
-        followLine.whatIsAsk = UnitOf.time;
         playerAnswer = 0;
         answer = 0;
         elapsed = 0;
@@ -147,7 +147,7 @@ public class StageTwoManager : MonoBehaviour
         followLine.distance = distance;
         endOfAnnotation.SetPosition(0, new Vector2(distance, -3));
         endOfAnnotation.SetPosition(1, new Vector2(distance, -1.5f));
-        theCeiling.createQuadtilemap();
+        theCeiling.createQuadtilemap(qc.stage);
         ragdollSpawn.SetActive(true);
         rubbleStopper.SetActive(true);
         theHeart.losslife = false;

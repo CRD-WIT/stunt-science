@@ -107,7 +107,9 @@ public class IndicatorManager : MonoBehaviour
                 break;
         }
         answer.GetComponent<TMP_Text>().color = color;
+        answer.GetComponent<TMP_Text>().fontSize = fontSize;
         textDimension.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distanceTraveled, 2)}{qc.Unit(UnitOf.distance)}");
+        textDimension.GetComponent<TextMeshPro>().fontSize = fontSize;
 
         switch (valueIs)
         {
@@ -127,9 +129,11 @@ public class IndicatorManager : MonoBehaviour
             linesObj[i].endColor = color;
         }
         textDimension.GetComponent<TMP_Text>().color = color;
+        textDimension.GetComponent<TMP_Text>().fontSize =fontSize;
         correctAnswerIndicator.startColor = new Color32(0, 255, 0, 255);
         correctAnswerIndicator.endColor = new Color32(0, 255, 0, 255);
         correctAnswer.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
+        correctAnswer.GetComponent<TextMeshPro>().fontSize = fontSize;
 
         string longprob = $"<color={qc.getHexColor(TextColorMode.Given)}>sample</color>";
     }

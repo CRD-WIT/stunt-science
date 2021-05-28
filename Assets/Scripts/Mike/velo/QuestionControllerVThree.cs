@@ -9,7 +9,7 @@ public class QuestionControllerVThree : MonoBehaviour
 {
     float playerAnswer;
     private Transform baseComponent, problemBox, extraComponent, levelBadge;
-    public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage;
+    public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
     public Difficulty levelDifficulty;
     public int levelNumber, stage;
@@ -18,7 +18,7 @@ public class QuestionControllerVThree : MonoBehaviour
     public UnitOf unitOf;
     string answerUnit, difficulty;
     int passedLevel;
-    bool timerOn = false;
+    bool timerOn = false, loaded = false;
     [SerializeField] TMP_InputField answerFieldHorizontal;
     [SerializeField] Transform difficultyName, stageName;
     [SerializeField] string modalText, errorText;
@@ -194,13 +194,16 @@ public class QuestionControllerVThree : MonoBehaviour
             SceneManager.LoadScene("LevelSelection");
         }
     }
-
     public void Retry()
     {
+        ToggleModal();
         extraOn = false;
-        modalComponentHorizontal.gameObject.SetActive(false);
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        answerFieldHorizontal.text = "";
+
+        // Scene currentScene = SceneManager.GetActiveScene();
+        // SceneManager.LoadScene(currentScene.name);
+        
+        retried = true;
     }
 
     IEnumerator IsEmpty()

@@ -31,7 +31,6 @@ public class RumblingManager : MonoBehaviour
     {
         if (shakeON == true)
         {
-            
             StartCoroutine(camshake());
             if (rubbleON == true)
             {
@@ -64,7 +63,6 @@ public class RumblingManager : MonoBehaviour
     }
     IEnumerator camshake()
     {
-        
         if (shakeDuration > 0)
         {
             rumbling.SetActive(true);
@@ -76,7 +74,6 @@ public class RumblingManager : MonoBehaviour
             shakeDuration = 0f;
             camTransform.localPosition = originalPos;
         }
-
         yield return new WaitForSeconds(2);
         shakeON = false;
         rumbling.SetActive(false);
@@ -92,11 +89,7 @@ public class RumblingManager : MonoBehaviour
     {
         //StartCoroutine(BoulderDrop());
         GameObject TempGo2 = Instantiate(rubbles[Random.Range(0, 1)]);
-        TempGo2.transform.position = new Vector2(Random.Range(-3f, 40f), 9f);
-        GameObject TempGo3 = Instantiate(rubbles[Random.Range(0, 1)]);
-        TempGo3.transform.position = new Vector2(Random.Range(-3f, 40f), 10f);
-        GameObject TempGo = Instantiate(rubbles[Random.Range(0, 1)]);
-        TempGo.transform.position = new Vector2(Random.Range(-3f, 40f), 11f);
+        TempGo2.transform.position = new Vector2(Random.Range(-3f, 40f), Random.Range(9f, 11f));
         rubbleON = false;
         yield return new WaitForSeconds(1);
         rubbleON = true;
@@ -117,17 +110,7 @@ public class RumblingManager : MonoBehaviour
     void moreCollapse()
     {
         GameObject TempGo2 = Instantiate(debris[Random.Range(0, 2)]);
-        TempGo2.transform.position = new Vector2(Random.Range(-3, debrisRange), 9);
-        GameObject TempGo7 = Instantiate(debris[Random.Range(0, 2)]);
-        TempGo7.transform.position = new Vector2(Random.Range(-3, debrisRange), 10);
-        GameObject TempGo6 = Instantiate(debris[Random.Range(0, 2)]);
-        TempGo6.transform.position = new Vector2(Random.Range(-3, debrisRange), 11);
-        GameObject TempGo1 = Instantiate(debris[Random.Range(0, 2)]);
-        TempGo1.transform.position = new Vector2(Random.Range(-3, debrisRange), 9);
-        GameObject TempGo3 = Instantiate(debris[Random.Range(0, 2)]);
-        TempGo3.transform.position = new Vector2(Random.Range(-3, debrisRange), 10);
-        GameObject TempGo4 = Instantiate(debris[Random.Range(0, 2)]);
-        TempGo4.transform.position = new Vector2(Random.Range(-3, debrisRange), 11);
+        TempGo2.transform.position = new Vector2(Random.Range(-3, debrisRange), Random.Range(9f, 11f));
     }
     public void collapse()
     {

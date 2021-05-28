@@ -75,6 +75,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                     if (SimulationManager.isRagdollActive)
                     {
                         myPlayer.lost = false;
+                        myPlayer.happy =false;
                         SimulationManager.isRagdollActive = false;
                     }
                     else
@@ -82,7 +83,6 @@ public class VelocityEasyStage1 : MonoBehaviour
                         myPlayer.lost = true;
                     }
                     answerIs = false;
-                    
                     if (answer < Speed)
                     {
                         myPlayer.transform.position = new Vector2(currentPos - 0.2f, myPlayer.transform.position.y);
@@ -91,11 +91,12 @@ public class VelocityEasyStage1 : MonoBehaviour
                     else //if(answer > Speed)
                     {
                         myPlayer.transform.position = new Vector2(currentPos + 0.2f, myPlayer.transform.position.y);
-                        errorMessage = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
+                        errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
                 }
             }
         }
+        SimulationManager.isAnswerCorrect = answerIs;
     }
     public void VelocityEasyStage1SetUp()
     {
@@ -134,7 +135,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         endOfAnnotation.SetPosition(0, new Vector2(distance, -3));
         endOfAnnotation.SetPosition(1, new Vector2(distance, -1.5f));
 
-        theCeiling.createQuadtilemap();
+        theCeiling.createQuadtilemap(qc.stage);
         safeZone.transform.position = new Vector2(distance, -2);
         qc.timer = "0.00s";
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);

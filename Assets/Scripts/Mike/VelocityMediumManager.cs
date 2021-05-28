@@ -89,6 +89,7 @@ public class VelocityMediumManager : MonoBehaviour
                             else
                                 messageTxt = playerName + " jumped too late and hit the boulder.\nThe correct answer is <color=red>" + stuntTime + " seconds</color>.";
                         }
+                        isEndOfStunt =true;
                     }
                     break;
                 case 2:
@@ -156,10 +157,24 @@ public class VelocityMediumManager : MonoBehaviour
                     break;
             }
         }
+        if (isEndOfStunt)
+        {
+            StartCoroutine(StuntResult());
+        }
         if (qc.isSimulating)
             Play();
-        if (qc.nextStage)
-            Next();
+        else
+        {
+            if (qc.nextStage)
+                Next();
+            else if (qc.retried)
+                Retry();
+            else
+            {
+                qc.nextStage = false;
+                qc.retried = false;
+            }
+        }
     }
     void VeloMediumSetUp()
     {
@@ -307,8 +322,9 @@ public class VelocityMediumManager : MonoBehaviour
         isStartOfStunt = true;
         directorIsCalling = true;
     }
-    public void RetryButton()
+    public void Retry()
     {
+        qc.retried = false;
         myPlayer.gameObject.SetActive(true);
         VeloMediumSetUp();
     }
@@ -366,6 +382,7 @@ public class VelocityMediumManager : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
+        isEndOfStunt = false;
         directorIsCalling = true;
         isStartOfStunt = false;
         yield return new WaitForSeconds(1f);
@@ -374,9 +391,9 @@ public class VelocityMediumManager : MonoBehaviour
     IEnumerator Jump()
     {
         myPlayer.jump();
-        StartCoroutine(StuntResult());
         yield return new WaitForSeconds(jumpTime);
         isAnswered = false;
+
     }
     void OnTriggerEnter(Collider other)
     {

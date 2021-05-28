@@ -14,7 +14,7 @@ public class VelocityEasyStage3 : MonoBehaviour
     string pronoun, playerName, playerGender, answerMessage;
     public GameObject slidePlatform, lowerGround, safeZone, rubblesStopper, givenDistance, ragdollSpawn, manholeCover, templeBeam, annotationFollower;
     bool director, answerIs;
-    float answer;
+    float answer, initialDistance;
     [SerializeField] LineRenderer startLine, endLine;
     IndicatorManager followLine;
     Annotation dimensionLine;
@@ -38,32 +38,33 @@ public class VelocityEasyStage3 : MonoBehaviour
     }
     void FixedUpdate()
     {
-        followLine.distanceTraveled = 40 - myPlayer.transform.position.x;
         answer = qc.GetPlayerAnswer();
         if (SimulationManager.stage3Flag)
         {
-            float totalDistance = 40f;
-            float initialDistance = (float)System.Math.Round((totalDistance - answer), 2);
-            dimensionLine.spawnPoint.x = initialDistance;
-            dimensionLine.distance = answer;
-            startLine.SetPosition(0, new Vector2(40 - distance, -3));
-            startLine.SetPosition(1, new Vector2(40 - distance, -1.5f));
-            endLine.SetPosition(0, new Vector2(distance, -3));
-            endLine.SetPosition(1, new Vector2(distance, -1.5f));
-            followLine.spawnPoint.x = initialDistance;
             givenDistance.SetActive(true);
+            float totalDistance = 40f;
+            initialDistance = totalDistance - answer;
+            dimensionLine.spawnPoint.x = initialDistance;
+            startLine.SetPosition(0, new Vector2(initialDistance, -3));
+            startLine.SetPosition(1, new Vector2(initialDistance, -1.5f));
+            endLine.SetPosition(0, new Vector2(40, -3));
+            endLine.SetPosition(1, new Vector2(40, -1.5f));
+            dimensionLine.distance = answer;
         }
         if (SimulationManager.isAnswered)
         {
+            followLine.distanceTraveled = myPlayer.transform.position.x - (40-answer);
+            annotationFollower.SetActive(true);
+            followLine.spawnPoint.x = initialDistance;
             followLine.distance = answer;
             givenDistance.SetActive(false);
             myPlayer.moveSpeed = Speed;
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.fixedDeltaTime;
-            annotationFollower.SetActive(true);
             StartCoroutine(RagdollCollider());
             if (elapsed >= gameTime)
             {
+                followLine.distanceTraveled = answer;
                 StartCoroutine(StuntResult());
                 SimulationManager.isAnswered = false;
                 RumblingManager.isCrumbling = true;
@@ -119,7 +120,6 @@ public class VelocityEasyStage3 : MonoBehaviour
         distance = 0;
         givenDistance.SetActive(false);
         rubblesStopper.SetActive(true);
-        rubblesStopper.SetActive(true);
         slidePlatform.SetActive(true);
         lowerGround.SetActive(false);
         manholeCover.SetActive(true);
@@ -140,7 +140,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         myPlayer.lost = false;
         myPlayer.standup = false;
         RumblingManager.shakeON = true;
-        theCeiling.createQuadtilemap();
+        theCeiling.createQuadtilemap(qc.stage);
         safeZone.transform.position = new Vector2(40, -3);
         safeZone.GetComponent<BoxCollider2D>().enabled = false;
         ragdollSpawn.SetActive(true);

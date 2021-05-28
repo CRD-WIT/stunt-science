@@ -46,7 +46,6 @@ public class HeartManager : MonoBehaviour
             {
                 GameObject.Destroy(transform.GetChild(i).gameObject);
             }
-
             if (life == 0)
             {
                 Time.timeScale = 0.4f;
@@ -54,7 +53,6 @@ public class HeartManager : MonoBehaviour
                 StartCoroutine(gameover());
             }
         }
-
     }
     IEnumerator actionreset()
     {
@@ -68,7 +66,7 @@ public class HeartManager : MonoBehaviour
         Gameoversfx.Play();
         StartCoroutine(endBGgone());
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("LevelOne");
+        //SceneManager.LoadScene("LevelOne");
         Time.timeScale = 1f;
     }
     public IEnumerator endBGgone()

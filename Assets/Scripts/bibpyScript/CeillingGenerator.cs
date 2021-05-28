@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CeillingGenerator : MonoBehaviour
@@ -17,34 +15,32 @@ public class CeillingGenerator : MonoBehaviour
         endpoint = mapWitdh - startPoint;
         ceillingPresent = false;
     }
-
-    // Update is called once per frame
-    void Update()
+    public void createQuadtilemap(int s)
     {
-        stage = qc.stage;
-        //GameObject debris = rubble[Random.Range(0, 2)];
-    }
-
-    public void createQuadtilemap()
-    {
-        if (stage == 1)
+        switch (s)
         {
-            mapWitdh = 25;
+            case 1:
+                mapWitdh = 25;
+                break;
+            case 2:
+                mapWitdh = 30;
+                break;
+            default:
+                mapWitdh = 43;
+                break;
         }
-        else if (stage == 2)
+        for (float x = 0f; x < mapWitdh + 3f; x++)
         {
-            mapWitdh = 30;
+            int i = 1;
+            while (i < 5)
+            {
+                GameObject TempGo2 = Instantiate(rubble[Random.Range(0, 2)]);
+                TempGo2.transform.localScale = new Vector2(TempGo2.transform.localScale.x * (Random.Range(0.5f, 0.7f)), TempGo2.transform.localScale.y * (Random.Range(0.5f, 0.7f)));
+                TempGo2.transform.position = new Vector3(x - 3 * tileoffset, (9 * tileoffset)+i, 1);
+                i++;
+            }
         }
-        else
-        {
-            mapWitdh = 42;
-        }
-        for (int x = 0; x < mapWitdh + 3; x++)
-        {
-            GameObject TempGo2 = Instantiate(rubble[Random.Range(0, 2)]);
-            TempGo2.transform.position = new Vector3(x - 3 * tileoffset, 9 * tileoffset, 1);
-            ceillingPresent = true;
-        }
+        ceillingPresent = true;
     }
     public void createQuadtilemap2()
     {
