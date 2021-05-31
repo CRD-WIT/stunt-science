@@ -107,6 +107,8 @@ public class AccMediumThree : MonoBehaviour
             }
             if (suvPos <= 15)
             {
+                viVtxt.text = ("v = 0m/s");
+                follow = false;
                 if(resultReady)
                 {
                     StartCoroutine(StuntResult());
@@ -114,6 +116,7 @@ public class AccMediumThree : MonoBehaviour
                 
                 if (accV == correctAnswer)
                 {
+                    aVtxt.color = new Color32(107, 0, 176, 255);
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
                     theQuestion.SetModalTitle("Stunt Success");
@@ -219,7 +222,7 @@ public class AccMediumThree : MonoBehaviour
         viVtxt.text = ("vi = ") + velocity.ToString("F2") + ("m/s");
         aHtxt.text = ("a = ") + accH.ToString("F2") + ("m/s²");
         aVtxt.text = ("a = ?");
-        follow = false;
+        aVtxt.color = new Color32(188, 10, 0, 255);
         theQuestion.SetQuestion(("<b>") + PlayerPrefs.GetString("Name") + ("</b> is instructed to drive the van off the ledge and hang on into the rope of the helicopter just before it drops, If the helicopter id flying at <b>") + velocity.ToString("F2") + ("</b> m/s while accelarating at  <b>") + accH.ToString("F2") + ("</b> m/s², what should be the accelaration of the van running at  <b>") + velocity.ToString("F2") + ("</b> m/s, so <b>") + PlayerPrefs.GetString("Name") + ("</b> can grab the rope at exactly at the edge of the ledge <b>") + dv.ToString("F2") + ("</b> meters in front of ") + pronoun + (" ?"));
 
 

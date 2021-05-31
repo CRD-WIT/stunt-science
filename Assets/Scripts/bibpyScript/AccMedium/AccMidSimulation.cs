@@ -61,7 +61,7 @@ public class AccMidSimulation : MonoBehaviour
             playerAnswer = float.Parse(answerField[0].text);
             //subChopper[0].SetActive(false);
             dimension[0].SetActive(false);
-            if (answerField[0].text == "" || playerAnswer > 7|| playerAnswer < 1)
+            if (answerField[0].text == "" || playerAnswer > 10|| playerAnswer < 1)
             {
                 StartCoroutine(theManagerOne.errorMesage());
                 theQuestion[0].errorText = ("believe me! its too long!");
@@ -100,9 +100,9 @@ public class AccMidSimulation : MonoBehaviour
         if (stage == 3)
         {
             playerAnswer = float.Parse(answerField[2].text);
-            if (answerField[2].text == "" || playerAnswer > 100)
+            if (answerField[2].text == "" || playerAnswer > 16)
             {
-                errorTextBox.SetText("Please enter a valid answer!");
+                errorTextBox.SetText("exceed the average car acceleratoin");
             }
             else
             {

@@ -62,10 +62,12 @@ public class ForceManagerTwo : MonoBehaviour
             if(playerAnswer == correctAnswer)
             {
                 forcetxt.text = ("f = ")+ Force.ToString("F2")+("N");
+                forcetxt.color = new Color32(107, 0, 176, 255);
             }
             if(playerAnswer != correctAnswer) 
             {
                 forcetxt.text = ("f = ")+ playerForce.ToString("F2")+("N");
+                forcetxt.color = new Color32(188, 10, 0, 255);
             }
             forcetxt.gameObject.SetActive(true);    
             forcetxt.gameObject.transform.position = new Vector2(thePlayer.transform.position.x + 4,thePlayer.transform.position.y);  
@@ -133,6 +135,7 @@ public class ForceManagerTwo : MonoBehaviour
                    StartCoroutine(StuntResult());
                    ForceSimulation.simulate = false;
                    theHeart.losinglife();
+                   theSimulate.playerDead = true;
                 }
             }
         }

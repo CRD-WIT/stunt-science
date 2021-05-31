@@ -26,7 +26,7 @@ public class Suv : MonoBehaviour
         }
         if(deaccelarating)
         {
-            moveSpeed += accelaration * Time.fixedDeltaTime;
+            moveSpeed += (accelaration/4) * Time.fixedDeltaTime;
         }
        
     }

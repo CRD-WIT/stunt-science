@@ -6,7 +6,7 @@ using TMPro;
 
 public class AccMediumOne : MonoBehaviour
 {
-    public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, grabline, playerGrabline, carInitials, chopperInitials;
+    public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, playerGrabline, carInitials, chopperInitials;
     public GameObject ragdollPause, ropePoint, carArrow, chopperArrow;
     public Player thePlayer;
     public Hellicopter theChopper;
@@ -178,7 +178,6 @@ public class AccMediumOne : MonoBehaviour
         generateCorrectAnswer = (2 * velocity) / accelaration;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         grabLineDistance = velocity * correctAnswer;
-        grabline.transform.position = new Vector2(grabLineDistance + 2.67f, grabline.transform.position.y);
         carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2f, theTruck.transform.position.y);
         chopperInitials.transform.position = new Vector2(theSubChopper.transform.position.x + 2.2f, theSubChopper.transform.position.y);
         viTtxt.text = ("vi = 0m/s ");
@@ -209,7 +208,7 @@ public class AccMediumOne : MonoBehaviour
         }
         if (playerGrabLineDistance < 55)
         {
-            playerGrabline.SetActive(true);
+            
             readyToJump = false;
             thePlayer.toReach = true;
             yield return new WaitForSeconds(.5f);
@@ -219,10 +218,13 @@ public class AccMediumOne : MonoBehaviour
             chase = false;
             if (answer == correctAnswer)
             {
+                timertxt.color = new Color32(107, 0, 176, 255);
                 hangingRagdoll.SetActive(true);
             }
             if (answer != correctAnswer)
             {
+                timertxt.color = new Color32(188, 10, 0, 255);
+                playerGrabline.SetActive(true);
                 ropePoint.SetActive(true);
                 ragdollPause.SetActive(true);
                 ragdollPause.transform.position = new Vector2(playerGrabLineDistance + 2.67f, ragdollPrefab.transform.position.y);

@@ -49,6 +49,7 @@ public class ragdollForces : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        theManagerThree = FindObjectOfType<ForceManagerThree>();
         if (theSimulate.playerDead == true)
         {
             StartCoroutine(playerSpawn());
@@ -86,6 +87,7 @@ public class ragdollForces : MonoBehaviour
                 backward = true;
             }
         }
+        
 
 
         if (forward)
@@ -109,6 +111,7 @@ public class ragdollForces : MonoBehaviour
                 backward = false;
             }
         }
+        
     }
     IEnumerator driverSpawn()
     {

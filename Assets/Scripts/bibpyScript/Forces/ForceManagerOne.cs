@@ -41,6 +41,7 @@ public class ForceManagerOne : MonoBehaviour
         generateCorrectAnswer = mass * accelaration;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         forcetxt.text = ("f = ")+ correctAnswer.ToString("F2")+("N");
+        forcetxt.color = new Color32(107, 0, 176, 255);
         
         if (ForceSimulation.simulate == true)
         {
