@@ -6313,6 +6313,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -161
       objectReference: {fileID: 0}
+    - target: {fileID: 6678413898768732524, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6678413899114641197, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -6321,6 +6325,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6678413899246383777, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6678413899246383778, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -893.2999
@@ -6328,6 +6336,10 @@ PrefabInstance:
     - target: {fileID: 6678413899246383778, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
       propertyPath: m_LocalPosition.y
       value: 313.20004
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678413899362894982, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6678413899418197873, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
       propertyPath: m_IsActive
@@ -6345,6 +6357,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6678413899658085012, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6678413899682683576, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -6359,7 +6375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6678413899702397662, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
       propertyPath: m_SortingOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6678413899726962052, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
       propertyPath: m_LocalScale.z
@@ -7129,7 +7145,7 @@ PrefabInstance:
     - target: {fileID: 6824213358195435533, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 2021995314}
+      objectReference: {fileID: 1451575342}
     - target: {fileID: 6824213358195435533, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
       propertyPath: flipped
       value: 1
@@ -7137,11 +7153,19 @@ PrefabInstance:
     - target: {fileID: 8350626328617949497, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 2021995314}
+      objectReference: {fileID: 1451575342}
+    - target: {fileID: 8350626328617949497, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
+      propertyPath: isCalloutOpen
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8350626328617949497, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
+      propertyPath: questionController
+      value: 
+      objectReference: {fileID: 2059275433}
     - target: {fileID: 8658454399414443441, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 2021995314}
+      objectReference: {fileID: 1451575342}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
 --- !u!1 &645368563
@@ -10211,6 +10235,11 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &1451575342 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6643490681698118623, guid: 7bc87c50c8303494c822786def94109f, type: 3}
+  m_PrefabInstance: {fileID: 1620750602}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1485356983
 GameObject:
   m_ObjectHideFlags: 0
