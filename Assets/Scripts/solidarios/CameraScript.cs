@@ -7,17 +7,18 @@ public class CameraScript : MonoBehaviour
     GameObject cameraImage;
     GameObject spotLight;
     public GameObject target;
-    [SerializeField] bool isCalloutOpen;
+    public bool isCalloutOpen;
     [SerializeField] GameObject callout;
     [SerializeField] TMP_Text calloutText;
     [SerializeField] QuestionController questionController;
+    public bool directorIsCalling;
 
     // Start is called before the first frame update
     void Start()
     {
         cameraImage = transform.Find("CameraTop").gameObject;
         spotLight = transform.Find("SpotLight").gameObject;
-
+        callout.SetActive(false);
         cameraImage.GetComponent<LookAtConstraint2D>().SetTarget(target);
         spotLight.GetComponent<LookAtConstraint2D>().SetTarget(target);
     }
@@ -26,6 +27,7 @@ public class CameraScript : MonoBehaviour
     {
         if (questionController.isSimulating)
         {
+            callout.SetActive(true);
             calloutText.SetText("Lights!");
             yield return new WaitForSeconds(0.75f);
             calloutText.SetText("Camera!");
@@ -33,6 +35,8 @@ public class CameraScript : MonoBehaviour
             calloutText.SetText("Action!");
             yield return new WaitForSeconds(0.75f);
             calloutText.SetText("");
+            callout.SetActive(false);
+            questionController.isSimulating = true;
         }
         else
         {
@@ -42,16 +46,15 @@ public class CameraScript : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (isCalloutOpen)
+        if (directorIsCalling)
         {
-            callout.SetActive(true);
             StartCoroutine(DirectorsCall());
         }
         else
         {
-            callout.SetActive(false);
+            directorIsCalling = false;
         }
     }
 }

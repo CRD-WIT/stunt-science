@@ -31,7 +31,6 @@ public class SimulationManager : MonoBehaviour
         stage = 1;
         thePlayer = FindObjectOfType<Player>();
         theHeart = FindObjectOfType<HeartManager>();
-
     }
 
     // Update is called once per frame
@@ -74,21 +73,21 @@ public class SimulationManager : MonoBehaviour
             directorIsCalling = true;
             //answerField.placeholder = playerAnswer.ToString()+"m/s";
             playerAnswer = float.Parse(answerField.text);
-            
+
             answerButton.interactable = false;
             if (stage == 1)
-        {
-            
-            answerField.text = playerAnswer.ToString() + "m/s";
-        }
-        else if (stage == 2)
-        {
-            answerField.text = playerAnswer.ToString() + "s";
-        }
-        else
-        {
-            answerField.text = playerAnswer.ToString() + "m";
-        }
+            {
+
+                answerField.text = playerAnswer.ToString() + "m/s";
+            }
+            else if (stage == 2)
+            {
+                answerField.text = playerAnswer.ToString() + "s";
+            }
+            else
+            {
+                answerField.text = playerAnswer.ToString() + "m";
+            }
         }
     }
     public IEnumerator DirectorsCall()
@@ -172,7 +171,6 @@ public class SimulationManager : MonoBehaviour
         answerField.text = "";
         answerButton.interactable = true;
         playerAnswer = 0;
-
     }
     IEnumerator resetPrefab()
     {

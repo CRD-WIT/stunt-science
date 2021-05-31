@@ -38,6 +38,7 @@ public class Level_3_Stage_2 : MonoBehaviour
     string playerName = "Junjun";
     string pronoun = "he";
     public QuestionController questionController;
+    public CameraScript cameraScript;
     void Start()
     {
         // Given        
@@ -115,8 +116,7 @@ public class Level_3_Stage_2 : MonoBehaviour
 
     public void StartSimulation()
     {
-        isSimulating = true;
-        questionController.isSimulating = true;
+        cameraScript.directorIsCalling = true;                
         questionController.SetAnswer();
     }
     void FixedUpdate()
@@ -135,7 +135,6 @@ public class Level_3_Stage_2 : MonoBehaviour
 
                 playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
                 thePlayerAnimation.SetBool("isFalling", true);
-
 
                 // Correct Answer
                 if (System.Math.Round(answer, 2) == System.Math.Round(correctAnswer, 2))

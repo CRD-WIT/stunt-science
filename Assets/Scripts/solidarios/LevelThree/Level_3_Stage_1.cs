@@ -41,6 +41,7 @@ public class Level_3_Stage_1 : MonoBehaviour
     String playerName = "Junjun";
     String pronoun = "he";
     bool metTargetTime = false;
+    [SerializeField] CameraScript cameraScript;
     void Start()
     {
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
@@ -133,8 +134,7 @@ public class Level_3_Stage_1 : MonoBehaviour
 
     public void StartSimulation()
     {
-        isSimulating = true;
-        questionController.isSimulating = true;
+        cameraScript.directorIsCalling = true;                
         questionController.SetAnswer();
     }
     void FixedUpdate()
