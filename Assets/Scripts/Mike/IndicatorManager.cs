@@ -97,7 +97,7 @@ public class IndicatorManager : MonoBehaviour
         switch (whatIsAsk)
         {
             case UnitOf.distance:
-                answer.GetComponent<TMP_Text>().text = System.Math.Round(distance, 2) + qc.Unit(whatIsAsk);
+                answer.GetComponent<TMP_Text>().text = System.Math.Round(distanceTraveled, 2) + qc.Unit(whatIsAsk);
                 break;
             case UnitOf.time:
                 answer.GetComponent<TMP_Text>().text = System.Math.Round(stuntTime, 2) + qc.Unit(whatIsAsk);

@@ -64,6 +64,8 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     public void ActionBtn()
     {
+        
+        ToggleModal();
         if (answerIsCorrect)
             Next();
         else
@@ -77,7 +79,7 @@ public class QuestionControllerVThree : MonoBehaviour
     public void ActivateResult(string message, bool isCorrect)
     {
         answerIsCorrect = isCorrect;
-        ToggleModal();
+        isModalOpen =true;
         if (isCorrect)
         {
             actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
@@ -128,7 +130,6 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     public void Next()
     {
-        ToggleModal();
         if (stage == 1)
         {
             stage = 2;
@@ -196,7 +197,6 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     public void Retry()
     {
-        ToggleModal();
         extraOn = false;
         answerFieldHorizontal.text = "";
 
@@ -210,7 +210,7 @@ public class QuestionControllerVThree : MonoBehaviour
     {
         popupVisible = true;
         errorText = "Please enter your answer!";
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         popupVisible = false;
         errorText = "";
     }
