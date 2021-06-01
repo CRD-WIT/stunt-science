@@ -8,7 +8,7 @@ public class RagdollV2 : MonoBehaviour
     public GameObject stick;
     public GameObject stickloc;
     public static bool ragdollEnabled, disableRagdoll;
-    public static Player myPlayer;
+    public static PlayerV2 myPlayer;
 
     void Start()
     {
@@ -23,11 +23,11 @@ public class RagdollV2 : MonoBehaviour
         {
             moveSpeedforward = 0;
         }
-        // if (myPlayer.gameObject.activeSelf)
-        // {
-        //     disableRagdoll = true;
-        // }
-        if (SimulationManager.playerDead)
+        if (this.gameObject.activeSelf)
+        {
+            disableRagdoll = true;
+        }
+        if (disableRagdoll)
         {
             // ragdollEnabled = true;
             StartCoroutine(playerSpawn());
@@ -35,7 +35,6 @@ public class RagdollV2 : MonoBehaviour
     }
     IEnumerator playerSpawn()
     {
-        SimulationManager.playerDead = false;
         disableRagdoll = false;
         yield return new WaitForSeconds(3);
         Destroy(stick.gameObject);

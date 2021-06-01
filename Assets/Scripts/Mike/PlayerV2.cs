@@ -13,7 +13,7 @@ public class PlayerV2 : MonoBehaviour
     public LayerMask whatIsGround;
     public Transform groundCheck;
     private Collider2D myCollider;
-    public EdgeCollider2D slideCollider;
+    // public EdgeCollider2D slideCollider;
     void Start()
     {
         myAnimator = GetComponent<Animator>();
@@ -22,7 +22,7 @@ public class PlayerV2 : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundedRadius, whatIsGround);
         currentpos = player.transform.position.x;
@@ -55,10 +55,10 @@ public class PlayerV2 : MonoBehaviour
         {
             StartCoroutine(happyOn());
         }
-        if (slide)
-        {
-            StartCoroutine(Sliding());
-        }
+        // if (slide)
+        // {
+        //     StartCoroutine(Sliding());
+        // }
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -74,36 +74,10 @@ public class PlayerV2 : MonoBehaviour
         stick.transform.position = stickmanpoint.transform.position;
         ragdollblow = false;
     }
-    public void startstunt()
-    {
-        StartCoroutine(stunt());
-    }
-    IEnumerator stunt()
-    {
-        yield return new WaitForSeconds(1);
-    }
     public void playfootstep()
     {
         // TODO: Fix sound
         //footstep.Play(0);
-    }
-    public void positioning()
-    {
-        moveSpeed = 4;
-        posready = true;
-    }
-
-    public void SetEmotion(string emotion)
-    {
-        switch (emotion)
-        {
-            case "happy":
-                this.happy = true;
-                break;
-            default:
-                this.happy = false;
-                break;
-        }
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -114,7 +88,6 @@ public class PlayerV2 : MonoBehaviour
         }
         if (other.gameObject.tag == ("stickmanspawn"))
         {
-            SimulationManager.playerDead = true;
             ragdollspawn();
             lost = false;
             standup = true;
@@ -130,18 +103,18 @@ public class PlayerV2 : MonoBehaviour
         yield return new WaitForSeconds(1);
         happy = false;
     }
-    IEnumerator Sliding()
-    {
-        yield return new WaitForSeconds(1f);
-        slideCollider.enabled = true;
-        myCollider.enabled =false;
-        myRigidbody.mass = 0.00001f;
-        myRigidbody.gravityScale = 90;
-        yield return new WaitForSeconds(3.5f);
-        myRigidbody.mass = 10;
-        myRigidbody.gravityScale = 1;
-        slideCollider.enabled =false;
-        myCollider.enabled =true;
-        slide = false;
-    }
+    // IEnumerator Sliding()
+    // {
+    //     yield return new WaitForSeconds(1f);
+    //     slideCollider.enabled = true;
+    //     myCollider.enabled =false;
+    //     myRigidbody.mass = 0.00001f;
+    //     myRigidbody.gravityScale = 90;
+    //     yield return new WaitForSeconds(3.5f);
+    //     myRigidbody.mass = 10;
+    //     myRigidbody.gravityScale = 1;
+    //     slideCollider.enabled =false;
+    //     myCollider.enabled =true;
+    //     slide = false;
+    // }
 }

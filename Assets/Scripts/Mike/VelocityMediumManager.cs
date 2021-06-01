@@ -13,7 +13,7 @@ public class VelocityMediumManager : MonoBehaviour
     [SerializeField] GameObject boulder, directorsBubble, floor, boulderA;
     [SerializeField] LineRenderer EndOfAnnotation;
     Annotation distanceMeassure;
-    Player myPlayer;
+    PlayerV2 myPlayer;
     CeillingGenerator createCeilling;
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField] float playerVelocity, boulderVelocity, boulder2Velocity, stuntTime, distance, jumpDistance, correctAnswer;
@@ -29,7 +29,7 @@ public class VelocityMediumManager : MonoBehaviour
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
         labels = FindObjectOfType<IndicatorManager>();
-        myPlayer = FindObjectOfType<Player>();
+        myPlayer = FindObjectOfType<PlayerV2>();
         distanceMeassure = FindObjectOfType<Annotation>();
         createCeilling = FindObjectOfType<CeillingGenerator>();
         boulderRB = boulder.GetComponent<Rigidbody2D>();
@@ -347,7 +347,8 @@ public class VelocityMediumManager : MonoBehaviour
     public void Next()
     {
         qc.nextStage = false;
-        myPlayer.SetEmotion("");
+        myPlayer.happy = false;
+        // myPlayer.SetEmotion("");
         //ragdollSpawn.SetActive(false);
         //StartCoroutine(resetPrefab());
         VeloMediumSetUp();
