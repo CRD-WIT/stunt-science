@@ -340,12 +340,14 @@ public class VelocityMediumManager : MonoBehaviour
     }
     public void Retry()
     {
+        myPlayer.ToggleTrigger();
         qc.retried = false;
         myPlayer.gameObject.SetActive(true);
         VeloMediumSetUp();
     }
     public void Next()
     {
+        myPlayer.ToggleTrigger();
         qc.nextStage = false;
         myPlayer.happy = false;
         // myPlayer.SetEmotion("");

@@ -12,7 +12,8 @@ public class PlayerV2 : MonoBehaviour
     float currentpos;
     public LayerMask whatIsGround;
     public Transform groundCheck;
-    private Collider2D myCollider;
+    private Collider2D myCollider, ragDollTrigger;
+
     // public EdgeCollider2D slideCollider;
     void Start()
     {
@@ -81,6 +82,7 @@ public class PlayerV2 : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
+        ragDollTrigger = other;
         other.enabled=false;
         if (other.gameObject.tag == ("jumper"))
         {
@@ -93,7 +95,9 @@ public class PlayerV2 : MonoBehaviour
             standup = true;
         }
     }
-
+    public void ToggleTrigger(){
+        ragDollTrigger.enabled = true;
+    }
     public void jump()
     {
         myRigidbody.velocity = new Vector2(moveSpeed, jumpforce);

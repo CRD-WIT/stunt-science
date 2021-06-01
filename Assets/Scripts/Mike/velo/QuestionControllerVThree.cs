@@ -64,7 +64,6 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     public void ActionBtn()
     {
-        
         ToggleModal();
         if (answerIsCorrect)
             Next();
@@ -108,7 +107,7 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     IEnumerator PlayBtnToggle()
     {
-        yield return new WaitForSeconds(5.8f);
+        yield return new WaitForSeconds(4.8f);
         timerOn = !timerOn;
         answerFieldHorizontal.text = "";
     }
@@ -300,7 +299,7 @@ public class QuestionControllerVThree : MonoBehaviour
         problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
         modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
         problemTextHorizontal.SetActive(!isModalOpen);
-        playButtonHorizontal.SetActive(!isModalOpen);
+        // playButtonHorizontal.SetActive(!isModalOpen);
         answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
 
         extraComponent.gameObject.SetActive(timerOn || popupVisible);
