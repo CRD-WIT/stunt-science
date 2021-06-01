@@ -7635,6 +7635,7 @@ MonoBehaviour:
   playButton: {fileID: 1903197228}
   timerAnnotation: {fileID: 400048290}
   questionController: {fileID: 1728695166}
+  cameraScript: {fileID: 1260837334}
 --- !u!1 &792510179
 GameObject:
   m_ObjectHideFlags: 0
@@ -8086,6 +8087,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6678413898664251453, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
+      propertyPath: cameraScript
+      value: 
+      objectReference: {fileID: 1260837334}
+    - target: {fileID: 6678413898664251453, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
       propertyPath: renderCamera
       value: 
       objectReference: {fileID: 472872175}
@@ -8235,7 +8240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6678413899702397662, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
       propertyPath: m_SortingOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6678413899726962052, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
       propertyPath: m_LocalScale.z
@@ -10135,6 +10140,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 732250310}
     m_Modifications:
+    - target: {fileID: 3663825577635183826, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 472872175}
+    - target: {fileID: 3663825577635183826, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4790556043337702176, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
       propertyPath: m_Name
       value: CameraPlatformRight1
@@ -10259,6 +10272,18 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1555030020}
+    - target: {fileID: 8350626328617949497, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
+      propertyPath: questionController
+      value: 
+      objectReference: {fileID: 1728695166}
+    - target: {fileID: 8356617460870883461, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 378.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8356617460870883461, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 399.4
+      objectReference: {fileID: 0}
     - target: {fileID: 8658454399414443441, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
       propertyPath: target
       value: 
@@ -10279,6 +10304,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4790556043337702176, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
   m_PrefabInstance: {fileID: 1260837331}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1260837334 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8350626328617949497, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
+  m_PrefabInstance: {fileID: 1260837331}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260837333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77eb2190225e68b80948b9932f9af7ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1269248124
 GameObject:
   m_ObjectHideFlags: 0
