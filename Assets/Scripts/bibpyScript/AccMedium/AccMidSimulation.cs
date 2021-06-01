@@ -102,7 +102,8 @@ public class AccMidSimulation : MonoBehaviour
             playerAnswer = float.Parse(answerField[2].text);
             if (answerField[2].text == "" || playerAnswer > 16)
             {
-                errorTextBox.SetText("exceed the average car acceleratoin");
+               StartCoroutine(theManagerThree.errorMesage());
+               theQuestion[2].errorText =("exceed the average car acceleratoin");
             }
             else
             {

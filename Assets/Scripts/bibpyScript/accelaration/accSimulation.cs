@@ -58,9 +58,9 @@ public class accSimulation : MonoBehaviour
         if (stage == 1)
         {
            
-            if (answerField.text == "" || playerAnswer > 100 || playerAnswer < 1)
+            if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
             {
-                theQuestion.errorText = ("you're exaggerating!");
+                theQuestion.errorText = ("exceed the maximum accelaration of motorcycles");
                 StartCoroutine(errorMesage());
             }
             else
