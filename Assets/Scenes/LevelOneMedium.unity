@@ -741,7 +741,6 @@ MonoBehaviour:
   boulder: {fileID: 1244281673}
   directorsBubble: {fileID: 2581860267524438725}
   floor: {fileID: 1608021920}
-  ragdollPrefab: {fileID: 3466479453583936867, guid: a7417a9dea14b2c44891546ecb2fc9b6, type: 3}
   boulderA: {fileID: 1484370940}
   EndOfAnnotation: {fileID: 6881706515910294778}
   directorsSpeech: {fileID: 2581860265959831437}
@@ -924,7 +923,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1115753419006550859, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
       propertyPath: stage
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1115753419006550859, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
       propertyPath: popupVisible
@@ -2946,7 +2945,7 @@ GameObject:
   - component: {fileID: 1919375448988741015}
   - component: {fileID: 1919375448988741013}
   - component: {fileID: 1357513952952766449}
-  - component: {fileID: 2565264668626255430}
+  - component: {fileID: 1919375448988741011}
   m_Layer: 0
   m_Name: stickmanmale 1
   m_TagString: Untagged
@@ -2954,6 +2953,45 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1919375448988741011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919375448988741010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be517316ac7f124d83c70c406eb34a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
+  groundedRadius: 0
+  jumpforce: 0
+  player: {fileID: 1919375448988741010}
+  stickprefab: {fileID: 0}
+  stickmanpoint: {fileID: 6643490681854955062}
+  lost: 0
+  happy: 0
+  ragdollblow: 0
+  posready: 0
+  grounded: 0
+  standup: 0
+  slide: 0
+  isHanging: 0
+  brake: 0
+  isGrabbing: 0
+  hangWalk: 0
+  isFalling: 0
+  toJump: 0
+  jumpHang: 0
+  isLanded: 0
+  footstep: {fileID: 0}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheck: {fileID: 0}
+  slideCollider: {fileID: 0}
 --- !u!95 &1919375448988741013
 Animator:
   serializedVersion: 3
@@ -3083,45 +3121,6 @@ Transform:
   m_Father: {fileID: 6643490682697585391}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -70.457}
---- !u!114 &2565264668626255430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919375448988741010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 718ecbefd2b5f3d44989033edfbcb17d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 0
-  player: {fileID: 1919375448988741010}
-  stickmanpoint: {fileID: 6643490681854955062}
-  lost: 0
-  happy: 0
-  ragdollblow: 0
-  footstep: {fileID: 0}
-  stickprefab: {fileID: 3466479453583936867, guid: a7417a9dea14b2c44891546ecb2fc9b6, type: 3}
-  posready: 0
-  grounded: 0
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
-  groundCheck: {fileID: 2179104847275013489}
-  groundedRadius: 0
-  slideCollider: {fileID: 0}
-  jumpforce: 0
-  standup: 0
-  slide: 0
-  isHanging: 0
-  brake: 0
-  isGrabbing: 0
-  hangWalk: 0
-  isFalling: 0
-  toJump: 0
-  jumpHang: 0
-  isLanded: 0
 --- !u!212 &2569446117258986820
 SpriteRenderer:
   m_ObjectHideFlags: 0

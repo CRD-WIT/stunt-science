@@ -10,7 +10,7 @@ public class VelocityMediumManager : MonoBehaviour
     QuestionControllerVThree qc;
     IndicatorManager labels;
     StageManager sm = new StageManager();
-    [SerializeField] GameObject boulder, directorsBubble, floor, ragdollPrefab, boulderA;
+    [SerializeField] GameObject boulder, directorsBubble, floor, boulderA;
     [SerializeField] LineRenderer EndOfAnnotation;
     Annotation distanceMeassure;
     Player myPlayer;
@@ -34,6 +34,8 @@ public class VelocityMediumManager : MonoBehaviour
         createCeilling = FindObjectOfType<CeillingGenerator>();
         boulderRB = boulder.GetComponent<Rigidbody2D>();
         boulder2RB = boulderA.GetComponent<Rigidbody2D>();
+
+        RagdollV2.myPlayer = myPlayer;
 
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
@@ -139,7 +141,6 @@ public class VelocityMediumManager : MonoBehaviour
                     {
                         labels.distanceTraveled = (float)System.Math.Round((playerAnswer * stuntTime), 2);
                         elapsed = stuntTime;
-                        myPlayer.moveSpeed = 0;
                         boulderRB.velocity = new Vector2(boulderRB.velocity.x, boulderRB.velocity.y);
                         boulder2RB.velocity = new Vector2(boulder2RB.velocity.x, boulder2RB.velocity.y);
                         //currentPlayerPos = myPlayer.transform.position.x;
@@ -198,7 +199,6 @@ public class VelocityMediumManager : MonoBehaviour
         float Va = 0, Vb = 0, d = 0, Da = 0, Db = 0, Dj = 0, t = 0;//, tm = 0;
         playerAnswer = 0;
         elapsed = 0;
-        Destroy(ragdollPrefab);
         qc.timer = "0.00s";
         RumblingManager.shakeON = true;
         distanceMeassure.gameObject.SetActive(true);
@@ -210,6 +210,7 @@ public class VelocityMediumManager : MonoBehaviour
         myPlayer.standup = false;
         boulderRB.rotation = 0;
         boulderRB.freezeRotation = true;
+        // boulder.GetComponent<>();
 
         switch (stage)
         {
@@ -417,20 +418,20 @@ public class VelocityMediumManager : MonoBehaviour
         isEndOfStunt = true;
 
     }
-    void OnTriggerEnter(Collider other)
-    {
-        other.enabled = false;
-        if (other.gameObject.name == "Boulder")
-        {
-            StartCoroutine(RagdollSpawn());
-        }
-    }
-    IEnumerator RagdollSpawn()
-    {
-        yield return new WaitForEndOfFrame();
-        myPlayer.gameObject.SetActive(false);
-        yield return new WaitForEndOfFrame();
-        ragdoll = Instantiate(ragdollPrefab);
-        ragdoll.transform.position = myPlayer.gameObject.transform.position;
-    }
+    // void OnTriggerEnter(Collider other)
+    // {
+    //     other.enabled = false;
+    //     if (other.gameObject.name == "Boulder")
+    //     {
+    //         StartCoroutine(RagdollSpawn());
+    //     }
+    // }
+    // IEnumerator RagdollSpawn()
+    // {
+    //     yield return new WaitForEndOfFrame();
+    //     myPlayer.gameObject.SetActive(false);
+    //     yield return new WaitForEndOfFrame();
+    //     ragdoll = Instantiate(ragdollPrefab);
+    //     ragdoll.transform.position = myPlayer.gameObject.transform.position;
+    // }
 }

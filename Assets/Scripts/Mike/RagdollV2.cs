@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class RagdollV2 : MonoBehaviour
 {
@@ -6,12 +7,12 @@ public class RagdollV2 : MonoBehaviour
     private Rigidbody2D myRigidbody;
     public GameObject stick;
     public GameObject stickloc;
-    private SimulationManager theSimulation;
+    public static bool ragdollEnabled, disableRagdoll;
+    public static Player myPlayer;
 
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
-        theSimulation = FindObjectOfType<SimulationManager>();
     }
 
     void Update()
@@ -22,19 +23,24 @@ public class RagdollV2 : MonoBehaviour
         {
             moveSpeedforward = 0;
         }
-        // if (SimulationManager.playerDead == true)
+        // if (myPlayer.gameObject.activeSelf)
         // {
-        //     SimulationManager.isRagdollActive = true;
-        //     StartCoroutine(playerSpawn());
+        //     disableRagdoll = true;
         // }
+        if (SimulationManager.playerDead)
+        {
+            // ragdollEnabled = true;
+            StartCoroutine(playerSpawn());
+        }
     }
-    // IEnumerator playerSpawn()
-    // {
-    //     SimulationManager.playerDead = false;
-    //     yield return new WaitForSeconds(3);
-    //     Destroy(stick.gameObject);
-    //     theSimulation.thePlayer.gameObject.transform.position = stickloc.transform.position;
-    //     theSimulation.thePlayer.gameObject.SetActive(true);
-    // }
-    
+    IEnumerator playerSpawn()
+    {
+        SimulationManager.playerDead = false;
+        disableRagdoll = false;
+        yield return new WaitForSeconds(3);
+        Destroy(stick.gameObject);
+        myPlayer.moveSpeed = 0;
+        myPlayer.gameObject.transform.position = stickloc.transform.position;
+        myPlayer.gameObject.SetActive(true);
+    }
 }
