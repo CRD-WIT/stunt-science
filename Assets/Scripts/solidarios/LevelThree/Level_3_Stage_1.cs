@@ -16,7 +16,6 @@ public class Level_3_Stage_1 : MonoBehaviour
     Animator thePlayerAnimation;
     public TMP_InputField playerAnswer;
     public GameObject playerOnRope;
-    bool isSimulating = false;
     public GameObject playerHingeJoint;
     public GameObject thePlayer;
     public GameObject playerHangingFixed;
@@ -134,16 +133,15 @@ public class Level_3_Stage_1 : MonoBehaviour
 
     public void StartSimulation()
     {
-        cameraScript.directorIsCalling = true;                
+        cameraScript.directorIsCalling = true;
+        cameraScript.isStartOfStunt = true;
         questionController.SetAnswer();
     }
     void FixedUpdate()
     {
 
-        if (isSimulating)
+        if (questionController.isSimulating)
         {
-            playButton.SetActive(false);
-
             if (playerAnswer.text.Length > 0)
             {
                 // Remove extra character           
@@ -196,7 +194,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                         thePlayer.SetActive(false);
                         playerHangingFixed.SetActive(true);
                         playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
-                        isSimulating = false;
+                        questionController.isSimulating = false;
                     }
                 }
 
@@ -223,7 +221,8 @@ public class Level_3_Stage_1 : MonoBehaviour
                             playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1.5f, 1);
                             platformBar.GetComponent<Animator>().SetBool("collided", true);
                             playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
-                            isSimulating = false;
+                            questionController.isSimulating = false;
+                            cameraScript.isStartOfStunt = false;
                             questionController.answerIsCorrect = true;
 
                             StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
@@ -236,7 +235,8 @@ public class Level_3_Stage_1 : MonoBehaviour
                             if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                             {
                                 Debug.Log("Distance is too short!");
-                                isSimulating = false;
+                                questionController.isSimulating = false;
+                                cameraScript.isStartOfStunt = false;
                                 questionController.answerIsCorrect = false;
                                 StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                             }
@@ -246,7 +246,8 @@ public class Level_3_Stage_1 : MonoBehaviour
                             if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                             {
                                 Debug.Log("Distance is too long!");
-                                isSimulating = false;
+                                questionController.isSimulating = false;
+                                cameraScript.isStartOfStunt = false;
                                 questionController.answerIsCorrect = false;
                                 StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                             }

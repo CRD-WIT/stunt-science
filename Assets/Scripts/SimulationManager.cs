@@ -77,7 +77,6 @@ public class SimulationManager : MonoBehaviour
             answerButton.interactable = false;
             if (stage == 1)
             {
-
                 answerField.text = playerAnswer.ToString() + "m/s";
             }
             else if (stage == 2)

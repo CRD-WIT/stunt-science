@@ -67,6 +67,7 @@ public class QuestionController : MonoBehaviour
     [SerializeField] TMP_Text popupTextHorizontal;
     [SerializeField] TMP_Text popupTextVertical;
     [SerializeField] Transform extraComponent;
+    [SerializeField] CameraScript cameraScript;
 
     // Start is called before the first frame update
     void Start()

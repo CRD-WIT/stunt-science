@@ -12,6 +12,7 @@ public class CameraScript : MonoBehaviour
     [SerializeField] TMP_Text calloutText;
     [SerializeField] QuestionController questionController;
     public bool directorIsCalling;
+    public bool isStartOfStunt;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +26,8 @@ public class CameraScript : MonoBehaviour
 
     public IEnumerator DirectorsCall()
     {
-        if (questionController.isSimulating)
+        directorIsCalling = false;
+        if (isStartOfStunt)
         {
             callout.SetActive(true);
             calloutText.SetText("Lights!");
@@ -41,8 +43,9 @@ public class CameraScript : MonoBehaviour
         else
         {
             calloutText.SetText("Cut!");
+            callout.SetActive(true);            
             yield return new WaitForSeconds(0.75f);
-            isCalloutOpen = false;
+            callout.SetActive(false); 
         }
     }
 
