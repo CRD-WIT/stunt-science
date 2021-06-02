@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class AccMediumTwo : MonoBehaviour
 {
-    public GameObject hangingRagdoll1, hangingRagdoll2, ropeTip1, ropeTip2;
+    public GameObject hangingRagdoll1, hangingRagdoll2, ropeTip1, ropeTip2, subSuv, subChopper;
     public Player thePlayer;
     public Hellicopter theChopper;
     public Suv theVan;
     float A, B, C, D;
-    float generateViH, Vih, generateAccH, accH, generateViV, Viv, generateAccV, accV, generateDistance, distance;
-    float chopperCurrentPos, vanCurrentPos, chopperAccPoint, vanAccPoint, kickpointTimeA, kickpointTimeB, timer,kickDistance, kickpointTimeC;
+    float generateViH, Vih, generateAccH, accH, generateViV, Viv, generateAccV, accV, generateDistance, distance,checkDistance;
+    float chopperCurrentPos, vanCurrentPos, kickpointTimeA, kickpointTimeB, timer,kickDistance, kickpointTimeC;
+    float chopperAccPos, vanAccPos;
     bool reposition = true;
     public QuestionController theQuestion;
     // Start is called before the first frame update
@@ -27,9 +28,9 @@ public class AccMediumTwo : MonoBehaviour
         vanCurrentPos = theVan.transform.position.x;
         hangingRagdoll1.transform.position = ropeTip1.transform.position;
         hangingRagdoll2.transform.position = ropeTip2.transform.position;
-        chopperAccPoint = -5f;
-        vanAccPoint = distance - 5f;
-        
+        checkDistance = ((Vih*kickpointTimeA)+ ((accH*(kickpointTimeA * kickpointTimeA))/2)) + ((Viv*kickpointTimeA)+ ((accV*(kickpointTimeA * kickpointTimeA))/2));
+        chopperAccPos = 30-(distance/2);
+        vanAccPos = 30+(distance/2);
         
         if (AccMidSimulation.simulate == true)
         {
@@ -37,7 +38,7 @@ public class AccMediumTwo : MonoBehaviour
             {
                 theChopper.flySpeed = 5;
                 theVan.moveSpeed = -5;
-                if(chopperCurrentPos >= 30-(distance/2) & vanCurrentPos <= 30+(distance/2))
+                if(chopperCurrentPos >= chopperAccPos & vanCurrentPos <= vanAccPos)
                 {
                     theChopper.flySpeed = Vih;
                     theVan.moveSpeed = -Viv;
@@ -54,7 +55,7 @@ public class AccMediumTwo : MonoBehaviour
             if(reposition == false)
             {
                 timer += Time.fixedDeltaTime;
-                if(timer >= kickpointTimeC)
+                if(timer >= kickpointTimeA)
                 {
                     Time.timeScale = 0;
                     AccMidSimulation.simulate = false;
@@ -84,14 +85,14 @@ public class AccMediumTwo : MonoBehaviour
         theChopper.transform.position = new Vector2(30 - (distance/2 + 30), theChopper.transform.position.y);
         theVan.transform.position = new Vector2(30 + (distance/2 + 30), theVan.transform.position.y);
         B = ((accH + accV)/2);
-        A = (Vih + Viv);
+        A = -(Vih + Viv);
         C = -distance;
         D = Mathf.Sqrt((B*B) - (4*A*C));
         //kickpointTime = Mathf.Abs(((accH* (kickpointTime * kickpointTime))/(2*Vih)) - (distance/Vih)); 
         //kickpointTime = (-((accH + accV)/2) + (Mathf.Sqrt((((accH + accV)/2)*((accH + accV)/2)) -(4 * (Vih + Viv))*(-distance)))) / (2*(Vih + Viv));
-        kickpointTimeA =(B + Mathf.Sqrt((B*B) - (4*A*C)))/ (2*A);
+        kickpointTimeA =(A + Mathf.Sqrt((A*A) - (4*B*C)))/ (2*B);
         kickpointTimeB =(B - Mathf.Sqrt((B*B) - (4*A*C)))/ (2*A);
-        kickpointTimeC = (kickpointTimeA - kickpointTimeB)/ 2;
+        //kickpointTimeC = (kickpointTimeA - kickpointTimeB)/ 2;
         //kickDistance = (Vih * kickpointTime) + (accH * ((kickpointTime*kickpointTime)/2));
         
         //kickpointTime = (((distance/2)/(accH+Vih)) + ((distance/2)/(accV+Viv))) / 2;
