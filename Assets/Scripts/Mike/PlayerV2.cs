@@ -13,6 +13,7 @@ public class PlayerV2 : MonoBehaviour
     public LayerMask whatIsGround;
     public Transform groundCheck;
     private Collider2D myCollider, ragDollTrigger;
+    HeartManager life;
 
     // public EdgeCollider2D slideCollider;
     void Start()
@@ -20,6 +21,7 @@ public class PlayerV2 : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>(); 
+        life = FindObjectOfType<HeartManager>();
     }
 
     // Update is called once per frame
@@ -82,6 +84,7 @@ public class PlayerV2 : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
+        life.ReduceLife();
         ragDollTrigger = other;
         other.enabled=false;
         if (other.gameObject.tag == ("jumper"))
@@ -91,6 +94,7 @@ public class PlayerV2 : MonoBehaviour
         if (other.gameObject.tag == ("stickmanspawn"))
         {
             ragdollspawn();
+            RagdollV2.disableRagdoll = true;
             lost = false;
             standup = true;
         }

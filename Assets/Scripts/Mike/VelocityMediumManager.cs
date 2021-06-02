@@ -14,6 +14,8 @@ public class VelocityMediumManager : MonoBehaviour
     [SerializeField] LineRenderer EndOfAnnotation;
     Annotation distanceMeassure;
     PlayerV2 myPlayer;
+    HeartManager life;
+    ScoreManager score;
     CeillingGenerator createCeilling;
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField] float playerVelocity, boulderVelocity, boulder2Velocity, stuntTime, distance, jumpDistance, correctAnswer;
@@ -34,6 +36,8 @@ public class VelocityMediumManager : MonoBehaviour
         createCeilling = FindObjectOfType<CeillingGenerator>();
         boulderRB = boulder.GetComponent<Rigidbody2D>();
         boulder2RB = boulderA.GetComponent<Rigidbody2D>();
+        life = FindObjectOfType<HeartManager>();
+        score = FindObjectOfType<ScoreManager>();
 
         RagdollV2.myPlayer = myPlayer;
 
@@ -190,6 +194,7 @@ public class VelocityMediumManager : MonoBehaviour
     }
     void VeloMediumSetUp()
     {
+        RagdollV2.disableRagdoll = true;
         distanceMeassure.gameObject.SetActive(true);
         labels.valueIs = TextColorMode.Given;
         labels.gameObject.SetActive(false);
@@ -210,6 +215,7 @@ public class VelocityMediumManager : MonoBehaviour
         myPlayer.standup = false;
         boulderRB.rotation = 0;
         boulderRB.freezeRotation = true;
+        life.losslife = false;
         // boulder.GetComponent<>();
 
         switch (stage)
@@ -232,14 +238,15 @@ public class VelocityMediumManager : MonoBehaviour
                 correctAnswer = stuntTime;
                 labels.distance = Da;
 
-                myPlayer.transform.position = new Vector2(playerPos, 0);
+                myPlayer.transform.position = new Vector2(0, 0);
+                myPlayer.gameObject.SetActive(true);
 
                 boulder.transform.position = new Vector2(distance, boulder.transform.position.y);
                 boulderRB.freezeRotation = false;
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
-                jumpForce = 1.07f / jumpTime;
+                jumpForce = 1.15f / jumpTime;
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming boulder at the front <color=red>" + distance + " meters</color> away is rolling at the velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=#006400>seconds</color> will " + playerName + " jump if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 2:
@@ -269,7 +276,7 @@ public class VelocityMediumManager : MonoBehaviour
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
-                jumpForce = 1.07f / jumpTime;
+                jumpForce = 1.071f / jumpTime;
                 labels.distance = correctAnswer;
 
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=red>meters</color> should " + playerName + " be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
@@ -321,6 +328,8 @@ public class VelocityMediumManager : MonoBehaviour
         boulderRB.velocity = new Vector2(0, 0);
         createCeilling.mapWitdh = distance;
         createCeilling.createQuadtilemap2();
+        qc.retried = false;
+        qc.nextStage = false;
     }
     public void Play()
     {
@@ -341,14 +350,13 @@ public class VelocityMediumManager : MonoBehaviour
     public void Retry()
     {
         myPlayer.ToggleTrigger();
-        qc.retried = false;
-        myPlayer.gameObject.SetActive(true);
+        
         VeloMediumSetUp();
     }
     public void Next()
     {
-        myPlayer.ToggleTrigger();
-        qc.nextStage = false;
+        //myPlayer.ToggleTrigger();
+        
         myPlayer.happy = false;
         // myPlayer.SetEmotion("");
         //ragdollSpawn.SetActive(false);
@@ -403,18 +411,21 @@ public class VelocityMediumManager : MonoBehaviour
     IEnumerator StuntResult()
     {
         isEndOfStunt = false;
+        yield return new WaitForSeconds(1f);
         directorIsCalling = true;
         isStartOfStunt = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         qc.ActivateResult(messageTxt, isAnswerCorrect);
     }
     IEnumerator Jump()
     {
         if (playerAnswer != correctAnswer)
+        {
             if (stage == 3)
                 myPlayer.jumpforce = jumpForce - 0.08f;
             else
                 myPlayer.jumpforce = jumpForce - 0.7f;
+        }
         myPlayer.jump();
         yield return new WaitForSeconds(jumpTime);
         isAnswered = false;

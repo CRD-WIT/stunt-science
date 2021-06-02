@@ -25,7 +25,7 @@ public class RagdollV2 : MonoBehaviour
         }
         if (this.gameObject.activeSelf)
         {
-            disableRagdoll = true;
+            // disableRagdoll = true;
         }
         if (disableRagdoll)
         {
@@ -36,7 +36,7 @@ public class RagdollV2 : MonoBehaviour
     IEnumerator playerSpawn()
     {
         disableRagdoll = false;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3f);
         Destroy(stick.gameObject);
         myPlayer.moveSpeed = 0;
         myPlayer.gameObject.transform.position = stickloc.transform.position;

@@ -18,7 +18,7 @@ public class QuestionControllerVThree : MonoBehaviour
     public UnitOf unitOf;
     string answerUnit, difficulty;
     int passedLevel;
-    bool timerOn = false, loaded = false;
+    [SerializeField] bool timerOn = false, loaded = false;
     [SerializeField] TMP_InputField answerFieldHorizontal;
     [SerializeField] Transform difficultyName, stageName;
     [SerializeField] string modalText, errorText;
@@ -30,6 +30,8 @@ public class QuestionControllerVThree : MonoBehaviour
     [SerializeField] TMP_Text popupTextHorizontal;
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
+    HeartManager life;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,15 +63,18 @@ public class QuestionControllerVThree : MonoBehaviour
         }
         difficultyName.GetComponent<TMP_Text>().text = difficulty;
         levelNumber = level.GetLevelNum(levelName);
+
+        life = FindObjectOfType<HeartManager>();
     }
     public void ActionBtn()
     {
         ToggleModal();
+        StartCoroutine(PlayBtnToggle());
+        StartCoroutine(life.endBGgone());
         if (answerIsCorrect)
             Next();
         else
             Retry();
-        StartCoroutine(PlayBtnToggle());
     }
     public void ToggleModal()
     {
@@ -78,7 +83,7 @@ public class QuestionControllerVThree : MonoBehaviour
     public void ActivateResult(string message, bool isCorrect)
     {
         answerIsCorrect = isCorrect;
-        isModalOpen =true;
+        isModalOpen = true;
         if (isCorrect)
         {
             actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
@@ -107,8 +112,8 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     IEnumerator PlayBtnToggle()
     {
-        yield return new WaitForSeconds(4.8f);
-        timerOn = !timerOn;
+        yield return new WaitForSeconds(3f);
+        timerOn = false;
         answerFieldHorizontal.text = "";
     }
 
@@ -120,7 +125,7 @@ public class QuestionControllerVThree : MonoBehaviour
         }
         else
         {
-            timerOn = !timerOn;
+            timerOn = true;
             playerAnswer = float.Parse(answerFieldHorizontal.text);
             answerFieldHorizontal.text = playerAnswer + answerUnit;
             isSimulating = true;
@@ -198,10 +203,16 @@ public class QuestionControllerVThree : MonoBehaviour
     {
         extraOn = false;
         answerFieldHorizontal.text = "";
+        if (stage == 1)
+            stage = 1;
+        else if (stage == 2)
+            stage = 2;
+        else
+            stage = 3;
 
         // Scene currentScene = SceneManager.GetActiveScene();
         // SceneManager.LoadScene(currentScene.name);
-        
+
         retried = true;
     }
 
@@ -209,7 +220,7 @@ public class QuestionControllerVThree : MonoBehaviour
     {
         popupVisible = true;
         errorText = "Please enter your answer!";
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         popupVisible = false;
         errorText = "";
     }

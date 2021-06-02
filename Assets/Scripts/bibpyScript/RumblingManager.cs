@@ -6,11 +6,12 @@ public class RumblingManager : MonoBehaviour
 {
     // Transform of the camera to shake. Grabs the gameObject's transform
     // if null.
-    RockDestroyer reset = new RockDestroyer();
+    RockDestroyer reset;
     public Transform camTransform;
     public float shakeDuration = 0f, shakeAmount = 0.8f, decreaseFactor = 1.0f, debrisRange = 1.4f;
     public bool rubbleON = true, collapsing = true;
     public static bool isCrumbling, shakeON;
+    bool isThisFirst = true;
     public GameObject rumbling;
     public GameObject[] rubbles, debris;
     Vector3 originalPos;
@@ -37,12 +38,21 @@ public class RumblingManager : MonoBehaviour
                 //FallingBoulders.isRumbling = true;
                 StartCoroutine(fallingrubble());
             }
-            reset.isDestroyed = false;
+            if (isThisFirst)
+                FirstRun();
+            else
+                reset.isDestroyed = false;
         }
         if (isCrumbling)
         {
             StartCoroutine(Crumbling());
         }
+    }
+    void FirstRun()
+    {
+        isThisFirst = false;
+        reset = FindObjectOfType<RockDestroyer>();
+        reset.isDestroyed = false;
     }
     IEnumerator Crumbling()
     {
@@ -120,10 +130,11 @@ public class RumblingManager : MonoBehaviour
             collapsing = false;
         }
     }
-    IEnumerator BoulderDrop(){
+    IEnumerator BoulderDrop()
+    {
         FallingBoulders.isRumbling = true;
-        yield return new WaitUntil(()=> FallingBoulders.boulderDrop);
+        yield return new WaitUntil(() => FallingBoulders.boulderDrop);
         FallingBoulders.isRumbling = false;
-        FallingBoulders.boulderDrop =false;
+        FallingBoulders.boulderDrop = false;
     }
 }

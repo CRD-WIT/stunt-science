@@ -214,6 +214,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3862542999471713383, guid: 7c804646cd255ba4aa527cd7fd96f487, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1775369818}
+    - target: {fileID: 3862542999471713383, guid: 7c804646cd255ba4aa527cd7fd96f487, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 392077459
+      objectReference: {fileID: 0}
     - target: {fileID: 3862542999471713386, guid: 7c804646cd255ba4aa527cd7fd96f487, type: 3}
       propertyPath: m_Name
       value: gameovercanvas
@@ -622,6 +630,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &978220007 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2114970665106345963, guid: fac63c626d51e2d4f987e21f2c7a351f, type: 3}
+  m_PrefabInstance: {fileID: 1300549951}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1046975144
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1016,6 +1029,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2114970665106345962, guid: fac63c626d51e2d4f987e21f2c7a351f, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 2a0d8d6f05742da41b40ffc404673bbd, type: 2}
     - target: {fileID: 2114970665106345963, guid: fac63c626d51e2d4f987e21f2c7a351f, type: 3}
       propertyPath: m_Name
       value: transition
@@ -1108,6 +1125,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1775369818}
+    - target: {fileID: 2114970665106345975, guid: fac63c626d51e2d4f987e21f2c7a351f, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 392077459
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fac63c626d51e2d4f987e21f2c7a351f, type: 3}
 --- !u!120 &1372334361 stripped
@@ -6462,7 +6483,7 @@ MonoBehaviour:
   life: 3
   heartItem: {fileID: 5539719138855858559, guid: 220ae2a7f8f9d0522b1b2d002e19321c, type: 3}
   gameOverBG: {fileID: 2120376101}
-  startBG: {fileID: 2114970665106345963, guid: fac63c626d51e2d4f987e21f2c7a351f, type: 3}
+  startBG: {fileID: 978220007}
   losslife: 0
 --- !u!4 &5122989163102303190
 Transform:
@@ -11569,8 +11590,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490683673914072}
   m_Bounds:
-    m_Center: {x: 1.2190534, y: 1.4124207, z: 0}
-    m_Extent: {x: 0.4810283, y: 0.6888791, z: 0}
+    m_Center: {x: 1.5178165, y: 1.4124207, z: 0}
+    m_Extent: {x: 0.48102832, y: 0.6888791, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &6643490681844570416
@@ -11607,7 +11628,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490683096196456}
   m_Bounds:
-    m_Center: {x: -1.6443126, y: -0.34333885, z: 0}
+    m_Center: {x: -1.3455493, y: -0.34333885, z: 0}
     m_Extent: {x: 0.2079339, y: 0.5597872, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -11732,7 +11753,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6643490681862703538}
   m_LocalRotation: {x: -0, y: -0, z: 0.685003, w: 0.72854036}
-  m_LocalPosition: {x: -0.29876325, y: 1.7786751, z: 0}
+  m_LocalPosition: {x: 0, y: 1.7786751, z: 0}
   m_LocalScale: {x: 0.9, y: 1, z: 1}
   m_Children:
   - {fileID: 6643490682692113780}
@@ -11775,8 +11796,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490682697585391}
   m_Bounds:
-    m_Center: {x: 0.24449286, y: -0.39587444, z: 0}
-    m_Extent: {x: 0.65331274, y: 0.6086729, z: 0}
+    m_Center: {x: 0.54325604, y: -0.39587444, z: 0}
+    m_Extent: {x: 0.6533127, y: 0.6086729, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!4 &6643490682039261897
@@ -11880,7 +11901,7 @@ MonoBehaviour:
   - {fileID: 6643490681862703541}
   - {fileID: 6643490682692113780}
   m_Bounds:
-    m_Center: {x: -0.34120756, y: 0.44180948, z: 0}
+    m_Center: {x: -0.04244435, y: 0.44180948, z: 0}
     m_Extent: {x: 0.27076727, y: 0.803191, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -12197,7 +12218,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490681712418506}
   m_Bounds:
-    m_Center: {x: -0.97420794, y: -0.13649178, z: 0}
+    m_Center: {x: -0.6754447, y: -0.13649178, z: 0}
     m_Extent: {x: 0.310147, y: 0.48481846, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -12416,8 +12437,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490682588151213}
   m_Bounds:
-    m_Center: {x: 0.5557199, y: 0.008676708, z: 0}
-    m_Extent: {x: 0.37157774, y: 0.35308528, z: 0}
+    m_Center: {x: 0.8544831, y: 0.008676708, z: 0}
+    m_Extent: {x: 0.3715777, y: 0.35308528, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!4 &6643490682978683700
@@ -12520,7 +12541,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490682706965827}
   m_Bounds:
-    m_Center: {x: 0.20079286, y: -0.17610162, z: 0}
+    m_Center: {x: 0.49955612, y: -0.17610162, z: 0}
     m_Extent: {x: 0.16402107, y: 0.50961405, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -12558,7 +12579,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490682472035406}
   m_Bounds:
-    m_Center: {x: 0.8308196, y: -0.40755737, z: 0}
+    m_Center: {x: 1.1295829, y: -0.40755737, z: 0}
     m_Extent: {x: 0.32254195, y: 0.5429822, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -12860,7 +12881,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490682849262317}
   m_Bounds:
-    m_Center: {x: -0.7077129, y: 0.95481557, z: 0}
+    m_Center: {x: -0.40894967, y: 0.95481557, z: 0}
     m_Extent: {x: 0.3230847, y: 0.72769284, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -12948,8 +12969,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6643490683461551147}
   m_Bounds:
-    m_Center: {x: -0.6976904, y: -0.28565466, z: 0}
-    m_Extent: {x: 0.4779063, y: 0.16700765, z: 0}
+    m_Center: {x: -0.3989272, y: -0.28565466, z: 0}
+    m_Extent: {x: 0.47790635, y: 0.16700765, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!4 &6643490683515382083
