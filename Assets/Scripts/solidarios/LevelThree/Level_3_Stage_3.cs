@@ -105,7 +105,6 @@ public class Level_3_Stage_3 : MonoBehaviour
 
     public void StartSimulation()
     {
-        isSimulating = true;
         questionController.isSimulating = true;
         questionController.SetAnswer();
     }

@@ -34,7 +34,6 @@ public class Level_3_Stage_1 : MonoBehaviour
     bool letGoRope = false;
     float playerOnRopeInitialY;
     float accurateColliderInitialPointY;
-    public GameObject playButton;
     public GameObject timerAnnotation;
     public QuestionController questionController;
     String playerName = "Junjun";

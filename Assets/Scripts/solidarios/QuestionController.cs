@@ -35,7 +35,6 @@ public class QuestionController : MonoBehaviour
     [SerializeField] TMP_InputField answerFieldHorizontal;
     [SerializeField] TMP_InputField answerFieldVertical;
     [SerializeField] GameObject difficultyName;
-
     [SerializeField] GameObject levelNameBox;
     [SerializeField] GameObject stageName;
     [SerializeField] GameObject actionButtonHorizontal;
@@ -304,10 +303,13 @@ public class QuestionController : MonoBehaviour
             modalComponentHorizontal.SetActive(false);
             modalTitleHorizontal.SetActive(false);
             modalTitleVertical.SetActive(true);
-            playButtonVertical.SetActive(!isSimulating);
+            if (!isSimulating && !isModalOpen)
+            {
+                playButtonVertical.SetActive(true);
+            }
             if (!isSimulating && isModalOpen)
             {
-                playButtonVertical.SetActive(!isModalOpen);
+                playButtonVertical.SetActive(false);
             }
             answerFieldVertical.gameObject.SetActive(!isModalOpen);
             problemTextVertical.GetComponent<TMP_Text>().SetText(question);
