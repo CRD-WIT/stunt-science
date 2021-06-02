@@ -14,7 +14,7 @@ public class AccMediumThree : MonoBehaviour
     public Suv theSuv;
     public Player thePlayer;
     public Hellicopter theChopper;
-    float correctAnswer, accH, accV, velocity, dv, dx, dh = 40, ropeDistance;
+    float correctAnswer, accH, accV, velocity, dv, dx, dh = 40, ropeDistance, distanceH, vanTime;
     float time, suvPos, chopperPos, generateDv, generateVelocity, generateAccH, generateCorrectAnswer, playerTime;
     bool repos, ragdollReady, follow, pausePos, resultReady;
     public TMP_Text viVtxt, viHtxt, aVtxt, aHtxt, actiontxt;
