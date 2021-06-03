@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 using GameConfig;
 
 public class VelocityMediumManager : MonoBehaviour
@@ -22,6 +21,7 @@ public class VelocityMediumManager : MonoBehaviour
     int stage;
     Rigidbody2D boulderRB, boulder2RB;
     GameObject ragdoll;
+    RockDestroyer clearBoulders;
     float playerPos, playerAnswer, elapsed, distanceTraveled, currentPlayerPos, jumpTime, jumpForce, playerDistance;
     Vector2 labelStartPoint;
     string question, playerName, playerGender, pronoun, pPronoun, messageTxt;
@@ -76,13 +76,15 @@ public class VelocityMediumManager : MonoBehaviour
             {
                 case 1:
                     currentPlayerPos = myPlayer.transform.position.x;
+                    FallingBoulders.dropPoint = currentPlayerPos - 0.7f;
                     labels.spawnPoint = new Vector2(0, 0.25F);
                     boulderRB.velocity = new Vector2(-boulderVelocity, 0);
                     labels.distanceTraveled = currentPlayerPos;
                     if (playerAnswer <= elapsed)
                     {
-                        elapsed = playerAnswer;
                         StartCoroutine(Jump());
+                        elapsed = playerAnswer;
+                        // qc.timer = playerAnswer.ToString("f2") + "s";
                         if (playerAnswer == stuntTime)
                         {
                             labels.distanceTraveled = labels.distance;
@@ -105,6 +107,7 @@ public class VelocityMediumManager : MonoBehaviour
                     }
                     break;
                 case 2:
+                    FallingBoulders.dropPoint = boulder.transform.position.x - 0.7f;
                     currentPlayerPos = myPlayer.transform.position.x - distance;
                     labels.spawnPoint = new Vector2(distance, 0.25F);
                     labels.distanceTraveled = currentPlayerPos;
@@ -135,6 +138,7 @@ public class VelocityMediumManager : MonoBehaviour
                     }
                     break;
                 case 3:
+                    // FallingBoulders.dropPoint = (boulder.transform.position.x - 0.7f)||(boulder.transform.position.x - 0.7f;);
                     currentPlayerPos = myPlayer.transform.position.x - playerDistance;
                     labels.spawnPoint = labelStartPoint;
                     labels.distanceTraveled = currentPlayerPos;
@@ -182,15 +186,16 @@ public class VelocityMediumManager : MonoBehaviour
         else
         {
             if (qc.nextStage)
-                Next();
+                StartCoroutine(Next());
             else if (qc.retried)
-                Retry();
+                StartCoroutine(Retry());
             else
             {
                 qc.nextStage = false;
                 qc.retried = false;
             }
         }
+
     }
     void VeloMediumSetUp()
     {
@@ -211,7 +216,7 @@ public class VelocityMediumManager : MonoBehaviour
         boulder.SetActive(false);
         boulderA.SetActive(false);
 
-        boulderVelocity = 0;
+
         myPlayer.standup = false;
         boulderRB.rotation = 0;
         boulderRB.freezeRotation = true;
@@ -221,6 +226,7 @@ public class VelocityMediumManager : MonoBehaviour
         switch (stage)
         {
             case 1:
+                boulderVelocity = 0;
                 labels.whatIsAsk = UnitOf.time;
                 boulder.SetActive(true);
                 Va = Random.Range(8f, 9f);
@@ -238,7 +244,7 @@ public class VelocityMediumManager : MonoBehaviour
                 correctAnswer = stuntTime;
                 labels.distance = Da;
 
-                myPlayer.transform.position = new Vector2(0, 0);
+                myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
                 myPlayer.gameObject.SetActive(true);
 
                 boulder.transform.position = new Vector2(distance, boulder.transform.position.y);
@@ -326,10 +332,8 @@ public class VelocityMediumManager : MonoBehaviour
 
         myPlayer.moveSpeed = 0;
         boulderRB.velocity = new Vector2(0, 0);
-        createCeilling.mapWitdh = distance;
-        createCeilling.createQuadtilemap2();
-        qc.retried = false;
-        qc.nextStage = false;
+        // createCeilling.mapWitdh = distance;
+        // createCeilling.createQuadtilemap2();
     }
     public void Play()
     {
@@ -346,21 +350,44 @@ public class VelocityMediumManager : MonoBehaviour
         }
         isStartOfStunt = true;
         directorIsCalling = true;
+        FallingBoulders.isRumbling = true;
     }
-    public void Retry()
+    IEnumerator Retry()
     {
+        FallingBoulders.isRumbling = false;
+        qc.retried = false;
+        PrefabDestroyer.end =true;
+        StartCoroutine(life.endBGgone());
+        yield return new WaitForSeconds(3);
         myPlayer.ToggleTrigger();
-        
+        myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
+        myPlayer.moveSpeed = 0;
+        playerAnswer = 0;
+        RumblingManager.isCrumbling = false;
+
+        if (stage == 1)
+            qc.stage = 1;
+        else if (stage == 2)
+            qc.stage = 2;
+        else
+            qc.stage = 3;
+
         VeloMediumSetUp();
     }
-    public void Next()
+    IEnumerator Next()
     {
-        //myPlayer.ToggleTrigger();
-        
+        FallingBoulders.isRumbling = false;
+        qc.nextStage = false;
         myPlayer.happy = false;
-        // myPlayer.SetEmotion("");
-        //ragdollSpawn.SetActive(false);
-        //StartCoroutine(resetPrefab());
+        PrefabDestroyer.end =true;
+        yield return new WaitForSeconds(3f);
+        myPlayer.ToggleTrigger();
+        StartCoroutine(life.endBGgone());
+        yield return new WaitForSeconds(2.8f);
+        myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
+        myPlayer.moveSpeed = 0;
+        playerAnswer = 0;
+        RumblingManager.isCrumbling = false;
         VeloMediumSetUp();
     }
     public IEnumerator DirectorsCall()
@@ -391,20 +418,6 @@ public class VelocityMediumManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
             directorsSpeech.text = "";
-            // if (isAnswerCorrect)
-            // {
-            //     correctAnswerIndicator.gameObject.SetActive(true);
-            // }
-            // else
-            // {
-            //     correctAnswerIndicator.gameObject.SetActive(true);
-            //     playerAnswerIndicator.gameObject.SetActive(true);
-            //     myPlayer.moveSpeed = 0;
-            //     myPlayer.transform.position = ragdoll.transform.position;
-            //     myPlayer.gameObject.SetActive(true);
-            //     Destroy(ragdollPrefab);
-            //     myPlayer.standup = true;
-            // }
             boulderVelocity = 0;
         }
     }
@@ -429,23 +442,9 @@ public class VelocityMediumManager : MonoBehaviour
         myPlayer.jump();
         yield return new WaitForSeconds(jumpTime);
         isAnswered = false;
+        yield return new WaitForEndOfFrame();
+        int i = 1;
+        Debug.Log(i++);
         isEndOfStunt = true;
-
     }
-    // void OnTriggerEnter(Collider other)
-    // {
-    //     other.enabled = false;
-    //     if (other.gameObject.name == "Boulder")
-    //     {
-    //         StartCoroutine(RagdollSpawn());
-    //     }
-    // }
-    // IEnumerator RagdollSpawn()
-    // {
-    //     yield return new WaitForEndOfFrame();
-    //     myPlayer.gameObject.SetActive(false);
-    //     yield return new WaitForEndOfFrame();
-    //     ragdoll = Instantiate(ragdollPrefab);
-    //     ragdoll.transform.position = myPlayer.gameObject.transform.position;
-    // }
 }

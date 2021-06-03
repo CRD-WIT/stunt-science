@@ -10,7 +10,7 @@ public class RumblingManager : MonoBehaviour
     public Transform camTransform;
     public float shakeDuration = 0f, shakeAmount = 0.8f, decreaseFactor = 1.0f, debrisRange = 1.4f;
     public bool rubbleON = true, collapsing = true;
-    public static bool isCrumbling, shakeON;
+    public static bool isCrumbling, shakeON, fallingBouder;
     bool isThisFirst = true;
     public GameObject rumbling;
     public GameObject[] rubbles, debris;
@@ -102,6 +102,7 @@ public class RumblingManager : MonoBehaviour
         TempGo2.transform.position = new Vector2(Random.Range(-3f, 40f), Random.Range(9f, 11f));
         rubbleON = false;
         yield return new WaitForSeconds(1);
+        fallingBouder =true;
         rubbleON = true;
         yield return new WaitForSeconds(0.1f);
         rubbleON = false;

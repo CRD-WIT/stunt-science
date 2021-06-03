@@ -68,17 +68,13 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     public void ActionBtn()
     {
-        ToggleModal();
-        StartCoroutine(PlayBtnToggle());
-        StartCoroutine(life.endBGgone());
+        answerFieldHorizontal.text = "";
         if (answerIsCorrect)
             Next();
         else
-            Retry();
-    }
-    public void ToggleModal()
-    {
-        isModalOpen = !isModalOpen;
+            StartCoroutine(Retry());
+        isModalOpen = false;
+        timerOn = false;
     }
     public void ActivateResult(string message, bool isCorrect)
     {
@@ -99,7 +95,6 @@ public class QuestionControllerVThree : MonoBehaviour
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
         }
         actionBtn.interactable = true;
-        timerComponentHorizontal.GetComponent<TMP_Text>().text = "";
     }
     public void SetQuestion(string qstn)
     {
@@ -110,13 +105,6 @@ public class QuestionControllerVThree : MonoBehaviour
     {
         return this.playerAnswer;
     }
-    IEnumerator PlayBtnToggle()
-    {
-        yield return new WaitForSeconds(3f);
-        timerOn = false;
-        answerFieldHorizontal.text = "";
-    }
-
     public void SetAnswer()
     {
         if (answerFieldHorizontal.text == "")
@@ -199,21 +187,13 @@ public class QuestionControllerVThree : MonoBehaviour
             SceneManager.LoadScene("LevelSelection");
         }
     }
-    public void Retry()
+    IEnumerator Retry()
     {
         extraOn = false;
         answerFieldHorizontal.text = "";
-        if (stage == 1)
-            stage = 1;
-        else if (stage == 2)
-            stage = 2;
-        else
-            stage = 3;
-
-        // Scene currentScene = SceneManager.GetActiveScene();
-        // SceneManager.LoadScene(currentScene.name);
-
         retried = true;
+        yield return new WaitForEndOfFrame();
+        isModalOpen =false;
     }
 
     IEnumerator IsEmpty()
@@ -227,7 +207,6 @@ public class QuestionControllerVThree : MonoBehaviour
 
     public string Unit(UnitOf unitOf)
     {
-        //TODO: passed the appropriate unit in the answerFieldHorizontal suffixed to the answer
         switch (unitOf)
         {
             case UnitOf.distance:
@@ -269,7 +248,6 @@ public class QuestionControllerVThree : MonoBehaviour
         }
         return answerUnit;
     }
-
     public string getHexColor(TextColorMode mode)
     {
         switch (mode)
@@ -282,7 +260,6 @@ public class QuestionControllerVThree : MonoBehaviour
                 return ColorUtility.ToHtmlStringRGB(givenColor);
         }
     }
-
     public void SetColor(TMP_Text target, TextColorMode mode)
     {
         switch (mode)
@@ -315,8 +292,8 @@ public class QuestionControllerVThree : MonoBehaviour
 
         extraComponent.gameObject.SetActive(timerOn || popupVisible);
         playButtonHorizontal.SetActive(!timerOn);
-        timerComponentHorizontal.gameObject.SetActive(timerOn);
-        timerComponentHorizontal.GetComponent<TMP_Text>().text = timer;
+        // timerComponentHorizontal.gameObject.SetActive(timerOn);
+        timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
 
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
         levelBadge.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");

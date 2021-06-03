@@ -43,5 +43,6 @@ public class PrefabDestroyer : MonoBehaviour
         destroyPrefab = false;
         yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
+        end = false;
     }
 }

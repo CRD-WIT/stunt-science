@@ -14,6 +14,7 @@ public class RockDestroyer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(isDestroyed);
         if(!isDestroyed){
             StartCoroutine(DesstroyObj());
         }

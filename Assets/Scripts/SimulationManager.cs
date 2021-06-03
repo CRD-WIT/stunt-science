@@ -149,7 +149,6 @@ public class SimulationManager : MonoBehaviour
         thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
         PrefabDestroyer.destroyPrefab = true;
-        thePlayer.standup = false;
         thePlayer.moveSpeed = 5;
         yield return new WaitForSeconds(3f);
         StartCoroutine(theHeart.endBGgone());
