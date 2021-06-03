@@ -54,9 +54,6 @@ public class CameraScript : MonoBehaviour
         if (directorIsCalling)
         {
             StartCoroutine(DirectorsCall());
-        }
-        else
-        {
             directorIsCalling = false;
         }
     }

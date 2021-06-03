@@ -132,7 +132,6 @@ public class QuestionController : MonoBehaviour
                 StartCoroutine(IsEmpty());
             else
             {
-
                 playerAnswer = float.Parse(answerFieldHorizontal.text.Split(new string[] { answerUnit }, System.StringSplitOptions.None)[0]);
                 answerFieldHorizontal.text = playerAnswer + answerUnit;
             }
@@ -143,10 +142,8 @@ public class QuestionController : MonoBehaviour
                 StartCoroutine(IsEmpty());
             else
             {
-
                 playerAnswer = float.Parse(answerFieldVertical.text.Split(new string[] { answerUnit }, System.StringSplitOptions.None)[0]);
                 answerFieldVertical.text = playerAnswer + answerUnit;
-
             }
         }
 
@@ -303,9 +300,9 @@ public class QuestionController : MonoBehaviour
             modalComponentHorizontal.SetActive(false);
             modalTitleHorizontal.SetActive(false);
             modalTitleVertical.SetActive(true);
-            if (!isSimulating && !isModalOpen)
+            if (isSimulating)
             {
-                playButtonVertical.SetActive(true);
+                playButtonVertical.SetActive(false);
             }
             if (!isSimulating && isModalOpen)
             {

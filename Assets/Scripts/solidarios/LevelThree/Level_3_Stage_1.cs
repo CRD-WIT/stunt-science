@@ -220,11 +220,11 @@ public class Level_3_Stage_1 : MonoBehaviour
                             playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1.5f, 1);
                             platformBar.GetComponent<Animator>().SetBool("collided", true);
                             playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
-                            questionController.isSimulating = false;
                             cameraScript.isStartOfStunt = false;
                             questionController.answerIsCorrect = true;
-
                             StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
+                            questionController.isSimulating = false;
+
                         }
                     }
                     else
@@ -234,10 +234,11 @@ public class Level_3_Stage_1 : MonoBehaviour
                             if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                             {
                                 Debug.Log("Distance is too short!");
-                                questionController.isSimulating = false;
                                 cameraScript.isStartOfStunt = false;
                                 questionController.answerIsCorrect = false;
+                                questionController.isSimulating = false;
                                 StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
+
                             }
                         }
                         else
@@ -245,10 +246,10 @@ public class Level_3_Stage_1 : MonoBehaviour
                             if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                             {
                                 Debug.Log("Distance is too long!");
-                                questionController.isSimulating = false;
                                 cameraScript.isStartOfStunt = false;
                                 questionController.answerIsCorrect = false;
                                 StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
+                                questionController.isSimulating = false;
                             }
                         }
                     }
@@ -263,24 +264,25 @@ public class Level_3_Stage_1 : MonoBehaviour
         }
         else
         {
+
             // platformBar.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);           
             if (respositioned)
             {
                 timerText.text = $"{(timeGiven).ToString("f2")}s";
                 // timerAnnotation.GetComponent<TMP_Text>().text = $"t={(timeGiven).ToString("f2")}s";
             }
-
+            questionController.isSimulating = false;
         }
 
-        if (elapsed == timeGiven)
-        {
-            Debug.Log("Freeze");
-            //timerAnnotation.transform.position = new Vector3(17, lastHitYPosition, 1);
-        }
-        else
-        {
-            //timerAnnotation.transform.position = new Vector3(17, playerHingeJoint.transform.position.y, 1);
-            //lastHitYPosition = playerHingeJoint.transform.position.y;
-        }
+        // if (elapsed == timeGiven)
+        // {
+        //     Debug.Log("Freeze");
+        //     //timerAnnotation.transform.position = new Vector3(17, lastHitYPosition, 1);
+        // }
+        // else
+        // {
+        //     //timerAnnotation.transform.position = new Vector3(17, playerHingeJoint.transform.position.y, 1);
+        //     //lastHitYPosition = playerHingeJoint.transform.position.y;
+        // }
     }
 }
