@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class AccMediumTwo : MonoBehaviour
 {
-    public GameObject hangingRagdoll1, hangingRagdoll2, ropeTip1, ropeTip2, subSuv, subChopper;
+    public GameObject hangingRagdoll1, hangingRagdoll2, ropeTip1, ropeTip2;
     public Player thePlayer;
     public Hellicopter theChopper;
+    public SubHellicopter theSubChopper;
+    public SubSuv theSubSuv;
     public Suv theVan;
     float A, B, C, D;
     float generateViH, Vih, generateAccH, accH, generateViV, Viv, generateAccV, accV, generateDistance, distance,checkDistance;
-    float chopperCurrentPos, vanCurrentPos, kickpointTimeA, kickpointTimeB, timer,kickDistance, kickpointTimeC;
-    float chopperAccPos, vanAccPos;
+    float chopperCurrentPos, vanCurrentPos, kickpointTimeA, kickpointTimeB, timer,kickDistance, kickpointTimeC, playerKickDistance;
+    float chopperAccPos, vanAccPos,vanTime, chopperDistance;
     bool reposition = true;
     public QuestionController theQuestion;
     // Start is called before the first frame update
     void Start()
     {
+        thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         thePlayer.ropeHang = true;
         generateProblem();
     }
@@ -29,24 +32,25 @@ public class AccMediumTwo : MonoBehaviour
         hangingRagdoll1.transform.position = ropeTip1.transform.position;
         hangingRagdoll2.transform.position = ropeTip2.transform.position;
         checkDistance = ((Vih*kickpointTimeA)+ ((accH*(kickpointTimeA * kickpointTimeA))/2)) + ((Viv*kickpointTimeA)+ ((accV*(kickpointTimeA * kickpointTimeA))/2));
-        chopperAccPos = 30-(distance/2);
-        vanAccPos = 30+(distance/2);
+        kickDistance = ((Vih*kickpointTimeA)+((accH*(kickpointTimeA * kickpointTimeA))/2)) + chopperAccPos;
+        playerKickDistance = AccMidSimulation.playerAnswer + chopperAccPos;
+
         
         if (AccMidSimulation.simulate == true)
         {
             if (reposition)
             {
-                theChopper.flySpeed = 5;
-                theVan.moveSpeed = -5;
+                theChopper.flySpeed = Vih;
+                theVan.moveSpeed = -Viv;
                 if(chopperCurrentPos >= chopperAccPos & vanCurrentPos <= vanAccPos)
                 {
-                    theChopper.flySpeed = Vih;
-                    theVan.moveSpeed = -Viv;
                     theChopper.accelaration = accH;
                     theVan.accelaration = accV;
                     theChopper.accelarating = true;
                     theVan.accelarating = true;
                     reposition = false;
+                    theSubChopper.fade = true;
+                    theSubSuv.fade = true;
                     
                     
                     
@@ -55,15 +59,10 @@ public class AccMediumTwo : MonoBehaviour
             if(reposition == false)
             {
                 timer += Time.fixedDeltaTime;
-                if(timer >= kickpointTimeA)
+                if(chopperCurrentPos >= playerKickDistance)
                 {
-                    Time.timeScale = 0;
-                    AccMidSimulation.simulate = false;
-                    /*AccMidSimulation.simulate = false;
-                    theChopper.accelarating = false;
-                    theVan.accelarating = false;
-                    theVan.moveSpeed = 0;
-                    theChopper.flySpeed = 0;*/
+                   
+                   
                 }
 
             }
@@ -82,8 +81,6 @@ public class AccMediumTwo : MonoBehaviour
         accV = (float)System.Math.Round(generateAccV, 2);
         generateDistance = Random.Range(38, 40);
         distance = (float)System.Math.Round(generateDistance, 2);
-        theChopper.transform.position = new Vector2(30 - (distance/2 + 30), theChopper.transform.position.y);
-        theVan.transform.position = new Vector2(30 + (distance/2 + 30), theVan.transform.position.y);
         B = ((accH + accV)/2);
         A = -(Vih + Viv);
         C = -distance;
@@ -93,11 +90,24 @@ public class AccMediumTwo : MonoBehaviour
         kickpointTimeA =(A + Mathf.Sqrt((A*A) - (4*B*C)))/ (2*B);
         kickpointTimeB =(B - Mathf.Sqrt((B*B) - (4*A*C)))/ (2*A);
         //kickpointTimeC = (kickpointTimeA - kickpointTimeB)/ 2;
-        //kickDistance = (Vih * kickpointTime) + (accH * ((kickpointTime*kickpointTime)/2));
-        
         //kickpointTime = (((distance/2)/(accH+Vih)) + ((distance/2)/(accV+Viv))) / 2;
-        //kickpointTime = distance/((accH+Vih) + (accV + Viv)); 
+        //kickpointTime = distance/((accH+Vih) + (accV + Viv));
+        vanTime = 30/Viv;
+        chopperDistance = Vih * vanTime;
+        chopperAccPos = 20-(distance/2);
+        vanAccPos = 20+(distance/2);
+        theChopper.transform.position = new Vector2(chopperAccPos-chopperDistance, theChopper.transform.position.y);
+        theVan.transform.position = new Vector2(20 + (distance/2 + 30), theVan.transform.position.y); 
+        theSubChopper.transform.position = new Vector2(chopperAccPos,  theSubChopper.transform.position.y);
+        theSubSuv.transform.position = new Vector2(vanAccPos,theSubSuv.transform.position.y);
 
 
+
+    }
+     public IEnumerator errorMesage()
+    {
+        theQuestion.popupVisible = true;
+        yield return new WaitForSeconds(3);
+        theQuestion.popupVisible = false;
     }
 }

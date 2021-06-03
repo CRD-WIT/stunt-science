@@ -14,6 +14,7 @@ public class AccMidSimulation : MonoBehaviour
     public AccMediumOne theManagerOne;
     //public AccMediumTwo theManagerTwo;
     public AccMediumThree theManagerThree;
+    public AccMediumTwo theManagerTwo;
     public TMP_InputField[] answerField;
     public static string question;
     public TMP_Text questionTextBox, errorTextBox, levelText, diretorsSpeech;
@@ -80,9 +81,11 @@ public class AccMidSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
+             playerAnswer = float.Parse(answerField[1].text);
             
             if (answerField[1].text == "" || playerAnswer > 100)
             {
+                StartCoroutine(theManagerTwo.errorMesage());
                 errorTextBox.SetText("Please enter a valid answer!");
             }
             else

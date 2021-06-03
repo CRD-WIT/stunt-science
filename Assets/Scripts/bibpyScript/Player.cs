@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
      public float jumpforce;
      public bool standup;
      public bool addweights, thisway, godown;
-     public bool toJump,toReach,ropeHang;
+     public bool toJump,toReach,ropeHang,hangkick;
      
      
     
@@ -71,6 +71,7 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("tojump", toJump);
         myAnimator.SetBool("toreach", toReach);
         myAnimator.SetBool("ropehang", ropeHang);
+        myAnimator.SetBool("hangkick", hangkick);
        
         
         if (posready == true)
