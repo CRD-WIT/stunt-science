@@ -18,7 +18,7 @@ public class VelocityMediumManager : MonoBehaviour
     CeillingGenerator createCeilling;
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField] float playerVelocity, boulderVelocity, boulder2Velocity, stuntTime, distance, jumpDistance, correctAnswer;
-    int stage;
+    public static int stage;
     Rigidbody2D boulderRB, boulder2RB;
     GameObject ragdoll;
     RockDestroyer clearBoulders;
@@ -138,7 +138,8 @@ public class VelocityMediumManager : MonoBehaviour
                     }
                     break;
                 case 3:
-                    // FallingBoulders.dropPoint = (boulder.transform.position.x - 0.7f)||(boulder.transform.position.x - 0.7f;);
+                    FallingBoulders.dropPoint = (boulder.transform.position.x - 0.7f);
+                    FallingBoulders.moreDropPoint = (boulderA.transform.position.x + 0.7f);
                     currentPlayerPos = myPlayer.transform.position.x - playerDistance;
                     labels.spawnPoint = labelStartPoint;
                     labels.distanceTraveled = currentPlayerPos;
@@ -147,6 +148,7 @@ public class VelocityMediumManager : MonoBehaviour
                     boulder2RB.velocity = new Vector2(-boulder2Velocity, 0);
                     if (stuntTime <= elapsed)
                     {
+                        myPlayer.moveSpeed = 0;
                         labels.distanceTraveled = (float)System.Math.Round((playerAnswer * stuntTime), 2);
                         elapsed = stuntTime;
                         boulderRB.velocity = new Vector2(boulderRB.velocity.x, boulderRB.velocity.y);
@@ -199,6 +201,8 @@ public class VelocityMediumManager : MonoBehaviour
     }
     void VeloMediumSetUp()
     {
+        FallingBoulders.dropPoint = 0;
+        FallingBoulders.moreDropPoint = 0;
         RagdollV2.disableRagdoll = true;
         distanceMeassure.gameObject.SetActive(true);
         labels.valueIs = TextColorMode.Given;
@@ -288,6 +292,7 @@ public class VelocityMediumManager : MonoBehaviour
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=red>meters</color> should " + playerName + " be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 3:
+                labels.whatIsAsk = UnitOf.velocity;
                 boulder.SetActive(true);
                 boulderA.SetActive(true);
                 float Vp, Dp, Tp, Dac = (float)System.Math.Round(Random.Range(19f, 22f), 2);
@@ -338,16 +343,6 @@ public class VelocityMediumManager : MonoBehaviour
     public void Play()
     {
         qc.isSimulating = false;
-        if (stage == 1)
-        {
-        }
-        else if (stage == 2)
-        {
-        }
-        else
-        {
-            // stage3Flag = true;
-        }
         isStartOfStunt = true;
         directorIsCalling = true;
         FallingBoulders.isRumbling = true;
@@ -356,7 +351,7 @@ public class VelocityMediumManager : MonoBehaviour
     {
         FallingBoulders.isRumbling = false;
         qc.retried = false;
-        PrefabDestroyer.end =true;
+        PrefabDestroyer.end = true;
         StartCoroutine(life.endBGgone());
         yield return new WaitForSeconds(3);
         myPlayer.ToggleTrigger();
@@ -364,14 +359,6 @@ public class VelocityMediumManager : MonoBehaviour
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
         RumblingManager.isCrumbling = false;
-
-        if (stage == 1)
-            qc.stage = 1;
-        else if (stage == 2)
-            qc.stage = 2;
-        else
-            qc.stage = 3;
-
         VeloMediumSetUp();
     }
     IEnumerator Next()
@@ -379,7 +366,7 @@ public class VelocityMediumManager : MonoBehaviour
         FallingBoulders.isRumbling = false;
         qc.nextStage = false;
         myPlayer.happy = false;
-        PrefabDestroyer.end =true;
+        PrefabDestroyer.end = true;
         yield return new WaitForSeconds(3f);
         myPlayer.ToggleTrigger();
         StartCoroutine(life.endBGgone());

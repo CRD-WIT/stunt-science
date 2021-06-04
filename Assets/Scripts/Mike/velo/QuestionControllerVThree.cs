@@ -192,8 +192,14 @@ public class QuestionControllerVThree : MonoBehaviour
         extraOn = false;
         answerFieldHorizontal.text = "";
         retried = true;
+        if (stage == 1)
+            stage = 1;
+        else if (stage == 2)
+            stage = 2;
+        else
+            stage = 3;
         yield return new WaitForEndOfFrame();
-        isModalOpen =false;
+        isModalOpen = false;
     }
 
     IEnumerator IsEmpty()

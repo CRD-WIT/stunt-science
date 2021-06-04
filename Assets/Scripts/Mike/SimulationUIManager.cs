@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using GameConfig;
 
 public class SimulationUIManager : MonoBehaviour
 {
@@ -226,22 +227,6 @@ public class SimulationUIManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         warningTxt.text = "";
     }
-}
-
-public enum UnitOf : byte
-{
-    distance = 0,
-    time = 1,
-    velocity = 2,
-    acceleration = 3,
-    angle = 4,
-    angularVelocity = 5,
-    force = 6,
-    mass = 7,
-    work = 8, //J
-    energy = 9,//kW
-    power = 10,//kWh
-    momuntum = 11//kgm/s
 }
 
 
