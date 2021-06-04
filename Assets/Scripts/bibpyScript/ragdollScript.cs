@@ -25,7 +25,7 @@ public class ragdollScript : MonoBehaviour
         {
             moveSpeedforward = 0;
         }
-        if (SimulationManager.playerDead == true) ;
+        if (SimulationManager.playerDead == true)
         {
             StartCoroutine(playerSpawn());
         }

@@ -26,7 +26,6 @@ public class CameraScript : MonoBehaviour
 
     public IEnumerator DirectorsCall()
     {
-        directorIsCalling = false;
         if (isStartOfStunt)
         {
             callout.SetActive(true);

@@ -40,6 +40,8 @@ public class Level_3_Stage_1 : MonoBehaviour
     String pronoun = "he";
     bool metTargetTime = false;
     [SerializeField] CameraScript cameraScript;
+
+    float globalTime;
     void Start()
     {
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
@@ -139,13 +141,15 @@ public class Level_3_Stage_1 : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (questionController.isSimulating)
+        if (playerAnswer.text.Length > 0)
         {
-            if (playerAnswer.text.Length > 0)
+
+            float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
+            float correct = (float)Math.Round(correctAnswer, 2);
+
+            if (questionController.isSimulating)
             {
-                // Remove extra character           
-                float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
-                float correct = (float)Math.Round(correctAnswer, 2);
+
                 float playerOnRopeY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
                 if (answer != correct)
@@ -203,6 +207,7 @@ public class Level_3_Stage_1 : MonoBehaviour
                 {
                     elapsed += Time.fixedDeltaTime;
 
+
                     playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
                     thePlayerAnimation.SetBool("isFalling", true);
 
@@ -237,8 +242,8 @@ public class Level_3_Stage_1 : MonoBehaviour
                                 cameraScript.isStartOfStunt = false;
                                 questionController.answerIsCorrect = false;
                                 questionController.isSimulating = false;
+                                cameraScript.directorIsCalling = true;
                                 StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
-
                             }
                         }
                         else
@@ -248,41 +253,68 @@ public class Level_3_Stage_1 : MonoBehaviour
                                 Debug.Log("Distance is too long!");
                                 cameraScript.isStartOfStunt = false;
                                 questionController.answerIsCorrect = false;
-                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                                 questionController.isSimulating = false;
+                                cameraScript.directorIsCalling = true;
+                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                             }
                         }
                     }
                 }
+
+                timerText.text = $"{(elapsed).ToString("f2")}s";
+
             }
             else
             {
-                Debug.Log("No value was added");
-            }
-            timerText.text = $"{(elapsed).ToString("f2")}s";
-            timerAnnotation.GetComponent<TMP_Text>().text = $"t={(elapsed).ToString("f2")}s";
-        }
-        else
-        {
 
-            // platformBar.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);           
+                // platformBar.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);           
+                if (respositioned)
+                {
+                    timerText.text = $"{(timeGiven).ToString("f2")}s";
+                    // timerAnnotation.GetComponent<TMP_Text>().text = $"t={(timeGiven).ToString("f2")}s";
+                }
+                questionController.isSimulating = false;
+            }
+
             if (respositioned)
             {
-                timerText.text = $"{(timeGiven).ToString("f2")}s";
+                if (System.Math.Round(globalTime / 1000, 2) <= timeGiven)
+                {                    
+                    globalTime += Time.fixedTime;
+                    // timerAnnotation.GetComponent<TMP_Text>().text = $"t={(globalTime / 1000).ToString("f2")}s";
+                    timerAnnotation.GetComponent<TMP_Text>().text = $"- Grabbed here!";
+                    if(questionController.answerIsCorrect){
+                        if(!accurateCollider.GetComponent<PlayerColliderEvent>().isCollided){
+                            timerAnnotation.transform.position = new Vector3(17, platformBar.transform.position.y, 1);
+                        }else{
+                            timerAnnotation.transform.position = new Vector3(17, playerHingeJoint.transform.position.y, 1);
+                        }
+                    }else{
+                        timerAnnotation.transform.position = new Vector3(17, playerHingeJoint.transform.position.y, 1);
+                    }
+                    
+                }else{
+                    timerAnnotation.SetActive(true);
+                }
+
+
                 // timerAnnotation.GetComponent<TMP_Text>().text = $"t={(timeGiven).ToString("f2")}s";
             }
-            questionController.isSimulating = false;
-        }
 
-        // if (elapsed == timeGiven)
-        // {
-        //     Debug.Log("Freeze");
-        //     //timerAnnotation.transform.position = new Vector3(17, lastHitYPosition, 1);
-        // }
-        // else
-        // {
-        //     //timerAnnotation.transform.position = new Vector3(17, playerHingeJoint.transform.position.y, 1);
-        //     //lastHitYPosition = playerHingeJoint.transform.position.y;
-        // }
+
+
+
+
+            // if (elapsed == timeGiven)
+            // {
+            //     Debug.Log("Freeze");
+            //     //timerAnnotation.transform.position = new Vector3(17, lastHitYPosition, 1);
+            // }
+            // else
+            // {
+            //     //timerAnnotation.transform.position = new Vector3(17, playerHingeJoint.transform.position.y, 1);
+            //     //lastHitYPosition = playerHingeJoint.transform.position.y;
+            // }
+        }
     }
 }
