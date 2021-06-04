@@ -36,7 +36,7 @@ public class AccMediumTwo : MonoBehaviour
         generatekickDistance = ((Vih * kickpointTimeA) + ((accH * (kickpointTimeA * kickpointTimeA)) / 2)) + chopperAccPos;
         kickDistance = (float)System.Math.Round(generatekickDistance, 2);
         playerKickDistance = AccMidSimulation.playerAnswer + chopperAccPos; 
-        if(kickReady)
+        if(chopperCurrentPos < playerKickDistance-1.5)
         {
             hangingRagdoll2.transform.position = ropeTip2.transform.position;
         }
@@ -66,13 +66,11 @@ public class AccMediumTwo : MonoBehaviour
                 timer += Time.fixedDeltaTime;
                 if (playerKickDistance == kickDistance)
                 {
-                    windshield.SetActive(false);
-                   if (chopperCurrentPos >= playerKickDistance-2)
+                   if (chopperCurrentPos >= playerKickDistance-1.5f)
                     {
                         if (kickReady)
                         {
                             thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;                          
-                            thePlayer.hangkick = true;
                             StartCoroutine(kick());
                            
                         }
@@ -129,9 +127,12 @@ public class AccMediumTwo : MonoBehaviour
     }
     IEnumerator kick()
     {
-        yield return new WaitForSeconds(.3f);
-         kickReady = false;
+        thePlayer.hangkick = true;
+        kickReady = false;
+        windshield.SetActive(true);
         glassSpawn();
+        yield return new WaitForSeconds(.3f);
+       
         thePlayer.hangkick = false;
         thePlayer.gameObject.SetActive(false);
         driver.SetActive(true);
