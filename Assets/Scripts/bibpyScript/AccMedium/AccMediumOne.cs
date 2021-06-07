@@ -188,8 +188,6 @@ public class AccMediumOne : MonoBehaviour
         yield return new WaitForSeconds(7);
         StartCoroutine(theSimulate.DirectorsCall());
         theQuestion.ToggleModal();
-
-
     }
     IEnumerator jump()
     {
