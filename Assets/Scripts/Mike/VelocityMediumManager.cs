@@ -17,7 +17,7 @@ public class VelocityMediumManager : MonoBehaviour
     ScoreManager score;
     CeillingGenerator createCeilling;
     [SerializeField] TMP_Text directorsSpeech;
-    [SerializeField] float playerVelocity, boulderVelocity, boulder2Velocity, stuntTime, distance, jumpDistance, correctAnswer;
+    [SerializeField] float playerVelocity, boulderVelocity, boulder2Velocity, stuntTime, distance, jumpDistance, correctAnswer, currentBoulderPos;
     public static int stage;
     Rigidbody2D boulderRB, boulder2RB;
     GameObject ragdoll;
@@ -76,25 +76,28 @@ public class VelocityMediumManager : MonoBehaviour
             {
                 case 1:
                     currentPlayerPos = myPlayer.transform.position.x;
+                    currentBoulderPos = boulder.transform.position.x;
                     FallingBoulders.dropPoint = currentPlayerPos - 0.7f;
-                    labels.spawnPoint = new Vector2(0, 0.25F);
+                    labels.spawnPoint = new Vector2(currentPlayerPos, 0.25F);
                     boulderRB.velocity = new Vector2(-boulderVelocity, 0);
-                    labels.distanceTraveled = currentPlayerPos;
+                    labels.distanceTraveled = currentBoulderPos - currentPlayerPos;
                     if (playerAnswer <= elapsed)
                     {
+                        currentPlayerPos = playerAnswer*playerVelocity;
                         StartCoroutine(Jump());
                         elapsed = playerAnswer;
                         // qc.timer = playerAnswer.ToString("f2") + "s";
                         if (playerAnswer == stuntTime)
                         {
-                            labels.distanceTraveled = labels.distance;
+                            labels.distanceTraveled = distance -(boulderVelocity*stuntTime)- currentPlayerPos;
                             labels.valueIs = TextColorMode.Correct;
                             isAnswerCorrect = true;
                             messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
                         }
                         else
                         {
-                            labels.distanceTraveled = (float)System.Math.Round((playerVelocity * playerAnswer), 2);
+                            // TODO: label to be added
+                            labels.distanceTraveled = (float)System.Math.Round((boulderVelocity * playerAnswer), 2);
                             labels.valueIs = TextColorMode.Wrong;
                             isAnswerCorrect = false;
                             if (playerAnswer < stuntTime)
