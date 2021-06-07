@@ -1,27 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class AccMediumTwo : MonoBehaviour
 {
-    public GameObject hangingRagdoll1, hangingRagdoll2, ropeTip1, ropeTip2, ragdollPrefab, stickmanPoint,windshield,driver,glass, glassPos;
+    public GameObject hangingRagdoll1, hangingRagdoll2, ropeTip1, ropeTip2, ragdollPrefab, stickmanPoint, windshield, driver, glass, glassPos, vanCollider;
+    public GameObject carInitial, chopperInitial, carArrow, chopperArrow, ragdollPause,distanceMeter;
     public Player thePlayer;
     public Hellicopter theChopper;
     public SubHellicopter theSubChopper;
     public SubSuv theSubSuv;
     public Suv theVan;
+    private AccMidSimulation theSimulate;
+    public DistanceMeter theMeter;
     float A, B, C, D;
     float generateViH, Vih, generateAccH, accH, generateViV, Viv, generateAccV, accV, generateDistance, distance, checkDistance;
-    float chopperCurrentPos, vanCurrentPos, kickpointTimeA, kickpointTimeB, timer, generatekickDistance,kickDistance, kickpointTimeC, playerKickDistance;
-    float chopperAccPos, vanAccPos, vanTime, chopperDistance;
+    float chopperCurrentPos, vanCurrentPos, kickpointTimeA, kickpointTimeB, timer, generatekickDistance, kickDistance, kickpointTimeC, playerKickDistance;
+    float chopperAccPos, vanAccPos, vanTime, chopperDistance, correctAnswer, playerTime, generateplayerVanDistance, playerVanDistance;
     bool reposition = true;
-    bool kickReady, safe;
+    bool kickReady, follow;
     public QuestionController theQuestion;
+    string gender, pronoun;
+    public TMP_Text vivTxt, vihTxt, accvTxt, acchTxt;
     // Start is called before the first frame update
     void Start()
     {
         thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        thePlayer.ropeHang = true;
+        theSimulate = FindObjectOfType<AccMidSimulation>();
+        gender = PlayerPrefs.GetString("Gender");
+        if (gender == "Male")
+        {
+            pronoun = ("his");
+        }
+        if (gender == "Female")
+        {
+            pronoun = ("her");
+        }
         generateProblem();
     }
 
@@ -31,20 +46,47 @@ public class AccMediumTwo : MonoBehaviour
         chopperCurrentPos = theChopper.transform.position.x;
         vanCurrentPos = theVan.transform.position.x;
         hangingRagdoll1.transform.position = ropeTip1.transform.position;
-        
+        playerTime = (-Vih + Mathf.Sqrt((Vih*Vih) + (4*((accH/2)* AccMidSimulation.playerAnswer)))) / accH;
         checkDistance = ((Vih * kickpointTimeA) + ((accH * (kickpointTimeA * kickpointTimeA)) / 2)) + ((Viv * kickpointTimeA) + ((accV * (kickpointTimeA * kickpointTimeA)) / 2));
         generatekickDistance = ((Vih * kickpointTimeA) + ((accH * (kickpointTimeA * kickpointTimeA)) / 2)) + chopperAccPos;
+        correctAnswer = (float)System.Math.Round(generatekickDistance, 2) - chopperAccPos;
         kickDistance = (float)System.Math.Round(generatekickDistance, 2);
-        playerKickDistance = AccMidSimulation.playerAnswer + chopperAccPos; 
-        if(chopperCurrentPos < playerKickDistance-1.5)
+        playerKickDistance = AccMidSimulation.playerAnswer + chopperAccPos;
+        generateplayerVanDistance = ((Viv * playerTime) + ((accV * (playerTime * playerTime)) / 2));
+        playerVanDistance = (vanAccPos - generateplayerVanDistance) + chopperAccPos;
+        if (follow)
         {
-            hangingRagdoll2.transform.position = ropeTip2.transform.position;
+            carInitial.transform.position = theVan.transform.position;
+            chopperInitial.transform.position = theChopper.transform.position;
+            vihTxt.text = ("vi = ") + theChopper.flySpeed.ToString("F2") + (" m/s");
+            accvTxt.text = ("a = ") + accV.ToString("F2") + (" m/s");
+            vivTxt.text = ("vi = ") + (-theVan.moveSpeed).ToString("F2") + (" m/s²");
+            acchTxt.text = ("a = ") + accH.ToString("F2") + (" m/s²");
         }
+
 
         if (AccMidSimulation.simulate == true)
         {
+
+            if (playerKickDistance == kickDistance)
+            {
+                if (chopperCurrentPos < playerKickDistance)
+                {
+                    hangingRagdoll2.transform.position = ropeTip2.transform.position;
+                }
+            }
+            else
+            {
+                hangingRagdoll2.transform.position = ropeTip2.transform.position;
+            }
             if (reposition)
             {
+                carInitial.transform.position = theVan.transform.position;
+                chopperInitial.transform.position = theChopper.transform.position;
+                vihTxt.text = ("v = ") + Vih.ToString("F2") + (" m/s");
+                accvTxt.text = ("a = ") + ("0 m/s");
+                vivTxt.text = ("v = ") + Viv.ToString("F2") + (" m/s²");
+                acchTxt.text = ("a = ") + ("0 m/s²");
                 theChopper.flySpeed = Vih;
                 theVan.moveSpeed = -Viv;
                 if (chopperCurrentPos >= chopperAccPos & vanCurrentPos <= vanAccPos)
@@ -56,6 +98,11 @@ public class AccMediumTwo : MonoBehaviour
                     reposition = false;
                     theSubChopper.fade = true;
                     theSubSuv.fade = true;
+                    carArrow.SetActive(false);
+                    chopperArrow.SetActive(false);
+                    follow = true;
+
+
 
 
 
@@ -63,21 +110,85 @@ public class AccMediumTwo : MonoBehaviour
             }
             if (reposition == false)
             {
-                timer += Time.fixedDeltaTime;
+                distanceMeter.SetActive(true);
+               
+
                 if (playerKickDistance == kickDistance)
                 {
-                   if (chopperCurrentPos >= playerKickDistance-1.5f)
+                    theMeter.distance = chopperCurrentPos;
+                    theQuestion.SetModalTitle("Stunt Success");
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" has successfully jumped into the van"));
+                    if (chopperCurrentPos >= playerKickDistance - 1.2f)
                     {
+
                         if (kickReady)
                         {
-                            thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;                          
+                            thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                             StartCoroutine(kick());
-                           
+                            AccMidSimulation.simulate = false;
+
                         }
                     }
 
 
                 }
+                if (playerKickDistance > kickDistance)
+                {
+                    if (chopperCurrentPos < kickDistance)
+                    {
+                        theMeter.distance = chopperCurrentPos;
+                    }
+                    theQuestion.SetModalTitle("Stunt Failed");
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" got hit by the van before he could kick the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>."));
+                    if (chopperCurrentPos >= kickDistance)
+                    {
+                        theMeter.distance = kickDistance - chopperAccPos;
+                        thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                        thePlayer.ropeHang = false;
+                        thePlayer.standup = true;
+                        if (kickReady)
+                        {
+
+                            StartCoroutine(StuntResult());
+                            AccMidSimulation.simulate = false;
+
+                        }
+                    }
+                    vanCollider.SetActive(true);
+                    windshield.SetActive(true);
+                }
+                if (playerKickDistance < kickDistance)
+                {
+                    if (chopperCurrentPos < playerKickDistance)
+                    {
+                        theMeter.distance = chopperCurrentPos;
+                    }
+                    theQuestion.SetModalTitle("Stunt Failed");
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" kick before touching  the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>."));
+                    vanCollider.SetActive(true);
+                    windshield.SetActive(true);
+                    if (chopperCurrentPos >= playerKickDistance - 2f)
+                    {
+                        theMeter.distance = playerKickDistance - chopperAccPos;
+                        ragdollPause.SetActive(true);
+                        ragdollPause.transform.position = new Vector2(playerKickDistance, thePlayer.transform.position.y);
+                        theSubSuv.gameObject.SetActive(true);
+                        theSubSuv.transform.position = new Vector2(playerVanDistance, theSubSuv.transform.position.y);
+                        if (kickReady)
+                        {
+                            StartCoroutine(kick());
+                        }
+                        if (chopperCurrentPos >= kickDistance)
+                        {
+                            thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                            thePlayer.ropeHang = false;
+                            thePlayer.standup = true;
+                            AccMidSimulation.simulate = false;
+                        }
+                    }
+                }
+
+
 
             }
 
@@ -85,6 +196,10 @@ public class AccMediumTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        follow = false;
+        carArrow.SetActive(true);
+        chopperArrow.SetActive(true);
+        thePlayer.ropeHang = true;
         kickReady = true;
         generateViH = Random.Range(5, 6);
         Vih = (float)System.Math.Round(generateViH, 2);
@@ -115,6 +230,16 @@ public class AccMediumTwo : MonoBehaviour
         theVan.transform.position = new Vector2(20 + (distance / 2 + 30), theVan.transform.position.y);
         theSubChopper.transform.position = new Vector2(chopperAccPos, theSubChopper.transform.position.y);
         theSubSuv.transform.position = new Vector2(vanAccPos, theSubSuv.transform.position.y);
+        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now hanging from a helicopter and is instructed to take over an incoming van moving fast without a driver. To get in the van, <b>") + PlayerPrefs.GetString("Name") + ("</b> must break its windshield by kicking it the exact moment  <b>") + pronoun + ("</b> feet touches it, If the initial velocity of helicopter is <b>") + Vih.ToString("F2") + ("</b> m/s and accelerating at <b>") + accH.ToString("F2") + ("</b> m/s², at what distance from the initial positon should  <b>") + PlayerPrefs.GetString("Name") + ("</b>  do the kicking if the initial velocity of the incoming Van <b>") + distance.ToString("F2") + ("</b> meters away is <b>") + Viv.ToString("F2") + ("</b> m/s and acelerating at ")));
+        hangingRagdoll2.transform.position = ropeTip2.transform.position;
+        carInitial.transform.position = theSubSuv.transform.position;
+        chopperInitial.transform.position = theSubChopper.transform.position;
+        vihTxt.text = ("vi = ") + Vih.ToString("F2") + (" m/s");
+        accvTxt.text = ("a = ") + accV.ToString("F2") + (" m/s");
+        vivTxt.text = ("vi = ") + Viv.ToString("F2") + (" m/s²");
+        acchTxt.text = ("a = ") + accH.ToString("F2") + (" m/s²");
+        theMeter.positionX = chopperAccPos;
+        theMeter.distance = 0f;
 
 
 
@@ -130,16 +255,33 @@ public class AccMediumTwo : MonoBehaviour
         thePlayer.hangkick = true;
         kickReady = false;
         windshield.SetActive(true);
-        glassSpawn();
-        yield return new WaitForSeconds(.3f);
-       
+        StartCoroutine(StuntResult());
+        if (playerKickDistance == kickDistance)
+        {
+            theMeter.distance = kickDistance - chopperAccPos;
+            glassSpawn();
+        }
+
+        yield return new WaitForSeconds(.1f);
+
         thePlayer.hangkick = false;
-        thePlayer.gameObject.SetActive(false);
-        driver.SetActive(true);
-        thePlayer.ropeHang = false;
-        thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x,  thePlayer.transform.localScale.y);
-
-
+        if (playerKickDistance == kickDistance)
+        {
+            thePlayer.gameObject.SetActive(false);
+            driver.SetActive(true);
+            thePlayer.ropeHang = false;
+            thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
+        }
+    }
+    IEnumerator StuntResult()
+    {
+        if (playerKickDistance > kickDistance)
+        {
+            kickReady = false;
+        }
+        yield return new WaitForSeconds(3);
+        StartCoroutine(theSimulate.DirectorsCall());
+        theQuestion.ToggleModal();
     }
     public void ragdollSpawn()
     {

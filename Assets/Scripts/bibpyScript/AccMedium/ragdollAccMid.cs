@@ -46,6 +46,14 @@ public class ragdollAccMid : MonoBehaviour
             }
 
         }
+        if (theSimulate.stage == 2)
+        {
+            if (AccMidSimulation.playerDead == true)
+            {
+                StartCoroutine(playerSpawn());
+            }
+
+        }
         if (theSimulate.stage == 3)
         {
             myRigidbody.velocity = new Vector2(moveSpeedbackward, myRigidbody.velocity.y);
