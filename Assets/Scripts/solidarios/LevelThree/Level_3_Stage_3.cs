@@ -12,7 +12,6 @@ public class Level_3_Stage_3 : MonoBehaviour
     public GameObject platformCollider;
     public TMP_Text playerNameText, stuntMessageText, timerText, questionText, levelName;
     public GameObject AfterStuntMessage;
-    public QuestionController questionController;
     Animator thePlayerAnimation;
     public TMP_InputField playerAnswer;
     bool isSimulating = false;
@@ -33,6 +32,9 @@ public class Level_3_Stage_3 : MonoBehaviour
     Vector2 spawnPointValue;
     float distance;
     float distanceGiven;
+    public QuestionController questionController;
+    public CameraScript cameraScript;
+
     void Start()
     {
         // Given        
@@ -59,6 +61,7 @@ public class Level_3_Stage_3 : MonoBehaviour
         {
             Debug.Log("QuestionText object not loaded.");
         }
+        
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
         thePlayerAnimation.SetBool("isHangingInBar", true);
         thePlayer_position = thePlayer.transform.position;
@@ -105,17 +108,16 @@ public class Level_3_Stage_3 : MonoBehaviour
 
     public void StartSimulation()
     {
-        questionController.isSimulating = true;
+        cameraScript.directorIsCalling = true;
+        cameraScript.isStartOfStunt = true;
         questionController.SetAnswer();
     }
+
     void FixedUpdate()
     {
-        float thePlayer_x = thePlayer_position.x;
-        float thePlayer_y = thePlayer_position.y;
-
-        if (isSimulating)
+        if (playerAnswer.text.Length > 0)
         {
-            if (playerAnswer.text.Length > 0)
+            if (questionController.isSimulating)
             {
                 float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
@@ -139,7 +141,8 @@ public class Level_3_Stage_3 : MonoBehaviour
                         playerHangingFixed.SetActive(true);
                         playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                         elapsed -= 0.02f;
-                        isSimulating = false;
+
+                        cameraScript.isStartOfStunt = false;
                         questionController.answerIsCorrect = true;
                         StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
                     }
@@ -151,8 +154,9 @@ public class Level_3_Stage_3 : MonoBehaviour
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
                             Debug.Log("Distance is too short!");
-                            isSimulating = false;
                             questionController.answerIsCorrect = false;
+                            questionController.isSimulating = false;
+                            cameraScript.directorIsCalling = true;
                             StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon!", "Retry")));
                         }
                     }
@@ -161,8 +165,9 @@ public class Level_3_Stage_3 : MonoBehaviour
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
                             Debug.Log("Distance is too long!");
-                            isSimulating = false;
-                            questionController.answerIsCorrect = false;                            
+                              questionController.answerIsCorrect = false;
+                            questionController.isSimulating = false;
+                            cameraScript.directorIsCalling = true;                           
                             StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late!", "Retry")));
                         }
                     }
@@ -170,15 +175,11 @@ public class Level_3_Stage_3 : MonoBehaviour
             }
             else
             {
-                Debug.Log("No value was added");
-            }
-        }
-        else
-        {
-            //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
-            isSimulating = false;
+                //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
+                questionController.isSimulating = false;
 
-            timerText.text = $"{(elapsed).ToString("f2")}s";
+                timerText.text = $"{(elapsed).ToString("f2")}s";
+            }
         }
     }
 }

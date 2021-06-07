@@ -138,6 +138,7 @@ public class Level_3_Stage_1 : MonoBehaviour
         cameraScript.isStartOfStunt = true;
         questionController.SetAnswer();
     }
+    
     void FixedUpdate()
     {
 

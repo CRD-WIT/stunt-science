@@ -5802,6 +5802,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6678413899246383777, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678413899246383777, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678413899246383777, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -211995295
+      objectReference: {fileID: 0}
     - target: {fileID: 6678413899563346594, guid: 76f58bb0b3d7d7257b72c9d325bfb81a, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -8782,7 +8794,6 @@ MonoBehaviour:
   questionText: {fileID: 551932274}
   levelName: {fileID: 1891993974}
   AfterStuntMessage: {fileID: 1318250021}
-  questionController: {fileID: 1454124391}
   playerAnswer: {fileID: 431091020}
   playerHingeJoint: {fileID: 1096509097}
   thePlayer: {fileID: 2021995314}
@@ -8792,6 +8803,8 @@ MonoBehaviour:
   accurateCollider: {fileID: 374063253}
   platformBarTop: {fileID: 645368563}
   playerHangingBottom: {fileID: 1105723792}
+  questionController: {fileID: 1454124391}
+  cameraScript: {fileID: 0}
 --- !u!4 &732250310
 Transform:
   m_ObjectHideFlags: 0
@@ -10584,6 +10597,7 @@ MonoBehaviour:
     m_Extent: {x: 2.6671457, y: 0.09611161, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!212 &1105723794
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12715,6 +12729,7 @@ MonoBehaviour:
     m_Extent: {x: 2.0020802, y: 1.8093317, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!212 &1397990033
 SpriteRenderer:
   m_ObjectHideFlags: 0
