@@ -143,6 +143,11 @@ public class AccMidSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
+            answerField[1].text = ("");
+            theQuestion[1].isSimulating = false;
+            theManagerTwo.generateProblem();
+            thePlayer.standup = false;
+            theSubVan[0].fade = false;
             
         }
         if (stage == 3)
