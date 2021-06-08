@@ -3,8 +3,8 @@ namespace GameConfig
     public enum Difficulty : byte
     {
         Easy = 0,
-        Hard = 1,
-        Difficult = 2
+        Medium = 1,
+        Hard = 2
     }
 
     public enum TextColorMode : byte

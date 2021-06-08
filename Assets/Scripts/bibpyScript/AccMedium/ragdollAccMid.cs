@@ -78,7 +78,7 @@ public class ragdollAccMid : MonoBehaviour
         }
         if (theSimulate.stage == 2)
         {
-            yield return new WaitForSeconds(4);
+            yield return new WaitForSeconds(2);
         }
         if (theSimulate.stage == 3)
         {

@@ -44,6 +44,7 @@ public class Hellicopter : MonoBehaviour
         if (other.gameObject.tag == ("wall"))
         {
             theManagerOne.chase = true;
+            theManagerOne.timeOn = true;
             theSubChopper.fade = true;
         }
     }

@@ -13,7 +13,7 @@ public class AccMediumTwo : MonoBehaviour
     public SubSuv theSubSuv;
     public Suv theVan;
     private AccMidSimulation theSimulate;
-    public DistanceMeter theMeter;
+    public DistanceMeter[] theMeter;
     float A, B, C, D;
     float generateViH, Vih, generateAccH, accH, generateViV, Viv, generateAccV, accV, generateDistance, distance, checkDistance;
     float chopperCurrentPos, vanCurrentPos, kickpointTimeA, kickpointTimeB, timer, generatekickDistance, kickDistance, kickpointTimeC, playerKickDistance;
@@ -22,11 +22,11 @@ public class AccMediumTwo : MonoBehaviour
     bool kickReady, follow;
     public QuestionController theQuestion;
     string gender, pronoun;
-    public TMP_Text vivTxt, vihTxt, accvTxt, acchTxt;
+    public TMP_Text vivTxt, vihTxt, accvTxt, acchTxt, actiontxt,timertxt;
     // Start is called before the first frame update
     void Start()
     {
-        thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        theQuestion.stageNumber = 2;
         theSimulate = FindObjectOfType<AccMidSimulation>();
         gender = PlayerPrefs.GetString("Gender");
         if (gender == "Male")
@@ -67,6 +67,7 @@ public class AccMediumTwo : MonoBehaviour
 
         if (AccMidSimulation.simulate == true)
         {
+            timertxt.text = timer.ToString("F2") + ("s");
 
             if (playerKickDistance == kickDistance)
             {
@@ -101,6 +102,7 @@ public class AccMediumTwo : MonoBehaviour
                     carArrow.SetActive(false);
                     chopperArrow.SetActive(false);
                     follow = true;
+                    hangingRagdoll1.SetActive(false);
 
 
 
@@ -110,19 +112,24 @@ public class AccMediumTwo : MonoBehaviour
             }
             if (reposition == false)
             {
+                timer += Time.fixedDeltaTime;
                 distanceMeter.SetActive(true);
                
 
                 if (playerKickDistance == kickDistance)
                 {
-                    theMeter.distance = chopperCurrentPos;
+                    actiontxt.text = "Next";
+                    theQuestion.answerIsCorrect = true;
+                    theMeter[0].distance = chopperCurrentPos;
                     theQuestion.SetModalTitle("Stunt Success");
                     theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" has successfully jumped into the van"));
                     if (chopperCurrentPos >= playerKickDistance - 1.2f)
                     {
-
+                        timer = kickpointTimeA;
+                        timertxt.text = timer.ToString("F2") + ("s");
                         if (kickReady)
                         {
+                            
                             thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                             StartCoroutine(kick());
                             AccMidSimulation.simulate = false;
@@ -134,15 +141,18 @@ public class AccMediumTwo : MonoBehaviour
                 }
                 if (playerKickDistance > kickDistance)
                 {
+                    actiontxt.text = "Retry";
                     if (chopperCurrentPos < kickDistance)
                     {
-                        theMeter.distance = chopperCurrentPos;
+                        theMeter[0].distance = chopperCurrentPos;
                     }
                     theQuestion.SetModalTitle("Stunt Failed");
                     theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" got hit by the van before he could kick the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>."));
                     if (chopperCurrentPos >= kickDistance)
                     {
-                        theMeter.distance = kickDistance - chopperAccPos;
+                        timer = kickpointTimeA;
+                        timertxt.text = timer.ToString("F2") + ("s");
+                        theMeter[0].distance = kickDistance - chopperAccPos;
                         thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                         thePlayer.ropeHang = false;
                         thePlayer.standup = true;
@@ -159,9 +169,10 @@ public class AccMediumTwo : MonoBehaviour
                 }
                 if (playerKickDistance < kickDistance)
                 {
+                    actiontxt.text = "Retry";
                     if (chopperCurrentPos < playerKickDistance)
                     {
-                        theMeter.distance = chopperCurrentPos;
+                        theMeter[0].distance = chopperCurrentPos;
                     }
                     theQuestion.SetModalTitle("Stunt Failed");
                     theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" kick before touching  the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>."));
@@ -169,7 +180,9 @@ public class AccMediumTwo : MonoBehaviour
                     windshield.SetActive(true);
                     if (chopperCurrentPos >= playerKickDistance - 2f)
                     {
-                        theMeter.distance = playerKickDistance - chopperAccPos;
+                        timer = playerTime;
+                        timertxt.text = timer.ToString("F2") + ("s");
+                        theMeter[0].distance = playerKickDistance - chopperAccPos;
                         ragdollPause.SetActive(true);
                         ragdollPause.transform.position = new Vector2(playerKickDistance, thePlayer.transform.position.y);
                         theSubSuv.gameObject.SetActive(true);
@@ -196,18 +209,28 @@ public class AccMediumTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        vanCollider.SetActive(false);
+        windshield.SetActive(false);
+        thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        theSubChopper.gameObject.SetActive(true);
+        theSubSuv.gameObject.SetActive(true);
+        distanceMeter.SetActive(false);
+        theChopper.accelarating = false;
+        theChopper.flySpeed = 0;
+        theVan.accelarating = false;
+        theVan.moveSpeed = 0;
         follow = false;
         carArrow.SetActive(true);
         chopperArrow.SetActive(true);
         thePlayer.ropeHang = true;
         kickReady = true;
-        generateViH = Random.Range(5, 6);
+        generateViH = Random.Range(5f, 6f);
         Vih = (float)System.Math.Round(generateViH, 2);
-        generateAccH = Random.Range(3, 5);
+        generateAccH = Random.Range(3f, 5f);
         accH = (float)System.Math.Round(generateAccH, 2);
-        generateViV = Random.Range(7, 8);
+        generateViV = Random.Range(7f, 8f);
         Viv = (float)System.Math.Round(generateViV, 2);
-        generateAccV = Random.Range(3, 4);
+        generateAccV = Random.Range(3f, 4f);
         accV = (float)System.Math.Round(generateAccV, 2);
         generateDistance = Random.Range(38, 40);
         distance = (float)System.Math.Round(generateDistance, 2);
@@ -215,13 +238,9 @@ public class AccMediumTwo : MonoBehaviour
         A = -(Vih + Viv);
         C = -distance;
         D = Mathf.Sqrt((B * B) - (4 * A * C));
-        //kickpointTime = Mathf.Abs(((accH* (kickpointTime * kickpointTime))/(2*Vih)) - (distance/Vih)); 
-        //kickpointTime = (-((accH + accV)/2) + (Mathf.Sqrt((((accH + accV)/2)*((accH + accV)/2)) -(4 * (Vih + Viv))*(-distance)))) / (2*(Vih + Viv));
         kickpointTimeA = (A + Mathf.Sqrt((A * A) - (4 * B * C))) / (2 * B);
         kickpointTimeB = (B - Mathf.Sqrt((B * B) - (4 * A * C))) / (2 * A);
-        //kickpointTimeC = (kickpointTimeA - kickpointTimeB)/ 2;
-        //kickpointTime = (((distance/2)/(accH+Vih)) + ((distance/2)/(accV+Viv))) / 2;
-        //kickpointTime = distance/((accH+Vih) + (accV + Viv));
+      
         vanTime = 30 / Viv;
         chopperDistance = Vih * vanTime;
         chopperAccPos = 20 - (distance / 2);
@@ -238,8 +257,15 @@ public class AccMediumTwo : MonoBehaviour
         accvTxt.text = ("a = ") + accV.ToString("F2") + (" m/s");
         vivTxt.text = ("vi = ") + Viv.ToString("F2") + (" m/s²");
         acchTxt.text = ("a = ") + accH.ToString("F2") + (" m/s²");
-        theMeter.positionX = chopperAccPos;
-        theMeter.distance = 0f;
+        theMeter[0].positionX = chopperAccPos;
+        theMeter[0].distance = 0f;
+        theSubChopper.fade = false;
+        ragdollPause.SetActive(false);
+        reposition = true;
+        theMeter[1].positionX = chopperAccPos;
+        theMeter[1].distance = distance;
+        hangingRagdoll1.SetActive(true);
+        kickReady = true;
 
 
 
@@ -258,7 +284,7 @@ public class AccMediumTwo : MonoBehaviour
         StartCoroutine(StuntResult());
         if (playerKickDistance == kickDistance)
         {
-            theMeter.distance = kickDistance - chopperAccPos;
+            theMeter[0].distance = kickDistance - chopperAccPos;
             glassSpawn();
         }
 
@@ -282,6 +308,9 @@ public class AccMediumTwo : MonoBehaviour
         yield return new WaitForSeconds(3);
         StartCoroutine(theSimulate.DirectorsCall());
         theQuestion.ToggleModal();
+        yield return new WaitForSeconds(2);
+        theChopper.accelarating = false;
+        theChopper.flySpeed = 0;
     }
     public void ragdollSpawn()
     {
@@ -292,5 +321,18 @@ public class AccMediumTwo : MonoBehaviour
     {
         GameObject glassDebri = Instantiate(glass);
         glassDebri.transform.position = glassPos.transform.position;
+    }
+     public void action()
+    {
+        theQuestion.ToggleModal();
+        if(theQuestion.answerIsCorrect == false)
+        {
+            theSimulate.retry();
+            
+        }
+        else
+        {
+            theSimulate.next();
+        }
     }
 }

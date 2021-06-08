@@ -35,6 +35,8 @@ public class AccManagerOne : MonoBehaviour
     void Start()
     {
         theQuestion.stageNumber = 1;
+        theQuestion.levelDifficulty = GameConfig.Difficulty.Medium;
+        theQuestion.levelName = "Acceleration";
         bikeInitialsPos = bikeInitials.transform.position;
         //thePlayer = FindObjectOfType<Player>();
         theBike = FindObjectOfType<BikeManager>();

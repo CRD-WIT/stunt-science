@@ -26,6 +26,7 @@ public class AccMediumThree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        theQuestion.stageNumber = 3;
         thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
         chopperStartPos = theChopper.transform.position;
         vanStartPos = theSuv.transform.position;

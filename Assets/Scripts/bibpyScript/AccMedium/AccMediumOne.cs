@@ -19,8 +19,8 @@ public class AccMediumOne : MonoBehaviour
     public QuestionController theQuestion;
     float generateVelocity, generateAccelaration, generateCorrectAnswer;
     public float chopperPos, truckPos, answer;
-    public bool readyToJump, follow;
-    public TMP_Text timertxt, vHtxt, viTtxt, aTtxt,actiontxt,playTimertxt;
+    public bool readyToJump, follow, timeOn;
+    public TMP_Text timertxt, vHtxt, viTtxt, aTtxt, actiontxt, playTimertxt;
     float grabLineDistance, playerGrabLineDistance;
     private Vector2 subChopperStartPos, chopperStartPos;
     // Start is called before the first frame update
@@ -47,6 +47,7 @@ public class AccMediumOne : MonoBehaviour
 
         if (AccMidSimulation.simulate == true)
         {
+
             answer = AccMidSimulation.playerAnswer;
             distanceH = answer * velocity + 0.67f;
             timertxt.gameObject.SetActive(true);
@@ -56,22 +57,27 @@ public class AccMediumOne : MonoBehaviour
             hangingRagdoll.transform.position = ropeTip.transform.position;
             theChopper.flySpeed = velocity;
             playerGrabline.transform.position = new Vector2(playerGrabLineDistance + 2.67f, playerGrabline.transform.position.y);
+            if(timeOn)
+            {
+                timer += Time.fixedDeltaTime;
+                playTimertxt.text = timer.ToString("F2") + "s";
+                timertxt.text = timer.ToString("F2") + "s";
+            }
             if (chase)
             {
                 carArrow.SetActive(false);
                 chopperArrow.SetActive(false);
                 carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2.1f, theTruck.transform.position.y);
                 chopperInitials.transform.position = new Vector2(theChopper.transform.position.x + 2.1f, theChopper.transform.position.y);
-                timertxt.text = timer.ToString("F2") + "s";
-                playTimertxt.text = timer.ToString("F2") + "s";
+                
+                
                 viTtxt.text = ("v= ") + theTruck.moveSpeed.ToString("F2") + ("m/s");
                 timertxt.gameObject.transform.position = theTruck.transform.position;
                 theTruck.accelerating = true;
                 theTruck.accelaration = accelaration;
-
-
                 thePlayer.transform.position = playerInTruck.transform.position;
-                timer += Time.fixedDeltaTime;
+
+                
                 if (answer == correctAnswer)
                 {
                     actiontxt.text = "Next";
@@ -86,11 +92,24 @@ public class AccMediumOne : MonoBehaviour
                             //grabline.SetActive(true);
                         }
                         theQuestion.SetModalTitle("Stunt Success");
-                         theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" has grabbed the rope and is now succesfully hanging from a hellicopter</color>"));
+                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" has grabbed the rope and is now succesfully hanging from a hellicopter</color>"));
+                    }
+                     if (truckPos >= 68)
+                    {
+                        theTruck.accelerating = false;
+                        theTruck.moveSpeed = 0;
+                        chase = false;
                     }
                 }
                 if (answer < correctAnswer)
                 {
+                    if (truckPos >= 68)
+                    {
+                        theTruck.accelerating = false;
+                        theTruck.moveSpeed = 0;
+                        chase = false;
+                    }
+                    actiontxt.text = "Retry";
                     AccMidSimulation.playerDead = true;
                     if (timer >= answer - .45f)
                     {
@@ -99,38 +118,52 @@ public class AccMediumOne : MonoBehaviour
                         {
                             StartCoroutine(StuntResult());
                             StartCoroutine(jump());
-                            
+
                             //grabline.SetActive(true);
                         }
 
                     }
-                   
+
                     theQuestion.SetModalTitle("Stunt Failed");
                     theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds.");
                 }
                 if (answer > correctAnswer)
                 {
+
+                    actiontxt.text = "Retry";
                     theQuestion.SetModalTitle("Stunt Failed");
                     AccMidSimulation.playerDead = true;
-                    if (timer >= answer - .45f)
+                    if (playerGrabLineDistance < 56)
                     {
-                        if (readyToJump)
+                        if (timer >= answer - .45f)
                         {
+                            if (readyToJump)
+                            {
+                                StartCoroutine(jump());
+                                StartCoroutine(StuntResult());
+                                
+                            }
+                            theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" grab the rope too late. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."));
+                        }
+                        if (truckPos >= 68)
+                        {
+                            theTruck.accelerating = false;
+                            theTruck.moveSpeed = 0;
+                            chase = false;
+                        }
+                    }
+                    if (playerGrabLineDistance > 56)
+                    {
+
+                        if (truckPos >= 68)
+                        {
+                            theTruck.accelerating = false;
+                            theTruck.moveSpeed = 0;
                             StartCoroutine(StuntResult());
-                            StartCoroutine(jump());
-                            
-                            //grabline.SetActive(true);
+                            velocity = 0;
+                            chase = false;
                         }
-                        if (playerGrabLineDistance < 56)
-                        {
-
-                             theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."));
-                        }
-                        if (playerGrabLineDistance > 56)
-                        {
-                            theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" didnt get the chance to grab the rope. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."));
-                        }
-
+                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" didnt get the chance to grab the rope. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."));
                     }
 
 
@@ -141,7 +174,7 @@ public class AccMediumOne : MonoBehaviour
             {
                 chopperInitials.transform.position = new Vector2(theChopper.transform.position.x + 2.1f, theChopper.transform.position.y);
                 carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2.1f, theTruck.transform.position.y);
-                if(answer == correctAnswer)
+                if (answer == correctAnswer)
                 {
                     timertxt.gameObject.transform.position = new Vector2(theChopper.transform.position.x, timertxt.gameObject.transform.position.y);
                 }
@@ -150,6 +183,7 @@ public class AccMediumOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        
         carArrow.SetActive(true);
         chopperArrow.SetActive(true);
         togreen = false;
@@ -185,7 +219,8 @@ public class AccMediumOne : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-        yield return new WaitForSeconds(7);
+        yield return new WaitForSeconds(5);
+        velocity = 0;
         StartCoroutine(theSimulate.DirectorsCall());
         theQuestion.ToggleModal();
     }
@@ -195,30 +230,32 @@ public class AccMediumOne : MonoBehaviour
         if (playerGrabLineDistance > 55)
         {
             yield return new WaitForSeconds(2f);
-            chase = false;
-            
+
             follow = true;
-            timertxt.text = answer.ToString("F2") + "s";
+
             playTimertxt.text = answer.ToString("F2") + "s";
             //viTtxt.text = ("v= ") + vf.ToString("F2") + ("m/s");
             velocity = 0;
             theTruck.moveSpeed = 0;
         }
-        if (playerGrabLineDistance < 55)
+        if (playerGrabLineDistance < 56)
         {
-            
-            readyToJump = false;
             thePlayer.toReach = true;
+            
             yield return new WaitForSeconds(.5f);
-
             thePlayer.toReach = false;
             thePlayer.gameObject.SetActive(false);
-            chase = false;
+            
             if (answer == correctAnswer)
             {
                 timertxt.color = new Color32(107, 0, 176, 255);
                 hangingRagdoll.SetActive(true);
+                timeOn = false;
+                playTimertxt.text = answer.ToString("F2") + "s";
             }
+
+
+            
             if (answer != correctAnswer)
             {
                 timertxt.color = new Color32(188, 10, 0, 255);
@@ -236,10 +273,8 @@ public class AccMediumOne : MonoBehaviour
             timertxt.text = answer.ToString("F2") + "s";
             playTimertxt.text = answer.ToString("F2") + "s";
             //viTtxt.text = ("v= ") + vf.ToString("F2") + ("m/s");
-            yield return new WaitForSeconds(5f);
-            velocity = 0;
-            //theTruck.accelerating = false;
-            theTruck.moveSpeed = 0;
+
+
         }
 
         //AccMidSimulation.simulate = false;
@@ -259,10 +294,10 @@ public class AccMediumOne : MonoBehaviour
     public void action()
     {
         theQuestion.ToggleModal();
-        if(theQuestion.answerIsCorrect == false)
+        if (theQuestion.answerIsCorrect == false)
         {
             theSimulate.retry();
-            
+
         }
         else
         {
