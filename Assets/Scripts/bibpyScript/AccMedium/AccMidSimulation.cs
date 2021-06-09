@@ -16,7 +16,6 @@ public class AccMidSimulation : MonoBehaviour
     public AccMediumThree theManagerThree;
     public AccMediumTwo theManagerTwo;
     public TMP_InputField[] answerField;
-    public static string question;
     public TMP_Text questionTextBox, errorTextBox, levelText, diretorsSpeech;
     public static float playerAnswer;
     public static bool simulate;
@@ -34,10 +33,13 @@ public class AccMidSimulation : MonoBehaviour
     
 
     private Quaternion TruckStartRot;
+    private HeartManager theHeart;
     //string accelaration;
     // Start is called before the first frame update
     void Start()
     {
+        simulate = false;
+        theHeart = FindObjectOfType<HeartManager>();
         truckStartPos = theTruck.transform.position;
         TruckStartRot = theTruck.transform.rotation;
         PlayerPrefs.SetString("CurrentString", ("AccelarationMedium"));
@@ -86,7 +88,7 @@ public class AccMidSimulation : MonoBehaviour
             if (answerField[1].text == "" || playerAnswer > 100)
             {
                 StartCoroutine(theManagerTwo.errorMesage());
-                errorTextBox.SetText("Please enter a valid answer!");
+                theQuestion[0].errorText = ("enter a valid answer");
             }
             else
             {
@@ -95,7 +97,7 @@ public class AccMidSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField[1].text = playerAnswer.ToString() + "sec";
+                    answerField[1].text = playerAnswer.ToString() + "m";
                 }
 
             }
@@ -122,7 +124,8 @@ public class AccMidSimulation : MonoBehaviour
         }
     }
     public void retry()
-    {  
+    { 
+        theHeart.startbgentrance(); 
         playButton.interactable = true;
         playerAnswer = 0;
         simulate = false;
@@ -164,9 +167,11 @@ public class AccMidSimulation : MonoBehaviour
     {
         if(stage == 1)
         {
+            thePlayer.standup = false;
             theManagerOne.gameObject.SetActive(false);
             ground[0].SetActive(false);
             ground[1].SetActive(true);
+            theManagerTwo.gameObject.SetActive(true);
             
             
         }
@@ -174,6 +179,9 @@ public class AccMidSimulation : MonoBehaviour
         {
             ground[1].SetActive(false);
             ground[2].SetActive(true);
+            theManagerTwo.gameObject.SetActive(false);
+            theManagerThree.gameObject.SetActive(true);
+            thePlayer.ropeHang = false;
            
         }
     }

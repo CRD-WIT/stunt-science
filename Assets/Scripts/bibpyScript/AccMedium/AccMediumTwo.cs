@@ -14,6 +14,7 @@ public class AccMediumTwo : MonoBehaviour
     public Suv theVan;
     private AccMidSimulation theSimulate;
     public DistanceMeter[] theMeter;
+    private HeartManager theHeart;
     float A, B, C, D;
     float generateViH, Vih, generateAccH, accH, generateViV, Viv, generateAccV, accV, generateDistance, distance, checkDistance;
     float chopperCurrentPos, vanCurrentPos, kickpointTimeA, kickpointTimeB, timer, generatekickDistance, kickDistance, kickpointTimeC, playerKickDistance;
@@ -26,6 +27,8 @@ public class AccMediumTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        theHeart = FindObjectOfType<HeartManager>();
+        theHeart.startbgentrance();
         theQuestion.stageNumber = 2;
         theSimulate = FindObjectOfType<AccMidSimulation>();
         gender = PlayerPrefs.GetString("Gender");
@@ -37,6 +40,8 @@ public class AccMediumTwo : MonoBehaviour
         {
             pronoun = ("her");
         }
+        thePlayer.gameObject.SetActive(true);
+        theSimulate.stage = 2;
         generateProblem();
     }
 
@@ -158,7 +163,7 @@ public class AccMediumTwo : MonoBehaviour
                         thePlayer.standup = true;
                         if (kickReady)
                         {
-
+                            theHeart.losinglife();
                             StartCoroutine(StuntResult());
                             AccMidSimulation.simulate = false;
 
@@ -196,6 +201,7 @@ public class AccMediumTwo : MonoBehaviour
                             thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                             thePlayer.ropeHang = false;
                             thePlayer.standup = true;
+                            theHeart.losinglife();
                             AccMidSimulation.simulate = false;
                         }
                     }
@@ -209,6 +215,7 @@ public class AccMediumTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        theHeart.losslife = false;
         vanCollider.SetActive(false);
         windshield.SetActive(false);
         thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
@@ -266,6 +273,7 @@ public class AccMediumTwo : MonoBehaviour
         theMeter[1].distance = distance;
         hangingRagdoll1.SetActive(true);
         kickReady = true;
+        timer = 0;
 
 
 

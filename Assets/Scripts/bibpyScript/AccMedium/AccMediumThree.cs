@@ -14,6 +14,8 @@ public class AccMediumThree : MonoBehaviour
     public Suv theSuv;
     public Player thePlayer;
     public Hellicopter theChopper;
+    private HeartManager theHeart;
+    private ScoreManager theScorer;
     float correctAnswer, accH, accV, velocity, dv, dx, dh = 40, ropeDistance, distanceH, vanTime;
     float time, suvPos, chopperPos, generateDv, generateVelocity, generateAccH, generateCorrectAnswer, playerTime;
     bool repos, ragdollReady, follow, pausePos, resultReady;
@@ -22,16 +24,25 @@ public class AccMediumThree : MonoBehaviour
     private Vector2 chopperStartPos, vanStartPos;
     private Quaternion vanstartRot;
     public QuestionController theQuestion;
+    public GameObject actionButton;
+    int currentLevel;
+    int currentStar;
 
     // Start is called before the first frame update
     void Start()
     {
+        theHeart = FindObjectOfType<HeartManager>();
+        theScorer = FindObjectOfType<ScoreManager>();
+        theHeart.startbgentrance();
         theQuestion.stageNumber = 3;
-        thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
+        currentLevel = PlayerPrefs.GetInt("level");
+        currentStar = PlayerPrefs.GetInt("AcstarM");
+        //thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
         chopperStartPos = theChopper.transform.position;
         vanStartPos = theSuv.transform.position;
         vanstartRot = theSuv.transform.rotation;
         theSimulate = FindObjectOfType<AccMidSimulation>();
+        theSimulate.stage = 3;
         wordedBoard.transform.position = new Vector2(wordedBoard.transform.position.x + 19, wordedBoard.transform.position.y);
         gender = PlayerPrefs.GetString("Gender");
         if (gender == "Male")
@@ -124,6 +135,7 @@ public class AccMediumThree : MonoBehaviour
                     hangingRagdoll.SetActive(true);
                     hangingRagdoll.transform.position = ropeTip.transform.position;
                     theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grabbed the rope before the van fell on the water");
+                    actionButton.SetActive(false);
 
                 }
 
@@ -136,6 +148,7 @@ public class AccMediumThree : MonoBehaviour
                 theSuv.accelaration = accV * 3;
                 if (accV != correctAnswer)
                 {
+                    theHeart.losinglife();
                     theQuestion.SetModalTitle("Stunt Failed");
                     if (ropeDistance > 15)
                     {
@@ -189,6 +202,7 @@ public class AccMediumThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        theHeart.losslife = false;
         carArrow.SetActive(true);
         chopperArrow.SetActive(true);
         theChopper.transform.position = chopperStartPos;
@@ -256,6 +270,18 @@ public class AccMediumThree : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1);
         theQuestion.ToggleModal();
+        if (accV == correctAnswer)
+        {
+            theScorer.finalstar();
+            if (theHeart.life > currentStar)
+            {
+                PlayerPrefs.SetInt("AcstarM", theHeart.life);
+            }
+            if (currentLevel < 4)
+            {
+                PlayerPrefs.SetInt("level", currentLevel + 1);
+            }
+        }
        
 
     }
