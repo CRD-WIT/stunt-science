@@ -8,7 +8,7 @@ public class HeartManager : MonoBehaviour
     //public GameObject[] hearts;
     public AudioSource bgm;
     public AudioSource Gameoversfx;
-    public int life;
+    public int life = 3;
     public GameObject heartItem;
     public GameObject gameOverBG, startBG;
     public bool losslife;
@@ -66,7 +66,7 @@ public class HeartManager : MonoBehaviour
         Gameoversfx.Play();
         StartCoroutine(endBGgone());
         yield return new WaitForSeconds(2);
-        //SceneManager.LoadScene("LevelOne");
+        SceneManager.LoadScene("LevelOne");
         Time.timeScale = 1f;
     }
     public IEnumerator endBGgone()

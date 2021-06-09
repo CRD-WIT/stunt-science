@@ -53,7 +53,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         }
         if (SimulationManager.isAnswered)
         {
-            followLine.distanceTraveled = myPlayer.transform.position.x - (40-answer);
+            followLine.distanceTraveled = myPlayer.transform.position.x - (40 - answer);
             annotationFollower.SetActive(true);
             followLine.spawnPoint.x = initialDistance;
             followLine.distance = answer;
@@ -76,7 +76,7 @@ public class VelocityEasyStage3 : MonoBehaviour
                 {
                     followLine.valueIs = TextColorMode.Correct;
                     myPlayer.slide = true;
-                    answerMessage = PlayerPrefs.GetString("Name") + " is findimensionLinely <b><color=green>safe</color></b>.";
+                    answerMessage = PlayerPrefs.GetString("Name") + " is finaly <b><color=green>safe</color></b>.";
                     answerIs = true;
                     myPlayer.transform.position = new Vector2(40, myPlayer.transform.position.y);
                 }
@@ -99,12 +99,12 @@ public class VelocityEasyStage3 : MonoBehaviour
                     if (answer < distance)
                     {
                         myPlayer.transform.position = new Vector2(currentPos + 0.4f, myPlayer.transform.position.y);
-                        answerMessage = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too near from the manhole and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
+                        answerMessage = PlayerPrefs.GetString("Name") + " ran too near from the manhole and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                     else
                     {
                         myPlayer.transform.position = new Vector2(currentPos - 0.4f, myPlayer.transform.position.y);
-                        answerMessage = "<b><color=red>Stunt Failed!</color></b>\n\n\n" + PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
+                        answerMessage = PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                 }
             }
@@ -163,6 +163,9 @@ public class VelocityEasyStage3 : MonoBehaviour
         {
             yield return new WaitForSeconds(3);
             Scorer.finalstar();
+        }
+        else
+        {
             qc.ActivateResult(answerMessage, answerIs);
         }
     }

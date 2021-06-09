@@ -11,7 +11,7 @@ public class SimulationManager : MonoBehaviour
     public VelocityEasyStage3 StageThreeManager;
     public Player thePlayer;
     public TMP_Text diretorsSpeech;
-    public static float playerAnswer, life;
+    public static float playerAnswer;
     public static bool isAnswered, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
     private HeartManager theHeart;
     QuestionControllerVThree qc;
@@ -22,8 +22,7 @@ public class SimulationManager : MonoBehaviour
         thePlayer = FindObjectOfType<Player>();
         theHeart = FindObjectOfType<HeartManager>();
         //destroyBoulders = FindObjectOfType<PrefabDestroyer>();
-        //theHeart.life = PlayerPrefs.GetInt("life");
-        theHeart.life = (int)life;
+        //theHeart.life = PlayerPrefs.GetInt("life");=
         qc.stage = 1;
     }
 
@@ -118,8 +117,8 @@ public class SimulationManager : MonoBehaviour
         thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
         PrefabDestroyer.destroyPrefab = true;
-        StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(3f);
+        theHeart.startbgentrance();
         thePlayer.transform.position = new Vector2(0f, thePlayer.transform.position.y);
         thePlayer.moveSpeed = 0;
         playerAnswer = 0;
@@ -150,9 +149,10 @@ public class SimulationManager : MonoBehaviour
         ragdollSpawn.SetActive(false);
         PrefabDestroyer.destroyPrefab = true;
         thePlayer.moveSpeed = 5;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(3f); 
         StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(2.8f);
+        theHeart.startbgentrance();
         thePlayer.transform.position = new Vector2(0f, thePlayer.transform.position.y);
         thePlayer.moveSpeed = 0;
         playerAnswer = 0;

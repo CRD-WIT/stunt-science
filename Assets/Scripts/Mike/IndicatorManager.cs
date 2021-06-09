@@ -6,7 +6,7 @@ using GameConfig;
 public class IndicatorManager : MonoBehaviour
 {
     public Vector2 spawnPoint;
-    public float fontSize = 4, distance, distanceTraveled, playerVelocity, stuntTime;
+    public float fontSize = 4, distance, distanceTraveled, playerVelocity, stuntTime, T;
     public Mode arrowMode;
     public UnitOf whatIsAsk;
     public TextColorMode valueIs;

@@ -5,7 +5,7 @@ public class PlayerV2 : MonoBehaviour
 {
     public float moveSpeed, groundedRadius, jumpforce;
     private Rigidbody2D myRigidbody;
-    private Animator myAnimator;
+    public Animator myAnimator;
     public GameObject player, stickprefab, stickmanpoint;
     public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang, isLanded;
     public AudioSource footstep;

@@ -26,6 +26,7 @@ public class VelocityMediumManager : MonoBehaviour
     Vector2 labelStartPoint;
     string question, playerName, playerGender, pronoun, pPronoun, messageTxt;
     bool isStartOfStunt, directorIsCalling, isAnswered, isAnswerCorrect, isEndOfStunt;
+    [SerializeField] TMP_Text playerSpeed, boulder1Speed, boulder2Speed;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,20 +77,22 @@ public class VelocityMediumManager : MonoBehaviour
             {
                 case 1:
                     currentPlayerPos = myPlayer.transform.position.x;
-                    currentBoulderPos = boulder.transform.position.x;
+                    currentBoulderPos = boulderA.transform.position.x;
                     FallingBoulders.dropPoint = currentPlayerPos - 0.7f;
                     labels.spawnPoint = new Vector2(currentPlayerPos, 0.25F);
-                    boulderRB.velocity = new Vector2(-boulderVelocity, 0);
+                    boulder2RB.velocity = new Vector2(-boulderVelocity, 0);
                     labels.distanceTraveled = currentBoulderPos - currentPlayerPos;
                     if (playerAnswer <= elapsed)
                     {
-                        currentPlayerPos = playerAnswer*playerVelocity;
+                        labels.distanceTraveled = distance - (boulderVelocity * stuntTime) - (playerAnswer * playerVelocity);
+                        labels.spawnPoint = new Vector2(playerAnswer * playerVelocity, 0.25F);
                         StartCoroutine(Jump());
                         elapsed = playerAnswer;
                         // qc.timer = playerAnswer.ToString("f2") + "s";
                         if (playerAnswer == stuntTime)
                         {
-                            labels.distanceTraveled = distance -(boulderVelocity*stuntTime)- currentPlayerPos;
+                            labels.spawnPoint = new Vector2(stuntTime * playerVelocity, 0.25F);
+                            labels.distanceTraveled = jumpDistance;
                             labels.valueIs = TextColorMode.Correct;
                             isAnswerCorrect = true;
                             messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
@@ -97,7 +100,6 @@ public class VelocityMediumManager : MonoBehaviour
                         else
                         {
                             // TODO: label to be added
-                            labels.distanceTraveled = (float)System.Math.Round((boulderVelocity * playerAnswer), 2);
                             labels.valueIs = TextColorMode.Wrong;
                             isAnswerCorrect = false;
                             if (playerAnswer < stuntTime)
@@ -114,7 +116,7 @@ public class VelocityMediumManager : MonoBehaviour
                     currentPlayerPos = myPlayer.transform.position.x - distance;
                     labels.spawnPoint = new Vector2(distance, 0.25F);
                     labels.distanceTraveled = currentPlayerPos;
-                    boulderRB.velocity = new Vector2(boulderVelocity, 0);
+                    boulderRB.velocity = new Vector2(boulder2Velocity, 0);
                     if (stuntTime <= elapsed)
                     {
                         labels.distanceTraveled = playerAnswer;
@@ -235,7 +237,7 @@ public class VelocityMediumManager : MonoBehaviour
             case 1:
                 boulderVelocity = 0;
                 labels.whatIsAsk = UnitOf.time;
-                boulder.SetActive(true);
+                boulderA.SetActive(true);
                 Va = Random.Range(8f, 9f);
                 Vb = Random.Range(4f, 6f);
                 d = Random.Range(27f, 30f);
@@ -254,12 +256,12 @@ public class VelocityMediumManager : MonoBehaviour
                 myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
                 myPlayer.gameObject.SetActive(true);
 
-                boulder.transform.position = new Vector2(distance, boulder.transform.position.y);
-                boulderRB.freezeRotation = false;
+                boulderA.transform.position = new Vector2(distance, boulder.transform.position.y);
+                boulder2RB.freezeRotation = false;
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
-                jumpForce = 1.15f / jumpTime;
+                jumpForce = 1.2f / (jumpTime);
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming boulder at the front <color=red>" + distance + " meters</color> away is rolling at the velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=#006400>seconds</color> will " + playerName + " jump if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 2:
@@ -270,13 +272,13 @@ public class VelocityMediumManager : MonoBehaviour
                 d = Random.Range(14f, 16f);
 
                 playerVelocity = (float)System.Math.Round(Va, 2);
-                boulderVelocity = (float)System.Math.Round(Vb, 2);
+                boulder2Velocity = (float)System.Math.Round(Vb, 2);
                 distance = (float)System.Math.Round(d, 2);
                 Dj = (Vb - Va) / 2;
-                t = (distance - Dj) / (boulderVelocity - playerVelocity);
+                t = (distance - Dj) / (boulder2Velocity - playerVelocity);
                 stuntTime = (float)System.Math.Round(t, 2);
                 Da = playerVelocity * stuntTime;
-                Db = boulderVelocity * stuntTime;
+                Db = boulder2Velocity * stuntTime;
 
 
                 correctAnswer = (float)System.Math.Round(Da, 2);
@@ -284,15 +286,15 @@ public class VelocityMediumManager : MonoBehaviour
                 boulder.transform.position = new Vector2(playerPos, 0);
 
                 myPlayer.transform.position = new Vector2(distance, boulder.transform.position.y);
-                boulderRB.rotation = 180;
+                //boulderRB.rotation = 180;
                 boulderRB.freezeRotation = false;
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
-                jumpForce = 1.071f / jumpTime;
+                jumpForce = 1.276f / (jumpTime);
                 labels.distance = correctAnswer;
 
-                question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=red>meters</color> should " + playerName + " be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
+                question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulder2Velocity + "meters per second</color>, at after how many <color=red>meters</color> should " + playerName + " be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 3:
                 labels.whatIsAsk = UnitOf.velocity;
@@ -324,13 +326,20 @@ public class VelocityMediumManager : MonoBehaviour
                 boulderA.transform.position = new Vector2(boulder.transform.position.x + d, 0);
                 myPlayer.transform.position = new Vector2(boulderA.transform.position.x - Dac, 0);
                 labelStartPoint = new Vector2((boulderA.transform.position.x - Dac), 0.25f);
-                boulderRB.rotation = 180;
+                // boulderRB.rotation = 180;
                 boulderRB.freezeRotation = false;
                 jumpTime = 0.5f;
-                jumpForce = 0.5f / jumpTime;
+                jumpForce = 1.276f / jumpTime;
                 question = playerName + " is instructed to vertically jump over between two incoming boulders at precisely <color=#006400>0.5 seconds</color> before they collide. If the boulder in front is <color=red>" + Dac + " meters</color> away from " + playerName + " is approaching at <color=purple>" + boulder2Velocity + " meters per second</color>, and the boulder behind " + pPronoun + " is <color=red>" + distance + " meters</color> away from the first boulder and is approaching at <color=purple>" + boulderVelocity + "meters per second</color>, at what <color=purple>velocity</color> should " + pronoun + " run forward for <color=#006400>" + stuntTime + " seconds</color> before doing the vertical jump?";
                 break;
         }
+
+        playerSpeed.text = playerVelocity.ToString("f2") + "m/s";
+        qc.SetColor(playerSpeed, TextColorMode.Given);
+        boulder1Speed.text = boulderVelocity.ToString("f2") + "m/s";
+        qc.SetColor(boulder1Speed, TextColorMode.Given);
+        boulder2Speed.text = boulder2Velocity.ToString("f2") + "m/s";
+        qc.SetColor(boulder2Speed, TextColorMode.Given);
         qc.SetQuestion(question);
         myPlayer.jumpforce = jumpForce;
         distanceMeassure.distance = distance;
@@ -348,7 +357,6 @@ public class VelocityMediumManager : MonoBehaviour
         qc.isSimulating = false;
         isStartOfStunt = true;
         directorIsCalling = true;
-        FallingBoulders.isRumbling = true;
     }
     IEnumerator Retry()
     {
@@ -371,7 +379,7 @@ public class VelocityMediumManager : MonoBehaviour
         myPlayer.happy = false;
         PrefabDestroyer.end = true;
         yield return new WaitForSeconds(3f);
-        myPlayer.ToggleTrigger();
+        // myPlayer.ToggleTrigger();
         StartCoroutine(life.endBGgone());
         yield return new WaitForSeconds(2.8f);
         myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
@@ -397,6 +405,7 @@ public class VelocityMediumManager : MonoBehaviour
             directorsBubble.SetActive(false);
             isAnswered = true;
             distanceMeassure.gameObject.SetActive(false);
+            FallingBoulders.isRumbling = true;
             //boulder.transform.position = new Vector2(boulder.transform.position.x - 0.5f, boulder.transform.position.y);
         }
         else
@@ -405,9 +414,11 @@ public class VelocityMediumManager : MonoBehaviour
             yield return new WaitForSeconds((35 / playerVelocity) - stuntTime);
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
+            FallingBoulders.isRumbling = false;
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
             directorsSpeech.text = "";
+            
             boulderVelocity = 0;
         }
     }
@@ -417,11 +428,12 @@ public class VelocityMediumManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         directorIsCalling = true;
         isStartOfStunt = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(3f); 
         qc.ActivateResult(messageTxt, isAnswerCorrect);
     }
     IEnumerator Jump()
     {
+        // myPlayer.myAnimator.speed = (jumpForce/2);
         if (playerAnswer != correctAnswer)
         {
             if (stage == 3)
@@ -430,7 +442,7 @@ public class VelocityMediumManager : MonoBehaviour
                 myPlayer.jumpforce = jumpForce - 0.7f;
         }
         myPlayer.jump();
-        yield return new WaitForSeconds(jumpTime);
+        yield return new WaitForSeconds(jumpTime/2);
         isAnswered = false;
         yield return new WaitForEndOfFrame();
         int i = 1;
