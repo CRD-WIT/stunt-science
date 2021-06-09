@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Level_3_Stage_1_Medium : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     Vector3 thePlayer_position;
     public GameObject Rope2HookEnd;
     public GameObject HookAttachmentCollider;
+    [SerializeField] CameraScript cameraScript;
     float timeGiven;
     Vector2 gravityGiven;
     float correctAnswer;
@@ -46,6 +48,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     string playerName = "Junjun";
     string pronoun = "he";
 
+    public QuestionController questionController;
     void Start()
     {
 
@@ -71,11 +74,11 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         hookLauncher.transform.Rotate(new Vector3(0, 0, angleGiven));
     }
 
-    IEnumerator StuntResult()
+    IEnumerator StuntResult(Action callback)
     {
         //messageFlag = false;
-        yield return new WaitForSeconds(4f);
-        AfterStuntMessage.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        callback();
     }
 
     void GenerateVelocities()
@@ -133,11 +136,18 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         thePlayerAnimation.SetBool("happy", true);
         hookLine.SetActive(false);
         timeIndicator.enabled = false;
+
+        cameraScript.isStartOfStunt = false;
+        questionController.answerIsCorrect = true;
+        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely hooked on the grabbing point!", "Next")));
+        questionController.isSimulating = false;
     }
 
     public void StartSimulation()
     {
-        isSimulating = true;
+        cameraScript.directorIsCalling = true;
+        cameraScript.isStartOfStunt = true;
+        questionController.SetAnswer();
     }
     void FixedUpdate()
     {
@@ -157,10 +167,9 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
             hookLine.GetComponent<LineRenderer>().SetPosition(0, hookLauncher.transform.position);
             hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
         }
-
-        if (isSimulating)
+        if (playerAnswer.text.Length > 0)
         {
-            if (playerAnswer.text.Length > 0)
+            if (questionController.isSimulating)
             {
                 timeIndicator.transform.position = new Vector3(hook.transform.position.x, hook.transform.position.y + 1, 1);
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
@@ -191,6 +200,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
                         Rope2HookEnd.GetComponent<Rigidbody2D>().velocity = new Vector3(2, 0, 0);
                         StartCoroutine(PullRope());
+
                     }
                 }
                 else
@@ -211,7 +221,10 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
                         if (hook.GetComponent<Hook>().isCollidedToFailCollider)
                         {
-                            isSimulating = false;
+                            questionController.answerIsCorrect = false;
+                            questionController.isSimulating = false;
+                            cameraScript.directorIsCalling = true;
+                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hook was grabbed too soon! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                         }
                     }
                     else
@@ -230,29 +243,28 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
                         if (hook.GetComponent<Hook>().isCollidedToFailCollider)
                         {
-                            isSimulating = false;
+                            cameraScript.isStartOfStunt = false;
+                            questionController.answerIsCorrect = false;
+                            questionController.isSimulating = false;
+                            cameraScript.directorIsCalling = true;
+                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hook was grabbed too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                         }
                     }
                 }
             }
             else
             {
-                Debug.Log("No value was added");
-            }
-        }
-        else
-        {
-            //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
-            if (hook.GetComponent<Hook>().isCollidedToFailCollider)
-            {
-                hook.transform.position -= new Vector3(0.1f, -0.1f, 0);
-                hookIndicator.SetActive(false);
-                StartCoroutine(DropRope());
-            }
+                //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
+                if (hook.GetComponent<Hook>().isCollidedToFailCollider)
+                {
+                    hook.transform.position -= new Vector3(0.1f, -0.1f, 0);
+                    hookIndicator.SetActive(false);
+                    StartCoroutine(DropRope());
+                }
 
-            timerText.text = $"{(elapsed).ToString("f2")}s";
-            timeIndicator.text = $"{(elapsed).ToString("f2")}s";
-
+                timerText.text = $"{(elapsed).ToString("f2")}s";
+                timeIndicator.text = $"{(elapsed).ToString("f2")}s";
+            }
         }
     }
 }

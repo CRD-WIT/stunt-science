@@ -33,8 +33,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     public float elapsed;
     public GameObject dynamicPlatform;
     public GameObject grappingPointIndicator;
-
-        string playerName = "Junjun";
+    string playerName = "Junjun";
     string pronoun = "he";
 
     void Start()
@@ -81,7 +80,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         Debug.Log($"VelocityY: {velocityY}");
         Debug.Log($"Correct Answer: {correctAnswer}");
 
-        
+
     }
 
     void RegenerateVelocities()
