@@ -33,7 +33,8 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     public float elapsed;
     public GameObject dynamicPlatform;
     public GameObject grappingPointIndicator;
-
+    public QuestionController questionController;
+    public CameraScript cameraScript;
     void Start()
     {
         // Given   

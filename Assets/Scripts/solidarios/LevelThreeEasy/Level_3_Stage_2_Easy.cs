@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using TMPro;
 using UnityEngine.SceneManagement;
-public class Level_3_Stage_2 : MonoBehaviour
+public class Level_3_Stage_2_Easy : MonoBehaviour
 {
     // Start is called before the first frame update
 

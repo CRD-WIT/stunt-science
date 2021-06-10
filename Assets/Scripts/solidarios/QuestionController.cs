@@ -208,16 +208,16 @@ public class QuestionController : MonoBehaviour
         return answerUnit;
     }
 
-    public string getHexColor(TextColorMode mode)
+    public Color getHexColor(TextColorMode mode)
     {
         switch (mode)
         {
             case TextColorMode.Wrong:
-                return ColorUtility.ToHtmlStringRGB(wrongAnswerColor);
+                return wrongAnswerColor;
             case TextColorMode.Correct:
-                return ColorUtility.ToHtmlStringRGB(correctAnswerColor);
+                return correctAnswerColor;
             default:
-                return ColorUtility.ToHtmlStringRGB(givenColor);
+                return givenColor;
         }
     }
 

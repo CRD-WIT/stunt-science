@@ -4,7 +4,7 @@ using TMPro;
 using System;
 using UnityEngine.SceneManagement;
 
-public class Level_3_Stage_3 : MonoBehaviour
+public class Level_3_Stage_3_Easy : MonoBehaviour
 {
     // Start is called before the first frame update
     string question;

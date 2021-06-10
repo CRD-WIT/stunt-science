@@ -7637,7 +7637,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 732250308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 486b7cccb1df6390aa1cef6e1cefb64d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b8dbe0c71d9ff640a84a0ad917697c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   elapsed: 0
@@ -7656,7 +7656,7 @@ MonoBehaviour:
   SecondCamera: {fileID: 1662242355}
   accurateCollider: {fileID: 1454758158}
   platformBar: {fileID: 1447615126}
-  timerAnnotation: {fileID: 400048290}
+  timerAnnotation: {fileID: 1358077344}
   questionController: {fileID: 1728695166}
   cameraScript: {fileID: 1260837334}
 --- !u!1 &792510179
@@ -7882,7 +7882,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4790556043337702176, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
       propertyPath: m_Name
-      value: CameraPlatformRight1 (00001)
+      value: SecondCamera
       objectReference: {fileID: 0}
     - target: {fileID: 4790556043337702176, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
       propertyPath: m_IsActive
@@ -10213,7 +10213,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4790556043337702176, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
       propertyPath: m_Name
-      value: CameraPlatformRight1
+      value: FirstCamera
       objectReference: {fileID: 0}
     - target: {fileID: 4790556043337702179, guid: 18be48f0627d4568e9cfeb77e2c8267d, type: 3}
       propertyPath: m_RootOrder
@@ -10947,7 +10947,7 @@ GameObject:
   - component: {fileID: 1358077347}
   - component: {fileID: 1358077346}
   m_Layer: 0
-  m_Name: TimeGiven
+  m_Name: Annotation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13570,7 +13570,7 @@ BoxCollider2D:
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_AutoTiling: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0

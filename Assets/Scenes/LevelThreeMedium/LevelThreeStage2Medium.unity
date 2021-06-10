@@ -5179,12 +5179,12 @@ MonoBehaviour:
   m_margin: {x: 8.990824, y: 1.5603101, z: 4.7723722, w: 1.6011231}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 117415616}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 117415616}
+  m_maskType: 0
 --- !u!23 &117415616
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7402,6 +7402,7 @@ MonoBehaviour:
     m_Extent: {x: 0.06000047, y: 2.72843, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!212 &283501740
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7578,12 +7579,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 285235496}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 285235496}
+  m_maskType: 0
 --- !u!23 &285235496
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10736,6 +10737,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 732250310}
+  - component: {fileID: 732250309}
   m_Layer: 0
   m_Name: SimulationManager
   m_TagString: Untagged
@@ -10743,6 +10745,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &732250309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732250308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1be76ede8c20747a2f86cc9546521d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questionText: {fileID: 0}
+  levelName: {fileID: 0}
+  timerText: {fileID: 0}
+  AfterStuntMessage: {fileID: 0}
+  HookAttachmentCollider: {fileID: 0}
+  hook: {fileID: 0}
+  thePlayer: {fileID: 0}
+  playerAnswer: {fileID: 0}
+  hookLauncher: {fileID: 0}
+  thePlayerRunning: {fileID: 0}
+  movingToHookHand: {fileID: 0}
+  thinRope: {fileID: 0}
+  hookLine: {fileID: 0}
+  Rope2HookEnd: {fileID: 0}
+  elapsed: 0
+  dynamicPlatform: {fileID: 0}
+  grappingPointIndicator: {fileID: 0}
 --- !u!4 &732250310
 Transform:
   m_ObjectHideFlags: 0
@@ -14363,12 +14394,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 1320331824}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 1320331824}
+  m_maskType: 0
 --- !u!23 &1320331824
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15491,6 +15522,7 @@ MonoBehaviour:
     m_Extent: {x: 3.4700003, y: 0.020000013, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!212 &1457831624
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -35,7 +35,8 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     public GameObject grappingPointIndicator;
     string playerName = "Junjun";
     string pronoun = "he";
-
+    public QuestionController questionController;
+    public CameraScript cameraScript;
     void Start()
     {
         // Given            

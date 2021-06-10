@@ -49,9 +49,9 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     string pronoun = "he";
 
     public QuestionController questionController;
+    public CameraScript cameraScript;
     void Start()
     {
-
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
         distanceGiven = transform.Find("Annotation1").GetComponent<Annotation>().distance;
