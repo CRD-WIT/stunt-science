@@ -5179,12 +5179,12 @@ MonoBehaviour:
   m_margin: {x: 8.990824, y: 1.5603101, z: 4.7723722, w: 1.6011231}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 117415616}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 117415616}
+  m_maskType: 0
 --- !u!23 &117415616
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5662,11 +5662,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &151242063 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 800244271678103138, guid: 7bc87c50c8303494c822786def94109f, type: 3}
-  m_PrefabInstance: {fileID: 1620750602}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &156505398
 GameObject:
   m_ObjectHideFlags: 0
@@ -6422,28 +6417,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -1.14}
   m_SizeDelta: {x: 1076.23, y: 316.91}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &245399216 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 21478578508978701, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
-  m_PrefabInstance: {fileID: 1132773844}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &258368003 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 21478578115360777, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
-  m_PrefabInstance: {fileID: 1132773844}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &263623843
 GameObject:
   m_ObjectHideFlags: 0
@@ -6600,6 +6573,7 @@ MonoBehaviour:
     m_Extent: {x: 0.06000047, y: 2.72843, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!212 &283501740
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6776,12 +6750,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 285235496}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 285235496}
+  m_maskType: 0
 --- !u!23 &285235496
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9961,33 +9935,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 732250308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2761b04c93e88e98e9437b0673a64113, type: 3}
+  m_Script: {fileID: 11500000, guid: b4cb3791b8100c54db326912a385c770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elapsed: 0
-  initalVelociyText: {fileID: 1320331823}
-  playerNameText: {fileID: 0}
-  stuntMessageText: {fileID: 1668217925}
+  questionText: {fileID: 0}
+  levelName: {fileID: 0}
   timerText: {fileID: 0}
-  questionText: {fileID: 258368003}
-  levelName: {fileID: 245399216}
-  AfterStuntMessage: {fileID: 1318250021}
-  movingToHookHand: {fileID: 151242063}
-  levelAnimations: {fileID: 1800742034}
-  playerAnswer: {fileID: 1553812261}
-  hook: {fileID: 174643246}
-  speed: 10
-  thePlayer: {fileID: 844024536}
-  FirstCamera: {fileID: 0}
-  thinRope: {fileID: 1457831622}
-  SecondCamera: {fileID: 0}
-  Rope2HookEnd: {fileID: 593418721}
-  HookAttachmentCollider: {fileID: 877419807}
-  hookLauncher: {fileID: 1508476257}
-  hookLine: {fileID: 665602780}
-  hookIndicator: {fileID: 1522917713}
-  timeIndicator: {fileID: 285235495}
-  angularAnnotation: {fileID: 0}
+  AfterStuntMessage: {fileID: 0}
+  HookAttachmentCollider: {fileID: 0}
+  hook: {fileID: 0}
+  thePlayer: {fileID: 0}
+  playerAnswer: {fileID: 0}
+  hookLauncher: {fileID: 0}
+  thePlayerRunning: {fileID: 0}
+  movingToHookHand: {fileID: 0}
+  thinRope: {fileID: 0}
+  hookLine: {fileID: 0}
+  Rope2HookEnd: {fileID: 0}
+  elapsed: 0
+  dynamicPlatform: {fileID: 0}
+  grappingPointIndicator: {fileID: 0}
 --- !u!4 &732250310
 Transform:
   m_ObjectHideFlags: 0
@@ -12332,7 +12299,7 @@ PrefabInstance:
     - target: {fileID: 21478578348999072, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 732250309}
+      objectReference: {fileID: 0}
     - target: {fileID: 21478578348999072, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartSimulation
@@ -13633,12 +13600,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 1320331824}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 1320331824}
+  m_maskType: 0
 --- !u!23 &1320331824
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14684,6 +14651,7 @@ MonoBehaviour:
     m_Extent: {x: 3.4700003, y: 0.020000013, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!212 &1457831624
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15566,17 +15534,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1553812261 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 21478578598410093, guid: a1c980c0b7ddee547a6fa5b8820a959a, type: 3}
-  m_PrefabInstance: {fileID: 1132773844}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1620750602
 PrefabInstance:
   m_ObjectHideFlags: 0
