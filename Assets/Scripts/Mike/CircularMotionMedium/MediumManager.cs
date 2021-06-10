@@ -18,10 +18,10 @@ public class MediumManager : MonoBehaviour
         conveyorWheel1RB = conveyorWheel1.GetComponent<Rigidbody2D>();
         conveyorWheel2RB = conveyorWheel2.GetComponent<Rigidbody2D>();
     }
-    void SetConveyorSpeed(){
-        float circumferenceOfWheel = 2 * (float)(Mathf.PI * 1.15),
-            speed;
-    }
+    // void SetConveyorSpeed(){
+    //     float circumferenceOfWheel = 2 * (float)(Mathf.PI * 1.15),
+    //         speed, ;
+    // }
 
     // Update is called once per frame
     void Update()

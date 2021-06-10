@@ -15,14 +15,14 @@ public class StageTwoManager : MonoBehaviour
     private RumblingManager theRumbling;
     private ScoreManager theScorer;
     bool answerIs;
-    Annotation dimensionLine;
+    Annotation1 dimensionLine;
     IndicatorManager followLine;
     QuestionControllerVThree qc;
     [SerializeField] LineRenderer endOfAnnotation;
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
-        dimensionLine = givenDistance.GetComponent<Annotation>();
+        dimensionLine = givenDistance.GetComponent<Annotation1>();
         followLine = annotationFollower.GetComponent<IndicatorManager>();
         thePlayer = FindObjectOfType<Player>();
         theScorer = FindObjectOfType<ScoreManager>();
@@ -143,7 +143,6 @@ public class StageTwoManager : MonoBehaviour
         safePoint.transform.position = new Vector2(distance, -2);
         givenDistance.SetActive(true);
         annotationFollower.SetActive(false);
-        dimensionLine.distance = distance;
         followLine.distance = distance;
         endOfAnnotation.SetPosition(0, new Vector2(distance, -3));
         endOfAnnotation.SetPosition(1, new Vector2(distance, -1.5f));
@@ -153,6 +152,8 @@ public class StageTwoManager : MonoBehaviour
         theHeart.losslife = false;
         groundPlatform.transform.localScale = new Vector3(68.05f, groundPlatform.transform.localScale.y, 1);
         ragdollSpawn.transform.position = new Vector3(30.5f, ragdollSpawn.transform.position.y, 0);
+        dimensionLine.Variables(distance, answer, finalSpeed, 't');
+        dimensionLine.SetPlayerPosition(thePlayer.transform.position);
     }
     public void reset()
     {

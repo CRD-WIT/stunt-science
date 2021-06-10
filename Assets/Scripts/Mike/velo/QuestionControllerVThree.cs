@@ -44,9 +44,9 @@ public class QuestionControllerVThree : MonoBehaviour
         stageName = problemBox.Find("StageBar2").Find("StageName");
         difficultyName = problemBox.Find("StageBar3").Find("DifficultyName");
 
-        givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
-        correctAnswerColor = new Color32(150, 217, 72, 255);
-        wrongAnswerColor = new Color32(237, 66, 66, 255);
+        // givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
+        // correctAnswerColor = new Color32(150, 217, 72, 255);
+        // wrongAnswerColor = new Color32(237, 66, 66, 255);
 
         levelName = level.GetGameLevel();
         switch (levelDifficulty)
@@ -254,16 +254,16 @@ public class QuestionControllerVThree : MonoBehaviour
         }
         return answerUnit;
     }
-    public string getHexColor(TextColorMode mode)
+    public Color getHexColor(TextColorMode mode)
     {
         switch (mode)
         {
             case TextColorMode.Wrong:
-                return ColorUtility.ToHtmlStringRGB(wrongAnswerColor);
+                return wrongAnswerColor;
             case TextColorMode.Correct:
-                return ColorUtility.ToHtmlStringRGB(correctAnswerColor);
+                return correctAnswerColor;
             default:
-                return ColorUtility.ToHtmlStringRGB(givenColor);
+                return givenColor;
         }
     }
     public void SetColor(TMP_Text target, TextColorMode mode)

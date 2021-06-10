@@ -14,7 +14,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     public float distance, gameTime, Speed, elapsed, currentPos;
     CeillingGenerator theCeiling;
     StageManager sm = new StageManager();
-    Annotation dimensionLine;
+    Annotation1 dimensionLine;
     QuestionControllerVThree qc;
     IndicatorManager followLine;
 
@@ -24,7 +24,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         sm.SetGameLevel(1);
         sm.SetDifficulty(1);
         qc = FindObjectOfType<QuestionControllerVThree>();
-        dimensionLine = givenDistance.GetComponent<Annotation>();
+        dimensionLine = givenDistance.GetComponent<Annotation1>();
         followLine = annotationFollower.GetComponent<IndicatorManager>();
         theCeiling = FindObjectOfType<CeillingGenerator>();
         myPlayer = FindObjectOfType<Player>();
@@ -74,7 +74,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                     if (SimulationManager.isRagdollActive)
                     {
                         myPlayer.lost = false;
-                        myPlayer.happy =false;
+                        myPlayer.happy = false;
                         SimulationManager.isRagdollActive = false;
                     }
                     else
@@ -129,10 +129,10 @@ public class VelocityEasyStage1 : MonoBehaviour
 
         givenDistance.SetActive(true);
         annotationFollower.SetActive(false);
-        dimensionLine.distance = distance;
+        dimensionLine.Variables(distance, gameTime, Speed, 'v');
         followLine.distance = distance;
-        endOfAnnotation.SetPosition(0, new Vector2(distance, -3));
-        endOfAnnotation.SetPosition(1, new Vector2(distance, -1.5f));
+        // endOfAnnotation.SetPosition(0, new Vector2(distance, -3));
+        // endOfAnnotation.SetPosition(1, new Vector2(distance, -1.5f));
 
         theCeiling.createQuadtilemap(qc.stage);
         safeZone.transform.position = new Vector2(distance, -2);
@@ -144,6 +144,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         AfterStuntMessage.SetActive(false);
         question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from " + playerName + ". If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
         qc.SetQuestion(question);
+        dimensionLine.SetPlayerPosition(myPlayer.transform.position);
     }
     IEnumerator StuntResult()
     {

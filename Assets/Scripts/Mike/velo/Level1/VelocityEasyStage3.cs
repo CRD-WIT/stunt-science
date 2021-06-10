@@ -17,7 +17,7 @@ public class VelocityEasyStage3 : MonoBehaviour
     float answer, initialDistance;
     [SerializeField] LineRenderer startLine, endLine;
     IndicatorManager followLine;
-    Annotation dimensionLine;
+    Annotation1 dimensionLine;
     StageManager sm = new StageManager();
     QuestionControllerVThree qc;
 
@@ -32,7 +32,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         Scorer = FindObjectOfType<ScoreManager>();
-        dimensionLine = givenDistance.GetComponent<Annotation>();
+        dimensionLine = givenDistance.GetComponent<Annotation1>();
         followLine = annotationFollower.GetComponent<IndicatorManager>();
         Stage3SetUp();
     }
@@ -45,11 +45,12 @@ public class VelocityEasyStage3 : MonoBehaviour
             float totalDistance = 40f;
             initialDistance = totalDistance - answer;
             dimensionLine.spawnPoint.x = initialDistance;
+            dimensionLine.Variables(answer, gameTime, Speed, 'N');
+            dimensionLine.SetPlayerPosition(myPlayer.transform.position);
             startLine.SetPosition(0, new Vector2(initialDistance, -3));
             startLine.SetPosition(1, new Vector2(initialDistance, -1.5f));
             endLine.SetPosition(0, new Vector2(40, -3));
             endLine.SetPosition(1, new Vector2(40, -1.5f));
-            dimensionLine.distance = answer;
         }
         if (SimulationManager.isAnswered)
         {
@@ -151,7 +152,6 @@ public class VelocityEasyStage3 : MonoBehaviour
         SimulationManager.isAnswered = false;
         question = "The entire ceiling is now crumbling and the only safe way out is for " + playerName + " to jump and slide down the manhole. If " + pronoun + " runs at constant velocity of <color=purple>" + Speed.ToString() + " meters per second</color> for exactly <color=#006400>" + gameTime.ToString() + " seconds</color>, how  <color=red>far</color> from the center of the manhole should " + playerName + " start running so that " + pronoun + " will fdimensionLinel down in it when " + pronoun + " stops?";
         qc.SetQuestion(question);
-        dimensionLine.distance = distance;
     }
     IEnumerator StuntResult()
     {
