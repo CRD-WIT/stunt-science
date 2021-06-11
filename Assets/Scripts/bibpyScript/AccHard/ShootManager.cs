@@ -4,23 +4,28 @@ using UnityEngine;
 
 public class ShootManager : MonoBehaviour
 {
-    public GameObject bullet;
+    public GameObject bullet, blastprefab;
     public float speed;
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void Shoot()
     {
-        GameObject ArrowIns = Instantiate(bullet,transform.position, transform.rotation);
+        GameObject ArrowIns = Instantiate(bullet, transform.position, transform.rotation);
         ArrowIns.GetComponent<Rigidbody2D>().velocity = transform.right * speed;
+
+
+        GameObject explosion = Instantiate(blastprefab);
+        explosion.transform.position = transform.position;
+
 
     }
 }
