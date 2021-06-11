@@ -9,6 +9,8 @@ public class AccHardSimulation : MonoBehaviour
     public Button playButton;
     public TMP_InputField answerField;
     public GameObject directorBubble;
+    public TruckManager theTruck;
+    public AccHardOne theManagerOne;
     private HeartManager theHeart;
     public static float playerAnswer;
     public static bool simulate;
