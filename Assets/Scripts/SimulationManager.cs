@@ -15,12 +15,14 @@ public class SimulationManager : MonoBehaviour
     public static bool isAnswered, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
     private HeartManager theHeart;
     QuestionControllerVThree qc;
+    Annotation1 dimLine;
     // Start is called before the first frame update
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
         thePlayer = FindObjectOfType<Player>();
         theHeart = FindObjectOfType<HeartManager>();
+        dimLine = FindObjectOfType<Annotation1>();
         //destroyBoulders = FindObjectOfType<PrefabDestroyer>();
         //theHeart.life = PlayerPrefs.GetInt("life");=
         qc.stage = 1;
@@ -110,6 +112,7 @@ public class SimulationManager : MonoBehaviour
     }
     IEnumerator ReloadStage()
     {
+        dimLine.Show(false);
         qc.retried = false;
         VelocityEasyStage1.gameObject.SetActive(false);
         theManager2.gameObject.SetActive(false);
@@ -142,6 +145,7 @@ public class SimulationManager : MonoBehaviour
 
     IEnumerator ExitStage()
     {
+        dimLine.Show(false);
         qc.nextStage = false;
         VelocityEasyStage1.gameObject.SetActive(false);
         theManager2.gameObject.SetActive(false);
@@ -162,6 +166,7 @@ public class SimulationManager : MonoBehaviour
             theManager2.gameObject.SetActive(true);
             Debug.Log(qc.stage);
             theManager2.generateProblem();
+            dimLine.Show(true);
         }
         if (qc.stage == 3)
         {

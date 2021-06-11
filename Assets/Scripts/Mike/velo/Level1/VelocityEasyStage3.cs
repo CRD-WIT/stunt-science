@@ -12,11 +12,10 @@ public class VelocityEasyStage3 : MonoBehaviour
     public HeartManager HeartManager;
     public float distance, gameTime, Speed, elapsed, currentPos;
     string pronoun, playerName, playerGender, answerMessage;
-    public GameObject slidePlatform, lowerGround, safeZone, rubblesStopper, givenDistance, ragdollSpawn, manholeCover, templeBeam, annotationFollower;
+    public GameObject slidePlatform, lowerGround, safeZone, rubblesStopper, givenDistance, ragdollSpawn, manholeCover, templeBeam;
     bool director, answerIs;
     float answer, initialDistance;
     [SerializeField] LineRenderer startLine, endLine;
-    IndicatorManager followLine;
     Annotation1 dimensionLine;
     StageManager sm = new StageManager();
     QuestionControllerVThree qc;
@@ -33,7 +32,6 @@ public class VelocityEasyStage3 : MonoBehaviour
         playerGender = PlayerPrefs.GetString("Gender");
         Scorer = FindObjectOfType<ScoreManager>();
         dimensionLine = givenDistance.GetComponent<Annotation1>();
-        followLine = annotationFollower.GetComponent<IndicatorManager>();
         Stage3SetUp();
     }
     void FixedUpdate()
@@ -41,31 +39,22 @@ public class VelocityEasyStage3 : MonoBehaviour
         answer = qc.GetPlayerAnswer();
         if (SimulationManager.stage3Flag)
         {
-            givenDistance.SetActive(true);
+            // givenDistance.SetActive(true);
+            dimensionLine.Show(true);
             float totalDistance = 40f;
             initialDistance = totalDistance - answer;
             dimensionLine.spawnPoint.x = initialDistance;
             dimensionLine.Variables(answer, gameTime, Speed, 'N');
             dimensionLine.SetPlayerPosition(myPlayer.transform.position);
-            startLine.SetPosition(0, new Vector2(initialDistance, -3));
-            startLine.SetPosition(1, new Vector2(initialDistance, -1.5f));
-            endLine.SetPosition(0, new Vector2(40, -3));
-            endLine.SetPosition(1, new Vector2(40, -1.5f));
         }
         if (SimulationManager.isAnswered)
         {
-            followLine.distanceTraveled = myPlayer.transform.position.x - (40 - answer);
-            annotationFollower.SetActive(true);
-            followLine.spawnPoint.x = initialDistance;
-            followLine.distance = answer;
-            givenDistance.SetActive(false);
             myPlayer.moveSpeed = Speed;
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.fixedDeltaTime;
             StartCoroutine(RagdollCollider());
             if (elapsed >= gameTime)
             {
-                followLine.distanceTraveled = answer;
                 StartCoroutine(StuntResult());
                 SimulationManager.isAnswered = false;
                 RumblingManager.isCrumbling = true;
@@ -75,15 +64,14 @@ public class VelocityEasyStage3 : MonoBehaviour
                 StartCoroutine(ManholeCover());
                 if ((answer == distance))
                 {
-                    followLine.valueIs = TextColorMode.Correct;
                     myPlayer.slide = true;
+                    elapsed = gameTime;
                     answerMessage = PlayerPrefs.GetString("Name") + " is finaly <b><color=green>safe</color></b>.";
                     answerIs = true;
                     myPlayer.transform.position = new Vector2(40, myPlayer.transform.position.y);
                 }
                 else
                 {
-                    followLine.valueIs = TextColorMode.Wrong;
                     HeartManager.ReduceLife();
                     answerIs = false;
                     if (SimulationManager.isRagdollActive)
@@ -108,18 +96,17 @@ public class VelocityEasyStage3 : MonoBehaviour
                         answerMessage = PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                 }
+                dimensionLine.AnswerIs(answerIs);
             }
+            dimensionLine.IsRunning(myPlayer.transform.position.x - (40 - answer), elapsed);
         }
     }
     public void Stage3SetUp()
     {
         string question;
-        followLine.valueIs = TextColorMode.Given;
-        followLine.whatIsAsk = UnitOf.distance;
-        annotationFollower.SetActive(false);
+        qc.SetUnitTo(UnitOf.distance);
         templeBeam.SetActive(false);
         distance = 0;
-        givenDistance.SetActive(false);
         rubblesStopper.SetActive(true);
         slidePlatform.SetActive(true);
         lowerGround.SetActive(false);

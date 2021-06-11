@@ -11,19 +11,17 @@ public class StageTwoManager : MonoBehaviour
     string gender, pronoun, question, errorMessage;
     Vector2 PlayerStartPoint;
     public float elapsed;
-    public GameObject AfterStuntMessage, safePoint, rubbleStopper, rubbleBlocker, ragdollSpawn, groundPlatform, givenDistance, annotationFollower;
+    public GameObject AfterStuntMessage, safePoint, rubbleStopper, rubbleBlocker, ragdollSpawn, groundPlatform, givenDistance;
     private RumblingManager theRumbling;
     private ScoreManager theScorer;
     bool answerIs;
     Annotation1 dimensionLine;
-    IndicatorManager followLine;
     QuestionControllerVThree qc;
     [SerializeField] LineRenderer endOfAnnotation;
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
         dimensionLine = givenDistance.GetComponent<Annotation1>();
-        followLine = annotationFollower.GetComponent<IndicatorManager>();
         thePlayer = FindObjectOfType<Player>();
         theScorer = FindObjectOfType<ScoreManager>();
         gender = PlayerPrefs.GetString("Gender");
@@ -35,18 +33,14 @@ public class StageTwoManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-        followLine.distanceTraveled = currentPos;
         playerAnswer = qc.GetPlayerAnswer();
         if (SimulationManager.isAnswered)
         {
+            dimensionLine.PlayerAnswerIs(playerAnswer);
             currentPos = thePlayer.transform.position.x;
-            givenDistance.SetActive(false);
-            annotationFollower.SetActive(true);
-            //followLine.distance = currentPos;
             thePlayer.moveSpeed = speed;
             elapsed += Time.fixedDeltaTime;
             qc.timer = elapsed.ToString("f2") + "s";
-            followLine.stuntTime = elapsed;
             if ((elapsed >= playerAnswer) || (currentPos > 30))
             {
                 if (currentPos > 30)
@@ -59,7 +53,6 @@ public class StageTwoManager : MonoBehaviour
                     qc.timer = playerAnswer.ToString("f2") + "s";
                     rubbleStopper.SetActive(false);
                 }
-                followLine.stuntTime = playerAnswer;
                 thePlayer.moveSpeed = 0;
                 RumblingManager.isCrumbling = true;
                 SimulationManager.isAnswered = false;
@@ -67,8 +60,8 @@ public class StageTwoManager : MonoBehaviour
                 StartCoroutine(StuntResult());
                 if (playerAnswer == answerRO)
                 {
-                    followLine.valueIs = TextColorMode.Correct;
                     currentPos = distance;
+                    elapsed = answerRO;
                     rubbleBlocker.SetActive(true);
                     answerIs = true;
                     errorMessage = PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
@@ -76,7 +69,6 @@ public class StageTwoManager : MonoBehaviour
                 }
                 else//if (playerAnswer != answerRO)
                 {
-                    followLine.valueIs = TextColorMode.Wrong;
                     currentPos = playerAnswer * speed;
                     answerIs = false;
                     theHeart.ReduceLife();
@@ -106,15 +98,16 @@ public class StageTwoManager : MonoBehaviour
                         errorMessage = PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
                     }
                 }
+                dimensionLine.AnswerIs(answerIs);
             }
+            dimensionLine.IsRunning(currentPos, elapsed);
         }
         SimulationManager.isAnswerCorrect = answerIs;
+        dimensionLine.SetPlayerPosition(thePlayer.transform.position);
     }
     public void generateProblem()
     {
-        followLine.whatIsAsk = UnitOf.time;
-        qc.Unit(followLine.whatIsAsk);
-        followLine.valueIs = TextColorMode.Given;
+        qc.SetUnitTo(UnitOf.time);
         playerAnswer = 0;
         answer = 0;
         elapsed = 0;
@@ -141,9 +134,7 @@ public class StageTwoManager : MonoBehaviour
         qc.SetQuestion(question);
         answerRO = (float)System.Math.Round(answer, 2);
         safePoint.transform.position = new Vector2(distance, -2);
-        givenDistance.SetActive(true);
-        annotationFollower.SetActive(false);
-        followLine.distance = distance;
+        // givenDistance.SetActive(true);
         endOfAnnotation.SetPosition(0, new Vector2(distance, -3));
         endOfAnnotation.SetPosition(1, new Vector2(distance, -1.5f));
         theCeiling.createQuadtilemap(qc.stage);
@@ -154,6 +145,7 @@ public class StageTwoManager : MonoBehaviour
         ragdollSpawn.transform.position = new Vector3(30.5f, ragdollSpawn.transform.position.y, 0);
         dimensionLine.Variables(distance, answer, finalSpeed, 't');
         dimensionLine.SetPlayerPosition(thePlayer.transform.position);
+        dimensionLine.Show(true);
     }
     public void reset()
     {

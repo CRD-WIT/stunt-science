@@ -6,8 +6,9 @@ using GameConfig;
 public class VelocityEasyStage1 : MonoBehaviour
 {
     Player myPlayer;
+    UnitOf whatIsAsk;
     HeartManager HeartManager;
-    [SerializeField] GameObject AfterStuntMessage, safeZone, rubblesStopper, ragdollSpawn, rubbleBlocker, givenDistance, annotationFollower;
+    [SerializeField] GameObject safeZone, rubblesStopper, ragdollSpawn, rubbleBlocker, givenDistance, annotationFollower;
     [SerializeField] LineRenderer endOfAnnotation;
     string pronoun, pNoun, playerName, playerGender, question, errorMessage;
     bool answerIs;
@@ -16,7 +17,6 @@ public class VelocityEasyStage1 : MonoBehaviour
     StageManager sm = new StageManager();
     Annotation1 dimensionLine;
     QuestionControllerVThree qc;
-    IndicatorManager followLine;
 
     void Start()
     {
@@ -25,29 +25,25 @@ public class VelocityEasyStage1 : MonoBehaviour
         sm.SetDifficulty(1);
         qc = FindObjectOfType<QuestionControllerVThree>();
         dimensionLine = givenDistance.GetComponent<Annotation1>();
-        followLine = annotationFollower.GetComponent<IndicatorManager>();
         theCeiling = FindObjectOfType<CeillingGenerator>();
         myPlayer = FindObjectOfType<Player>();
         HeartManager = FindObjectOfType<HeartManager>();
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
-        followLine.whatIsAsk = UnitOf.velocity;
-        qc.Unit(followLine.whatIsAsk);
+        whatIsAsk = UnitOf.velocity;
         VelocityEasyStage1SetUp();
+        dimensionLine.Show(false);
     }
     void FixedUpdate()
     {
-        followLine.distanceTraveled = currentPos;
         float answer = qc.GetPlayerAnswer();
         if (SimulationManager.isAnswered)
         {
-            currentPos = myPlayer.transform.position.x;
-            givenDistance.SetActive(false);
+            dimensionLine.PlayerAnswerIs(answer);
+            currentPos = answer * elapsed;
             myPlayer.moveSpeed = answer;
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.fixedDeltaTime;
-            annotationFollower.SetActive(true);
-            followLine.playerVelocity = answer;
             if (elapsed >= gameTime)
             {
                 RumblingManager.isCrumbling = true;
@@ -55,10 +51,10 @@ public class VelocityEasyStage1 : MonoBehaviour
                 StartCoroutine(StuntResult());
                 myPlayer.moveSpeed = 0;
                 SimulationManager.isAnswered = false;
+                elapsed =gameTime;
                 qc.timer = gameTime.ToString("f2") + "s";
                 if ((answer == Speed))
                 {
-                    followLine.valueIs = TextColorMode.Correct;
                     currentPos = distance;
                     rubbleBlocker.SetActive(true);
                     errorMessage = PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
@@ -68,9 +64,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 else
                 {
                     currentPos = answer * gameTime;
-                    followLine.valueIs = TextColorMode.Wrong;
                     HeartManager.ReduceLife();
-                    //PlayerPrefs.SetInt("life", HeartManager.life);
                     if (SimulationManager.isRagdollActive)
                     {
                         myPlayer.lost = false;
@@ -93,14 +87,16 @@ public class VelocityEasyStage1 : MonoBehaviour
                         errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
                 }
+                dimensionLine.AnswerIs(answerIs);
             }
+        dimensionLine.IsRunning(currentPos, elapsed);
         }
         SimulationManager.isAnswerCorrect = answerIs;
+        dimensionLine.SetPlayerPosition(myPlayer.transform.position);
     }
     public void VelocityEasyStage1SetUp()
     {
-        followLine.valueIs = TextColorMode.Given;
-        followLine.whatIsAsk = UnitOf.velocity;
+        qc.SetUnitTo(whatIsAsk);
         myPlayer.lost = false;
         myPlayer.standup = false;
         Speed = 0;
@@ -127,12 +123,8 @@ public class VelocityEasyStage1 : MonoBehaviour
         HeartManager.losslife = false;
         RumblingManager.shakeON = true;
 
-        givenDistance.SetActive(true);
-        annotationFollower.SetActive(false);
+        // givenDistance.SetActive(true);
         dimensionLine.Variables(distance, gameTime, Speed, 'v');
-        followLine.distance = distance;
-        // endOfAnnotation.SetPosition(0, new Vector2(distance, -3));
-        // endOfAnnotation.SetPosition(1, new Vector2(distance, -1.5f));
 
         theCeiling.createQuadtilemap(qc.stage);
         safeZone.transform.position = new Vector2(distance, -2);
@@ -141,9 +133,9 @@ public class VelocityEasyStage1 : MonoBehaviour
         elapsed = 0;
         rubblesStopper.SetActive(true);
         SimulationManager.isAnswered = false;
-        AfterStuntMessage.SetActive(false);
         question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from " + playerName + ". If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
         qc.SetQuestion(question);
+        dimensionLine.Show(true);
         dimensionLine.SetPlayerPosition(myPlayer.transform.position);
     }
     IEnumerator StuntResult()

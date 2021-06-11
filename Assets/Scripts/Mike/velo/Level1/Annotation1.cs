@@ -14,7 +14,7 @@ public class Annotation1 : MonoBehaviour
     [SerializeField] bool revealDistance = true, revealTime = true, revealVelocity = true;
     public GameObject[] arrows = new GameObject[4];
     char required;
-    bool answered;
+    bool answered, isAnswerCorrect;
     Vector2 veloTxtPoint;
     QuestionControllerVThree qc;
 
@@ -34,9 +34,25 @@ public class Annotation1 : MonoBehaviour
         velocityIndicatorTxt = transform.Find("Velocity").gameObject;
     }
 
-    public void Hide()
+    public void Show(bool s)
     {
-        transform.gameObject.SetActive(false);
+        foreach (var item in arrows)
+        {
+            item.SetActive(s);
+        }
+        distanceLine1.gameObject.SetActive(s);
+        distanceLine2.gameObject.SetActive(s);
+        distanceIndicatorTxt.SetActive(s);
+        
+        timeLine1.gameObject.SetActive(s);
+        timeLine2.gameObject.SetActive(s);
+        timeIndicatorTxt.SetActive(s);
+
+        velocityIndicatorTxt.SetActive(s);
+
+        startLine.gameObject.SetActive(s);
+        endLine.gameObject.SetActive(s);
+        endTime.gameObject.SetActive(s);
     }
     public void SetPlayerPosition(Vector2 point)
     {
@@ -44,6 +60,7 @@ public class Annotation1 : MonoBehaviour
     }
     public void Variables(float d, float t, float v, char whatIsAsk)
     {
+        colorMode = TextColorMode.Given;
         answered = false;
         switch (whatIsAsk)
         {
@@ -76,9 +93,26 @@ public class Annotation1 : MonoBehaviour
         time = t;
         velocity = v;
     }
-    public void AnswerIs(float answer)
+    public void AnswerIs(bool isCorrect)
+    {
+        if (isCorrect)
+        {
+            colorMode = TextColorMode.Correct;
+        }
+        else
+        {
+            colorMode = TextColorMode.Wrong;
+        }
+    }
+    public void IsRunning(float distanceCovered, float runTime)
     {
         answered = true;
+        distanceTraveled = distanceCovered;
+        elapsedTime = runTime;
+    }
+    public void PlayerAnswerIs(float answer)
+    {
+        // answered = false;
         switch (required)
         {
             case 'v':
@@ -102,11 +136,7 @@ public class Annotation1 : MonoBehaviour
     void Update()
     {
         float dimensionTextLength = distanceIndicatorTxt.GetComponent<TextMeshPro>().text.Length;
-        foreach (var item in arrows)
-        {
-            item.SetActive(true);
-            item.GetComponent<SpriteRenderer>().color = qc.getHexColor(colorMode);
-        }
+        float timeTextLength = timeIndicatorTxt.GetComponent<TextMeshPro>().text.Length;
         if (!answered)
         {
             arrows[0].transform.position = new Vector2((distance + spawnPoint.x), spawnPoint.y);
@@ -122,9 +152,9 @@ public class Annotation1 : MonoBehaviour
             distanceIndicatorTxt.transform.position = new Vector2((distance / 2) + spawnPoint.x, spawnPoint.y);
 
             arrows[2].transform.position = new Vector2(arrows[0].transform.position.x, arrows[0].transform.position.y + 1);
-            timeLine1.SetPosition(0, new Vector2(((distance / 2) - (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y + 1));
+            timeLine1.SetPosition(0, new Vector2(((distance / 2) - (0.2f * timeTextLength)) + spawnPoint.x, spawnPoint.y + 1));
             timeLine1.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y + 1));
-            timeLine2.SetPosition(0, new Vector2(((distance / 2) + (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y + 1));
+            timeLine2.SetPosition(0, new Vector2(((distance / 2) + (0.2f * timeTextLength)) + spawnPoint.x, spawnPoint.y + 1));
             timeLine2.SetPosition(1, new Vector2((distance + spawnPoint.x), spawnPoint.y + 1));
             endTime.SetPosition(0, new Vector2(spawnPoint.x + distance, spawnPoint.y + .75f));
             endTime.SetPosition(1, new Vector2(spawnPoint.x + distance, spawnPoint.y + 1.25f));
@@ -168,72 +198,43 @@ public class Annotation1 : MonoBehaviour
                 distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
                 distanceIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
             }
-            colorMode = TextColorMode.Given;
+            // colorMode = TextColorMode.Given;
         }
         else
         {
-            arrows[0].transform.position = new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y);
-            arrows[1].transform.position = new Vector2(spawnPoint.x, spawnPoint.y);
-            distanceLine1.SetPosition(0, new Vector2(((distanceTraveled / 2) - (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y));
-            distanceLine1.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y));
-            distanceLine2.SetPosition(0, new Vector2(((distanceTraveled / 2) + (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y));
-            distanceLine2.SetPosition(1, new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y));
+            arrows[0].transform.position = new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y - 0.75f);
+            arrows[1].transform.position = new Vector2(spawnPoint.x, spawnPoint.y - 0.75f);
+            distanceLine1.SetPosition(0, new Vector2(((distanceTraveled / 2) - (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y - 0.75f));
+            distanceLine1.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y - 0.75f));
+            distanceLine2.SetPosition(0, new Vector2(((distanceTraveled / 2) + (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y - 0.75f));
+            distanceLine2.SetPosition(1, new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y - 0.75f));
             startLine.SetPosition(0, new Vector2(spawnPoint.x, spawnPoint.y - 1));
-            startLine.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y + 0.5f));
+            startLine.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y - 0.5f));
             endLine.SetPosition(0, new Vector2(spawnPoint.x + distanceTraveled, spawnPoint.y - 1));
-            endLine.SetPosition(1, new Vector2(spawnPoint.x + distanceTraveled, spawnPoint.y + 0.5f));
-            distanceIndicatorTxt.transform.position = new Vector2((distanceTraveled / 2) + spawnPoint.x, spawnPoint.y);
+            endLine.SetPosition(1, new Vector2(spawnPoint.x + distanceTraveled, spawnPoint.y - 0.75f));
+            distanceIndicatorTxt.transform.position = new Vector2((distanceTraveled / 2) + spawnPoint.x, spawnPoint.y - 0.75f);
 
-            arrows[2].transform.position = new Vector2(arrows[0].transform.position.x, arrows[0].transform.position.y + 1);
-            timeLine1.SetPosition(0, new Vector2(((distanceTraveled / 2) - (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y + 1));
+            arrows[2].transform.position = new Vector2(arrows[0].transform.position.x, spawnPoint.y + 1);
+            timeLine1.SetPosition(0, new Vector2(((distanceTraveled / 2) - (0.2f * timeTextLength)) + spawnPoint.x, spawnPoint.y + 1));
             timeLine1.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y + 1));
-            timeLine2.SetPosition(0, new Vector2(((distanceTraveled / 2) + (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y + 1));
+            timeLine2.SetPosition(0, new Vector2(((distanceTraveled / 2) + (0.2f * timeTextLength)) + spawnPoint.x, spawnPoint.y + 1));
             timeLine2.SetPosition(1, new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y + 1));
             endTime.SetPosition(0, new Vector2(spawnPoint.x + distanceTraveled, spawnPoint.y + .75f));
             endTime.SetPosition(1, new Vector2(spawnPoint.x + distanceTraveled, spawnPoint.y + 1.25f));
             timeIndicatorTxt.transform.position = new Vector2((distanceTraveled / 2) + spawnPoint.x, spawnPoint.y + 1);
 
-            arrows[3].transform.position = new Vector2(veloTxtPoint.x + 1.5f, veloTxtPoint.y + 3f);
-            velocityIndicatorTxt.transform.position = new Vector2(veloTxtPoint.x, veloTxtPoint.y + 3);
-            if (!revealDistance && revealTime && revealVelocity)
-            {
-                timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(time, 2)}{qc.Unit(UnitOf.time)}");
-                timeIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.distance)}");
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-            }
-            else if (!revealTime && revealDistance && revealVelocity)
-            {
-                timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.time)}");
-                timeIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-            }
-            else if (!revealVelocity && revealDistance && revealTime)
-            {
-                timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(time, 2)}{qc.Unit(UnitOf.time)}");
-                timeIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.velocity)}");
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-            }
-            else
-            {
-                timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(time, 2)}{qc.Unit(UnitOf.time)}");
-                timeIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-            }
-            colorMode = TextColorMode.Given;
+            timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(elapsedTime, 2)}{qc.Unit(UnitOf.time)}");
+            timeIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
+            velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
+            velocityIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
+            distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distanceTraveled, 2)}{qc.Unit(UnitOf.distance)}");
+            distanceIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
+            // colorMode = TextColorMode.Given;
             //TODO: Merge indicator manager here;
         }
+        arrows[3].transform.position = new Vector2(veloTxtPoint.x + 1.5f, veloTxtPoint.y + 3f);
+        velocityIndicatorTxt.transform.position = new Vector2(veloTxtPoint.x, veloTxtPoint.y + 3);
+
         qc.SetColor(timeIndicatorTxt.GetComponent<TMP_Text>(), colorMode);
         qc.SetColor(distanceIndicatorTxt.GetComponent<TMP_Text>(), colorMode);
         qc.SetColor(velocityIndicatorTxt.GetComponent<TMP_Text>(), colorMode);
@@ -251,5 +252,9 @@ public class Annotation1 : MonoBehaviour
         startLine.endColor = qc.getHexColor(colorMode);
         endLine.startColor = qc.getHexColor(colorMode);
         endLine.endColor = qc.getHexColor(colorMode);
+        foreach (var item in arrows)
+        {
+            item.GetComponent<SpriteRenderer>().color = qc.getHexColor(colorMode);
+        }
     }
 }

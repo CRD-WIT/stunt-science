@@ -15,7 +15,7 @@ public class QuestionControllerVThree : MonoBehaviour
     public int levelNumber, stage;
     public string levelName, modalTitle, question, timer;
     public TextColorMode colorMode;
-    public UnitOf unitOf;
+    public UnitOf unit;
     string answerUnit, difficulty;
     int passedLevel;
     [SerializeField] bool timerOn = false, loaded = false;
@@ -44,9 +44,9 @@ public class QuestionControllerVThree : MonoBehaviour
         stageName = problemBox.Find("StageBar2").Find("StageName");
         difficultyName = problemBox.Find("StageBar3").Find("DifficultyName");
 
-        // givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
-        // correctAnswerColor = new Color32(150, 217, 72, 255);
-        // wrongAnswerColor = new Color32(237, 66, 66, 255);
+        givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
+        correctAnswerColor = new Color32(150, 217, 72, 255);
+        wrongAnswerColor = Color.red;
 
         levelName = level.GetGameLevel();
         switch (levelDifficulty)
@@ -213,6 +213,50 @@ public class QuestionControllerVThree : MonoBehaviour
 
     public string Unit(UnitOf unitOf)
     {
+        string unit = "";
+        switch (unitOf)
+        {
+            case UnitOf.distance:
+                unit = "m";
+                break;
+            case UnitOf.time:
+                unit = "s";
+                break;
+            case UnitOf.velocity:
+                unit = "m/s";
+                break;
+            case UnitOf.acceleration:
+                unit = "m/s²";
+                break;
+            case UnitOf.angle:
+                unit = "°";
+                break;
+            case UnitOf.angularVelocity:
+                unit = "°/s";
+                break;
+            case UnitOf.force:
+                unit = "N";
+                break;
+            case UnitOf.mass:
+                unit = "kg";
+                break;
+            case UnitOf.work:
+                unit = "J";
+                break;
+            case UnitOf.energy:
+                unit = "kW";
+                break;
+            case UnitOf.power:
+                unit = "kWh";
+                break;
+            case UnitOf.momuntum:
+                unit = "kg•m/s";
+                break;
+        }
+        return unit;
+    }
+    public void SetUnitTo(UnitOf unitOf)
+    {
         switch (unitOf)
         {
             case UnitOf.distance:
@@ -252,7 +296,6 @@ public class QuestionControllerVThree : MonoBehaviour
                 answerUnit = "kg•m/s";
                 break;
         }
-        return answerUnit;
     }
     public Color getHexColor(TextColorMode mode)
     {
