@@ -114,9 +114,6 @@ public class SimulationManager : MonoBehaviour
     {
         dimLine.Show(false);
         qc.retried = false;
-        VelocityEasyStage1.gameObject.SetActive(false);
-        theManager2.gameObject.SetActive(false);
-        StageThreeManager.gameObject.SetActive(false);
         thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
         PrefabDestroyer.destroyPrefab = true;
@@ -128,16 +125,22 @@ public class SimulationManager : MonoBehaviour
         RumblingManager.isCrumbling = false;
         if (qc.stage == 1)
         {
+            theManager2.gameObject.SetActive(false);
+            StageThreeManager.gameObject.SetActive(false);
             VelocityEasyStage1.gameObject.SetActive(true);
             VelocityEasyStage1.VelocityEasyStage1SetUp();
         }
         else if (qc.stage == 2)
         {
+            VelocityEasyStage1.gameObject.SetActive(false);
+            StageThreeManager.gameObject.SetActive(false);
             theManager2.gameObject.SetActive(true);
             theManager2.reset();
         }
         else
         {
+            VelocityEasyStage1.gameObject.SetActive(false);
+            theManager2.gameObject.SetActive(false);
             StageThreeManager.gameObject.SetActive(true);
             StageThreeManager.Stage3SetUp();
         }
@@ -153,7 +156,7 @@ public class SimulationManager : MonoBehaviour
         ragdollSpawn.SetActive(false);
         PrefabDestroyer.destroyPrefab = true;
         thePlayer.moveSpeed = 5;
-        yield return new WaitForSeconds(3f); 
+        yield return new WaitForSeconds(3f);
         StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(2.8f);
         theHeart.startbgentrance();

@@ -80,7 +80,7 @@ public class PlayerV2 : MonoBehaviour
     public void playfootstep()
     {
         // TODO: Fix sound
-        //footstep.Play(0);
+        footstep.Play(0);
     }
     void OnTriggerEnter2D(Collider2D other)
     {
