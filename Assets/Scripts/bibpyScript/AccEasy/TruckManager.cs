@@ -7,7 +7,7 @@ public class TruckManager : MonoBehaviour
     public Rigidbody2D myRigidbody;
     public float moveSpeed;
     public float accelaration;
-    public bool accelerating;
+    public bool accelerating, deaccelerating;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,5 +22,10 @@ public class TruckManager : MonoBehaviour
         {
             moveSpeed  += accelaration * Time.fixedDeltaTime;
         }
+         if(deaccelerating)
+        {
+            moveSpeed  -= accelaration * Time.fixedDeltaTime;
+        }
+
     }
 }

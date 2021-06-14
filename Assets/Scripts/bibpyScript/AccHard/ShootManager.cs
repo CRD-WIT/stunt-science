@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ShootManager : MonoBehaviour
 {
-    public GameObject bullet, blastprefab;
+    public GameObject bullet, blastprefab, bulletPos;
     public float speed;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,7 @@ public class ShootManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
 
     }
     public void Shoot()
@@ -28,4 +30,5 @@ public class ShootManager : MonoBehaviour
 
 
     }
+   
 }

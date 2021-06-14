@@ -122,6 +122,10 @@ public class AccHardSimulation : MonoBehaviour
             
         }
     }
+     public void next()
+     {
+         
+     }
     public IEnumerator DirectorsCall()
     {
         if (directorIsCalling)
@@ -145,6 +149,25 @@ public class AccHardSimulation : MonoBehaviour
             yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";
+        }
+    }
+     public IEnumerator errorMesage()
+    {
+        theQuestion.popupVisible = true;
+        yield return new WaitForSeconds(3);
+        theQuestion.popupVisible = false;
+    }
+    public void action()
+    {
+        theQuestion.ToggleModal();
+        if (theQuestion.answerIsCorrect == false)
+        {
+            retry();
+
+        }
+        else
+        {
+            next();
         }
     }
 }
