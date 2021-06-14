@@ -209,8 +209,6 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                 if (respositioned)
                 {
                     elapsed += Time.fixedDeltaTime;
-
-
                     playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
                     thePlayerAnimation.SetBool("isFalling", true);
 

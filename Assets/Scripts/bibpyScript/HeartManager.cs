@@ -20,10 +20,10 @@ public class HeartManager : MonoBehaviour
 
     public void DestroyHearts()
     {
-        foreach (Transform item in transform)
-        {
-            GameObject.Destroy(item.gameObject);
-        }
+        // foreach (Transform item in transform)
+        // {
+        //     GameObject.Destroy(item.gameObject);
+        // }
     }
 
     // Update is called once per frame

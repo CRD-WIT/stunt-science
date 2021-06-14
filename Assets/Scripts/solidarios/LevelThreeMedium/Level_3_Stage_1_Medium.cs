@@ -2,67 +2,61 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using System;
+using System;
 
 public class Level_3_Stage_1_Medium : MonoBehaviour
 {
     // Start is called before the first frame update
     string question;
-    public float elapsed;
-
-    public TMP_Text initalVelociyText, playerNameText, stuntMessageText, timerText, questionText, levelName;
+    public TMP_Text questionText, levelName, timerText;
     public GameObject AfterStuntMessage;
-    public GameObject movingToHookHand;
     Animator thePlayerAnimation;
-    bool isMovingToHook;
-    public Animator levelAnimations;
-    public TMP_InputField playerAnswer;
+    public GameObject HookAttachmentCollider;
     public GameObject hook;
     bool isSimulating = false;
-    public float speed = 1f;
     public GameObject thePlayer;
-    public GameObject FirstCamera;
-    public GameObject thinRope;
-    public GameObject SecondCamera;
     Vector3 thePlayer_position;
-    public GameObject Rope2HookEnd;
-    public GameObject HookAttachmentCollider;
-    [SerializeField] CameraScript cameraScript;
-    float timeGiven;
+    public TMP_InputField playerAnswer;
     Vector2 gravityGiven;
-    float correctAnswer;
-    Vector2 spawnPointValue;
     public GameObject hookLauncher;
-    public GameObject hookLine;
-    public GameObject hookIndicator;
-    public TextMeshPro timeIndicator;
-    float distance;
+    public GameObject thePlayerRunning;
     float distanceGiven;
-    bool doneFiring = false;
     float angleGiven;
+    float correctAnswer;
+    public GameObject movingToHookHand;
     float velocityX = 0;
+    public GameObject thinRope;
+    bool doneFiring = false;
     float velocityY = 0;
     float velocityInitial = 0;
-    float totalRopeMass = 0f;
-    float timeOfFlight = 0f;
-    public GameObject angularAnnotation;
+    public GameObject hookLine;
+    public GameObject Rope2HookEnd;
+    bool isMovingToHook;
+    public float elapsed;
+    public GameObject dynamicPlatform;
+    public GameObject grapplingPointIndicator;
     string playerName = "Junjun";
     string pronoun = "he";
-
     public QuestionController questionController;
     public CameraScript cameraScript;
     void Start()
     {
-        // Given        
-        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
-        distanceGiven = transform.Find("Annotation1").GetComponent<Annotation>().distance;
-        angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(35f, 40f), 2);
-        //angleGiven = 40f;
+        // Given            
+        distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(22f, 25f), 2);
+        angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(40f, 45f), 2);
         gravityGiven = Physics2D.gravity;
+
+        //Problem
+        question = $"{playerName} is instructed to cross another diff using this climbing device. If {playerName} shoot its gripping projectile at an angle of {angleGiven} degrees up to precisely get the corner of the cliff {distanceGiven} meters away horizontally from the shooting device, at what velocity should the projectile be shot to hit the gripping part?";
+
+        questionController.SetQuestion(question);
+
+        Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
+
+        line.SetDistance(distanceGiven);
 
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
         thePlayer_position = thePlayer.transform.position;
-
-        spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
 
         transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().SetAngle(angleGiven);
 
@@ -73,89 +67,74 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
         hookLauncher.transform.Rotate(new Vector3(0, 0, angleGiven));
     }
-
     IEnumerator StuntResult(Action callback)
     {
         //messageFlag = false;
         yield return new WaitForSeconds(2f);
         callback();
     }
-
-    void GenerateVelocities()
+    void GenerateInitialVelocities()
     {
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
-        velocityInitial = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+
+        velocityInitial = float.Parse(playerAnswer.text);
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
 
-        initalVelociyText.SetText($"{System.Math.Round(velocityInitial, 2)} m/s");
+        correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
 
-        // Formula
-        timeOfFlight = Mathf.Abs((2 * velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad)) / gravityGiven.y);
-
-        correctAnswer = timeOfFlight;
-
-        //Problem
-        levelName.SetText("Free Fall | Stage 1");
-        question = $"<b>{playerName}</b> wants to cross to the cliff at the other side using his climbing device. If {pronoun} shoots its gripping projectile at a velocity of <b><color=red>{System.Math.Round(velocityInitial, 2)}</color></b> at an angle of <b><color=orange>{angleGiven}</color></b> degrees, <b><color=purple>at what precise time</color></b> should <b>{playerName}</b> <b>trigger the gripper</b> if it will grip at the exact moment when it will touch the gripping point of the cliff accross which is at the same horizontal level of the shooting device.";
-
-        if (questionText != null)
-        {
-            questionText.SetText(question);
-        }
-        else
-        {
-            Debug.Log("QuestionText object not loaded.");
-        }
-
-        Debug.Log($"Gravity: {gravityGiven.y}");
-        Debug.Log($"Angle: {angleGiven}");
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
-        Debug.Log($"VelocityInitial: {velocityInitial}");
-        Debug.Log($"TimeofFlight: {timeOfFlight}");
+        Debug.Log($"Correct Answer: {correctAnswer}");
+    }
+
+    void RegenerateVelocities()
+    {
+        velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
+
+        velocityInitial = float.Parse(playerAnswer.text);
+        velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
+
+        correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+
+        Debug.Log($"VelocityX: {velocityX}");
+        Debug.Log($"VelocityY: {velocityY}");
+        Debug.Log($"Correct Answer: {correctAnswer}");
     }
 
     IEnumerator DropRope()
     {
-        yield return new WaitForSeconds(0.3f);
-        hookLauncher.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-        hookLauncher.SetActive(false);
-        yield return new WaitForSeconds(0.3f);
-        thePlayerAnimation.SetBool("failed", true);
+        yield return new WaitForSeconds(1.5f);
     }
 
     IEnumerator PullRope()
     {
-        yield return new WaitForSeconds(0.3f);
-        isMovingToHook = true;
-        thinRope.gameObject.SetActive(false);
-        hookLine.SetActive(true);
-        levelAnimations.SetBool("isMoving", true);
-        thePlayerAnimation.SetBool("isPullingRope", true);
-        yield return new WaitForSeconds(1.59f);
-        thePlayerAnimation.SetBool("happy", true);
-        hookLine.SetActive(false);
-        timeIndicator.enabled = false;
+        yield return new WaitForSeconds(1.3f);
+    }
 
-        cameraScript.isStartOfStunt = false;
-        questionController.answerIsCorrect = true;
-        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely hooked on the grabbing point!", "Next")));
-        questionController.isSimulating = false;
+    IEnumerator ShowAnnotations()
+    {
+        yield return new WaitForSeconds(0.5f);
     }
 
     public void StartSimulation()
     {
-        cameraScript.directorIsCalling = true;
-        cameraScript.isStartOfStunt = true;
-        questionController.SetAnswer();
+        isSimulating = true;
     }
+
     void FixedUpdate()
     {
-
-        if (velocityX == 0 || velocityY == 0 || velocityInitial == 0)
+        if (thePlayerRunning.GetComponent<RunningPlayer>().isCollided)
         {
-            GenerateVelocities();
+            thePlayer.SetActive(true);
+            thePlayerRunning.SetActive(false);
+            transform.Find("Annotation").GetComponent<Annotation>().Show();
+            transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Show();
+            transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Show();
         }
+
+        Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
+        dynamicPlatform.transform.position = new Vector3(line.distance + 32.34f, -15.69f, 1);
+        grapplingPointIndicator.transform.position = new Vector3(line.distance + 4.4f, 1, 1);
 
         if (isMovingToHook && !isSimulating)
         {
@@ -167,18 +146,19 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
             hookLine.GetComponent<LineRenderer>().SetPosition(0, hookLauncher.transform.position);
             hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
         }
-        if (playerAnswer.text.Length > 0)
+
+        if (questionController.isSimulating)
         {
-            if (questionController.isSimulating)
+            if (playerAnswer.text.Length > 0)
             {
-                timeIndicator.transform.position = new Vector3(hook.transform.position.x, hook.transform.position.y + 1, 1);
-                transform.Find("Annotation1").GetComponent<Annotation>().Hide();
+                transform.Find("Annotation").GetComponent<Annotation>().Hide();
                 transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Hide();
                 transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Hide();
 
                 elapsed += Time.fixedDeltaTime;
                 timerText.text = elapsed.ToString("f2") + "s";
-                timeIndicator.text = elapsed.ToString("f2") + "s";
+
+                RegenerateVelocities();
 
                 // Correct Answer
                 if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
@@ -201,69 +181,35 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         Rope2HookEnd.GetComponent<Rigidbody2D>().velocity = new Vector3(2, 0, 0);
                         StartCoroutine(PullRope());
 
+                        cameraScript.isStartOfStunt = false;
+                        questionController.answerIsCorrect = true;
+                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
+                        questionController.isSimulating = false;
                     }
                 }
                 else
                 {
-                    if (System.Math.Round(correctAnswer, 2) > float.Parse(playerAnswer.text))
+                    // Too long
+                    Debug.Log("Too long");
+                    HookAttachmentCollider.SetActive(false);
+
+                    if (!doneFiring)
                     {
-                        // Too short
-                        Debug.Log("Too short");
-                        HookAttachmentCollider.SetActive(false);
-
-                        if (!doneFiring)
-                        {
-                            hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                            hook.GetComponent<Rigidbody2D>().WakeUp();
-                            hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
-                            doneFiring = true;
-                        }
-
-                        if (hook.GetComponent<Hook>().isCollidedToFailCollider)
-                        {
-                            questionController.answerIsCorrect = false;
-                            questionController.isSimulating = false;
-                            cameraScript.directorIsCalling = true;
-                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hook was grabbed too soon! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
-                        }
+                        hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                        hook.GetComponent<Rigidbody2D>().WakeUp();
+                        hook.GetComponent<Rigidbody2D>().velocity = new Vector3(float.Parse(playerAnswer.text), velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
+                        doneFiring = true;
                     }
-                    else
+
+                    if (hook.GetComponent<Hook>().isCollidedToFailCollider)
                     {
-                        // Too long
-                        Debug.Log("Too long");
-                        HookAttachmentCollider.SetActive(false);
-
-                        if (!doneFiring)
-                        {
-                            hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                            hook.GetComponent<Rigidbody2D>().WakeUp();
-                            hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
-                            doneFiring = true;
-                        }
-
-                        if (hook.GetComponent<Hook>().isCollidedToFailCollider)
-                        {
-                            cameraScript.isStartOfStunt = false;
-                            questionController.answerIsCorrect = false;
-                            questionController.isSimulating = false;
-                            cameraScript.directorIsCalling = true;
-                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hook was grabbed too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
-                        }
+                        cameraScript.isStartOfStunt = false;
+                        questionController.answerIsCorrect = true;
+                        // todo 
+                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
+                        questionController.isSimulating = false;
                     }
                 }
-            }
-            else
-            {
-                //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
-                if (hook.GetComponent<Hook>().isCollidedToFailCollider)
-                {
-                    hook.transform.position -= new Vector3(0.1f, -0.1f, 0);
-                    hookIndicator.SetActive(false);
-                    StartCoroutine(DropRope());
-                }
-
-                timerText.text = $"{(elapsed).ToString("f2")}s";
-                timeIndicator.text = $"{(elapsed).ToString("f2")}s";
             }
         }
     }

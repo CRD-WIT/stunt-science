@@ -108,7 +108,6 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     IEnumerator ShowAnnotations()
     {
         yield return new WaitForSeconds(0.5f);
-
     }
 
     public void StartSimulation()
