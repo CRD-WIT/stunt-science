@@ -25,7 +25,7 @@ public class FallingBoulders : MonoBehaviour
         }
         if (isRumbling)
             boulderDrop = RumblingManager.shakeON;
-        else if (!isRumbling)
+        else
             boulderDrop = false;
     }
     IEnumerator Dropping()

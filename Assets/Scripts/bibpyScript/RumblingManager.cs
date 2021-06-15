@@ -30,10 +30,10 @@ public class RumblingManager : MonoBehaviour
 
     void Update()
     {
-        if (shakeON == true)
+        if (shakeON)
         {
             StartCoroutine(camshake());
-            if (rubbleON == true)
+            if (rubbleON)
             {
                 //FallingBoulders.isRumbling = true;
                 StartCoroutine(fallingrubble());
@@ -102,7 +102,7 @@ public class RumblingManager : MonoBehaviour
         TempGo2.transform.position = new Vector2(Random.Range(-3f, 40f), Random.Range(9f, 11f));
         rubbleON = false;
         yield return new WaitForSeconds(1);
-        fallingBouder =true;
+        fallingBouder = true;
         rubbleON = true;
         yield return new WaitForSeconds(0.1f);
         rubbleON = false;

@@ -196,36 +196,18 @@ public class Annotation1 : MonoBehaviour
 
             arrows[3].transform.position = new Vector2(veloTxtPoint.x + 1.5f, veloTxtPoint.y + 3f);
             velocityIndicatorTxt.transform.position = new Vector2(veloTxtPoint.x, veloTxtPoint.y + 3);
-            if (!revealDistance && revealTime && revealVelocity)
-            {
-                timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(time, 2)}{qc.Unit(UnitOf.time)}");
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
+            if (!revealDistance)
                 distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.distance)}");
-            }
-            else if (!revealTime && revealDistance && revealVelocity)
-            {
-                timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.time)}");
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
-            }
-            else if (!revealVelocity && revealDistance && revealTime)
-            {
-                timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(time, 2)}{qc.Unit(UnitOf.time)}");
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.velocity)}");
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
-            }
-            else if (revealDistance && revealTime && revealVelocity)
-            {
-                timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(time, 2)}{qc.Unit(UnitOf.time)}");
-                velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
-            }
             else
-            {
+                distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
+            if (!revealTime)
                 timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.time)}");
+            else
+                timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(time, 2)}{qc.Unit(UnitOf.time)}");
+            if (!revealVelocity)
                 velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.velocity)}");
-                distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.distance)}");
-            }
+            else
+                velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
         }
         else
         {
