@@ -86,7 +86,6 @@ public class Player : MonoBehaviour
             
            ragdollblow = true;   
         }
-
     }
      public void ragdollspawn()
     {
