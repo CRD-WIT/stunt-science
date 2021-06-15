@@ -20,9 +20,9 @@ public class AccHardOne : MonoBehaviour
     public AccHardSimulation theSimulate;
     float generateAngleB, generateViT, generateAT, generateVB, generateDX, generateDY;
     float ChopperY, chopperX, truckTime, bulletTime;
-    bool shoot, shootReady, gas;
+    bool shoot, shootReady, gas, startTime;
     public bool posCheck;
-     public TMP_Text timertxt, timertxtTruck, actiontxt;
+     public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,19 +44,26 @@ public class AccHardOne : MonoBehaviour
         correctAnswer = truckTime - bulletTime;
         answer = (float)System.Math.Round(correctAnswer, 2);
         playerAnswer = AccHardSimulation.playerAnswer;
+        if(startTime)
+        {
+            timer += Time.fixedDeltaTime;
+            timertxtTruck.text = timer.ToString("F2") + ("s");
+        }
 
 
         if (AccHardSimulation.simulate == true)
         {
+            startTime = true;
             target.transform.position = targetWheel.transform.position;
             dimensions.SetActive(false);
+            viTtxt.text = ("v = ") + theTruck.moveSpeed.ToString("F2") + ("m/s");
             if (timer == 0)
             {
                 theTruck.moveSpeed = viT;
                 theTruck.accelaration = aT;
                 theTruck.accelerating = true;
             }
-            timer += Time.fixedDeltaTime;
+            
             timertxt.text = timer.ToString("F2") + ("s");
             if (playerAnswer == answer)
             {
@@ -90,6 +97,7 @@ public class AccHardOne : MonoBehaviour
             AccHardSimulation.simulate = false;
             target.SetActive(false);
             timertxt.text = playerAnswer.ToString("F2");
+            
             if (shootReady)
             {
                 theShoot.Shoot();
@@ -123,11 +131,12 @@ public class AccHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        startTime = false;
         dimensions.SetActive(true);
         projectileLine.SetActive(true);
         shootReady = true;
         shoot = false;
-        dX = Random.Range(9, 12);
+        dX = Random.Range(7, 9);
         dY = Random.Range(10, 12);
         generateAngleB = Random.Range(20f, 30f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
@@ -160,6 +169,9 @@ public class AccHardOne : MonoBehaviour
         wheelPos.SetActive(false);
         targetHere.SetActive(false);
         posCheck = false;
+        viTtxt.text = ("vi = ") + viT.ToString("F2") + ("m/s");
+        aTtxt.text = ("a = ") + aT.ToString("F2") + ("m/s²");
+        timertxtTruck.text = timer.ToString("F2") + ("s");
 
     }
     IEnumerator StuntResult()
@@ -171,6 +183,7 @@ public class AccHardOne : MonoBehaviour
         theTruck.deaccelerating = false;
         if (playerAnswer == answer)
         {
+            targetWheel.SetActive(false);
             Time.timeScale = 0;
         }
     }
