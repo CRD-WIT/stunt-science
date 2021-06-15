@@ -41,7 +41,7 @@ public class StageTwoManager : MonoBehaviour
             dimensionLine.PlayerAnswerIs(playerAnswer);
             currentPos = thePlayer.transform.position.x;
             thePlayer.moveSpeed = speed;
-            dimensionLine.IsRunning(currentPos, elapsed);
+            dimensionLine.IsRunning(currentPos, elapsed, null);
             elapsed += Time.fixedDeltaTime;
             qc.timer = elapsed.ToString("f2") + "s";
             if ((elapsed >= playerAnswer) || (currentPos > 30))

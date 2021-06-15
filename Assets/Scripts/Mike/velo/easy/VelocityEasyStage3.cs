@@ -98,7 +98,7 @@ public class VelocityEasyStage3 : MonoBehaviour
                 }
                 dimensionLine.AnswerIs(answerIs);
             }
-            dimensionLine.IsRunning(myPlayer.transform.position.x - (40 - answer), elapsed);
+            dimensionLine.IsRunning(myPlayer.transform.position.x - (40 - answer), elapsed, null);
         }
     }
     public void Stage3SetUp()

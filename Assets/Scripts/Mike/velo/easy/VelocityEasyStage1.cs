@@ -87,7 +87,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 }
                 dimensionLine.AnswerIs(answerIs);
             }
-        dimensionLine.IsRunning(currentPos, elapsed);
+        dimensionLine.IsRunning(currentPos, elapsed, null);
         }
         SimulationManager.isAnswerCorrect = answerIs;
         dimensionLine.SetPlayerPosition(myPlayer.transform.position);
