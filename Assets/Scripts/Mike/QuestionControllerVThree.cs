@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class QuestionControllerVThree : MonoBehaviour
 {
     float playerAnswer;
+    public float limit = 0;
     private Transform baseComponent, problemBox, extraComponent, levelBadge;
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
@@ -113,10 +114,17 @@ public class QuestionControllerVThree : MonoBehaviour
         }
         else
         {
-            timerOn = true;
-            playerAnswer = float.Parse(answerFieldHorizontal.text);
-            answerFieldHorizontal.text = playerAnswer + answerUnit;
-            isSimulating = true;
+            if (limit <= playerAnswer)
+            {
+                StartCoroutine(IsEmpty());
+            }
+            else
+            {
+                timerOn = true;
+                playerAnswer = float.Parse(answerFieldHorizontal.text);
+                answerFieldHorizontal.text = playerAnswer + answerUnit;
+                isSimulating = true;
+            }
         }
         extraOn = true;
     }
@@ -350,3 +358,9 @@ public class QuestionControllerVThree : MonoBehaviour
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
     }
 }
+/*That means that Bolt's speed during his world-record run was 10.44 meters per second.
+Since many people are more familiar with automobiles and speed limits, it might be more
+useful to think of this in terms of kilometers per hour or miles per hour: 37.58 or 23.35, respectively
+Usain Bolt of Jamaica, set at the 2009 World Athletics Championships final in Berlin, Germany on 16 August 2009,
+
+Average human speed is 1.4m/s.*/

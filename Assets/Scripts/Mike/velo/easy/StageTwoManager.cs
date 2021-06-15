@@ -39,10 +39,9 @@ public class StageTwoManager : MonoBehaviour
         if (SimulationManager.isAnswered)
         {
             dimensionLine.PlayerAnswerIs(playerAnswer);
-            currentPos = thePlayer.transform.position.x;
             thePlayer.moveSpeed = speed;
-            dimensionLine.IsRunning(currentPos, elapsed, null);
             elapsed += Time.fixedDeltaTime;
+            currentPos = thePlayer.transform.position.x;
             qc.timer = elapsed.ToString("f2") + "s";
             if ((elapsed >= playerAnswer) || (currentPos > 30))
             {
@@ -103,6 +102,7 @@ public class StageTwoManager : MonoBehaviour
                 }
                 dimensionLine.AnswerIs(answerIs);
             }
+            dimensionLine.IsRunning(currentPos, elapsed, null);
         }
         SimulationManager.isAnswerCorrect = answerIs;
         dimensionLine.SetPlayerPosition(thePlayer.transform.position);
@@ -132,6 +132,8 @@ public class StageTwoManager : MonoBehaviour
         thePlayer.transform.position = new Vector2(0, -3);
         RumblingManager.shakeON = true;
         qc.timer = "0.00s";
+        
+        qc.limit = 5f;
         question = "The ceiling is still crumbling and the next safe spot is <color=red>" + distance.ToString() + " meters</color> away from " + PlayerPrefs.GetString("Name") + ". If " + pronoun + " runs at a constant velocity of <color=purple>" + finalSpeed.ToString() + " meters per second</color>, how <color=#006400>long</color> should " + pronoun + " run so " + pronoun + " will stop exactly on the same spot?";
         qc.SetQuestion(question);
         answerRO = (float)System.Math.Round(answer, 2);
@@ -145,7 +147,7 @@ public class StageTwoManager : MonoBehaviour
         theHeart.losslife = false;
         groundPlatform.transform.localScale = new Vector3(68.05f, groundPlatform.transform.localScale.y, 1);
         ragdollSpawn.transform.position = new Vector3(30.5f, ragdollSpawn.transform.position.y, 0);
-        dimensionLine.Variables(distance, answer, finalSpeed, 't');
+        dimensionLine.Variables(distance, answer, finalSpeed, 't', null);
         dimensionLine.SetPlayerPosition(thePlayer.transform.position);
         dimensionLine.Show(true);
     }

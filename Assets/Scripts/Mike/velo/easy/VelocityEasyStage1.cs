@@ -108,7 +108,7 @@ public class VelocityEasyStage1 : MonoBehaviour
             pronoun = "she";
             pNoun = "her";
         }
-        while ((Speed < 1.5f) || (Speed > 10f))
+        while ((Speed < 1.5f) || (Speed > 10.4f))
         {
             float d = Random.Range(9f, 18f);
             distance = (float)System.Math.Round(d, 2);
@@ -122,7 +122,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         RumblingManager.shakeON = true;
 
         // givenDistance.SetActive(true);
-        dimensionLine.Variables(distance, gameTime, Speed, 'v');
+        dimensionLine.Variables(distance, gameTime, Speed, 'v', null);
 
         theCeiling.createQuadtilemap(qc.stage);
         safeZone.transform.position = new Vector2(distance, -2);
@@ -131,6 +131,8 @@ public class VelocityEasyStage1 : MonoBehaviour
         elapsed = 0;
         rubblesStopper.SetActive(true);
         SimulationManager.isAnswered = false;
+        
+        qc.limit = 14f;
         question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from " + playerName + ". If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
         qc.SetQuestion(question);
         dimensionLine.Show(true);

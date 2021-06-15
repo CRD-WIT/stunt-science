@@ -225,7 +225,7 @@ public class VelocityMediumManager : MonoBehaviour
         RagdollV2.disableRagdoll = true;
         // distanceMeassure.gameObject.SetActive(true);
         distanceMeassure.Show(true);
-        distanceMeassure.spawnPoint = new Vector2(myPlayer.transform.position.x, myPlayer.transform.position.y + 1);
+        spawnPoint = new Vector2(myPlayer.transform.position.x, myPlayer.transform.position.y + 1);
         // labels.valueIs = TextColorMode.Given;
         // labels.gameObject.SetActive(false);
         stage = qc.stage;
@@ -281,7 +281,7 @@ public class VelocityMediumManager : MonoBehaviour
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
                 jumpForce = 1.2f / (jumpTime);
-                distanceMeassure.Variables(distance, stuntTime, playerVelocity, 't');
+                distanceMeassure.Variables(distance, stuntTime, playerVelocity, 't', spawnPoint.x);
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming boulder at the front <color=red>" + distance + " meters</color> away is rolling at the velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=#006400>seconds</color> will " + playerName + " jump if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 2:
@@ -314,7 +314,7 @@ public class VelocityMediumManager : MonoBehaviour
                 jumpTime = Dj / Va;
                 jumpForce = 1.276f / (jumpTime);
                 correctD = correctAnswer;
-                distanceMeassure.Variables(distance, stuntTime, playerVelocity, 'd');
+                distanceMeassure.Variables(distance, stuntTime, playerVelocity, 'd', spawnPoint.x);
 
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulder2Velocity + "meters per second</color>, at after how many <color=red>meters</color> should " + playerName + " be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
@@ -356,7 +356,7 @@ public class VelocityMediumManager : MonoBehaviour
                 
                 distanceMeassure.timeStartPnt = myPlayer.transform.position.x;
                 distanceMeassure.timeEndPnt = (correctD);
-                distanceMeassure.Variables(distance, stuntTime, playerVelocity, 'v');
+                distanceMeassure.Variables(distance, stuntTime, playerVelocity, 'v', spawnPoint.x);
                 question = playerName + " is instructed to vertically jump over between two incoming boulders at precisely <color=#006400>0.5 seconds</color> before they collide. If the boulder in front is <color=red>" + Dac + " meters</color> away from " + playerName + " is approaching at <color=purple>" + boulder2Velocity + " meters per second</color>, and the boulder behind " + pPronoun + " is <color=red>" + distance + " meters</color> away from the first boulder and is approaching at <color=purple>" + boulderVelocity + "meters per second</color>, at what <color=purple>velocity</color> should " + pronoun + " run forward for <color=#006400>" + stuntTime + " seconds</color> before doing the vertical jump?";
                 break;
         }

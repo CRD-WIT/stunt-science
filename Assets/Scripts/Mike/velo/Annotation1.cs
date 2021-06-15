@@ -76,7 +76,7 @@ public class Annotation1 : MonoBehaviour
     {
         veloTxtPoint = point;
     }
-    public void Variables(float d, float t, float v, char whatIsAsk)
+    public void Variables(float d, float t, float v, char whatIsAsk, float? EndPntOfTime)
     {
         colorMode = TextColorMode.Given;
         answered = false;
@@ -108,6 +108,10 @@ public class Annotation1 : MonoBehaviour
         }
         required = whatIsAsk;
         distance = d;
+        if (EndPntOfTime != null)
+            timeEndPnt = (float)EndPntOfTime;
+        else
+            timeEndPnt = distance;
         time = t;
         velocity = v;
     }
@@ -127,14 +131,17 @@ public class Annotation1 : MonoBehaviour
         answered = true;
         distanceTraveled = distanceCovered;
         elapsedTime = runTime;
-        if(timeAnnotaionEndPoint != null){
+        if (timeAnnotaionEndPoint != null)
+        {
             lengthOfTime = (float)timeAnnotaionEndPoint;
         }
-        else{
+        else
+        {
             lengthOfTime = distanceCovered;
         }
     }
-    public void SetUpAnnotation(){
+    public void TimeHasDifferentPoints(bool yes)
+    {
 
     }
     public void PlayerAnswerIs(float answer)

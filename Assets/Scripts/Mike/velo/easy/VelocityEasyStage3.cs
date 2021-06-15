@@ -44,7 +44,8 @@ public class VelocityEasyStage3 : MonoBehaviour
             float totalDistance = 40f;
             initialDistance = totalDistance - answer;
             dimensionLine.spawnPoint.x = initialDistance;
-            dimensionLine.Variables(answer, gameTime, Speed, 'N');
+            dimensionLine.timeStartPnt = initialDistance;
+            dimensionLine.Variables(answer, gameTime, Speed, 'N', null);
         }
         if (SimulationManager.isAnswered)
         {
@@ -124,6 +125,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         float t = Random.Range(3f, 3.5f);
         gameTime = (float)System.Math.Round(t, 2);
         distance = (float)System.Math.Round((Speed * gameTime), 2);
+        qc.limit = 10 * 3.5f;
         HeartManager.losslife = false;
         myPlayer.lost = false;
         myPlayer.standup = false;
