@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ProjectileLine : MonoBehaviour
 {
+    private SpriteRenderer mycolor;
     // Start is called before the first frame update
     void Start()
     {
-        
+        mycolor = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -16,7 +17,11 @@ public class ProjectileLine : MonoBehaviour
         
         if(transform.position.y <= -2)
         {
-            Destroy(gameObject);
+            mycolor.color = new Color32(0, 0, 0, 0);
+        }
+        if(transform.position.y > -2)
+        {
+            mycolor.color = new Color32(15, 118, 0, 255);
         }
     }
 }

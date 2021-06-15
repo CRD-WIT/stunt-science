@@ -14,6 +14,7 @@ public class BulletManager : MonoBehaviour
     {
         theManagerOne = FindObjectOfType<AccHardOne>();
         myRb =FindObjectOfType<Rigidbody2D>();
+        StartCoroutine(dissolve());
        
     }
 
@@ -45,5 +46,10 @@ public class BulletManager : MonoBehaviour
     {
             yield return new WaitForSeconds(0.05f);
             myRb.velocity = new Vector2(0, 0);
+    }
+    IEnumerator dissolve()
+    {
+        yield return new WaitForSeconds(4);
+        Destroy(gameObject);
     }
 }

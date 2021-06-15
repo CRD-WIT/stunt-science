@@ -11,35 +11,38 @@ public class AccHardSimulation : MonoBehaviour
     public GameObject directorBubble;
     public TruckManager theTruck;
     public AccHardOne theManagerOne;
-    private HeartManager theHeart;
+    public AccHardTwo theManagerTwo;
+    public HeartManager theHeart;
     public static float playerAnswer;
     public static bool simulate;
     public int stage;
     public QuestionController theQuestion;
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
-    
+    private Vector2 truckStartPoint;
+
 
     // Start is called before the first frame update
     void Start()
     {
         theHeart = FindObjectOfType<HeartManager>();
+        truckStartPoint = theTruck.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-     public void PlayButton()
+    public void PlayButton()
     {
-        
-        
-    
+
+
+
         if (stage == 1)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" || playerAnswer > 10|| playerAnswer < 1)
+            if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
             {
                 //StartCoroutine(theManagerOne.errorMesage());
                 theQuestion.errorText = ("believe me! its too long!");
@@ -58,12 +61,12 @@ public class AccHardSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
-             playerAnswer = float.Parse(answerField.text);
-            
+            playerAnswer = float.Parse(answerField.text);
+
             if (answerField.text == "" || playerAnswer > 100)
             {
                 //StartCoroutine(theManagerTwo.errorMesage());
-                
+
             }
             else
             {
@@ -82,8 +85,8 @@ public class AccHardSimulation : MonoBehaviour
             playerAnswer = float.Parse(answerField.text);
             if (answerField.text == "" || playerAnswer > 16)
             {
-               //StartCoroutine(theManagerThree.errorMesage());
-               theQuestion.errorText =("exceed the average car acceleratoin");
+                //StartCoroutine(theManagerThree.errorMesage());
+                theQuestion.errorText = ("exceed the average car acceleratoin");
             }
             else
             {
@@ -99,8 +102,8 @@ public class AccHardSimulation : MonoBehaviour
         }
     }
     public void retry()
-    { 
-        theHeart.startbgentrance(); 
+    {
+        theHeart.startbgentrance();
         playButton.interactable = true;
         playerAnswer = 0;
         simulate = false;
@@ -108,24 +111,32 @@ public class AccHardSimulation : MonoBehaviour
         theQuestion.isSimulating = false;
         if (stage == 1)
         {
-            
-            
+            theTruck.transform.position = truckStartPoint;
+            theTruck.moveSpeed = 0;
+            theManagerOne.generateProblem();
+
+
+
         }
         if (stage == 2)
         {
-    
-            
+
+
         }
         if (stage == 3)
         {
-           
-            
+
+
         }
     }
-     public void next()
-     {
-         
-     }
+    public void next()
+    {
+        if (stage == 1)
+        {
+            theManagerOne.gameObject.SetActive(false);
+            theManagerTwo.gameObject.SetActive(true);
+        }
+    }
     public IEnumerator DirectorsCall()
     {
         if (directorIsCalling)
@@ -151,7 +162,7 @@ public class AccHardSimulation : MonoBehaviour
             diretorsSpeech.text = "";
         }
     }
-     public IEnumerator errorMesage()
+    public IEnumerator errorMesage()
     {
         theQuestion.popupVisible = true;
         yield return new WaitForSeconds(3);

@@ -22,7 +22,7 @@ public class AccHardOne : MonoBehaviour
     float ChopperY, chopperX, truckTime, bulletTime;
     bool shoot, shootReady, gas;
     public bool posCheck;
-     public TMP_Text timertxt, timertxtTruck;
+     public TMP_Text timertxt, timertxtTruck, actiontxt;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +60,8 @@ public class AccHardOne : MonoBehaviour
             timertxt.text = timer.ToString("F2") + ("s");
             if (playerAnswer == answer)
             {
+                theQuestion.answerIsCorrect = true;
+                actiontxt.text = ("next");
                 if (timer >= correctAnswer + .05f)
                 {
 
@@ -86,6 +88,7 @@ public class AccHardOne : MonoBehaviour
         if (shoot)
         {
             AccHardSimulation.simulate = false;
+            target.SetActive(false);
             timertxt.text = playerAnswer.ToString("F2");
             if (shootReady)
             {
@@ -97,6 +100,7 @@ public class AccHardOne : MonoBehaviour
             {
                 if (playerAnswer != answer)
                 {
+                    actiontxt.text = ("Retry");
                     bulletPos.SetActive(true);
                     bulletPos.transform.position = theBullet.gameObject.transform.position;
                     bulletPos.transform.rotation = theBullet.gameObject.transform.rotation;
@@ -104,6 +108,7 @@ public class AccHardOne : MonoBehaviour
                     bulletHere.transform.position = bulletPos.transform.position;
                     wheelPos.SetActive(true);
                     wheelPos.transform.position = targetWheel.transform.position;
+                    target.SetActive(true);
                     target.transform.position = wheelPos.transform.position;
                     targetHere.SetActive(true);
                     targetHere.transform.position = wheelPos.transform.position;
@@ -149,13 +154,19 @@ public class AccHardOne : MonoBehaviour
         angleA = 90 - angleB;
         theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's wheel from a non moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally behind and <b>") + dY.ToString("F2") + ("</b> meters vertically above the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, at how many seconds after should  <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots if the truck has an initial velocity of <b>") + viT.ToString("F2") + ("</b> m/s and accelerating at <b>") + aT.ToString("F2") + ("</b> m/s² while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
         target.transform.position = targetWheel.transform.position;
+        timer = 0;
+        bulletPos.SetActive(false);
+        bulletHere.SetActive(false);
+        wheelPos.SetActive(false);
+        targetHere.SetActive(false);
+        posCheck = false;
 
     }
     IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(.5f);
         StartCoroutine(theSimulate.DirectorsCall());
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
         theQuestion.ToggleModal();
         theTruck.deaccelerating = false;
         if (playerAnswer == answer)
