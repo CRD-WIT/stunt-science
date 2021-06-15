@@ -11,29 +11,24 @@ public class SimulationManager : MonoBehaviour
     public VelocityEasyStage1 VelocityEasyStage1;
     public StageTwoManager theManager2;
     public Player thePlayer;
-    //public GameObject PlayerObject;
     public Button answerButton, retryButton, nextButton;
     public TMP_InputField answerField;
     public TMP_Text questionTextBox, errorTextBox, diretorsSpeech, levelText;
     public static string question;
     public static float playerAnswer;
-    public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt;
+    public static bool isSimulating, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead;
     int stage;
-    public static bool playerDead;
     public bool destroyPrefab;
     private HeartManager theHeart;
 
 
     StageManager sm = new StageManager();
-    // Start is called before the first frame update
     void Start()
     {
         stage = 1;
         thePlayer = FindObjectOfType<Player>();
         theHeart = FindObjectOfType<HeartManager>();
     }
-
-    // Update is called once per frame
     public void FixedUpdate()
     {
         levelText.text = sm.GetGameLevel();
@@ -58,11 +53,8 @@ public class SimulationManager : MonoBehaviour
             directorIsCalling = false;
         }
     }
-
     public void PlayButton()
     {
-        //string errorMessage = answerField.text != "" ? "":"Please enter a value";
-
         if (answerField.text == "")
         {
             errorTextBox.SetText("Please enter your answer!");
@@ -71,7 +63,6 @@ public class SimulationManager : MonoBehaviour
         {
             isStartOfStunt = true;
             directorIsCalling = true;
-            //answerField.placeholder = playerAnswer.ToString()+"m/s";
             playerAnswer = float.Parse(answerField.text);
 
             answerButton.interactable = false;
@@ -177,5 +168,4 @@ public class SimulationManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         destroyPrefab = false;
     }
-
 }

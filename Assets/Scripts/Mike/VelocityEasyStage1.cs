@@ -12,7 +12,6 @@ public class VelocityEasyStage1 : MonoBehaviour
     public float distance, gameTime, Speed, elapsed, currentPos;
     private CeillingGenerator theCeiling;
     StageManager sm = new StageManager();
-    float wrongDistance;
 
     void Start()
     {
@@ -22,11 +21,11 @@ public class VelocityEasyStage1 : MonoBehaviour
         //playerNameText.text = RegistrationManager.playerName;
         myPlayer.gameObject.SetActive(true);
         //chance = 0;
-        VelocityEasyStage1SetUp();
         //talentFee.text = "TF: " + GameMAnager.talentFee.ToString(); 
         string difficulty= sm.GetDifficulty();
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
+        VelocityEasyStage1SetUp();
     }
     void FixedUpdate(){
         float answer = SimulationManager.playerAnswer;
@@ -38,6 +37,7 @@ public class VelocityEasyStage1 : MonoBehaviour
             elapsed += Time.fixedDeltaTime;
             if(elapsed>=gameTime)
             {
+                
                 StartCoroutine(StuntResult());
                 rubblesStopper.SetActive(false);
                 myPlayer.moveSpeed = 0;
@@ -93,15 +93,15 @@ public class VelocityEasyStage1 : MonoBehaviour
         safeZone.transform.position = new Vector2(distance, 0.2f);
         timer.text = "0.00s";
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
-        elapsed=0;  
-        wrongDistance = SimulationManager.playerAnswer / gameTime;
+        elapsed=0;
         rubblesStopper.SetActive(true);
         SimulationManager.isSimulating =false; 
         AfterStuntMessage.SetActive(false);
         SimulationManager.question = "The ceiling is crumbling and the safe area is <color=red>"+distance.ToString()+" meters</color> away from "+playerName+". If "+pronoun+" has exactly <color=#006400>"+gameTime.ToString()+" seconds</color> to go to the safe spot, what should be "+pNoun+" <color=purple>velocity</color>?";         
     } 
     IEnumerator StuntResult(){
-        //messageFlag = false;
+        SimulationManager.directorIsCalling =true;
+        SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f); 
         AfterStuntMessage.SetActive(true);        
     }   
