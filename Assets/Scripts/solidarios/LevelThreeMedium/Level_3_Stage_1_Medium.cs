@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using System;
-using System;
 
 public class Level_3_Stage_1_Medium : MonoBehaviour
 {
@@ -82,7 +81,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
         correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
 
-        Debug.Log($"VelocityX: {velocityX}");
+        Debug.Log($"VelocityX: {velocityX}");   
         Debug.Log($"VelocityY: {velocityY}");
         Debug.Log($"Correct Answer: {correctAnswer}");
     }
