@@ -103,7 +103,6 @@ public class AccHardSimulation : MonoBehaviour
     }
     public void retry()
     {
-        theHeart.startbgentrance();
         playButton.interactable = true;
         playerAnswer = 0;
         simulate = false;
@@ -111,9 +110,7 @@ public class AccHardSimulation : MonoBehaviour
         theQuestion.isSimulating = false;
         if (stage == 1)
         {
-            theTruck.transform.position = truckStartPoint;
-            theTruck.moveSpeed = 0;
-            theManagerOne.generateProblem();
+            StartCoroutine(theManagerOne.positioning());
 
 
 

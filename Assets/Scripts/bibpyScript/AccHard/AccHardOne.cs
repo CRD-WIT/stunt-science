@@ -9,7 +9,7 @@ public class AccHardOne : MonoBehaviour
     //public Quaternion angleB;
     public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions;
     public GameObject verticalOne, horizontal;
-    public GameObject bulletPos, wheelPos, bulletHere, targetHere;
+    public GameObject bulletPos, wheelPos, bulletHere, targetHere, cam;
     public TruckManager theTruck;
     public Hellicopter theChopper;
     public ShootManager theShoot;
@@ -17,25 +17,34 @@ public class AccHardOne : MonoBehaviour
     public CircularAnnotation theCurve;
     public QuestionController theQuestion;
     private BulletManager theBullet;
+    public MulticabManager theMulticab;
+    public HeartManager theHeart;
+
     public AccHardSimulation theSimulate;
     float generateAngleB, generateViT, generateAT, generateVB, generateDX, generateDY;
-    float ChopperY, chopperX, truckTime, bulletTime;
+    float ChopperY, chopperX, truckTime, bulletTime, truckCurrentPos, camPos;
     bool shoot, shootReady, gas, startTime;
     public bool posCheck;
-     public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt;
+    public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt;
+    int tries, stopTruckPos, attemp;
     // Start is called before the first frame update
     void Start()
     {
-
+        tries = 1;
+        attemp = 1;
+        stopTruckPos = 50;
+        camPos = cam.transform.position.x - theChopper.transform.position.x;
         generateProblem();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        theBullet= FindObjectOfType<BulletManager>();
+        cam.transform.position = new Vector3(theChopper.transform.position.x + camPos, cam.transform.position.y, cam.transform.position.z);
+        truckCurrentPos = theTruck.transform.position.x;
+        theBullet = FindObjectOfType<BulletManager>();
         theShoot.speed = vB;
-        
+
         sideB = (Mathf.Tan(angleA * Mathf.Deg2Rad)) * dY;
         sideC = Mathf.Sqrt((dY * dY) + (sideB * sideB));
         totalDistance = sideB + dX;
@@ -44,7 +53,7 @@ public class AccHardOne : MonoBehaviour
         correctAnswer = truckTime - bulletTime;
         answer = (float)System.Math.Round(correctAnswer, 2);
         playerAnswer = AccHardSimulation.playerAnswer;
-        if(startTime)
+        if (startTime)
         {
             timer += Time.fixedDeltaTime;
             timertxtTruck.text = timer.ToString("F2") + ("s");
@@ -63,7 +72,7 @@ public class AccHardOne : MonoBehaviour
                 theTruck.accelaration = aT;
                 theTruck.accelerating = true;
             }
-            
+
             timertxt.text = timer.ToString("F2") + ("s");
             if (playerAnswer == answer)
             {
@@ -81,14 +90,23 @@ public class AccHardOne : MonoBehaviour
                 if (timer >= playerAnswer + .1f)
                 {
                     shoot = true;
+
                 }
             }
             if (playerAnswer < answer)
             {
+                
                 if (timer >= playerAnswer - .1f)
                 {
                     shoot = true;
                 }
+            }
+            if (shoot == false & truckCurrentPos >= stopTruckPos)
+            {
+                AccHardSimulation.simulate = false;
+                startTime = false;
+                StartCoroutine(StuntResult());
+
             }
         }
 
@@ -97,12 +115,12 @@ public class AccHardOne : MonoBehaviour
             AccHardSimulation.simulate = false;
             target.SetActive(false);
             timertxt.text = playerAnswer.ToString("F2");
-            
+
             if (shootReady)
             {
                 theShoot.Shoot();
                 shootReady = false;
-               
+
             }
             if (posCheck)
             {
@@ -122,15 +140,23 @@ public class AccHardOne : MonoBehaviour
                     targetHere.transform.position = wheelPos.transform.position;
                 }
                 theTruck.accelerating = false;
-                theTruck.deaccelerating = true;
                 StartCoroutine(StuntResult());
                 shoot = false;
             }
 
         }
+        if (tries == attemp)
+        {
+            if (truckCurrentPos >= stopTruckPos)
+            {
+                theTruck.moveSpeed = 0;
+            }
+        }
+
     }
     public void generateProblem()
     {
+        target.SetActive(true);
         startTime = false;
         dimensions.SetActive(true);
         projectileLine.SetActive(true);
@@ -150,7 +176,7 @@ public class AccHardOne : MonoBehaviour
         ChopperY = theChopper.transform.position.y - gunBarrel.transform.position.y;
         chopperX = gunBarrel.transform.position.x - theChopper.transform.position.x;
         theChopper.transform.position = new Vector2(targetWheel.transform.position.x + dX - chopperX, targetWheel.transform.position.y + dY + ChopperY);
-        horizontal.transform.position = new Vector2(horizontal.transform.position.x, gunBarrel.transform.position.y);
+        horizontal.transform.position = gunBarrel.transform.position;
         verticalOne.transform.position = new Vector2(gunBarrel.transform.position.x, verticalOne.transform.position.y);
         theMeter[1].distance = dY;
         theMeter[1].positionX = targetWheel.transform.position.x;
@@ -158,7 +184,7 @@ public class AccHardOne : MonoBehaviour
         theMeter[0].distance = dX;
         theMeter[0].positionX = targetWheel.transform.position.x;
         theMeter[0].positionY = dY - 5;
-        theCurve._origin = new Vector2(gunBarrel.transform.position.x + .3f, targetWheel.transform.position.y + dY - .2f);
+        theCurve._origin = new Vector2(gunBarrel.transform.position.x, gunBarrel.transform.position.y);
         theCurve._degrees = angleB;
         angleA = 90 - angleB;
         theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's wheel from a non moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally behind and <b>") + dY.ToString("F2") + ("</b> meters vertically above the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, at how many seconds after should  <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots if the truck has an initial velocity of <b>") + viT.ToString("F2") + ("</b> m/s and accelerating at <b>") + aT.ToString("F2") + ("</b> m/s² while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
@@ -172,11 +198,12 @@ public class AccHardOne : MonoBehaviour
         viTtxt.text = ("vi = ") + viT.ToString("F2") + ("m/s");
         aTtxt.text = ("a = ") + aT.ToString("F2") + ("m/s²");
         timertxtTruck.text = timer.ToString("F2") + ("s");
+        theMulticab.gameObject.transform.position = new Vector2(theChopper.transform.position.x - 13, theMulticab.transform.position.y);
 
     }
     IEnumerator StuntResult()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(2f);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1f);
         theQuestion.ToggleModal();
@@ -186,5 +213,31 @@ public class AccHardOne : MonoBehaviour
             targetWheel.SetActive(false);
             Time.timeScale = 0;
         }
+
+
+    }
+    public IEnumerator positioning()
+    {
+        target.SetActive(false);
+        tries += 1;
+        attemp += 1;
+        stopTruckPos += 90;
+        bulletPos.SetActive(false);
+        bulletHere.SetActive(false);
+        wheelPos.SetActive(false);
+        targetHere.SetActive(false);
+        theTruck.moveSpeed = 3;
+        theChopper.flySpeed = 16;
+        yield return new WaitForSeconds(1);
+        theMulticab.moveSpeed = 20;
+        yield return new WaitForSeconds(4);
+        theHeart.startbgentrance();
+        theTruck.moveSpeed = 0;
+        theChopper.flySpeed = 0;
+        theMulticab.moveSpeed = 0;
+        yield return new WaitForSeconds(0.1f);
+        generateProblem();
+
+
     }
 }

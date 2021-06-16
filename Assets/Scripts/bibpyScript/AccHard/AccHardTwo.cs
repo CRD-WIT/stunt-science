@@ -5,7 +5,7 @@ using TMPro;
 
 public class AccHardTwo : MonoBehaviour
 {
-    public float dX, dY, viT, aT, timer, vB, angleB, angleA, sideB, sideC, totalDistance, correctAnswer, answer, playerAnswer, truckDistance, chopperDistance;
+    public float dX, dY, viT, aT, timer, vB, angleB, angleA, sideB, sideC, overlapDistance, correctAnswer, answer, playerAnswer, truckDistance, targetDistance;
     //public Quaternion angleB;
     public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions, cam;
     public GameObject verticalOne, horizontal;
@@ -20,7 +20,7 @@ public class AccHardTwo : MonoBehaviour
     private BulletManager theBullet;
     public AccHardSimulation theSimulate;
     float generateAngleB, generateViT, generateAT, generateVB, generateDX, generateDY, generateTime, time;
-    float ChopperY, chopperX, truckTime, bulletTime;
+    float ChopperY, chopperX, truckTime, bulletTime,truckCurrentPos;
     bool shoot, shootReady, gas;
     public bool posCheck;
      public TMP_Text timertxt, timertxtTruck, actiontxt,viTtxt, aTtxt;
@@ -37,8 +37,13 @@ public class AccHardTwo : MonoBehaviour
     {
         cam.transform.position = new Vector3(theChopper.transform.position.x + camPos, cam.transform.position.y, cam.transform.position.z);
         truckDistance = (viT*time) + (aT*(time*time))/2;
-        chopperDistance = targetWheel.transform.position.x - gunBarrel.transform.position.x;
-        totalDistance = truckDistance + chopperDistance;
+        targetDistance = truckDistance - overlapDistance;
+        overlapDistance = sideB - dX;
+        truckCurrentPos = theTruck.transform.position.x;
+        theBullet = FindObjectOfType<BulletManager>();
+        theShoot.speed = vB;
+        sideB = dY/(Mathf.Tan(angleB* Mathf.Deg2Rad));
+        sideC = Mathf.Sqrt((dY * dY) + (sideB * sideB));
         
     }
     public void generateProblem()
@@ -90,9 +95,9 @@ public class AccHardTwo : MonoBehaviour
     {
         Time.timeScale = 1;
         theTruck.moveSpeed = 3;
-        theChopper.flySpeed = 10;
+        theChopper.flySpeed = 15;
          yield return new WaitForSeconds(1);
-        theMulticab.moveSpeed = 14;
+        theMulticab.moveSpeed = 20;
         yield return new WaitForSeconds(3);
         generateProblem();
         Time.timeScale = 0;
