@@ -63,8 +63,8 @@ public class VelocityMediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        velocityDirectionArrow2.transform.position = new Vector2(boulderA.transform.position.x - 0.7f, boulderA.transform.position.y + 1.5f);
-        velocityDirectionArrow1.transform.position = new Vector2(boulder.transform.position.x + 0.7f, boulder.transform.position.y + 1.5f);
+        // velocityDirectionArrow2.transform.position = new Vector2(boulderA.transform.position.x - 0.7f, boulderA.transform.position.y + 1.5f);
+        // velocityDirectionArrow1.transform.position = new Vector2(boulder.transform.position.x + 0.7f, boulder.transform.position.y + 1.5f);
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)
@@ -223,6 +223,8 @@ public class VelocityMediumManager : MonoBehaviour
     {
         boulderRB.sharedMaterial.bounciness = 0.8f;
         boulder2RB.sharedMaterial.bounciness = 0.8f;
+        boulderRB.sharedMaterial.friction = 0;
+        boulder2RB.sharedMaterial.friction = 0;
         FallingBoulders.dropPoint = 0;
         FallingBoulders.moreDropPoint = 0;
         RagdollV2.disableRagdoll = true;
@@ -284,7 +286,7 @@ public class VelocityMediumManager : MonoBehaviour
                 myPlayer.gameObject.SetActive(true);
 
                 boulderA.transform.position = new Vector2(distance, boulder.transform.position.y);
-                boulder2RB.freezeRotation = false;
+                // boulder2RB.freezeRotation = false;
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
@@ -317,7 +319,7 @@ public class VelocityMediumManager : MonoBehaviour
 
                 myPlayer.transform.position = new Vector2(distance, boulder.transform.position.y);
                 //boulderRB.rotation = 180;
-                boulderRB.freezeRotation = false;
+                // boulderRB.freezeRotation = false;
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
@@ -363,7 +365,7 @@ public class VelocityMediumManager : MonoBehaviour
                 myPlayer.transform.position = new Vector2(boulderA.transform.position.x - Dac, 0);
                 labelStartPoint = new Vector2((boulderA.transform.position.x - Dac), 1);
                 // boulderRB.rotation = 180;
-                boulderRB.freezeRotation = false;
+                // boulderRB.freezeRotation = false;
                 jumpTime = 0.5f;
                 jumpForce = 1.276f / jumpTime;
 
@@ -468,9 +470,10 @@ public class VelocityMediumManager : MonoBehaviour
         isStartOfStunt = false;
         boulderRB.sharedMaterial.bounciness = 0;
         boulder2RB.sharedMaterial.bounciness = 0;
+        boulderRB.sharedMaterial.friction = 0.8f;
+        boulder2RB.sharedMaterial.friction = 0.8f;
         yield return new WaitForSeconds(3f);
-        boulderRB.sharedMaterial.friction = 0.5f;
-        boulder2RB.sharedMaterial.friction = 0.5f;
+        
         RumblingManager.shakeON = false;
         RumblingManager.isCrumbling = true;
         qc.ActivateResult(messageTxt, isAnswerCorrect);
@@ -492,6 +495,7 @@ public class VelocityMediumManager : MonoBehaviour
         int i = 1;
         Debug.Log(i++);
         isEndOfStunt = true;
+        // boulder.GetComponent<CapsuleCollider2D>().;
     }
 }
 

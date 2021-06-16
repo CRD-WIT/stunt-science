@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using GameConfig;
 
 [RequireComponent(typeof(LineRenderer))]
 public class CurvedAnnotationLine : MonoBehaviour
 {
+    TextColorMode lineColor;
     [Range(0, 50)]
     public int segments = 50;
     [SerializeField] LineRenderer line, endLine;
@@ -12,9 +14,11 @@ public class CurvedAnnotationLine : MonoBehaviour
     [SerializeField] EdgeCollider2D hangerTrigger;
     [SerializeField] RectTransform grabPoint;
     float x, y, EX, EY, ARadiusX, LRadiusX, ARadiusY, LRadiusY;
+    QuestionControllerVThree qc;
 
     void Start()
     {
+        qc = FindObjectOfType<QuestionControllerVThree>();
         line = this.gameObject.GetComponent<LineRenderer>();
         //endLine = this.gameObject.GetComponent<LineRenderer>();
         endLine.positionCount = 3;
@@ -29,11 +33,15 @@ public class CurvedAnnotationLine : MonoBehaviour
         else
             grabPoint.gameObject.SetActive(true);
         CreatePoints();
+        lineColor = TextColorMode.Given;
+        line.startColor = qc.getHexColor(lineColor);
+        line.endColor = qc.getHexColor(lineColor);
+        endLine.startColor = qc.getHexColor(lineColor);
+        endLine.endColor = qc.getHexColor(lineColor);
     }
 
     void CreatePoints()
     {
-
         switch (CurvedLineFollower.stage)
         {
             case 1:

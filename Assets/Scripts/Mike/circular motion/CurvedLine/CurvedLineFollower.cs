@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using GameConfig;
 
 public class CurvedLineFollower : MonoBehaviour
 {
+    TextColorMode lineColor;
     [SerializeField] TMP_Text angleDegree;
     [SerializeField] LineRenderer line, straightLine;
     public Rigidbody2D gear2;
     float angle, x, y, xSL, ySL;
     public static float arc, stage;
+    public static bool? answerIs;
+    QuestionControllerVThree qc;
     // Start is called before the first frame update
     void Start()
     {
+        qc = FindObjectOfType<QuestionControllerVThree>();
         line = gameObject.GetComponent<LineRenderer>();
         line.positionCount = 51;
         line.useWorldSpace = false;
@@ -29,7 +32,7 @@ public class CurvedLineFollower : MonoBehaviour
         gear2.angularVelocity = Level5EasyManager.gear2Speed;
         if (arc != 0)
         {
-            angleDegree.text = "<color=#A15D04>" + arc.ToString("f2") + "</color>";
+            angleDegree.text = arc.ToString("f2") + "°";
             if (stage == 1)
             {
                 angleDegree.transform.position = new Vector3(line.GetPosition(25).x + 4, line.GetPosition(25).y + 1, 0);
@@ -42,18 +45,23 @@ public class CurvedLineFollower : MonoBehaviour
             {
                 angleDegree.transform.position = new Vector3(line.GetPosition(25).x + 7f, line.GetPosition(25).y + 7f, 0);
             }
-
             straightLine.SetPosition(1, new Vector3(0, 0, 0));
             CreatePoints();
+            if (answerIs == true)
+                lineColor = TextColorMode.Correct;
+            else if (answerIs == false)
+                lineColor = TextColorMode.Wrong;
+            else
+                lineColor = TextColorMode.Given;
         }
         else
         {
             if (stage == 1)
-                angleDegree.text = "<color=#9A0000>210°</color>";
+                angleDegree.text = "210°";
             else if (stage == 2)
             {
                 angleDegree.rectTransform.position = new Vector2(-6.7f, 2.3f);
-                angleDegree.text = "<color=#9A0000>118°</color>";
+                angleDegree.text = "118°";
             }
             else
             {
@@ -61,11 +69,13 @@ public class CurvedLineFollower : MonoBehaviour
                     angleDegree.rectTransform.position = new Vector2(7.25f, 3.5f);
                 else
                     angleDegree.rectTransform.position = new Vector3(5f, 4f, 0);
-                angleDegree.text = "<color=#9A0000>" + Level5EasyManager.playerAnswer + "°</color>";
+                angleDegree.text = Level5EasyManager.playerAnswer + "°";
             }
             line.enabled = false;
             straightLine.enabled = false;
+            lineColor = TextColorMode.Given;
         }
+        qc.SetColor(angleDegree, lineColor);
     }
     void CreatePoints()
     {
@@ -89,6 +99,10 @@ public class CurvedLineFollower : MonoBehaviour
                 straightLine.SetPosition(0, new Vector3(xSL, ySL, 0));
                 break;
         }
+        line.startColor = qc.getHexColor(lineColor);
+        line.endColor = qc.getHexColor(lineColor);
+        straightLine.startColor = qc.getHexColor(lineColor);
+        straightLine.endColor = qc.getHexColor(lineColor);
     }
     void ReverseArc()
     {

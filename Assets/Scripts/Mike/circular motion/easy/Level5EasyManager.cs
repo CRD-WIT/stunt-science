@@ -9,7 +9,7 @@ public class Level5EasyManager : MonoBehaviour
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField]
     GameObject gear3, playerHangerTrigger1, playerHangerTrigger2, playerHangerTrigger3, ragdollPrefab, stage1Layout,
-                                stage2Layout, stage3Layout, gearSet, directorsBubble, ragdoll, directorPlatform, UI1, UI2, UI3;
+                stage2Layout, stage3Layout, gearSet, directorsBubble, ragdoll, directorPlatform, UI1, UI2, UI3;
     [SerializeField] Player myPlayer;
     [SerializeField] float elapsed, aVelocity, gameTime, angle;
     [SerializeField] int stage;
@@ -49,6 +49,7 @@ public class Level5EasyManager : MonoBehaviour
         }
         if (isAnswered)
         {
+            CurvedLineFollower.answerIs = null;
             switch (stage)
             {
                 case 1:
@@ -86,6 +87,7 @@ public class Level5EasyManager : MonoBehaviour
                         }
                         StartCoroutine(StuntResult());
                         isAnswered = false;
+                        CurvedLineFollower.answerIs = isAnswerCorect;
                     }
                     break;
                 case 2:
@@ -97,12 +99,11 @@ public class Level5EasyManager : MonoBehaviour
                     }
                     else //(elapsed >= gameTime)
                     {
-
                         isHanging = false;
                         if (playerAnswer == gameTime)
                         {
                             isAnswerCorect = true;
-                            CurvedLineFollower.arc = playerAnswer;
+                            CurvedLineFollower.arc = gameTime * playerAnswer;
                             qc.timer = gameTime.ToString("f2") + "s";
                             messageTxt = playerName + " has crossed <color=green>safely</color> at the other platform!";
                         }
@@ -123,6 +124,7 @@ public class Level5EasyManager : MonoBehaviour
                         }
                         StartCoroutine(GrabPipe());
                         isAnswered = false;
+                        CurvedLineFollower.answerIs = isAnswerCorect;
                     }
                     break;
                 case 3:
@@ -159,6 +161,7 @@ public class Level5EasyManager : MonoBehaviour
                         }
                         StartCoroutine(StuntResult());
                         isAnswered = false;
+                        CurvedLineFollower.answerIs = isAnswerCorect;
                     }
                     break;
             }
@@ -218,6 +221,7 @@ public class Level5EasyManager : MonoBehaviour
     }
     void Lvl5EasySetUp()
     {
+        CurvedLineFollower.answerIs = null;
         stage = qc.stage;
         Destroy(ragdoll);
         StartCoroutine(playerHeart.startBGgone());
@@ -253,6 +257,7 @@ public class Level5EasyManager : MonoBehaviour
         switch (stage)
         {
             case 1:
+                qc.SetUnitTo(UnitOf.angularVelocity);
                 qc = UI1.gameObject.GetComponent<QuestionControllerVThree>();
                 qc.stage = 1;
                 qc.timer = "0.00s";
@@ -267,8 +272,10 @@ public class Level5EasyManager : MonoBehaviour
                 myPlayer.transform.position = playerPos;
                 gearSet.transform.position = new Vector3(gearSet.transform.position.x, gearSet.transform.position.y, gearSet.transform.position.z);
                 crankReset = true;
+                qc.limit = 116;
                 break;
             case 2:
+                qc.SetUnitTo(UnitOf.time);
                 qc = UI2.gameObject.GetComponent<QuestionControllerVThree>();
                 qc.stage = 2;
                 qc.Unit(UnitOf.time);
@@ -291,8 +298,10 @@ public class Level5EasyManager : MonoBehaviour
                 gearRB.angularVelocity = -aVelocity;
                 safeZone.position = new Vector3(4.5f, 5.5f, 0);
                 stuntReady = true;
+                qc.limit = 8;
                 break;
             case 3:
+                qc.SetUnitTo(UnitOf.angle);
                 qc = UI3.gameObject.GetComponent<QuestionControllerVThree>();
                 qc.stage = 3;
                 qc.Unit(UnitOf.angle);
@@ -319,6 +328,7 @@ public class Level5EasyManager : MonoBehaviour
                 myPlayer.transform.position = new Vector2(0, 3);
                 gearRB.angularVelocity = aVelocity;
                 safeZone.position = new Vector3(7.5f, -5.5f, 0);
+                qc.limit = 360;
                 break;
         }
         qc.SetQuestion(question);
