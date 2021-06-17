@@ -211,26 +211,26 @@ public class Annotation1 : MonoBehaviour
         }
         else
         {
-            arrows[0].transform.position = new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y - 0.75f);
-            arrows[1].transform.position = new Vector2(spawnPoint.x, spawnPoint.y - 0.75f);
-            distanceLine1.SetPosition(0, new Vector2(((distanceTraveled / 2) - (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y - 0.75f));
-            distanceLine1.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y - 0.75f));
-            distanceLine2.SetPosition(0, new Vector2(((distanceTraveled / 2) + (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y - 0.75f));
-            distanceLine2.SetPosition(1, new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y - 0.75f));
+            arrows[0].transform.position = new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y);
+            arrows[1].transform.position = new Vector2(spawnPoint.x, spawnPoint.y);
+            distanceLine1.SetPosition(0, new Vector2(((distanceTraveled / 2) - (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y));
+            distanceLine1.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y));
+            distanceLine2.SetPosition(0, new Vector2(((distanceTraveled / 2) + (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y));
+            distanceLine2.SetPosition(1, new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y));
             startLine.SetPosition(0, new Vector2(spawnPoint.x, spawnPoint.y - 1));
             startLine.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y - 0.5f));
             endLine.SetPosition(0, new Vector2(spawnPoint.x + distanceTraveled, spawnPoint.y - 1));
             endLine.SetPosition(1, new Vector2(spawnPoint.x + distanceTraveled, spawnPoint.y - 0.5f));
-            distanceIndicatorTxt.transform.position = new Vector2((distanceTraveled / 2) + spawnPoint.x, spawnPoint.y - 0.75f);
+            distanceIndicatorTxt.transform.position = new Vector2((distanceTraveled / 2) + spawnPoint.x, spawnPoint.y);
 
-            arrows[2].transform.position = new Vector2(lengthOfTime + timeStartPnt, spawnPoint.y + 1);
-            timeLine1.SetPosition(0, new Vector2(((lengthOfTime / 2) - (0.2f * timeTextLength)) + timeStartPnt, spawnPoint.y + 1));
-            timeLine1.SetPosition(1, new Vector2(timeStartPnt, spawnPoint.y + 1));
-            timeLine2.SetPosition(0, new Vector2(((lengthOfTime / 2) + (0.2f * timeTextLength)) + timeStartPnt, spawnPoint.y + 1));
-            timeLine2.SetPosition(1, new Vector2((lengthOfTime + timeStartPnt), spawnPoint.y + 1));
+            arrows[2].transform.position = new Vector2(lengthOfTime + timeStartPnt, spawnPoint.y);
+            timeLine1.SetPosition(0, new Vector2(((lengthOfTime / 2) - (0.2f * timeTextLength)) + timeStartPnt, spawnPoint.y));
+            timeLine1.SetPosition(1, new Vector2(timeStartPnt, spawnPoint.y));
+            timeLine2.SetPosition(0, new Vector2(((lengthOfTime / 2) + (0.2f * timeTextLength)) + timeStartPnt, spawnPoint.y));
+            timeLine2.SetPosition(1, new Vector2((lengthOfTime + timeStartPnt), spawnPoint.y));
             endTime.SetPosition(0, new Vector2(timeStartPnt + lengthOfTime, spawnPoint.y + .75f));
             endTime.SetPosition(1, new Vector2(timeStartPnt + lengthOfTime, spawnPoint.y + 1.25f));
-            timeIndicatorTxt.transform.position = new Vector2((lengthOfTime / 2) + timeStartPnt, spawnPoint.y + 1);
+            timeIndicatorTxt.transform.position = new Vector2((lengthOfTime / 2) + timeStartPnt, spawnPoint.y);
 
             timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(elapsedTime, 2)}{qc.Unit(UnitOf.time)}");
             velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
