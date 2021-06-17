@@ -11,6 +11,7 @@ public class Hellicopter : MonoBehaviour
     private Animator myAnimator;
     public bool accelarating, deaccelaration;
     public float accelaration;
+    public bool moving;
 
 
 
@@ -26,6 +27,7 @@ public class Hellicopter : MonoBehaviour
     {
         myRigidbody.velocity = new Vector2(flySpeed, flyUp);
         myAnimator.SetFloat("speed", myRigidbody.velocity.x);
+        myAnimator.SetBool("moving", moving);
 
         if (accelarating)
         {

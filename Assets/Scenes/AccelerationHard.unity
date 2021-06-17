@@ -1788,6 +1788,7 @@ MonoBehaviour:
   stage: 1
   theQuestion: {fileID: 701376674}
   diretorsSpeech: {fileID: 89822531}
+  posCheck: 0
 --- !u!4 &191335767
 Transform:
   m_ObjectHideFlags: 0
@@ -8252,7 +8253,6 @@ MonoBehaviour:
   theMulticab: {fileID: 366263528}
   theHeart: {fileID: 77578367}
   theSimulate: {fileID: 191335766}
-  posCheck: 0
   timertxt: {fileID: 2117152585}
   timertxtTruck: {fileID: 1104416475}
   actiontxt: {fileID: 22252905}
@@ -9922,6 +9922,7 @@ MonoBehaviour:
   blastprefab: {fileID: 7599276594237522789, guid: d75e9e4b0c5969744b423f03ac690da4, type: 3}
   theTruck: {fileID: 1001898351}
   moveSpeed: 0
+  theSimulate: {fileID: 191335766}
 --- !u!4 &1150378001 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6677354680377156561, guid: 0adecfd62d800694abb9671f9807dae5, type: 3}
@@ -17889,9 +17890,10 @@ GameObject:
   - component: {fileID: 2066707922}
   - component: {fileID: 2066707921}
   - component: {fileID: 2066707920}
+  - component: {fileID: 2066707924}
   m_Layer: 0
   m_Name: tire (00002)
-  m_TagString: FailTrigger
+  m_TagString: wall2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17948,7 +17950,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 200
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 2
   m_Material: {fileID: 0}
@@ -18024,6 +18026,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2066707924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066707918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc279d84f075054c8bc1415140fddea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blastprefab: {fileID: 7599276594237522789, guid: d75e9e4b0c5969744b423f03ac690da4, type: 3}
+  theTruck: {fileID: 1001898351}
+  moveSpeed: 0
+  theSimulate: {fileID: 191335766}
 --- !u!1 &2087234200
 GameObject:
   m_ObjectHideFlags: 0

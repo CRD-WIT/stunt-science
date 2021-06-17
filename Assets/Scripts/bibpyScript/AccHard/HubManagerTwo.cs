@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HubManager : MonoBehaviour
+public class HubManagerTwo : MonoBehaviour
 {
     private HingeJoint2D myHinge;
     private Rigidbody2D myRb;
@@ -10,7 +10,8 @@ public class HubManager : MonoBehaviour
     public TruckManager theTruck;
     public float moveSpeed;
     bool hit;
-     public AccHardSimulation theSimulate;
+    public AccHardSimulation theSimulate;
+
 
     // Start is called before the first frame update
     void Start()
@@ -22,15 +23,15 @@ public class HubManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(hit)
+        if (hit)
         {
-            myRb.velocity = new Vector2(moveSpeed,myRb.velocity.y);
+            myRb.velocity = new Vector2(moveSpeed, myRb.velocity.y);
         }
-       
+
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-         if (theSimulate.stage == 1)
+        if (theSimulate.stage == 2)
         {
             if (other.gameObject.tag == ("bullet"))
             {
@@ -44,13 +45,14 @@ public class HubManager : MonoBehaviour
 
             }
         }
+
     }
     IEnumerator bounce()
     {
         myRb.velocity = transform.up * 3;
         moveSpeed = 8;
         yield return new WaitForSeconds(.2f);
-         myRb.velocity = transform.up * 3;
+        myRb.velocity = transform.up * 3;
         yield return new WaitForSeconds(2f);
         hit = false;
 

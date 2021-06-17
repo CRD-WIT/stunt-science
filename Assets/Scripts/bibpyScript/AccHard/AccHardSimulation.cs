@@ -20,6 +20,7 @@ public class AccHardSimulation : MonoBehaviour
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     private Vector2 truckStartPoint;
+    public bool posCheck;
 
 
     // Start is called before the first frame update
@@ -75,7 +76,7 @@ public class AccHardSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m";
+                    answerField.text = playerAnswer.ToString() + "m/s";
                 }
 
             }
@@ -132,6 +133,8 @@ public class AccHardSimulation : MonoBehaviour
         {
             theManagerOne.gameObject.SetActive(false);
             theManagerTwo.gameObject.SetActive(true);
+            theQuestion.isSimulating = false;
+            playButton.interactable = true;
         }
     }
     public IEnumerator DirectorsCall()

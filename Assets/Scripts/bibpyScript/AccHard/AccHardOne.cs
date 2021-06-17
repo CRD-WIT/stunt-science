@@ -24,7 +24,6 @@ public class AccHardOne : MonoBehaviour
     float generateAngleB, generateViT, generateAT, generateVB, generateDX, generateDY;
     float ChopperY, chopperX, truckTime, bulletTime, truckCurrentPos, camPos;
     bool shoot, shootReady, gas, startTime;
-    public bool posCheck;
     public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt;
     int tries, stopTruckPos, attemp;
     // Start is called before the first frame update
@@ -122,7 +121,7 @@ public class AccHardOne : MonoBehaviour
                 shootReady = false;
 
             }
-            if (posCheck)
+            if (theSimulate.posCheck)
             {
                 if (playerAnswer != answer)
                 {
@@ -162,7 +161,7 @@ public class AccHardOne : MonoBehaviour
         projectileLine.SetActive(true);
         shootReady = true;
         shoot = false;
-        dX = Random.Range(7, 9);
+        dX = Random.Range(10, 12);
         dY = Random.Range(10, 12);
         generateAngleB = Random.Range(20f, 30f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
@@ -194,7 +193,7 @@ public class AccHardOne : MonoBehaviour
         bulletHere.SetActive(false);
         wheelPos.SetActive(false);
         targetHere.SetActive(false);
-        posCheck = false;
+        theSimulate.posCheck = false;
         viTtxt.text = ("vi = ") + viT.ToString("F2") + ("m/s");
         aTtxt.text = ("a = ") + aT.ToString("F2") + ("m/s²");
         timertxtTruck.text = timer.ToString("F2") + ("s");
