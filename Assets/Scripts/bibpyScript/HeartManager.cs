@@ -76,14 +76,15 @@ public class HeartManager : MonoBehaviour
         Gameoversfx.Play();
         StartCoroutine(endBGgone());
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("LevelOne");
+        // SceneManager.LoadScene("LevelOne");
         Time.timeScale = 1f;
     }
     public IEnumerator endBGgone()
     {
+        
+        yield return new WaitForSeconds(7f);
         gameOverBG.SetActive(true);
-        yield return new WaitForSeconds(3);
-        gameOverBG.SetActive(false);
+        //gameOverBG.SetActive(false);
     }
 
 
@@ -110,5 +111,9 @@ public class HeartManager : MonoBehaviour
     {
         int scene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(scene, LoadSceneMode.Single);
+    }
+
+    public void LoadLevelsMenu(){
+        SceneManager.LoadScene("LevelSelectV2");
     }
 }
