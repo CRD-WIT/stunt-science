@@ -376,7 +376,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 17.81286, y: 6.1078434}
+  m_Size: {x: 11.98, y: 5.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1764,10 +1764,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db38868ed2df3e4e9504b854c7397f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  limit: 0
   answerIsCorrect: 0
   isModalOpen: 0
   isSimulating: 0
   nextStage: 0
+  retried: 0
   correctAnswerColor: {r: 0, g: 0, b: 0, a: 0}
   givenColor: {r: 0, g: 0, b: 0, a: 0}
   wrongAnswerColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1779,7 +1781,9 @@ MonoBehaviour:
   question: 
   timer: 
   colorMode: 0
-  unitOf: 0
+  unit: 0
+  timerOn: 0
+  loaded: 0
   answerFieldHorizontal: {fileID: 4176326098634836501}
   difficultyName: {fileID: 4176326098356431824}
   stageName: {fileID: 4176326098924512032}
