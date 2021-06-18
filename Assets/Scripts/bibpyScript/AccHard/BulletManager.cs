@@ -28,23 +28,31 @@ public class BulletManager : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (theSimulate.stage == 1)
+
+
+        if (other.gameObject.tag == ("wall"))
         {
-            if (other.gameObject.tag == ("wall"))
+            if (theSimulate.stage == 1)
             {
                 theSimulate.posCheck = true;
                 Destroy(gameObject);
             }
+
         }
-        
-        if (theSimulate.stage == 2)
+
+
+
+
+        if (other.gameObject.tag == ("wall2"))
         {
-            if (other.gameObject.tag == ("wall2"))
+            if (theSimulate.stage == 2)
             {
                 theSimulate.posCheck = true;
                 Destroy(gameObject);
             }
+
         }
+
 
         if (other.gameObject.tag == ("ground"))
         {

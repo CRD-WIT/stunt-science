@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
-public class AccHardOne : MonoBehaviour
+public class AccHardRevised : MonoBehaviour
 {
     public float dX, dY, viT, aT, timer, vB, angleB, angleA, sideB, sideC, totalDistance, correctAnswer, answer, playerAnswer;
     //public Quaternion angleB;
@@ -20,7 +19,7 @@ public class AccHardOne : MonoBehaviour
     public MulticabManager theMulticab;
     public HeartManager theHeart;
 
-    public AccHardSimulation theSimulate;
+    public AccHardSimulationRevised theSimulate;
     float generateAngleB, generateViT, generateAT, generateVB, generateDX, generateDY;
     float ChopperY, chopperX, truckTime, bulletTime, truckCurrentPos, camPos;
     bool shoot, shootReady, gas, startTime;
@@ -51,7 +50,7 @@ public class AccHardOne : MonoBehaviour
         bulletTime = sideC / vB;
         correctAnswer = truckTime - bulletTime;
         answer = (float)System.Math.Round(correctAnswer, 2);
-        playerAnswer = AccHardSimulation.playerAnswer;
+        playerAnswer = AccHardSimulationRevised.playerAnswer;
         if (startTime)
         {
             timer += Time.fixedDeltaTime;
@@ -59,7 +58,7 @@ public class AccHardOne : MonoBehaviour
         }
 
 
-        if (AccHardSimulation.simulate == true)
+        if (AccHardSimulationRevised.simulate == true)
         {
             startTime = true;
             target.transform.position = targetWheel.transform.position;
@@ -102,7 +101,7 @@ public class AccHardOne : MonoBehaviour
             }
             if (shoot == false & truckCurrentPos >= stopTruckPos)
             {
-                AccHardSimulation.simulate = false;
+                AccHardSimulationRevised.simulate = false;
                 startTime = false;
                 StartCoroutine(StuntResult());
 
@@ -111,7 +110,7 @@ public class AccHardOne : MonoBehaviour
 
         if (shoot)
         {
-            AccHardSimulation.simulate = false;
+            AccHardSimulationRevised.simulate = false;
             target.SetActive(false);
             timertxt.text = playerAnswer.ToString("F2");
 
@@ -141,7 +140,6 @@ public class AccHardOne : MonoBehaviour
                 theTruck.accelerating = false;
                 StartCoroutine(StuntResult());
                 shoot = false;
-                startTime = false;
             }
 
         }
@@ -239,21 +237,5 @@ public class AccHardOne : MonoBehaviour
         generateProblem();
 
 
-    }
-    public IEnumerator positioningTwo()
-    {
-        timer = 0;
-        target.SetActive(false);
-        attemp += 1;
-        bulletPos.SetActive(false);
-        bulletHere.SetActive(false);
-        wheelPos.SetActive(false);
-        targetHere.SetActive(false);
-        theTruck.moveSpeed = -11;
-        yield return new WaitForSeconds(6);
-        theHeart.startbgentrance();
-        theTruck.moveSpeed = 0;
-        generateProblem();
-        
     }
 }

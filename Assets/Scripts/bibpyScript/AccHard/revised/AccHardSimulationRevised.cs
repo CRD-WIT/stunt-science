@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-
-public class AccHardSimulation : MonoBehaviour
+using UnityEngine.UI;
+public class AccHardSimulationRevised : MonoBehaviour
 {
-    public Button playButton;
+   public Button playButton;
     public TMP_InputField answerField;
     public GameObject directorBubble;
     public TruckManager theTruck;
-    public AccHardOne theManagerOne;
+    public AccHardRevised theManagerOne;
     public AccHardTwo theManagerTwo;
     public HeartManager theHeart;
     public static float playerAnswer;
@@ -111,7 +110,7 @@ public class AccHardSimulation : MonoBehaviour
         theQuestion.isSimulating = false;
         if (stage == 1)
         {
-            StartCoroutine(theManagerOne.positioningTwo());
+            StartCoroutine(theManagerOne.positioning());
 
 
 

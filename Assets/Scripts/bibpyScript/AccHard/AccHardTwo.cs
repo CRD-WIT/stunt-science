@@ -21,12 +21,12 @@ public class AccHardTwo : MonoBehaviour
     public AccHardSimulation theSimulate;
     float generateAngleB, generateViT, generateAT, generateVB, generateDX, generateDY, generateTime, time;
     float generateAH, aH, viH;
-    float ChopperY, chopperX, truckTime, bulletTime,truckCurrentPos, chopperTimeToTravel;
+    float ChopperY, chopperX, truckTime, bulletTime, truckCurrentPos, chopperTimeToTravel;
     bool shoot, shootReady, gas, startTime;
     public bool posCheck;
-     public TMP_Text timertxt, timertxtTruck, actiontxt,viTtxt, aTtxt;
-     float camPos, distanceCheck;
-     int tries, stopTruckPos, attemp;
+    public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt;
+    float camPos, distanceCheck;
+    int tries, stopTruckPos, attemp;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,31 +37,32 @@ public class AccHardTwo : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         cam.transform.position = new Vector3(theChopper.transform.position.x + camPos, cam.transform.position.y, cam.transform.position.z);
-        truckDistance = (viT*time) + (aT*(time*time))/2;
+        truckDistance = (viT * time) + (aT * (time * time)) / 2;
         overlapDistance = sideB - dX;
         targetDistance = truckDistance - overlapDistance;
         truckCurrentPos = theTruck.transform.position.x;
         theBullet = FindObjectOfType<BulletManager>();
         theShoot.speed = vB;
-        sideB = dY/(Mathf.Tan(angleB* Mathf.Deg2Rad));
+        sideB = dY / (Mathf.Tan(angleB * Mathf.Deg2Rad));
         sideC = Mathf.Sqrt((dY * dY) + (sideB * sideB));
         bulletTime = sideC / vB;
         chopperTimeToTravel = time - bulletTime;
         viH = AccHardSimulation.playerAnswer;
-        correctAnswer = (targetDistance/chopperTimeToTravel) - ((aH*chopperTimeToTravel) / 2);
-        distanceCheck = (correctAnswer*chopperTimeToTravel) + (((chopperTimeToTravel*chopperTimeToTravel)*aH)/2);
+        correctAnswer = (targetDistance / chopperTimeToTravel) - ((aH * chopperTimeToTravel) / 2);
+        answer = (float)System.Math.Round(correctAnswer, 2);
+        distanceCheck = (correctAnswer * chopperTimeToTravel) + (((chopperTimeToTravel * chopperTimeToTravel) * aH) / 2);
+        playerAnswer = AccHardSimulation.playerAnswer;
         if (startTime)
         {
             timer += Time.fixedDeltaTime;
             timertxtTruck.text = timer.ToString("F2") + ("s");
         }
-
-
         if (AccHardSimulation.simulate == true)
         {
+            
             startTime = true;
             target.transform.position = targetWheel.transform.position;
             dimensions.SetActive(false);
@@ -82,13 +83,12 @@ public class AccHardTwo : MonoBehaviour
             {
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
-                if (timer >= chopperTimeToTravel + 0.05f)
+                if (timer >= chopperTimeToTravel + .1f)
                 {
-                    shoot = true;
                     theChopper.flySpeed = 0;
                     theChopper.accelaration = 0;
                     theChopper.accelarating = false;
-
+                    shoot = true;
                 }
             }
             if (playerAnswer > answer)
@@ -101,7 +101,7 @@ public class AccHardTwo : MonoBehaviour
             }
             if (playerAnswer < answer)
             {
-                
+
                 if (timer >= chopperTimeToTravel)
                 {
                     shoot = true;
@@ -159,19 +159,19 @@ public class AccHardTwo : MonoBehaviour
             }
         }
 
-        
+
     }
     public void generateProblem()
     {
         target.SetActive(true);
         dimensions.SetActive(true);
         shootReady = true;
-        dX = Random.Range(9, 12);
+        dX = Random.Range(11, 13);
         generateAH = Random.Range(3, 5);
         aH = (float)System.Math.Round(generateAH, 2);
-        generateTime = Random.Range(2f, 3f);
+        generateTime = Random.Range(2f, 2.5f);
         time = (float)System.Math.Round(generateTime, 2);
-        generateAngleB = Random.Range(35f, 45f);
+        generateAngleB = Random.Range(26f, 35f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
         generateViT = Random.Range(3f, 5f);
         viT = (float)System.Math.Round(generateViT, 2);
@@ -182,7 +182,7 @@ public class AccHardTwo : MonoBehaviour
         gun.transform.rotation = Quaternion.Euler(gun.transform.rotation.x, gun.transform.rotation.y, -angleB);
         ChopperY = theChopper.transform.position.y - gunBarrel.transform.position.y;
         chopperX = gunBarrel.transform.position.x - theChopper.transform.position.x;
-        dX = targetWheel.transform.position.x  - gunBarrel.transform.position.x;
+        dX = targetWheel.transform.position.x - gunBarrel.transform.position.x;
         dY = gunBarrel.transform.position.y - targetWheel.transform.position.y;
         //theChopper.transform.position = new Vector2(targetWheel.transform.position.x + dX - chopperX, targetWheel.transform.position.y + dY + ChopperY);
         horizontal.transform.position = new Vector2(gunBarrel.transform.position.x, gunBarrel.transform.position.y);
@@ -214,17 +214,17 @@ public class AccHardTwo : MonoBehaviour
         theChopper.moving = true;
         theTruck.moveSpeed = 3;
         theChopper.flySpeed = 15;
-         yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1);
         theMulticab.moveSpeed = 20;
         yield return new WaitForSeconds(3);
         theChopper.flySpeed = 0;
         theMulticab.moveSpeed = 0;
         theTruck.moveSpeed = 0;
         generateProblem();
-       
-       
+
+
     }
-     IEnumerator StuntResult()
+    IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(2f);
         StartCoroutine(theSimulate.DirectorsCall());

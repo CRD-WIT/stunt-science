@@ -1775,7 +1775,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 191335765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5f47bb116fac2341b9084ef29dfc212, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dae4f1c8bb633e43808e347aae04cf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playButton: {fileID: 2044744782}
@@ -1783,7 +1783,7 @@ MonoBehaviour:
   directorBubble: {fileID: 377087568}
   theTruck: {fileID: 1001898351}
   theManagerOne: {fileID: 1044052105}
-  theManagerTwo: {fileID: 216977455}
+  theManagerTwo: {fileID: 0}
   theHeart: {fileID: 77578367}
   stage: 1
   theQuestion: {fileID: 701376674}
@@ -1891,7 +1891,7 @@ MonoBehaviour:
   - {fileID: 1782697600}
   theCurve: {fileID: 1382340798}
   theQuestion: {fileID: 701376674}
-  theSimulate: {fileID: 191335766}
+  theSimulate: {fileID: 0}
   posCheck: 0
   timertxt: {fileID: 2117152585}
   timertxtTruck: {fileID: 1104416475}
@@ -3841,7 +3841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 2139864550581976429, guid: 44c08d049d4e59645ab85dc0dd91fdf8, type: 3}
   blastprefab: {fileID: 7599276594237522789, guid: d75e9e4b0c5969744b423f03ac690da4, type: 3}
-  bulletPos: {fileID: 8180108812038336589, guid: a63a7c68917693744bad2318ce23e78e, type: 3}
+  bulletPos: {fileID: 1266407320}
   speed: 0
 --- !u!1001 &496857094
 PrefabInstance:
@@ -8212,7 +8212,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1044052104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3936ff7d40dd19f4c9ae93ca216c66b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e157d81b0c1bb0478faae31a1208737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dX: 0
@@ -9773,7 +9773,7 @@ GameObject:
   - component: {fileID: 1145131982}
   - component: {fileID: 1145131986}
   m_Layer: 0
-  m_Name: tire (00003)
+  m_Name: TargetWheelOne
   m_TagString: wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9922,7 +9922,7 @@ MonoBehaviour:
   blastprefab: {fileID: 7599276594237522789, guid: d75e9e4b0c5969744b423f03ac690da4, type: 3}
   theTruck: {fileID: 1001898351}
   moveSpeed: 0
-  theSimulate: {fileID: 191335766}
+  theSimulate: {fileID: 0}
 --- !u!4 &1150378001 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6677354680377156561, guid: 0adecfd62d800694abb9671f9807dae5, type: 3}
@@ -12740,7 +12740,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1461135752}
   m_Layer: 0
-  m_Name: projectile
+  m_Name: projectileLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13286,7 +13286,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6467935888430237, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AccHardSimulation, Assembly-CSharp
+      value: AccHardSimulationRevised, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6467936024873916, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13375,7 +13375,7 @@ PrefabInstance:
     - target: {fileID: 6467936332115172, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 191335766}
+      objectReference: {fileID: 0}
     - target: {fileID: 6467936332115172, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: action
@@ -17980,7 +17980,7 @@ GameObject:
   - component: {fileID: 2066707920}
   - component: {fileID: 2066707924}
   m_Layer: 0
-  m_Name: tire (00002)
+  m_Name: TargetWheelTwo
   m_TagString: wall2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18129,7 +18129,7 @@ MonoBehaviour:
   blastprefab: {fileID: 7599276594237522789, guid: d75e9e4b0c5969744b423f03ac690da4, type: 3}
   theTruck: {fileID: 1001898351}
   moveSpeed: 0
-  theSimulate: {fileID: 191335766}
+  theSimulate: {fileID: 0}
 --- !u!1 &2087234200
 GameObject:
   m_ObjectHideFlags: 0
