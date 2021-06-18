@@ -9,7 +9,7 @@ public class Annotation1 : MonoBehaviour
     public Vector2 spawnPoint;
     [SerializeField] float distance, time, velocity, distanceTraveled, lengthOfTime, elapsedTime;
     public float fontSize = 4;
-    LineRenderer distanceLine1, distanceLine2, timeLine1, timeLine2, startLine, endLine, endTime;
+    [SerializeField] LineRenderer distanceLine1, distanceLine2, timeLine1, timeLine2, startLine, endLine, endTime;
     GameObject distanceIndicatorTxt, timeIndicatorTxt, velocityIndicatorTxt;
     [SerializeField] bool revealDistance = true, revealTime = true, revealVelocity = true;
     public GameObject[] arrows = new GameObject[4];
@@ -23,13 +23,13 @@ public class Annotation1 : MonoBehaviour
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
-        distanceLine1 = transform.Find("DistanceLine1").GetComponent<LineRenderer>();
-        distanceLine2 = transform.Find("DistanceLine2").GetComponent<LineRenderer>();
-        timeLine1 = transform.Find("TimeLine1").GetComponent<LineRenderer>();
-        timeLine2 = transform.Find("TimeLine2").GetComponent<LineRenderer>();
-        startLine = transform.Find("StartAnnotationLine").GetComponent<LineRenderer>();
-        endLine = transform.Find("EndAnnotationLine").GetComponent<LineRenderer>();
-        endTime = transform.Find("EndAnnotationTime").GetComponent<LineRenderer>();
+        // distanceLine1.GetComponent<LineRenderer>();
+        // distanceLine2 = transform.Find("DistanceLine2").GetComponent<LineRenderer>();
+        // timeLine1 = transform.Find("TimeLine1").GetComponent<LineRenderer>();
+        // timeLine2 = transform.Find("TimeLine2").GetComponent<LineRenderer>();
+        // startLine = transform.Find("StartAnnotationLine").GetComponent<LineRenderer>();
+        // endLine = transform.Find("EndAnnotationLine").GetComponent<LineRenderer>();
+        // endTime = transform.Find("EndAnnotationTime").GetComponent<LineRenderer>();
         distanceIndicatorTxt = transform.Find("Distance").gameObject;
         timeIndicatorTxt = transform.Find("Time").gameObject;
         velocityIndicatorTxt = transform.Find("Velocity").gameObject;
@@ -52,25 +52,25 @@ public class Annotation1 : MonoBehaviour
         arrows[0].gameObject.SetActive(show);
         arrows[1].gameObject.SetActive(show);
     }
-    public void Show(bool s)
+    public void Show(bool _s)
     {
         foreach (var item in arrows)
         {
-            item.SetActive(s);
+            item.SetActive(_s);
         }
-        distanceLine1.gameObject.SetActive(s);
-        distanceLine2.gameObject.SetActive(s);
-        distanceIndicatorTxt.SetActive(s);
+        distanceLine1.gameObject.SetActive(_s);
+        distanceLine2.gameObject.SetActive(_s);
+        distanceIndicatorTxt.SetActive(_s);
 
-        timeLine1.gameObject.SetActive(s);
-        timeLine2.gameObject.SetActive(s);
-        timeIndicatorTxt.SetActive(s);
+        timeLine1.gameObject.SetActive(_s);
+        timeLine2.gameObject.SetActive(_s);
+        timeIndicatorTxt.SetActive(_s);
 
-        velocityIndicatorTxt.SetActive(s);
+        velocityIndicatorTxt.SetActive(_s);
 
-        startLine.gameObject.SetActive(s);
-        endLine.gameObject.SetActive(s);
-        endTime.gameObject.SetActive(s);
+        startLine.gameObject.SetActive(_s);
+        endLine.gameObject.SetActive(_s);
+        endTime.gameObject.SetActive(_s);
     }
     public void SetPlayerPosition(Vector2 point)
     {
@@ -218,19 +218,19 @@ public class Annotation1 : MonoBehaviour
             distanceLine2.SetPosition(0, new Vector2(((distanceTraveled / 2) + (0.2f * dimensionTextLength)) + spawnPoint.x, spawnPoint.y));
             distanceLine2.SetPosition(1, new Vector2((distanceTraveled + spawnPoint.x), spawnPoint.y));
             startLine.SetPosition(0, new Vector2(spawnPoint.x, spawnPoint.y - 1));
-            startLine.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y - 0.5f));
+            startLine.SetPosition(1, new Vector2(spawnPoint.x, spawnPoint.y + 0.5f));
             endLine.SetPosition(0, new Vector2(spawnPoint.x + distanceTraveled, spawnPoint.y - 1));
-            endLine.SetPosition(1, new Vector2(spawnPoint.x + distanceTraveled, spawnPoint.y - 0.5f));
+            endLine.SetPosition(1, new Vector2(spawnPoint.x + distanceTraveled, spawnPoint.y +  0.5f));
             distanceIndicatorTxt.transform.position = new Vector2((distanceTraveled / 2) + spawnPoint.x, spawnPoint.y);
 
-            arrows[2].transform.position = new Vector2(lengthOfTime + timeStartPnt, spawnPoint.y);
-            timeLine1.SetPosition(0, new Vector2(((lengthOfTime / 2) - (0.2f * timeTextLength)) + timeStartPnt, spawnPoint.y));
-            timeLine1.SetPosition(1, new Vector2(timeStartPnt, spawnPoint.y));
-            timeLine2.SetPosition(0, new Vector2(((lengthOfTime / 2) + (0.2f * timeTextLength)) + timeStartPnt, spawnPoint.y));
-            timeLine2.SetPosition(1, new Vector2((lengthOfTime + timeStartPnt), spawnPoint.y));
+            arrows[2].transform.position = new Vector2(lengthOfTime + timeStartPnt, spawnPoint.y+1f);
+            timeLine1.SetPosition(0, new Vector2(((lengthOfTime / 2) - (0.2f * timeTextLength)) + timeStartPnt, spawnPoint.y + 1f));
+            timeLine1.SetPosition(1, new Vector2(timeStartPnt, spawnPoint.y + 1f));
+            timeLine2.SetPosition(0, new Vector2(((lengthOfTime / 2) + (0.2f * timeTextLength)) + timeStartPnt, spawnPoint.y + 1f));
+            timeLine2.SetPosition(1, new Vector2((lengthOfTime + timeStartPnt), spawnPoint.y + 1f));
             endTime.SetPosition(0, new Vector2(timeStartPnt + lengthOfTime, spawnPoint.y + .75f));
             endTime.SetPosition(1, new Vector2(timeStartPnt + lengthOfTime, spawnPoint.y + 1.25f));
-            timeIndicatorTxt.transform.position = new Vector2((lengthOfTime / 2) + timeStartPnt, spawnPoint.y);
+            timeIndicatorTxt.transform.position = new Vector2((lengthOfTime / 2) + timeStartPnt, spawnPoint.y + 1f);
 
             timeIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(elapsedTime, 2)}{qc.Unit(UnitOf.time)}");
             velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");

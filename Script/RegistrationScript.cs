@@ -29,7 +29,7 @@ public class playerProfile : MonoBehaviour
             SceneMan.level = 1;
             SceneMan.stage = 1;
             PlayerPrefs.SetString("pageOut","1,"+GameMAnager.playerName+","+GameMAnager.playerGender+","+GameMAnager.level.ToString()+","+GameMAnager.stage.ToString()+","+GameMAnager.talentFee.ToString());         
-            SceneManager.LoadScene("levelOneScene");         
+            SceneManager.LoadScene("LevelSelection");         
         } 
         else{
             popUp.text = "You must accept the terms and conditions!!!";

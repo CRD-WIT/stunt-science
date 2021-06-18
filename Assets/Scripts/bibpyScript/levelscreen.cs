@@ -375,7 +375,7 @@ public class levelscreen : MonoBehaviour
     }
     public void level1()
     {
-        SceneManager.LoadScene("LevelOne");
+        SceneManager.LoadScene("LevelOneEasy");
         buttonsfx.Play();
         
     }

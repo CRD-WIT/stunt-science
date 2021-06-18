@@ -28,8 +28,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         HeartManager = FindObjectOfType<HeartManager>();
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
-        whatIsAsk = UnitOf.velocity;
-        dimensionLine.Show(false);
+        whatIsAsk = UnitOf.velocity;        
         VelocityEasyStage1SetUp();
     }
     void FixedUpdate()
