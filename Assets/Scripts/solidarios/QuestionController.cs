@@ -8,7 +8,7 @@ using GameConfig;
 public class QuestionController : MonoBehaviour
 {
     float playerAnswer;
-    [SerializeField]private Transform baseComponent;
+    [SerializeField] private Transform baseComponent;
     Transform extraComponent;
     private Transform problemBox;
     public bool answerIsCorrect = false;
@@ -32,8 +32,8 @@ public class QuestionController : MonoBehaviour
     TMP_InputField answerFieldHorizontal;
     [SerializeField]
     TMP_InputField answerFieldVertical;
-    [SerializeField]Transform difficultyName;
-    [SerializeField]Transform stageName;
+    [SerializeField] Transform difficultyName;
+    [SerializeField] Transform stageName;
     public bool isSimulating;
     [SerializeField]
     string modalText;
@@ -57,6 +57,7 @@ public class QuestionController : MonoBehaviour
     TMP_Text popupTextVertical;
     [SerializeField]
     GameObject modalComponentVertical;
+    [SerializeField] string actionButtonText;
 
     [SerializeField]
     GameObject playButtonVertical;
@@ -117,10 +118,25 @@ public class QuestionController : MonoBehaviour
 
 
 
-    public void ToggleModal()
+    public void ToggleModal(string title, string text, string actionButtonName)
     {
         isModalOpen = !isModalOpen;
+        SetModalTitle(title);
+        SetModalText(text);
+        SetActionButtonName(actionButtonName);
     }
+
+
+    public void SetActionButtonName(string text)
+    {
+        actionButtonText = text;
+    }
+
+    public string GetUnit()
+    {
+        return answerUnit;
+    }
+
     public void SetModalText(string s)
     {
         modalText = s;

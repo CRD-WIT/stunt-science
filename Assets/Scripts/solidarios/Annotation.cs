@@ -28,13 +28,19 @@ public class Annotation : MonoBehaviour
         textDimension = transform.Find("Text").gameObject;
     }
 
-    public void Hide(){
+    public void Hide()
+    {
         transform.gameObject.SetActive(false);
     }
 
     public Vector2 SpawnPointValue()
     {
         return spawnPoint;
+    }
+
+    public void Show()
+    {
+        transform.gameObject.SetActive(true);
     }
 
 
