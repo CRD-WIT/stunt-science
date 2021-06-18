@@ -257,7 +257,7 @@ public class QuestionControllerVThree : MonoBehaviour
             case UnitOf.power:
                 unit = "kWh";
                 break;
-            case UnitOf.momuntum:
+            case UnitOf.momentum:
                 unit = "kg•m/s";
                 break;
         }
@@ -300,7 +300,7 @@ public class QuestionControllerVThree : MonoBehaviour
             case UnitOf.power:
                 answerUnit = "kWh";
                 break;
-            case UnitOf.momuntum:
+            case UnitOf.momentum:
                 answerUnit = "kg•m/s";
                 break;
         }

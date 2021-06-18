@@ -33,6 +33,6 @@ namespace GameConfig
         work = 8, //J
         energy = 9,//kW
         power = 10,//kWh
-        momuntum = 11//kgm/s
+        momentum = 11//kgm/s
     }
 }

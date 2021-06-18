@@ -234,7 +234,7 @@ public class QuestionController : MonoBehaviour
             case UnitOf.power:
                 answerUnit = "kWh";
                 break;
-            case UnitOf.momuntum:
+            case UnitOf.momentum:
                 answerUnit = "kg•m/s";
                 break;
         }
