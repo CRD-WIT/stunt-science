@@ -18,7 +18,7 @@ public class Register: MonoBehaviour
             RegistrationManager.playerName = pName.GetComponent<Text>().text;
             PlayerPrefs.SetString("Name", RegistrationManager.playerName);
             PlayerPrefs.SetString("Gender", RegistrationManager.playerGender);
-            SceneManager.LoadScene("LevelSelection");
+            SceneManager.LoadScene("LevelOne");
         }
     }
      IEnumerator LateCall()
