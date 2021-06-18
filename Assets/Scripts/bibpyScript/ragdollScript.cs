@@ -8,7 +8,7 @@ public class ragdollScript : MonoBehaviour
     private Rigidbody2D myRigidbody;
     public GameObject stick;
     public GameObject stickloc;
-     private SimulationManager theSimulation;
+    private SimulationManager theSimulation;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +27,7 @@ public class ragdollScript : MonoBehaviour
         }
         if (SimulationManager.playerDead == true)
         {
+            SimulationManager.isRagdollActive = true;
             StartCoroutine(playerSpawn());
         }
     }

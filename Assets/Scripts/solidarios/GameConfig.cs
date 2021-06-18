@@ -9,10 +9,9 @@ namespace GameConfig
 
     public enum TextColorMode : byte
     {
-        Wrong = 0, //Red
-        Correct = 1, //Green
-        Given = 2, // Purple
-        Asked = 3, // Black Bold Text
+        Wrong = 0,
+        Correct = 1,
+        Given = 2
     }
 
     public enum Orientation : byte
