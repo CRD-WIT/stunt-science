@@ -96,10 +96,10 @@ public class levelscreen : MonoBehaviour
     void Update()
     {
        
-        if(lvllock < 1)
-        lvl1hard.interactable = false;
-        else
-        lvl1hard.interactable = true;
+        // if(lvllock < 1)
+        // lvl1hard.interactable = false;
+        // else
+        // lvl1hard.interactable = true;
         if(lvllock < 2)
         lvl1dif.interactable = false;
         else
@@ -381,6 +381,7 @@ public class levelscreen : MonoBehaviour
     }
     public void level2()
     {
+         SceneManager.LoadScene("LevelOneMedium");
         buttonsfx.Play();
     }
     public void level3()
