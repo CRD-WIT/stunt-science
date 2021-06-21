@@ -6,7 +6,7 @@ using TMPro;
 
 public class IndicatorManagerV1_1 : MonoBehaviour
 {
-    TextColorMode colorMode;
+    TextColorMode colorMode, distanceColor, timeColor, heightColor, velocityColor;
     [SerializeField] float fontSize;
     public Mode correctlengthOrientation;
 
@@ -26,46 +26,19 @@ public class IndicatorManagerV1_1 : MonoBehaviour
     [SerializeField] float distance;
     [SerializeField] float timerLength;
     [SerializeField] float height;
-    float velocity, timer;
+    float velocity, timer, dimensionTxtLength, timeTxtLength, heightTxtLength, correctDistanceTxtLength, velocityTxtLength, annotationDistanceEnds, annotationTimeEnds;
     Vector2 velocitySpawnPnt;
-    LineRenderer[] distanceLines = new LineRenderer[4];
-    LineRenderer[] timeLines = new LineRenderer[4];
-    LineRenderer[] heightlines = new LineRenderer[4];
-    LineRenderer[] correctAnswerLines = new LineRenderer[4];
+    [SerializeField] LineRenderer[] distanceLines = new LineRenderer[4], timeLines = new LineRenderer[4], heightLines = new LineRenderer[4], correctDistanceLines = new LineRenderer[4], correctTimeLines = new LineRenderer[4];
     [SerializeField] GameObject arrow;
-    GameObject[] arrows, labelTxt;
-    bool arrowPresent = false, answered, revealTime, revealDistance, revealVelocity, revealHeight, showCorrectAnswer;
+    GameObject[] arrows = new GameObject[9];
+    [SerializeField] GameObject[] labelTxt;
+    public bool showCorrectTime = false, showCorrectDistance = false;
+    bool arrowPresent = false, answered, revealTime, revealDistance, revealVelocity, revealHeight;
     char requiredAnswer;
     QuestionControllerVThree qc;
     private void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
-
-        distanceLines[0] = transform.Find("Distance").Find("line1").GetComponent<LineRenderer>();
-        distanceLines[1] = transform.Find("Distance").Find("line2").GetComponent<LineRenderer>();
-        distanceLines[2] = transform.Find("Distance").Find("line3").GetComponent<LineRenderer>();
-        distanceLines[3] = transform.Find("Distance").Find("line4").GetComponent<LineRenderer>();
-
-        timeLines[0] = transform.Find("Time").Find("line1").GetComponent<LineRenderer>();
-        timeLines[1] = transform.Find("Time").Find("line2").GetComponent<LineRenderer>();
-        timeLines[2] = transform.Find("Time").Find("line3").GetComponent<LineRenderer>();
-        timeLines[3] = transform.Find("Time").Find("line4").GetComponent<LineRenderer>();
-
-        heightlines[0] = transform.Find("Height").Find("line1").GetComponent<LineRenderer>();
-        heightlines[1] = transform.Find("Height").Find("line2").GetComponent<LineRenderer>();
-        heightlines[2] = transform.Find("Height").Find("line3").GetComponent<LineRenderer>();
-        heightlines[3] = transform.Find("Height").Find("line4").GetComponent<LineRenderer>();
-
-        correctAnswerLines[0] = transform.Find("Correct").Find("line1").GetComponent<LineRenderer>();
-        correctAnswerLines[1] = transform.Find("Correct").Find("line2").GetComponent<LineRenderer>();
-        correctAnswerLines[2] = transform.Find("Correct").Find("line3").GetComponent<LineRenderer>();
-        correctAnswerLines[3] = transform.Find("Correct").Find("line4").GetComponent<LineRenderer>();
-
-        labelTxt[0] = transform.Find("Distance").Find("Label").gameObject;
-        labelTxt[1] = transform.Find("Time").Find("Label").gameObject;
-        labelTxt[2] = transform.Find("Height").Find("Label").gameObject;
-        labelTxt[3] = transform.Find("Correct").Find("Label").gameObject;
-        labelTxt[4] = transform.Find("Velocity").Find("Label").gameObject;
     }
 
     private Vector2 CorrectIndicatorSpawnPos()
@@ -88,7 +61,7 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         }
     }
 
-    public void showLines(Vector2? dLength, Vector2? tLength, Vector2? hLength)
+    public void showLines(float? dLength, float? tLength, float? hLength, float v, float t)
     {
         if (arrowPresent)
             Destroy(arrow);
@@ -96,10 +69,11 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         {
             if (dLength != null)
             {
+                distance = (float)dLength;
                 arrows[0] = Instantiate(arrow);
                 arrows[1] = Instantiate(arrow);
 
-                arrows[1].transform.Rotate(0, 0, 180);
+                arrows[0].transform.Rotate(0, 0, 180);
                 arrows[0].transform.SetParent(transform.Find("Distance"));
                 arrows[1].transform.SetParent(transform.Find("Distance"));
 
@@ -108,15 +82,27 @@ public class IndicatorManagerV1_1 : MonoBehaviour
             else this.showDistance = false;
             if (tLength != null)
             {
+                timerLength = (float)tLength;
+                timer = t;
                 arrows[2] = Instantiate(arrow);
 
                 arrows[2].transform.Rotate(0, 0, 180);
                 arrows[2].transform.SetParent(transform.Find("Time"));
+
                 this.showTime = true;
             }
-            else this.showTime = false;
+            else
+            {
+                this.showTime = false;
+                // if (tLength != null)
+                //     timerLength = (float)tLength;
+                // else
+                //     timerLength = distance;
+                // arrowPresent = true;
+            }
             if (hLength != null)
             {
+                height = (float)hLength;
                 arrows[3] = Instantiate(arrow);
                 arrows[4] = Instantiate(arrow);
 
@@ -128,15 +114,32 @@ public class IndicatorManagerV1_1 : MonoBehaviour
                 this.showHeight = true;
             }
             else this.showHeight = false;
+
+            velocity = v;
             arrows[7] = Instantiate(arrow);
             arrows[7].transform.SetParent(transform.Find("Velocity"));
             arrows[7].transform.Rotate(0, 0, 180);
-            arrowPresent = true;
+
+            showCorrectDistance = false;
+            showCorrectTime = false;
+
+            arrows[5] = Instantiate(arrow);
+            arrows[6] = Instantiate(arrow);
+            arrows[5].transform.Rotate(0, 0, 180);
+            arrows[5].transform.SetParent(transform.Find("CorrectDistance"));
+            arrows[6].transform.SetParent(transform.Find("CorrectDistance"));
+
+            arrows[8] = Instantiate(arrow);
+            arrows[8].transform.Rotate(0, 0, 180);
+            arrows[8].transform.SetParent(transform.Find("CorrectDistance"));
+
+            // annotationDistanceEnds = 0;
+            annotationTimeEnds = 1.25f;
         }
     }
-    public void Variables(float d, float t, float v, float h, char? whatIsAsk, float? endPntOfTime)
+    public void UnknownIs(char? whatIsAsk)
     {
-        showCorrectAnswer = false;
+        showCorrectDistance = false;
         colorMode = TextColorMode.Given;
         answered = false;
         if (whatIsAsk != null)
@@ -166,18 +169,104 @@ public class IndicatorManagerV1_1 : MonoBehaviour
             revealHeight = true;
         }
         requiredAnswer = (char)whatIsAsk;
-        distance = d;
-        if (endPntOfTime != null)
-            timerLength = (float)endPntOfTime;
-        else
-            timerLength = distance;
-        height = h;
-        timer = t;
-        velocity = v;
+        distanceColor = colorMode;
+        timeColor = colorMode;
+        velocityColor = colorMode;
+        heightColor = colorMode;
     }
     public void SetPlayerPosition(Vector2 Pnt)
     {
-        velocitySpawnPnt = new Vector2(Pnt.x, Pnt.y + 3);
+        velocitySpawnPnt = new Vector2(Pnt.x, Pnt.y + 2.5f);
+
+        velocityTxtLength = labelTxt[4].GetComponent<TextMeshPro>().text.Length;
+    }
+    public void AnswerIs(bool isCorrect)
+    {
+        switch (requiredAnswer)
+        {
+            case 'v':
+                if (isCorrect)
+                {
+                    velocityColor = TextColorMode.Correct;
+                }
+                else
+                {
+                    velocityColor = TextColorMode.Wrong;
+                }
+                break;
+            case 'd':
+                if (isCorrect)
+                {
+                    distanceColor = TextColorMode.Correct;
+                }
+                else
+                {
+                    distanceColor = TextColorMode.Wrong;
+                }
+                break;
+            case 't':
+                if (isCorrect)
+                {
+                    timeColor = TextColorMode.Correct;
+                    distanceColor = TextColorMode.Correct;
+                }
+                else
+                {
+                    timeColor = TextColorMode.Wrong;
+                    distanceColor = TextColorMode.Wrong;
+                }
+                break;
+            default:
+                if (isCorrect)
+                {
+                    heightColor = TextColorMode.Correct;
+                }
+                else
+                {
+                    heightColor = TextColorMode.Wrong;
+                }
+                break;
+        }
+    }
+    public void IsRunning(float answer, float distanceCovered, float runTime, float? timeAnnotaionEndPnt)
+    {
+        // if (correctlengthOrientation == Mode.Vertical)
+        // {
+        //     height = distanceCovered;
+        // }
+        // else
+        timeSpawnPnt = new Vector2(timeSpawnPnt.x, 0.75f);
+        distanceSpawnPnt = new Vector2(distanceSpawnPnt.x, 1.75f);
+        distance = distanceCovered;
+        if (timeAnnotaionEndPnt != null)
+        {
+            timerLength = (float)timeAnnotaionEndPnt;
+        }
+        else
+        {
+            timerLength = distanceCovered;
+        }
+        switch (requiredAnswer)
+        {
+            case 'v':
+                velocity = answer;
+                revealVelocity = true;
+                break;
+            case 'd':
+                distance = answer;
+                revealDistance = true;
+                break;
+            case 't':
+                timer = answer;
+                revealTime = true;
+                break;
+            default:
+                Debug.Log("AnswerIs(answer)");
+                break;
+        }
+        answered = true;
+        timer = runTime;
+        annotationTimeEnds = -0.5f;
     }
 
     private void Update()
@@ -190,46 +279,50 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         {
             item.enabled = showTime;
         }
-        foreach (var item in heightlines)
+        foreach (var item in heightLines)
         {
             item.enabled = showHeight;
         }
-        foreach (var item in correctAnswerLines)
-        {
-            item.enabled = showCorrectAnswer;
-        }
 
-        float dimensionTxtLength = labelTxt[0].GetComponent<TextMeshPro>().text.Length,
-        timeTxtLength = labelTxt[1].GetComponent<TextMeshPro>().text.Length,
-        heightTxtLength = labelTxt[2].GetComponent<TextMeshPro>().text.Length,
-        correctTxtLength = labelTxt[3].GetComponent<TextMeshPro>().text.Length,
-        velocityTxtLength = labelTxt[4].GetComponent<TextMeshPro>().text.Length;
+        foreach (var item in correctTimeLines)
+        {
+            item.enabled = showCorrectTime;
+        }
+        labelTxt[0].SetActive(showDistance);
+        labelTxt[1].SetActive(showTime);
+        labelTxt[2].SetActive(showHeight);
+        labelTxt[5].SetActive(showCorrectTime);
+
+        dimensionTxtLength = labelTxt[0].GetComponent<TextMeshPro>().text.Length;
+        timeTxtLength = labelTxt[1].GetComponent<TextMeshPro>().text.Length;
+        heightTxtLength = labelTxt[2].GetComponent<TextMeshPro>().text.Length;
 
         arrows[0].transform.position = new Vector2((distance + distanceSpawnPnt.x), distanceSpawnPnt.y);
         arrows[1].transform.position = new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y);
-        distanceLines[0].SetPosition(0, new Vector2(((distance / 2) - (0.2f * dimensionTxtLength)) + distanceSpawnPnt.x, distanceSpawnPnt.y));
+        distanceLines[0].SetPosition(0, new Vector2(((distance / 2) - (0.18f * dimensionTxtLength)) + distanceSpawnPnt.x, distanceSpawnPnt.y));
         distanceLines[0].SetPosition(1, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y));
-        distanceLines[1].SetPosition(0, new Vector2(((distance / 2) + (0.2f * dimensionTxtLength)) + distanceSpawnPnt.x, distanceSpawnPnt.y));
+        distanceLines[1].SetPosition(0, new Vector2(((distance / 2) + (0.18f * dimensionTxtLength)) + distanceSpawnPnt.x, distanceSpawnPnt.y));
         distanceLines[1].SetPosition(1, new Vector2((distance + distanceSpawnPnt.x), distanceSpawnPnt.y));
-        distanceLines[2].SetPosition(0, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y - 1));
+        distanceLines[2].SetPosition(0, new Vector2(distanceSpawnPnt.x, 0));
         distanceLines[2].SetPosition(1, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y + 0.5f));
-        distanceLines[3].SetPosition(0, new Vector2(distanceSpawnPnt.x + distance, distanceSpawnPnt.y - 1));
+        distanceLines[3].SetPosition(0, new Vector2(distanceSpawnPnt.x + distance, 0));
         distanceLines[3].SetPosition(1, new Vector2(distanceSpawnPnt.x + distance, distanceSpawnPnt.y + 0.5f));
         labelTxt[0].transform.position = new Vector2((distance / 2) + distanceSpawnPnt.x, distanceSpawnPnt.y);
 
-        arrows[2].transform.position = new Vector2(timerLength + timeSpawnPnt.x, arrows[0].transform.position.y + 1);
-        timeLines[0].SetPosition(0, new Vector2(((timerLength / 2) - (0.2f * timeTxtLength)) + timeSpawnPnt.x, timeSpawnPnt.y + 1));//timerLength = distance
+        arrows[2].transform.position = new Vector2(timerLength + timeSpawnPnt.x, timeSpawnPnt.y + 1);
+        timeLines[0].SetPosition(0, new Vector2(((timerLength / 2) - (0.18f * timeTxtLength)) + timeSpawnPnt.x, timeSpawnPnt.y + 1));//timerLength = distance
         timeLines[0].SetPosition(1, new Vector2(timeSpawnPnt.x, timeSpawnPnt.y + 1));
-        timeLines[1].SetPosition(0, new Vector2(((timerLength / 2) + (0.2f * timeTxtLength)) + timeSpawnPnt.x, timeSpawnPnt.y + 1));
+        timeLines[1].SetPosition(0, new Vector2(((timerLength / 2) + (0.18f * timeTxtLength)) + timeSpawnPnt.x, timeSpawnPnt.y + 1));
         timeLines[1].SetPosition(1, new Vector2((timerLength + timeSpawnPnt.x), timeSpawnPnt.y + 1));
-        timeLines[2].SetPosition(0, new Vector2(timeSpawnPnt.x, timeSpawnPnt.y + .75f));
+        timeLines[2].SetPosition(0, new Vector2(timeSpawnPnt.x, timeSpawnPnt.y + annotationTimeEnds));
         timeLines[2].SetPosition(1, new Vector2(timeSpawnPnt.x, timeSpawnPnt.y + 1.25f));
-        timeLines[3].SetPosition(0, new Vector2(timeSpawnPnt.x + timerLength, timeSpawnPnt.y + .75f));
+        timeLines[3].SetPosition(0, new Vector2(timeSpawnPnt.x + timerLength, annotationTimeEnds));
         timeLines[3].SetPosition(1, new Vector2(timeSpawnPnt.x + timerLength, timeSpawnPnt.y + 1.25f));
         labelTxt[1].transform.position = new Vector2((timerLength / 2) + timeSpawnPnt.x, timeSpawnPnt.y + 1);
 
-        arrows[7].transform.position = new Vector2(velocitySpawnPnt.x + (0.2f * velocityTxtLength), velocitySpawnPnt.y + 3f);
         labelTxt[4].transform.position = velocitySpawnPnt;
+        arrows[7].transform.position = new Vector2(velocitySpawnPnt.x + (0.25f * velocityTxtLength), velocitySpawnPnt.y);
+
         if (!revealDistance)
             labelTxt[0].GetComponent<TextMeshPro>().SetText($"distance = ?{qc.Unit(UnitOf.distance)}");
         else
@@ -242,337 +335,103 @@ public class IndicatorManagerV1_1 : MonoBehaviour
             labelTxt[4].GetComponent<TextMeshPro>().SetText($"velocity = ?{qc.Unit(UnitOf.velocity)}");
         else
             labelTxt[4].GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
-        // }
-        // else
-        // {
-        //     arrows[0].transform.position = new Vector2((distanceTraveled + spawnPnt.x), spawnPnt.y);
-        //     arrows[1].transform.position = new Vector2(spawnPnt.x, spawnPnt.y);
-        //     distanceLine1.SetPosition(0, new Vector2(((distanceTraveled / 2) - (0.2f * dimensionTextLength)) + spawnPnt.x, spawnPnt.y));
-        //     distanceLine1.SetPosition(1, new Vector2(spawnPnt.x, spawnPnt.y));
-        //     distanceLine2.SetPosition(0, new Vector2(((distanceTraveled / 2) + (0.2f * dimensionTextLength)) + spawnPnt.x, spawnPnt.y));
-        //     distanceLine2.SetPosition(1, new Vector2((distanceTraveled + spawnPnt.x), spawnPnt.y));
-        //     startlength.SetPosition(0, new Vector2(spawnPnt.x, spawnPnt.y - 1));
-        //     startlength.SetPosition(1, new Vector2(spawnPnt.x, spawnPnt.y - 0.5f));
-        //     endLength.SetPosition(0, new Vector2(spawnPnt.x + distanceTraveled, spawnPnt.y - 1));
-        //     endLength.SetPosition(1, new Vector2(spawnPnt.x + distanceTraveled, spawnPnt.y - 0.5f));
-        //     distanceIndicatorTxt.transform.position = new Vector2((distanceTraveled / 2) + spawnPnt.x, spawnPnt.y);
 
-        //     arrows[2].transform.position = new Vector2(lengthOfTime + timeStartPnt, spawnPnt.y);
-        //     timeLines[].SetPosition(0, new Vector2(((lengthOfTime / 2) - (0.2f * timeTextLength)) + timeStartPnt, spawnPnt.y));
-        //     timeLines[].SetPosition(1, new Vector2(timeStartPnt, spawnPnt.y));
-        //     timeLine2.SetPosition(0, new Vector2(((lengthOfTime / 2) + (0.2f * timeTextLength)) + timeStartPnt, spawnPnt.y));
-        //     timeLine2.SetPosition(1, new Vector2((lengthOfTime + timeStartPnt), spawnPnt.y));
-        //     endTime.SetPosition(0, new Vector2(timeStartPnt + lengthOfTime, spawnPnt.y + .75f));
-        //     endTime.SetPosition(1, new Vector2(timeStartPnt + lengthOfTime, spawnPnt.y + 1.25f));
-        //     labelTxt[1].transform.position = new Vector2((lengthOfTime / 2) + timeStartPnt, spawnPnt.y);
+        switch (requiredAnswer)
+        {
+            case 'v':
 
-        //     labelTxt[1].GetComponent<TextMeshPro>().SetText($"{System.Math.Round(elapsedTime, 2)}{qc.Unit(UnitOf.time)}");
-        //     velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
-        //     distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distanceTraveled, 2)}{qc.Unit(UnitOf.distance)}");
-        // }
+                break;
+        }
+        qc.SetColor(labelTxt[4].GetComponent<TMP_Text>(), velocityColor);
+        arrows[7].GetComponent<SpriteRenderer>().color = qc.getHexColor(velocityColor);
 
-        // arrows[3].transform.position = new Vector2(veloTxtPnt.x + 1.5f, veloTxtPnt.y + 3f);
-        // velocityIndicatorTxt.transform.position = new Vector2(veloTxtPnt.x, veloTxtPnt.y + 3);
+        qc.SetColor(labelTxt[0].GetComponent<TMP_Text>(), distanceColor);
+        distanceLines[0].startColor = qc.getHexColor(distanceColor);
+        distanceLines[0].endColor = qc.getHexColor(distanceColor);
+        distanceLines[1].startColor = qc.getHexColor(distanceColor);
+        distanceLines[1].endColor = qc.getHexColor(distanceColor);
+        distanceLines[2].startColor = qc.getHexColor(distanceColor);
+        distanceLines[2].endColor = qc.getHexColor(distanceColor);
+        distanceLines[3].startColor = qc.getHexColor(distanceColor);
+        distanceLines[3].endColor = qc.getHexColor(distanceColor);
+        arrows[0].GetComponent<SpriteRenderer>().color = qc.getHexColor(distanceColor);
+        arrows[1].GetComponent<SpriteRenderer>().color = qc.getHexColor(distanceColor);
 
-
-        qc.SetColor(labelTxt[4].GetComponent<TMP_Text>(), colorMode);
-
-        qc.SetColor(labelTxt[0].GetComponent<TMP_Text>(), colorMode);
-        distanceLines[0].startColor = qc.getHexColor(colorMode);
-        distanceLines[0].endColor = qc.getHexColor(colorMode);
-        distanceLines[1].startColor = qc.getHexColor(colorMode);
-        distanceLines[1].endColor = qc.getHexColor(colorMode);
-        distanceLines[2].startColor = qc.getHexColor(colorMode);
-        distanceLines[2].endColor = qc.getHexColor(colorMode);
-        distanceLines[3].startColor = qc.getHexColor(colorMode);
-        distanceLines[3].endColor = qc.getHexColor(colorMode);
-        arrows[0].GetComponent<SpriteRenderer>().color = qc.getHexColor(colorMode);
-        arrows[1].GetComponent<SpriteRenderer>().color = qc.getHexColor(colorMode);
-
-        qc.SetColor(labelTxt[1].GetComponent<TMP_Text>(), colorMode);
-        timeLines[0].startColor = qc.getHexColor(colorMode);
-        timeLines[0].endColor = qc.getHexColor(colorMode);
-        timeLines[1].startColor = qc.getHexColor(colorMode);
-        timeLines[1].endColor = qc.getHexColor(colorMode);
-        timeLines[2].startColor = qc.getHexColor(colorMode);
-        timeLines[2].endColor = qc.getHexColor(colorMode);
-        timeLines[3].startColor = qc.getHexColor(colorMode);
-        timeLines[3].endColor = qc.getHexColor(colorMode);
-        arrows[2].GetComponent<SpriteRenderer>().color = qc.getHexColor(colorMode);
-
-        // startlength.startColor = qc.getHexColor(colorMode);
-        // startlength.endColor = qc.getHexColor(colorMode);
-        // endLength.startColor = qc.getHexColor(colorMode);
-        // endLength.endColor = qc.getHexColor(colorMode);
+        qc.SetColor(labelTxt[1].GetComponent<TMP_Text>(), timeColor);
+        timeLines[0].startColor = qc.getHexColor(timeColor);
+        timeLines[0].endColor = qc.getHexColor(timeColor);
+        timeLines[1].startColor = qc.getHexColor(timeColor);
+        timeLines[1].endColor = qc.getHexColor(timeColor);
+        timeLines[2].startColor = qc.getHexColor(timeColor);
+        timeLines[2].endColor = qc.getHexColor(timeColor);
+        timeLines[3].startColor = qc.getHexColor(timeColor);
+        timeLines[3].endColor = qc.getHexColor(timeColor);
+        arrows[2].GetComponent<SpriteRenderer>().color = qc.getHexColor(timeColor);
 
         foreach (var item in labelTxt)
         {
             item.GetComponent<TextMeshPro>().fontSize = fontSize;
         }
     }
-    IEnumerator DestroyArrows()
+    public void ShowCorrectDistance(float correctD, bool showCorrect, float posX)
     {
-        Destroy(arrow);
-        yield return new WaitForEndOfFrame();
-        arrowPresent = false;
+        showCorrectDistance = showCorrect;
+        float posY = distanceSpawnPnt.y - 1.5f;
+        foreach (var item in correctDistanceLines)
+        {
+            item.enabled = showCorrectDistance;
+            item.startColor = qc.getHexColor(TextColorMode.Correct);
+            item.endColor = qc.getHexColor(TextColorMode.Correct);
+        }
+        arrows[5].GetComponent<SpriteRenderer>().color = qc.getHexColor(TextColorMode.Correct);
+        arrows[6].GetComponent<SpriteRenderer>().color = qc.getHexColor(TextColorMode.Correct);
+        arrows[5].SetActive(showCorrectDistance);
+        arrows[6].SetActive(showCorrectDistance);
+        arrows[5].transform.position = new Vector2((correctD + posX), posY);
+        arrows[6].transform.position = new Vector2(posX, posY);
+
+        labelTxt[3].GetComponent<TextMeshPro>().color = qc.getHexColor(TextColorMode.Correct);
+        labelTxt[3].SetActive(showCorrectDistance);
+        labelTxt[3].GetComponent<TextMeshPro>().SetText($"{System.Math.Round(correctD, 2)}{qc.Unit(UnitOf.distance)}");
+        labelTxt[3].transform.position = new Vector2((correctD / 2) + posX, posY);
+        correctDistanceTxtLength = labelTxt[3].GetComponent<TextMeshPro>().text.Length;
+
+        correctDistanceLines[0].SetPosition(0, new Vector2(((correctD / 2) - (0.18f * correctDistanceTxtLength)) + posX, posY));
+        correctDistanceLines[0].SetPosition(1, new Vector2(posX, posY));
+        correctDistanceLines[1].SetPosition(0, new Vector2(((correctD / 2) + (0.18f * correctDistanceTxtLength)) + posX, posY));
+        correctDistanceLines[1].SetPosition(1, new Vector2((correctD + posX), posY));
+        correctDistanceLines[2].SetPosition(0, new Vector2(posX, posY - 0.25f));
+        correctDistanceLines[2].SetPosition(1, new Vector2(posX, posY + 0.25f));
+        correctDistanceLines[3].SetPosition(0, new Vector2(posX + correctD, posY - 0.25f));
+        correctDistanceLines[3].SetPosition(1, new Vector2(posX + correctD, posY + 0.25f));
     }
+    public void ShowCorrectTime(float timer, float correctT, bool showCorrect)
+    {
+        showCorrectTime = showCorrect;
+        float posY = timeSpawnPnt.y - 1.25f;
+        foreach (var item in correctTimeLines)
+        {
+            item.enabled = showCorrectTime;
+            item.startColor = qc.getHexColor(TextColorMode.Correct);
+            item.endColor = qc.getHexColor(TextColorMode.Correct);
+        }
+        arrows[8].GetComponent<SpriteRenderer>().color = qc.getHexColor(TextColorMode.Correct);
+        arrows[8].SetActive(showCorrectTime);
+        arrows[8].transform.position = new Vector2((correctT + timeSpawnPnt.x), posY);
 
-    //     [SerializeField] float distance, time, velocity, distanceTraveled, lengthOfTime, elapsedTime;
-    //     public float fontSize = 4;
-    //     LineRenderer distanceLine1, distanceLine2, timeLine1, timeLine2, startlength, endLength, endTime;
-    //     GameObject distanceIndicatorTxt, labelTxt[1], velocityIndicatorTxt;
-    //     [SerializeField] bool revealDistance = true, revealTime = true, revealVelocity = true;
-    //     public GameObject[] arrows = new GameObject[4];
-    //     public float timeStartPnt, timeEndPnt;
-    //     char required;
-    //     bool answered, isAnswerCorrect;
-    //     Vector2 veloTxtPnt;
-    //     QuestionControllerVThree qc;
+        labelTxt[5].GetComponent<TextMeshPro>().color = qc.getHexColor(TextColorMode.Correct);
+        labelTxt[5].SetActive(showCorrectTime);
+        labelTxt[5].GetComponent<TextMeshPro>().SetText($"{System.Math.Round(timer, 2)}{qc.Unit(UnitOf.time)}");
+        labelTxt[5].transform.position = new Vector2((correctT / 2) + timeSpawnPnt.x, posY);
+        float correctTimeTxtLength = labelTxt[3].GetComponent<TextMeshPro>().text.Length;
 
-    //     // Start is called before the first frame update
-    //     void Start()
-    //     {
-    //         qc = FindObjectOfType<QuestionControllerVThree>();
-    //         distanceLine1 = transform.Find("DistanceLine1").GetComponent<LineRenderer>();
-    //         distanceLine2 = transform.Find("DistanceLine2").GetComponent<LineRenderer>();
-    //         timeLine1 = transform.Find("TimeLine1").GetComponent<LineRenderer>();
-    //         timeLine2 = transform.Find("TimeLine2").GetComponent<LineRenderer>();
-    //         startlength = transform.Find("StartAnnotationLine").GetComponent<LineRenderer>();
-    //         endLength = transform.Find("EndAnnotationLine").GetComponent<LineRenderer>();
-    //         endTime = transform.Find("EndAnnotationTime").GetComponent<LineRenderer>();
-    //         distanceIndicatorTxt = transform.Find("Distance").gameObject;
-    //         labelTxt[1] = transform.Find("Time").gameObject;
-    //         velocityIndicatorTxt = transform.Find("Velocity").gameObject;
-    //     }
-    //     public void ShowTimeAnnotation(bool show)
-    //     {
-    //         timeLine1.gameObject.SetActive(show);
-    //         timeLine2.gameObject.SetActive(show);
-    //         labelTxt[1].gameObject.SetActive(show);
-    //         endTime.gameObject.SetActive(show);
-    //         arrows[2].gameObject.SetActive(show);
-    //     }
-    //     public void ShowDistanceAnnotation(bool show)
-    //     {
-    //         distanceLine1.gameObject.SetActive(show);
-    //         distanceLine2.gameObject.SetActive(show);
-    //         distanceIndicatorTxt.gameObject.SetActive(show);
-    //         startlength.gameObject.SetActive(show);
-    //         endLength.gameObject.SetActive(show);
-    //         arrows[0].gameObject.SetActive(show);
-    //         arrows[1].gameObject.SetActive(show);
-    //     }
-    //     public void Show(bool s)
-    //     {
-    //         foreach (var item in arrows)
-    //         {
-    //             item.SetActive(s);
-    //         }
-    //         distanceLine1.gameObject.SetActive(s);
-    //         distanceLine2.gameObject.SetActive(s);
-    //         distanceIndicatorTxt.SetActive(s);
-
-    //         timeLine1.gameObject.SetActive(s);
-    //         timeLine2.gameObject.SetActive(s);
-    //         labelTxt[1].SetActive(s);
-
-    //         velocityIndicatorTxt.SetActive(s);
-
-    //         startlength.gameObject.SetActive(s);
-    //         endLength.gameObject.SetActive(s);
-    //         endTime.gameObject.SetActive(s);
-    //     }
-    //     public void SetPlayerPosition(Vector2 Pnt)
-    //     {
-    //         veloTxtPnt = Pnt;
-    //     }
-    //     public void Variables(float d, float t, float v, char whatIsAsk, float? EndPntOfTime)
-    //     {
-    //         colorMode = TextColorMode.Given;
-    //         answered = false;
-    //         switch (whatIsAsk)
-    //         {
-    //             case 'v':
-    //                 revealVelocity = false;
-    //                 revealTime = true;
-    //                 revealDistance = true;
-    //                 break;
-    //             case 'd':
-    //                 revealVelocity = true;
-    //                 revealTime = true;
-    //                 revealDistance = false;
-    //                 break;
-    //             case 't':
-    //                 revealVelocity = true;
-    //                 revealTime = false;
-    //                 revealDistance = true;
-    //                 break;
-    //             case 'N':
-    //                 revealVelocity = true;
-    //                 revealTime = true;
-    //                 revealDistance = true;
-    //                 break;
-    //             default:
-    //                 Debug.Log("<color=yellow>Variables</color>(distance value, time value, velocity value, symbol{d, v, t} if all value is revealed put 'N')");
-    //                 break;
-    //         }
-    //         required = whatIsAsk;
-    //         distance = d;
-    //         if (EndPntOfTime != null)
-    //             timeEndPnt = (float)EndPntOfTime;
-    //         else
-    //             timeEndPnt = distance;
-    //         time = t;
-    //         velocity = v;
-    //     }
-    //     public void AnswerIs(bool isCorrect)
-    //     {
-    //         if (isCorrect)
-    //         {
-    //             colorMode = TextColorMode.Correct;
-    //         }
-    //         else
-    //         {
-    //             colorMode = TextColorMode.Wrong;
-    //         }
-    //     }
-    //     public void IsRunning(float distanceCovered, float runTime, float? timeAnnotaionEndPnt)
-    //     {
-    //         answered = true;
-    //         distanceTraveled = distanceCovered;
-    //         elapsedTime = runTime;
-    //         if (timeAnnotaionEndPnt != null)
-    //         {
-    //             lengthOfTime = (float)timeAnnotaionEndPnt;
-    //         }
-    //         else
-    //         {
-    //             lengthOfTime = distanceCovered;
-    //         }
-    //     }
-    //     public void TimeHasDifferentPnts(bool yes)
-    //     {
-
-    //     }
-    //     public void PlayerAnswerIs(float answer)
-    //     {
-    //         // answered = false;
-    //         switch (required)
-    //         {
-    //             case 'v':
-    //                 velocity = answer;
-    //                 revealVelocity = true;
-    //                 break;
-    //             case 'd':
-    //                 distance = answer;
-    //                 revealDistance = true;
-    //                 break;
-    //             case 't':
-    //                 time = answer;
-    //                 revealTime = true;
-    //                 break;
-    //             default:
-    //                 Debug.Log("AnswerIs(answer)");
-    //                 break;
-    //         }
-    //     }
-    //     // Update is called once per frame
-    //     void Update()
-    //     {
-    //         float dimensionTextLength = distanceIndicatorTxt.GetComponent<TextMeshPro>().text.Length;
-    //         float timeTextLength = labelTxt[1].GetComponent<TextMeshPro>().text.Length;
-    //         if (!answered)
-    //         {
-    //             arrows[0].transform.position = new Vector2((distance + spawnPnt.x), spawnPnt.y);
-    //             arrows[1].transform.position = new Vector2(spawnPnt.x, spawnPnt.y);
-    //             distanceLine1.SetPosition(0, new Vector2(((distance / 2) - (0.2f * dimensionTextLength)) + spawnPnt.x, spawnPnt.y));
-    //             distanceLine1.SetPosition(1, new Vector2(spawnPnt.x, spawnPnt.y));
-    //             distanceLine2.SetPosition(0, new Vector2(((distance / 2) + (0.2f * dimensionTextLength)) + spawnPnt.x, spawnPnt.y));
-    //             distanceLine2.SetPosition(1, new Vector2((distance + spawnPnt.x), spawnPnt.y));
-    //             startlength.SetPosition(0, new Vector2(spawnPnt.x, spawnPnt.y - 1));
-    //             startlength.SetPosition(1, new Vector2(spawnPnt.x, spawnPnt.y + 0.5f));
-    //             endLength.SetPosition(0, new Vector2(spawnPnt.x + distance, spawnPnt.y - 1));
-    //             endLength.SetPosition(1, new Vector2(spawnPnt.x + distance, spawnPnt.y + 0.5f));
-    //             distanceIndicatorTxt.transform.position = new Vector2((distance / 2) + spawnPnt.x, spawnPnt.y);
-
-    //             arrows[2].transform.position = new Vector2(timeEndPnt + timeStartPnt, arrows[0].transform.position.y + 1);
-    //             timeLine1.SetPosition(0, new Vector2(((timeEndPnt / 2) - (0.2f * timeTextLength)) + timeStartPnt, spawnPnt.y + 1));//timeEndPnt = distance
-    //             timeLine1.SetPosition(1, new Vector2(timeStartPnt, spawnPnt.y + 1));
-    //             timeLine2.SetPosition(0, new Vector2(((timeEndPnt / 2) + (0.2f * timeTextLength)) + timeStartPnt, spawnPnt.y + 1));
-    //             timeLine2.SetPosition(1, new Vector2((timeEndPnt + timeStartPnt), spawnPnt.y + 1));
-    //             endTime.SetPosition(0, new Vector2(timeStartPnt + timeEndPnt, spawnPnt.y + .75f));
-    //             endTime.SetPosition(1, new Vector2(timeStartPnt + timeEndPnt, spawnPnt.y + 1.25f));
-    //             labelTxt[1].transform.position = new Vector2((timeEndPnt / 2) + timeStartPnt, spawnPnt.y + 1);
-
-    //             arrows[3].transform.position = new Vector2(veloTxtPnt.x + 1.5f, veloTxtPnt.y + 3f);
-    //             velocityIndicatorTxt.transform.position = new Vector2(veloTxtPnt.x, veloTxtPnt.y + 3);
-    //             if (!revealDistance)
-    //                 distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.distance)}");
-    //             else
-    //                 distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
-    //             if (!revealTime)
-    //                 labelTxt[1].GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.time)}");
-    //             else
-    //                 labelTxt[1].GetComponent<TextMeshPro>().SetText($"{System.Math.Round(time, 2)}{qc.Unit(UnitOf.time)}");
-    //             if (!revealVelocity)
-    //                 velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.velocity)}");
-    //             else
-    //                 velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
-    //         }
-    //         else
-    //         {
-    //             arrows[0].transform.position = new Vector2((distanceTraveled + spawnPnt.x), spawnPnt.y);
-    //             arrows[1].transform.position = new Vector2(spawnPnt.x, spawnPnt.y);
-    //             distanceLine1.SetPosition(0, new Vector2(((distanceTraveled / 2) - (0.2f * dimensionTextLength)) + spawnPnt.x, spawnPnt.y));
-    //             distanceLine1.SetPosition(1, new Vector2(spawnPnt.x, spawnPnt.y));
-    //             distanceLine2.SetPosition(0, new Vector2(((distanceTraveled / 2) + (0.2f * dimensionTextLength)) + spawnPnt.x, spawnPnt.y));
-    //             distanceLine2.SetPosition(1, new Vector2((distanceTraveled + spawnPnt.x), spawnPnt.y));
-    //             startlength.SetPosition(0, new Vector2(spawnPnt.x, spawnPnt.y - 1));
-    //             startlength.SetPosition(1, new Vector2(spawnPnt.x, spawnPnt.y - 0.5f));
-    //             endLength.SetPosition(0, new Vector2(spawnPnt.x + distanceTraveled, spawnPnt.y - 1));
-    //             endLength.SetPosition(1, new Vector2(spawnPnt.x + distanceTraveled, spawnPnt.y - 0.5f));
-    //             distanceIndicatorTxt.transform.position = new Vector2((distanceTraveled / 2) + spawnPnt.x, spawnPnt.y);
-
-    //             arrows[2].transform.position = new Vector2(lengthOfTime + timeStartPnt, spawnPnt.y);
-    //             timeLine1.SetPosition(0, new Vector2(((lengthOfTime / 2) - (0.2f * timeTextLength)) + timeStartPnt, spawnPnt.y));
-    //             timeLine1.SetPosition(1, new Vector2(timeStartPnt, spawnPnt.y));
-    //             timeLine2.SetPosition(0, new Vector2(((lengthOfTime / 2) + (0.2f * timeTextLength)) + timeStartPnt, spawnPnt.y));
-    //             timeLine2.SetPosition(1, new Vector2((lengthOfTime + timeStartPnt), spawnPnt.y));
-    //             endTime.SetPosition(0, new Vector2(timeStartPnt + lengthOfTime, spawnPnt.y + .75f));
-    //             endTime.SetPosition(1, new Vector2(timeStartPnt + lengthOfTime, spawnPnt.y + 1.25f));
-    //             labelTxt[1].transform.position = new Vector2((lengthOfTime / 2) + timeStartPnt, spawnPnt.y);
-
-    //             labelTxt[1].GetComponent<TextMeshPro>().SetText($"{System.Math.Round(elapsedTime, 2)}{qc.Unit(UnitOf.time)}");
-    //             velocityIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
-    //             distanceIndicatorTxt.GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distanceTraveled, 2)}{qc.Unit(UnitOf.distance)}");
-    //         }
-    //         distanceIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-    //         velocityIndicatorTxt.GetComponent<TextMeshPro>().fontSize = fontSize;
-    //         labelTxt[1].GetComponent<TextMeshPro>().fontSize = fontSize;
-
-    //         arrows[3].transform.position = new Vector2(veloTxtPnt.x + 1.5f, veloTxtPnt.y + 3f);
-    //         velocityIndicatorTxt.transform.position = new Vector2(veloTxtPnt.x, veloTxtPnt.y + 3);
-
-    //         qc.SetColor(labelTxt[1].GetComponent<TMP_Text>(), colorMode);
-    //         qc.SetColor(distanceIndicatorTxt.GetComponent<TMP_Text>(), colorMode);
-    //         qc.SetColor(velocityIndicatorTxt.GetComponent<TMP_Text>(), colorMode);
-    //         distanceLine1.startColor = qc.getHexColor(colorMode);
-    //         distanceLine1.endColor = qc.getHexColor(colorMode);
-    //         distanceLine2.startColor = qc.getHexColor(colorMode);
-    //         distanceLine2.endColor = qc.getHexColor(colorMode);
-    //         timeLine1.startColor = qc.getHexColor(colorMode);
-    //         timeLine1.endColor = qc.getHexColor(colorMode);
-    //         timeLine2.startColor = qc.getHexColor(colorMode);
-    //         timeLine2.endColor = qc.getHexColor(colorMode);
-    //         endTime.startColor = qc.getHexColor(colorMode);
-    //         endTime.endColor = qc.getHexColor(colorMode);
-    //         startlength.startColor = qc.getHexColor(colorMode);
-    //         startlength.endColor = qc.getHexColor(colorMode);
-    //         endLength.startColor = qc.getHexColor(colorMode);
-    //         endLength.endColor = qc.getHexColor(colorMode);
-    //         foreach (var item in arrows)
-    //         {
-    //             item.GetComponent<SpriteRenderer>().color = qc.getHexColor(colorMode);
-    //         }
-    //     }
+        correctTimeLines[0].SetPosition(0, new Vector2(((correctT / 2) - (0.18f * correctTimeTxtLength)) + timeSpawnPnt.x, posY));
+        correctTimeLines[0].SetPosition(1, new Vector2(timeSpawnPnt.x, posY));
+        correctTimeLines[1].SetPosition(0, new Vector2(((correctT / 2) + (0.18f * correctTimeTxtLength)) + timeSpawnPnt.x, posY));
+        correctTimeLines[1].SetPosition(1, new Vector2((correctT + timeSpawnPnt.x), posY));
+        correctTimeLines[2].SetPosition(0, new Vector2(timeSpawnPnt.x, posY - 0.25f));
+        correctTimeLines[2].SetPosition(1, new Vector2(timeSpawnPnt.x, posY + 0.25f));
+        correctTimeLines[3].SetPosition(0, new Vector2(timeSpawnPnt.x + correctT, posY - 0.25f));
+        correctTimeLines[3].SetPosition(1, new Vector2(timeSpawnPnt.x + correctT, posY + 0.25f));
+    }
 }
