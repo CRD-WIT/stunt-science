@@ -12,11 +12,11 @@ public class HeartManager : MonoBehaviour
     public GameObject heartItem;
     public GameObject gameOverBG, startBG;
     public bool losslife;
-
     // Start is called before the first frame update
     void Start()
     {
         startbgentrance();
+        
     }
 
     public void DestroyHearts()
@@ -85,7 +85,6 @@ public class HeartManager : MonoBehaviour
         startBG.SetActive(true);
         yield return new WaitForSeconds(1);
         startBG.SetActive(false);
-
     }
     public void startbgentrance()
     {
@@ -98,5 +97,10 @@ public class HeartManager : MonoBehaviour
             life -= 1;
             losslife = true;
         }
+    }
+    public void reloadScene()
+    {
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
 }

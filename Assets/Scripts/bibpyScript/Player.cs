@@ -4,13 +4,13 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float moveSpeed;
-    private Rigidbody2D myRigidbody;
+    public Rigidbody2D myRigidbody;
     private Animator myAnimator;
 
     
     public GameObject player;
     public GameObject stickmanpoint;
-    public bool lost;
+    public bool lost, brake;
     public bool happy;
    
      public bool ragdollblow;
@@ -19,12 +19,17 @@ public class Player : MonoBehaviour
      float currentpos;
      public bool posready;
      public bool grounded;
+     public bool throwing;
      public LayerMask whatIsGround;
      public Transform groundCheck;
      public float groundedRadius;
      private Collider2D myCollider;
      public float jumpforce;
      public bool standup;
+     public bool addweights, thisway, godown;
+     public bool toJump,toReach,ropeHang,hangkick;
+     
+     
     
      
      
@@ -58,6 +63,16 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("happy", happy);
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("standup", standup);
+        myAnimator.SetBool("brake", brake);
+        myAnimator.SetBool("throwing", throwing);
+        myAnimator.SetBool("addweights", addweights);
+        myAnimator.SetBool("thisway", thisway);
+        myAnimator.SetBool("godown", godown);
+        myAnimator.SetBool("tojump", toJump);
+        myAnimator.SetBool("toreach", toReach);
+        myAnimator.SetBool("ropehang", ropeHang);
+        myAnimator.SetBool("hangkick", hangkick);
+       
         
         if (posready == true)
         {
@@ -101,6 +116,13 @@ public class Player : MonoBehaviour
          GameObject stick = Instantiate(stickprefab);
         stick.transform.position = stickmanpoint.transform.position;
        ragdollblow = false;        
+    }
+    public void driverspawn()
+    {
+        
+        GameObject stick = Instantiate(stickprefab);
+        stick.transform.position = stickmanpoint.transform.position;
+        ragdollblow = false;        
     }
     public void startstunt()
     {
@@ -150,6 +172,7 @@ public class Player : MonoBehaviour
             ragdollspawn();
             standup = true;
         }
+        
     }
 
     public void jump()
