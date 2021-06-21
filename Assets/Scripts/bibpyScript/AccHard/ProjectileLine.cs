@@ -21,7 +21,7 @@ public class ProjectileLine : MonoBehaviour
         }
         if(transform.position.y > -2)
         {
-            mycolor.color = new Color32(15, 118, 0, 255);
+            mycolor.color = new Color32(87, 0, 255, 255);
         }
     }
 }

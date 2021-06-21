@@ -21,6 +21,9 @@ public class AccHardSimulation : MonoBehaviour
     public TMP_Text diretorsSpeech;
     private Vector2 truckStartPoint;
     public bool posCheck;
+    public string take;
+    public int takeNumber;
+    
 
 
     // Start is called before the first frame update
@@ -28,12 +31,24 @@ public class AccHardSimulation : MonoBehaviour
     {
         theHeart = FindObjectOfType<HeartManager>();
         truckStartPoint = theTruck.transform.position;
+        takeNumber = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(takeNumber == 1)
+        {
+            take = "One";
+        }
+        if(takeNumber == 2)
+        {
+            take = "Two";
+        }
+        if(takeNumber == 3)
+        {
+            take = "three";
+        }
     }
     public void PlayButton()
     {
@@ -104,7 +119,7 @@ public class AccHardSimulation : MonoBehaviour
     }
     public void retry()
     {
-        playButton.interactable = true;
+        
         playerAnswer = 0;
         simulate = false;
         answerField.text = ("");
@@ -143,6 +158,8 @@ public class AccHardSimulation : MonoBehaviour
         if (directorIsCalling)
         {
             directorBubble.SetActive(true);
+            diretorsSpeech.text = "Take " + take + ("!");
+            yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Lights!";
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";

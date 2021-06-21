@@ -7,7 +7,7 @@ public class AccHardOne : MonoBehaviour
 {
     public float dX, dY, viT, aT, timer, vB, angleB, angleA, sideB, sideC, totalDistance, correctAnswer, answer, playerAnswer;
     //public Quaternion angleB;
-    public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions;
+    public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions, truckInitials;
     public GameObject verticalOne, horizontal;
     public GameObject bulletPos, wheelPos, bulletHere, targetHere, cam;
     public TruckManager theTruck;
@@ -156,13 +156,15 @@ public class AccHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        StartCoroutine(theHeart.startBGgone());
+        truckInitials.SetActive(true);
         target.SetActive(true);
         startTime = false;
         dimensions.SetActive(true);
         projectileLine.SetActive(true);
         shootReady = true;
         shoot = false;
-        dX = Random.Range(10, 12);
+        dX = Random.Range(8, 10);
         dY = Random.Range(10, 12);
         generateAngleB = Random.Range(20f, 30f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
@@ -231,7 +233,7 @@ public class AccHardOne : MonoBehaviour
         yield return new WaitForSeconds(1);
         theMulticab.moveSpeed = 20;
         yield return new WaitForSeconds(4);
-        theHeart.startbgentrance();
+        theHeart.startBGgone();
         theTruck.moveSpeed = 0;
         theChopper.flySpeed = 0;
         theMulticab.moveSpeed = 0;
@@ -242,18 +244,25 @@ public class AccHardOne : MonoBehaviour
     }
     public IEnumerator positioningTwo()
     {
+        truckInitials.SetActive(false);
+        theSimulate.takeNumber += 1;
         timer = 0;
         target.SetActive(false);
+        tries += 1;
         attemp += 1;
         bulletPos.SetActive(false);
         bulletHere.SetActive(false);
         wheelPos.SetActive(false);
         targetHere.SetActive(false);
-        theTruck.moveSpeed = -11;
-        yield return new WaitForSeconds(6);
-        theHeart.startbgentrance();
+        theTruck.transform.position = new Vector2(theTruck.transform.position.x -1, theTruck.transform.position.y);
+        theTruck.moveSpeed = -13;
+        yield return new WaitForSeconds(4);
+       StartCoroutine(theHeart.endBGgone());
+        yield return new WaitForSeconds(1f);
         theTruck.moveSpeed = 0;
+        yield return new WaitForSeconds(1.8f);   
         generateProblem();
+        theSimulate.playButton.interactable = true;
         
     }
 }
