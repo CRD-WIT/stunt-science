@@ -34,6 +34,7 @@ public class AccHardTwo : MonoBehaviour
         StartCoroutine(positioning());
         camPos = cam.transform.position.x - theChopper.transform.position.x;
         stopTruckPos = 210;
+        theSimulate.takeNumber = 1;
     }
 
     // Update is called once per frame
