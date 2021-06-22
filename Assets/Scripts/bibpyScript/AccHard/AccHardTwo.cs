@@ -94,17 +94,25 @@ public class AccHardTwo : MonoBehaviour
             }
             if (playerAnswer > answer)
             {
-                if (timer >= chopperTimeToTravel)
+                 theChopper.accelaration = aH +.5f;
+                if (timer >= chopperTimeToTravel - .1f)
                 {
+                    theChopper.flySpeed = 0;
+                    theChopper.accelaration = 0;
+                    theChopper.accelarating = false;
                     shoot = true;
 
                 }
             }
             if (playerAnswer < answer)
             {
+                theChopper.accelaration = aH -.5f;
 
-                if (timer >= chopperTimeToTravel)
+                if (timer >= chopperTimeToTravel + .1f)
                 {
+                    theChopper.flySpeed = 0;
+                    theChopper.accelaration = 0;
+                    theChopper.accelarating = false;
                     shoot = true;
                 }
             }
@@ -121,7 +129,7 @@ public class AccHardTwo : MonoBehaviour
         {
             AccHardSimulation.simulate = false;
             target.SetActive(false);
-            timertxt.text = playerAnswer.ToString("F2");
+            timertxt.text = chopperTimeToTravel.ToString("F2");
 
             if (shootReady)
             {
@@ -152,13 +160,6 @@ public class AccHardTwo : MonoBehaviour
             }
 
         }
-        if (tries == attemp)
-        {
-            if (truckCurrentPos >= stopTruckPos)
-            {
-                theTruck.moveSpeed = 0;
-            }
-        }
 
 
     }
@@ -170,7 +171,7 @@ public class AccHardTwo : MonoBehaviour
         dX = Random.Range(11, 13);
         generateAH = Random.Range(3, 5);
         aH = (float)System.Math.Round(generateAH, 2);
-        generateTime = Random.Range(2f, 2.5f);
+        generateTime = Random.Range(3f, 3.5f);
         time = (float)System.Math.Round(generateTime, 2);
         generateAngleB = Random.Range(26f, 35f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
