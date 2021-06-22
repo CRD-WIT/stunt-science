@@ -9,7 +9,6 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     // Start is called before the first frame update
     string question;
     float lastHitYPosition;
-    GameObject[] ropeBones;
     public float elapsed;
     public TMP_Text playerNameText, timerText, questionText, levelName, timeGivenContainer;
     public GameObject AfterStuntMessage;
@@ -44,7 +43,6 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     float globalTime;
     void Start()
     {
-        ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
 
         // Given        
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1.0f), 2);
