@@ -61,17 +61,24 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         }
     }
 
+    // IEnumerator 
+
     public void showLines(float? dLength, float? tLength, float? hLength, float v, float t)
     {
         if (arrowPresent)
-            Destroy(arrow);
-        else
+            foreach (var item in arrows)
+                Destroy(item);
+        arrowPresent = false;
+        if(!arrowPresent)
         {
+            for (int i = 0; i <= 8; i++)
+            {
+                arrows[i] = Instantiate(arrow);
+                arrows[i].transform.SetParent(transform.Find("UnusedArrows"));
+            }
             if (dLength != null)
             {
                 distance = (float)dLength;
-                arrows[0] = Instantiate(arrow);
-                arrows[1] = Instantiate(arrow);
 
                 arrows[0].transform.Rotate(0, 0, 180);
                 arrows[0].transform.SetParent(transform.Find("Distance"));
@@ -84,27 +91,20 @@ public class IndicatorManagerV1_1 : MonoBehaviour
             {
                 timerLength = (float)tLength;
                 timer = t;
-                arrows[2] = Instantiate(arrow);
 
                 arrows[2].transform.Rotate(0, 0, 180);
                 arrows[2].transform.SetParent(transform.Find("Time"));
+                // annotationTimeEnds = 0.25f;
 
                 this.showTime = true;
             }
             else
             {
                 this.showTime = false;
-                // if (tLength != null)
-                //     timerLength = (float)tLength;
-                // else
-                //     timerLength = distance;
-                // arrowPresent = true;
             }
             if (hLength != null)
             {
                 height = (float)hLength;
-                arrows[3] = Instantiate(arrow);
-                arrows[4] = Instantiate(arrow);
 
                 arrows[3].transform.Rotate(0, 0, 90);
                 arrows[4].transform.Rotate(0, 0, -90);
@@ -116,25 +116,24 @@ public class IndicatorManagerV1_1 : MonoBehaviour
             else this.showHeight = false;
 
             velocity = v;
-            arrows[7] = Instantiate(arrow);
             arrows[7].transform.SetParent(transform.Find("Velocity"));
             arrows[7].transform.Rotate(0, 0, 180);
 
             showCorrectDistance = false;
             showCorrectTime = false;
 
-            arrows[5] = Instantiate(arrow);
-            arrows[6] = Instantiate(arrow);
             arrows[5].transform.Rotate(0, 0, 180);
             arrows[5].transform.SetParent(transform.Find("CorrectDistance"));
             arrows[6].transform.SetParent(transform.Find("CorrectDistance"));
 
-            arrows[8] = Instantiate(arrow);
             arrows[8].transform.Rotate(0, 0, 180);
-            arrows[8].transform.SetParent(transform.Find("CorrectDistance"));
+            arrows[8].transform.SetParent(transform.Find("CorrectTime"));
 
-            // annotationDistanceEnds = 0;
-            annotationTimeEnds = 1.25f;
+            showCorrectTime = false;
+            showCorrectDistance = false;
+
+            annotationTimeEnds = 0.75f;
+            arrowPresent = true;
         }
     }
     public void UnknownIs(char? whatIsAsk)
@@ -208,12 +207,12 @@ public class IndicatorManagerV1_1 : MonoBehaviour
                 if (isCorrect)
                 {
                     timeColor = TextColorMode.Correct;
-                    distanceColor = TextColorMode.Correct;
+                    // distanceColor = TextColorMode.Correct;
                 }
                 else
                 {
                     timeColor = TextColorMode.Wrong;
-                    distanceColor = TextColorMode.Wrong;
+                    // distanceColor = TextColorMode.Wrong;
                 }
                 break;
             default:
@@ -266,11 +265,12 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         }
         answered = true;
         timer = runTime;
-        annotationTimeEnds = -0.5f;
+        annotationTimeEnds = -0.75f;
     }
 
     private void Update()
     {
+
         foreach (var item in distanceLines)
         {
             item.enabled = showDistance;
@@ -291,7 +291,12 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         labelTxt[0].SetActive(showDistance);
         labelTxt[1].SetActive(showTime);
         labelTxt[2].SetActive(showHeight);
+        labelTxt[3].SetActive(showCorrectDistance);
         labelTxt[5].SetActive(showCorrectTime);
+
+        arrows[5].SetActive(showCorrectDistance);
+        arrows[6].SetActive(showCorrectDistance);
+        arrows[8].SetActive(showCorrectTime);
 
         dimensionTxtLength = labelTxt[0].GetComponent<TextMeshPro>().text.Length;
         timeTxtLength = labelTxt[1].GetComponent<TextMeshPro>().text.Length;
@@ -315,13 +320,13 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         timeLines[1].SetPosition(0, new Vector2(((timerLength / 2) + (0.18f * timeTxtLength)) + timeSpawnPnt.x, timeSpawnPnt.y + 1));
         timeLines[1].SetPosition(1, new Vector2((timerLength + timeSpawnPnt.x), timeSpawnPnt.y + 1));
         timeLines[2].SetPosition(0, new Vector2(timeSpawnPnt.x, timeSpawnPnt.y + annotationTimeEnds));
-        timeLines[2].SetPosition(1, new Vector2(timeSpawnPnt.x, timeSpawnPnt.y + 1.25f));
-        timeLines[3].SetPosition(0, new Vector2(timeSpawnPnt.x + timerLength, annotationTimeEnds));
-        timeLines[3].SetPosition(1, new Vector2(timeSpawnPnt.x + timerLength, timeSpawnPnt.y + 1.25f));
+        timeLines[2].SetPosition(1, new Vector2(timeSpawnPnt.x, timeSpawnPnt.y +1.25f));
+        timeLines[3].SetPosition(0, new Vector2(timeSpawnPnt.x + timerLength, timeSpawnPnt.y + annotationTimeEnds));
+        timeLines[3].SetPosition(1, new Vector2(timeSpawnPnt.x + timerLength, timeSpawnPnt.y+1.25f));
         labelTxt[1].transform.position = new Vector2((timerLength / 2) + timeSpawnPnt.x, timeSpawnPnt.y + 1);
 
         labelTxt[4].transform.position = velocitySpawnPnt;
-        arrows[7].transform.position = new Vector2(velocitySpawnPnt.x + (0.25f * velocityTxtLength), velocitySpawnPnt.y);
+        arrows[7].transform.position = new Vector2(velocitySpawnPnt.x + (0.18f * velocityTxtLength), velocitySpawnPnt.y);
 
         if (!revealDistance)
             labelTxt[0].GetComponent<TextMeshPro>().SetText($"distance = ?{qc.Unit(UnitOf.distance)}");
@@ -401,9 +406,9 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         correctDistanceLines[1].SetPosition(0, new Vector2(((correctD / 2) + (0.18f * correctDistanceTxtLength)) + posX, posY));
         correctDistanceLines[1].SetPosition(1, new Vector2((correctD + posX), posY));
         correctDistanceLines[2].SetPosition(0, new Vector2(posX, posY - 0.25f));
-        correctDistanceLines[2].SetPosition(1, new Vector2(posX, posY + 0.25f));
+        correctDistanceLines[2].SetPosition(1, new Vector2(posX, posY + 0.5f));
         correctDistanceLines[3].SetPosition(0, new Vector2(posX + correctD, posY - 0.25f));
-        correctDistanceLines[3].SetPosition(1, new Vector2(posX + correctD, posY + 0.25f));
+        correctDistanceLines[3].SetPosition(1, new Vector2(posX + correctD, posY + 0.5f));
     }
     public void ShowCorrectTime(float timer, float correctT, bool showCorrect)
     {
