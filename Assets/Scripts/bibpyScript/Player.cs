@@ -4,28 +4,33 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float moveSpeed;
-    private Rigidbody2D myRigidbody;
+    public Rigidbody2D myRigidbody;
     private Animator myAnimator;
 
-
+    public bool isHanging, jumpHang, isLanded, isGrabbing, hangWalk, isFalling;
     public GameObject player;
     public GameObject stickmanpoint;
-    public bool lost;
+    public bool lost, brake;
     public bool happy;
-
+    public bool slide;
+    public EdgeCollider2D slideCollider;
     public bool ragdollblow;
     public AudioSource footstep;
     public GameObject stickprefab;
     float currentpos;
     public bool posready;
     public bool grounded;
+    public bool throwing;
     public LayerMask whatIsGround;
     public Transform groundCheck;
     public float groundedRadius;
     private Collider2D myCollider;
-    public EdgeCollider2D slideCollider;
     public float jumpforce;
-    public bool standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang, isLanded;
+    public bool standup;
+    public bool addweights, thisway, godown;
+    public bool toJump, toReach, ropeHang, hangkick;
+
+
 
 
 
@@ -40,8 +45,6 @@ public class Player : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
-
-
 
     }
 
@@ -59,16 +62,17 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("happy", happy);
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("standup", standup);
-        myAnimator.SetBool("slide", slide);
-        myAnimator.SetBool("cranking",Level5EasyManager.cranked);
-        myAnimator.SetBool("brake",brake);
-        myAnimator.SetBool("isHanging",isHanging);
-        myAnimator.SetBool("grab", isGrabbing);
-        myAnimator.SetBool("hangWalk", hangWalk);
-        myAnimator.SetBool("isFalling", isFalling);
-        myAnimator.SetBool("toJump", toJump);
-        myAnimator.SetBool("jumpHang", jumpHang);
-        myAnimator.SetBool("landed", isLanded);
+        myAnimator.SetBool("brake", brake);
+        myAnimator.SetBool("throwing", throwing);
+        myAnimator.SetBool("addweights", addweights);
+        myAnimator.SetBool("thisway", thisway);
+        myAnimator.SetBool("godown", godown);
+        myAnimator.SetBool("tojump", toJump);
+        myAnimator.SetBool("toreach", toReach);
+        myAnimator.SetBool("ropehang", ropeHang);
+        myAnimator.SetBool("hangkick", hangkick);
+
+
         if (posready == true)
         {
             if (currentpos >= 0)
@@ -111,6 +115,13 @@ public class Player : MonoBehaviour
         // stick.transform.position = stickmanpoint.transform.position;
 
         //stick.SetActive(true);
+
+        GameObject stick = Instantiate(stickprefab);
+        stick.transform.position = stickmanpoint.transform.position;
+        ragdollblow = false;
+    }
+    public void driverspawn()
+    {
 
         GameObject stick = Instantiate(stickprefab);
         stick.transform.position = stickmanpoint.transform.position;
@@ -166,6 +177,7 @@ public class Player : MonoBehaviour
             lost = false;
             standup = true;
         }
+
     }
 
     public void jump()
@@ -181,14 +193,14 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         slideCollider.enabled = true;
-        myCollider.enabled =false;
+        myCollider.enabled = false;
         myRigidbody.mass = 0.00001f;
         myRigidbody.gravityScale = 90;
         yield return new WaitForSeconds(3.5f);
         myRigidbody.mass = 10;
         myRigidbody.gravityScale = 1;
-        slideCollider.enabled =false;
-        myCollider.enabled =true;
+        slideCollider.enabled = false;
+        myCollider.enabled = true;
         slide = false;
     }
 

@@ -6,10 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
-    public HeartManager theHeart;
+   public HeartManager theHeart;
     int mystar, scorestar, coin;
-    public GameObject star1, star2, star3, good, great, perfect, starscreen;
-    public Button taptocon, replay;
+
+    public GameObject star1;
+    public GameObject star2;
+    public GameObject star3;
+    public GameObject good;
+    public GameObject great;
+    public GameObject perfect;
+    public GameObject starscreen;
+    public Button taptocon;
+    public Button replay;
     bool scoreready = true;
     public AudioSource starfx, victorysfx, bgm, coinsfx;
     public Text mycoin;
@@ -30,10 +38,10 @@ public class ScoreManager : MonoBehaviour
     public void finalstar()
     {
         StartCoroutine(scoringstar());
-        if (scorestar > mystar)
+        /*if(scorestar > mystar)
         {
-            PlayerPrefs.SetInt("VstarE", scorestar);
-        }
+           PlayerPrefs.SetInt("VstarE", scorestar);
+        }*/
     }
     IEnumerator scoringstar()
     {
@@ -96,7 +104,8 @@ public class ScoreManager : MonoBehaviour
     }
     public void replaylevel()
     {
-        SceneManager.LoadScene("LevelOne");
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
     public void addingoOneCoin()
     {

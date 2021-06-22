@@ -8,9 +8,6 @@ using GameConfig;
 public class QuestionController : MonoBehaviour
 {
     float playerAnswer;
-    [SerializeField] private Transform baseComponent;
-    Transform extraComponent;
-    private Transform problemBox;
     public bool answerIsCorrect = false;
     public bool isModalOpen = true;
     public Camera renderCamera;
@@ -28,108 +25,56 @@ public class QuestionController : MonoBehaviour
     public UnitOf unitOf;
 
     string answerUnit;
-    [SerializeField]
-    TMP_InputField answerFieldHorizontal;
-    [SerializeField]
-    TMP_InputField answerFieldVertical;
-    [SerializeField] Transform difficultyName;
-    [SerializeField] Transform stageName;
+    [SerializeField] TMP_InputField answerFieldHorizontal;
+    [SerializeField] TMP_InputField answerFieldVertical;
+    [SerializeField] GameObject difficultyName;
+    [SerializeField] GameObject stageName;
     public bool isSimulating;
-    [SerializeField]
-    string modalText;
-    [SerializeField]
-    string errorText;
-    [SerializeField]
-    bool popupVisible;
+    [SerializeField] string modalText;
+    public string errorText;
+    public bool popupVisible;
 
     [Header("Components")]
     [Space(10)]
-
-    [SerializeField]
-    GameObject modalComponentHorizontal;
-    [SerializeField]
-    GameObject popupComponentHorizontal;
-    [SerializeField]
-    GameObject popupComponentVertical;
-    [SerializeField]
-    TMP_Text popupTextHorizontal;
-    [SerializeField]
-    TMP_Text popupTextVertical;
-    [SerializeField]
-    GameObject modalComponentVertical;
+    [SerializeField] private Transform baseComponent;
+    [SerializeField] Transform extraComponent;
+    [SerializeField] GameObject levelNameBox;
+    [SerializeField] GameObject problemBoxContainer;
+    [SerializeField] GameObject levelBadge;
+    [SerializeField] GameObject modalComponentHorizontal;
+    [SerializeField] GameObject popupComponentHorizontal;
+    [SerializeField] GameObject popupComponentVertical;
+    [SerializeField] TMP_Text popupTextHorizontal;
+    [SerializeField] TMP_Text popupTextVertical;
+    [SerializeField] GameObject modalComponentVertical;
+    [SerializeField] GameObject playButtonVertical;
+    [SerializeField] GameObject playButtonHorizontal;
+    [SerializeField] GameObject timerComponentHorizontal;
+    [SerializeField] GameObject timerComponentVertical;
+    [SerializeField] GameObject problemBoxVertical;
+    [SerializeField] GameObject problemBoxHorizontal;
+    [SerializeField] GameObject problemTextVertical;
+    [SerializeField] GameObject problemTextHorizontal;
+    [SerializeField] GameObject modalTitleVertical;
+    [SerializeField] GameObject modalTextHorizontal;
     [SerializeField] string actionButtonText;
-
-    [SerializeField]
-    GameObject playButtonVertical;
-    [SerializeField]
-    GameObject playButtonHorizontal;
-    [SerializeField]
-    GameObject timerComponentHorizontal;
-    [SerializeField]
-    GameObject timerComponentVertical;
-    [SerializeField]
-    GameObject problemBoxVertical;
-    [SerializeField]
-    GameObject problemBoxHorizontal;
-    [SerializeField]
-    GameObject problemTextVertical;
-    [SerializeField]
-    GameObject problemTextHorizontal;
-    [SerializeField]
-    GameObject modalTitleVertical;
-    [SerializeField]
-    GameObject modalTextHorizontal;
-    [SerializeField]
-    GameObject modalTextVertical;
-    [SerializeField]
-    GameObject modalTitleHorizontal;
-
-    [SerializeField]
-    GameObject wrongIconHorizontal;
-    [SerializeField]
-    GameObject correctIconHorizontal;
-    [SerializeField]
-    GameObject wrongIconVertical;
-    [SerializeField]
-    GameObject correctIconVertical;
+    [SerializeField] GameObject modalTextVertical;
+    [SerializeField] GameObject modalTitleHorizontal;
+    [SerializeField] GameObject wrongIconHorizontal;
+    [SerializeField] GameObject correctIconHorizontal;
+    [SerializeField] GameObject wrongIconVertical;
+    [SerializeField] GameObject correctIconVertical;
+    public Transform[] allComponentTransforms;
 
     // Start is called before the first frame update
     void Start()
     {
-
-        baseComponent = transform.Find("Base");
-        extraComponent = transform.Find("Extra");
-
-        Transform[] components = { baseComponent, modalComponentHorizontal.transform, modalComponentVertical.transform, extraComponent };
-
-        // foreach (Transform component in components)
-        // {
-        //     component.GetComponent<Canvas>().worldCamera = renderCamera;
-        // }
-
-        problemBox = baseComponent.Find("ProblemBox");
-        stageName = problemBox.Find("StageBar2").Find("StageName");
-        difficultyName = problemBox.Find("StageBar3").Find("DifficultyName");
+        baseComponent.gameObject.GetComponent<Canvas>().worldCamera = renderCamera;
 
         givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
         correctAnswerColor = new Color32(150, 217, 72, 255);
         wrongAnswerColor = new Color32(237, 66, 66, 255);
-    }
 
-
-
-    public void ToggleModal(string title, string text, string actionButtonName)
-    {
-        isModalOpen = !isModalOpen;
-        SetModalTitle(title);
-        SetModalText(text);
-        SetActionButtonName(actionButtonName);
-    }
-
-
-    public void SetActionButtonName(string text)
-    {
-        actionButtonText = text;
     }
 
     public string GetUnit()
@@ -137,6 +82,10 @@ public class QuestionController : MonoBehaviour
         return answerUnit;
     }
 
+    public void ToggleModal()
+    {
+        isModalOpen = !isModalOpen;
+    }
     public void SetModalText(string s)
     {
         modalText = s;
@@ -155,6 +104,59 @@ public class QuestionController : MonoBehaviour
     public float GetPlayerAnswer()
     {
         return playerAnswer;
+    }
+
+    /*public void SetAnswer()
+    {
+        if (orientation == Orientation.Horizontal)
+        {
+            if (answerFieldHorizontal.text == "")
+                StartCoroutine(IsEmpty());
+            else
+            {
+                playerAnswer = float.Parse(answerFieldHorizontal.text);
+                answerFieldHorizontal.text = playerAnswer + answerUnit;
+            }
+        }
+        else
+        {
+            if (answerFieldVertical.text == "")
+                StartCoroutine(IsEmpty());
+            else
+            {
+                playerAnswer = float.Parse(answerFieldVertical.text);
+                answerFieldVertical.text = playerAnswer + answerUnit;
+            }
+        }
+
+    }*/
+
+    public void Retry()
+    {
+        modalComponentHorizontal.gameObject.SetActive(false);
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+    }
+
+    IEnumerator IsEmpty()
+    {
+        // warningTxt.text = "Please enter your answer!";
+        yield return new WaitForSeconds(1);
+        // warningTxt.text = "";
+    }
+
+    public void SetActionButtonName(string text)
+    {
+        actionButtonText = text;
+    }
+
+
+    public void ToggleModal(string title, string text, string actionButtonName)
+    {
+        isModalOpen = !isModalOpen;
+        SetModalTitle(title);
+        SetModalText(text);
+        SetActionButtonName(actionButtonName);
     }
 
     public void SetAnswer()
@@ -182,19 +184,6 @@ public class QuestionController : MonoBehaviour
 
     }
 
-    public void Retry()
-    {
-        modalComponentHorizontal.gameObject.SetActive(false);
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
-    }
-
-    IEnumerator IsEmpty()
-    {
-        // warningTxt.text = "Please enter your answer!";
-        yield return new WaitForSeconds(1);
-        // warningTxt.text = "";
-    }
 
     public string Unit()
     {
@@ -290,11 +279,13 @@ public class QuestionController : MonoBehaviour
             popupComponentVertical.SetActive(false);
             popupTextHorizontal.SetText(errorText);
             modalComponentHorizontal.gameObject.SetActive(isModalOpen);
+            problemTextHorizontal.SetActive(!isModalOpen);
             modalComponentVertical.SetActive(false);
             modalTitleHorizontal.SetActive(true);
             modalTitleVertical.SetActive(false);
             modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
             playButtonHorizontal.SetActive(!isSimulating);
+            answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
             problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
             modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
             if (answerIsCorrect)
@@ -316,10 +307,13 @@ public class QuestionController : MonoBehaviour
             popupComponentHorizontal.SetActive(false);
             popupTextVertical.SetText(errorText);
             modalComponentVertical.gameObject.SetActive(isModalOpen);
+            problemTextVertical.SetActive(!isModalOpen);
             modalComponentHorizontal.SetActive(false);
             modalTitleHorizontal.SetActive(false);
             modalTitleVertical.SetActive(true);
             playButtonVertical.SetActive(!isSimulating);
+            playButtonVertical.SetActive(!isModalOpen);
+            answerFieldVertical.gameObject.SetActive(!isModalOpen);
             problemTextVertical.GetComponent<TMP_Text>().SetText(question);
             modalTitleVertical.GetComponent<TMP_Text>().SetText(modalTitle);
             modalTextVertical.GetComponent<TMP_Text>().SetText(modalText);
@@ -343,7 +337,7 @@ public class QuestionController : MonoBehaviour
         // correctIconHorizontal.SetActive(!answerIsCorrect);
         // wrongIconHorizontal.SetActive(answerIsCorrect);
 
-        problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
+        levelNameBox.GetComponent<TMP_Text>().SetText($"{levelName}");
         extraComponent.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");
         stageName.GetComponent<TMP_Text>().SetText($"Stage {stageNumber}");
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
