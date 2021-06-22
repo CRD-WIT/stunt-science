@@ -9,7 +9,7 @@ public class AccHardTwo : MonoBehaviour
     //public Quaternion angleB;
     public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions, cam;
     public GameObject verticalOne, horizontal;
-    public GameObject bulletPos, wheelPos, bulletHere, targetHere;
+    public GameObject bulletPos, wheelPos, bulletHere, targetHere, truckInitials;
     public TruckManager theTruck;
     public MulticabManager theMulticab;
     public Hellicopter theChopper;
@@ -19,9 +19,10 @@ public class AccHardTwo : MonoBehaviour
     public QuestionController theQuestion;
     private BulletManager theBullet;
     public AccHardSimulation theSimulate;
+    public HeartManager theHeart;
     float generateAngleB, generateViT, generateAT, generateVB, generateDX, generateDY, generateTime, time;
     float generateAH, aH, viH;
-    float ChopperY, chopperX, truckTime, bulletTime, truckCurrentPos, chopperTimeToTravel;
+    float ChopperY, chopperX, truckTime, bulletTime, truckCurrentPos, chopperTimeToTravel, distanceBetween;
     bool shoot, shootReady, gas, startTime;
     public bool posCheck;
     public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt;
@@ -56,14 +57,21 @@ public class AccHardTwo : MonoBehaviour
         answer = (float)System.Math.Round(correctAnswer, 2);
         distanceCheck = (correctAnswer * chopperTimeToTravel) + (((chopperTimeToTravel * chopperTimeToTravel) * aH) / 2);
         playerAnswer = AccHardSimulation.playerAnswer;
+        distanceBetween = truckCurrentPos - theChopper.transform.position.x;
         if (startTime)
         {
             timer += Time.fixedDeltaTime;
             timertxtTruck.text = timer.ToString("F2") + ("s");
         }
+        if (distanceBetween >= 75f)
+        {
+            theTruck.accelerating = false;
+            theTruck.moveSpeed = 0;
+            startTime = false;
+        }
         if (AccHardSimulation.simulate == true)
         {
-            
+
             startTime = true;
             target.transform.position = targetWheel.transform.position;
             dimensions.SetActive(false);
@@ -77,6 +85,7 @@ public class AccHardTwo : MonoBehaviour
                 theTruck.moveSpeed = viT;
                 theTruck.accelaration = aT;
                 theTruck.accelerating = true;
+                theMulticab.moveSpeed = viH + 1;
             }
 
             timertxt.text = timer.ToString("F2") + ("s");
@@ -94,7 +103,7 @@ public class AccHardTwo : MonoBehaviour
             }
             if (playerAnswer > answer)
             {
-                 theChopper.accelaration = aH +.5f;
+                theChopper.accelaration = aH + .5f;
                 if (timer >= chopperTimeToTravel - .1f)
                 {
                     theChopper.flySpeed = 0;
@@ -106,7 +115,7 @@ public class AccHardTwo : MonoBehaviour
             }
             if (playerAnswer < answer)
             {
-                theChopper.accelaration = aH -.5f;
+                theChopper.accelaration = aH - .5f;
 
                 if (timer >= chopperTimeToTravel + .1f)
                 {
@@ -137,10 +146,11 @@ public class AccHardTwo : MonoBehaviour
                 shootReady = false;
 
             }
-            if (posCheck)
+            if (theSimulate.posCheck)
             {
                 if (playerAnswer != answer)
                 {
+                    theQuestion.answerIsCorrect = false;
                     actiontxt.text = ("Retry");
                     bulletPos.SetActive(true);
                     bulletPos.transform.position = theBullet.gameObject.transform.position;
@@ -157,6 +167,7 @@ public class AccHardTwo : MonoBehaviour
                 theTruck.accelerating = false;
                 StartCoroutine(StuntResult());
                 shoot = false;
+                theMulticab.moveSpeed = 0;
             }
 
         }
@@ -205,7 +216,7 @@ public class AccHardTwo : MonoBehaviour
         bulletHere.SetActive(false);
         wheelPos.SetActive(false);
         targetHere.SetActive(false);
-        posCheck = false;
+        theSimulate.posCheck = false;
         viTtxt.text = ("vi = ") + viT.ToString("F2") + ("m/s");
         aTtxt.text = ("a = ") + aT.ToString("F2") + ("m/s²");
         timertxtTruck.text = timer.ToString("F2") + ("s");
@@ -239,6 +250,27 @@ public class AccHardTwo : MonoBehaviour
             Time.timeScale = 0;
         }
 
+
+    }
+    public IEnumerator positioningTwo()
+    {
+        truckInitials.SetActive(false);
+        theSimulate.takeNumber += 1;
+        timer = 0;
+        target.SetActive(false);
+        bulletPos.SetActive(false);
+        bulletHere.SetActive(false);
+        wheelPos.SetActive(false);
+        targetHere.SetActive(false);
+        theTruck.transform.position = new Vector2(theTruck.transform.position.x - 1, theTruck.transform.position.y);
+        theTruck.moveSpeed = -13;
+        yield return new WaitForSeconds(3);
+        StartCoroutine(theHeart.endBGgone());
+        yield return new WaitForSeconds(1f);
+        theTruck.moveSpeed = 0;
+        yield return new WaitForSeconds(1.8f);
+        generateProblem();
+        theSimulate.playButton.interactable = true;
 
     }
 }

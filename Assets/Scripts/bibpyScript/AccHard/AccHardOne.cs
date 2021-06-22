@@ -94,7 +94,7 @@ public class AccHardOne : MonoBehaviour
             }
             if (playerAnswer < answer)
             {
-                
+
                 if (timer >= playerAnswer - .1f)
                 {
                     shoot = true;
@@ -145,14 +145,10 @@ public class AccHardOne : MonoBehaviour
             }
 
         }
-        if (tries == attemp)
+        if (truckCurrentPos >= 50)
         {
-            if (truckCurrentPos >= stopTruckPos)
-            {
-                theTruck.moveSpeed = 0;
-            }
+            theTruck.moveSpeed = 0;
         }
-
     }
     public void generateProblem()
     {
@@ -254,15 +250,15 @@ public class AccHardOne : MonoBehaviour
         bulletHere.SetActive(false);
         wheelPos.SetActive(false);
         targetHere.SetActive(false);
-        theTruck.transform.position = new Vector2(theTruck.transform.position.x -1, theTruck.transform.position.y);
+        theTruck.transform.position = new Vector2(theTruck.transform.position.x - 1, theTruck.transform.position.y);
         theTruck.moveSpeed = -13;
         yield return new WaitForSeconds(4);
-       StartCoroutine(theHeart.endBGgone());
+        StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1f);
         theTruck.moveSpeed = 0;
-        yield return new WaitForSeconds(1.8f);   
+        yield return new WaitForSeconds(1.8f);
         generateProblem();
         theSimulate.playButton.interactable = true;
-        
+
     }
 }

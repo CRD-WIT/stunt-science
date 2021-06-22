@@ -133,7 +133,7 @@ public class AccHardSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
-
+            StartCoroutine(theManagerTwo.positioningTwo());
 
         }
         if (stage == 3)
