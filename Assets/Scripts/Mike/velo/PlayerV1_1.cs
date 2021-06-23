@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerV1_1 : MonoBehaviour
 {
     public float moveSpeed;
     private Rigidbody2D myRigidbody;
