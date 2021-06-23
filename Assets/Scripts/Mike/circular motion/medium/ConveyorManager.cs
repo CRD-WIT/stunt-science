@@ -9,8 +9,7 @@ public class ConveyorManager : MonoBehaviour
     public GameObject conveyorTooth;
     Rigidbody2D conveyorWheel1RB, conveyorWheel2RB;
     float distance, time, angularVelocity;
-    public static float  conveyorSpeed;
-    bool toothCreated;
+    public static float  conveyorSpeed, conveyorVelocity;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +18,6 @@ public class ConveyorManager : MonoBehaviour
         conveyorWheel1RB = conveyorWheel1.GetComponent<Rigidbody2D>();
         conveyorWheel2RB = conveyorWheel2.GetComponent<Rigidbody2D>();
         conveyorEffect = this.GetComponent<SurfaceEffector2D>();
-        toothCreated = true;
     }
     // Update is called once per frame
     void Update()
@@ -32,11 +30,12 @@ public class ConveyorManager : MonoBehaviour
     }
     public void SetConveyorSpeed(float aVelocity, float t)
     {
-        float circumferenceOfWheel = 2 * (float)(Mathf.PI * 1.15),
+        float circumferenceOfWheel = (float)(Mathf.PI * 2.3f),
         arc = aVelocity * t,
-        d = circumferenceOfWheel / 8;
-        distance = (2 * (float)(Mathf.PI) * 1.15f) * (arc / 360);
-        conveyorSpeed = distance / t;
+        d = (circumferenceOfWheel-0.09f) * (arc / 360);
+        distance = circumferenceOfWheel * (arc / 360);
+        conveyorSpeed = d / t;
+        conveyorVelocity = distance/t;
         time = distance / conveyorSpeed;
         angularVelocity = aVelocity;
     }

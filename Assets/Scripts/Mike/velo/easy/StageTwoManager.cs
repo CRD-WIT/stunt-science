@@ -1,10 +1,9 @@
 using System.Collections;
 using UnityEngine;
-using TMPro;
 using GameConfig;
 public class StageTwoManager : MonoBehaviour
 {
-    private Player thePlayer;
+    private PlayerV1_1 thePlayer;
     UnitOf whatIsAsk;
     private CeillingGenerator theCeiling;
     private HeartManager theHeart;
@@ -23,7 +22,7 @@ public class StageTwoManager : MonoBehaviour
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
         dimensionLine = givenDistance.GetComponent<Annotation1>();
-        thePlayer = FindObjectOfType<Player>();
+        thePlayer = FindObjectOfType<PlayerV1_1>();
         theScorer = FindObjectOfType<ScoreManager>();
         gender = PlayerPrefs.GetString("Gender");
         PlayerStartPoint = thePlayer.transform.position;

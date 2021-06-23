@@ -180,7 +180,7 @@ public class VelocityMediumManager : MonoBehaviour
                     FallingBoulders.dropPoint = (boulder.transform.position.x - 0.7f);
                     FallingBoulders.moreDropPoint = (boulderA.transform.position.x + 0.7f);
                     currentPlayerPos = myPlayer.transform.position.x - playerDistance;
-                    spawnPoint = labelStartPoint;
+                    spawnPoint = new Vector2(distance + jmpDistFromBoulder.distance, spawnPoint.y);
                     distanceTraveled = currentPlayerPos;
                     myPlayer.moveSpeed = playerAnswer;
                     boulderRB.velocity = new Vector2(boulderVelocity, 0);

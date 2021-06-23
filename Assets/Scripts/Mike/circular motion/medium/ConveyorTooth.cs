@@ -24,7 +24,7 @@ public class ConveyorTooth : MonoBehaviour
             GameObject parent = GameObject.Find("UpperTooth");
             Destroy(this.gameObject);
             GameObject tooth = Instantiate(this.gameObject);
-            tooth.transform.position = new Vector2(10.89f + 0.01f, 0.955f);
+            tooth.transform.position = new Vector2(11.239f, 0.96f);
             tooth.GetComponent<Collider2D>().enabled = true;
             tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(-ConveyorManager.conveyorSpeed, 0);
             tooth.transform.SetParent(parent.transform);
@@ -34,7 +34,7 @@ public class ConveyorTooth : MonoBehaviour
             GameObject parent = GameObject.Find("LowerTooth");
             Destroy(this.gameObject);
             GameObject tooth = Instantiate(this.gameObject);
-            tooth.transform.position = new Vector2(-10.96f - .01f, -.869f);
+            tooth.transform.position = new Vector2(-11.1318f, -0.92f);
             tooth.GetComponent<Collider2D>().enabled = true;
             tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(ConveyorManager.conveyorSpeed, 0);
             tooth.transform.SetParent(parent.transform);

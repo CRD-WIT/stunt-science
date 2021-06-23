@@ -4,7 +4,7 @@ using GameConfig;
 
 public class VelocityEasyStage1 : MonoBehaviour
 {
-    Player myPlayer;
+    PlayerV1_1 myPlayer;
     UnitOf whatIsAsk;
     HeartManager HeartManager;
     [SerializeField] GameObject safeZone, rubblesStopper, ragdollSpawn, rubbleBlocker, givenDistance;
@@ -24,7 +24,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         qc = FindObjectOfType<QuestionControllerVThree>();
         dimensionLine = givenDistance.GetComponent<Annotation1>();
         theCeiling = FindObjectOfType<CeillingGenerator>();
-        myPlayer = FindObjectOfType<Player>();
+        myPlayer = FindObjectOfType<PlayerV1_1>();
         HeartManager = FindObjectOfType<HeartManager>();
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");

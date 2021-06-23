@@ -114,6 +114,8 @@ public class QuestionControllerVThree : MonoBehaviour
         }
         else
         {
+            playerAnswer = float.Parse(answerFieldHorizontal.text);
+            answerFieldHorizontal.text = playerAnswer + answerUnit;
             if (limit <= playerAnswer)
             {
                 StartCoroutine(IsEmpty());
@@ -121,8 +123,6 @@ public class QuestionControllerVThree : MonoBehaviour
             else
             {
                 timerOn = true;
-                playerAnswer = float.Parse(answerFieldHorizontal.text);
-                answerFieldHorizontal.text = playerAnswer + answerUnit;
                 isSimulating = true;
             }
         }

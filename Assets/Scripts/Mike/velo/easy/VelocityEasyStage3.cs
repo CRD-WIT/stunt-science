@@ -7,7 +7,7 @@ using GameConfig;
 public class VelocityEasyStage3 : MonoBehaviour
 {
     public ScoreManager Scorer;
-    public Player myPlayer;
+    public PlayerV1_1 myPlayer;
     public CeillingGenerator theCeiling;
     public HeartManager HeartManager;
     public float distance, gameTime, Speed, elapsed, currentPos;
@@ -26,7 +26,7 @@ public class VelocityEasyStage3 : MonoBehaviour
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
         theCeiling = FindObjectOfType<CeillingGenerator>();
-        myPlayer = FindObjectOfType<Player>();
+        myPlayer = FindObjectOfType<PlayerV1_1>();
         HeartManager = FindObjectOfType<HeartManager>();
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
