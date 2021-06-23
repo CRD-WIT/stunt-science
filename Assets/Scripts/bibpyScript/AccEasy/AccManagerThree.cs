@@ -212,7 +212,7 @@ public class AccManagerThree : MonoBehaviour
         yield return new WaitForSeconds(2);
         if (Vi == correctAns)
         {
-            theScorer.finalstar();
+            theScorer.finalstar(theHeart.life);
             if (theHeart.life > currentStar)
             {
                 PlayerPrefs.SetInt("AcstarE", theHeart.life);

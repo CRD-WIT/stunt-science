@@ -502,7 +502,7 @@ public class VelocityMediumManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         if (isAnswerCorrect)
         {
-            score.finalstar();
+            score.finalstar(3);
         }
         else
         {

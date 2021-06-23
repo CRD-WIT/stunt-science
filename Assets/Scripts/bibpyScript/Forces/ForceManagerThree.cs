@@ -258,7 +258,7 @@ public class ForceManagerThree : MonoBehaviour
         theQuestion.ToggleModal();
         if(playerAnswer == correctAnswer)
         {
-            theScorer.finalstar();
+            theScorer.finalstar(theHeart.life);
             if(theHeart.life > currentStar)
             {
                 PlayerPrefs.SetInt("FrstarE", theHeart.life);

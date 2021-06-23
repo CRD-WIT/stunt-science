@@ -35,15 +35,15 @@ public class ScoreManager : MonoBehaviour
         // scorestar = theHeart.life;
         // mycoin.text = coin.ToString("F0");
     }
-    public void finalstar()
+    public void finalstar(int score)
     {
-        StartCoroutine(scoringstar());
+        StartCoroutine(scoringstar(score));
         /*if(scorestar > mystar)
         {
            PlayerPrefs.SetInt("VstarE", scorestar);
         }*/
     }
-    IEnumerator scoringstar()
+    IEnumerator scoringstar(int score)
     {
         if (scoreready)
         {
@@ -52,7 +52,7 @@ public class ScoreManager : MonoBehaviour
             starscreen.SetActive(true);
             victorysfx.Play();
             bgm.Stop();
-            if (scorestar > 0)
+            if (score > 0)
             {
                 star1.SetActive(true);
                 starfx.Play(0);
@@ -65,7 +65,7 @@ public class ScoreManager : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(1);
-            if (scorestar > 1)
+            if (score > 1)
             {
                 starfx.Play(0);
                 good.SetActive(false);
@@ -79,7 +79,7 @@ public class ScoreManager : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(1);
-            if (scorestar > 2)
+            if (score > 2)
             {
                 starfx.Play(0);
                 great.SetActive(false);

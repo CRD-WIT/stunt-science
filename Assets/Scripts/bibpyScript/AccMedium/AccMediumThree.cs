@@ -272,7 +272,7 @@ public class AccMediumThree : MonoBehaviour
         theQuestion.ToggleModal();
         if (accV == correctAnswer)
         {
-            theScorer.finalstar();
+            theScorer.finalstar(theHeart.life);
             if (theHeart.life > currentStar)
             {
                 PlayerPrefs.SetInt("AcstarM", theHeart.life);

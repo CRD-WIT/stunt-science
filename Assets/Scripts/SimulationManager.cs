@@ -9,7 +9,7 @@ public class SimulationManager : MonoBehaviour
     public VelocityEasyStage1 VelocityEasyStage1;
     public StageTwoManager theManager2;
     public VelocityEasyStage3 StageThreeManager;
-    public Player thePlayer;
+    public PlayerV1_1 thePlayer;
     public TMP_Text diretorsSpeech;
     public static float playerAnswer;
     public static bool isAnswered, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
@@ -20,7 +20,7 @@ public class SimulationManager : MonoBehaviour
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
-        thePlayer = FindObjectOfType<Player>();
+        thePlayer = FindObjectOfType<PlayerV1_1>();
         theHeart = FindObjectOfType<HeartManager>();
         dimLine = FindObjectOfType<Annotation1>();
         //destroyBoulders = FindObjectOfType<PrefabDestroyer>();

@@ -108,20 +108,20 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     public void SetAnswer()
     {
-        if (answerFieldHorizontal.text == "")
+        playerAnswer = float.Parse(answerFieldHorizontal.text);
+        if (playerAnswer == 0)
         {
             StartCoroutine(IsEmpty());
         }
         else
         {
-            if (limit <= playerAnswer)
+            if ((limit <= playerAnswer))
             {
                 StartCoroutine(IsEmpty());
             }
             else
             {
-                timerOn = true;
-                playerAnswer = float.Parse(answerFieldHorizontal.text);
+                timerOn = true;               
                 answerFieldHorizontal.text = playerAnswer + answerUnit;
                 isSimulating = true;
             }
