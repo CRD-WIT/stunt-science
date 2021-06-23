@@ -85,7 +85,7 @@ public class AccHardTwo : MonoBehaviour
                 theTruck.moveSpeed = viT;
                 theTruck.accelaration = aT;
                 theTruck.accelerating = true;
-                theMulticab.moveSpeed = viH + 1;
+                theMulticab.moveSpeed = viH + 2;
             }
 
             timertxt.text = timer.ToString("F2") + ("s");
@@ -93,12 +93,13 @@ public class AccHardTwo : MonoBehaviour
             {
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
-                if (timer >= chopperTimeToTravel + .1f)
+                if (timer >= chopperTimeToTravel+.3f)
                 {
+                    shoot = true;
                     theChopper.flySpeed = 0;
                     theChopper.accelaration = 0;
                     theChopper.accelarating = false;
-                    shoot = true;
+                    
                 }
             }
             if (playerAnswer > answer)
@@ -117,7 +118,7 @@ public class AccHardTwo : MonoBehaviour
             {
                 theChopper.accelaration = aH - .5f;
 
-                if (timer >= chopperTimeToTravel + .1f)
+                if (timer >= chopperTimeToTravel + .3f)
                 {
                     theChopper.flySpeed = 0;
                     theChopper.accelaration = 0;
@@ -180,17 +181,17 @@ public class AccHardTwo : MonoBehaviour
         dimensions.SetActive(true);
         shootReady = true;
         dX = Random.Range(11, 13);
-        generateAH = Random.Range(3, 5);
+        generateAH = Random.Range(2, 3);
         aH = (float)System.Math.Round(generateAH, 2);
         generateTime = Random.Range(3f, 3.5f);
         time = (float)System.Math.Round(generateTime, 2);
-        generateAngleB = Random.Range(26f, 35f);
+        generateAngleB = Random.Range(25f, 30f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
         generateViT = Random.Range(3f, 5f);
         viT = (float)System.Math.Round(generateViT, 2);
         generateAT = Random.Range(3f, 5f);
         aT = (float)System.Math.Round(generateAT, 2);
-        generateVB = Random.Range(30f, 40f);
+        generateVB = Random.Range(20f, 30f);
         vB = (float)System.Math.Round(generateVB, 2);
         gun.transform.rotation = Quaternion.Euler(gun.transform.rotation.x, gun.transform.rotation.y, -angleB);
         ChopperY = theChopper.transform.position.y - gunBarrel.transform.position.y;
@@ -209,7 +210,7 @@ public class AccHardTwo : MonoBehaviour
         theCurve._origin = new Vector2(gunBarrel.transform.position.x, gunBarrel.transform.position.y);
         theCurve._degrees = angleB;
         angleA = 90 - angleB;
-        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's wheel from a non moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally behind and <b>") + dY.ToString("F2") + ("</b> meters vertically above the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, at how many seconds after should  <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots if the truck has an initial velocity of <b>") + viT.ToString("F2") + ("</b> m/s and accelerating at <b>") + aT.ToString("F2") + ("</b> m/s² while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
+        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's 2nd wheel from a moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally behind and <b>") + dY.ToString("F2") + ("</b> meters vertically above the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, if <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots exactly after <b>")+ time.ToString("F2")+("</b> seconds, if the truck has an initial velocity of <b>") + viT.ToString("F2") + ("</b> m/s and accelerating at <b>") + aT.ToString("F2") + ("</b> m/s², what should be the initial velocity of helicopter accelerating at <b>")+aH.ToString("F2")+("</b> m/s², while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
         target.transform.position = targetWheel.transform.position;
         timer = 0;
         bulletPos.SetActive(false);
@@ -220,6 +221,7 @@ public class AccHardTwo : MonoBehaviour
         viTtxt.text = ("vi = ") + viT.ToString("F2") + ("m/s");
         aTtxt.text = ("a = ") + aT.ToString("F2") + ("m/s²");
         timertxtTruck.text = timer.ToString("F2") + ("s");
+        theMulticab.transform.position = new Vector2(theChopper.transform.position.x - 13, theMulticab.transform.position.y);
     }
     IEnumerator positioning()
     {
