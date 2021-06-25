@@ -1,178 +1,261 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
-using GameConfig;
+
+
 public class StageTwoManager : MonoBehaviour
 {
-    private PlayerV1_1 thePlayer;
-    UnitOf whatIsAsk;
+    private Player thePlayer;
     private CeillingGenerator theCeiling;
     private HeartManager theHeart;
-    [SerializeField] float distance, speed, finalSpeed, answer, answerRO, currentPos, playerAnswer, playerDistance;
-    string gender, pronoun, question, errorMessage;
+    float distance;
+    float speed;
+    float finalSpeed;
+    string gender;
+    string pronoun;
+    float answer;
+    float answerRO;
     Vector2 PlayerStartPoint;
-    public float elapsed;
-    public GameObject safePoint, rubbleStopper, rubbleBlocker, ragdollSpawn, groundPlatform, givenDistance;
+    public float gameTime, elapsed;
+    public TMP_Text playerNameText, messageText, timer;
+    public GameObject AfterStuntMessage;
+    public GameObject safePoint;
+    
+    public GameObject rubbleStopper;
+    float currentPos;
+    
     private RumblingManager theRumbling;
+    public GameObject rubbleBlocker;
     private ScoreManager theScorer;
-    bool answerIs;
-    Annotation1 dimensionLine;
-    QuestionControllerVThree qc;
-    [SerializeField] LineRenderer endOfAnnotation;
+
+
+    //TimeSpan duration;
+    //private float gameTime = 0.0f;
+
+
+    //public TextMeshProUGUI timer;
+    bool simulate;
+    float playerAnswer;
+    float playerDistance;
+    public GameObject ragdollSpawn;
+    
+
+
+    // Start is called before the first frame update
     void Start()
     {
-        qc = FindObjectOfType<QuestionControllerVThree>();
-        dimensionLine = givenDistance.GetComponent<Annotation1>();
-        thePlayer = FindObjectOfType<PlayerV1_1>();
-        theScorer = FindObjectOfType<ScoreManager>();
+        thePlayer = FindObjectOfType<Player>();
         gender = PlayerPrefs.GetString("Gender");
         PlayerStartPoint = thePlayer.transform.position;
         theCeiling = FindObjectOfType<CeillingGenerator>();
         theRumbling = FindObjectOfType<RumblingManager>();
         theHeart = FindObjectOfType<HeartManager>();
-        whatIsAsk = UnitOf.time;
-        reset();
+        theScorer = FindObjectOfType<ScoreManager>();
+        
+        
+        
+
+
     }
+
+    // Update is called once per frame
     void FixedUpdate()
     {
-        playerAnswer = qc.GetPlayerAnswer();
-        if (SimulationManager.isAnswered)
-        {
-            dimensionLine.PlayerAnswerIs(playerAnswer);
-            thePlayer.moveSpeed = speed;
-            elapsed += Time.fixedDeltaTime;
-            currentPos = thePlayer.transform.position.x;
-            qc.timer = elapsed.ToString("f2") + "s";
-            if ((elapsed >= playerAnswer) || (currentPos > 30))
-            {
-                if (currentPos > 30)
-                {
-                    rubbleStopper.SetActive(true);
-                    qc.timer = elapsed.ToString("f2") + "s";
-                }
-                else
-                {
-                    qc.timer = playerAnswer.ToString("f2") + "s";
-                    rubbleStopper.SetActive(false);
-                }
-                thePlayer.moveSpeed = 0;
-                RumblingManager.isCrumbling = true;
-                SimulationManager.isAnswered = false;
-                theRumbling.collapse();
-                StartCoroutine(StuntResult());
-                if (playerAnswer == answerRO)
-                {
-                    currentPos = distance;
-                    elapsed = answerRO;
-                    rubbleBlocker.SetActive(true);
-                    answerIs = true;
-                    errorMessage = PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
-                    thePlayer.transform.position = new Vector2(currentPos, thePlayer.transform.position.y);
-                }
-                else//if (playerAnswer != answerRO)
-                {
-                    currentPos = playerAnswer * speed;
-                    answerIs = false;
-                    theHeart.ReduceLife();
-                    if (SimulationManager.isRagdollActive)
-                    {
-                        thePlayer.lost = false;
-                        SimulationManager.isRagdollActive = false;
-                    }
-                    else
-                    {
-                        thePlayer.lost = true;
-                    }
-                    playerDistance = playerAnswer * speed;
-                    if (playerAnswer < answerRO)
-                    {
-                        thePlayer.transform.position = new Vector2(playerDistance - 0.2f, thePlayer.transform.position.y);
-                        errorMessage = PlayerPrefs.GetString("Name") + " stopped too early and " + pronoun + " stopped before the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
-                    }
-                    else if (playerAnswer > answerRO)
-                    {
-                        if (currentPos > 30)
-                        {
-                            thePlayer.transform.position = new Vector2(currentPos, -10);
-                        }
-                        else
-                            thePlayer.transform.position = new Vector2(playerDistance + 0.2f, thePlayer.transform.position.y);
-                        errorMessage = PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
-                    }
-                }
-                dimensionLine.AnswerIs(answerIs);
-            }
-            dimensionLine.IsRunning(currentPos, elapsed, null);
-        }
-        SimulationManager.isAnswerCorrect = answerIs;
-        dimensionLine.SetPlayerPosition(thePlayer.transform.position);
-    }
-    public void generateProblem()
-    {
-        qc.SetUnitTo(whatIsAsk);
-        playerAnswer = 0;
-        answer = 0;
-        elapsed = 0;
+        
+        currentPos = thePlayer.transform.position.x;
+        playerAnswer = SimulationManager.playerAnswer;
+        playerDistance = playerAnswer * speed;
+        
+
         if (gender == "Male")
         {
-            pronoun = "he";
+            pronoun = ("he");
         }
         if (gender == "Female")
         {
-            pronoun = "she";
+            pronoun = ("she");
         }
-        while ((answer < 2.63f) || (answer > 3.1f))
+        /*if(simulate)
         {
-            float d = UnityEngine.Random.Range(21f, 28f);
-            distance = (float)System.Math.Round(d, 2);
-            speed = UnityEngine.Random.Range(1.5f, 10f);
-            finalSpeed = (float)System.Math.Round(speed, 2);
-            answer = distance / speed;
+        duration = TimeSpan.FromMilliseconds(gameTime * 1000);
+
+        int milliseconds = Convert.ToInt32(duration.ToString(@"ff"));
+        int seconds = Convert.ToInt32(duration.ToString(@"ss"));
+
+        timer.SetText($"{seconds}:{milliseconds} sec");
+        }*/
+        if (SimulationManager.isSimulating)
+        {
+            thePlayer.moveSpeed = speed;
+            if (elapsed <= SimulationManager.playerAnswer)
+            {
+                elapsed += Time.fixedDeltaTime;
+                timer.text = elapsed.ToString("f2")+"s";
+            }
+            
+            if (playerAnswer == answerRO)
+            {
+                SimulationManager.isAnswerCorrect= true;
+                if(currentPos >= distance)
+                {
+                    theScorer.finalstar();
+                    thePlayer.moveSpeed = 0;
+                    rubbleStopper.SetActive(false);
+                    thePlayer.happy = true;
+                    thePlayer.transform.position = new Vector2(distance, transform.position.y);
+                    timer.text = playerAnswer.ToString("f2")+"s";
+                    SimulationManager.isSimulating = false;
+                    theRumbling.collapse();
+                    //StartCoroutine(StuntResult());
+                    SimulationManager.isAnswerCorrect= true;
+                    messageText.text = "<b>Stunt Successful!!!</b>\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b>safe</b> from falling down the ground.";
+                }
+            }
+            if (playerAnswer != answerRO)
+            {
+                SimulationManager.isAnswerCorrect= false;
+                if(currentPos >= playerDistance)
+                {
+                    theHeart.ReduceLife();
+                    thePlayer.moveSpeed = 0;
+                    if(currentPos < 25)
+                    {
+                        rubbleStopper.SetActive(false);
+                        thePlayer.lost = true;
+                        thePlayer.standup = true;
+                        thePlayer.transform.position = new Vector2(playerDistance, transform.position.y);
+                        timer.text = playerAnswer.ToString("f2")+"s";
+                        SimulationManager.isSimulating = false;
+                        theRumbling.collapse();
+                        StartCoroutine(StuntResult());
+                        safeSpot();
+                    }
+                    
+                    if (playerAnswer < answerRO)
+                    {
+                        
+                        messageText.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " ran too short!</color>";
+                    }
+                    else if (playerAnswer > answerRO)
+                    {
+                        messageText.text = "<b><color=red>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " ran too long!</color>";
+                        
+                    }
+                }
+                if (currentPos >= 25)
+                {
+                    theHeart.ReduceLife();
+                    thePlayer.moveSpeed = 0;
+                    rubbleStopper.SetActive(false);
+                    thePlayer.standup = true;
+                    SimulationManager.isSimulating = false;
+                    theRumbling.collapse();
+                    StartCoroutine(StuntResult());
+                    safeSpot();
+                    
+                    
+                    
+                }
+
+            }
+            /*if ((elapsed <= SimulationManager.playerAnswer))
+            {
+
+                elapsed += Time.fixedDeltaTime;
+                thePlayer.moveSpeed = speed;
+            }
+            else
+            {
+                thePlayer.moveSpeed = 0;
+                rubbleStopper.SetActive(false);
+                if ((SimulationManager.playerAnswer == answerRO))
+                {
+                    messageText.text = "<b>Stunt Successful!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " ran at exact speed.\n Now, " + pronoun + " is <b>safe</b> from falling down the ground.";
+                    SimulationManager.isAnswerCorrect = true;
+                    thePlayer.happy = true;
+                }
+                else
+                {
+                    if (SimulationManager.playerAnswer < answerRO)
+                    {
+                        thePlayer.lost = true;
+                        thePlayer.standup = true;
+                        messageText.text = "<b>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " ran too short!";
+                    }
+                    else if (SimulationManager.playerAnswer > answerRO)
+                    {
+                        messageText.text = "<b>Stunt Failed!!!</b>\n\n" + PlayerPrefs.GetString("Name") + " ran too long!";
+                        thePlayer.lost = true;
+                        thePlayer.standup = true;
+                    }
+                    SimulationManager.isAnswerCorrect = false;
+                }
+                StartCoroutine(StuntResult());
+                SimulationManager.isSimulating = false;
+            }*/
         }
-        thePlayer.transform.position = new Vector2(0, -3);
-        RumblingManager.shakeON = true;
-        qc.timer = "0.00s";
-        
-        qc.limit = 5f;
-        question = "The ceiling is still crumbling and the next safe spot is <color=red>" + distance.ToString() + " meters</color> away from " + PlayerPrefs.GetString("Name") + ". If " + pronoun + " runs at a constant velocity of <color=purple>" + finalSpeed.ToString() + " meters per second</color>, how <color=#006400>long</color> should " + pronoun + " run so " + pronoun + " will stop exactly on the same spot?";
-        qc.SetQuestion(question);
+        else
+        {
+            timer.text = ("0.00s");
+        }
+        /*if(PlayerPrefs.GetInt("stageNumber") != 1)
+        {
+        AfterStuntMessage.SetActive(false);
+        thePlayer.moveSpeed = 3;
+        }*/
+
+    }
+
+    public void generateProblem()
+    {
+        distance = UnityEngine.Random.Range(9, 18);
+        speed = UnityEngine.Random.Range(3.0f, 6.0f);
+        finalSpeed = (float)System.Math.Round(speed, 2);
+        SimulationManager.question = (("The ceiling is still crumbling and the next safe spot is <b>") + distance + ("</b> meter away from  <b>") + PlayerPrefs.GetString("Name") + ("</b>. If <b>") + PlayerPrefs.GetString("Name") + ("</b> will now run at exactly <b>") + finalSpeed.ToString("F1") + ("</b> m/s, how long should ") + pronoun + (" run so that ") + pronoun + (" will not get hit by the crumbling debris of the ceiling?"));
+        answer = distance / speed;
         answerRO = (float)System.Math.Round(answer, 2);
-        safePoint.transform.position = new Vector2(distance, -2);
-        // givenDistance.SetActive(true);
-        endOfAnnotation.SetPosition(0, new Vector2(distance, -3));
-        endOfAnnotation.SetPosition(1, new Vector2(distance, -1.5f));
-        theCeiling.createQuadtilemap(qc.stage);
+        resetTime();
+        safePoint.transform.position = new Vector2(distance, 0.23f);
+        theCeiling.createQuadtilemap();
         ragdollSpawn.SetActive(true);
         rubbleStopper.SetActive(true);
         theHeart.losslife = false;
-        groundPlatform.transform.localScale = new Vector3(68.05f, groundPlatform.transform.localScale.y, 1);
-        ragdollSpawn.transform.position = new Vector3(30.5f, ragdollSpawn.transform.position.y, 0);
-        dimensionLine.Variables(distance, answer, finalSpeed, 't', null);
-        dimensionLine.SetPlayerPosition(thePlayer.transform.position);
-        dimensionLine.Show(true);
+
+    }
+    public void play()
+    {
+        //simulate = true;
+        //answer = SimulationManager.playerAnswer;
+        //thePlayer.moveSpeed = speed;
+
     }
     public void reset()
     {
-        thePlayer.transform.position = new Vector2(0, -3);
+        thePlayer.transform.position = new Vector2(0, transform.position.y);
         thePlayer.moveSpeed = 0;
         thePlayer.lost = false;
         thePlayer.standup = false;
+        AfterStuntMessage.SetActive(false);
         generateProblem();
+        resetTime();
         theRumbling.collapsing = true;
         rubbleBlocker.SetActive(false);
+
+        
     }
     IEnumerator StuntResult()
     {
-        yield return new WaitForSeconds(1f);
-        SimulationManager.directorIsCalling = true;
-        SimulationManager.isStartOfStunt = false;
-        yield return new WaitForSeconds(3f);
-        rubbleBlocker.SetActive(false);
-        qc.ActivateResult(errorMessage, answerIs);
+        //messageFlag = false;
+        yield return new WaitForSeconds(4f);
+        AfterStuntMessage.SetActive(true);
+    }
+    void resetTime()
+    {
+        elapsed = 0;
     }
     void safeSpot()
     {
-        if (currentPos < distance - 0.5f || currentPos > distance + 0.5f)
+        if(currentPos < distance - 0.5f || currentPos > distance + 0.5f)
         {
             rubbleBlocker.SetActive(true);
         }

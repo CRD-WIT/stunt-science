@@ -1,149 +1,108 @@
 using System.Collections;
 using UnityEngine;
-using GameConfig;
+using TMPro;
 
 public class VelocityEasyStage1 : MonoBehaviour
 {
-    PlayerV1_1 myPlayer;
-    UnitOf whatIsAsk;
-    HeartManager HeartManager;
-    [SerializeField] GameObject safeZone, rubblesStopper, ragdollSpawn, rubbleBlocker, givenDistance;
-    string pronoun, pNoun, playerName, playerGender, question, errorMessage;
-    bool answerIs;
+    public GameObject dimensionLine;
+    public Player myPlayer;
+    public TMP_Text playerNameText, messageText, timer;
+    public GameObject AfterStuntMessage, safeZone, rubblesStopper;
+    string pronoun, pPronoun, pNoun, playerName, playerGender;
     public float distance, gameTime, Speed, elapsed, currentPos;
-    CeillingGenerator theCeiling;
+    private CeillingGenerator theCeiling;
     StageManager sm = new StageManager();
-    Annotation1 dimensionLine;
-    QuestionControllerVThree qc;
+    float wrongDistance;
 
     void Start()
     {
-        RumblingManager.isCrumbling = false;
         sm.SetGameLevel(1);
-        sm.SetDifficulty(1);
-        qc = FindObjectOfType<QuestionControllerVThree>();
-        dimensionLine = givenDistance.GetComponent<Annotation1>();
-        theCeiling = FindObjectOfType<CeillingGenerator>();
-        myPlayer = FindObjectOfType<PlayerV1_1>();
-        HeartManager = FindObjectOfType<HeartManager>();
+        theCeiling = FindObjectOfType<CeillingGenerator>();           
+        myPlayer = FindObjectOfType<Player>();
+        //playerNameText.text = RegistrationManager.playerName;
+        myPlayer.gameObject.SetActive(true);
+        //chance = 0;
+        VelocityEasyStage1SetUp();
+        //talentFee.text = "TF: " + GameMAnager.talentFee.ToString(); 
+        string difficulty= sm.GetDifficulty();
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
-        whatIsAsk = UnitOf.velocity;        
-        VelocityEasyStage1SetUp();
     }
-    void FixedUpdate()
-    {
-        float answer = qc.GetPlayerAnswer();
-        if (SimulationManager.isAnswered)
+    void FixedUpdate(){
+        float answer = SimulationManager.playerAnswer;
+        if(SimulationManager.isSimulating)
         {
-            dimensionLine.PlayerAnswerIs(answer);
-            currentPos = answer * elapsed;
+            dimensionLine.SetActive(false);
             myPlayer.moveSpeed = answer;
-            qc.timer = elapsed.ToString("f2") + "s";
+            timer.text = elapsed.ToString("f2")+"s";
             elapsed += Time.fixedDeltaTime;
-            if (elapsed >= gameTime)
+            if(elapsed>=gameTime)
             {
-                RumblingManager.isCrumbling = true;
-                rubblesStopper.SetActive(false);
                 StartCoroutine(StuntResult());
+                rubblesStopper.SetActive(false);
                 myPlayer.moveSpeed = 0;
-                SimulationManager.isAnswered = false;
-                elapsed =gameTime;
-                qc.timer = gameTime.ToString("f2") + "s";
+                SimulationManager.isSimulating = false;
+                timer.text = gameTime.ToString("f2")+"s";
                 if ((answer == Speed))
                 {
-                    currentPos = distance;
-                    rubbleBlocker.SetActive(true);
-                    errorMessage = PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
-                    answerIs = true;
-                    myPlayer.transform.position = new Vector2(currentPos, myPlayer.transform.position.y);
+                    myPlayer.happy = true;
+                    messageText.text = "<b><color=green>Stunt Successful!</color></b>\n\n\n"+PlayerPrefs.GetString("Name")+" ran at exact speed.\n Now, "+pronoun+" is <b><color=green>safe</color></b>.";
+                    SimulationManager.isAnswerCorrect= true;
+                    myPlayer.transform.position = new Vector2(distance, myPlayer.transform.position.y);
                 }
-                else
-                {
-                    currentPos = answer * gameTime;
-                    HeartManager.ReduceLife();
-                    if (SimulationManager.isRagdollActive)
-                    {
-                        myPlayer.lost = false;
-                        myPlayer.happy = false;
-                        SimulationManager.isRagdollActive = false;
-                    }
-                    else
-                    {
-                        myPlayer.lost = true;
-                    }
-                    answerIs = false;
-                    if (answer < Speed)
-                    {
-                        myPlayer.transform.position = new Vector2(currentPos - 0.2f, myPlayer.transform.position.y);
-                        errorMessage = PlayerPrefs.GetString("Name") + " ran too slow and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
+                else{ 
+                    myPlayer.standup = true;
+                    myPlayer.lost = true;
+                    currentPos = SimulationManager.playerAnswer*gameTime;
+                    if(answer < Speed){
+                        myPlayer.transform.position = new Vector2(currentPos-0.1f, myPlayer.transform.position.y);
+                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n"+PlayerPrefs.GetString("Name")+" ran too slow and "+pronoun+" stopped before the safe spot.\nThe correct answer is <color=red>"+Speed+"m/s</color>.";
                     }
                     else //if(answer > Speed)
                     {
-                        myPlayer.transform.position = new Vector2(currentPos + 0.2f, myPlayer.transform.position.y);
-                        errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
+                        myPlayer.transform.position = new Vector2(currentPos+0.1f, myPlayer.transform.position.y);
+                        messageText.text = "<b><color=red>Stunt Failed!</color></b>\n\n\n"+PlayerPrefs.GetString("Name")+" ran too fast and "+pronoun+" stopped after the safe spot.\nThe correct answer is <color=red>"+Speed+"m/s</color>.";
                     }
-                }
-                dimensionLine.AnswerIs(answerIs);
-            }
-        dimensionLine.IsRunning(currentPos, elapsed, null);
-        }
-        SimulationManager.isAnswerCorrect = answerIs;
-        dimensionLine.SetPlayerPosition(myPlayer.transform.position);
+                }   
+            } 
+        }      
     }
-    public void VelocityEasyStage1SetUp()
-    {
-        qc.SetUnitTo(whatIsAsk);
+    public void VelocityEasyStage1SetUp(){
+        
         myPlayer.lost = false;
         myPlayer.standup = false;
         Speed = 0;
-        if (playerGender == "Male")
-        {
+        if(playerGender == "Male"){
             pronoun = "he";
+            pPronoun = "him";
             pNoun = "his";
-        }
-        else
-        {
+        }else{
             pronoun = "she";
-            pNoun = "her";
-        }
-        while ((Speed < 1.5f) || (Speed > 10.4f))
-        {
+            pPronoun = "her";
+            pNoun = "her";}
+        while((Speed < 1.5f)||(Speed > 10f)){
             float d = Random.Range(9f, 18f);
-            distance = (float)System.Math.Round(d, 2);
+            distance = (float)System.Math.Round(d,2);
             float t = Random.Range(1.5f, 2.5f);
-            gameTime = (float)System.Math.Round(t, 2);
-            Speed = (float)System.Math.Round((distance / gameTime), 2);
-        }
-        rubbleBlocker.SetActive(false);
-        ragdollSpawn.SetActive(true);
-        HeartManager.losslife = false;
-        RumblingManager.shakeON = true;
-
-        // givenDistance.SetActive(true);
-        dimensionLine.Variables(distance, gameTime, Speed, 'v', null);
-
-        theCeiling.createQuadtilemap(qc.stage);
-        safeZone.transform.position = new Vector2(distance, -2);
-        qc.timer = "0.00s";
-        myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);
-        elapsed = 0;
+            gameTime = (float)System.Math.Round(t,2);
+            Speed = (float)System.Math.Round((distance/t), 2);
+        } 
+        dimensionLine.SetActive(true);
+        DimensionManager.dimensionLength = distance;
+        theCeiling.createQuadtilemap(); 
+        safeZone.transform.position = new Vector2(distance, 0.2f);
+        timer.text = "0.00s";
+        myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   
+        elapsed=0;  
+        wrongDistance = SimulationManager.playerAnswer / gameTime;
         rubblesStopper.SetActive(true);
-        SimulationManager.isAnswered = false;
-        
-        qc.limit = 14f;
-        question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from " + playerName + ". If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
-        qc.SetQuestion(question);
-        dimensionLine.Show(true);
-        dimensionLine.SetPlayerPosition(myPlayer.transform.position);
-    }
-    IEnumerator StuntResult()
-    {
-        yield return new WaitForSeconds(1f);
-        SimulationManager.directorIsCalling = true;
-        SimulationManager.isStartOfStunt = false;
-        yield return new WaitForSeconds(3f);
-        rubbleBlocker.SetActive(false);
-        qc.ActivateResult(errorMessage, answerIs);
-    }
+        SimulationManager.isSimulating =false; 
+        AfterStuntMessage.SetActive(false);
+        SimulationManager.question = "The ceiling is crumbling and the safe area is <color=red>"+distance.ToString()+" meters</color> away from "+playerName+". If "+pronoun+" has exactly <color=#006400>"+gameTime.ToString()+" seconds</color> to go to the safe spot, what should be "+pNoun+" <color=purple>velocity</color>?";         
+    } 
+    IEnumerator StuntResult(){
+        //messageFlag = false;
+        yield return new WaitForSeconds(3f); 
+        AfterStuntMessage.SetActive(true);        
+    }   
 }

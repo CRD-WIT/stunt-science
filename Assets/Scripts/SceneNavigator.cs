@@ -17,10 +17,6 @@ public class SceneNavigator : MonoBehaviour
         }
     }
 
-    public void QuitGame(){
-        Application.Quit();
-    }
-
     public void GotoScene(string destination)
     {
         StartCoroutine(LoadSceneDelay(destination));

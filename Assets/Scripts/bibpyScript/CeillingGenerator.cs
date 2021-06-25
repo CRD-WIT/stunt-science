@@ -1,54 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CeillingGenerator : MonoBehaviour
 {
-    public int stage;
+    public int mapwitdh ;
+    public float mapheight ;
+    //public GameObject tileprefab;
+    //public GameObject ceilingprefab;
     public GameObject[] rubble;
-    public float mapheight, mapWitdh, tileoffset = 1f, startPoint = 0, endpoint;
-    bool ceillingPresent;
-    QuestionControllerVThree qc;
+
+    public float tileoffset = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        qc = FindObjectOfType<QuestionControllerVThree>();
-        endpoint = mapWitdh - startPoint;
-        ceillingPresent = false;
+        
     }
-    public void createQuadtilemap(int s)
+
+    // Update is called once per frame
+    void Update()
     {
-        switch (s)
+        GameObject debris = rubble[Random.Range(0,2)];
+    }
+    
+    public void createQuadtilemap ()
+    {
+        /*for(int x =+ 0; x < mapwitdh; x++)
         {
-            case 1:
-                mapWitdh = 25;
-                break;
-            case 2:
-                mapWitdh = 30;
-                break;
-            default:
-                mapWitdh = 43;
-                break;
-        }
-        for (float x = 0f; x < mapWitdh + 3f; x++)
-        {
-            int i = 1;
-            while (i < 5)
+            for(int y = 0; y <= mapheight; y++)
             {
-                GameObject TempGo2 = Instantiate(rubble[Random.Range(0, 2)]);
-                TempGo2.transform.localScale = new Vector2(TempGo2.transform.localScale.x * (Random.Range(0.5f, 0.7f)), TempGo2.transform.localScale.y * (Random.Range(0.5f, 0.7f)));
-                TempGo2.transform.position = new Vector3(x - 3 * tileoffset, (9 * tileoffset)+i, 1);
-                i++;
+                GameObject TempGo = Instantiate(tileprefab);
+                TempGo.transform.position = new Vector3(x * tileoffset, -1 * tileoffset,1);
+                
+                TempGo.transform.parent = transform;
+                TempGo.name = x.ToString() + ", " + y.ToString();
+                 SetTileInfo(TempGo, x, y);
+
             }
-        }
-        ceillingPresent = true;
-    }
-    public void createQuadtilemap2()
-    {
-        for (float x = startPoint; x < endpoint + 3; x++)
+        }*/
+        
+        for(int x =+ 0; x < mapwitdh + 3; x++)
         {
-            GameObject TempGo2 = Instantiate(rubble[Random.Range(0, 2)]);
-            TempGo2.transform.position = new Vector3(x - 3 * tileoffset, mapheight * tileoffset, 1);
-            ceillingPresent = true;
+             GameObject debris = rubble[Random.Range(0,2)];
+             GameObject TempGo2 = Instantiate(debris);
+             TempGo2.transform.position = new Vector3(x-3 * tileoffset, mapheight * tileoffset,1);
+        }
+    }
+    public void createQuadtilemap2 ()
+    {
+       
+        
+        for(int x =+ 0; x < mapwitdh + 3; x++)
+        {
+             GameObject debris = rubble[Random.Range(0,2)];
+             GameObject TempGo2 = Instantiate(debris);
+            TempGo2.transform.position = new Vector3(x-3 * tileoffset, 8.1f * tileoffset,1);
         }
     }
     /*void SetTileInfo(GameObject GO, int x, int y)

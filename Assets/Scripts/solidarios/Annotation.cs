@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 public enum Mode : byte
@@ -28,9 +26,12 @@ public class Annotation : MonoBehaviour
         textDimension = transform.Find("Text").gameObject;
     }
 
-    public void Hide()
-    {
+    public void Hide(){
         transform.gameObject.SetActive(false);
+    }
+
+    public void Show(){
+        transform.gameObject.SetActive(true);
     }
 
     public Vector2 SpawnPointValue()
@@ -38,15 +39,14 @@ public class Annotation : MonoBehaviour
         return spawnPoint;
     }
 
-    public void Show()
-    {
-        transform.gameObject.SetActive(true);
-    }
-
 
     public void SetSpawningPoint(Vector2 point)
     {
         this.spawnPoint = point;
+    }
+
+    public Vector2 GetEndPoint(){
+        return new Vector2(line2.GetPosition(1).x, line2.GetPosition(1).y);
     }
 
     public void SetDistance(float value)
