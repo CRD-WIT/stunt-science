@@ -27,4 +27,12 @@ public class MulticabManager : MonoBehaviour
             moveSpeed  -= accelaration * Time.fixedDeltaTime;
         }
     }
+    void OnCollisionEnter2D(Collision2D other)  
+    {
+        if(other.gameObject.tag == "truck")
+        {
+            moveSpeed = 0;
+        }    
+        
+    }
 }

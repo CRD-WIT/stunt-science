@@ -86,6 +86,8 @@ public class AccHardOne : MonoBehaviour
             }
             if (playerAnswer > answer)
             {
+                theQuestion.SetModalTitle("Stunt failed");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " shot too late. The correct answer is </color>" + answer.ToString("F2") + "seconds.");
                 if (timer >= playerAnswer + .1f)
                 {
                     shoot = true;
@@ -94,6 +96,8 @@ public class AccHardOne : MonoBehaviour
             }
             if (playerAnswer < answer)
             {
+                theQuestion.SetModalTitle("Stunt failed");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " shot too soon. The correct answer is </color>" + answer.ToString("F2") + "seconds.");
 
                 if (timer >= playerAnswer - .1f)
                 {
