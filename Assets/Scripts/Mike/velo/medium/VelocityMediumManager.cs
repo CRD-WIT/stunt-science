@@ -241,7 +241,6 @@ public class VelocityMediumManager : MonoBehaviour
                 qc.retried = false;
             }
         }
-
     }
     void VeloMediumSetUp()
     {

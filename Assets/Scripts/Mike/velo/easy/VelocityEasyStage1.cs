@@ -116,6 +116,7 @@ public class VelocityEasyStage1 : MonoBehaviour
             gameTime = (float)System.Math.Round(t, 2);
             Speed = (float)System.Math.Round((distance / gameTime), 2);
         }
+        qc.limit = 10.4f;
         rubbleBlocker.SetActive(false);
         ragdollSpawn.SetActive(true);
         HeartManager.losslife = false;
@@ -132,7 +133,6 @@ public class VelocityEasyStage1 : MonoBehaviour
         rubblesStopper.SetActive(true);
         SimulationManager.isAnswered = false;
         
-        qc.limit = 14f;
         question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from " + playerName + ". If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
         qc.SetQuestion(question);
         dimensionLine.Show(true);

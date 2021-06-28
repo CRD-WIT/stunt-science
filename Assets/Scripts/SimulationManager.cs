@@ -27,7 +27,6 @@ public class SimulationManager : MonoBehaviour
         //theHeart.life = PlayerPrefs.GetInt("life");=
         qc.stage = 1;
     }
-
     // Update is called once per frame
     public void FixedUpdate()
     {
@@ -113,6 +112,7 @@ public class SimulationManager : MonoBehaviour
     IEnumerator ReloadStage()
     {
         dimLine.Show(false);
+        qc.limit = 0;
         qc.retried = false;
         thePlayer.SetEmotion("");
         ragdollSpawn.SetActive(false);
@@ -145,10 +145,10 @@ public class SimulationManager : MonoBehaviour
             StageThreeManager.Stage3SetUp();
         }
     }
-
     IEnumerator ExitStage()
     {
         dimLine.Show(false);
+        qc.limit = 0;
         qc.nextStage = false;
         VelocityEasyStage1.gameObject.SetActive(false);
         theManager2.gameObject.SetActive(false);

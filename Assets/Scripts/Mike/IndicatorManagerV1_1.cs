@@ -294,6 +294,8 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         labelTxt[3].SetActive(showCorrectDistance);
         labelTxt[5].SetActive(showCorrectTime);
 
+        arrows[3].SetActive(showHeight);
+        arrows[4].SetActive(showHeight);
         arrows[5].SetActive(showCorrectDistance);
         arrows[6].SetActive(showCorrectDistance);
         arrows[8].SetActive(showCorrectTime);
@@ -308,9 +310,9 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         distanceLines[0].SetPosition(1, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y));
         distanceLines[1].SetPosition(0, new Vector2(((distance / 2) + (0.18f * dimensionTxtLength)) + distanceSpawnPnt.x, distanceSpawnPnt.y));
         distanceLines[1].SetPosition(1, new Vector2((distance + distanceSpawnPnt.x), distanceSpawnPnt.y));
-        distanceLines[2].SetPosition(0, new Vector2(distanceSpawnPnt.x, 0));
+        distanceLines[2].SetPosition(0, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y-1f));
         distanceLines[2].SetPosition(1, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y + 0.5f));
-        distanceLines[3].SetPosition(0, new Vector2(distanceSpawnPnt.x + distance, 0));
+        distanceLines[3].SetPosition(0, new Vector2(distanceSpawnPnt.x + distance, distanceSpawnPnt.y-1f));
         distanceLines[3].SetPosition(1, new Vector2(distanceSpawnPnt.x + distance, distanceSpawnPnt.y + 0.5f));
         labelTxt[0].transform.position = new Vector2((distance / 2) + distanceSpawnPnt.x, distanceSpawnPnt.y);
 
@@ -324,6 +326,18 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         timeLines[3].SetPosition(0, new Vector2(timeSpawnPnt.x + timerLength, timeSpawnPnt.y + annotationTimeEnds));
         timeLines[3].SetPosition(1, new Vector2(timeSpawnPnt.x + timerLength, timeSpawnPnt.y+1.25f));
         labelTxt[1].transform.position = new Vector2((timerLength / 2) + timeSpawnPnt.x, timeSpawnPnt.y + 1);
+
+        arrows[4].transform.position = new Vector2(heightSpawnPnt.x, (height + heightSpawnPnt.y));
+        arrows[3].transform.position = new Vector2(heightSpawnPnt.x, heightSpawnPnt.y);
+        heightLines[0].SetPosition(0, new Vector2(heightSpawnPnt.x,((height / 2) - (0.18f * 1.5f)) +  heightSpawnPnt.y));
+        heightLines[0].SetPosition(1, new Vector2(heightSpawnPnt.x, heightSpawnPnt.y));
+        heightLines[1].SetPosition(0, new Vector2(heightSpawnPnt.x,((height / 2) + (0.18f * 1.5f)) +  heightSpawnPnt.y));
+        heightLines[1].SetPosition(1, new Vector2((heightSpawnPnt.x),height +  heightSpawnPnt.y));
+        heightLines[2].SetPosition(0, new Vector2(heightSpawnPnt.x + 1.5f, heightSpawnPnt.y));
+        heightLines[2].SetPosition(1, new Vector2(heightSpawnPnt.x - .25f, heightSpawnPnt.y));
+        heightLines[3].SetPosition(0, new Vector2(heightSpawnPnt.x + 1.5f, heightSpawnPnt.y + height));
+        heightLines[3].SetPosition(1, new Vector2(heightSpawnPnt.x -.25f, heightSpawnPnt.y + height));
+        labelTxt[2].transform.position = new Vector2(heightSpawnPnt.x,(height / 2) +  heightSpawnPnt.y);
 
         labelTxt[4].transform.position = velocitySpawnPnt;
         arrows[7].transform.position = new Vector2(velocitySpawnPnt.x + (0.18f * velocityTxtLength), velocitySpawnPnt.y);
@@ -340,6 +354,8 @@ public class IndicatorManagerV1_1 : MonoBehaviour
             labelTxt[4].GetComponent<TextMeshPro>().SetText($"velocity = ?{qc.Unit(UnitOf.velocity)}");
         else
             labelTxt[4].GetComponent<TextMeshPro>().SetText($"{System.Math.Round(velocity, 2)}{qc.Unit(UnitOf.velocity)}");
+
+        labelTxt[2].GetComponent<TextMeshPro>().SetText($"{System.Math.Round(height, 2)}{qc.Unit(UnitOf.distance)}");
 
         switch (requiredAnswer)
         {
@@ -372,6 +388,18 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         timeLines[3].startColor = qc.getHexColor(timeColor);
         timeLines[3].endColor = qc.getHexColor(timeColor);
         arrows[2].GetComponent<SpriteRenderer>().color = qc.getHexColor(timeColor);
+
+        qc.SetColor(labelTxt[2].GetComponent<TMP_Text>(), heightColor);
+        heightLines[0].startColor = qc.getHexColor(heightColor);
+        heightLines[0].endColor = qc.getHexColor(heightColor);
+        heightLines[1].startColor = qc.getHexColor(heightColor);
+        heightLines[1].endColor = qc.getHexColor(heightColor);
+        heightLines[2].startColor = qc.getHexColor(heightColor);
+        heightLines[2].endColor = qc.getHexColor(heightColor);
+        heightLines[3].startColor = qc.getHexColor(heightColor);
+        heightLines[3].endColor = qc.getHexColor(heightColor);
+        arrows[3].GetComponent<SpriteRenderer>().color = qc.getHexColor(heightColor);
+        arrows[4].GetComponent<SpriteRenderer>().color = qc.getHexColor(heightColor);
 
         foreach (var item in labelTxt)
         {
