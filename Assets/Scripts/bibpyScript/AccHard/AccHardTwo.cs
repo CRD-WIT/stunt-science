@@ -46,7 +46,7 @@ public class AccHardTwo : MonoBehaviour
         
         truckDistance = (viT * time) + (aT * (time * time)) / 2;
         overlapDistance = sideB - dX;
-        targetDistance = truckDistance - overlapDistance;
+        targetDistance = truckDistance + overlapDistance;
         truckCurrentPos = theTruck.transform.position.x;
         theBullet = FindObjectOfType<BulletManager>();
         theShoot.speed = vB;
@@ -55,7 +55,8 @@ public class AccHardTwo : MonoBehaviour
         bulletTime = sideC / vB;
         chopperTimeToTravel = time - bulletTime;
         viH = AccHardSimulation.playerAnswer;
-        correctAnswer = (targetDistance / chopperTimeToTravel) - ((aH * chopperTimeToTravel) / 2);
+        //correctAnswer = (targetDistance / chopperTimeToTravel) - ((aH * chopperTimeToTravel) / 2);
+        correctAnswer = targetDistance/chopperTimeToTravel;
         answer = (float)System.Math.Round(correctAnswer, 2);
         distanceCheck = (correctAnswer * chopperTimeToTravel) + (((chopperTimeToTravel * chopperTimeToTravel) * aH) / 2);
         playerAnswer = AccHardSimulation.playerAnswer;
@@ -82,7 +83,7 @@ public class AccHardTwo : MonoBehaviour
         }
         if (AccHardSimulation.simulate == true)
         {
-
+            camFollow = true;
             startTime = true;
             target.transform.position = targetWheel.transform.position;
             dimensions.SetActive(false);
@@ -90,13 +91,13 @@ public class AccHardTwo : MonoBehaviour
             if (timer == 0)
             {
                 theChopper.flySpeed = viH;
-                theChopper.accelaration = aH;
-                theChopper.accelarating = true;
+                //theChopper.accelaration = aH;
+                //theChopper.accelarating = true;
 
                 theTruck.moveSpeed = viT;
                 theTruck.accelaration = aT;
                 theTruck.accelerating = true;
-                theMulticab.moveSpeed = viH + 2;
+                theMulticab.moveSpeed = viT+5;
                 theChopper.moving = true;
             }
 
@@ -117,8 +118,8 @@ public class AccHardTwo : MonoBehaviour
             }
             if (playerAnswer > answer)
             {
-                theChopper.accelaration = aH + .5f;
-                if (timer >= chopperTimeToTravel - .1f)
+                theChopper.flySpeed = viH + 1f;
+                if (timer >= chopperTimeToTravel)
                 {
                     theChopper.flySpeed = 0;
                     theChopper.accelaration = 0;
@@ -130,9 +131,9 @@ public class AccHardTwo : MonoBehaviour
             }
             if (playerAnswer < answer)
             {
-                theChopper.accelaration = aH - .5f;
+                theChopper.flySpeed = viH - 1.5f;
 
-                if (timer >= chopperTimeToTravel + .3f)
+                if (timer >= chopperTimeToTravel)
                 {
                     theChopper.flySpeed = 0;
                     theChopper.accelaration = 0;
@@ -140,17 +141,12 @@ public class AccHardTwo : MonoBehaviour
                     shoot = true;
                 }
             }
-            if (shoot == false & truckCurrentPos >= stopTruckPos)
-            {
-                AccHardSimulation.simulate = false;
-                startTime = false;
-                StartCoroutine(StuntResult());
-
-            }
+           
         }
 
         if (shoot)
         {
+            projectileLine.SetActive(false);
             AccHardSimulation.simulate = false;
             target.SetActive(false);
             timertxt.text = chopperTimeToTravel.ToString("F2");
@@ -182,7 +178,7 @@ public class AccHardTwo : MonoBehaviour
                 StartCoroutine(StuntResult());
                 shoot = false;
                 theMulticab.moveSpeed = 0;
-                theChopper.moving = false;
+                
             }
 
         }
@@ -191,18 +187,19 @@ public class AccHardTwo : MonoBehaviour
     }
     public void generateProblem()
     {
-        theChopper.transform.position = new Vector2(cam.transform.position.x + 13, theChopper.transform.position.y);
-        directorPlatform.transform.localScale = new Vector2(-directorPlatform.transform.localScale.x, directorPlatform.transform.localScale.y);
+        projectileLine.SetActive(true);
+        theChopper.transform.position = new Vector2(cam.transform.position.x + 5, theChopper.transform.position.y);
+        //directorPlatform.transform.localScale = new Vector2(-directorPlatform.transform.localScale.x, directorPlatform.transform.localScale.y);
         toRetry = true;
         target.SetActive(true);
         dimensions.SetActive(true);
         shootReady = true;
-        dX = Random.Range(11, 13);
-        generateAH = Random.Range(2, 3);
-        aH = (float)System.Math.Round(generateAH, 2);
+        dX = Random.Range(15, 18);
+        //generateAH = Random.Range(2, 3);
+        //aH = (float)System.Math.Round(generateAH, 2);
         generateTime = Random.Range(3f, 3.5f);
         time = (float)System.Math.Round(generateTime, 2);
-        generateAngleB = Random.Range(25f, 30f);
+        generateAngleB = Random.Range(35f, 40f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
         generateViT = Random.Range(3f, 5f);
         viT = (float)System.Math.Round(generateViT, 2);
@@ -210,7 +207,7 @@ public class AccHardTwo : MonoBehaviour
         aT = (float)System.Math.Round(generateAT, 2);
         generateVB = Random.Range(20f, 30f);
         vB = (float)System.Math.Round(generateVB, 2);
-        gun.transform.rotation = Quaternion.Euler(gun.transform.rotation.x, gun.transform.rotation.y, -angleB);
+        gun.transform.rotation = Quaternion.Euler(gun.transform.rotation.x, gun.transform.rotation.y,-(180 -angleB));
         ChopperY = theChopper.transform.position.y - gunBarrel.transform.position.y;
         chopperX = gunBarrel.transform.position.x - theChopper.transform.position.x;
         //dX = targetWheel.transform.position.x - gunBarrel.transform.position.x;
@@ -218,16 +215,13 @@ public class AccHardTwo : MonoBehaviour
         //theChopper.transform.position = new Vector2(targetWheel.transform.position.x + dX - chopperX, targetWheel.transform.position.y + dY + ChopperY);
         horizontal.transform.position = new Vector2(gunBarrel.transform.position.x, gunBarrel.transform.position.y);
         verticalOne.transform.position = new Vector2(gunBarrel.transform.position.x, verticalOne.transform.position.y);
-        theMeter[1].distance = dY;
-        theMeter[1].positionX = targetWheel.transform.position.x;
-        theMeter[1].positionY = targetWheel.transform.position.y;
-        theMeter[0].distance = dX;
-        theMeter[0].positionY = dY - 5;
+        
         theCurve._origin = new Vector2(gunBarrel.transform.position.x, gunBarrel.transform.position.y);
         theCurve._degrees = angleB;
+        theCurve._horizRadius = -2.5f;
+        theCurve.textOffset = new Vector2(-5, -.5f);
         angleA = 90 - angleB;
-        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's 2nd wheel from a moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally behind and <b>") + dY.ToString("F2") + ("</b> meters vertically above the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, if <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots exactly after <b>")+ time.ToString("F2")+("</b> seconds, if the truck has an initial velocity of <b>") + viT.ToString("F2") + ("</b> m/s and accelerating at <b>") + aT.ToString("F2") + ("</b> m/s², what should be the initial velocity of helicopter accelerating at <b>")+aH.ToString("F2")+("</b> m/s², while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
-        target.transform.position = targetWheel.transform.position;
+        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's 2nd wheel from a moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally behind and <b>") + dY.ToString("F2") + ("</b> meters vertically below the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, if <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots exactly after <b>")+ time.ToString("F2")+("</b> seconds, if the truck has an initial velocity of <b>") + viT.ToString("F2") + ("</b> m/s and accelerating at <b>") + aT.ToString("F2") + ("</b> m/s², what should be the velocity of helicopter, while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
         timer = 0;
         bulletPos.SetActive(false);
         bulletHere.SetActive(false);
@@ -237,23 +231,33 @@ public class AccHardTwo : MonoBehaviour
         viTtxt.text = ("vi = ") + viT.ToString("F2") + ("m/s");
         aTtxt.text = ("a = ") + aT.ToString("F2") + ("m/s²");
         timertxtTruck.text = timer.ToString("F2") + ("s");
-        theMulticab.transform.position = new Vector2(theChopper.transform.position.x - 13, theMulticab.transform.position.y);
-        theTruck.transform.position = new Vector2(gunBarrel.transform.position.x - (dX-7), theTruck.transform.position.y);
+        theMulticab.transform.position = new Vector2(theChopper.transform.position.x - 30, theMulticab.transform.position.y);
+        theTruck.transform.position = new Vector2(gunBarrel.transform.position.x - (dX-6), theTruck.transform.position.y);
         theMeter[0].positionX = targetWheel.transform.position.x;
+        theMeter[1].distance = dY;
+        theMeter[1].positionX = targetWheel.transform.position.x;
+        theMeter[1].positionY = targetWheel.transform.position.y;
+        theMeter[0].distance = dX;
+        theMeter[0].positionY = dY - 5;
+        target.transform.position = targetWheel.transform.position;
+        camPos = cam.transform.position.x - theChopper.transform.position.x;
     }
     
     IEnumerator positioning()
     {
         Time.timeScale = 1;
+        projectileLine.SetActive(false);
         theChopper.moving = true;
-        theTruck.moveSpeed = 3;
-        theChopper.flySpeed = 15;
-        yield return new WaitForSeconds(1);
+        theTruck.moveSpeed = 2;
+        theChopper.flySpeed = 20;
+        yield return new WaitForSeconds(.5f);
         theMulticab.moveSpeed = 20;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
+         StartCoroutine(theHeart.endBGgone());
+        yield return new WaitForSeconds(1f);
         camFollow = false;
-        StartCoroutine(theHeart.endBGgone());
-        yield return new WaitForSeconds(1.2f);      
+        theTruck.moveSpeed= 0;
+        yield return new WaitForSeconds(.8f);      
         theChopper.flySpeed = 0;
         theMulticab.moveSpeed = 0;
         theTruck.moveSpeed = 0;
@@ -277,6 +281,8 @@ public class AccHardTwo : MonoBehaviour
     }
     public IEnumerator positioningTwo()
     {
+        theChopper.flySpeed = 5;
+        theMulticab.moveSpeed = 4;
         truckInitials.SetActive(false);
         theSimulate.takeNumber += 1;
         timer = 0;
@@ -286,12 +292,14 @@ public class AccHardTwo : MonoBehaviour
         wheelPos.SetActive(false);
         targetHere.SetActive(false);
         theTruck.transform.position = new Vector2(theTruck.transform.position.x - 1, theTruck.transform.position.y);
-        theTruck.moveSpeed = -13;
+        theTruck.moveSpeed = -10;
         yield return new WaitForSeconds(3);
         StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1f);
-        theTruck.moveSpeed = 0;
+        theChopper.flySpeed = 0;
+        theMulticab.moveSpeed = 0;
         yield return new WaitForSeconds(1.8f);
+        theTruck.moveSpeed = 0;
         generateProblem();
         theSimulate.playButton.interactable = true;
 

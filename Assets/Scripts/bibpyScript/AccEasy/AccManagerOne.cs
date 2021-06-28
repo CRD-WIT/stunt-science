@@ -24,7 +24,7 @@ public class AccManagerOne : MonoBehaviour
     float playerVf;
     float currentPos;
     float correctDistance;
-    string pronoun;
+    string pronoun, pronoun2;
     string gender;
     public GameObject walls, bikeInitials,directionArrow;
     public TMP_Text Vitxt, Vftxt, Acctxt, timertxt, actiontxt;
@@ -35,7 +35,6 @@ public class AccManagerOne : MonoBehaviour
     void Start()
     {
         theQuestion.stageNumber = 1;
-        theQuestion.levelDifficulty = GameConfig.Difficulty.Medium;
         theQuestion.levelName = "Acceleration";
         bikeInitialsPos = bikeInitials.transform.position;
         //thePlayer = FindObjectOfType<Player>();
@@ -47,10 +46,12 @@ public class AccManagerOne : MonoBehaviour
         if (gender == "Male")
         {
             pronoun = ("he");
+            pronoun2 = ("his");
         }
         if (gender == "Female")
         {
             pronoun = ("she");
+            pronoun2 = ("her");
         }
         generateProblem();
     }
@@ -138,6 +139,7 @@ public class AccManagerOne : MonoBehaviour
                 {
                     StartCoroutine(StuntResult());
                     playerVf = 15;
+                    Acctxt.color = new Color32(10, 103, 0, 255);
                 }
                 gas = false;
                 
@@ -177,7 +179,7 @@ public class AccManagerOne : MonoBehaviour
         timertxt.text = ("0.00s");
         generateTime = Random.Range(3.0f, 3.5f);
         time = (float)System.Math.Round(generateTime, 2);
-        theQuestion.SetQuestion(("In order for <b>") + PlayerPrefs.GetString("Name") + ("</b> to enter the tunnel on the otherside of the platform where  <b>") + pronoun + ("</b>is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete standstill to a speed of <b>") + Vf.ToString("F2") + ("</b> m/s, after ") + time.ToString("F2") + ("seconds. What should be ") + pronoun + (" accelaration in order to achieve the final velocity?"));
+        theQuestion.SetQuestion(("In order for <b>") + PlayerPrefs.GetString("Name") + ("</b> to enter the tunnel on the otherside of the platform where  <b>") + pronoun + ("</b> is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete stand still to a speed of <b>") + Vf.ToString("F2") + ("</b> m/s, after <b>") + time.ToString("F2") + ("</b> seconds. What should be ") + pronoun2 + (" acceleration in order to achieve the final velocity?"));
         theHeart.losslife = false;
         theBike.moveSpeed = 0;
         Acctxt.text = ("a = ?");

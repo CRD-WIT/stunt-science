@@ -138,6 +138,7 @@ public class AccManagerThree : MonoBehaviour
                         theBike.moveSpeed = 0;
                         //StartCoroutine(StuntResult());
                         accSimulation.simulate = false;
+                        vitxt.color = new Color32(10,103,0,255);
                         StartCoroutine(truckWillGo());
                     }
 

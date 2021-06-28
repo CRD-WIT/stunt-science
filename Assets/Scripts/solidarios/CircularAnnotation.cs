@@ -9,7 +9,7 @@ public class CircularAnnotation : MonoBehaviour
     [SerializeField]
     private int _segments = 60;
     [SerializeField]
-    private float _horizRadius = 2;
+    public float _horizRadius = 2;
     [SerializeField]
     private float _vertRadius = 2;
     public float _degrees = 360;
