@@ -16,7 +16,7 @@ public class AccHardTwo : MonoBehaviour
     public ShootManager theShoot;
     public DistanceMeter[] theMeter;
     public CircularAnnotation theCurve;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     private BulletManager theBullet;
     public AccHardSimulation theSimulate;
     float generateAngleB, generateViT, generateAT, generateVB, generateDX, generateDY, generateTime, time;

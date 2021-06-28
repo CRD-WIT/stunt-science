@@ -21,7 +21,7 @@ public class AccMediumTwo : MonoBehaviour
     float chopperAccPos, vanAccPos, vanTime, chopperDistance, correctAnswer, playerTime, generateplayerVanDistance, playerVanDistance;
     bool reposition = true;
     bool kickReady, follow;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     string gender, pronoun;
     public TMP_Text vivTxt, vihTxt, accvTxt, acchTxt, actiontxt,timertxt;
     // Start is called before the first frame update

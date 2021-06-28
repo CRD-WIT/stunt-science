@@ -6,7 +6,7 @@ using TMPro;
 public class ForceManagerThree : MonoBehaviour
 {
     public Player thePlayer;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     public BombScript theBombScript;
     private ForceSimulation theSimulate;
     private ColliderManager theCollider;

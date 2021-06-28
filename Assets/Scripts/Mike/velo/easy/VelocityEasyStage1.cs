@@ -11,6 +11,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     string pronoun, pPronoun, pNoun, playerName, playerGender;
     public float distance, gameTime, Speed, elapsed, currentPos;
     private CeillingGenerator theCeiling;
+    QuestionControllerVThree qc;
     StageManager sm = new StageManager();
     float wrongDistance;
 
@@ -89,7 +90,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         } 
         dimensionLine.SetActive(true);
         DimensionManager.dimensionLength = distance;
-        theCeiling.createQuadtilemap(); 
+        theCeiling.createQuadtilemap(qc.stage); 
         safeZone.transform.position = new Vector2(distance, 0.2f);
         timer.text = "0.00s";
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);   

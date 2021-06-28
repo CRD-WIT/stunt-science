@@ -7,7 +7,7 @@ public class ForceSimulation : MonoBehaviour
 {
     public Button playButton;
     public Player thePlayer;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     public ForceManagerOne theManagerOne;
     public ForceManagerTwo theManagerTwo;
     public ForceManagerThree theManagerThree;

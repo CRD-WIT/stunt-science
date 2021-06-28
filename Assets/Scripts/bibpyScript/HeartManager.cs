@@ -56,6 +56,16 @@ public class HeartManager : MonoBehaviour
         }
 
     }
+
+    public void losinglife()
+    {
+        if (losslife == false)
+        {
+            life -= 1;
+            losslife = true;
+        }
+    }
+
     IEnumerator actionreset()
     {
         yield return new WaitForSeconds(3);

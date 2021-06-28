@@ -15,7 +15,7 @@ public class AccHardSimulationRevised : MonoBehaviour
     public static float playerAnswer;
     public static bool simulate;
     public int stage;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     private Vector2 truckStartPoint;

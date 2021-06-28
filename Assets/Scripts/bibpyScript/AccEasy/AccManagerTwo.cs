@@ -29,7 +29,7 @@ public class AccManagerTwo : MonoBehaviour
     public TMP_Text Vitxt, Vftxt, Acctxt, timertxt, actiontxt;
     private HeartManager theHeart;
     private Vector2 bikeInitialStartPos;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
 
     // Start is called before the first frame update
     void Start()

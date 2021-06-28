@@ -23,7 +23,7 @@ public class AccMediumThree : MonoBehaviour
     string pronoun, gender;
     private Vector2 chopperStartPos, vanStartPos;
     private Quaternion vanstartRot;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     public GameObject actionButton;
     int currentLevel;
     int currentStar;

@@ -27,7 +27,7 @@ public class accSimulation : MonoBehaviour
 
     private ragdollScript theRagdoll;
     Vector2 playerstartPos;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     //string accelaration;
     // Start is called before the first frame update
     void Start()

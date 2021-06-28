@@ -21,7 +21,7 @@ public class BikeManager : MonoBehaviour
     public bool stopForward;
     public bool brake;
     private HeartManager theHeart;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     // Start is called before the first frame update
     void Start()
     {

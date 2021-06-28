@@ -6,6 +6,7 @@ public class PrefabDestroyer : MonoBehaviour
 {
     public GameObject debriPrefab;
     private SimulationManager theSimulate;
+    public static bool end;
     // Start is called before the first frame update
     void Start()
     {

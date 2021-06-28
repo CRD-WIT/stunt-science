@@ -21,7 +21,7 @@ public class AccMidSimulation : MonoBehaviour
     public static bool simulate;
     public static bool playerDead;
     public int stage;
-    public QuestionController[] theQuestion;
+    public QuestionController2[] theQuestion;
 
     
     public GameObject[] ground, dimension, arrow;

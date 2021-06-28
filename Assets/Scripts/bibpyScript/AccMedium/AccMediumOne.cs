@@ -17,7 +17,7 @@ public class AccMediumOne : MonoBehaviour
     public bool chase, togreen, tored;
     public float timer, correctAnswer;
     public float velocity, accelaration, vf, distanceH;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     float generateVelocity, generateAccelaration, generateCorrectAnswer;
     public float chopperPos, truckPos, answer;
     public bool readyToJump, follow, timeOn;

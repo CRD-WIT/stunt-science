@@ -43,12 +43,12 @@ public class ScoreManager : MonoBehaviour
         // scorestar = theHeart.life;
         // mycoin.text = coin.ToString("F0");
     }
-    public void finalstar()
+    public void finalstar(int life)
     {
         StartCoroutine(scoringstar());
-        if(scorestar > mystar)
+        if(life > mystar)
         {
-           PlayerPrefs.SetInt("VstarE", scorestar);
+           PlayerPrefs.SetInt("VstarE", life);
         }
     }
     IEnumerator scoringstar()

@@ -14,7 +14,7 @@ public class AccHardRevised : MonoBehaviour
     public ShootManager theShoot;
     public DistanceMeter[] theMeter;
     public CircularAnnotation theCurve;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     private BulletManager theBullet;
     public MulticabManager theMulticab;
     public HeartManager theHeart;

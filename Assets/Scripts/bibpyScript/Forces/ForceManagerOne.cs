@@ -9,7 +9,7 @@ public class ForceManagerOne : MonoBehaviour
     public BombScript theBombScript;
     private ForceSimulation theSimulate;
     private ColliderManager theCollider;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     private BombManager theBomb;
     float generateAccelaration, accelaration, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
     public float correctAnswer,playerAnswer;

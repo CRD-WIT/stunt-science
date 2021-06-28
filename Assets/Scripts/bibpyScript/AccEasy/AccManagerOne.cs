@@ -30,7 +30,7 @@ public class AccManagerOne : MonoBehaviour
     public TMP_Text Vitxt, Vftxt, Acctxt, timertxt, actiontxt;
     bool tooSlow, follow;
     private Vector2 bikeInitialsPos;
-    public QuestionController theQuestion;
+    public QuestionController2 theQuestion;
     // Start is called before the first frame update
     void Start()
     {

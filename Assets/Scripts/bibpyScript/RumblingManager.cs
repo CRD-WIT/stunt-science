@@ -15,10 +15,9 @@ public class RumblingManager : MonoBehaviour
 	public float shakeAmount = 0.8f;
 	public float decreaseFactor = 1.0f;
     public static bool shakeON = true;
-    public bool rubbleON = true;
-
     public static bool isCrumbling;
-    
+    public bool rubbleON = true;
+    public static bool fallingBouder;
     public GameObject rumbling;
     public GameObject[] rubbles;
     public GameObject[] debris;

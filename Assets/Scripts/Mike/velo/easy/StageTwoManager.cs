@@ -25,6 +25,7 @@ public class StageTwoManager : MonoBehaviour
     float currentPos;
     
     private RumblingManager theRumbling;
+    QuestionControllerVThree qc;
     public GameObject rubbleBlocker;
     private ScoreManager theScorer;
 
@@ -98,7 +99,7 @@ public class StageTwoManager : MonoBehaviour
                 SimulationManager.isAnswerCorrect= true;
                 if(currentPos >= distance)
                 {
-                    theScorer.finalstar();
+                    theScorer.finalstar(3);
                     thePlayer.moveSpeed = 0;
                     rubbleStopper.SetActive(false);
                     thePlayer.happy = true;
@@ -216,7 +217,7 @@ public class StageTwoManager : MonoBehaviour
         answerRO = (float)System.Math.Round(answer, 2);
         resetTime();
         safePoint.transform.position = new Vector2(distance, 0.23f);
-        theCeiling.createQuadtilemap();
+        theCeiling.createQuadtilemap(qc.stage);
         ragdollSpawn.SetActive(true);
         rubbleStopper.SetActive(true);
         theHeart.losslife = false;
