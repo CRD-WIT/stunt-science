@@ -123,6 +123,60 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!20 &553452923 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 4449963900399715848, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+  m_PrefabInstance: {fileID: 4449963900701810225}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1507466942 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2838269807948777980, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+  m_PrefabInstance: {fileID: 4449963900701810225}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1507466943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507466942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6eb1c0818680454899bc5e0f39a9dd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
+  myRigidbody: {fileID: 0}
+  player: {fileID: 1507466942}
+  stickmanpoint: {fileID: 2118516729}
+  lost: 0
+  brake: 0
+  happy: 0
+  ragdollblow: 0
+  footstep: {fileID: 0}
+  stickprefab: {fileID: 3466479453583936867, guid: 48dd00e06f48bbc4ba33f48df967c64b, type: 3}
+  posready: 0
+  grounded: 0
+  throwing: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheck: {fileID: 0}
+  groundedRadius: 0
+  jumpforce: 6
+  standup: 0
+  addweights: 0
+  thisway: 0
+  godown: 0
+  toJump: 0
+  toReach: 0
+  ropeHang: 0
+  hangkick: 0
+--- !u!1 &2118516729 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7058012548616006232, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+  m_PrefabInstance: {fileID: 4449963900701810225}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4449963900701810225
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -194,6 +248,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3691458626742487797, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: renderCamera
+      value: 
+      objectReference: {fileID: 553452923}
     - target: {fileID: 4449963899736729914, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
       propertyPath: m_fontColor.b
       value: 1

@@ -13,7 +13,7 @@ public class AccManagerTwo : MonoBehaviour
     public float time;
     float generateAcceleration;
     public float deacceleration;
-    private Player thePlayer;
+    private PlayerB thePlayer;
     private accSimulation theSimulation;
     private BikeManager theBike;
     public bool gas, follow;
@@ -29,14 +29,14 @@ public class AccManagerTwo : MonoBehaviour
     public TMP_Text Vitxt, Vftxt, Acctxt, timertxt, actiontxt;
     private HeartManager theHeart;
     private Vector2 bikeInitialStartPos;
-    public QuestionController theQuestion;
+    public QuestionControllerB theQuestion;
 
     // Start is called before the first frame update
     void Start()
     {
         theQuestion.stageNumber = 2;
         cam.transform.position = new Vector3(17.5f, cam.transform.position.y, cam.transform.position.z);
-        thePlayer = FindObjectOfType<Player>();
+        thePlayer = FindObjectOfType<PlayerB>();
         theBike = FindObjectOfType<BikeManager>();
         gender = PlayerPrefs.GetString("Gender");
         theSimulation = FindObjectOfType<accSimulation>();

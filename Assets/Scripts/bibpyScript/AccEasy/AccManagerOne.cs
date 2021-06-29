@@ -13,7 +13,7 @@ public class AccManagerOne : MonoBehaviour
     public float time;
     float generateTime;
     public float accelaration;
-    public Player thePlayer;
+    public PlayerB thePlayer;
     private accSimulation theSimulation;
     private HeartManager theHeart;
     private BikeManager theBike;
@@ -30,7 +30,7 @@ public class AccManagerOne : MonoBehaviour
     public TMP_Text Vitxt, Vftxt, Acctxt, timertxt, actiontxt;
     bool tooSlow, follow;
     private Vector2 bikeInitialsPos;
-    public QuestionController theQuestion;
+    public QuestionControllerB theQuestion;
     // Start is called before the first frame update
     void Start()
     {

@@ -2774,7 +2774,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6467936047890628}
-  - component: {fileID: 6467936047890631}
+  - component: {fileID: 1079668223412071797}
   m_Layer: 0
   m_Name: QuestionControlV2 1
   m_TagString: Untagged
@@ -2797,7 +2797,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6467936047890631
+--- !u!114 &1079668223412071797
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2806,22 +2806,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 6467936047890629}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dab1fb6fc663d24e7ac9eb3be73ee5bd, type: 3}
+  m_Script: {fileID: 11500000, guid: c29d26118c04f264383ed2a2725e8193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   answerIsCorrect: 0
-  isModalOpen: 0
+  isModalOpen: 1
   renderCamera: {fileID: 0}
-  correctAnswerColor: {r: 150, g: 217, b: 72, a: 1}
-  givenColor: {r: 83, g: 173, b: 23, a: 1}
-  wrongAnswerColor: {r: 237, g: 66, b: 66, a: 1}
-  levelDifficulty: 1
-  levelNumber: 2
-  stageNumber: 1
+  correctAnswerColor: {r: 1, g: 1, b: 1, a: 0}
+  givenColor: {r: 1, g: 1, b: 1, a: 0}
+  wrongAnswerColor: {r: 1, g: 1, b: 1, a: 0}
+  levelDifficulty: 0
+  levelNumber: 0
+  stageNumber: 0
   orientation: 0
-  levelName: Accelaration
-  modalTitle: Test
-  question: The quick brown fox jumps over the lazy dog near the bank of the river.
+  levelName: 2
+  modalTitle: Acceleration
+  question: 
   colorMode: 0
   unitOf: 0
   answerFieldHorizontal: {fileID: 6467936719910812}
@@ -2829,8 +2829,8 @@ MonoBehaviour:
   difficultyName: {fileID: 6467937002477142}
   stageName: {fileID: 6467936228908710}
   isSimulating: 0
-  modalText: Test
-  errorText: Test
+  modalText: 
+  errorText: 
   popupVisible: 0
   baseComponent: {fileID: 6467935803845698}
   extraComponent: {fileID: 6467935322602282}
@@ -3168,7 +3168,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 1
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: 960, y: 540, z: 0}
+  m_TranslationOffset: {x: 1080, y: 540, z: 0}
   m_AffectTranslationX: 0
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 0

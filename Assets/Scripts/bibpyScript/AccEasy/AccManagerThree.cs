@@ -13,7 +13,7 @@ public class AccManagerThree : MonoBehaviour
     float generateTime;
     float generateAcceleration;
     public float deacceleration;
-    private Player thePlayer;
+    private PlayerB thePlayer;
     private accSimulation theSimulation;
     private BikeManager theBike;
     public bool gas;
@@ -37,7 +37,7 @@ public class AccManagerThree : MonoBehaviour
     int currentLevel;
     int currentStar;
     private Vector2 bikeInitialStartPos;
-    public QuestionController theQuestion;
+    public QuestionControllerB theQuestion;
 
     // Start is called before the first frame update
     void Start()

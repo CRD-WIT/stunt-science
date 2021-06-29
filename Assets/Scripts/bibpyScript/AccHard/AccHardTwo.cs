@@ -22,7 +22,7 @@ public class AccHardTwo : MonoBehaviour
     public HeartManager theHeart;
     float generateAngleB, generateViT, generateAT, generateVB, generateDX, generateDY, generateTime, time;
     float generateAH, aH, viH;
-    float ChopperY, chopperX, truckTime, bulletTime, truckCurrentPos, chopperTimeToTravel, distanceBetween;
+    float ChopperY, chopperX, truckTime, bulletTime, truckCurrentPos, chopperTimeToTravel, distanceBetween,truckTimeToTravel;
     bool shoot, shootReady, gas, startTime;
     public bool posCheck,toRetry,camFollow;
     public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt;
@@ -44,19 +44,15 @@ public class AccHardTwo : MonoBehaviour
     void FixedUpdate()
     {
         
-        truckDistance = (viT * time) + (aT * (time * time)) / 2;
+        truckDistance = (viT * truckTimeToTravel) + (aT * (truckTimeToTravel * truckTimeToTravel)) / 2;
         overlapDistance = sideB - dX;
         targetDistance = truckDistance + overlapDistance;
         truckCurrentPos = theTruck.transform.position.x;
         theBullet = FindObjectOfType<BulletManager>();
         theShoot.speed = vB;
-        sideB = dY / (Mathf.Tan(angleB * Mathf.Deg2Rad));
-        sideC = Mathf.Sqrt((dY * dY) + (sideB * sideB));
-        bulletTime = sideC / vB;
-        chopperTimeToTravel = time - bulletTime;
         viH = AccHardSimulation.playerAnswer;
         //correctAnswer = (targetDistance / chopperTimeToTravel) - ((aH * chopperTimeToTravel) / 2);
-        correctAnswer = targetDistance/chopperTimeToTravel;
+        correctAnswer = targetDistance/time;
         answer = (float)System.Math.Round(correctAnswer, 2);
         distanceCheck = (correctAnswer * chopperTimeToTravel) + (((chopperTimeToTravel * chopperTimeToTravel) * aH) / 2);
         playerAnswer = AccHardSimulation.playerAnswer;
@@ -106,7 +102,7 @@ public class AccHardTwo : MonoBehaviour
             {
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
-                if (timer >= chopperTimeToTravel+.3f)
+                if (timer >= time+.3f)
                 {
                     shoot = true;
                     theChopper.flySpeed = 0;
@@ -119,7 +115,7 @@ public class AccHardTwo : MonoBehaviour
             if (playerAnswer > answer)
             {
                 theChopper.flySpeed = viH + 1f;
-                if (timer >= chopperTimeToTravel)
+                if (timer >= time)
                 {
                     theChopper.flySpeed = 0;
                     theChopper.accelaration = 0;
@@ -133,7 +129,7 @@ public class AccHardTwo : MonoBehaviour
             {
                 theChopper.flySpeed = viH - 1.5f;
 
-                if (timer >= chopperTimeToTravel)
+                if (timer >= time)
                 {
                     theChopper.flySpeed = 0;
                     theChopper.accelaration = 0;
@@ -197,7 +193,7 @@ public class AccHardTwo : MonoBehaviour
         dX = Random.Range(15, 18);
         //generateAH = Random.Range(2, 3);
         //aH = (float)System.Math.Round(generateAH, 2);
-        generateTime = Random.Range(3f, 3.5f);
+        generateTime = Random.Range(2f, 2.5f);
         time = (float)System.Math.Round(generateTime, 2);
         generateAngleB = Random.Range(35f, 40f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
@@ -221,7 +217,6 @@ public class AccHardTwo : MonoBehaviour
         theCurve._horizRadius = -2.5f;
         theCurve.textOffset = new Vector2(-5, -.5f);
         angleA = 90 - angleB;
-        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's 2nd wheel from a moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally behind and <b>") + dY.ToString("F2") + ("</b> meters vertically below the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, if <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots exactly after <b>")+ time.ToString("F2")+("</b> seconds, if the truck has an initial velocity of <b>") + viT.ToString("F2") + ("</b> m/s and accelerating at <b>") + aT.ToString("F2") + ("</b> m/s², what should be the velocity of helicopter, while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
         timer = 0;
         bulletPos.SetActive(false);
         bulletHere.SetActive(false);
@@ -241,6 +236,11 @@ public class AccHardTwo : MonoBehaviour
         theMeter[0].positionY = dY - 5;
         target.transform.position = targetWheel.transform.position;
         camPos = cam.transform.position.x - theChopper.transform.position.x;
+        sideB = dY / (Mathf.Tan(angleB * Mathf.Deg2Rad));
+        sideC = Mathf.Sqrt((dY * dY) + (sideB * sideB));
+        bulletTime = sideC / vB;
+        truckTimeToTravel = time + bulletTime;
+        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's 2nd wheel from a moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally behind and <b>") + dY.ToString("F2") + ("</b> meters vertically below the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, if <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots exactly after <b>")+ time.ToString("F2")+("</b> seconds, if the truck has an initial velocity of <b>") + viT.ToString("F2") + ("</b> m/s and accelerating at <b>") + aT.ToString("F2") + ("</b> m/s², what should be the velocity of helicopter, while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
     }
     
     IEnumerator positioning()
