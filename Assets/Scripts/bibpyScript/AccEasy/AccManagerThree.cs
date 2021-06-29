@@ -38,6 +38,7 @@ public class AccManagerThree : MonoBehaviour
     int currentStar;
     private Vector2 bikeInitialStartPos;
     public QuestionControllerB theQuestion;
+    Quaternion truckStartRot;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +56,7 @@ public class AccManagerThree : MonoBehaviour
         currentStar = PlayerPrefs.GetInt("AcstarE");
         bikeInitialStartPos = bikeInitials.transform.position;
         theSimulation.stage = 3;
+        truckStartRot = theTruck.transform.rotation;
         if (gender == "Male")
         {
             pronoun = ("he");
@@ -187,6 +189,7 @@ public class AccManagerThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        theTruck.transform.rotation = truckStartRot;
         bikeInitials.transform.position = bikeInitialStartPos;
         addingAcc = true;
         generateTime = Random.Range(2.5f, 4.5f);

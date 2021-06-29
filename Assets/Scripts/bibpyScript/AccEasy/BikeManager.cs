@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BikeManager : MonoBehaviour
 {
-    private Player thePlayer;
+    private PlayerB thePlayer;
     private AccManagerTwo theManagerTwo;
     private accSimulation theSimulate;
     private Animator myAnimator;
@@ -21,11 +21,11 @@ public class BikeManager : MonoBehaviour
     public bool stopForward;
     public bool brake;
     private HeartManager theHeart;
-    public QuestionController theQuestion;
+    public QuestionControllerB theQuestion;
     // Start is called before the first frame update
     void Start()
     {
-        thePlayer = FindObjectOfType<Player>();
+        thePlayer = FindObjectOfType<PlayerB>();
         theSimulate = FindObjectOfType<accSimulation>();
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();

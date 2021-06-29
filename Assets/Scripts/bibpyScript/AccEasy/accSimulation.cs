@@ -28,6 +28,7 @@ public class accSimulation : MonoBehaviour
     private ragdollScript theRagdoll;
     Vector2 playerstartPos;
     public QuestionControllerB theQuestion;
+    public HeartManager theHeart;
     //string accelaration;
     // Start is called before the first frame update
     void Start()
@@ -116,6 +117,76 @@ public class accSimulation : MonoBehaviour
     }
     public void retry()
     {
+        
+        StartCoroutine(exit());
+       
+    }
+    public void next()
+    {
+        StartCoroutine(entrance());
+    }
+    public IEnumerator DirectorsCall()
+    {
+        if (directorIsCalling)
+        {
+            directorBubble.SetActive(true);
+            diretorsSpeech.text = "Lights!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Camera!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Action!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "";
+            directorBubble.SetActive(false);
+            simulate = true;
+            directorIsCalling = false;
+        }
+        else
+        {
+            directorBubble.SetActive(true);
+            diretorsSpeech.text = "Cut!";
+            yield return new WaitForSeconds(1);
+            directorBubble.SetActive(false);
+            diretorsSpeech.text = "";
+        }
+    }
+    IEnumerator entrance()
+    {
+        StartCoroutine(theHeart.endBGgone());
+        yield return new WaitForSeconds(1);
+        StartCoroutine(theHeart.endBGgone());
+        theQuestion.isSimulating = false;
+        answerField.text = ("");
+        playButton.interactable = true;
+        theQuestion.answerIsCorrect = false;
+        if(stage == 1)
+        {
+            theManagerOne.gameObject.SetActive(false);
+            theManagerTwo.gameObject.SetActive(true);
+            ground[0].SetActive(false);
+            ground[1].SetActive(true);
+           
+            //director.transform.position = new Vector2(-1.31f, 4.98f);
+            
+            
+        }
+         if(stage == 2)
+        {
+            theManagerTwo.gameObject.SetActive(false);
+            theManagerThree.gameObject.SetActive(true);
+            ground[1].SetActive(false);
+            ground[2].SetActive(true);
+            truck.SetActive(true);
+            theBike.brake = false;
+            
+            //director.transform.position = new Vector2(1.1f, 4.98f);
+           
+        }
+    }
+    IEnumerator exit()
+    {
+        StartCoroutine(theHeart.endBGgone());
+        yield return new WaitForSeconds(1.2f);
         theQuestion.answerIsCorrect = false;
         theQuestion.isSimulating = false;
         theBike.transform.rotation = startRotation;
@@ -159,63 +230,7 @@ public class accSimulation : MonoBehaviour
             theManagerOne.walls.SetActive(false);
             
         }
-        
-       
-    }
-    public void next()
-    {
-        theQuestion.isSimulating = false;
-        answerField.text = ("");
-        playButton.interactable = true;
-        theQuestion.answerIsCorrect = false;
-        if(stage == 1)
-        {
-            theManagerOne.gameObject.SetActive(false);
-            theManagerTwo.gameObject.SetActive(true);
-            ground[0].SetActive(false);
-            ground[1].SetActive(true);
-           
-            //director.transform.position = new Vector2(-1.31f, 4.98f);
-            
-            
-        }
-         if(stage == 2)
-        {
-            theManagerTwo.gameObject.SetActive(false);
-            theManagerThree.gameObject.SetActive(true);
-            ground[1].SetActive(false);
-            ground[2].SetActive(true);
-            truck.SetActive(true);
-            theBike.brake = false;
-            
-            //director.transform.position = new Vector2(1.1f, 4.98f);
-           
-        }
-    }
-    public IEnumerator DirectorsCall()
-    {
-        if (directorIsCalling)
-        {
-            directorBubble.SetActive(true);
-            diretorsSpeech.text = "Lights!";
-            yield return new WaitForSeconds(0.75f);
-            diretorsSpeech.text = "Camera!";
-            yield return new WaitForSeconds(0.75f);
-            diretorsSpeech.text = "Action!";
-            yield return new WaitForSeconds(0.75f);
-            diretorsSpeech.text = "";
-            directorBubble.SetActive(false);
-            simulate = true;
-            directorIsCalling = false;
-        }
-        else
-        {
-            directorBubble.SetActive(true);
-            diretorsSpeech.text = "Cut!";
-            yield return new WaitForSeconds(1);
-            directorBubble.SetActive(false);
-            diretorsSpeech.text = "";
-        }
+
     }
     public IEnumerator errorMesage()
     {
