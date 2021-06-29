@@ -5,9 +5,7 @@ public class Player : MonoBehaviour
 {
     public float moveSpeed;
     public Rigidbody2D myRigidbody;
-    private Animator myAnimator;
-
-    
+    private Animator myAnimator;    
     public GameObject player;
     public GameObject stickmanpoint;
     public bool lost, brake;
