@@ -64,6 +64,8 @@ public class QuestionControllerVThree : MonoBehaviour
         }
         difficultyName.GetComponent<TMP_Text>().text = difficulty;
         levelNumber = level.GetLevelNum(levelName);
+        if (level.GetLevelNum(levelName) > 3)
+            levelNumber--;
 
         life = FindObjectOfType<HeartManager>();
     }

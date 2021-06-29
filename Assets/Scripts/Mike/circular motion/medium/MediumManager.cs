@@ -8,14 +8,16 @@ public class MediumManager : MonoBehaviour
     Animator playerAnim;
     UnitOf whatIsAsk;
     [SerializeField] TMP_Text directorsSpeech;
-    [SerializeField] GameObject directorsBubble, rope;
+    [SerializeField] GameObject directorsBubble, rope, AVelocityIndicator, ragdoll;
     public float distance, stuntTime, elapsed;
     string question, afterStuntMessage, errorMessage, playerName, pronoun, pNoun;
-    float playerAnswer, playerSpeed, conveyorSpeed, animSpeed;
+    float playerAnswer, playerSpeed, conveyorSpeed, animSpeed, timingD;
     bool isAnswered, directorIsCalling, isStartOfStunt;
+    int stage;
     ConveyorManager conveyor;
     QuestionControllerVThree qc;
-    IndicatorManagerV1_1 labels;
+    IndicatorManagerV1_1 indicators;
+    StageManager sm = new StageManager();
 
     // Start is called before the first frame update
     void Start()
@@ -23,10 +25,13 @@ public class MediumManager : MonoBehaviour
         qc = FindObjectOfType<QuestionControllerVThree>();
         myPlayer = FindObjectOfType<PlayerCM2>();
         conveyor = FindObjectOfType<ConveyorManager>();
-        labels = FindObjectOfType<IndicatorManagerV1_1>();
+        indicators = FindObjectOfType<IndicatorManagerV1_1>();
         playerAnim = myPlayer.myAnimator;
         playerName = PlayerPrefs.GetString("Name");
         string playerGender = PlayerPrefs.GetString("Gender");
+        sm.SetGameLevel(5);
+        qc.levelDifficulty = Difficulty.Medium;
+        qc.stage = 1;
         if (playerGender == "Male")
         {
             pronoun = "he";
@@ -44,7 +49,7 @@ public class MediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        labels.SetPlayerPosition(myPlayer.transform.position);
+        indicators.SetPlayerPosition(myPlayer.transform.position);
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         Debug.Log(conveyorSpeed + "cs");
@@ -55,26 +60,52 @@ public class MediumManager : MonoBehaviour
             playerAnim.speed = playerAnswer / 5.6f; // set to 1 before grabbing.
             myPlayer.moveSpeed = playerAnswer - conveyorSpeed;
             elapsed += Time.deltaTime;
+            timingD = myPlayer.transform.position.x + 10;
             if (elapsed >= stuntTime)
             {
-                playerAnim.speed =1;
+                // isAnswered =false;
+                playerAnim.speed = 1;
                 elapsed = stuntTime;
-                myPlayer.moveSpeed = -conveyorSpeed;
-                playerAnim.SetBool("running", false);
-                if(playerAnswer == playerSpeed){
+                // myPlayer.moveSpeed = -conveyorSpeed;
+                if (playerAnswer == playerSpeed)
+                {
+                    myPlayer.transform.position = new Vector2(distance - 10, myPlayer.transform.position.y);
+                    myPlayer.moveSpeed = 0;
+                    playerAnim.SetBool("running", false);
                     playerAnim.speed = 1;
                     //correct
                 }
+                else
+                {
+                    myPlayer.gameObject.SetActive(false);
+                    ragdoll.transform.position = myPlayer.transform.position;
+                    ragdoll.SetActive(true);
+                    ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
+                    if (playerAnswer > playerSpeed)
+                    {
+                        myPlayer.transform.position = new Vector2(myPlayer.transform.position.x +0.2f, myPlayer.transform.position.y);
+                    }
+                    else
+                    {
+                        myPlayer.transform.position = new Vector2(myPlayer.transform.position.x -0.2f, myPlayer.transform.position.y);
+                    }
+                }
             }
+            indicators.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed), elapsed, timingD);
         }
+        indicators.SetPlayerPosition(myPlayer.transform.position);
         if (qc.isSimulating)
             Play();
     }
     void SetUp()
     {
-        labels.heightSpawnPnt = new Vector2(-13.3f, -1.15f);
-        labels.timeSpawnPnt = new Vector2(-10, .5f);
-        labels.UnknownIs('v');
+        stage = qc.stage;
+        AVelocityIndicator.GetComponent<UnityEngine.U2D.SpriteShapeRenderer>().color = qc.getHexColor(TextColorMode.Given);
+        AVelocityIndicator.transform.Find("aVelocityIndicator").gameObject.GetComponent<SpriteRenderer>().color = qc.getHexColor(TextColorMode.Given);
+        qc.SetColor(AVelocityIndicator.transform.Find("label").GetComponent<TMP_Text>(), TextColorMode.Given);
+        indicators.heightSpawnPnt = new Vector2(-13.3f, -1.15f);
+        indicators.timeSpawnPnt = new Vector2(-10, .5f);
+        indicators.UnknownIs('v');
         qc.limit = 10.4f;
         while (true)
         {
@@ -83,14 +114,15 @@ public class MediumManager : MonoBehaviour
             stuntTime = (float)System.Math.Round(Random.Range(1.9f, 5f), 2);
             distance = Random.Range(15f, 20f);
             conveyorSpeed = conveyor.SetConveyorSpeed(aVelocity, stuntTime);
-            playerSpeed = (distance / stuntTime) + conveyorSpeed;
+            playerSpeed = (float)System.Math.Round(((distance / stuntTime) + conveyorSpeed), 2);
+            AVelocityIndicator.transform.Find("label").GetComponent<TMP_Text>().text = aVelocity.ToString("f2") + qc.Unit(UnitOf.angularVelocity);
             if (playerSpeed > 3 && playerSpeed < 10.4f)
                 break;
         }
         rope.transform.position = new Vector2(distance - 10, rope.transform.position.y);
         playerAnim.speed = conveyorSpeed / 5.6f; // set to 1 before grabbing.
-        labels.showLines(null, distance, 2.3f, playerSpeed, stuntTime);
-        question = playerName + " is instructed to run on a moving conveyor belt and the rope is " + ConveyorManager.angularVelocity + "degrees per second, how fast should " + playerName + " run if " + pronoun + " is to grab the rope exactly after " + stuntTime.ToString("f2") + " seconds?";
+        indicators.showLines(null, distance, 2.3f, playerSpeed, stuntTime);
+        question = playerName + " is instructed to run on a moving conveyor belt and the rope is<b> " + ConveyorManager.angularVelocity + " degrees per second</b>, how fast should " + playerName + " run if " + pronoun + " is to grab the rope exactly after <b>" + stuntTime.ToString("f2") + " seconds</b>?";
         qc.SetQuestion(question);
     }
     void Play()

@@ -31,7 +31,7 @@ public class Level5EasyManager : MonoBehaviour
         myPlayer = FindObjectOfType<Player>();
         playerHeart = FindObjectOfType<HeartManager>();
         qc = FindObjectOfType<QuestionControllerVThree>();
-        //stage = 1;
+        qc.stage = 1;
         isAnswered = false;
         sm.SetGameLevel(5);
         sm.SetDifficulty(1);

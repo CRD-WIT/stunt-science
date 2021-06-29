@@ -61,7 +61,7 @@ public class VelocityMediumManager : MonoBehaviour
             pronoun = "she";
             pPronoun = "her";
         }
-        qc.levelName = sm.GetGameLevel();
+        // qc.levelName = sm.GetGameLevel();
         qc.levelDifficulty = Difficulty.Medium;
         VeloMediumSetUp();
     }
