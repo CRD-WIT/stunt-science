@@ -7,7 +7,7 @@ public class AccMediumTwo : MonoBehaviour
 {
     public GameObject hangingRagdoll1, hangingRagdoll2, ropeTip1, ropeTip2, ragdollPrefab, stickmanPoint, windshield, driver, glass, glassPos, vanCollider;
     public GameObject carInitial, chopperInitial, carArrow, chopperArrow, ragdollPause,distanceMeter;
-    public Player thePlayer;
+    public PlayerB thePlayer;
     public Hellicopter theChopper;
     public SubHellicopter theSubChopper;
     public SubSuv theSubSuv;
@@ -21,7 +21,7 @@ public class AccMediumTwo : MonoBehaviour
     float chopperAccPos, vanAccPos, vanTime, chopperDistance, correctAnswer, playerTime, generateplayerVanDistance, playerVanDistance;
     bool reposition = true;
     bool kickReady, follow;
-    public QuestionController theQuestion;
+    public QuestionControllerB theQuestion;
     string gender, pronoun;
     public TMP_Text vivTxt, vihTxt, accvTxt, acchTxt, actiontxt,timertxt;
     // Start is called before the first frame update

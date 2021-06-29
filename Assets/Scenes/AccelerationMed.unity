@@ -5852,6 +5852,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 10.000183
       objectReference: {fileID: 0}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: isModalOpen
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: renderCamera
+      value: 
+      objectReference: {fileID: 369596473}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: levelDifficulty
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5881040962717936608, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
       propertyPath: m_TranslationAtRest.x
       value: 10.000153
@@ -6162,7 +6174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playButton: {fileID: 981443740}
-  thePlayer: {fileID: 2565264667830371353}
+  thePlayer: {fileID: 1919375448176089038}
   theTruck: {fileID: 1678539254}
   theSuv:
   - {fileID: 0}
@@ -6183,9 +6195,9 @@ MonoBehaviour:
   diretorsSpeech: {fileID: 596383506}
   stage: 1
   theQuestion:
-  - {fileID: 3931283651861884356}
-  - {fileID: 2102062077}
-  - {fileID: 1281950790}
+  - {fileID: 914826447}
+  - {fileID: 1131763875}
+  - {fileID: 815912168}
   ground:
   - {fileID: 1233839156}
   - {fileID: 109714220}
@@ -6353,14 +6365,14 @@ MonoBehaviour:
   theDistance: {fileID: 1817574833}
   theSubChopper: {fileID: 1121541205}
   theSuv: {fileID: 1883357144}
-  thePlayer: {fileID: 2565264667830371353}
+  thePlayer: {fileID: 1919375448176089038}
   theChopper: {fileID: 574515705}
   viVtxt: {fileID: 1192256006}
   viHtxt: {fileID: 2113766474}
   aVtxt: {fileID: 1478478604}
   aHtxt: {fileID: 1021574687}
   actiontxt: {fileID: 1950958583}
-  theQuestion: {fileID: 1281950790}
+  theQuestion: {fileID: 815912168}
   actionButton: {fileID: 1252881659}
 --- !u!1 &754672237
 GameObject:
@@ -7006,6 +7018,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60c12b33cfa0694a8f14a0570202bae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &815912168 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+  m_PrefabInstance: {fileID: 689793814}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29d26118c04f264383ed2a2725e8193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &829631645
 GameObject:
   m_ObjectHideFlags: 0
@@ -7384,7 +7407,7 @@ MonoBehaviour:
   chopperArrow: {fileID: 77221396}
   ragdollPause: {fileID: 1591765717}
   distanceMeter: {fileID: 1857891367}
-  thePlayer: {fileID: 2565264667830371353}
+  thePlayer: {fileID: 1919375448176089038}
   theChopper: {fileID: 1617032813}
   theSubChopper: {fileID: 1493763885}
   theSubSuv: {fileID: 320809894}
@@ -7392,7 +7415,7 @@ MonoBehaviour:
   theMeter:
   - {fileID: 814194226}
   - {fileID: 1471143471}
-  theQuestion: {fileID: 2102062077}
+  theQuestion: {fileID: 1131763875}
   vivTxt: {fileID: 1192256006}
   vihTxt: {fileID: 2113766474}
   accvTxt: {fileID: 1478478604}
@@ -7413,6 +7436,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &914826447 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+  m_PrefabInstance: {fileID: 3933968125297929475}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29d26118c04f264383ed2a2725e8193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &935806519
 GameObject:
   m_ObjectHideFlags: 0
@@ -8854,6 +8888,17 @@ Transform:
   m_Father: {fileID: 285285801}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1131763875 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+  m_PrefabInstance: {fileID: 1947330595}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29d26118c04f264383ed2a2725e8193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1136226808
 GameObject:
   m_ObjectHideFlags: 0
@@ -10278,17 +10323,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6467936047890628, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
   m_PrefabInstance: {fileID: 689793814}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1281950790 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6467936047890631, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
-  m_PrefabInstance: {fileID: 689793814}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dab1fb6fc663d24e7ac9eb3be73ee5bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1289939816 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2166712746304183313, guid: 6b64097cfeb82c145bcd0d0a366697f0, type: 3}
@@ -13755,7 +13789,7 @@ MonoBehaviour:
   ropePoint: {fileID: 1511819017}
   carArrow: {fileID: 432556032}
   chopperArrow: {fileID: 167505971}
-  thePlayer: {fileID: 2565264667830371353}
+  thePlayer: {fileID: 1919375448176089038}
   theChopper: {fileID: 447464571}
   theSubChopper: {fileID: 105607688}
   theTruck: {fileID: 1678539254}
@@ -13768,7 +13802,7 @@ MonoBehaviour:
   accelaration: 0
   vf: 0
   distanceH: 0
-  theQuestion: {fileID: 3931283651861884356}
+  theQuestion: {fileID: 914826447}
   chopperPos: 0
   truckPos: 0
   answer: 0
@@ -18147,6 +18181,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -466.99994
       objectReference: {fileID: 0}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: isModalOpen
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: renderCamera
+      value: 
+      objectReference: {fileID: 369596473}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: levelDifficulty
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5881040962717936608, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
       propertyPath: m_TranslationAtRest.x
       value: -467
@@ -19580,17 +19626,6 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
---- !u!114 &2102062077 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6467936047890631, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
-  m_PrefabInstance: {fileID: 1947330595}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dab1fb6fc663d24e7ac9eb3be73ee5bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2102062078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6467936047890628, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
@@ -22986,6 +23021,7 @@ GameObject:
   - component: {fileID: 1919375448176089034}
   - component: {fileID: 1357513952691680686}
   - component: {fileID: 2565264667830371353}
+  - component: {fileID: 1919375448176089038}
   m_Layer: 0
   m_Name: stickmanmale 1
   m_TagString: Untagged
@@ -22993,6 +23029,45 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1919375448176089038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919375448176089037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6eb1c0818680454899bc5e0f39a9dd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
+  myRigidbody: {fileID: 0}
+  player: {fileID: 1919375448176089037}
+  stickmanpoint: {fileID: 6643490682116060265}
+  lost: 0
+  brake: 0
+  happy: 0
+  ragdollblow: 0
+  footstep: {fileID: 0}
+  stickprefab: {fileID: 3466479453583936867, guid: 48dd00e06f48bbc4ba33f48df967c64b, type: 3}
+  posready: 0
+  grounded: 0
+  throwing: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheck: {fileID: 2179104847013908270}
+  groundedRadius: 0
+  jumpforce: 0
+  standup: 0
+  addweights: 0
+  thisway: 0
+  godown: 0
+  toJump: 0
+  toReach: 0
+  ropeHang: 0
+  hangkick: 0
 --- !u!4 &2179104847013908270
 Transform:
   m_ObjectHideFlags: 0
@@ -23314,17 +23389,6 @@ Transform:
   m_Father: {fileID: 6643490682665696884}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 2.5}
---- !u!114 &3931283651861884356 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6467936047890631, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
-  m_PrefabInstance: {fileID: 3933968125297929475}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dab1fb6fc663d24e7ac9eb3be73ee5bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &3931283651861884359 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6467936047890628, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
@@ -23492,6 +23556,18 @@ PrefabInstance:
     - target: {fileID: 6467937162213979, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -466.99994
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: isModalOpen
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: renderCamera
+      value: 
+      objectReference: {fileID: 369596473}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: levelDifficulty
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5881040962717936608, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
       propertyPath: m_TranslationAtRest.x

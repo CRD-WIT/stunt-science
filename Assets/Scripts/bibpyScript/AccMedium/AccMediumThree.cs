@@ -12,7 +12,7 @@ public class AccMediumThree : MonoBehaviour
     public SubHellicopter theSubChopper;
     private AccMidSimulation theSimulate;
     public Suv theSuv;
-    public Player thePlayer;
+    public PlayerB thePlayer;
     public Hellicopter theChopper;
     private HeartManager theHeart;
     private ScoreManager theScorer;
@@ -23,7 +23,7 @@ public class AccMediumThree : MonoBehaviour
     string pronoun, gender;
     private Vector2 chopperStartPos, vanStartPos;
     private Quaternion vanstartRot;
-    public QuestionController theQuestion;
+    public QuestionControllerB theQuestion;
     public GameObject actionButton;
     int currentLevel;
     int currentStar;

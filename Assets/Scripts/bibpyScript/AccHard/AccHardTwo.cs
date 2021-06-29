@@ -16,7 +16,7 @@ public class AccHardTwo : MonoBehaviour
     public ShootManager theShoot;
     public DistanceMeter[] theMeter;
     public CircularAnnotation theCurve;
-    public QuestionController theQuestion;
+    public QuestionControllerB theQuestion;
     private BulletManager theBullet;
     public AccHardSimulation theSimulate;
     public HeartManager theHeart;
@@ -155,6 +155,12 @@ public class AccHardTwo : MonoBehaviour
             }
             if (theSimulate.posCheck)
             {
+                if(playerAnswer == answer)
+                {
+                    theTruck.accelerating = false;
+                    theTruck.deaccelerating =  true;
+                    
+                }
                 if (playerAnswer != answer)
                 {
                     theQuestion.answerIsCorrect = false;

@@ -7,7 +7,7 @@ using TMPro;
 public class AccMidSimulation : MonoBehaviour
 {
     public Button playButton;
-    public Player thePlayer;
+    public PlayerB thePlayer;
     public TruckManager theTruck;
     public Suv [] theSuv;
     public SubSuv[] theSubVan;
@@ -21,7 +21,7 @@ public class AccMidSimulation : MonoBehaviour
     public static bool simulate;
     public static bool playerDead;
     public int stage;
-    public QuestionController[] theQuestion;
+    public QuestionControllerB[] theQuestion;
 
     
     public GameObject[] ground, dimension, arrow;

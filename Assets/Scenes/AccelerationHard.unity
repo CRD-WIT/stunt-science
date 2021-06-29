@@ -1846,7 +1846,7 @@ MonoBehaviour:
   theManagerTwo: {fileID: 216977455}
   theHeart: {fileID: 77578367}
   stage: 1
-  theQuestion: {fileID: 701376674}
+  theQuestion: {fileID: 279112411}
   diretorsSpeech: {fileID: 89822531}
   posCheck: 0
   take: 
@@ -1954,7 +1954,7 @@ MonoBehaviour:
   - {fileID: 210590793}
   - {fileID: 1782697600}
   theCurve: {fileID: 1382340798}
-  theQuestion: {fileID: 701376674}
+  theQuestion: {fileID: 279112411}
   theSimulate: {fileID: 191335766}
   theHeart: {fileID: 77578367}
   posCheck: 0
@@ -2484,6 +2484,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01c0e7512994f364e8dd826b7542539d, type: 3}
+--- !u!114 &279112411 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+  m_PrefabInstance: {fileID: 1525654805}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29d26118c04f264383ed2a2725e8193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &287455491
 GameObject:
   m_ObjectHideFlags: 0
@@ -5809,17 +5820,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &701376674 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6467936047890631, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
-  m_PrefabInstance: {fileID: 1525654805}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dab1fb6fc663d24e7ac9eb3be73ee5bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &720209565
 GameObject:
   m_ObjectHideFlags: 0
@@ -8613,7 +8613,7 @@ MonoBehaviour:
   - {fileID: 210590793}
   - {fileID: 1782697600}
   theCurve: {fileID: 1382340798}
-  theQuestion: {fileID: 701376674}
+  theQuestion: {fileID: 279112411}
   theMulticab: {fileID: 366263528}
   theHeart: {fileID: 77578367}
   theSimulate: {fileID: 191335766}
@@ -13987,6 +13987,18 @@ PrefabInstance:
     - target: {fileID: 6467936992284222, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 528.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: isModalOpen
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: renderCamera
+      value: 
+      objectReference: {fileID: 1534003812}
+    - target: {fileID: 1079668223412071797, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
+      propertyPath: levelDifficulty
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5881040962717936608, guid: ee9870f482d00c047ac21def6e11f5dd, type: 3}
       propertyPath: m_TranslationAtRest.x

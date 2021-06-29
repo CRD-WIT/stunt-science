@@ -8,7 +8,7 @@ public class AccMediumOne : MonoBehaviour
 {
     public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, playerGrabline, carInitials, chopperInitials;
     public GameObject ragdollPause, ropePoint, carArrow, chopperArrow;
-    public Player thePlayer;
+    public PlayerB thePlayer;
     public Hellicopter theChopper;
     public SubHellicopter theSubChopper;
     public TruckManager theTruck;
@@ -17,7 +17,7 @@ public class AccMediumOne : MonoBehaviour
     public bool chase, togreen, tored;
     public float timer, correctAnswer;
     public float velocity, accelaration, vf, distanceH;
-    public QuestionController theQuestion;
+    public QuestionControllerB theQuestion;
     float generateVelocity, generateAccelaration, generateCorrectAnswer;
     public float chopperPos, truckPos, answer;
     public bool readyToJump, follow, timeOn;
