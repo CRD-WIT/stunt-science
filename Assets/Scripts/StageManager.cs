@@ -4,7 +4,7 @@ public class StageManager
 {
     public int stage;
     static string[] levelDifficulties = { "easy", "medium", "hard" };
-    static string[] gameLevel = {"", "Velocity", "Acceleration", "Free Fall", "Projectile", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum", "Impulse"};
+    static string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum", "Impulse" };
     string currentLevelDifficulty = levelDifficulties[0], currentGameLevel = gameLevel[0];
 
     public void SetStage(int stageNumber)
@@ -28,11 +28,13 @@ public class StageManager
     {
         return stage;
     }
-    public void SetGameLevel(int level){
+    public void SetGameLevel(int level)
+    {
         //this.currentGameLevel = gameLevel[level];
-        PlayerPrefs.SetString("Level",gameLevel[level]);
+        PlayerPrefs.SetString("Level", gameLevel[level]);
     }
-    public string GetGameLevel(){
+    public string GetGameLevel()
+    {
         return PlayerPrefs.GetString("Level");
     }
 }

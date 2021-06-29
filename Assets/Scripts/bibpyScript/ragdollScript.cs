@@ -8,7 +8,7 @@ public class ragdollScript : MonoBehaviour
     private Rigidbody2D myRigidbody;
     public GameObject stick;
     public GameObject stickloc;
-     private SimulationManager theSimulation;
+    private SimulationManager theSimulation;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +34,7 @@ public class ragdollScript : MonoBehaviour
     {
         SimulationManager.playerDead = false;
         yield return new WaitForSeconds(3);
-        
+
 
         //GameObject player = theSimulation.PlayerObject;
         //player.SetActive(true);
@@ -42,10 +42,10 @@ public class ragdollScript : MonoBehaviour
         Destroy(stick.gameObject);
         theSimulation.thePlayer.gameObject.transform.position = stickloc.transform.position;
         theSimulation.thePlayer.gameObject.SetActive(true);
-        
-        
 
-        
+
+
+
         //theplayer.gameObject.SetActive(true);
         //theplayer.transform.position = stick.transform.position;
     }

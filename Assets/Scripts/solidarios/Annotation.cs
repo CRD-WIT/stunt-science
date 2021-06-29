@@ -26,11 +26,13 @@ public class Annotation : MonoBehaviour
         textDimension = transform.Find("Text").gameObject;
     }
 
-    public void Hide(){
+    public void Hide()
+    {
         transform.gameObject.SetActive(false);
     }
 
-    public void Show(){
+    public void Show()
+    {
         transform.gameObject.SetActive(true);
     }
 
@@ -45,7 +47,8 @@ public class Annotation : MonoBehaviour
         this.spawnPoint = point;
     }
 
-    public Vector2 GetEndPoint(){
+    public Vector2 GetEndPoint()
+    {
         return new Vector2(line2.GetPosition(1).x, line2.GetPosition(1).y);
     }
 
