@@ -5,8 +5,8 @@ using TMPro;
 
 public class ForceManagerThree : MonoBehaviour
 {
-    public Player thePlayer;
-    public QuestionController theQuestion;
+    public PlayerB thePlayer;
+    public QuestionControllerB theQuestion;
     public BombScript theBombScript;
     private ForceSimulation theSimulate;
     private ColliderManager theCollider;
@@ -194,14 +194,14 @@ public class ForceManagerThree : MonoBehaviour
         accelaration = (float)System.Math.Round(generateAccelaration, 2);
         generateForce = Random.Range(300, 500);
         force = (float)System.Math.Round(generateForce, 2);
-        theBomb.glassHolder[2].SetActive(true);
-        theBomb.otherGlassHolder[0].SetActive(true);
+        theSimulate.glassHolder[2].SetActive(true);
+        theSimulate.otherGlassHolder[0].SetActive(true);
         ragdollReady = true;
-        theBomb.bomb.SetActive(true);
-        theBomb.bomb.transform.position = thePlayer.transform.position;
-        theBomb.followRagdoll = false;
+        //theBomb.bomb.SetActive(true);
+        //theBomb.bomb.transform.position = thePlayer.transform.position;
+        //theBomb.followRagdoll = false;
         thePlayer.transform.position = new Vector2(0, 3.2f);
-        theBombScript.gameObject.transform.position = new Vector2(7.8f, 1.5f);
+        //theBombScript.gameObject.transform.position = new Vector2(7.8f, 1.5f);
         glassRespawn();
         theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> cannot find the third bomb to throw out and decided to help the trapped persons inside the building get out instead by breaking the glass and letting them slide down the rope outside, If  <b>") + PlayerPrefs.GetString("Name") + ("</b> runs with the accelaration of  <b>") + accelaration.ToString("F2") + ("</b> m/s² and the glass breaks at an impact force of <b>") + force.ToString("F2") + ("</b> N, how much  mass ")+ pronoun1 + (" should add to ")+ pronoun2 + (" 70kg body in order to run into the glass and break it without overshooting?")));
         acctxt.text = ("a = ")+ accelaration.ToString("F2")+ ("m/s²");
@@ -227,7 +227,7 @@ public class ForceManagerThree : MonoBehaviour
         yield return new WaitForSeconds(1);
         //throwBomb = true;
         thePlayer.brake = false;
-        theBombScript.inPlayer = false;
+        //theBombScript.inPlayer = false;
         yield return new WaitForSeconds(5);
         goExit = true;
         thePlayer.thisway = false;
@@ -236,7 +236,7 @@ public class ForceManagerThree : MonoBehaviour
         goExit = false;
         thePlayer.godown = false;
         yield return new WaitForSeconds(1.2f);
-        theBomb.explodebomb = true;
+        //theBomb.explodebomb = true;
         thePlayer.moveSpeed = 5;
         yield return new WaitForSeconds(1.5f);
         thePlayer.moveSpeed = 0;

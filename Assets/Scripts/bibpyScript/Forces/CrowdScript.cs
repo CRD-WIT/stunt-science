@@ -7,28 +7,40 @@ public class CrowdScript : MonoBehaviour
     public Rigidbody2D myRigidbody;
     private Animator myAnimator;
     public float moveSpeedX;
+    private ForceSimulation theSimulate;
     public float moveSpeedY;
-    public bool grounded, goDown, happy, move, goSafe;
+    public bool grounded, goDown, happy, move, goSafe, devour;
+    public LayerMask whatIsGround;
+     public Transform groundCheck;
+     public float groundedRadius;
     private ForceManagerThree theManagerThree;
+    private Collider2D myCollider;
     // Start is called before the first frame update
     void Start()
     {
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
         theManagerThree = FindObjectOfType<ForceManagerThree>();
+        theSimulate = FindObjectOfType<ForceSimulation>();
+        myCollider = GetComponent<Collider2D>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        grounded = true;
-        myRigidbody.velocity = new Vector2(moveSpeedX, moveSpeedY);
+        grounded = Physics2D.OverlapCircle(groundCheck.position, groundedRadius, whatIsGround);
+        myRigidbody.velocity = new Vector2(moveSpeedX, myRigidbody.velocity.y);
         myAnimator.SetFloat("speed", myRigidbody.velocity.x);
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("godown", goDown);
         myAnimator.SetBool("happy", happy);
-        if (theManagerThree.crowdExit)
+        myAnimator.SetBool("devour", devour);
+        if(theSimulate.zombieChase)
+        {
+             moveSpeedX = Random.Range(4f, 5f); 
+        }
+        /*if (theManagerThree.crowdExit)
         {
             moveSpeedX = Random.Range(4f, 5f);
             if (transform.position.x >= 22.6)
@@ -54,7 +66,7 @@ public class CrowdScript : MonoBehaviour
             moveSpeedX = Random.Range(3f, 4f);
             StartCoroutine(inSafe());
             goSafe = false;
-        }
+        }*/
     }
     public void playfootstep()
     {
@@ -68,6 +80,17 @@ public class CrowdScript : MonoBehaviour
         yield return new WaitForSeconds(2);
         happy = true;
         
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == ("wall"))
+        {
+            devour = true;
+            theSimulate.zombieChase = false;
+            moveSpeedX = 0;
+           
+        }
+
     }
 
 }

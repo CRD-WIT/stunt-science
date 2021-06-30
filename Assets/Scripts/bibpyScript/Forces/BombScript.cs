@@ -5,7 +5,7 @@ using UnityEngine;
 public class BombScript : MonoBehaviour
 {
     private float distanceToMoveX;
-    private Player thePlayer;
+    private PlayerB thePlayer;
     private float distanceToMoveY;
     private ragdollForces theRagdoll;
     private Vector2 ragDollLastPOs;
@@ -27,7 +27,7 @@ public class BombScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        thePlayer = FindObjectOfType<Player>();
+        thePlayer = FindObjectOfType<PlayerB>();
         theBomb = FindObjectOfType<BombManager>();
         theRagdoll = FindObjectOfType<ragdollForces>();
         if (inPlayer)

@@ -5,11 +5,11 @@ using TMPro;
 
 public class ForceManagerOne : MonoBehaviour
 {
-    public Player thePlayer;
+    public PlayerB thePlayer;
     public BombScript theBombScript;
     private ForceSimulation theSimulate;
     private ColliderManager theCollider;
-    public QuestionController theQuestion;
+    public QuestionControllerB theQuestion;
     private BombManager theBomb;
     float generateAccelaration, accelaration, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
     public float correctAnswer,playerAnswer;
@@ -50,6 +50,7 @@ public class ForceManagerOne : MonoBehaviour
             forcetxt.gameObject.transform.position = new Vector2(thePlayer.transform.position.x - 4,thePlayer.transform.position.y);  
             playerInitials.SetActive(false);
             thePlayer.moveSpeed += accelaration * Time.fixedDeltaTime;
+            theSimulate.zombieChase = true;
             if (theCollider.collide == true)
             {
                 if(playerAnswer == correctAnswer)
@@ -119,11 +120,11 @@ public class ForceManagerOne : MonoBehaviour
         accelaration = (float)System.Math.Round(generateAccelaration, 2);
         generateMass = Random.Range(70f, 75f);
         mass = (float)System.Math.Round(generateMass, 2);
-        theBomb.glassHolder[0].SetActive(true);
-        theBomb.otherGlassHolder[0].SetActive(true);
+        theSimulate.glassHolder[0].SetActive(true);
+        theSimulate.otherGlassHolder[0].SetActive(true);
         ragdollReady = true;
-        theBomb.bomb.SetActive(true);
-        theBomb.bomb.transform.position = thePlayer.transform.position;
+        //theBomb.bomb.SetActive(true);
+        //theBomb.bomb.transform.position = thePlayer.transform.position;
         //bombHinge.transform.position = thePlayer.transform.position;
         glassRespawn();
         theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> is instructed to break the glass wall by running into it using his own body mass. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and runs with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s², what should impact force breaking point of the glass wall? If the glass is too tough , it will not break. If the glass is too weak, ") + PlayerPrefs.GetString("Name") + (" will overshoot beyond the glass after breaking.")));
@@ -132,7 +133,8 @@ public class ForceManagerOne : MonoBehaviour
         breakingforcetxt.text = "Breaking Impact Force = ?";
         playerInitials.SetActive(true);
         forcetxt.gameObject.SetActive(false);
-        theBombScript.inPlayer = true;
+        //theBombScript.inPlayer = true;
+        
 
         
         
@@ -149,9 +151,9 @@ public class ForceManagerOne : MonoBehaviour
     {
         thePlayer.brake = true;
         thePlayer.throwing = true;
-         yield return new WaitForSeconds(.7f);
-          theBombScript.inPlayer = false;
-           throwBomb = true;
+        yield return new WaitForSeconds(.7f);
+        //theBombScript.inPlayer = false;
+        throwBomb = true;
         yield return new WaitForSeconds(.3f);
         //bombHinge.SetActive(false);
        

@@ -6,8 +6,8 @@ using TMPro;
 public class ForceSimulation : MonoBehaviour
 {
     public Button playButton;
-    public Player thePlayer;
-    public QuestionController theQuestion;
+    public PlayerB thePlayer;
+    public QuestionControllerB theQuestion;
     public ForceManagerOne theManagerOne;
     public ForceManagerTwo theManagerTwo;
     public ForceManagerThree theManagerThree;
@@ -18,6 +18,7 @@ public class ForceSimulation : MonoBehaviour
     public static bool simulate;
     public bool playerDead;
     public int stage;
+    public GameObject[] glassHolder, otherGlassHolder;
     public Quaternion startRotation;
     public Vector2 startPosition;
 
@@ -26,6 +27,7 @@ public class ForceSimulation : MonoBehaviour
     bool directorIsCalling;
     public GameObject directorBubble;
     private ragdollScript theRagdoll;
+    public bool zombieChase;
     //string accelaration;
     // Start is called before the first frame update
     void Start()

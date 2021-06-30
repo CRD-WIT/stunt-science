@@ -5,8 +5,8 @@ using TMPro;
 
 public class ForceManagerTwo : MonoBehaviour
 {
-    public Player thePlayer;
-    public QuestionController theQuestion;
+    public PlayerB thePlayer;
+    public QuestionControllerB theQuestion;
     private ForceSimulation theSimulate;
     private BombManager theBomb;
     public BombScript theBombScript;
@@ -142,18 +142,18 @@ public class ForceManagerTwo : MonoBehaviour
     }
     public void GenerateProblem()
     {
-        theBombScript.inPlayer = true;
+        //theBombScript.inPlayer = true;
         generateForce = Random.Range(500, 700);
         Force = (float)System.Math.Round(generateForce, 2);
         generateMass = Random.Range(70f, 75f);
         mass = (float)System.Math.Round(generateMass, 2);
         glassRespawn();
         ragdollReady = true;
-        theBomb.bomb.SetActive(true);
-        theBomb.glassHolder[1].SetActive(true);
-        theBomb.otherGlassHolder[1].SetActive(true);
+        //theBomb.bomb.SetActive(true);
+        theSimulate.glassHolder[1].SetActive(true);
+        theSimulate.otherGlassHolder[1].SetActive(true);
         thePlayer.transform.position = new Vector2(31,-0.6f);
-        theBomb.bomb.transform.position = thePlayer.transform.position;
+        //theBomb.bomb.transform.position = thePlayer.transform.position;
         theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> must break another glass wall to throw out the 2nd bomb. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and the glass wall has an impact force breaking point of <b>") + Force.ToString("F2") + ("</b> Newtons, how fast should ") + pronoun + (" accelerate towards the glass wall just enough to break it and not go through it?")));
         masstxt.text = ("m = ")+mass.ToString("F2") + ("kg");
         acctxt.text = "a = ?";
@@ -177,7 +177,7 @@ public class ForceManagerTwo : MonoBehaviour
         thePlayer.brake = true;
         thePlayer.throwing = true;
         yield return new WaitForSeconds(.7f);
-        theBombScript.inPlayer = false;
+        //theBombScript.inPlayer = false;
         throwBomb = true;
         yield return new WaitForSeconds(.3f);
         bombHinge.SetActive(false);
