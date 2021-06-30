@@ -26,7 +26,7 @@ public class ConveyorManager : MonoBehaviour
         //     StartCoroutine(ShowTooth());
     }
     public float SetConveyorSpeed(float aVelocity, float t)
-    {
+    {conveyorVelocity =0;
         float circumferenceOfWheel = (float)(Mathf.PI * 2.3f),
         arc = aVelocity * t,
         d = (circumferenceOfWheel-0.09f) * (arc / 360);

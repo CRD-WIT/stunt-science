@@ -12,7 +12,7 @@ public class MediumManager : MonoBehaviour
     public float distance, stuntTime, elapsed;
     string question, afterStuntMessage, errorMessage, playerName, pronoun, pNoun;
     float playerAnswer, playerSpeed, conveyorSpeed, animSpeed, timingD;
-    bool isAnswered, directorIsCalling, isStartOfStunt;
+    bool isAnswered, directorIsCalling, isStartOfStunt, answerIs;
     int stage;
     ConveyorManager conveyor;
     QuestionControllerVThree qc;
@@ -63,33 +63,35 @@ public class MediumManager : MonoBehaviour
             timingD = myPlayer.transform.position.x + 10;
             if (elapsed >= stuntTime)
             {
-                // isAnswered =false;
+                playerAnim.SetBool("running", false);
+                myPlayer.moveSpeed = 0;
+                timingD = (playerAnswer - conveyorSpeed) * stuntTime;
                 playerAnim.speed = 1;
                 elapsed = stuntTime;
                 // myPlayer.moveSpeed = -conveyorSpeed;
                 if (playerAnswer == playerSpeed)
                 {
+                    answerIs = true;
                     myPlayer.transform.position = new Vector2(distance - 10, myPlayer.transform.position.y);
-                    myPlayer.moveSpeed = 0;
-                    playerAnim.SetBool("running", false);
-                    playerAnim.speed = 1;
+
                     //correct
                 }
                 else
                 {
-                    myPlayer.gameObject.SetActive(false);
-                    ragdoll.transform.position = myPlayer.transform.position;
-                    ragdoll.SetActive(true);
-                    ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
+                    answerIs = false;
+
                     if (playerAnswer > playerSpeed)
                     {
-                        myPlayer.transform.position = new Vector2(myPlayer.transform.position.x +0.2f, myPlayer.transform.position.y);
+                        // myPlayer.transform.position = new Vector2(myPlayer.transform.position.x + 0.2f, myPlayer.transform.position.y);
                     }
                     else
                     {
-                        myPlayer.transform.position = new Vector2(myPlayer.transform.position.x -0.2f, myPlayer.transform.position.y);
+                        // myPlayer.transform.position = new Vector2(myPlayer.transform.position.x - 0.2f, myPlayer.transform.position.y);
                     }
                 }
+
+                // isAnswered = false;
+                StartCoroutine(GrabRope());
             }
             indicators.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed), elapsed, timingD);
         }
@@ -99,6 +101,7 @@ public class MediumManager : MonoBehaviour
     }
     void SetUp()
     {
+        conveyorSpeed = 0;
         stage = qc.stage;
         AVelocityIndicator.GetComponent<UnityEngine.U2D.SpriteShapeRenderer>().color = qc.getHexColor(TextColorMode.Given);
         AVelocityIndicator.transform.Find("aVelocityIndicator").gameObject.GetComponent<SpriteRenderer>().color = qc.getHexColor(TextColorMode.Given);
@@ -134,6 +137,7 @@ public class MediumManager : MonoBehaviour
     }
     public IEnumerator DirectorsCall()
     {
+        isAnswered = false;
         directorIsCalling = false;
         if (isStartOfStunt)
         {
@@ -157,5 +161,24 @@ public class MediumManager : MonoBehaviour
             directorsBubble.SetActive(false);
             directorsSpeech.text = "";
         }
+    }
+    IEnumerator GrabRope()
+    {
+        // isAnswered = false;
+        playerAnim.SetBool("running", false);
+        playerAnim.SetBool("ropeGrab", true);
+        yield return new WaitForSeconds(0.15f);
+        if (answerIs)
+        {
+            playerAnim.SetBool("successGrab", true);
+        }
+        else
+        {
+            myPlayer.gameObject.SetActive(false);
+            ragdoll.transform.position = myPlayer.transform.position;
+            ragdoll.SetActive(true);
+            ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
+        }
+
     }
 }
