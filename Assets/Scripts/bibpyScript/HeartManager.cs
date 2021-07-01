@@ -17,7 +17,7 @@ public class HeartManager : MonoBehaviour
     void Start()
     {
         startbgentrance();
-        
+
     }
 
     public void DestroyHearts()
@@ -27,7 +27,14 @@ public class HeartManager : MonoBehaviour
             GameObject.Destroy(item.gameObject);
         }
     }
-
+    public void losinglife()
+    {
+        if (losslife == false)
+        {
+            life -= 1;
+            losslife = true;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
