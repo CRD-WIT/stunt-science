@@ -31,6 +31,7 @@ public class QuestionControllerVThree : MonoBehaviour
     [SerializeField] TMP_Text popupTextHorizontal;
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
+    ScoreManager scorer;
     HeartManager life;
 
     // Start is called before the first frame update
@@ -68,6 +69,7 @@ public class QuestionControllerVThree : MonoBehaviour
             levelNumber--;
 
         life = FindObjectOfType<HeartManager>();
+        scorer = FindObjectOfType<ScoreManager>();
     }
     public void ActionBtn()
     {
@@ -85,7 +87,12 @@ public class QuestionControllerVThree : MonoBehaviour
         isModalOpen = true;
         if (isCorrect)
         {
-            actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
+            if (stage == 3)
+                actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Done";
+            else
+            {
+                actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
+            }
             modalTitle = "Stunt Success!";
             modalText = message;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
@@ -194,7 +201,8 @@ public class QuestionControllerVThree : MonoBehaviour
             //             break;
             //     }
             // }
-            SceneManager.LoadScene("LevelSelection");
+            // SceneManager.LoadScene("LevelSelection");
+            scorer.finalstar();
         }
     }
     IEnumerator Retry()

@@ -7,13 +7,13 @@ public class VelocityEasyStage1 : MonoBehaviour
     PlayerV1_1 myPlayer;
     UnitOf whatIsAsk;
     HeartManager HeartManager;
-    [SerializeField] GameObject safeZone, rubblesStopper, ragdollSpawn, rubbleBlocker, givenDistance;
+    [SerializeField] GameObject safeZone, rubblesStopper, ragdollSpawn, rubbleBlocker;
     string pronoun, pNoun, playerName, playerGender, question, errorMessage;
     bool answerIs;
     public float distance, gameTime, Speed, elapsed, currentPos;
     CeillingGenerator theCeiling;
     StageManager sm = new StageManager();
-    Annotation1 dimensionLine;
+    IndicatorManagerV1_1 labels;
     QuestionControllerVThree qc;
 
     void Start()
@@ -22,14 +22,13 @@ public class VelocityEasyStage1 : MonoBehaviour
         sm.SetGameLevel(1);
         sm.SetDifficulty(1);
         qc = FindObjectOfType<QuestionControllerVThree>();
-        dimensionLine = givenDistance.GetComponent<Annotation1>();
+        labels = FindObjectOfType<IndicatorManagerV1_1>();
         theCeiling = FindObjectOfType<CeillingGenerator>();
         myPlayer = FindObjectOfType<PlayerV1_1>();
         HeartManager = FindObjectOfType<HeartManager>();
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         whatIsAsk = UnitOf.velocity;
-        dimensionLine.Show(false);
         VelocityEasyStage1SetUp();
     }
     void FixedUpdate()
@@ -37,7 +36,8 @@ public class VelocityEasyStage1 : MonoBehaviour
         float answer = qc.GetPlayerAnswer();
         if (SimulationManager.isAnswered)
         {
-            dimensionLine.PlayerAnswerIs(answer);
+            labels.distanceSpawnPnt = new Vector2(0, -2);
+            labels.timeSpawnPnt = new Vector2(0,-2.25f);
             currentPos = answer * elapsed;
             myPlayer.moveSpeed = answer;
             qc.timer = elapsed.ToString("f2") + "s";
@@ -49,7 +49,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 StartCoroutine(StuntResult());
                 myPlayer.moveSpeed = 0;
                 SimulationManager.isAnswered = false;
-                elapsed =gameTime;
+                elapsed = gameTime;
                 qc.timer = gameTime.ToString("f2") + "s";
                 if ((answer == Speed))
                 {
@@ -84,13 +84,14 @@ public class VelocityEasyStage1 : MonoBehaviour
                         myPlayer.transform.position = new Vector2(currentPos + 0.2f, myPlayer.transform.position.y);
                         errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
+                    labels.ShowCorrectDistance(distance, true, new Vector2(0, 1.25f));
                 }
-                dimensionLine.AnswerIs(answerIs);
+                labels.AnswerIs(answerIs, true);
             }
-        dimensionLine.IsRunning(currentPos, elapsed, null);
+            labels.IsRunning(answer, currentPos, elapsed, currentPos);
         }
         SimulationManager.isAnswerCorrect = answerIs;
-        dimensionLine.SetPlayerPosition(myPlayer.transform.position);
+        labels.SetPlayerPosition(myPlayer.transform.position);
     }
     public void VelocityEasyStage1SetUp()
     {
@@ -122,8 +123,10 @@ public class VelocityEasyStage1 : MonoBehaviour
         HeartManager.losslife = false;
         RumblingManager.shakeON = true;
 
-        // givenDistance.SetActive(true);
-        dimensionLine.Variables(distance, gameTime, Speed, 'v', null);
+        labels.timeSpawnPnt = new Vector2(0, -2.25f);
+        labels.distanceSpawnPnt = new Vector2(0, -2);
+        labels.showLines(distance, distance, null, Speed, gameTime);
+        labels.UnknownIs('v');
 
         theCeiling.createQuadtilemap(qc.stage);
         safeZone.transform.position = new Vector2(distance, -2);
@@ -132,11 +135,10 @@ public class VelocityEasyStage1 : MonoBehaviour
         elapsed = 0;
         rubblesStopper.SetActive(true);
         SimulationManager.isAnswered = false;
-        
+
         question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from " + playerName + ". If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
         qc.SetQuestion(question);
-        dimensionLine.Show(true);
-        dimensionLine.SetPlayerPosition(myPlayer.transform.position);
+        labels.SetPlayerPosition(myPlayer.transform.position);
     }
     IEnumerator StuntResult()
     {

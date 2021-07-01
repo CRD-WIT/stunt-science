@@ -15,14 +15,14 @@ public class SimulationManager : MonoBehaviour
     public static bool isAnswered, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
     private HeartManager theHeart;
     QuestionControllerVThree qc;
-    Annotation1 dimLine;
+    IndicatorManagerV1_1 dimLine;
     // Start is called before the first frame update
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
         thePlayer = FindObjectOfType<PlayerV1_1>();
         theHeart = FindObjectOfType<HeartManager>();
-        dimLine = FindObjectOfType<Annotation1>();
+        dimLine = FindObjectOfType<IndicatorManagerV1_1>();
         //destroyBoulders = FindObjectOfType<PrefabDestroyer>();
         //theHeart.life = PlayerPrefs.GetInt("life");=
         qc.stage = 1;
@@ -90,7 +90,7 @@ public class SimulationManager : MonoBehaviour
         else
         {
             RumblingManager.shakeON = false;
-            yield return new WaitForSeconds(1.25f);
+            yield return new WaitForSeconds(1.75f);
             directorsBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
             yield return new WaitForSeconds(1f);
@@ -111,7 +111,7 @@ public class SimulationManager : MonoBehaviour
     }
     IEnumerator ReloadStage()
     {
-        dimLine.Show(false);
+        // dimLine.showLines(null,null,null,0,0);
         qc.limit = 0;
         qc.retried = false;
         thePlayer.SetEmotion("");
@@ -147,7 +147,7 @@ public class SimulationManager : MonoBehaviour
     }
     IEnumerator ExitStage()
     {
-        dimLine.Show(false);
+        // dimLine.showLines(null,null,null,0,0);
         qc.limit = 0;
         qc.nextStage = false;
         VelocityEasyStage1.gameObject.SetActive(false);
@@ -156,7 +156,7 @@ public class SimulationManager : MonoBehaviour
         ragdollSpawn.SetActive(false);
         PrefabDestroyer.destroyPrefab = true;
         thePlayer.moveSpeed = 5;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(2.8f);
         theHeart.startbgentrance();
@@ -167,9 +167,7 @@ public class SimulationManager : MonoBehaviour
         if (qc.stage == 2)
         {
             theManager2.gameObject.SetActive(true);
-            Debug.Log(qc.stage);
             theManager2.generateProblem();
-            dimLine.Show(true);
         }
         if (qc.stage == 3)
         {

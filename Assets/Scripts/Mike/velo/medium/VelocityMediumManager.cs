@@ -13,8 +13,8 @@ public class VelocityMediumManager : MonoBehaviour
     IndicatorManager jmpDistFromBoulder;
     StageManager sm = new StageManager();
     [SerializeField]
-    GameObject boulder, directorsBubble, floor, boulderA, velocityDirectionArrow1,
-                                 velocityDirectionArrow2, boulderShadow, playerShadow, JDIndicator;
+    GameObject boulder, directorsBubble, boulderA, velocityDirectionArrow1,
+                velocityDirectionArrow2, boulderShadow, playerShadow, JDIndicator;
     PlayerV2 myPlayer;
     HeartManager life;
     ScoreManager score;
@@ -24,12 +24,11 @@ public class VelocityMediumManager : MonoBehaviour
     public static int stage;
     Rigidbody2D boulderRB, boulder2RB;
     float playerPos, playerAnswer, elapsed, distanceTraveled, currentPlayerPos, jumpTime, jumpForce, playerDistance;
-    Vector2 labelStartPoint;
     string question, playerName, playerGender, pronoun, pPronoun, messageTxt;
     bool isStartOfStunt, directorIsCalling, isAnswered, isAnswerCorrect, isEndOfStunt, onShadow;
     [SerializeField] TMP_Text playerSpeed, boulder1Speed, boulder2Speed;
     float correctD, timingD;
-    GameObject b2Shadow, b1Shadow, pShadow, jmpObject;
+    GameObject b2Shadow, b1Shadow, pShadow;
     Vector2 spawnPoint;
     // Start is called before the first frame update
     void Start()
@@ -61,15 +60,12 @@ public class VelocityMediumManager : MonoBehaviour
             pronoun = "she";
             pPronoun = "her";
         }
-        // qc.levelName = sm.GetGameLevel();
         qc.levelDifficulty = Difficulty.Medium;
         VeloMediumSetUp();
     }
     // Update is called once per frame
     void Update()
     {
-        // velocityDirectionArrow2.transform.position = new Vector2(boulderA.transform.position.x - 0.7f, boulderA.transform.position.y + 1.5f);
-        // velocityDirectionArrow1.transform.position = new Vector2(boulder.transform.position.x + 0.7f, boulder.transform.position.y + 1.5f);
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)
@@ -86,24 +82,18 @@ public class VelocityMediumManager : MonoBehaviour
                     currentPlayerPos = myPlayer.transform.position.x;
                     currentBoulderPos = boulderA.transform.position.x;
                     FallingBoulders.dropPoint = currentPlayerPos - 0.7f;
-                    // spawnPoint = new Vector2(currentPlayerPos, 1);
                     spawnPoint = new Vector2(currentBoulderPos - jumpDistance, 1);
                     boulder2RB.velocity = new Vector2(-boulderVelocity, 0);
-                    // distanceTraveled = currentBoulderPos - currentPlayerPos;
                     distanceTraveled = jumpDistance;
                     if (playerAnswer <= elapsed)
                     {
-                        // distanceTraveled = distance - (boulderVelocity * stuntTime) - (playerAnswer * playerVelocity);
                         timingD = playerAnswer * playerVelocity;
-                        // spawnPoint = new Vector2(playerAnswer * playerVelocity, 1);
                         spawnPoint = new Vector2(stuntTime * playerVelocity, 1);
                         elapsed = playerAnswer;
 
                         qc.timer = playerAnswer.ToString("f2") + "s";
                         if (playerAnswer == stuntTime)
                         {
-                            // spawnPoint = new Vector2(stuntTime * playerVelocity, 1);
-                            // distanceTraveled = jumpDistance;
                             isAnswerCorrect = true;
                             messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
                         }
@@ -117,14 +107,14 @@ public class VelocityMediumManager : MonoBehaviour
                             else
                                 messageTxt = playerName + " jumped too late and hit the boulder.\nThe correct answer is <color=green>" + stuntTime + " seconds</color>.";
 
-                            indicators.ShowCorrectDistance(jumpDistance, true, stuntTime * playerVelocity);
+                            indicators.ShowCorrectDistance(jumpDistance, true, new Vector2(stuntTime * playerVelocity, 1.5f));
                             indicators.ShowCorrectTime(stuntTime, stuntTime * playerVelocity, true);
                         }
                         StartCoroutine(Jump());
                         currentBoulderPos = distance - (boulderVelocity * stuntTime);
                         if (!onShadow)
                             StartCoroutine(InstantiateShadows(currentPlayerPos, currentBoulderPos, null));
-                        indicators.AnswerIs(isAnswerCorrect);
+                        indicators.AnswerIs(isAnswerCorrect, false);
                     }
 
                     indicators.IsRunning(playerAnswer, distanceTraveled, elapsed, timingD);
@@ -134,7 +124,6 @@ public class VelocityMediumManager : MonoBehaviour
                     FallingBoulders.dropPoint = boulder.transform.position.x - 0.7f;
                     currentPlayerPos = myPlayer.transform.position.x;
                     currentBoulderPos = boulder.transform.position.x + jumpDistance;
-                    // currentBoulderPos = boulder.transform.position.x;
                     spawnPoint = new Vector2(distance, 1);
                     distanceTraveled = currentPlayerPos - distance;
                     boulderRB.velocity = new Vector2(boulder2Velocity, 0);
@@ -145,7 +134,6 @@ public class VelocityMediumManager : MonoBehaviour
                         distanceTraveled = playerAnswer;
                         if (playerAnswer == correctAnswer)
                         {
-                            //distanceTraveled = playerAnswer;
                             isAnswerCorrect = true;
                             elapsed = stuntTime;
                             messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
@@ -153,7 +141,6 @@ public class VelocityMediumManager : MonoBehaviour
                         else
                         {
                             isAnswerCorrect = false;
-                            // elapsed = playerAnswer;
                             if (playerAnswer < correctAnswer)
                             {
                                 messageTxt = playerName + " jumped too near from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " meters</color>.";
@@ -161,13 +148,13 @@ public class VelocityMediumManager : MonoBehaviour
                             else
                                 messageTxt = playerName + " jumped too far from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " meters</color>.";
 
-                            indicators.ShowCorrectDistance(correctAnswer, true, distance);
+                            indicators.ShowCorrectDistance(correctAnswer, true, new Vector2(distance, 1.5f));
                         }
                         StartCoroutine(Jump());
                         currentBoulderPos = (boulder2Velocity * stuntTime) + jumpDistance;
                         if (!onShadow)
                             StartCoroutine(InstantiateShadows(distance + playerAnswer, null, boulder2Velocity * stuntTime));
-                        indicators.AnswerIs(isAnswerCorrect);
+                        indicators.AnswerIs(isAnswerCorrect, false);
                     }
                     jmpDistFromBoulder.spawnPoint = new Vector2(currentBoulderPos, boulder.transform.position.y);
                     jmpDistFromBoulder.distance = -jumpDistance;
@@ -176,7 +163,7 @@ public class VelocityMediumManager : MonoBehaviour
                     break;
                 case 3:
                     JDIndicator.SetActive(false);
-                    Vector2 timeSpawn= boulder.transform.position;
+                    Vector2 timeSpawn = boulder.transform.position;
                     FallingBoulders.dropPoint = (boulder.transform.position.x - 0.7f);
                     FallingBoulders.moreDropPoint = (boulderA.transform.position.x + 0.7f);
                     currentPlayerPos = myPlayer.transform.position.x - playerDistance;
@@ -187,7 +174,7 @@ public class VelocityMediumManager : MonoBehaviour
                     boulder2RB.velocity = new Vector2(-boulder2Velocity, 0);
                     if (stuntTime <= elapsed)
                     {
-                        timeSpawn = new Vector2(stuntTime* boulderVelocity, timeSpawn.y);
+                        timeSpawn = new Vector2(stuntTime * boulderVelocity, timeSpawn.y);
                         timingD = playerAnswer * stuntTime;
                         myPlayer.moveSpeed = 0;
                         distanceTraveled = (float)System.Math.Round((playerAnswer * stuntTime), 2);
@@ -211,14 +198,13 @@ public class VelocityMediumManager : MonoBehaviour
                             else
                                 messageTxt = playerName + " jumped too near from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " seconds</color>.";
 
-                            indicators.ShowCorrectDistance(correctD, true, spawnPoint.x);
-                            // indicators.ShowCorrectTime(stuntTime, stuntTime * playerVelocity, true);
+                            indicators.ShowCorrectDistance(correctD, true, new Vector2(spawnPoint.x, 1.5f));
                         }
                         StartCoroutine(Jump());
-                        indicators.AnswerIs(isAnswerCorrect);
+                        indicators.AnswerIs(isAnswerCorrect, false);
                     }
                     indicators.timeSpawnPnt = timeSpawn;
-                    indicators.IsRunning(playerAnswer, distanceTraveled, 0.5f, 0.5f * (boulderVelocity + boulder2Velocity)); // TODO: fix time indicator follower
+                    indicators.IsRunning(playerAnswer, distanceTraveled, 0.5f, 0.5f * (boulderVelocity + boulder2Velocity));
                     break;
             }
         }
@@ -348,25 +334,20 @@ public class VelocityMediumManager : MonoBehaviour
 
                 boulder.transform.position = new Vector2(playerPos, 0);
                 myPlayer.transform.position = new Vector2(distance, boulder.transform.position.y);
-                //boulderRB.rotation = 180;
-                // boulderRB.freezeRotation = false;
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
                 jumpForce = 1.276f / (jumpTime);
                 correctD = correctAnswer;
 
-                // indicators.timeSpawnPnt = myPlayer.transform.position;
                 indicators.distanceSpawnPnt = new Vector2(spawnPoint.x, 1);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
                 indicators.showLines(distance, null, null, playerVelocity, stuntTime);
                 indicators.UnknownIs('N');
-                // distanceMeassure.Variables(distance, stuntTime, playerVelocity, 'N', spawnPoint.x);
 
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulder2Velocity + "meters per second</color>, at after how many <color=red>meters</color> should " + playerName + " be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 3:
-                // distanceMeassure.ShowTimeAnnotation(true);
                 whatIsAsk = UnitOf.velocity;
                 boulder.SetActive(true);
                 boulderA.SetActive(true);
@@ -399,13 +380,9 @@ public class VelocityMediumManager : MonoBehaviour
                 boulder.transform.position = new Vector2(0, 0);
                 boulderA.transform.position = new Vector2(boulder.transform.position.x + d, 0);
                 myPlayer.transform.position = new Vector2(boulderA.transform.position.x - Dac, 0);
-                // labelStartPoint = new Vector2((boulderA.transform.position.x - Dac), 1);
-                // boulderRB.rotation = 180;
-                // boulderRB.freezeRotation = false;
                 jumpTime = 0.5f;
                 jumpForce = 1.076f / jumpTime;
 
-                // distanceMeassure.timeStartPnt = myPlayer.transform.position.x;
                 JDIndicator.SetActive(true);
                 jmpDistFromBoulder.spawnPoint = new Vector2(boulderA.transform.position.x, 1.5f);
                 jmpDistFromBoulder.distance = -Dac;
@@ -469,7 +446,6 @@ public class VelocityMediumManager : MonoBehaviour
         myPlayer.happy = false;
         PrefabDestroyer.end = true;
         yield return new WaitForSeconds(3f);
-        // myPlayer.ToggleTrigger();
         StartCoroutine(life.endBGgone());
         yield return new WaitForSeconds(2.8f);
         myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
@@ -494,9 +470,7 @@ public class VelocityMediumManager : MonoBehaviour
             directorsSpeech.text = "";
             directorsBubble.SetActive(false);
             isAnswered = true;
-            // distanceMeassure.gameObject.SetActive(false);
             FallingBoulders.isRumbling = true;
-            //boulder.transform.position = new Vector2(boulder.transform.position.x - 0.5f, boulder.transform.position.y);
         }
         else
         {
@@ -524,19 +498,10 @@ public class VelocityMediumManager : MonoBehaviour
         RumblingManager.shakeON = false;
         RumblingManager.isCrumbling = true;
         yield return new WaitForSeconds(3);
-        if ((stage == 3) && isAnswerCorrect)
-        {
-            score.finalstar();
-        }
-        else
-        {
-            qc.ActivateResult(messageTxt, isAnswerCorrect);
-        }
-
+        qc.ActivateResult(messageTxt, isAnswerCorrect);
     }
     IEnumerator Jump()
     {
-        // myPlayer.myAnimator.speed = (jumpForce/2);
         if (playerAnswer != correctAnswer)
         {
             if (stage == 3)
@@ -557,7 +522,6 @@ public class VelocityMediumManager : MonoBehaviour
                     jumpTime -= 0.04f;
                 }
             }
-
         }
         myPlayer.jump();
         yield return new WaitForSeconds(jumpTime / 2);
@@ -579,11 +543,7 @@ public class VelocityMediumManager : MonoBehaviour
             b1Shadow = Instantiate(boulderShadow);
             b1Shadow.transform.position = new Vector2((float)b1Pos + 0.5f, boulderA.transform.position.y);
         }
-
-
         pShadow = Instantiate(playerShadow);
         pShadow.transform.position = new Vector2(playerPos, myPlayer.transform.position.y);
-        // yield return new WaitForEndOfFrame();
-        // Time.timeScale = 0;
     }
 }

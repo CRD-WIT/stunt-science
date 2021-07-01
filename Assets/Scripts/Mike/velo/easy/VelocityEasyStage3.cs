@@ -12,12 +12,10 @@ public class VelocityEasyStage3 : MonoBehaviour
     public HeartManager HeartManager;
     public float distance, gameTime, Speed, elapsed, currentPos;
     string pronoun, playerName, playerGender, answerMessage;
-    public GameObject slidePlatform, lowerGround, safeZone, rubblesStopper, givenDistance, ragdollSpawn, manholeCover, templeBeam;
-    bool director, answerIs;
+    public GameObject slidePlatform, lowerGround, safeZone, rubblesStopper, ragdollSpawn, manholeCover, templeBeam;
+    bool answerIs;
     float answer, initialDistance;
-    [SerializeField] LineRenderer startLine, endLine;
-    Annotation1 dimensionLine;
-    StageManager sm = new StageManager();
+    IndicatorManagerV1_1 dimensionLine;
     QuestionControllerVThree qc;
 
     // Start is cdimensionLineled before the first frame update
@@ -31,7 +29,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         Scorer = FindObjectOfType<ScoreManager>();
-        dimensionLine = givenDistance.GetComponent<Annotation1>();
+        dimensionLine = FindObjectOfType<IndicatorManagerV1_1>();
         Stage3SetUp();
     }
     void FixedUpdate()
@@ -39,16 +37,15 @@ public class VelocityEasyStage3 : MonoBehaviour
         answer = qc.GetPlayerAnswer();
         if (SimulationManager.stage3Flag)
         {
-            // givenDistance.SetActive(true);
-            dimensionLine.Show(true);
             float totalDistance = 40f;
             initialDistance = totalDistance - answer;
-            dimensionLine.spawnPoint.x = initialDistance;
-            dimensionLine.timeStartPnt = initialDistance;
-            dimensionLine.Variables(answer, gameTime, Speed, 'N', null);
+            dimensionLine.distanceSpawnPnt.x = initialDistance;
+            dimensionLine.timeSpawnPnt.x = initialDistance;
+            dimensionLine.showLines(answer, answer, null, Speed, gameTime);
         }
         if (SimulationManager.isAnswered)
         {
+            dimensionLine.ShowVelocityLabel(true);
             dimensionLine.SetPlayerPosition(myPlayer.transform.position);
             myPlayer.moveSpeed = Speed;
             qc.timer = elapsed.ToString("f2") + "s";
@@ -97,13 +94,15 @@ public class VelocityEasyStage3 : MonoBehaviour
                         answerMessage = PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                 }
-                dimensionLine.AnswerIs(answerIs);
+                dimensionLine.AnswerIs(answerIs, true);
             }
-            dimensionLine.IsRunning(myPlayer.transform.position.x - (40 - answer), elapsed, null);
+            dimensionLine.IsRunning(answer, myPlayer.transform.position.x - (40 - answer), elapsed, myPlayer.transform.position.x - (40 - answer));
         }
     }
     public void Stage3SetUp()
     {
+        dimensionLine.showLines(null, null, null, 0, 0);
+        dimensionLine.ShowVelocityLabel(false);
         string question;
         qc.SetUnitTo(UnitOf.distance);
         templeBeam.SetActive(false);
@@ -148,16 +147,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         SimulationManager.directorIsCalling = true;
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
-        if ((answer == distance))
-        {
-            yield return new WaitForSeconds(3);
-            Scorer.finalstar();
-        }
-        else
-        {
-            qc.ActivateResult(answerMessage, answerIs);
-        }
-        dimensionLine.Show(false);
+        qc.ActivateResult(answerMessage, answerIs);
     }
     IEnumerator RagdollCollider()
     {

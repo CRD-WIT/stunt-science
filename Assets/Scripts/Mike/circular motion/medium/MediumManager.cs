@@ -171,6 +171,7 @@ public class MediumManager : MonoBehaviour
         if (answerIs)
         {
             playerAnim.SetBool("successGrab", true);
+            yield return new WaitForSeconds(1.01f);
         }
         else
         {
@@ -179,6 +180,5 @@ public class MediumManager : MonoBehaviour
             ragdoll.SetActive(true);
             ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
         }
-
     }
 }
