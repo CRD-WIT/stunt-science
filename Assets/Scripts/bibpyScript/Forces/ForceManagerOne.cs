@@ -13,7 +13,7 @@ public class ForceManagerOne : MonoBehaviour
     private BombManager theBomb;
     float generateAccelaration, accelaration, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
     public float correctAnswer,playerAnswer;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, glassDebri, playerInitials;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, glassDebri, playerInitials,triggerDevour;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
@@ -55,18 +55,19 @@ public class ForceManagerOne : MonoBehaviour
             {
                 if(playerAnswer == correctAnswer)
                 {
+                    
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
                     theQuestion.SetModalTitle("Stunt Success");
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully thrown the bomb</color>");
+                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully escaped from zombies</color>");
                     glassHolder.SetActive(false);
                     
                     if(currentPos >= 22)
                     {
                         
-                        StartCoroutine(braking());
+                        braking();
                         thePlayer.moveSpeed = 0; 
-                        thePlayer.transform.position = new Vector2(22, -0.63f);
+                        thePlayer.transform.position = new Vector2(22, 3.86f);
                         ForceSimulation.simulate = false;
                         StartCoroutine(collision());
                         StartCoroutine(StuntResult());
@@ -94,6 +95,7 @@ public class ForceManagerOne : MonoBehaviour
                 }
                 if(playerAnswer < correctAnswer)
                 {
+                    triggerDevour.SetActive(true);
                     theQuestion.SetModalTitle("Stunt Failed");
                     theQuestion.SetModalText(" the glass was too weak for </color>" + PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.");
                     tooStrong = true;
@@ -110,13 +112,14 @@ public class ForceManagerOne : MonoBehaviour
                    theHeart.losinglife();
                    thePlayer.moveSpeed = 0;
                    ForceSimulation.simulate = false;
+                   
                 }
             }
         }
     }
     public void GenerateProblem()
     {
-        generateAccelaration = Random.Range(7f, 9f);
+        generateAccelaration = Random.Range(5f, 7f);
         accelaration = (float)System.Math.Round(generateAccelaration, 2);
         generateMass = Random.Range(70f, 75f);
         mass = (float)System.Math.Round(generateMass, 2);
@@ -147,17 +150,14 @@ public class ForceManagerOne : MonoBehaviour
         stick.transform.position = stickmanpoint.transform.position;
         ragdollReady = false;
     }
-    IEnumerator braking()
+    void braking()
     {
         thePlayer.brake = true;
-        thePlayer.throwing = true;
-        yield return new WaitForSeconds(.7f);
-        //theBombScript.inPlayer = false;
-        throwBomb = true;
-        yield return new WaitForSeconds(.3f);
-        //bombHinge.SetActive(false);
-       
-        thePlayer.brake = false;
+        thePlayer.exitDown = true;
+        thePlayer.myRigidbody.bodyType = RigidbodyType2D.Static;
+        thePlayer.transform.position = new Vector2(thePlayer.transform.position.x, 3.86f);
+        thePlayer.myCollider.isTrigger = true;
+
        
     }
     IEnumerator collision()
@@ -168,8 +168,12 @@ public class ForceManagerOne : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(2f);
         ForceSimulation.simulate = false;
+         if(playerAnswer == correctAnswer)
+       {
+            yield return new WaitForSeconds(4);
+       }
         StartCoroutine(theSimulate.DirectorsCall());
        if(playerAnswer == correctAnswer)
        {
@@ -177,7 +181,8 @@ public class ForceManagerOne : MonoBehaviour
        }
        if(playerAnswer != correctAnswer)
        {
-            yield return new WaitForSeconds(6);
+            theSimulate.zombieChase = false;
+            yield return new WaitForSeconds(3);
        }
        theQuestion.ToggleModal();
         

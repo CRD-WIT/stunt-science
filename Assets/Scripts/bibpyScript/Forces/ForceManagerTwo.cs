@@ -175,14 +175,14 @@ public class ForceManagerTwo : MonoBehaviour
     IEnumerator braking()
     {
         thePlayer.brake = true;
-        thePlayer.throwing = true;
+        thePlayer.exitDown = true;
         yield return new WaitForSeconds(.7f);
         //theBombScript.inPlayer = false;
         throwBomb = true;
         yield return new WaitForSeconds(.3f);
         bombHinge.SetActive(false);
         thePlayer.brake = false;
-        thePlayer.throwing = false;
+        thePlayer.exitDown = false;
       
     }
     IEnumerator collision()

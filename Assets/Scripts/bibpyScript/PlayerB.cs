@@ -20,11 +20,11 @@ public class PlayerB : MonoBehaviour
      float currentpos;
      public bool posready;
      public bool grounded;
-     public bool throwing;
+     public bool exitDown;
      public LayerMask whatIsGround;
      public Transform groundCheck;
      public float groundedRadius;
-     private Collider2D myCollider;
+     public Collider2D myCollider;
      public float jumpforce;
      public bool standup;
      public bool addweights, thisway, godown;
@@ -65,7 +65,7 @@ public class PlayerB : MonoBehaviour
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("standup", standup);
         myAnimator.SetBool("brake", brake);
-        myAnimator.SetBool("throwing", throwing);
+        myAnimator.SetBool("throwing", exitDown);
         myAnimator.SetBool("addweights", addweights);
         myAnimator.SetBool("thisway", thisway);
         myAnimator.SetBool("godown", godown);

@@ -15,6 +15,7 @@ public class CrowdScript : MonoBehaviour
      public float groundedRadius;
     private ForceManagerThree theManagerThree;
     private Collider2D myCollider;
+    bool addSpeed = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,8 +39,18 @@ public class CrowdScript : MonoBehaviour
         myAnimator.SetBool("devour", devour);
         if(theSimulate.zombieChase)
         {
-             moveSpeedX = Random.Range(4f, 5f); 
+            if(addSpeed)
+            {
+                moveSpeedX = Random.Range(4, 5);
+                addSpeed = false; 
+            }            
         }
+        if(theSimulate.zombieChase == false)
+        {
+            moveSpeedX = 0;
+            addSpeed = true;
+        }
+        
         /*if (theManagerThree.crowdExit)
         {
             moveSpeedX = Random.Range(4f, 5f);
@@ -86,7 +97,6 @@ public class CrowdScript : MonoBehaviour
         if (other.gameObject.tag == ("wall"))
         {
             devour = true;
-            theSimulate.zombieChase = false;
             moveSpeedX = 0;
            
         }
