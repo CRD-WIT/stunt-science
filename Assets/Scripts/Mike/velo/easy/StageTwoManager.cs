@@ -11,17 +11,16 @@ public class StageTwoManager : MonoBehaviour
     string gender, pronoun, question, errorMessage;
     Vector2 PlayerStartPoint;
     public float elapsed;
-    public GameObject safePoint, rubbleStopper, rubbleBlocker, ragdollSpawn, groundPlatform, givenDistance;
+    public GameObject safePoint, rubbleStopper, rubbleBlocker, ragdollSpawn, groundPlatform;
     private RumblingManager theRumbling;
     private ScoreManager theScorer;
     bool answerIs;
-    Annotation1 dimensionLine;
+    IndicatorManagerV1_1 labels;
     QuestionControllerVThree qc;
-    [SerializeField] LineRenderer endOfAnnotation;
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
-        dimensionLine = givenDistance.GetComponent<Annotation1>();
+        labels = FindObjectOfType<IndicatorManagerV1_1>();
         thePlayer = FindObjectOfType<PlayerV1_1>();
         theScorer = FindObjectOfType<ScoreManager>();
         gender = PlayerPrefs.GetString("Gender");
@@ -37,7 +36,8 @@ public class StageTwoManager : MonoBehaviour
         playerAnswer = qc.GetPlayerAnswer();
         if (SimulationManager.isAnswered)
         {
-            dimensionLine.PlayerAnswerIs(playerAnswer);
+            labels.distanceSpawnPnt = new Vector2(0, -2);
+            labels.timeSpawnPnt = new Vector2(0, -2.25f);
             thePlayer.moveSpeed = speed;
             elapsed += Time.fixedDeltaTime;
             currentPos = thePlayer.transform.position.x;
@@ -97,14 +97,17 @@ public class StageTwoManager : MonoBehaviour
                         else
                             thePlayer.transform.position = new Vector2(playerDistance + 0.2f, thePlayer.transform.position.y);
                         errorMessage = PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
+
+                        labels.ShowCorrectDistance(distance, true, new Vector2(0, 2));
+                        labels.ShowCorrectTime(answer, answer * speed, true);
                     }
                 }
-                dimensionLine.AnswerIs(answerIs);
+                labels.AnswerIs(answerIs, true);
             }
-            dimensionLine.IsRunning(currentPos, elapsed, null);
+            labels.IsRunning(playerAnswer, currentPos, elapsed, currentPos);
         }
         SimulationManager.isAnswerCorrect = answerIs;
-        dimensionLine.SetPlayerPosition(thePlayer.transform.position);
+        labels.SetPlayerPosition(thePlayer.transform.position);
     }
     public void generateProblem()
     {
@@ -131,24 +134,23 @@ public class StageTwoManager : MonoBehaviour
         thePlayer.transform.position = new Vector2(0, -3);
         RumblingManager.shakeON = true;
         qc.timer = "0.00s";
-        
+
         qc.limit = 5f;
         question = "The ceiling is still crumbling and the next safe spot is <color=red>" + distance.ToString() + " meters</color> away from " + PlayerPrefs.GetString("Name") + ". If " + pronoun + " runs at a constant velocity of <color=purple>" + finalSpeed.ToString() + " meters per second</color>, how <color=#006400>long</color> should " + pronoun + " run so " + pronoun + " will stop exactly on the same spot?";
         qc.SetQuestion(question);
         answerRO = (float)System.Math.Round(answer, 2);
         safePoint.transform.position = new Vector2(distance, -2);
-        // givenDistance.SetActive(true);
-        endOfAnnotation.SetPosition(0, new Vector2(distance, -3));
-        endOfAnnotation.SetPosition(1, new Vector2(distance, -1.5f));
         theCeiling.createQuadtilemap(qc.stage);
         ragdollSpawn.SetActive(true);
         rubbleStopper.SetActive(true);
         theHeart.losslife = false;
         groundPlatform.transform.localScale = new Vector3(68.05f, groundPlatform.transform.localScale.y, 1);
         ragdollSpawn.transform.position = new Vector3(30.5f, ragdollSpawn.transform.position.y, 0);
-        dimensionLine.Variables(distance, answer, finalSpeed, 't', null);
-        dimensionLine.SetPlayerPosition(thePlayer.transform.position);
-        dimensionLine.Show(true);
+        
+        labels.timeSpawnPnt = new Vector2(0, -2.25f);
+        labels.distanceSpawnPnt = new Vector2(0, -2);
+        labels.showLines(distance, distance, null, speed, answer);
+        labels.UnknownIs('t');
     }
     public void reset()
     {
