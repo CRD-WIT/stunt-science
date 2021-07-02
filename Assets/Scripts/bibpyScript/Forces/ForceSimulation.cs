@@ -25,9 +25,10 @@ public class ForceSimulation : MonoBehaviour
     public GameObject  fadeOut, fadeIn;
     public GameObject[] ground;
     bool directorIsCalling;
-    public GameObject directorBubble;
+    public GameObject directorBubble,zombiePrefab;
     private ragdollScript theRagdoll;
-    public bool zombieChase;
+    public bool zombieChase, destroyZombies;
+
     //string accelaration;
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,7 @@ public class ForceSimulation : MonoBehaviour
         PlayerPrefs.SetString("CurrentString", ("Forces"));
         PlayerPrefs.SetInt("level", 4);
         theHeart = FindObjectOfType<HeartManager>();
+        StartCoroutine(theManagerOne.createZombies());
     }
 
     // Update is called once per frame
@@ -106,10 +108,13 @@ public class ForceSimulation : MonoBehaviour
 
         StartCoroutine(theHeart.endBGgone());
         StartCoroutine(nextStage());
+        
        
     }
     public void retry()
     {
+        
+        
         thePlayer.standup = false;
         simulate = false;
         playButton.interactable = true;
@@ -122,10 +127,11 @@ public class ForceSimulation : MonoBehaviour
 
         if (stage == 1)
         {
+            StartCoroutine(theManagerOne.createZombies());
             theManagerOne.GenerateProblem();
             theManagerOne.tooStrong = false;
             theManagerOne.tooWeak = false;
-            thePlayer.transform.position = new Vector2(0, -0.6f);
+            thePlayer.transform.position = new Vector2(.16f, 3.86f);
         }
         if (stage == 2)
         {
@@ -207,12 +213,16 @@ public class ForceSimulation : MonoBehaviour
         theQuestion.ToggleModal();
         if(theQuestion.answerIsCorrect == false)
         {
+            destroyZombies = true;
             retry();
             
         }
         else
         {
+            zombieChase = false;
+            destroyZombies = true;
             next();
         }
     }
+    
 }

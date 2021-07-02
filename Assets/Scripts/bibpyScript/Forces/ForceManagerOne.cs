@@ -95,7 +95,7 @@ public class ForceManagerOne : MonoBehaviour
                 }
                 if(playerAnswer < correctAnswer)
                 {
-                    triggerDevour.SetActive(true);
+                   //triggerDevour.SetActive(true);
                     theQuestion.SetModalTitle("Stunt Failed");
                     theQuestion.SetModalText(" the glass was too weak for </color>" + PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.");
                     tooStrong = true;
@@ -155,7 +155,6 @@ public class ForceManagerOne : MonoBehaviour
         thePlayer.brake = true;
         thePlayer.exitDown = true;
         thePlayer.myRigidbody.bodyType = RigidbodyType2D.Static;
-        thePlayer.transform.position = new Vector2(thePlayer.transform.position.x, 3.86f);
         thePlayer.myCollider.isTrigger = true;
 
        
@@ -175,10 +174,6 @@ public class ForceManagerOne : MonoBehaviour
             yield return new WaitForSeconds(4);
        }
         StartCoroutine(theSimulate.DirectorsCall());
-       if(playerAnswer == correctAnswer)
-       {
-            yield return new WaitForSeconds(3);
-       }
        if(playerAnswer != correctAnswer)
        {
             theSimulate.zombieChase = false;
@@ -198,6 +193,19 @@ public class ForceManagerOne : MonoBehaviour
 
         
 
+    }
+    public IEnumerator createZombies()
+    {
+        yield return new WaitForEndOfFrame();
+        theSimulate.destroyZombies = false;
+        GameObject zombie1 = Instantiate(theSimulate.zombiePrefab);
+        zombie1.transform.position = new Vector2(-9, 3.86f);
+        GameObject zombie2 = Instantiate(theSimulate.zombiePrefab);
+        zombie2.transform.position = new Vector2(-8.5f, 3.86f);
+        GameObject zombie3 = Instantiate(theSimulate.zombiePrefab);
+        zombie3.transform.position = new Vector2(-7.6f, 3.86f);
+        GameObject zombie4 = Instantiate(theSimulate.zombiePrefab);
+        zombie4.transform.position = new Vector2(-6, 3.86f);
     }
 
 }
