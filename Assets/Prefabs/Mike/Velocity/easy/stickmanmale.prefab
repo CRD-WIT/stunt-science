@@ -134,6 +134,7 @@ MonoBehaviour:
     m_Extent: {x: 0.16762799, y: 0.43443382, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &1929615195662106012
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,6 +305,7 @@ MonoBehaviour:
     m_Extent: {x: 0.6908853, y: 0.51420045, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &1929615196179575425
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +410,7 @@ MonoBehaviour:
     m_Extent: {x: 0.2224499, y: 0.51410925, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &1929615196295634141
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,6 +547,7 @@ MonoBehaviour:
     m_Extent: {x: 0.36461645, y: 0.53635365, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &1929615196360200974
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,6 +907,7 @@ MonoBehaviour:
     m_Extent: {x: 0.40259796, y: 0.4493476, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &1929615196633193471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,6 +1012,7 @@ MonoBehaviour:
     m_Extent: {x: 0.39614597, y: 0.31722134, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &1929615196757305232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1112,6 +1118,7 @@ MonoBehaviour:
     m_Extent: {x: 0.38996455, y: 0.7753775, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &1929615196820180475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1370,6 +1377,7 @@ MonoBehaviour:
     m_Extent: {x: 0.6349132, y: 0.6228239, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &1929615197679609727
 GameObject:
   m_ObjectHideFlags: 0
@@ -1505,6 +1513,7 @@ MonoBehaviour:
     m_Extent: {x: 0.17082924, y: 0.5755193, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &1929615197726506511
 GameObject:
   m_ObjectHideFlags: 0
@@ -1609,6 +1618,7 @@ MonoBehaviour:
     m_Extent: {x: 0.3328684, y: 0.7495024, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &2173816384600474439
 GameObject:
   m_ObjectHideFlags: 0
@@ -7190,32 +7200,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0
+  myRigidbody: {fileID: 0}
   player: {fileID: 6654007507098342438}
   stickmanpoint: {fileID: 1929615197268375426}
   lost: 0
+  brake: 0
   happy: 0
   ragdollblow: 0
   footstep: {fileID: 0}
   stickprefab: {fileID: 3466479453583936867, guid: 48dd00e06f48bbc4ba33f48df967c64b, type: 3}
   posready: 0
   grounded: 0
+  throwing: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
   groundCheck: {fileID: 6397513971902827717}
   groundedRadius: 1
-  slideCollider: {fileID: 1929615196438015722}
   jumpforce: 6
   standup: 0
-  slide: 0
-  isHanging: 0
-  brake: 0
-  isGrabbing: 0
-  hangWalk: 0
-  isFalling: 0
+  addweights: 0
+  thisway: 0
+  godown: 0
   toJump: 0
-  jumpHang: 0
-  isLanded: 0
+  toReach: 0
+  ropeHang: 0
+  hangkick: 0
 --- !u!68 &1929615196438015722
 EdgeCollider2D:
   m_ObjectHideFlags: 0
