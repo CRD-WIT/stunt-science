@@ -199,13 +199,13 @@ public class ForceManagerOne : MonoBehaviour
         yield return new WaitForEndOfFrame();
         theSimulate.destroyZombies = false;
         GameObject zombie1 = Instantiate(theSimulate.zombiePrefab);
-        zombie1.transform.position = new Vector2(-9, 3.86f);
+        zombie1.transform.position = new Vector2(-12, 3.86f);
         GameObject zombie2 = Instantiate(theSimulate.zombiePrefab);
         zombie2.transform.position = new Vector2(-8.5f, 3.86f);
         GameObject zombie3 = Instantiate(theSimulate.zombiePrefab);
-        zombie3.transform.position = new Vector2(-7.6f, 3.86f);
+        zombie3.transform.position = new Vector2(-6.6f, 3.86f);
         GameObject zombie4 = Instantiate(theSimulate.zombiePrefab);
-        zombie4.transform.position = new Vector2(-6, 3.86f);
+        zombie4.transform.position = new Vector2(-10, 3.86f);
     }
 
 }

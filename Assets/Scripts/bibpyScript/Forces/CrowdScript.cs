@@ -16,7 +16,9 @@ public class CrowdScript : MonoBehaviour
     private ForceManagerThree theManagerThree;
     private Collider2D myCollider;
     private PlayerB thePlayer;
-    bool addSpeed = true;
+    bool addSpeed = true, ragdollReady = true;
+    public GameObject zombieRagdoll;
+    public Transform stickmanpoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -103,25 +105,58 @@ public class CrowdScript : MonoBehaviour
     {
         if (other.gameObject.tag == ("wall"))
         {
-            devour = true;
             moveSpeedX = 0;
+            if (ragdollReady)
+            {
+                ragdollSpawn();
+                Destroy(gameObject);
+            }
 
         }
 
     }
     IEnumerator adddingSpeed()
     {
-        if(theSimulate.stage == 1)
+        if (theSimulate.stage == 1)
         {
             yield return new WaitForSeconds(1);
-            moveSpeedX = Random.Range(7, 9);
+            moveSpeedX = Random.Range(5, 7);
         }
-         if(theSimulate.stage == 2)
+        if (theSimulate.stage == 2)
         {
-            yield return new WaitForSeconds(2);
-            moveSpeedX = Random.Range(-7, -9);
+            yield return new WaitForSeconds(1);
+            if (ForceSimulation.playerAnswer < 2)
+            {
+                moveSpeedX = Random.Range(-2, -4);
+            }
+            if (ForceSimulation.playerAnswer >= 2)
+            {
+                moveSpeedX = Random.Range(-5, -7);
+            }
+        }
+        if (theSimulate.stage == 3)
+        {
+            yield return new WaitForSeconds(1);
+            moveSpeedX = Random.Range(5, 7);
         }
 
     }
+    public void ragdollSpawn()
+    {
+        if (theSimulate.stage == 1 || theSimulate.stage == 3)
+        {
+            GameObject stick = Instantiate(zombieRagdoll);
+            stick.transform.position = stickmanpoint.transform.position;
+            ragdollReady = false;
+        }
+         if (theSimulate.stage == 2)
+        {
+            GameObject stick = Instantiate(zombieRagdoll);
+            stick.transform.position = stickmanpoint.transform.position;
+            stick.transform.localScale = new Vector2(-stick.transform.localScale.x, stick.transform.localScale.y);
+            ragdollReady = false;
+        }
+    }
+
 
 }

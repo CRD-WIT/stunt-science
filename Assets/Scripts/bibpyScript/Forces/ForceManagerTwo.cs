@@ -227,7 +227,7 @@ public class ForceManagerTwo : MonoBehaviour
         yield return new WaitForEndOfFrame();
         theSimulate.destroyZombies = false;
         GameObject zombie1 = Instantiate(theSimulate.zombiePrefab);
-        zombie1.transform.position = new Vector2(36,-0.58f);
+        zombie1.transform.position = new Vector2(40,-0.58f);
         zombie1.transform.localScale = new Vector2(-zombie1.transform.localScale.x, zombie1.transform.localScale.y);
         GameObject zombie2 = Instantiate(theSimulate.zombiePrefab);
         zombie2.transform.position = new Vector2(33f, -0.58f);
@@ -236,7 +236,7 @@ public class ForceManagerTwo : MonoBehaviour
         zombie3.transform.position = new Vector2(35f, -0.58f);
         zombie3.transform.localScale = new Vector2(-zombie3.transform.localScale.x, zombie3.transform.localScale.y);
         GameObject zombie4 = Instantiate(theSimulate.zombiePrefab);
-        zombie4.transform.position = new Vector2(36.5f, -0.58f);
+        zombie4.transform.position = new Vector2(38.5f, -0.58f);
         zombie4.transform.localScale = new Vector2(-zombie4.transform.localScale.x, zombie4.transform.localScale.y);
     }
 

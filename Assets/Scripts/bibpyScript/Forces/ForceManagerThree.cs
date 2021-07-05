@@ -15,7 +15,7 @@ public class ForceManagerThree : MonoBehaviour
     private ScoreManager theScorer;
     float generateAccelaration, accelaration, playerAccelaration, generateForce, force, generateCorrectAnswer, currentPos, totalMass;
     public float correctAnswer, playerAnswer,increaseMass, playerForce;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, glassDebri, cameraman, playerSpeech, napsack, speechBubble, playerInitials, action, navigator;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, glassDebri, cameraman, playerSpeech, napsack, speechBubble, playerInitials, action, navigator,zombiePrefab;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady, startAddingMass, crowdExit;
     public bool throwBomb, addingWeight, startRunning, goExit;
@@ -44,6 +44,11 @@ public class ForceManagerThree : MonoBehaviour
         cameraman.transform.localScale = new Vector2(-cameraman.transform.localScale.x, cameraman.transform.localScale.y);
         thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
         speechBubble.transform.localScale = new Vector2(-speechBubble.transform.localScale.x, speechBubble.transform.localScale.y);
+        thePlayer.exitDown = false;
+        thePlayer.brake = false;
+        theSimulate.destroyZombies = false;
+        thePlayer.myRigidbody.bodyType = RigidbodyType2D.Dynamic;
+        thePlayer.myCollider.isTrigger = false;
         gender = PlayerPrefs.GetString("Gender");
          if (gender == "Male")
         {
@@ -104,6 +109,7 @@ public class ForceManagerThree : MonoBehaviour
 
         if (startRunning)
         {
+            theSimulate.zombieChase = true;
              if(playerAnswer == correctAnswer)
             {
                 forcetxt.text = ("f = ")+ force.ToString("F2")+("N");
@@ -127,7 +133,7 @@ public class ForceManagerThree : MonoBehaviour
                     action.SetActive(false);
                     theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully escaped from the explosion </color>");
                     glassHolder.SetActive(false);
-                    StartCoroutine(thiswaySpeech());
+                    //StartCoroutine(thiswaySpeech());
 
                     if (currentPos >= 22)
                     {
@@ -186,6 +192,7 @@ public class ForceManagerThree : MonoBehaviour
     }
     public void GenerateProblem()
     {
+        StartCoroutine(createZombies());
         increaseMass = 70;
         playerMass.text = ("m = ")+increaseMass.ToString("F2") + ("kg");
         playerMass.gameObject.SetActive(true);
@@ -222,25 +229,18 @@ public class ForceManagerThree : MonoBehaviour
     IEnumerator braking()
     {
         thePlayer.brake = true;
-        thePlayer.thisway = true;
-        crowdExit = true;
-        yield return new WaitForSeconds(1);
+        //thePlayer.thisway = true;
+        //crowdExit = true;
+        yield return new WaitForSeconds(.5f);
         //throwBomb = true;
         thePlayer.brake = false;
         //theBombScript.inPlayer = false;
-        yield return new WaitForSeconds(5);
-        goExit = true;
-        thePlayer.thisway = false;
-        thePlayer.moveSpeed = 5;
-        yield return new WaitForSeconds(1);
-        goExit = false;
-        thePlayer.godown = false;
-        yield return new WaitForSeconds(1.2f);
-        //theBomb.explodebomb = true;
-        thePlayer.moveSpeed = 5;
-        yield return new WaitForSeconds(1.5f);
-        thePlayer.moveSpeed = 0;
-        thePlayer.happy = true;
+        thePlayer.toJump = true;
+        yield return new WaitForSeconds(.9f);
+        thePlayer.climb = true;
+        thePlayer.transform.position = new Vector2(23.5f, thePlayer.transform.position.y +1.1f);
+        //thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
+        thePlayer.moveSpeedY = 1.5f;
         StartCoroutine(StuntResult());
     }
     IEnumerator collision()
@@ -298,7 +298,7 @@ public class ForceManagerThree : MonoBehaviour
         playerMass.gameObject.SetActive(false);
         startRunning = true;
     }
-    IEnumerator thiswaySpeech()
+    /*IEnumerator thiswaySpeech()
     {
         yield return new WaitForSeconds(1.2f);
         playerSpeech.SetActive(true);
@@ -314,6 +314,19 @@ public class ForceManagerThree : MonoBehaviour
         yield return new WaitForSeconds(1);
         playerSpeech.SetActive(false);
 
+    }*/
+    public IEnumerator createZombies()
+    {
+        yield return new WaitForEndOfFrame();
+        theSimulate.destroyZombies = false;
+        GameObject zombie1 = Instantiate(theSimulate.zombiePrefab);
+        zombie1.transform.position = new Vector2(-9, 3.86f);
+        GameObject zombie2 = Instantiate(theSimulate.zombiePrefab);
+        zombie2.transform.position = new Vector2(-11.5f, 3.86f);
+        GameObject zombie3 = Instantiate(theSimulate.zombiePrefab);
+        zombie3.transform.position = new Vector2(-13.6f, 3.86f);
+        GameObject zombie4 = Instantiate(theSimulate.zombiePrefab);
+        zombie4.transform.position = new Vector2(-15, 3.86f);
     }
 
 }

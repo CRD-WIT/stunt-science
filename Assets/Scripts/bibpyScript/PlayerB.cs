@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerB : MonoBehaviour
 {
-   public float moveSpeed;
+   public float moveSpeed, moveSpeedY;
     public Rigidbody2D myRigidbody;
     private Animator myAnimator;
 
@@ -28,7 +28,7 @@ public class PlayerB : MonoBehaviour
      public float jumpforce;
      public bool standup;
      public bool addweights, thisway, godown;
-     public bool toJump,toReach,ropeHang,hangkick;
+     public bool toJump,toReach,ropeHang,hangkick,climb;
      
      
     
@@ -58,7 +58,7 @@ public class PlayerB : MonoBehaviour
         currentpos = player.transform.position.x;
     
        
-        myRigidbody.velocity = new Vector2(moveSpeed, myRigidbody.velocity.y);
+        myRigidbody.velocity = new Vector2(moveSpeed, moveSpeedY);
         myAnimator.SetFloat("speed", myRigidbody.velocity.x);
         myAnimator.SetBool("lost", lost);
         myAnimator.SetBool("happy", happy);
@@ -73,6 +73,7 @@ public class PlayerB : MonoBehaviour
         myAnimator.SetBool("toreach", toReach);
         myAnimator.SetBool("ropehang", ropeHang);
         myAnimator.SetBool("hangkick", hangkick);
+        myAnimator.SetBool("climb", climb);
        
         
         if (posready == true)
