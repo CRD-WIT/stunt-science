@@ -8,15 +8,16 @@ public class HeartManager : MonoBehaviour
     //public GameObject[] hearts;
     public AudioSource bgm;
     public AudioSource Gameoversfx;
-    public int life = 3;
-    public GameObject heartItem;
+    public int life;
     public GameObject gameOverBG, startBG;
     public bool losslife;
+    public GameObject heartItem;
 
     // Start is called before the first frame update
     void Start()
     {
         startbgentrance();
+
     }
 
     public void DestroyHearts()
@@ -26,7 +27,14 @@ public class HeartManager : MonoBehaviour
             GameObject.Destroy(item.gameObject);
         }
     }
-
+    public void losinglife()
+    {
+        if (losslife == false)
+        {
+            life -= 1;
+            losslife = true;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -35,7 +43,7 @@ public class HeartManager : MonoBehaviour
             for (int i = 0; i < 1; i++)
             {
                 var heart = Instantiate(heartItem, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-                heart.transform.SetParent(transform);
+                heart.transform.parent = transform;
                 heart.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             }
         }
@@ -46,13 +54,16 @@ public class HeartManager : MonoBehaviour
             {
                 GameObject.Destroy(transform.GetChild(i).gameObject);
             }
+
             if (life == 0)
             {
                 Time.timeScale = 0.4f;
+
                 StartCoroutine(actionreset());
                 StartCoroutine(gameover());
             }
         }
+
     }
     IEnumerator actionreset()
     {
@@ -66,7 +77,7 @@ public class HeartManager : MonoBehaviour
         Gameoversfx.Play();
         StartCoroutine(endBGgone());
         yield return new WaitForSeconds(2);
-        reloadScene();
+        SceneManager.LoadScene("LevelOne");
         Time.timeScale = 1f;
     }
     public IEnumerator endBGgone()
@@ -96,7 +107,8 @@ public class HeartManager : MonoBehaviour
             losslife = true;
         }
     }
-    public void reloadScene(){
+    public void reloadScene()
+    {
         int scene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }

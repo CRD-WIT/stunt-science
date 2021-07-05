@@ -12,7 +12,7 @@ public class MediumManager : MonoBehaviour
     public float distance, stuntTime, elapsed;
     string question, afterStuntMessage, errorMessage, playerName, pronoun, pNoun;
     float playerAnswer, playerSpeed, conveyorSpeed, animSpeed, timingD;
-    bool isAnswered, directorIsCalling, isStartOfStunt, answerIs;
+    bool isAnswered, directorIsCalling, isStartOfStunt, answerIs, ropeGrab;
     int stage;
     ConveyorManager conveyor;
     QuestionControllerVThree qc;
@@ -73,7 +73,7 @@ public class MediumManager : MonoBehaviour
                 {
                     answerIs = true;
                     myPlayer.transform.position = new Vector2(distance - 10, myPlayer.transform.position.y);
-
+                    afterStuntMessage = "CORRECT";
                     //correct
                 }
                 else
@@ -83,24 +83,28 @@ public class MediumManager : MonoBehaviour
                     if (playerAnswer > playerSpeed)
                     {
                         // myPlayer.transform.position = new Vector2(myPlayer.transform.position.x + 0.2f, myPlayer.transform.position.y);
+                        afterStuntMessage = "Above";
                     }
                     else
                     {
                         // myPlayer.transform.position = new Vector2(myPlayer.transform.position.x - 0.2f, myPlayer.transform.position.y);
+                        afterStuntMessage = "Below";
                     }
                 }
-
-                // isAnswered = false;
-                StartCoroutine(GrabRope());
+                isAnswered = false;
+                ropeGrab = true;
             }
             indicators.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed), elapsed, timingD);
         }
+        if (ropeGrab)
+            StartCoroutine(GrabRope());
         indicators.SetPlayerPosition(myPlayer.transform.position);
         if (qc.isSimulating)
             Play();
     }
     void SetUp()
     {
+        myPlayer.climb = false;
         conveyorSpeed = 0;
         stage = qc.stage;
         AVelocityIndicator.GetComponent<UnityEngine.U2D.SpriteShapeRenderer>().color = qc.getHexColor(TextColorMode.Given);
@@ -155,6 +159,7 @@ public class MediumManager : MonoBehaviour
         }
         else
         {
+            // isAnswered = false;
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
             yield return new WaitForSeconds(1f);
@@ -172,6 +177,9 @@ public class MediumManager : MonoBehaviour
         {
             playerAnim.SetBool("successGrab", true);
             yield return new WaitForSeconds(1.01f);
+            myPlayer.climb = true;
+            yield return new WaitForSeconds(0.5f);
+            directorIsCalling = true;
         }
         else
         {
@@ -179,6 +187,16 @@ public class MediumManager : MonoBehaviour
             ragdoll.transform.position = myPlayer.transform.position;
             ragdoll.SetActive(true);
             ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
+            yield return new WaitForSeconds(1.01f);
+            directorIsCalling = true;
         }
+        qc.ActivateResult(afterStuntMessage, answerIs);
+    }
+    void ragdollSpawn()
+    {
+        myPlayer.gameObject.SetActive(false);
+        ragdoll.transform.position = myPlayer.transform.position;
+        ragdoll.SetActive(true);
+        ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
     }
 }

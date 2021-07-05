@@ -8,7 +8,8 @@ public class PlayerCM2 : MonoBehaviour
     private Rigidbody2D myRigidbody;
     public Animator myAnimator;
     public GameObject player, stickprefab, stickmanpoint;
-    public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang, isLanded;
+    public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, 
+        climb, hangWalk, isFalling, toJump, jumpHang, isLanded;
     // public AudioSource footstep;
     float currentpos;
     public LayerMask whatIsGround;
@@ -43,6 +44,11 @@ public class PlayerCM2 : MonoBehaviour
         myAnimator.SetBool("toJump", toJump);
         myAnimator.SetBool("jumpHang", jumpHang);
         myAnimator.SetBool("landed", isLanded);
+        myAnimator.SetBool("climb", climb);
+
+        if (climb){
+            myRigidbody.velocity = new Vector2  (0, 1);
+        }
         if (posready == true)
         {
             if (currentpos >= 0)
@@ -67,7 +73,8 @@ public class PlayerCM2 : MonoBehaviour
     public void ragdollspawn()
     { 
         player.SetActive(false);
-        GameObject stick = Instantiate(stickprefab);
+        stickprefab.SetActive(true);
+        GameObject stick = stickprefab;
         stick.transform.position = stickmanpoint.transform.position;
         ragdollblow = false;
     }

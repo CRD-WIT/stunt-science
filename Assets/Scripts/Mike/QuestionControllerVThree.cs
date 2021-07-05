@@ -91,7 +91,7 @@ public class QuestionControllerVThree : MonoBehaviour
                 actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Done";
             else
             {
-                actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
+                actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";                                                                                                                                                      
             }
             modalTitle = "Stunt Success!";
             modalText = message;
