@@ -207,7 +207,7 @@ public class ForceManagerThree : MonoBehaviour
         //theBomb.bomb.SetActive(true);
         //theBomb.bomb.transform.position = thePlayer.transform.position;
         //theBomb.followRagdoll = false;
-        thePlayer.transform.position = new Vector2(0, 3.2f);
+        thePlayer.transform.position = new Vector2(0, 2.59f);
         //theBombScript.gameObject.transform.position = new Vector2(7.8f, 1.5f);
         glassRespawn();
         theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> cannot find the third bomb to throw out and decided to help the trapped persons inside the building get out instead by breaking the glass and letting them slide down the rope outside, If  <b>") + PlayerPrefs.GetString("Name") + ("</b> runs with the accelaration of  <b>") + accelaration.ToString("F2") + ("</b> m/s² and the glass breaks at an impact force of <b>") + force.ToString("F2") + ("</b> N, how much  mass ")+ pronoun1 + (" should add to ")+ pronoun2 + (" 70kg body in order to run into the glass and break it without overshooting?")));
@@ -238,7 +238,7 @@ public class ForceManagerThree : MonoBehaviour
         thePlayer.toJump = true;
         yield return new WaitForSeconds(.9f);
         thePlayer.climb = true;
-        thePlayer.transform.position = new Vector2(23.5f, thePlayer.transform.position.y +1.1f);
+        thePlayer.transform.position = new Vector2(23.2f, thePlayer.transform.position.y +1.3f);
         //thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
         thePlayer.moveSpeedY = 1.5f;
         StartCoroutine(StuntResult());
@@ -254,6 +254,10 @@ public class ForceManagerThree : MonoBehaviour
         ForceSimulation.simulate = false;
         yield return new WaitForSeconds(1);
         StartCoroutine(theSimulate.DirectorsCall());
+        if(playerAnswer != correctAnswer)
+       {
+            theSimulate.zombieChase = false;
+       }
         yield return new WaitForSeconds(3);
         theQuestion.ToggleModal();
         if(playerAnswer == correctAnswer)
