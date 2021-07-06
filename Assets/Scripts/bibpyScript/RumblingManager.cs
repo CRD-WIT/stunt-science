@@ -38,10 +38,10 @@ public class RumblingManager : MonoBehaviour
                 //FallingBoulders.isRumbling = true;
                 StartCoroutine(fallingrubble());
             }
-            if (isThisFirst)
-                FirstRun();
-            else
-                reset.isDestroyed = false;
+            // if (isThisFirst)
+            //     FirstRun();
+            // else                
+            //     reset.isDestroyed = false;
         }
         if (isCrumbling)
         {
@@ -51,8 +51,8 @@ public class RumblingManager : MonoBehaviour
     void FirstRun()
     {
         isThisFirst = false;
-        reset = FindObjectOfType<RockDestroyer>();
-        reset.isDestroyed = false;
+        // reset = FindObjectOfType<RockDestroyer>();
+        // reset.isDestroyed = false;
     }
     IEnumerator Crumbling()
     {
