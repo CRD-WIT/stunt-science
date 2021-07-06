@@ -10,10 +10,9 @@ public class ForceManagerOne : MonoBehaviour
     private ForceSimulation theSimulate;
     private ColliderManager theCollider;
     public QuestionControllerB theQuestion;
-    private BombManager theBomb;
     float generateAccelaration, accelaration, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
     public float correctAnswer,playerAnswer;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, glassDebri, playerInitials,triggerDevour;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, glassDebri, playerInitials,triggerDevour;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
@@ -28,7 +27,6 @@ public class ForceManagerOne : MonoBehaviour
         //thePlayer = FindObjectOfType<Player>();
         theCollider = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
-        theBomb = FindObjectOfType<BombManager>();
         theHeart = FindObjectOfType<HeartManager>();
         GenerateProblem();
     }

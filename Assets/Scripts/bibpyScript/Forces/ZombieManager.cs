@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class ZombieManager : MonoBehaviour
 {
+    public GameObject zombie;
     private ForceSimulation theSimulate;
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(destroyZombies());
         theSimulate = FindObjectOfType<ForceSimulation>();
         if(theSimulate.stage == 1 || theSimulate.stage == 3)
         {
@@ -24,5 +26,10 @@ public class ZombieManager : MonoBehaviour
     void Update()
     {
         
+    }
+    IEnumerator destroyZombies()
+    {
+        yield return new WaitForSeconds(5);
+        Destroy(zombie);
     }
 }

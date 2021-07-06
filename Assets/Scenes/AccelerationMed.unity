@@ -23042,6 +23042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0
+  moveSpeedY: 0
   myRigidbody: {fileID: 0}
   player: {fileID: 1919375448176089037}
   stickmanpoint: {fileID: 6643490682116060265}
@@ -23053,12 +23054,13 @@ MonoBehaviour:
   stickprefab: {fileID: 3466479453583936867, guid: 48dd00e06f48bbc4ba33f48df967c64b, type: 3}
   posready: 0
   grounded: 0
-  throwing: 0
+  exitDown: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
   groundCheck: {fileID: 2179104847013908270}
   groundedRadius: 0
+  myCollider: {fileID: 0}
   jumpforce: 0
   standup: 0
   addweights: 0
@@ -23068,6 +23070,7 @@ MonoBehaviour:
   toReach: 0
   ropeHang: 0
   hangkick: 0
+  climb: 0
 --- !u!4 &2179104847013908270
 Transform:
   m_ObjectHideFlags: 0
@@ -25583,7 +25586,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2530501136071062744, guid: 56c2cac362e0257429613bbef778645a, type: 3}
       propertyPath: m_Volume
-      value: 0
+      value: 0.429
       objectReference: {fileID: 0}
     - target: {fileID: 2530501136526767065, guid: 56c2cac362e0257429613bbef778645a, type: 3}
       propertyPath: m_Name
@@ -25723,7 +25726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7327295574426658832
 Transform:
   m_ObjectHideFlags: 0

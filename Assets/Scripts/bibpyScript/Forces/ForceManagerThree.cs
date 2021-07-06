@@ -236,9 +236,9 @@ public class ForceManagerThree : MonoBehaviour
         thePlayer.brake = false;
         //theBombScript.inPlayer = false;
         thePlayer.toJump = true;
-        yield return new WaitForSeconds(.9f);
-        thePlayer.climb = true;
+        yield return new WaitForSeconds(.7f);
         thePlayer.transform.position = new Vector2(23.2f, thePlayer.transform.position.y +1.3f);
+        thePlayer.climb = true;
         //thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
         thePlayer.moveSpeedY = 1.5f;
         StartCoroutine(StuntResult());
