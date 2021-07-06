@@ -50,10 +50,10 @@ public class ForceSimulation : MonoBehaviour
         playerAnswer = float.Parse(answerField.text);
         if (stage == 1)
         {
-            if (answerField.text == "" || playerAnswer < 200 || playerAnswer < 1)
+            if (answerField.text == "" || playerAnswer < 10 || playerAnswer > 1000)
             {
                 StartCoroutine(errorMesage());
-               theQuestion.errorText = ("Please enter a valid answer!");
+               theQuestion.errorText = ("Invalid strength of a glass");
             }
             else
             {
@@ -89,7 +89,7 @@ public class ForceSimulation : MonoBehaviour
             if (answerField.text == "" || playerAnswer > 100)
             {
                 StartCoroutine(errorMesage());
-                theQuestion.errorText = ("too heavy for you!");
+                theQuestion.errorText = ("too heavy for a human!");
             }
             else
             {
@@ -114,7 +114,7 @@ public class ForceSimulation : MonoBehaviour
     public void retry()
     {
         
-        
+        StartCoroutine(theHeart.startBGgone());
         thePlayer.standup = false;
         simulate = false;
         playButton.interactable = true;
