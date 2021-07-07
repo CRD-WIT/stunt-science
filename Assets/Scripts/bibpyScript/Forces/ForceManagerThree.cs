@@ -210,7 +210,7 @@ public class ForceManagerThree : MonoBehaviour
         thePlayer.transform.position = new Vector2(0, 2.59f);
         //theBombScript.gameObject.transform.position = new Vector2(7.8f, 1.5f);
         glassRespawn();
-        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> cannot find the third bomb to throw out and decided to help the trapped persons inside the building get out instead by breaking the glass and letting them slide down the rope outside, If  <b>") + PlayerPrefs.GetString("Name") + ("</b> runs with the accelaration of  <b>") + accelaration.ToString("F2") + ("</b> m/s² and the glass breaks at an impact force of <b>") + force.ToString("F2") + ("</b> N, how much  mass ")+ pronoun1 + (" should add to ")+ pronoun2 + (" 70kg body in order to run into the glass and break it without overshooting?")));
+        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> still chased by these hungry zombies and need to break another glass wall to escape from them, If  <b>") + PlayerPrefs.GetString("Name") + ("</b> runs with the accelaration of  <b>") + accelaration.ToString("F2") + ("</b> m/s² and the glass breaks at an impact force of <b>") + force.ToString("F2") + ("</b> N, how much  mass ")+ pronoun1 + (" should add to ")+ pronoun2 + (" 70kg body in order to run into the glass and break it without overshooting?")));
         acctxt.text = ("a = ")+ accelaration.ToString("F2")+ ("m/s²");
         breakingforcetxt.text = ("Breaking Impact Force = ")+ force.ToString("F2");
         playerInitials.SetActive(true);

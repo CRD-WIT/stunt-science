@@ -97,7 +97,7 @@ public class AccMediumOne : MonoBehaviour
                         theQuestion.SetModalTitle("Stunt Success");
                         theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" has grabbed the rope and is now succesfully hanging from a hellicopter</color>"));
                     }
-                    if (truckPos >= 68)
+                    if (truckPos >= 72)
                     {
                         theTruck.accelerating = false;
                         theTruck.moveSpeed = 0;
@@ -267,7 +267,7 @@ public class AccMediumOne : MonoBehaviour
 
             if (answer == correctAnswer)
             {
-                timertxt.color = new Color32(107, 0, 176, 255);
+                timertxt.color = new Color32(3, 63, 0, 255);
                 hangingRagdoll.SetActive(true);
 
                 playTimertxt.text = answer.ToString("F2") + "s";
