@@ -7,10 +7,11 @@ public class Tooth2 : MonoBehaviour
     public float speed;
     void Update()
     {
+        speed = ConveyorManager2.conveyorSpeed* 0.862f;
         if (this.gameObject.transform.parent.name == "UpperTooth")
-            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, 0);
+            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(speed*1.005f, 0);
         else
-            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed*0.953f, -speed * 0.3f);
+            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed*0.953f, -speed * 0.31f);
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -21,7 +22,7 @@ public class Tooth2 : MonoBehaviour
             GameObject tooth = Instantiate(this.gameObject);
             tooth.transform.position = parent.transform.Find("UpperSpawnPoint").position;
             tooth.GetComponent<Collider2D>().enabled = true;
-            tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, 0);
+            tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(speed*1.005f, 0);
             tooth.transform.SetParent(parent.transform);
         }
         else
@@ -29,10 +30,10 @@ public class Tooth2 : MonoBehaviour
             GameObject parent = this.transform.parent.gameObject;
             Destroy(this.gameObject);
             GameObject tooth = Instantiate(this.gameObject);
-            tooth.transform.Rotate(0,0,18);
+            tooth.transform.Rotate(0,0,18.25f);
             tooth.transform.position = parent.transform.Find("LowerSpawnPoint").position;
             tooth.GetComponent<Collider2D>().enabled = true;
-            tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed*0.953f, -speed * 0.3f);
+            tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed*0.953f, -speed * 0.31f);
             tooth.transform.SetParent(parent.transform);
         }
     }

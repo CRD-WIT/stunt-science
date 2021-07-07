@@ -9,7 +9,7 @@ public class PlayerCM2 : MonoBehaviour
     public Animator myAnimator;
     public GameObject player, stickprefab, stickmanpoint;
     public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, 
-        climb, hangWalk, isFalling, toJump, jumpHang, isLanded;
+        climb, hangWalk, isFalling, toJump, jumpHang, isLanded, running, walking;
     // public AudioSource footstep;
     float currentpos;
     public LayerMask whatIsGround;
@@ -45,6 +45,8 @@ public class PlayerCM2 : MonoBehaviour
         myAnimator.SetBool("jumpHang", jumpHang);
         myAnimator.SetBool("landed", isLanded);
         myAnimator.SetBool("climb", climb);
+        myAnimator.SetBool("running", running);
+        myAnimator.SetBool("walking", walking);
 
         if (climb){
             myRigidbody.velocity = new Vector2  (0, 1);
