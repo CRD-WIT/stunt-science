@@ -43,8 +43,13 @@ public class AccMediumOne : MonoBehaviour
         aTtxt.text = ("a = ") + accelaration.ToString("F2") + ("m/s²");
         //playerGrabLineDistance = velocity * AccMidSimulation.playerAnswer;
         playerGrabLineDistance = (accelaration * (AccMidSimulation.playerAnswer * AccMidSimulation.playerAnswer)) / 2;
+        truckPos = theTruck.transform.position.x;
 
-
+    if(theTruck.transform.position.x >= 72)
+    {
+        theTruck.moveSpeed = 0;
+        theTruck.accelerating = false;
+    }
 
 
         if (AccMidSimulation.simulate == true)
@@ -54,7 +59,7 @@ public class AccMediumOne : MonoBehaviour
             distanceH = answer * velocity + 0.67f;
             timertxt.gameObject.SetActive(true);
 
-            truckPos = theTruck.transform.position.x;
+            
             chopperPos = theChopper.transform.position.x;
             hangingRagdoll.transform.position = ropeTip.transform.position;
             theChopper.flySpeed = velocity;
@@ -148,7 +153,7 @@ public class AccMediumOne : MonoBehaviour
                             }
                             theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" grab the rope too late. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."));
                         }
-                        if (truckPos >= 68)
+                        if (truckPos >= 70)
                         {
                             theTruck.accelerating = false;
                             theTruck.moveSpeed = 0;
@@ -158,7 +163,7 @@ public class AccMediumOne : MonoBehaviour
                     if (playerGrabLineDistance > 56)
                     {
 
-                        if (truckPos >= 68)
+                        if (truckPos >= 72)
                         {
                             theHeart.losinglife();
                             theTruck.accelerating = false;
@@ -229,7 +234,7 @@ public class AccMediumOne : MonoBehaviour
     {
         if (playerGrabLineDistance < 56)
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(6);
         }
         if (playerGrabLineDistance > 56)
         {

@@ -49,13 +49,14 @@ public class accSimulation : MonoBehaviour
     void FixedUpdate()
     {
         theRagdoll = FindObjectOfType<ragdollScript>();
-
+        playerAnswer = float.Parse(answerField.text);
     }
+    
     public void PlayButton()
     {
         
         
-        playerAnswer = float.Parse(answerField.text);
+       
         if (stage == 1)
         {
            

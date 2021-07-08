@@ -43,11 +43,27 @@ public class ForceSimulation : MonoBehaviour
     void FixedUpdate()
     {
         theRagdoll = FindObjectOfType<ragdollScript>();
-
+        playerAnswer = float.Parse(answerField.text);
+        if(playerAnswer >= 10 & playerAnswer < 100)
+        {
+            answerField.characterLimit = 5;
+        }
+        if(playerAnswer < 10)
+        {
+            answerField.characterLimit = 4;
+        }
+        if(playerAnswer >= 100 & playerAnswer <1000)
+        {
+            answerField.characterLimit = 6;
+        }
+        if(playerAnswer >= 1000)
+        {
+            answerField.characterLimit = 7;
+        }
     }
     public void PlayButton()
     {
-        playerAnswer = float.Parse(answerField.text);
+       
         if (stage == 1)
         {
             if (answerField.text == "" || playerAnswer < 10 || playerAnswer > 1000)

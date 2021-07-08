@@ -9,7 +9,7 @@ public class AccMidSimulation : MonoBehaviour
     public Button playButton;
     public PlayerB thePlayer;
     public TruckManager theTruck;
-    public Suv [] theSuv;
+    public Suv[] theSuv;
     public SubSuv[] theSubVan;
     public AccMediumOne theManagerOne;
     //public AccMediumTwo theManagerTwo;
@@ -23,14 +23,14 @@ public class AccMidSimulation : MonoBehaviour
     public int stage;
     public QuestionControllerB[] theQuestion;
 
-    
+
     public GameObject[] ground, dimension, arrow;
     bool directorIsCalling;
     public GameObject directorBubble;
-    
+
     Vector2 playerstartPos;
     private Vector2 truckStartPos;
-    
+
 
     private Quaternion TruckStartRot;
     private HeartManager theHeart;
@@ -45,29 +45,29 @@ public class AccMidSimulation : MonoBehaviour
         PlayerPrefs.SetString("CurrentString", ("AccelarationMedium"));
         PlayerPrefs.SetInt("level", 4);
         playerstartPos = thePlayer.transform.position;
-       
-        
+
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        
     }
     public void PlayButton()
     {
-        
-        
-    
+
+
+
         if (stage == 1)
         {
             playerAnswer = float.Parse(answerField[0].text);
             //subChopper[0].SetActive(false);
             dimension[0].SetActive(false);
-            if (answerField[0].text == "" || playerAnswer > 10|| playerAnswer < 1)
+            if (answerField[0].text == "" || playerAnswer > 100 || playerAnswer < 1)
             {
                 StartCoroutine(theManagerOne.errorMesage());
-                theQuestion[0].errorText = ("believe me! its too long!");
+                theQuestion[0].errorText = ("invalid");
             }
             else
             {
@@ -83,12 +83,12 @@ public class AccMidSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
-             playerAnswer = float.Parse(answerField[1].text);
-            
-            if (answerField[1].text == "" || playerAnswer > 100)
+            playerAnswer = float.Parse(answerField[1].text);
+
+            if (answerField[1].text == "" || playerAnswer > 40)
             {
                 StartCoroutine(theManagerTwo.errorMesage());
-                theQuestion[0].errorText = ("enter a valid answer");
+                theQuestion[1].errorText = ("invalid or ecxeeded to given distance");
             }
             else
             {
@@ -107,8 +107,8 @@ public class AccMidSimulation : MonoBehaviour
             playerAnswer = float.Parse(answerField[2].text);
             if (answerField[2].text == "" || playerAnswer > 16)
             {
-               StartCoroutine(theManagerThree.errorMesage());
-               theQuestion[2].errorText =("exceed the average car acceleratoin");
+                StartCoroutine(theManagerThree.errorMesage());
+                theQuestion[2].errorText = ("exceed the average car acceleratoin");
             }
             else
             {
@@ -124,13 +124,13 @@ public class AccMidSimulation : MonoBehaviour
         }
     }
     public void retry()
-    { 
-        theHeart.startbgentrance(); 
+    {
+        theHeart.startbgentrance();
         playButton.interactable = true;
         playerAnswer = 0;
         simulate = false;
 
-        
+
         if (stage == 1)
         {
             answerField[0].text = ("");
@@ -151,7 +151,7 @@ public class AccMidSimulation : MonoBehaviour
             theManagerTwo.generateProblem();
             thePlayer.standup = false;
             theSubVan[0].fade = false;
-            
+
         }
         if (stage == 3)
         {
@@ -165,24 +165,24 @@ public class AccMidSimulation : MonoBehaviour
     }
     public void next()
     {
-        if(stage == 1)
+        if (stage == 1)
         {
             thePlayer.standup = false;
             theManagerOne.gameObject.SetActive(false);
             ground[0].SetActive(false);
             ground[1].SetActive(true);
             theManagerTwo.gameObject.SetActive(true);
-            
-            
+
+
         }
-         if(stage == 2)
+        if (stage == 2)
         {
             ground[1].SetActive(false);
             ground[2].SetActive(true);
             theManagerTwo.gameObject.SetActive(false);
             theManagerThree.gameObject.SetActive(true);
             thePlayer.ropeHang = false;
-           
+
         }
     }
     public IEnumerator DirectorsCall()
@@ -210,6 +210,13 @@ public class AccMidSimulation : MonoBehaviour
             diretorsSpeech.text = "";
         }
     }
-    
-    
+    public void answerLimiter()
+    {
+        int I = stage - 1;
+        string[] num;
+        num = answerField[I].text.Split('.');
+        answerField[I].characterLimit = num[0].Length + 3;
+    }
+
+
 }
