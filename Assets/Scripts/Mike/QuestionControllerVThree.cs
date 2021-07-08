@@ -91,7 +91,7 @@ public class QuestionControllerVThree : MonoBehaviour
                 actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Done";
             else
             {
-                actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";                                                                                                                                                      
+                actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
             }
             modalTitle = "Stunt Success!";
             modalText = message;
@@ -136,6 +136,11 @@ public class QuestionControllerVThree : MonoBehaviour
             }
         }
         extraOn = true;
+    }
+    public void answerLimitter()
+    {
+        string[] num = answerFieldHorizontal.text.Split('.');
+        answerFieldHorizontal.characterLimit = num[0].Length + 3;
     }
     public void Next()
     {
@@ -344,7 +349,6 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     void Update()
     {
-        //levelNumber = level.GetLevelNum(levelName);
         correctIconHorizontal.SetActive(answerIsCorrect);
         wrongIconHorizontal.SetActive(!answerIsCorrect);
         popupComponentHorizontal.SetActive(popupVisible);
@@ -354,12 +358,10 @@ public class QuestionControllerVThree : MonoBehaviour
         problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
         modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
         problemTextHorizontal.SetActive(!isModalOpen);
-        // playButtonHorizontal.SetActive(!isModalOpen);
         answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
 
         extraComponent.gameObject.SetActive(timerOn || popupVisible);
         playButtonHorizontal.SetActive(!timerOn);
-        // timerComponentHorizontal.gameObject.SetActive(timerOn);
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
 
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
