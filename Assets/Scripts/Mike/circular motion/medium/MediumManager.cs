@@ -14,27 +14,29 @@ public class MediumManager : MonoBehaviour
     PlayerCM2 myPlayer;
     StageManager sm = new StageManager();
     [SerializeField] GameObject directorsBubble, rope, AVelocityIndicator, ragdoll, stage1Layout, stage2Layout;
+    public GameObject conveyor1;
     Animator playerAnim;
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField] float distance, stuntTime, elapsed, correctAnswer;
     public static int stage;
     float playerAnswer, playerSpeed, conveyorSpeed, animSpeed, correctD, timingD, playerPos, currentPlayerPos;
     string question, playerName, playerGender, pronoun, pPronoun, messageTxt;
-    bool isAnswered, directorIsCalling, isStartOfStunt, isAnswerCorrect, ropeGrab, isEndOfStunt;
+    bool isAnswered, directorIsCalling, isStartOfStunt, isAnswerCorrect, ropeGrab, isEndOfStunt, ragdollActive, conveyorActive;
     // GameObject b2Shadow, b1Shadow, pShadow;
     Vector2 spawnPoint;
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
-        conveyor = FindObjectOfType<ConveyorManager>();
         myPlayer = FindObjectOfType<PlayerCM2>();
         life = FindObjectOfType<HeartManager>();
         score = FindObjectOfType<ScoreManager>();
 
         playerAnim = myPlayer.myAnimator;
         // RagdollV2.myPlayer = myPlayer;
-        
+
+        conveyorActive = false;
+
         qc.stage = 1;
 
         playerName = PlayerPrefs.GetString("Name");
@@ -71,6 +73,7 @@ public class MediumManager : MonoBehaviour
             switch (stage)
             {
                 case 1:
+                indicators.timeSpawnPnt= new Vector2(-10,2);
                     playerAnim.speed = playerAnswer / 5.6f; // set to 1 before grabbing.
                     myPlayer.moveSpeed = playerAnswer - conveyorSpeed;
                     timingD = myPlayer.transform.position.x + 10;
@@ -84,13 +87,11 @@ public class MediumManager : MonoBehaviour
                         timingD = (playerAnswer - conveyorSpeed) * stuntTime;
                         playerAnim.speed = 1;
                         elapsed = stuntTime;
-                        // myPlayer.moveSpeed = -conveyorSpeed;
                         if (playerAnswer == playerSpeed)
                         {
                             isAnswerCorrect = true;
                             myPlayer.transform.position = new Vector2(distance - 10, myPlayer.transform.position.y);
                             messageTxt = "CORRECT";
-                            //correct
                         }
                         else
                         {
@@ -105,12 +106,11 @@ public class MediumManager : MonoBehaviour
                                 // myPlayer.transform.position = new Vector2(myPlayer.transform.position.x - 0.2f, myPlayer.transform.position.y);
                                 messageTxt = "Below";
                             }
-                            indicators.ShowCorrectDistance(distance, true, new Vector2(stuntTime * playerSpeed, 1.5f));
+                            indicators.ShowCorrectDistance(distance, true, new Vector2(-10, 0.5f));
                             // indicators.ShowCorrectTime(stuntTime, stuntTime * playerVelocity, true);
                         }
                         isAnswered = false;
                         ropeGrab = true;
-                        // currentBoulderPos = distance - (boulderVelocity * stuntTime);
                         indicators.AnswerIs(isAnswerCorrect, false);
                     }
                     indicators.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed), elapsed, timingD);
@@ -126,6 +126,8 @@ public class MediumManager : MonoBehaviour
             StartCoroutine(StuntResult());
         if (ropeGrab)
             StartCoroutine(GrabRope());
+        if (ragdollActive)
+            RagdollSpawn();
 
         if (qc.isSimulating)
             Play();
@@ -145,11 +147,9 @@ public class MediumManager : MonoBehaviour
     void SetUp()
     {
         // onShadow = false;
-
+        ragdollActive = false;
         indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
         spawnPoint = indicators.distanceSpawnPnt;
-
-        // RagdollV2.disableRagdoll = true;
         stage1Layout.SetActive(false);
         stage2Layout.SetActive(false);
 
@@ -166,10 +166,13 @@ public class MediumManager : MonoBehaviour
         qc.SetColor(AVelocityIndicator.transform.Find("label").GetComponent<TMP_Text>(), TextColorMode.Given);
 
         life.losslife = false;
-        // float Va = 0, Vb = 0, d = 0, Da = 0, Db = 0, Dj = 0, t = 0;//, tm = 0;
         switch (stage)
         {
             case 1:
+                Instantiate(conveyor1).transform.position = new Vector2(0,0);
+                Instantiate(conveyor1).transform.position = new Vector2(23.5f,3.3f);
+                conveyor = FindObjectOfType<ConveyorManager>();
+
                 myPlayer.running = true;
                 stage1Layout.SetActive(true);
                 indicators.heightSpawnPnt = new Vector2(-13.3f, -1.15f);
@@ -181,7 +184,8 @@ public class MediumManager : MonoBehaviour
                     Debug.Log(aVelocity);
                     stuntTime = (float)System.Math.Round(Random.Range(1.9f, 5f), 2);
                     distance = Random.Range(15f, 20f);
-                    conveyorSpeed = conveyor.SetConveyorSpeed(aVelocity, stuntTime);
+                    conveyor.SetConveyorSpeed(aVelocity, stuntTime);
+                    conveyorSpeed = conveyor.GetConveyorVelocity();
                     playerSpeed = (float)System.Math.Round(((distance / stuntTime) + conveyorSpeed), 2);
                     AVelocityIndicator.transform.Find("label").GetComponent<TMP_Text>().text = aVelocity.ToString("f2") + qc.Unit(UnitOf.angularVelocity);
                     rope.transform.position = new Vector2(distance - 10, rope.transform.position.y);
@@ -195,7 +199,6 @@ public class MediumManager : MonoBehaviour
                 myPlayer.gameObject.SetActive(true);
 
                 indicators.timeSpawnPnt = new Vector2(-10, .5f);
-                // indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
                 indicators.showLines(null, distance, null, playerSpeed, stuntTime);
                 indicators.UnknownIs('v');
@@ -223,6 +226,9 @@ public class MediumManager : MonoBehaviour
     }
     IEnumerator Retry()
     {
+        ConveyorManager.isActive =false;
+        yield return new WaitForEndOfFrame();
+        // conveyor.isActive = false;
         FallingBoulders.isRumbling = false;
         qc.retried = false;
         PrefabDestroyer.end = true;
@@ -237,6 +243,7 @@ public class MediumManager : MonoBehaviour
     }
     IEnumerator Next()
     {
+        ConveyorManager.isActive =false;
         FallingBoulders.isRumbling = false;
         qc.nextStage = false;
         myPlayer.happy = false;
@@ -281,14 +288,15 @@ public class MediumManager : MonoBehaviour
     IEnumerator StuntResult()
     {
         isEndOfStunt = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.25f);
         directorIsCalling = true;
         isStartOfStunt = false;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0.75f);
         qc.ActivateResult(messageTxt, isAnswerCorrect);
     }
     IEnumerator GrabRope()
     {
+        ropeGrab = false;
         playerAnim.SetBool("running", false);
         playerAnim.SetBool("ropeGrab", true);
         yield return new WaitForSeconds(0.15f);
@@ -300,17 +308,13 @@ public class MediumManager : MonoBehaviour
         }
         else
         {
-            myPlayer.gameObject.SetActive(false);
-            ragdoll.transform.position = myPlayer.transform.position;
-            ragdoll.SetActive(true);
-            ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
+            ragdollActive = true;
             yield return new WaitForSeconds(0.51f);
         }
-        yield return new WaitForSeconds(0.5f);
-        isAnswered = false;
+        yield return new WaitForEndOfFrame();
         isEndOfStunt = true;
     }
-    void ragdollSpawn()
+    void RagdollSpawn()
     {
         myPlayer.gameObject.SetActive(false);
         ragdoll.transform.position = myPlayer.transform.position;

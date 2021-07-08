@@ -1,6 +1,7 @@
 using UnityEngine;
 public class ConveyorTooth : MonoBehaviour
 {
+    public bool distroy;
     // Start is called before the first frame update
     void Start()
     {
@@ -8,6 +9,7 @@ public class ConveyorTooth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (this.gameObject.transform.parent.name == "UpperTooth")
             this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-ConveyorManager.conveyorSpeed, 0);
         else
@@ -15,6 +17,7 @@ public class ConveyorTooth : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
+        this.enabled =true;
         if (other.gameObject.name == "UpperToothReset")
         {
             GameObject parent = this.transform.parent.gameObject;

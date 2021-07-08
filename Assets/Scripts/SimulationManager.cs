@@ -15,16 +15,12 @@ public class SimulationManager : MonoBehaviour
     public static bool isAnswered, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
     private HeartManager theHeart;
     QuestionControllerVThree qc;
-    IndicatorManagerV1_1 dimLine;
     // Start is called before the first frame update
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
         thePlayer = FindObjectOfType<PlayerV1_1>();
         theHeart = FindObjectOfType<HeartManager>();
-        dimLine = FindObjectOfType<IndicatorManagerV1_1>();
-        //destroyBoulders = FindObjectOfType<PrefabDestroyer>();
-        //theHeart.life = PlayerPrefs.GetInt("life");=
         qc.stage = 1;
     }
     // Update is called once per frame
@@ -54,9 +50,6 @@ public class SimulationManager : MonoBehaviour
                 directorIsCalling = true;
             }
         }
-        //levelText.text = sm.GetGameLevel();
-        //questionTextBox.SetText(question);
-
         if (directorIsCalling)
         {
             StartCoroutine(DirectorsCall());
@@ -111,7 +104,6 @@ public class SimulationManager : MonoBehaviour
     }
     IEnumerator ReloadStage()
     {
-        // dimLine.showLines(null,null,null,0,0);
         qc.limit = 0;
         qc.retried = false;
         thePlayer.SetEmotion("");
@@ -147,7 +139,6 @@ public class SimulationManager : MonoBehaviour
     }
     IEnumerator ExitStage()
     {
-        // dimLine.showLines(null,null,null,0,0);
         qc.limit = 0;
         qc.nextStage = false;
         VelocityEasyStage1.gameObject.SetActive(false);
@@ -174,11 +165,5 @@ public class SimulationManager : MonoBehaviour
             StageThreeManager.gameObject.SetActive(true);
             StageThreeManager.Stage3SetUp();
         }
-    }
-    IEnumerator resetPrefab()
-    {
-        PrefabDestroyer.end = true;
-        yield return new WaitForEndOfFrame();
-        PrefabDestroyer.end = false;
     }
 }
