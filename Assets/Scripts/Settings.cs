@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Settings : MonoBehaviour
 {
@@ -13,12 +14,13 @@ public class Settings : MonoBehaviour
     public Slider musicSlider;
     public Text soundValue;
     public Text musicValue;
-
     public GameObject musicIconOn;
     public GameObject musicIconOff;
-
     public GameObject soundIconOn;
     public GameObject soundIconOff;
+    public TMP_Text versionCodeText;
+    public string versionCode;
+    public TMP_Text fps;
     void Start()
     {
         settingsPanel.SetActive(settingsPanelIsOpen);
@@ -26,11 +28,13 @@ public class Settings : MonoBehaviour
         musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
         soundSlider.value = soundLevel;
         musicSlider.value = musicLevel;
+        versionCodeText.text = versionCode;
     }
 
     // Update is called once per frame
     void Update()
     {
+        fps.text = $"{(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()} fps";
         settingsPanel.SetActive(settingsPanelIsOpen);
         soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
         musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
@@ -52,4 +56,5 @@ public class Settings : MonoBehaviour
     {
         musicLevel = musicSlider.value;
     }
+
 }

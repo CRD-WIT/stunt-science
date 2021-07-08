@@ -19,7 +19,6 @@ public class HeartManager : MonoBehaviour
         startbgentrance();
 
     }
-
     public void DestroyHearts()
     {
         foreach (Transform item in transform)
