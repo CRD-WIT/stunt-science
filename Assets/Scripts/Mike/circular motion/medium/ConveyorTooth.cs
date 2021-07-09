@@ -1,7 +1,7 @@
 using UnityEngine;
 public class ConveyorTooth : MonoBehaviour
 {
-    public bool distroy;
+    Vector2 lowerSpeed, upperSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -9,15 +9,24 @@ public class ConveyorTooth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (MediumManager.stage == 1)
+        {
+            upperSpeed = new Vector2(-ConveyorManager.conveyorSpeed, 0);
+            lowerSpeed = new Vector2(ConveyorManager.conveyorSpeed, 0);
+        }
+        else if (MediumManager.stage == 2)
+        {
+            upperSpeed = new Vector2(ConveyorManager.conveyorSpeed, 0);
+            lowerSpeed = new Vector2(-ConveyorManager.conveyorSpeed * 0.9917f, -ConveyorManager.conveyorSpeed * 0.1285f);
+        }
         if (this.gameObject.transform.parent.name == "UpperTooth")
-            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-ConveyorManager.conveyorSpeed, 0);
+            this.gameObject.GetComponent<Rigidbody2D>().velocity = upperSpeed;
         else
-            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(ConveyorManager.conveyorSpeed, 0);
+            this.gameObject.GetComponent<Rigidbody2D>().velocity = lowerSpeed;
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        this.enabled =true;
+        this.enabled = true;
         if (other.gameObject.name == "UpperToothReset")
         {
             GameObject parent = this.transform.parent.gameObject;
@@ -25,7 +34,7 @@ public class ConveyorTooth : MonoBehaviour
             GameObject tooth = Instantiate(this.gameObject);
             tooth.transform.position = parent.transform.Find("UpperSpawnPoint").position;
             tooth.GetComponent<Collider2D>().enabled = true;
-            tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(-ConveyorManager.conveyorSpeed, 0);
+            tooth.GetComponent<Rigidbody2D>().velocity = upperSpeed;
             tooth.transform.SetParent(parent.transform);
         }
         else
@@ -35,7 +44,7 @@ public class ConveyorTooth : MonoBehaviour
             GameObject tooth = Instantiate(this.gameObject);
             tooth.transform.position = parent.transform.Find("LowerSpawnPoint").position;
             tooth.GetComponent<Collider2D>().enabled = true;
-            tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(ConveyorManager.conveyorSpeed, 0);
+            tooth.GetComponent<Rigidbody2D>().velocity = lowerSpeed;
             tooth.transform.SetParent(parent.transform);
         }
     }

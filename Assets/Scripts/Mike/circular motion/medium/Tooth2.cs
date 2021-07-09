@@ -7,7 +7,7 @@ public class Tooth2 : MonoBehaviour
     public float speed;
     void Update()
     {
-        speed = ConveyorManager2.conveyorSpeed* 0.865f;
+        speed = ConveyorManager.conveyorSpeed* 0.865f;
         if (this.gameObject.transform.parent.name == "UpperTooth")
             this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, 0);//*1.005f
         else

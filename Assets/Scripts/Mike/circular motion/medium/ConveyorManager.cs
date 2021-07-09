@@ -17,25 +17,30 @@ public class ConveyorManager : MonoBehaviour
         conveyorWheel2 = transform.Find("Wheel2").gameObject;
         conveyorWheel1RB = conveyorWheel1.GetComponent<Rigidbody2D>();
         conveyorWheel2RB = conveyorWheel2.GetComponent<Rigidbody2D>();
-        isActive =true;
+        isActive = true;
     }
     // Update is called once per frame
     void Update()
     {
         conveyorWheel1RB.angularVelocity = angularVelocity;
-        conveyorWheel2RB.angularVelocity = angularVelocity;
-        if(!isActive){
+        if (MediumManager.stage == 1)
+            conveyorWheel2RB.angularVelocity = angularVelocity;
+        else if (MediumManager.stage == 2)
+            conveyorWheel2RB.angularVelocity = angularVelocity * (3.85f / 1.22f);
+        if (!isActive)
+        {
             StartCoroutine(ConveyorDestroyer());
         }
     }
-    IEnumerator ConveyorDestroyer(){
+    IEnumerator ConveyorDestroyer()
+    {
         Destroy(this.gameObject);
         yield return new WaitForEndOfFrame();
     }
-    public void SetConveyorSpeed(float aVelocity, float t)
+    public void SetConveyorSpeed(float aVelocity, float t, float radius)
     {
         conveyorSpeed = 0;
-        float circumferenceOfWheel = (float)(Mathf.PI * 2.3f),
+        float circumferenceOfWheel = (float)(Mathf.PI * (2 * radius)),
         arc = aVelocity * t,
         d = (circumferenceOfWheel - 0.09f) * (arc / 360);
         distance = circumferenceOfWheel * (arc / 360);
