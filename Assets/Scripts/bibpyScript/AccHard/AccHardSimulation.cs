@@ -12,6 +12,7 @@ public class AccHardSimulation : MonoBehaviour
     public TruckManager theTruck;
     public AccHardOne theManagerOne;
     public AccHardTwo theManagerTwo;
+    public AccHardThree theManagerThree;
     public HeartManager theHeart;
     public static float playerAnswer;
     public static bool simulate;
@@ -60,8 +61,9 @@ public class AccHardSimulation : MonoBehaviour
             playerAnswer = float.Parse(answerField.text);
             if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
             {
-                //StartCoroutine(theManagerOne.errorMesage());
+               
                 theQuestion.errorText = ("believe me! its too long!");
+                 StartCoroutine(errorMesage());
             }
             else
             {
@@ -79,10 +81,11 @@ public class AccHardSimulation : MonoBehaviour
         {
             playerAnswer = float.Parse(answerField.text);
 
-            if (answerField.text == "" || playerAnswer > 100)
+            if (answerField.text == "" || playerAnswer > 111.67)
             {
-                //StartCoroutine(theManagerTwo.errorMesage());
-
+                
+                theQuestion.errorText = ("fastest helicopter flies at 111.67 m/s only");
+                 StartCoroutine(errorMesage());
             }
             else
             {
@@ -103,6 +106,7 @@ public class AccHardSimulation : MonoBehaviour
             {
                 //StartCoroutine(theManagerThree.errorMesage());
                 theQuestion.errorText = ("exceed the average car acceleratoin");
+                
             }
             else
             {
@@ -149,6 +153,13 @@ public class AccHardSimulation : MonoBehaviour
         {
             theManagerOne.gameObject.SetActive(false);
             theManagerTwo.gameObject.SetActive(true);
+            theQuestion.isSimulating = false;
+            playButton.interactable = true;
+        }
+        if (stage == 2)
+        {
+            theManagerTwo.gameObject.SetActive(false);
+            theManagerThree.gameObject.SetActive(true);
             theQuestion.isSimulating = false;
             playButton.interactable = true;
         }
