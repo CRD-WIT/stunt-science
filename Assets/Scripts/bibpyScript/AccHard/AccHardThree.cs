@@ -20,7 +20,7 @@ public class AccHardThree : MonoBehaviour
     private BulletManager theBullet;
     public AccHardSimulation theSimulate;
     public HeartManager theHeart;
-    float generateAngleB, generateViT, generateAT, generateVB, generateDX, generateDY, generateTime, time;
+    float generateAngleB, generateViT,generateViH, generateVB, generateDX, generateDY, generateTime, time;
     float generateAH, aH, viH;
     float ChopperY, chopperX, truckTime, bulletTime, truckCurrentPos, chopperTimeToTravel, distanceBetween,truckTimeToTravel;
     bool shoot, shootReady, gas, startTime;
@@ -46,18 +46,19 @@ public class AccHardThree : MonoBehaviour
     void FixedUpdate()
     {
         chopperInitials.transform.position = theChopper.transform.position;
-        truckDistance = viT * time;
-        overlapDistance = sideB - dX;
+        truckInitials.transform.position = theTruck.transform.position;
+        truckDistance = viT * truckTimeToTravel;        
+        overlapDistance = dX - sideB;
         targetDistance = truckDistance + overlapDistance;
         truckCurrentPos = theTruck.transform.position.x;
         theBullet = FindObjectOfType<BulletManager>();
         theShoot.speed = vB;
-        viH = AccHardSimulation.playerAnswer;
         //correctAnswer = (targetDistance / chopperTimeToTravel) - ((aH * chopperTimeToTravel) / 2);
-        correctAnswer = targetDistance/time;
+        correctAnswer = (2 * (targetDistance - (viH * time))) / (time*time);
         answer = (float)System.Math.Round(correctAnswer, 2);
         distanceCheck = (correctAnswer * chopperTimeToTravel) + (((chopperTimeToTravel * chopperTimeToTravel) * aH) / 2);
         playerAnswer = AccHardSimulation.playerAnswer;
+        aH = playerAnswer;
         distanceBetween = truckCurrentPos - theChopper.transform.position.x;
         if(camFollowChopper == true)
         {
@@ -93,8 +94,8 @@ public class AccHardThree : MonoBehaviour
             if (timer == 0)
             {
                 theChopper.flySpeed = viH;
-                //theChopper.accelaration = aH;
-                //theChopper.accelarating = true;
+                theChopper.accelaration = aH;
+                theChopper.accelarating = true;
 
                 theTruck.moveSpeed = viT;
                 theMulticab.moveSpeed = viT+5;
@@ -106,7 +107,7 @@ public class AccHardThree : MonoBehaviour
             {
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
-                if (timer >= time+.3f)
+                if (timer >= time)
                 {
                     shoot = true;
                     theChopper.flySpeed = 0;
@@ -159,12 +160,7 @@ public class AccHardThree : MonoBehaviour
             }
             if (theSimulate.posCheck)
             {
-                if(playerAnswer == answer)
-                {
-                    theTruck.accelerating = false;
-                    theTruck.deaccelerating =  true;
-                    
-                }
+               
                 if (playerAnswer != answer)
                 {
                     theQuestion.answerIsCorrect = false;
@@ -205,11 +201,12 @@ public class AccHardThree : MonoBehaviour
         //aH = (float)System.Math.Round(generateAH, 2);
         generateTime = Random.Range(2f, 2.5f);
         time = (float)System.Math.Round(generateTime, 2);
-        generateAngleB = Random.Range(35f, 40f);
+        generateAngleB = Random.Range(45f, 40f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
-        generateViT = Random.Range(3f, 5f);
+        generateViT = Random.Range(7f, 10f);
         viT = (float)System.Math.Round(generateViT, 2);
-        generateAT = Random.Range(3f, 5f);
+        generateViH = Random.Range(5f, 7f);
+        viH = (float)System.Math.Round(generateViH, 2);
         generateVB = Random.Range(20f, 30f);
         vB = (float)System.Math.Round(generateVB, 2);
         gun.transform.rotation = Quaternion.Euler(gun.transform.rotation.x, gun.transform.rotation.y, -angleB);
@@ -283,7 +280,6 @@ public class AccHardThree : MonoBehaviour
         if (playerAnswer == answer)
         {
             targetWheel.SetActive(false);
-            Time.timeScale = 0;
         }
 
 

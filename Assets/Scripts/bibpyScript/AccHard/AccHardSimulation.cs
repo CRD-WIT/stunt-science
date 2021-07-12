@@ -102,7 +102,7 @@ public class AccHardSimulation : MonoBehaviour
         if (stage == 3)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" || playerAnswer > 16)
+            if (answerField.text == "" || playerAnswer > 20)
             {
                 //StartCoroutine(theManagerThree.errorMesage());
                 theQuestion.errorText = ("exceed the average car acceleratoin");

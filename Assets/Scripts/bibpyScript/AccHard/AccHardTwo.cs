@@ -44,7 +44,7 @@ public class AccHardTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+        truckInitials.transform.position = theTruck.transform.position;
         accHtxt.text = ("a = 0 m/s²");
         chopperInitials.transform.position = theChopper.transform.position;
         truckDistance = (viT * truckTimeToTravel) + (aT * (truckTimeToTravel * truckTimeToTravel)) / 2;
@@ -74,11 +74,7 @@ public class AccHardTwo : MonoBehaviour
             theTruck.accelerating = false;
             theTruck.moveSpeed = 0;
             startTime = false;
-            if(toRetry)
-            {
-                theQuestion.ToggleModal();
-                toRetry = false;
-            }
+            
         }
         if (AccHardSimulation.simulate == true)
         {

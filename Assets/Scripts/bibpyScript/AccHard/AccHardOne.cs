@@ -39,6 +39,7 @@ public class AccHardOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        truckInitials.transform.position = theTruck.transform.position;
         cam.transform.position = new Vector3(theChopper.transform.position.x + camPos, cam.transform.position.y, cam.transform.position.z);
         truckCurrentPos = theTruck.transform.position.x;
         theBullet = FindObjectOfType<BulletManager>();
@@ -149,7 +150,7 @@ public class AccHardOne : MonoBehaviour
             }
 
         }
-        if (truckCurrentPos >= 50)
+        if (truckCurrentPos >= 70)
         {
             theTruck.moveSpeed = 0;
         }

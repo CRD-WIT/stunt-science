@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HubManagerTwo : MonoBehaviour
+public class HubManagerThree : MonoBehaviour
 {
-    private HingeJoint2D myHinge;
+     private HingeJoint2D myHinge;
     private Rigidbody2D myRb;
     public GameObject blastprefab;
     public TruckManager theTruck;
     public float moveSpeed;
     bool hit;
+    public GameObject hinge;
     public AccHardSimulation theSimulate;
 
 
@@ -31,7 +32,7 @@ public class HubManagerTwo : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (theSimulate.stage == 2)
+        if (theSimulate.stage == 3)
         {
             if (other.gameObject.tag == ("bullet"))
             {
@@ -39,10 +40,12 @@ public class HubManagerTwo : MonoBehaviour
                 GameObject explosion = Instantiate(blastprefab);
                 explosion.transform.position = transform.position;
                
+                hinge.SetActive(false);
                 //hit = true;
-               StartCoroutine(bounce());
+                StartCoroutine(bounce());
                 theTruck.accelerating = false;
                 //theTruck.moveSpeed = 10;
+
 
             }
         }
@@ -50,9 +53,9 @@ public class HubManagerTwo : MonoBehaviour
     }
     IEnumerator bounce()
     {
-       myRb.velocity = transform.up * 10;
+        myRb.velocity = transform.up * 10;
         yield return new WaitForSeconds(.1f);
-        myRb.velocity = transform.right * -2;
+        myRb.velocity = transform.right * 5;
 
     }
 }
