@@ -35,8 +35,6 @@ public class MediumManager : MonoBehaviour
         playerAnim = myPlayer.myAnimator;
         // RagdollV2.myPlayer = myPlayer;
 
-        qc.stage = 1;
-
         playerName = PlayerPrefs.GetString("Name");
         string playerGender = PlayerPrefs.GetString("Gender");
         sm.SetGameLevel(5);
@@ -57,6 +55,7 @@ public class MediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+                myPlayer.walking = true;
         Debug.Log(conveyorSpeed + "cs");
         Debug.Log(playerSpeed + "ps");
         if (directorIsCalling)
@@ -203,21 +202,29 @@ public class MediumManager : MonoBehaviour
                 question = playerName + " is instructed to run on a moving conveyor belt and the rope is<b> " + ConveyorManager.angularVelocity + " degrees per second</b>, how fast should " + playerName + " run if " + pronoun + " is to grab the rope exactly after <b>" + stuntTime.ToString("f2") + " seconds</b>?";
                 break;
             case 2:
-                // myPlayer.walking = true;
-                Instantiate(conveyor2).transform.position = new Vector2(0, 0);
-
+                Instantiate(conveyor2).transform.position = new Vector2(-5, 0);
                 conveyor = FindObjectOfType<ConveyorManager>();
-                // Instantiate(conveyor1).transform.position = new Vector2(23.5f,3.3f);
-                myPlayer.climb = false;
-                playerAnim.speed = -1;
-                stage2Layout.SetActive(true);
 
+                // playerAnim.speed = -1;
+                stage2Layout.SetActive(true);
                 distance = Random.Range(15F, 20F);
                 aVelocity = Random.Range(54f, 59f);
                 stuntTime = Random.Range(2.5f, 5f);
-                conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 4.9f);
+                conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.75f);
+
+                rope.transform.position = new Vector2(6-distance, 4);
+                myPlayer.transform.position = rope.transform.position;
+                
+                myPlayer.climb = false;
+                myPlayer.running = false;
+                myPlayer.walking = true;
 
                 float Vfp = playerSpeed;
+
+                indicators.distanceSpawnPnt = new Vector2(6-distance, 3);
+                indicators.SetPlayerPosition(myPlayer.transform.position);
+                indicators.showLines(distance, null, null, playerSpeed, stuntTime);
+                indicators.UnknownIs('N');
 
                 break;
             case 3:

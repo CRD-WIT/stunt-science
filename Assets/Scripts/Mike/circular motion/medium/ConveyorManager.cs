@@ -40,11 +40,11 @@ public class ConveyorManager : MonoBehaviour
     public void SetConveyorSpeed(float aVelocity, float t, float radius)
     {
         conveyorSpeed = 0;
-        float circumferenceOfWheel = (float)(Mathf.PI * (2 * radius)),
+        float circumferenceOfWheel = 2*(float)(Mathf.PI * radius),
         arc = aVelocity * t,
-        d = (circumferenceOfWheel - 0.09f) * (arc / 360);
+        d = (circumferenceOfWheel- 0.09f) * (arc / 360);
         distance = circumferenceOfWheel * (arc / 360);
-        conveyorSpeed = d / t;
+        conveyorSpeed = d/t;
         conveyorVelocity = distance / t;
         time = distance / conveyorSpeed;
         angularVelocity = aVelocity;
