@@ -13,13 +13,13 @@ public class MediumManager : MonoBehaviour
     ScoreManager score;
     PlayerCM2 myPlayer;
     StageManager sm = new StageManager();
-    [SerializeField] GameObject directorsBubble, rope, AVelocityIndicator, ragdoll, stage1Layout, stage2Layout;
+    [SerializeField] GameObject directorsBubble, rope, AVelocityIndicator, ragdoll, stage1Layout, stage2Layout, UI1, UI2, UI3;
     public GameObject conveyor1, conveyor2;
     Animator playerAnim;
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField] float distance, stuntTime, elapsed, correctAnswer;
     public static int stage;
-    float playerAnswer, playerSpeed, conveyorSpeed, animSpeed, correctD, timingD, playerPos, currentPlayerPos;
+    float playerAnswer, playerSpeed, conveyorSpeed, animSpeed, correctD, timingD, playerPos, currentPlayerPos, acceleration;
     string question, playerName, playerGender, pronoun, pPronoun, messageTxt;
     bool isAnswered, directorIsCalling, isStartOfStunt, isAnswerCorrect, ropeGrab, isEndOfStunt, ragdollActive;
     // GameObject b2Shadow, b1Shadow, pShadow;
@@ -34,7 +34,7 @@ public class MediumManager : MonoBehaviour
 
         playerAnim = myPlayer.myAnimator;
         // RagdollV2.myPlayer = myPlayer;
-
+        qc.stage = 1;
         playerName = PlayerPrefs.GetString("Name");
         string playerGender = PlayerPrefs.GetString("Gender");
         sm.SetGameLevel(5);
@@ -55,9 +55,10 @@ public class MediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-                myPlayer.walking = true;
+        myPlayer.walking = true;
         Debug.Log(conveyorSpeed + "cs");
         Debug.Log(playerSpeed + "ps");
+        Debug.Log(acceleration + "ac");
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)
@@ -70,7 +71,6 @@ public class MediumManager : MonoBehaviour
             switch (stage)
             {
                 case 1:
-
                     playerAnim.speed = playerAnswer / 5.6f; // set to 1 before grabbing.
                     myPlayer.moveSpeed = playerAnswer - conveyorSpeed;
                     timingD = myPlayer.transform.position.x + 10;
@@ -113,6 +113,14 @@ public class MediumManager : MonoBehaviour
                     indicators.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed), elapsed, timingD);
                     break;
                 case 2:
+                    playerSpeed = playerAnswer * elapsed;
+                    myPlayer.moveSpeed = playerSpeed + conveyorSpeed;
+                    if (playerSpeed >= 3)
+                    {
+                        myPlayer.walking = false;
+                        myPlayer.running = true;
+                        playerAnim.speed = playerSpeed / 5.6f;
+                    }else playerAnim.speed = playerAnim.speed * -1;
                     break;
                 case 3:
                     break;
@@ -149,9 +157,13 @@ public class MediumManager : MonoBehaviour
         stage1Layout.SetActive(false);
         stage2Layout.SetActive(false);
 
+        playerAnim.SetBool("ropeGrab", false);
+        playerAnim.SetBool("successGrab", false);
+
         playerAnswer = 0;
         elapsed = 0;
         conveyorSpeed = 0;
+        playerSpeed =0;
         stage = qc.stage;
         qc.timer = "0.00s";
         qc.isSimulating = false;
@@ -166,12 +178,14 @@ public class MediumManager : MonoBehaviour
         switch (stage)
         {
             case 1:
+                stage1Layout.SetActive(true);
+                qc = UI1.GetComponent<QuestionControllerVThree>();
+                qc.stage = 1;
                 Instantiate(conveyor1).transform.position = new Vector2(0, 0);
                 Instantiate(conveyor1).transform.position = new Vector2(23.5f, 3.3f);
                 conveyor = FindObjectOfType<ConveyorManager>();
 
                 myPlayer.running = true;
-                stage1Layout.SetActive(true);
                 indicators.heightSpawnPnt = new Vector2(-13.3f, -1.15f);
 
                 qc.limit = 10.4f;
@@ -202,26 +216,32 @@ public class MediumManager : MonoBehaviour
                 question = playerName + " is instructed to run on a moving conveyor belt and the rope is<b> " + ConveyorManager.angularVelocity + " degrees per second</b>, how fast should " + playerName + " run if " + pronoun + " is to grab the rope exactly after <b>" + stuntTime.ToString("f2") + " seconds</b>?";
                 break;
             case 2:
+                stage2Layout.SetActive(true);
+                qc = UI2.GetComponent<QuestionControllerVThree>();
+                qc.stage = 2;
                 Instantiate(conveyor2).transform.position = new Vector2(-5, 0);
                 conveyor = FindObjectOfType<ConveyorManager>();
 
-                // playerAnim.speed = -1;
-                stage2Layout.SetActive(true);
-                distance = Random.Range(15F, 20F);
-                aVelocity = Random.Range(54f, 59f);
-                stuntTime = Random.Range(2.5f, 5f);
-                conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.75f);
-
-                rope.transform.position = new Vector2(6-distance, 4);
-                myPlayer.transform.position = rope.transform.position;
-                
                 myPlayer.climb = false;
                 myPlayer.running = false;
                 myPlayer.walking = true;
+                qc.limit = 10.4f;
 
-                float Vfp = playerSpeed;
+                distance = Random.Range(15F, 20F);
+                aVelocity = Random.Range(54f, 59f);
+                stuntTime = Random.Range(2.5f, 5f);
+                conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.925f);
+                conveyorSpeed = conveyor.GetConveyorVelocity() * -1;
+                float Vfp = 15 - conveyorSpeed;
+                acceleration = Vfp / stuntTime;
 
-                indicators.distanceSpawnPnt = new Vector2(6-distance, 3);
+                whatIsAsk = UnitOf.acceleration;
+                rope.transform.position = new Vector2(6 - distance, 4);
+                myPlayer.transform.position = rope.transform.position;
+
+                // float Vfp = playerSpeed;
+
+                indicators.distanceSpawnPnt = new Vector2(6 - distance, 3);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
                 indicators.showLines(distance, null, null, playerSpeed, stuntTime);
                 indicators.UnknownIs('N');
@@ -272,6 +292,7 @@ public class MediumManager : MonoBehaviour
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
         RumblingManager.isCrumbling = false;
+
         SetUp();
     }
     public IEnumerator DirectorsCall()
@@ -294,7 +315,7 @@ public class MediumManager : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.25f);
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
             yield return new WaitForSeconds(1f);
@@ -305,10 +326,10 @@ public class MediumManager : MonoBehaviour
     IEnumerator StuntResult()
     {
         isEndOfStunt = false;
-        yield return new WaitForSeconds(0.25f);
+        // yield return new WaitForSeconds(0.25f);
         directorIsCalling = true;
         isStartOfStunt = false;
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(1f);
         qc.ActivateResult(messageTxt, isAnswerCorrect);
     }
     IEnumerator GrabRope()
