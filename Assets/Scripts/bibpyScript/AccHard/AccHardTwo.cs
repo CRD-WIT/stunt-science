@@ -27,7 +27,7 @@ public class AccHardTwo : MonoBehaviour
     public bool posCheck,toRetry,camFollow;
     public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt, viHtxt, accHtxt;
     float camPos, distanceCheck;
-    int tries, stopTruckPos, attemp;
+    int tries, attemp;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +35,6 @@ public class AccHardTwo : MonoBehaviour
         theSimulate.stage = 2;
         StartCoroutine(positioning());
         camPos = cam.transform.position.x - theChopper.transform.position.x;
-        stopTruckPos = 210;
         theSimulate.takeNumber = 1;
         camFollow = true;
         
@@ -102,12 +101,15 @@ public class AccHardTwo : MonoBehaviour
             {
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
+                 theQuestion.SetModalTitle("Stunt success");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " successfully hit the 2nd target!");
                 if (timer >= time+.3f)
                 {
                     shoot = true;
                     theChopper.flySpeed = 0;
                     theChopper.accelaration = 0;
                     theChopper.accelarating = false;
+                    viHtxt.color = new Color32(13, 106, 0, 255);
                    
                     
                 }
@@ -115,6 +117,8 @@ public class AccHardTwo : MonoBehaviour
             if (playerAnswer > answer)
             {
                 theChopper.flySpeed = viH + 1f;
+                theQuestion.SetModalTitle("Stunt failed");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " flies the helicopter too fast. The correct answer is </color>" + answer.ToString("F2") + "m/s.");
                 if (timer >= time)
                 {
                     theChopper.flySpeed = 0;
@@ -128,6 +132,8 @@ public class AccHardTwo : MonoBehaviour
             if (playerAnswer < answer)
             {
                 theChopper.flySpeed = viH - 1.5f;
+                theQuestion.SetModalTitle("Stunt failed");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " flies the helicopter too slow. The correct answer is </color>" + answer.ToString("F2") + "m/s.");
 
                 if (timer >= time)
                 {
@@ -233,6 +239,7 @@ public class AccHardTwo : MonoBehaviour
         viTtxt.text = ("vi = ") + viT.ToString("F2") + ("m/s");
         aTtxt.text = ("a = ") + aT.ToString("F2") + ("m/s²");
         timertxtTruck.text = timer.ToString("F2") + ("s");
+        timertxtTruck.color = new Color32(87, 0, 255, 255);
         theMulticab.transform.position = new Vector2(theChopper.transform.position.x - 30, theMulticab.transform.position.y);
         theTruck.transform.position = new Vector2(gunBarrel.transform.position.x - (dX-6), theTruck.transform.position.y);
         theMeter[0].positionX = targetWheel.transform.position.x;
@@ -247,8 +254,7 @@ public class AccHardTwo : MonoBehaviour
         sideC = Mathf.Sqrt((dY * dY) + (sideB * sideB));
         bulletTime = sideC / vB;
         truckTimeToTravel = time + bulletTime;
-         viHtxt.text = ("v = ?");
-         viHtxt.color = new Color32(107, 0, 176, 255);
+        viHtxt.text = ("v = ?");
         theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's 2nd wheel from a moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally behind and <b>") + dY.ToString("F2") + ("</b> meters vertically below the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, if <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots exactly after <b>")+ time.ToString("F2")+("</b> seconds, if the truck has an initial velocity of <b>") + viT.ToString("F2") + ("</b> m/s and accelerating at <b>") + aT.ToString("F2") + ("</b> m/s², what should be the velocity of helicopter, while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
     }
     

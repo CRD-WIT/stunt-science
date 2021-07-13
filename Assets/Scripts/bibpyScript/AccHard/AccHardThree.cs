@@ -27,7 +27,7 @@ public class AccHardThree : MonoBehaviour
     public bool posCheck,toRetry,camFollowChopper, camFollowTruck;
     public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt,viHtxt, accHtxt;
     float camPosChopper,camPosTruck, distanceCheck;
-    int tries, stopTruckPos, attemp;
+    int tries, attemp;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +36,7 @@ public class AccHardThree : MonoBehaviour
         StartCoroutine(positioning());
         camPosChopper = cam.transform.position.x - theChopper.transform.position.x;
         camPosTruck = cam.transform.position.x - theTruck.transform.position.x;
-        stopTruckPos = 210;
+      
         theSimulate.takeNumber = 1;
         camFollowTruck = true;
         
@@ -86,6 +86,8 @@ public class AccHardThree : MonoBehaviour
         }
         if (AccHardSimulation.simulate == true)
         {
+            accHtxt.text = ("a = ") + aH.ToString("F2") + ("m/s²");
+            viHtxt.text = ("v = ")+ theChopper.flySpeed.ToString("F2");
             camFollowChopper = true;
             startTime = true;
             target.transform.position = targetWheel.transform.position;
@@ -107,32 +109,41 @@ public class AccHardThree : MonoBehaviour
             {
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
+                theQuestion.SetModalTitle("Stunt success");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " hit the successfully hit the final target!");
                 if (timer >= time)
                 {
+                    accHtxt.color = new Color32(13, 106, 0, 255);
                     shoot = true;
                     theChopper.flySpeed = 0;
                     theChopper.accelaration = 0;
                     theChopper.accelarating = false;
+                    viHtxt.text = ("v = 0m/s");
                    
                     
                 }
             }
             if (playerAnswer > answer)
             {
-                theChopper.flySpeed = viH + 1f;
+                theChopper.accelaration = aH + 1f;
+                theQuestion.SetModalTitle("Stunt failed");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the helicopter too fast. The correct answer is </color>" + answer.ToString("F2") + "m/s².");
                 if (timer >= time)
                 {
                     theChopper.flySpeed = 0;
                     theChopper.accelaration = 0;
                     theChopper.accelarating = false;
                     shoot = true;
+                    viHtxt.text = ("v = 0m/s");
                   
 
                 }
             }
             if (playerAnswer < answer)
             {
-                theChopper.flySpeed = viH - 1.5f;
+                theChopper.accelaration = aH - 1.5f;
+                theQuestion.SetModalTitle("Stunt failed");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the helicopter too slow. The correct answer is </color>" + answer.ToString("F2") + "m/s².");
 
                 if (timer >= time)
                 {
@@ -140,6 +151,7 @@ public class AccHardThree : MonoBehaviour
                     theChopper.accelaration = 0;
                     theChopper.accelarating = false;
                     shoot = true;
+                    viHtxt.text = ("v = 0m/s");
                 }
             }
            
@@ -230,6 +242,10 @@ public class AccHardThree : MonoBehaviour
         targetHere.SetActive(false);
         theSimulate.posCheck = false;
         viTtxt.text = ("vi = ") + viT.ToString("F2") + ("m/s");
+        accHtxt.text = ("a = ?");
+        accHtxt.color = new Color32(231, 0, 18, 255);
+        viHtxt.text = ("vi = ")+ viH.ToString("F2") + ("m/s");
+        viHtxt.color = new Color32(87, 0, 255, 255);
         timertxtTruck.text = timer.ToString("F2") + ("s");
         theMulticab.transform.position = new Vector2(theChopper.transform.position.x - 10, theMulticab.transform.position.y);
         theTruck.transform.position = new Vector2(gunBarrel.transform.position.x + (dX + 1.37f), theTruck.transform.position.y);
@@ -276,7 +292,6 @@ public class AccHardThree : MonoBehaviour
         yield return new WaitForSeconds(2f);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1f);
-        theTruck.deaccelerating = false;
         if (playerAnswer == answer)
         {
             targetWheel.SetActive(false);

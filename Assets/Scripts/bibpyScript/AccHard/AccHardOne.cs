@@ -78,10 +78,13 @@ public class AccHardOne : MonoBehaviour
             {
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
+                theQuestion.SetModalTitle("Stunt success");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " successfully hit the target!");
                 if (timer >= correctAnswer + .05f)
                 {
 
                     shoot = true;
+                    timertxtTruck.color = new Color32(13, 106, 0, 255);
 
                 }
             }
