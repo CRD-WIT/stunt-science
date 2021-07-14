@@ -16,6 +16,7 @@ public class MediumManager : MonoBehaviour
     [SerializeField] GameObject directorsBubble, rope, AVelocityIndicator, ragdoll, stage1Layout, stage2Layout, UI1, UI2, UI3;
     public GameObject conveyor1, conveyor2;
     Animator playerAnim;
+    Animation walk;
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField] float distance, stuntTime, elapsed, correctAnswer;
     public static int stage;
@@ -34,7 +35,7 @@ public class MediumManager : MonoBehaviour
 
         playerAnim = myPlayer.myAnimator;
         // RagdollV2.myPlayer = myPlayer;
-        qc.stage = 1;
+        // qc.stage = 1;
         playerName = PlayerPrefs.GetString("Name");
         string playerGender = PlayerPrefs.GetString("Gender");
         sm.SetGameLevel(5);
@@ -113,14 +114,48 @@ public class MediumManager : MonoBehaviour
                     indicators.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed), elapsed, timingD);
                     break;
                 case 2:
-                    playerSpeed = playerAnswer * elapsed;
-                    myPlayer.moveSpeed = playerSpeed + conveyorSpeed;
-                    if (playerSpeed >= 3)
+                    if (myPlayer.transform.position.x >= distance)
+                    {
+                        elapsed = stuntTime;
+                        myPlayer.running = false;
+                        if (playerAnswer == acceleration)
+                        {
+                            myPlayer.moveSpeed = 15;
+                            isAnswerCorrect = true;
+                            messageTxt = "Answer is correct";
+                        }
+                        else
+                        {
+                            isAnswerCorrect = false;
+                            if (playerAnswer > acceleration)
+                            {
+                                messageTxt = "Answer is more than correct";
+                            }
+                            else
+                            {
+                                messageTxt = "Answer is less than correct";
+                            }
+                        }
+                        ropeGrab = true;
+                    }
+                    else
                     {
                         myPlayer.walking = false;
-                        myPlayer.running = true;
-                        playerAnim.speed = playerSpeed / 5.6f;
-                    }else playerAnim.speed = playerAnim.speed * -1;
+                        playerSpeed = playerAnswer * elapsed;
+                        myPlayer.moveSpeed = playerSpeed + conveyorSpeed;
+                        if (playerSpeed >= 2.5f)
+                        {
+                            myPlayer.myAnimator.speed = elapsed / 3;
+                            playerAnim.SetBool("walkForward", false);
+                            myPlayer.running = true;
+                        }
+                        else
+                        {
+                            playerAnim.speed = elapsed + 0.4f;
+                            playerAnim.SetBool("walkForward", true);
+                            myPlayer.running = false;
+                        }
+                    }
                     break;
                 case 3:
                     break;
@@ -163,7 +198,7 @@ public class MediumManager : MonoBehaviour
         playerAnswer = 0;
         elapsed = 0;
         conveyorSpeed = 0;
-        playerSpeed =0;
+        playerSpeed = 0;
         stage = qc.stage;
         qc.timer = "0.00s";
         qc.isSimulating = false;
@@ -222,6 +257,7 @@ public class MediumManager : MonoBehaviour
                 Instantiate(conveyor2).transform.position = new Vector2(-5, 0);
                 conveyor = FindObjectOfType<ConveyorManager>();
 
+                playerAnim.speed = 1;
                 myPlayer.climb = false;
                 myPlayer.running = false;
                 myPlayer.walking = true;
@@ -229,11 +265,11 @@ public class MediumManager : MonoBehaviour
 
                 distance = Random.Range(15F, 20F);
                 aVelocity = Random.Range(54f, 59f);
-                stuntTime = Random.Range(2.5f, 5f);
+                stuntTime = Random.Range(3.5f, 5f);
                 conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.925f);
                 conveyorSpeed = conveyor.GetConveyorVelocity() * -1;
                 float Vfp = 15 - conveyorSpeed;
-                acceleration = Vfp / stuntTime;
+                acceleration = (float)System.Math.Round((Vfp / stuntTime), 2);
 
                 whatIsAsk = UnitOf.acceleration;
                 rope.transform.position = new Vector2(6 - distance, 4);
@@ -349,8 +385,6 @@ public class MediumManager : MonoBehaviour
             ragdollActive = true;
             yield return new WaitForSeconds(0.51f);
         }
-        yield return new WaitForEndOfFrame();
-        isEndOfStunt = true;
     }
     void RagdollSpawn()
     {

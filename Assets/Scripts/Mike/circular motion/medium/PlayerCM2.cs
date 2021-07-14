@@ -8,8 +8,8 @@ public class PlayerCM2 : MonoBehaviour
     private Rigidbody2D myRigidbody;
     public Animator myAnimator;
     public GameObject player, stickprefab, stickmanpoint;
-    public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, 
-        climb, hangWalk, isFalling, toJump, jumpHang, isLanded, running, walking;
+    public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing,
+        climb, hangWalk, isFalling, toJump, jumpHang, isLanded, running, walking, ropeGrab, successGrab;
     // public AudioSource footstep;
     float currentpos;
     public LayerMask whatIsGround;
@@ -21,7 +21,7 @@ public class PlayerCM2 : MonoBehaviour
     {
         myAnimator = this.GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
-        myCollider = GetComponent<Collider2D>(); 
+        myCollider = GetComponent<Collider2D>();
         life = FindObjectOfType<HeartManager>();
     }
     void Update()
@@ -35,9 +35,9 @@ public class PlayerCM2 : MonoBehaviour
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("standup", standup);
         myAnimator.SetBool("slide", slide);
-        myAnimator.SetBool("cranking",Level5EasyManager.cranked);
-        myAnimator.SetBool("brake",brake);
-        myAnimator.SetBool("isHanging",isHanging);
+        myAnimator.SetBool("cranking", Level5EasyManager.cranked);
+        myAnimator.SetBool("brake", brake);
+        myAnimator.SetBool("isHanging", isHanging);
         myAnimator.SetBool("grab", isGrabbing);
         myAnimator.SetBool("hangWalk", hangWalk);
         myAnimator.SetBool("isFalling", isFalling);
@@ -47,9 +47,12 @@ public class PlayerCM2 : MonoBehaviour
         myAnimator.SetBool("climb", climb);
         myAnimator.SetBool("running", running);
         myAnimator.SetBool("walking", walking);
+        myAnimator.SetBool("ropeGrab", ropeGrab);
+        myAnimator.SetBool("successGrab", successGrab);
 
-        if (climb){
-            myRigidbody.velocity = new Vector2  (0, 1);
+        if (climb)
+        {
+            myRigidbody.velocity = new Vector2(0, 1);
         }
         if (posready == true)
         {
@@ -73,7 +76,7 @@ public class PlayerCM2 : MonoBehaviour
         }
     }
     public void ragdollspawn()
-    { 
+    {
         player.SetActive(false);
         stickprefab.SetActive(true);
         GameObject stick = stickprefab;
@@ -89,20 +92,36 @@ public class PlayerCM2 : MonoBehaviour
     {
         life.ReduceLife();
         ragDollTrigger = other;
-        other.enabled=false;
+        other.enabled = false;
         if (other.gameObject.tag == ("jumper"))
         {
             jump();
         }
-        if (other.gameObject.tag == ("stickmanspawn"))
+        else if (other.gameObject.tag == ("stickmanspawn"))
         {
             ragdollspawn();
             RagdollV2.disableRagdoll = true;
             lost = false;
             standup = true;
         }
+        else
+        {
+            running = false;
+            ropeGrab = true;
+        }
     }
-    public void ToggleTrigger(){
+    IEnumerator RopeGrab()
+    {
+        running = false;
+        ropeGrab = true;
+        yield return new WaitForSeconds(8 / 5);
+        successGrab = true;
+        climb = false;
+        yield return new WaitForSeconds(1.01f);
+        hangWalk =false;
+    }
+    public void ToggleTrigger()
+    {
         ragDollTrigger.enabled = true;
     }
     public void jump()

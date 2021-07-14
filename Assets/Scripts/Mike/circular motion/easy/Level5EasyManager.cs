@@ -103,7 +103,7 @@ public class Level5EasyManager : MonoBehaviour
                         if (playerAnswer == gameTime)
                         {
                             isAnswerCorect = true;
-                            CurvedLineFollower.arc = gameTime * playerAnswer;
+                            CurvedLineFollower.arc = 118;// gameTime * playerAnswer;
                             qc.timer = gameTime.ToString("f2") + "s";
                             messageTxt = playerName + " has crossed <color=green>safely</color> at the other platform!";
                         }
