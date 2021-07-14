@@ -102,10 +102,10 @@ public class AccHardSimulation : MonoBehaviour
         if (stage == 3)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" || playerAnswer > 20)
+            if (answerField.text == "" || playerAnswer > 20.98)
             {
                 //StartCoroutine(theManagerThree.errorMesage());
-                theQuestion.errorText = ("exceed the average car acceleratoin");
+                theQuestion.errorText = ("exceeds the helicopter's fastest acceleration");
                 
             }
             else
@@ -142,8 +142,8 @@ public class AccHardSimulation : MonoBehaviour
         }
         if (stage == 3)
         {
-
-
+            StartCoroutine(theManagerThree.positioningTwo());
+            
         }
     }
     public void next()

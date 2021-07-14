@@ -121,7 +121,7 @@ public class AccHardOne : MonoBehaviour
         {
             AccHardSimulation.simulate = false;
             target.SetActive(false);
-            timertxt.text = playerAnswer.ToString("F2");
+            timertxt.text = playerAnswer.ToString("F2")+ ("s");
 
             if (shootReady)
             {
@@ -150,6 +150,7 @@ public class AccHardOne : MonoBehaviour
                 StartCoroutine(StuntResult());
                 shoot = false;
                 startTime = false;
+                timertxtTruck.text = (playerAnswer + bulletTime).ToString("F2")+ ("s");
             }
 
         }

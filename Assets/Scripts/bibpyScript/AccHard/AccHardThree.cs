@@ -162,7 +162,7 @@ public class AccHardThree : MonoBehaviour
             projectileLine.SetActive(false);
             AccHardSimulation.simulate = false;
             target.SetActive(false);
-            timertxt.text = chopperTimeToTravel.ToString("F2");
+            timertxt.text = time.ToString("F2") + ("s");
 
             if (shootReady)
             {
@@ -192,6 +192,8 @@ public class AccHardThree : MonoBehaviour
                 StartCoroutine(StuntResult());
                 shoot = false;
                 theMulticab.moveSpeed = 0;
+                startTime = false;
+                timertxtTruck.text = (time + bulletTime).ToString("F2")+ ("s");
                 
             }
 
@@ -215,9 +217,9 @@ public class AccHardThree : MonoBehaviour
         time = (float)System.Math.Round(generateTime, 2);
         generateAngleB = Random.Range(45f, 40f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
-        generateViT = Random.Range(7f, 10f);
+        generateViT = Random.Range(7f, 11f);
         viT = (float)System.Math.Round(generateViT, 2);
-        generateViH = Random.Range(5f, 7f);
+        generateViH = Random.Range(7f, 9f);
         viH = (float)System.Math.Round(generateViH, 2);
         generateVB = Random.Range(20f, 30f);
         vB = (float)System.Math.Round(generateVB, 2);
@@ -261,7 +263,7 @@ public class AccHardThree : MonoBehaviour
         sideC = Mathf.Sqrt((dY * dY) + (sideB * sideB));
         bulletTime = sideC / vB;
         truckTimeToTravel = time + bulletTime;
-        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's 2nd wheel from a moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally behind and <b>") + dY.ToString("F2") + ("</b> meters vertically below the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, if <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots exactly after <b>")+ time.ToString("F2")+("</b> seconds, if the truck has an initial velocity of <b>") + viT.ToString("F2") + ("</b> m/s and accelerating at <b>") + ("</b> m/s², what should be the velocity of helicopter, while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
+        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's 3rd target wheel from a moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally ahead and <b>") + dY.ToString("F2") + ("</b> meters vertically below the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, if <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots exactly after <b>")+ time.ToString("F2")+("</b> seconds, if the truck has a constant velocity of <b>") + viT.ToString("F2") + ("</b> m/s, what should be the velocity of helicopter accelerating at <b>")+ aH.ToString("F2") + ("</b> m/s² ,while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
     }
     
     IEnumerator positioning()
@@ -295,6 +297,9 @@ public class AccHardThree : MonoBehaviour
         if (playerAnswer == answer)
         {
             targetWheel.SetActive(false);
+            theTruck.moveSpeed = 0;
+            theQuestion.ToggleModal();
+
         }
 
 
@@ -313,7 +318,7 @@ public class AccHardThree : MonoBehaviour
         targetHere.SetActive(false);
         theTruck.transform.position = new Vector2(theTruck.transform.position.x - 1, theTruck.transform.position.y);
         theTruck.moveSpeed = -10;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1.5f);
         StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1f);
         theChopper.flySpeed = 0;

@@ -7,7 +7,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     public Player myPlayer;
     public TMP_Text playerNameText, messageText, timer;
     public GameObject AfterStuntMessage;/*, safeZone*/
-    string pronoun, pPronoun, pNoun, playerName, playerGender;
+    string pronoun,  pNoun, playerName, playerGender;
     public float distance, gameTime, Speed, elapsed;
     private CeillingGenerator theCeiling;
     public GameObject rubblesStopper;
@@ -166,14 +166,8 @@ public class VelocityEasyStage1 : MonoBehaviour
         myPlayer.lost = false;
         myPlayer.standup = false;
         Speed = 0;
-        if(playerGender == "Male"){
-            pronoun = "he";
-            pPronoun = "him";
-            pNoun = "his";
-        }else{
-            pronoun = "she";
-            pPronoun = "her";
-            pNoun = "her";}
+        
+            
         while((Speed < 1.5f)||(Speed > 10f)){
             float d = Random.Range(9f, 18f);
             distance = (float)System.Math.Round(d,2);

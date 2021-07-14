@@ -151,7 +151,7 @@ public class AccHardTwo : MonoBehaviour
             projectileLine.SetActive(false);
             AccHardSimulation.simulate = false;
             target.SetActive(false);
-            timertxt.text = chopperTimeToTravel.ToString("F2");
+            timertxt.text = time.ToString("F2")+ ("s");
 
             if (shootReady)
             {
@@ -186,6 +186,8 @@ public class AccHardTwo : MonoBehaviour
                 StartCoroutine(StuntResult());
                 shoot = false;
                 theMulticab.moveSpeed = 0;
+                startTime = false;
+                timertxtTruck.text = (time + bulletTime).ToString("F2")+ ("s");
                 
             }
 
