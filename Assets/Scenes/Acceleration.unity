@@ -190,6 +190,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4449963901191787240, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
   m_PrefabInstance: {fileID: 4449963900701810225}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1505193494 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4449963899962921217, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+  m_PrefabInstance: {fileID: 4449963900701810225}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e59ef45b365b049a4bedded1479981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1507466942 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2838269807948777980, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
@@ -208,6 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0
+  moveSpeedY: 0
   myRigidbody: {fileID: 0}
   player: {fileID: 1507466942}
   stickmanpoint: {fileID: 2118516729}
@@ -219,12 +231,13 @@ MonoBehaviour:
   stickprefab: {fileID: 3466479453583936867, guid: 48dd00e06f48bbc4ba33f48df967c64b, type: 3}
   posready: 0
   grounded: 0
-  throwing: 0
+  exitDown: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
   groundCheck: {fileID: 1981041708}
   groundedRadius: 0
+  myCollider: {fileID: 0}
   jumpforce: 6
   standup: 0
   addweights: 0
@@ -234,6 +247,7 @@ MonoBehaviour:
   toReach: 0
   ropeHang: 0
   hangkick: 0
+  climb: 0
 --- !u!4 &1981041708 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2593174840126738719, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
@@ -558,6 +572,34 @@ PrefabInstance:
     - target: {fileID: 4449963901826882842, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4278190335
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456180004431581212, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456180004431581212, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456180004431581212, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1505193494}
+    - target: {fileID: 4456180004431581212, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456180004431581212, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: answerLimiter
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456180004431581212, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: accSimulation, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456180004431581212, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4456180004834371399, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
       propertyPath: levelDifficulty

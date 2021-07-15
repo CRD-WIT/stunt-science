@@ -253,5 +253,12 @@ public class accSimulation : MonoBehaviour
             next();
         }
     }
+    public void answerLimiter()
+    {
+        int I = stage - 1;
+        string[] num;
+        num = answerField.text.Split('.');
+        answerField.characterLimit = num[0].Length + 3;
+    }
 
 }
