@@ -9,7 +9,7 @@ public class PlayerCM2 : MonoBehaviour
     public Animator myAnimator;
     public GameObject player, stickprefab, stickmanpoint;
     public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing,
-        climb, hangWalk, isFalling, toJump, jumpHang, isLanded, running, walking, ropeGrab, successGrab;
+        climb, hangWalk, isFalling, toJump, jumpHang, isLanded, running, walking, ropeGrab, successGrab, grab;
     // public AudioSource footstep;
     float currentpos;
     public LayerMask whatIsGround;
@@ -49,6 +49,7 @@ public class PlayerCM2 : MonoBehaviour
         myAnimator.SetBool("walking", walking);
         myAnimator.SetBool("ropeGrab", ropeGrab);
         myAnimator.SetBool("successGrab", successGrab);
+        myAnimator.SetBool("grab", grab);
 
         if (climb)
         {
@@ -97,28 +98,36 @@ public class PlayerCM2 : MonoBehaviour
         {
             jump();
         }
-        else if (other.gameObject.tag == ("stickmanspawn"))
+        if (other.gameObject.tag == ("stickmanspawn"))
         {
             ragdollspawn();
             RagdollV2.disableRagdoll = true;
             lost = false;
             standup = true;
         }
-        else
+        if (other.gameObject.name == "jumper")
         {
+            Debug.Log("etenr");
+
+            moveSpeed = 0;
             running = false;
             ropeGrab = true;
+            StartCoroutine(RopeGrab());
         }
     }
     IEnumerator RopeGrab()
     {
-        running = false;
-        ropeGrab = true;
         yield return new WaitForSeconds(8 / 5);
         successGrab = true;
-        climb = false;
+        yield return new WaitForSeconds(.5f);
+        successGrab = false;
+        grab = true;
+        ropeGrab = false;
+        yield return new WaitForEndOfFrame();
+        grab = false;
+        hangWalk = true;
         yield return new WaitForSeconds(1.01f);
-        hangWalk =false;
+        hangWalk = false;
     }
     public void ToggleTrigger()
     {

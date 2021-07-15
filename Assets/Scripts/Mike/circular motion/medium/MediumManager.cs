@@ -56,10 +56,7 @@ public class MediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        myPlayer.walking = true;
-        Debug.Log(conveyorSpeed + "cs");
-        Debug.Log(playerSpeed + "ps");
-        Debug.Log(acceleration + "ac");
+        // myPlayer.walking = true;
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)
@@ -118,9 +115,10 @@ public class MediumManager : MonoBehaviour
                     {
                         elapsed = stuntTime;
                         myPlayer.running = false;
+                        myPlayer.moveSpeed = 0;
                         if (playerAnswer == acceleration)
                         {
-                            myPlayer.moveSpeed = 15;
+                            // myPlayer.moveSpeed = 15;
                             isAnswerCorrect = true;
                             messageTxt = "Answer is correct";
                         }
@@ -136,7 +134,6 @@ public class MediumManager : MonoBehaviour
                                 messageTxt = "Answer is less than correct";
                             }
                         }
-                        ropeGrab = true;
                     }
                     else
                     {
@@ -278,8 +275,9 @@ public class MediumManager : MonoBehaviour
                 // float Vfp = playerSpeed;
 
                 indicators.distanceSpawnPnt = new Vector2(6 - distance, 3);
+                indicators.heightSpawnPnt = new Vector2(-17f, -1.925f);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(distance, null, null, playerSpeed, stuntTime);
+                indicators.showLines(distance, null, 3.85f, playerSpeed, stuntTime);
                 indicators.UnknownIs('N');
 
                 break;
@@ -290,6 +288,10 @@ public class MediumManager : MonoBehaviour
         qc.SetQuestion(question);
 
         myPlayer.moveSpeed = 0;
+        
+        Debug.Log(conveyorSpeed + "cs");
+        Debug.Log(playerSpeed + "ps");
+        Debug.Log(acceleration + "ac");
     }
     public void Play()
     {
@@ -378,6 +380,7 @@ public class MediumManager : MonoBehaviour
         {
             playerAnim.SetBool("successGrab", true);
             yield return new WaitForSeconds(1.01f);
+            myPlayer.successGrab =false;
             myPlayer.climb = true;
         }
         else
