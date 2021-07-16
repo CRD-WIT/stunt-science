@@ -30,7 +30,16 @@ public class VelocityEasyStage3 : MonoBehaviour
         playerGender = PlayerPrefs.GetString("Gender");
         Scorer = FindObjectOfType<ScoreManager>();
         dimensionLine = FindObjectOfType<IndicatorManagerV1_1>();
+        if (playerGender == "MdimensionLinee")
+        {
+            pronoun = "he";
+        }
+        else
+        {
+            pronoun = "she";
+        }
         Stage3SetUp();
+
     }
     void FixedUpdate()
     {
@@ -111,14 +120,6 @@ public class VelocityEasyStage3 : MonoBehaviour
         slidePlatform.SetActive(true);
         lowerGround.SetActive(false);
         manholeCover.SetActive(true);
-        if (playerGender == "MdimensionLinee")
-        {
-            pronoun = "he";
-        }
-        else
-        {
-            pronoun = "she";
-        }
         float v = Random.Range(9f, 10f);
         Speed = (float)System.Math.Round(v, 2);
         float t = Random.Range(3f, 3.5f);

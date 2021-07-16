@@ -366,3 +366,6 @@ useful to think of this in terms of kilometers per hour or miles per hour: 37.58
 Usain Bolt of Jamaica, set at the 2009 World Athletics Championships final in Berlin, Germany on 16 August 2009,
 
 Average human speed is 1.4m/s.*/
+
+
+// TODO: Implement limiter
