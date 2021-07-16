@@ -241,8 +241,9 @@ public class MediumManager : MonoBehaviour
                 myPlayer.gameObject.SetActive(true);
 
                 indicators.timeSpawnPnt = new Vector2(-10, .5f);
+                indicators.heightSpawnPnt = new Vector2(-13, -1.15f);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(null, distance, null, playerSpeed, stuntTime);
+                indicators.showLines(null, distance, 2.3f, playerSpeed, stuntTime);
                 indicators.UnknownIs('v');
 
                 question = playerName + " is instructed to run on a moving conveyor belt and the rope is<b> " + ConveyorManager.angularVelocity + " degrees per second</b>, how fast should " + playerName + " run if " + pronoun + " is to grab the rope exactly after <b>" + stuntTime.ToString("f2") + " seconds</b>?";
@@ -373,12 +374,16 @@ public class MediumManager : MonoBehaviour
     IEnumerator GrabRope()
     {
         ropeGrab = false;
-        playerAnim.SetBool("running", false);
-        playerAnim.SetBool("ropeGrab", true);
+        myPlayer.running = false;
+        myPlayer.ropeGrab =true;
+        // playerAnim.SetBool("running", false);
+        // playerAnim.SetBool("ropeGrab", true);
         yield return new WaitForSeconds(0.15f);
+        myPlayer.ropeGrab = false;
         if (isAnswerCorrect)
         {
-            playerAnim.SetBool("successGrab", true);
+            myPlayer.successGrab = true;
+            // playerAnim.SetBool("successGrab", true);
             yield return new WaitForSeconds(1.01f);
             myPlayer.successGrab =false;
             myPlayer.climb = true;
