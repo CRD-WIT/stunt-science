@@ -15,7 +15,6 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     bool isSimulating = false;
     public GameObject thePlayer;
     Vector3 thePlayer_position;
-    public TMP_InputField playerAnswer;
     Vector2 gravityGiven;
     public GameObject hookLauncher;
     public GameObject thePlayerRunning;
@@ -76,12 +75,12 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     {
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
 
-        velocityInitial = float.Parse(playerAnswer.text);
+        velocityInitial = questionController.GetPlayerAnswer();
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
 
         correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
 
-        Debug.Log($"VelocityX: {velocityX}");   
+        Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
         Debug.Log($"Correct Answer: {correctAnswer}");
     }
@@ -90,7 +89,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     {
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
 
-        velocityInitial = float.Parse(playerAnswer.text);
+        velocityInitial = questionController.GetPlayerAnswer();
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
 
         correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
@@ -117,7 +116,9 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
     public void StartSimulation()
     {
-        isSimulating = true;
+        cameraScript.directorIsCalling = true;
+        cameraScript.isStartOfStunt = true;
+        questionController.SetAnswer();
     }
 
     void FixedUpdate()
@@ -148,7 +149,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
         if (questionController.isSimulating)
         {
-            if (playerAnswer.text.Length > 0)
+            if (questionController.GetPlayerAnswer() > 0)
             {
                 transform.Find("Annotation").GetComponent<Annotation>().Hide();
                 transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Hide();
@@ -160,7 +161,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                 RegenerateVelocities();
 
                 // Correct Answer
-                if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
+                if (System.Math.Round(questionController.GetPlayerAnswer(), 2) == System.Math.Round(correctAnswer, 2))
                 {
                     if (!doneFiring)
                     {
@@ -196,7 +197,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                     {
                         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                         hook.GetComponent<Rigidbody2D>().WakeUp();
-                        hook.GetComponent<Rigidbody2D>().velocity = new Vector3(float.Parse(playerAnswer.text), velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
+                        hook.GetComponent<Rigidbody2D>().velocity = new Vector3(questionController.GetPlayerAnswer(), velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
                         doneFiring = true;
                     }
 
