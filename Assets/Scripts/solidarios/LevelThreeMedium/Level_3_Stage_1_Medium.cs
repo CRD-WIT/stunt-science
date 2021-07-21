@@ -64,6 +64,8 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
 
         hookLauncher.transform.Rotate(new Vector3(0, 0, angleGiven));
+
+        GenerateInitialVelocity();
     }
     IEnumerator StuntResult(Action callback)
     {
@@ -71,32 +73,34 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         yield return new WaitForSeconds(2f);
         callback();
     }
-    void GenerateInitialVelocities()
+    // void GenerateInitialVelocities()
+    // {
+    //     velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
+
+    //     velocityInitial = questionController.GetPlayerAnswer();
+    //     velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
+
+    //     correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+
+    //     Debug.Log($"VelocityX: {velocityX}");
+    //     Debug.Log($"VelocityY: {velocityY}");
+    //     Debug.Log($"Correct Answer: {correctAnswer}");
+    // }
+
+    void GenerateInitialVelocity()
     {
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
-
-        velocityInitial = questionController.GetPlayerAnswer();
-        velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
-
         correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
-
-        Debug.Log($"VelocityX: {velocityX}");
-        Debug.Log($"VelocityY: {velocityY}");
         Debug.Log($"Correct Answer: {correctAnswer}");
     }
 
     void RegenerateVelocities()
     {
-        velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
 
         velocityInitial = questionController.GetPlayerAnswer();
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
-
-        correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
-
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
-        Debug.Log($"Correct Answer: {correctAnswer}");
     }
 
     IEnumerator DropRope()
@@ -151,14 +155,14 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         {
             if (questionController.GetPlayerAnswer() > 0)
             {
+                RegenerateVelocities();
+
                 transform.Find("Annotation").GetComponent<Annotation>().Hide();
                 transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Hide();
                 transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Hide();
 
                 elapsed += Time.fixedDeltaTime;
                 timerText.text = elapsed.ToString("f2") + "s";
-
-                RegenerateVelocities();
 
                 // Correct Answer
                 if (System.Math.Round(questionController.GetPlayerAnswer(), 2) == System.Math.Round(correctAnswer, 2))
