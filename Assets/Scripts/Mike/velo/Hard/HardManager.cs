@@ -27,6 +27,6 @@ public class HardManager : MonoBehaviour
         x = Random.Range(3f, 10f);
         y = Random.Range(2f, 5f);
         bossV = Random.Range(8f, 10f);
-        boss.SetVelocityOfTheHead(x, y, -bossV);
+        boss.SetVelocityOfTheHead(x, y, 0);
     }
 }
