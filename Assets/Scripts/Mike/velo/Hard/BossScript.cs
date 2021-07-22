@@ -5,7 +5,7 @@ using UnityEngine;
 public class BossScript : MonoBehaviour
 {
     public Rigidbody2D rigidbody;
-    float Vx, Vy;
+    public float Vx, Vy, dist, t;
     void Start()
     {
         rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
@@ -20,9 +20,9 @@ public class BossScript : MonoBehaviour
     }
     public void SetVelocityOfTheHead(float x, float y, float velocity)
     {
-        float dist = Mathf.Sqrt((x * x) + (y * y)),
+        dist = Mathf.Sqrt((x * x) + (y * y));
             t = dist / velocity;
-        Vx = x / t;
-        Vy = y / t;
+        this.Vx = x / t;
+        this.Vy = y / t;
     }
 }
