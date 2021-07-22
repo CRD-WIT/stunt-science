@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class BossScript : MonoBehaviour
 {
-    public Rigidbody2D rigidbody;
     public float Vx, Vy, dist, t;
     void Start()
     {
-        rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
     }
     void Update()
     {
-        rigidbody.velocity = GetVelocityOfTheHead();
+        this.gameObject.GetComponent<Rigidbody2D>().velocity = GetVelocityOfTheHead();
     }
     public Vector2 GetVelocityOfTheHead()
     {
