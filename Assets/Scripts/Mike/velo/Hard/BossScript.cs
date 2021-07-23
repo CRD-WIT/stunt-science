@@ -19,8 +19,11 @@ public class BossScript : MonoBehaviour
     public void SetVelocityOfTheHead(float x, float y, float velocity)
     {
         dist = Mathf.Sqrt((x * x) + (y * y));
-            t = dist / velocity;
+        this.t = dist / velocity;
         this.Vx = x / t;
         this.Vy = y / t;
+    }
+    public float GetTime(){
+        return t;
     }
 }

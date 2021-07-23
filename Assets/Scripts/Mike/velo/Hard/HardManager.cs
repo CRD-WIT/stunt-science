@@ -11,10 +11,10 @@ public class HardManager : MonoBehaviour
     QuestionControllerVThree qc;
     public GameObject directorsBubble, bossHead;
     public TMP_Text directorsSpeech;
-    float x, y, bossV, playerAnswer, stuntTime, elapsed, distance;
+    float x, y, bossV, playerAnswer, stuntTime, elapsed, distance, stoneV;
     bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect;
     string messageTxt;
-    Rigidbody2D bossRB;
+    Rigidbody2D bossRB, stone;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,19 +29,28 @@ public class HardManager : MonoBehaviour
     void Update()
     {
         // boss.VelocityOfTheHead(x, y, -bossV);
-        if(isAnswered){
+        if (isAnswered)
+        {
             bossRB.constraints = RigidbodyConstraints2D.None;
             bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-            boss.SetVelocityOfTheHead(x, y, bossV);
+            // boss.SetVelocityOfTheHead(x, y, bossV);
 
             playerAnswer = qc.GetPlayerAnswer();
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.deltaTime;
-            if(elapsed >= stuntTime){
-                boss.SetVelocityOfTheHead(x, y, 0);
+            if (elapsed >= boss.t)//stuntTime)
+            {
+                // boss.SetVelocityOfTheHead(x, y, 0);
+                isAnswered = false;
+                elapsed = stuntTime;
+
+                bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
             }
         }
+        // else{
+        //     boss.SetVelocityOfTheHead(x, y, 0);
+        // }
         if (isEndOfStunt)
         {
             StartCoroutine(StuntResult());
@@ -63,21 +72,22 @@ public class HardManager : MonoBehaviour
     }
     void SetUp()
     {
-        x = Random.Range(3f, 10f);
-        y = Random.Range(2f, 5f);
-        bossV = -Random.Range(8f, 10f);
-        stuntTime = boss.t;
-        elapsed=0;
-        distance= Mathf.Sqrt((x*x)+(y*y));
-        boss.SetVelocityOfTheHead(x, y, 0);
-        qc.limit=10;
+        x = Random.Range(-3f, -10f);
+        y = -5;
+        bossV = -Random.Range(2f, 4f);
+        Debug.Log(boss.GetTime());
+        stuntTime = boss.GetTime();
+        elapsed = 0;
+        distance = Mathf.Sqrt((x * x) + (y * y));
+        boss.SetVelocityOfTheHead(x, y, -bossV);
+        qc.limit = 10;
     }
     void Play()
     {
         qc.isSimulating = false;
         isStartOfStunt = true;
         directorIsCalling = true;
-        isAnswered =true;
+        isAnswered = true;
     }
     IEnumerator Retry()
     {
@@ -159,5 +169,9 @@ public class HardManager : MonoBehaviour
         // RumblingManager.isCrumbling = true;
         yield return new WaitForSeconds(3);
         qc.ActivateResult(messageTxt, isAnswerCorrect);
+    }
+    void Throw(){
+        Rigidbody2D thrownStone = (Rigidbody2D) Instantiate(stone, transform.position, transform.rotation);
+        thrownStone.velocity = transform.forward * stoneV;
     }
 }
