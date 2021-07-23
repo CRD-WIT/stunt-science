@@ -16,14 +16,12 @@ public class BossScript : MonoBehaviour
     {
         return new Vector2(Vx, Vy);
     }
-    public void SetVelocityOfTheHead(float x, float y, float velocity)
+    public float SetVelocityOfTheHead(float x, float y, float velocity)
     {
         dist = Mathf.Sqrt((x * x) + (y * y));
         this.t = dist / velocity;
         this.Vx = x / t;
         this.Vy = y / t;
-    }
-    public float GetTime(){
         return t;
     }
 }

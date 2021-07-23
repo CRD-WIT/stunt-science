@@ -7,19 +7,21 @@ using GameConfig;
 public class HardManager : MonoBehaviour
 {
     BossScript boss;
-    PlayerV1_1 myPlayer;
+    Player myPlayer;
     QuestionControllerVThree qc;
     public GameObject directorsBubble, bossHead;
     public TMP_Text directorsSpeech;
-    float x, y, bossV, playerAnswer, stuntTime, elapsed, distance, stoneV;
-    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect;
+    float x, y, bossV, playerAnswer, stuntTime, elapsed, distance, stoneV, correctAnswer, targetTime;
+    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown;
     string messageTxt;
-    Rigidbody2D bossRB, stone;
+    public Rigidbody2D bossRB, stone;
+    Rigidbody2D thrownStone;
+    public Transform stoneObject;
     // Start is called before the first frame update
     void Start()
     {
         boss = FindObjectOfType<BossScript>();
-        myPlayer = FindObjectOfType<PlayerV1_1>();
+        myPlayer = FindObjectOfType<Player>();
         qc = FindObjectOfType<QuestionControllerVThree>();
         bossRB = bossHead.GetComponent<Rigidbody2D>();
         SetUp();
@@ -28,24 +30,35 @@ public class HardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // boss.VelocityOfTheHead(x, y, -bossV);
+        if (directorIsCalling)
+            StartCoroutine(DirectorsCall());
         if (isAnswered)
         {
+            playerAnswer = qc.GetPlayerAnswer();
+            if (isThrown)
+            {
+                Throw();
+            }
+
+            qc.timer = elapsed.ToString("f2") + "s";
+            elapsed += Time.deltaTime;
+            thrownStone.velocity = transform.forward * playerAnswer;
             bossRB.constraints = RigidbodyConstraints2D.None;
             bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-            // boss.SetVelocityOfTheHead(x, y, bossV);
-
-            playerAnswer = qc.GetPlayerAnswer();
-            qc.timer = elapsed.ToString("f2") + "s";
-            elapsed += Time.deltaTime;
-            if (elapsed >= boss.t)//stuntTime)
+            if ((boss.transform.position.y) <= (0))//stuntTime)
             {
-                // boss.SetVelocityOfTheHead(x, y, 0);
                 isAnswered = false;
                 elapsed = stuntTime;
-
                 bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
+                if (playerAnswer == correctAnswer)
+                {
+                    Debug.Log("correct");
+                }
+                else
+                {
+                    Debug.Log("wrong");
+                }
             }
         }
         // else{
@@ -72,22 +85,21 @@ public class HardManager : MonoBehaviour
     }
     void SetUp()
     {
-        x = Random.Range(-3f, -10f);
-        y = -5;
         bossV = -Random.Range(2f, 4f);
-        Debug.Log(boss.GetTime());
-        stuntTime = boss.GetTime();
+        x = Random.Range(-3f, -11f);
+        y = -3;
+        stoneV = 0;
         elapsed = 0;
         distance = Mathf.Sqrt((x * x) + (y * y));
-        boss.SetVelocityOfTheHead(x, y, -bossV);
+        stuntTime = boss.SetVelocityOfTheHead(x, y, -bossV);
         qc.limit = 10;
+        correctAnswer = (20 + x) / stuntTime;
     }
     void Play()
     {
         qc.isSimulating = false;
         isStartOfStunt = true;
         directorIsCalling = true;
-        isAnswered = true;
     }
     IEnumerator Retry()
     {
@@ -137,6 +149,7 @@ public class HardManager : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             directorsSpeech.text = "Action!";
             yield return new WaitForSeconds(0.75f);
+            isThrown = true;
             directorsSpeech.text = "";
             directorsBubble.SetActive(false);
             isAnswered = true;
@@ -170,8 +183,12 @@ public class HardManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         qc.ActivateResult(messageTxt, isAnswerCorrect);
     }
-    void Throw(){
-        Rigidbody2D thrownStone = (Rigidbody2D) Instantiate(stone, transform.position, transform.rotation);
-        thrownStone.velocity = transform.forward * stoneV;
+    IEnumerator Throw()
+    {
+        isThrown = false;
+        myPlayer.thrown = true;
+        yield return new WaitForSeconds(2);
+        myPlayer.thrown = false;
+        thrownStone = (Rigidbody2D)Instantiate(stone, stoneObject.position, stoneObject.rotation);
     }
 }

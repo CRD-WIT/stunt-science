@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private Collider2D myCollider;
     public EdgeCollider2D slideCollider;
     public float jumpforce;
-    public bool standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang, isLanded;
+    public bool standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang, isLanded, thrown;
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +57,7 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("toJump", toJump);
         myAnimator.SetBool("jumpHang", jumpHang);
         myAnimator.SetBool("landed", isLanded);
+        myAnimator.SetBool("throw", thrown);
         if (posready == true)
         {
             if (currentpos >= 0)
