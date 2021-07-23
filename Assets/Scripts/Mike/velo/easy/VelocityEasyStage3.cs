@@ -17,20 +17,15 @@ public class VelocityEasyStage3 : MonoBehaviour
     float answer, initialDistance;
     IndicatorManagerV1_1 dimensionLine;
     QuestionControllerVThree qc;
+    public TMP_Text debugAnswer;
 
     // Start is cdimensionLineled before the first frame update
 
     public void Start()
     {
-        qc = FindObjectOfType<QuestionControllerVThree>();
-        theCeiling = FindObjectOfType<CeillingGenerator>();
-        myPlayer = FindObjectOfType<PlayerV1_1>();
-        HeartManager = FindObjectOfType<HeartManager>();
-        playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
-        Scorer = FindObjectOfType<ScoreManager>();
-        dimensionLine = FindObjectOfType<IndicatorManagerV1_1>();
-        if (playerGender == "MdimensionLinee")
+        Debug.Log(playerGender);
+        if (playerGender == "Male")
         {
             pronoun = "he";
         }
@@ -38,12 +33,22 @@ public class VelocityEasyStage3 : MonoBehaviour
         {
             pronoun = "she";
         }
+        qc = FindObjectOfType<QuestionControllerVThree>();
+        theCeiling = FindObjectOfType<CeillingGenerator>();
+        myPlayer = FindObjectOfType<PlayerV1_1>();
+        HeartManager = FindObjectOfType<HeartManager>();
+        playerName = PlayerPrefs.GetString("Name");
+
+        Scorer = FindObjectOfType<ScoreManager>();
+        dimensionLine = FindObjectOfType<IndicatorManagerV1_1>();
+
         Stage3SetUp();
 
     }
     void FixedUpdate()
     {
         answer = qc.GetPlayerAnswer();
+        debugAnswer.SetText($"Debug Answer: {distance}");
         if (SimulationManager.stage3Flag)
         {
             float totalDistance = 40f;
@@ -139,7 +144,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         myPlayer.transform.position = new Vector2(0f, -3);
         elapsed = 0;
         SimulationManager.isAnswered = false;
-        question = "The entire ceiling is now crumbling and the only safe way out is for " + playerName + " to jump and slide down the manhole. If " + pronoun + " runs at constant velocity of <color=purple>" + Speed.ToString() + " meters per second</color> for exactly <color=#006400>" + gameTime.ToString() + " seconds</color>, how  <color=red>far</color> from the center of the manhole should " + playerName + " start running so that " + pronoun + " will fdimensionLinel down in it when " + pronoun + " stops?";
+        question = $"The entire ceiling is now crumbling and the only safe way out is for {playerName} to jump and slide down the manhole. If {pronoun} runs at constant velocity of {Speed.ToString()} meters per second for exactly {gameTime.ToString()} seconds, how far from the center of the manhole should {playerName} start running so that {pronoun} will fall down in it when {pronoun} stops?";
         qc.SetQuestion(question);
     }
     IEnumerator StuntResult()

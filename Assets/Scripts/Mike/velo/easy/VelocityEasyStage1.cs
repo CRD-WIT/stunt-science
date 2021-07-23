@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using GameConfig;
+using TMPro;
 
 public class VelocityEasyStage1 : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class VelocityEasyStage1 : MonoBehaviour
     StageManager sm = new StageManager();
     IndicatorManagerV1_1 labels;
     QuestionControllerVThree qc;
+
+    public TMP_Text debugAnswer;
 
     void Start()
     {
@@ -33,6 +36,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     }
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Debug Answer: {Speed}");
         float answer = qc.GetPlayerAnswer();
         if (SimulationManager.isAnswered)
         {

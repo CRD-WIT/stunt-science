@@ -184,6 +184,8 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         questionController.answerIsCorrect = true;
                         StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
                         questionController.isSimulating = false;
+
+                        
                     }
                 }
                 else
@@ -191,6 +193,8 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                     // Too long
                     Debug.Log("Too long");
                     HookAttachmentCollider.SetActive(false);
+
+      
 
                     if (!doneFiring)
                     {

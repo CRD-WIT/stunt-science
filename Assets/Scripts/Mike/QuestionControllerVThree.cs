@@ -108,6 +108,16 @@ public class QuestionControllerVThree : MonoBehaviour
     {
         return this.playerAnswer;
     }
+
+    public string AnswerLimiter(string value){
+        string[] splitted = value.Split('.');
+        if(splitted[1].Length<2){
+            return $"{splitted[0]}.{splitted[1]}0";
+        }else{
+            return $"{splitted[0]}.{splitted[1].Substring(0,2)}";
+        }
+        
+    }
     public void SetAnswer()
     {
         if (answerFieldHorizontal.text == "")
@@ -116,7 +126,9 @@ public class QuestionControllerVThree : MonoBehaviour
         }
         else
         {
-            playerAnswer = float.Parse(answerFieldHorizontal.text);
+            playerAnswer = float.Parse(AnswerLimiter(answerFieldHorizontal.text));
+            Debug.Log(playerAnswer);
+            AnswerLimiter(answerFieldHorizontal.text);
             answerFieldHorizontal.text = playerAnswer + answerUnit;
             if (limit <= playerAnswer)
             {

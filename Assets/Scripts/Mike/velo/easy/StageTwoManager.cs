@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using GameConfig;
+using TMPro;
 public class StageTwoManager : MonoBehaviour
 {
     private PlayerV1_1 thePlayer;
@@ -17,6 +18,7 @@ public class StageTwoManager : MonoBehaviour
     bool answerIs;
     IndicatorManagerV1_1 labels;
     QuestionControllerVThree qc;
+    public TMP_Text debugAnswer;
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
@@ -33,6 +35,7 @@ public class StageTwoManager : MonoBehaviour
     }
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Debug Answer: {answerRO}");
         playerAnswer = qc.GetPlayerAnswer();
         if (SimulationManager.isAnswered)
         {

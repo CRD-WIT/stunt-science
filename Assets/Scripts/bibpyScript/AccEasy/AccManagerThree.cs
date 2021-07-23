@@ -71,8 +71,6 @@ public class AccManagerThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
-
         correctAns = (float)System.Math.Round(generateAns, 2);
         playerDistance = (time * time) * deacceleration / 2;
         playerVf = (2 * playerDistance) / time;
@@ -161,7 +159,6 @@ public class AccManagerThree : MonoBehaviour
                     timer += Time.fixedDeltaTime;
                     velocitytxt.text = ("v = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
                     theBike.moveSpeed -= deacceleration * Time.fixedDeltaTime;
-
                 }
                 if (timer >= time)
                 {
@@ -174,17 +171,9 @@ public class AccManagerThree : MonoBehaviour
                     {
                         velocitytxt.text = ("vf = 0.00 m/s");
                     }
-
                 }
-
             }
-
-
-
         }
-
-
-
 
     }
     public void generateProblem()
