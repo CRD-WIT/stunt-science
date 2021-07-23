@@ -28,13 +28,13 @@ public class Settings : MonoBehaviour
         musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
         soundSlider.value = soundLevel;
         musicSlider.value = musicLevel;
-        versionCodeText.text = versionCode;
+        versionCodeText.text = $"Version: {versionCode}";
     }
 
     // Update is called once per frame
     void Update()
     {
-        fps.text = $"{(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()} fps";
+        fps.text = $"Frame Rate: {(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()}f/s";
         settingsPanel.SetActive(settingsPanelIsOpen);
         soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
         musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";

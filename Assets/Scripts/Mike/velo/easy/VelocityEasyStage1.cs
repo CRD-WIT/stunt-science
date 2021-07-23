@@ -36,7 +36,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     }
     void FixedUpdate()
     {
-        debugAnswer.SetText($"Debug Answer: {Speed}");
+        debugAnswer.SetText($"Answer: {Speed}");
         float answer = qc.GetPlayerAnswer();
         if (SimulationManager.isAnswered)
         {

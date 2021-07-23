@@ -48,7 +48,7 @@ public class VelocityEasyStage3 : MonoBehaviour
     void FixedUpdate()
     {
         answer = qc.GetPlayerAnswer();
-        debugAnswer.SetText($"Debug Answer: {distance}");
+        debugAnswer.SetText($"Answer: {distance}");
         if (SimulationManager.stage3Flag)
         {
             float totalDistance = 40f;

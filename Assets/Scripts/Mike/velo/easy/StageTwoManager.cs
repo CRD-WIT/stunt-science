@@ -35,7 +35,7 @@ public class StageTwoManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-        debugAnswer.SetText($"Debug Answer: {answerRO}");
+        debugAnswer.SetText($"Answer: {answerRO}");
         playerAnswer = qc.GetPlayerAnswer();
         if (SimulationManager.isAnswered)
         {
