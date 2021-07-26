@@ -69,15 +69,28 @@ public class QuestionControllerVThree : MonoBehaviour
 
         life = FindObjectOfType<HeartManager>();
     }
-    public void ActionBtn()
+    public void ActionBtn(bool endLevel)
     {
-        answerFieldHorizontal.text = "";
-        if (answerIsCorrect)
-            Next();
+        if (endLevel)
+        {
+            
+        }
         else
-            StartCoroutine(Retry());
-        isModalOpen = false;
-        timerOn = false;
+        {
+            answerFieldHorizontal.text = "";
+            if (answerIsCorrect)
+                Next();
+            else
+                StartCoroutine(Retry());
+            isModalOpen = false;
+            timerOn = false;
+        }
+
+    }
+
+    public void EndLevel()
+    {
+
     }
     public void ActivateResult(string message, bool isCorrect)
     {
@@ -109,14 +122,18 @@ public class QuestionControllerVThree : MonoBehaviour
         return this.playerAnswer;
     }
 
-    public string AnswerLimiter(string value){
+    public string AnswerLimiter(string value)
+    {
         string[] splitted = value.Split('.');
-        if(splitted[1].Length<2){
+        if (splitted[1].Length < 2)
+        {
             return $"{splitted[0]}.{splitted[1]}0";
-        }else{
-            return $"{splitted[0]}.{splitted[1].Substring(0,2)}";
         }
-        
+        else
+        {
+            return $"{splitted[0]}.{splitted[1].Substring(0, 2)}";
+        }
+
     }
     public void SetAnswer()
     {

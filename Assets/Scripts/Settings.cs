@@ -7,6 +7,8 @@ using TMPro;
 public class Settings : MonoBehaviour
 {
     public GameObject settingsPanel;
+    public GameObject levelFinishedPanel;
+    bool leveFinishedIsOpen;
     bool settingsPanelIsOpen;
     public float soundLevel = 1f;
     public float musicLevel = 1f;
@@ -24,6 +26,7 @@ public class Settings : MonoBehaviour
     void Start()
     {
         settingsPanel.SetActive(settingsPanelIsOpen);
+        levelFinishedPanel.SetActive(leveFinishedIsOpen);
         soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
         musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
         soundSlider.value = soundLevel;
