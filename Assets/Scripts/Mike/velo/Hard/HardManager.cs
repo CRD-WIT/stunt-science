@@ -9,7 +9,7 @@ public class HardManager : MonoBehaviour
     BossScript boss;
     Player myPlayer;
     QuestionControllerVThree qc;
-    public GameObject directorsBubble, bossHead;
+    public GameObject directorsBubble, bossHead, stonePrefab;
     public TMP_Text directorsSpeech;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, distance, stoneV, correctAnswer, targetTime;
     bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown;
@@ -30,21 +30,19 @@ public class HardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        stuntTime = boss.t;
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)
         {
             playerAnswer = qc.GetPlayerAnswer();
-            if (isThrown)
-            {
-                Throw();
-            }
-
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.deltaTime;
-            thrownStone.velocity = transform.forward * playerAnswer;
             bossRB.constraints = RigidbodyConstraints2D.None;
             bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
+            if(isThrown){
+                StartCoroutine(Throw());
+            }
 
             if ((boss.transform.position.y) <= (0))//stuntTime)
             {
@@ -61,9 +59,6 @@ public class HardManager : MonoBehaviour
                 }
             }
         }
-        // else{
-        //     boss.SetVelocityOfTheHead(x, y, 0);
-        // }
         if (isEndOfStunt)
         {
             StartCoroutine(StuntResult());
@@ -85,15 +80,17 @@ public class HardManager : MonoBehaviour
     }
     void SetUp()
     {
+        isThrown =true;
         bossV = -Random.Range(2f, 4f);
-        x = Random.Range(-3f, -11f);
+        x = Random.Range(-3f, -8f);
         y = -3;
         stoneV = 0;
         elapsed = 0;
         distance = Mathf.Sqrt((x * x) + (y * y));
         stuntTime = boss.SetVelocityOfTheHead(x, y, -bossV);
         qc.limit = 10;
-        correctAnswer = (20 + x) / stuntTime;
+        correctAnswer = (20.5f + x) / stuntTime;
+        Debug.Log(correctAnswer);
     }
     void Play()
     {
@@ -103,37 +100,20 @@ public class HardManager : MonoBehaviour
     }
     IEnumerator Retry()
     {
-        // Destroy(pShadow);
-        // Destroy(b1Shadow);
-        // Destroy(b2Shadow);
-        // FallingBoulders.isRumbling = false;
         qc.retried = false;
-        // PrefabDestroyer.end = true;
-        // StartCoroutine(life.endBGgone());
         yield return new WaitForSeconds(3);
-        // myPlayer.ToggleTrigger();
-        // myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
-        // RumblingManager.isCrumbling = false;
         SetUp();
     }
     IEnumerator Next()
     {
-        // Destroy(pShadow);
-        // Destroy(b1Shadow);
-        // Destroy(b2Shadow);
-        // FallingBoulders.isRumbling = false;
         qc.nextStage = false;
         myPlayer.happy = false;
-        // PrefabDestroyer.end = true;
         yield return new WaitForSeconds(3f);
-        // StartCoroutine(life.endBGgone());
         yield return new WaitForSeconds(2.8f);
-        // myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
-        // RumblingManager.isCrumbling = false;
         SetUp();
     }
     public IEnumerator DirectorsCall()
@@ -153,19 +133,15 @@ public class HardManager : MonoBehaviour
             directorsSpeech.text = "";
             directorsBubble.SetActive(false);
             isAnswered = true;
-            // FallingBoulders.isRumbling = true;
         }
         else
         {
             // yield return new WaitForSeconds((35 / playerVelocity) - stuntTime);
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
-            // RumblingManager.isCrumbling = true;
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
             directorsSpeech.text = "";
-
-            // boulderVelocity = 0;
         }
     }
     IEnumerator StuntResult()
@@ -174,12 +150,6 @@ public class HardManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         directorIsCalling = true;
         isStartOfStunt = false;
-        // boulderRB.sharedMaterial.bounciness = 0;
-        // boulder2RB.sharedMaterial.bounciness = 0;
-        // boulderRB.sharedMaterial.friction = 0.8f;
-        // boulder2RB.sharedMaterial.friction = 0.8f;
-        // RumblingManager.shakeON = false;
-        // RumblingManager.isCrumbling = true;
         yield return new WaitForSeconds(3);
         qc.ActivateResult(messageTxt, isAnswerCorrect);
     }
@@ -187,8 +157,11 @@ public class HardManager : MonoBehaviour
     {
         isThrown = false;
         myPlayer.thrown = true;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1f);
         myPlayer.thrown = false;
-        thrownStone = (Rigidbody2D)Instantiate(stone, stoneObject.position, stoneObject.rotation);
+        GameObject bato = Instantiate(stonePrefab);
+        bato.transform.position = new Vector2(-19.5f, 2);
+        bato.GetComponent<Rigidbody2D>().gravityScale = 0;
+        bato.GetComponent<Rigidbody2D>().velocity = new Vector2(playerAnswer, 0);
     }
 }
