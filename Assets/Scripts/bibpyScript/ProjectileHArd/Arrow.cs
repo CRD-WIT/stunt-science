@@ -34,7 +34,6 @@ public class Arrow : MonoBehaviour
 
         if (other.gameObject.tag == ("wall"))
         {  
-            theManagerOne.hit = true;
             getAngle = true;        
             rb.bodyType = RigidbodyType2D.Static;
             transform.rotation = lastRot;

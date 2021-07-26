@@ -46,6 +46,7 @@ public class ProjSimulationManager : MonoBehaviour
     }
     public void PlayButton()
     {
+        theManagerOne.ShootArrow();
 
 
 
