@@ -8,6 +8,7 @@ public class BossScript : MonoBehaviour
     void Start()
     {
     }
+
     void Update()
     {
         this.gameObject.GetComponent<Rigidbody2D>().velocity = GetVelocityOfTheHead();

@@ -40,7 +40,8 @@ public class HardManager : MonoBehaviour
             elapsed += Time.deltaTime;
             bossRB.constraints = RigidbodyConstraints2D.None;
             bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
-            if(isThrown){
+            if (isThrown)
+            {
                 StartCoroutine(Throw());
             }
 
@@ -80,17 +81,21 @@ public class HardManager : MonoBehaviour
     }
     void SetUp()
     {
-        isThrown =true;
-        bossV = -Random.Range(2f, 4f);
-        x = Random.Range(-3f, -8f);
-        y = -3;
-        stoneV = 0;
-        elapsed = 0;
-        distance = Mathf.Sqrt((x * x) + (y * y));
-        stuntTime = boss.SetVelocityOfTheHead(x, y, -bossV);
+        isThrown = true;
         qc.limit = 10;
-        correctAnswer = (20.5f + x) / stuntTime;
-        Debug.Log(correctAnswer);
+        while (correctAnswer > qc.limit)
+        {
+            bossV = -Random.Range(2f, 4f);
+            x = Random.Range(-3f, -8f);
+            y = -3;
+            stoneV = 0;
+            elapsed = 0;
+            distance = Mathf.Sqrt((x * x) + (y * y));
+            stuntTime = boss.SetVelocityOfTheHead(x, y, -bossV);
+            correctAnswer = (20.5f + x) / stuntTime;
+            Debug.Log(correctAnswer);
+        }
+
     }
     void Play()
     {
