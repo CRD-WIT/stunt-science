@@ -21,10 +21,11 @@ public class ProjSimulationManager : MonoBehaviour
     public TMP_Text diretorsSpeech;
     public string take;
     public int takeNumber;
+    public bool answerIsCorrect;
     // Start is called before the first frame update
     void Start()
     {
-        
+        stage = 1;
     }
 
     // Update is called once per frame
@@ -46,14 +47,10 @@ public class ProjSimulationManager : MonoBehaviour
     }
     public void PlayButton()
     {
-        theManagerOne.ShootArrow();
-
-
-
         if (stage == 1)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
+            if (answerField.text == "" || playerAnswer > 50 || playerAnswer < 1)
             {
                
                 theQuestion.errorText = ("believe me! its too long!");
