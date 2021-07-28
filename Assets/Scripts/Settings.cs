@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
 public class Settings : MonoBehaviour
 {
     public GameObject settingsPanel;
@@ -23,8 +20,38 @@ public class Settings : MonoBehaviour
     public TMP_Text versionCodeText;
     public string versionCode;
     public TMP_Text fps;
+    int level1EasyPoints;
+    int level1MediumPoints;
+    int level1HardPoints;
+    bool level1Locked;
+
+
+    int level2EasyPoints;
+    int level2MediumPoints;
+    int level2HardPoints;
+    bool level2Locked;
+
+
+    int level3EasyPoints;
+    int level3MediumPoints;
+    int level3HardPoints;
+    bool level3Locked;
+
+
+    int level4EasyPoints;
+    int level4MediumPoints;
+    int level4HardPoints;
+    bool level4Locked;
+
+
+    int level5EasyPoints;
+    int level5MediumPoints;
+    int level5HardPoints;
+    bool level5Locked;
+
     void Start()
     {
+
         settingsPanel.SetActive(settingsPanelIsOpen);
         levelFinishedPanel.SetActive(leveFinishedIsOpen);
         soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
@@ -33,6 +60,7 @@ public class Settings : MonoBehaviour
         musicSlider.value = musicLevel;
         versionCodeText.text = $"Version: {versionCode}";
     }
+    
 
     // Update is called once per frame
     void Update()
