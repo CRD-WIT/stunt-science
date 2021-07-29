@@ -8,14 +8,15 @@ public class Arrow : MonoBehaviour
     public ProjSimulationManager theSimulate;
     Rigidbody2D rb;
     float mylastrotX, mylastrotY, angle, newAngle;
-    bool getAngle;
+    public bool getAngle;
     Quaternion lastRot;
     public GameObject trail, line;
-    bool generateLine = true;
+     public bool generateLine;
     // Start is called before the first frame update
     void Start()
-    {
+    {   
         rb = GetComponent<Rigidbody2D>();
+
     }
 
     // Update is called once per frame

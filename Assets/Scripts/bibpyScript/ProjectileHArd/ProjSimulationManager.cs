@@ -121,7 +121,7 @@ public class ProjSimulationManager : MonoBehaviour
         theQuestion.isSimulating = false;
         if (stage == 1)
         {
-            //StartCoroutine(theManagerOne.positioningTwo());
+            theManagerOne.generateProblem();
 
 
 
@@ -191,6 +191,7 @@ public class ProjSimulationManager : MonoBehaviour
     public void action()
     {
         theQuestion.ToggleModal();
+        playButton.interactable = true;
         if (theQuestion.answerIsCorrect == false)
         {
             retry();
