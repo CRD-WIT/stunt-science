@@ -6,12 +6,13 @@ using GameConfig;
 
 public class HardManager : MonoBehaviour
 {
+    SlantingIndicator labels;
     BossScript boss;
     Player myPlayer;
     QuestionControllerVThree qc;
     public GameObject directorsBubble, bossHead, stonePrefab;
     public TMP_Text directorsSpeech;
-    float x, y, bossV, playerAnswer, stuntTime, elapsed, distance, stoneV, correctAnswer, targetTime;
+    float x, y, bossV, playerAnswer, stuntTime, elapsed, distance, stoneV, correctAnswer, targetTime, angle;
     bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown;
     string messageTxt;
     public Rigidbody2D bossRB, stone;
@@ -20,6 +21,7 @@ public class HardManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        labels = FindObjectOfType<SlantingIndicator>();
         boss = FindObjectOfType<BossScript>();
         myPlayer = FindObjectOfType<Player>();
         qc = FindObjectOfType<QuestionControllerVThree>();
@@ -95,7 +97,9 @@ public class HardManager : MonoBehaviour
             correctAnswer = (20.5f + x) / stuntTime;
             Debug.Log(correctAnswer);
         }
-
+        angle = Mathf.Atan(x / y);
+        labels.SetDistance(distance, angle, x, y);
+        labels.SetSpawnPnt(bossHead.transform.position);
     }
     void Play()
     {

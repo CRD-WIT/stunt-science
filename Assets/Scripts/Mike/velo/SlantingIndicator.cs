@@ -65,6 +65,7 @@ public class SlantingIndicator : MonoBehaviour
                 }
                 arrows[0].transform.Rotate(0, 0, angle);
             }
+            distanceColor = TextColorMode.Given;
         }
     }
 
@@ -162,6 +163,9 @@ public class SlantingIndicator : MonoBehaviour
     //     timeColor = colorMode;
     //     velocityColor = colorMode;
     // }
+    public void SetSpawnPnt(Vector2 pos){
+        this.distanceSpawnPnt = pos;
+    }
     // public void SetPlayerPosition(Vector2 Pnt)
     // {
     //     velocitySpawnPnt = new Vector2(Pnt.x, Pnt.y + 2.5f);
