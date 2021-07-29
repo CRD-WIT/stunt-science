@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 public class Settings : MonoBehaviour
 {
@@ -60,13 +61,23 @@ public class Settings : MonoBehaviour
         musicSlider.value = musicLevel;
         versionCodeText.text = $"Version: {versionCode}";
     }
-    
+
+    public void GotoNextLevel(){
+        SceneManager.LoadScene("LevelSelectV2");
+    }
+
+     public void ReloadLevel(){
+         Scene scene = SceneManager.GetActiveScene(); 
+         SceneManager.LoadScene(scene.name);
+    }
+
 
     // Update is called once per frame
     void Update()
     {
         fps.text = $"Frame Rate: {(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()}f/s";
         settingsPanel.SetActive(settingsPanelIsOpen);
+        levelFinishedPanel.SetActive(leveFinishedIsOpen);
         soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
         musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
         soundIconOff.SetActive(soundLevel == 0);
@@ -78,6 +89,11 @@ public class Settings : MonoBehaviour
     public void ToggleSettings()
     {
         settingsPanelIsOpen = !settingsPanelIsOpen;
+    }
+
+    public void ToggleLevelFinished()
+    {
+        leveFinishedIsOpen = !leveFinishedIsOpen;
     }
     public void UpdateSoundValue()
     {

@@ -42,6 +42,8 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        unlockedCount = PlayerPrefs.GetInt("unlockedCount", 2);
+
         levelVelocityEasy = PlayerPrefs.GetInt("levelVelocityEasy", 0);
         levelVelocityMedium = PlayerPrefs.GetInt("levelVelocityMedium", 0);
         levelVelocityHard = PlayerPrefs.GetInt("levelVelocityHard", 0);

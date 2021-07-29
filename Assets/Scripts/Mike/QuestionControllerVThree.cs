@@ -16,8 +16,10 @@ public class QuestionControllerVThree : MonoBehaviour
     public int levelNumber, stage;
     public string levelName, modalTitle, question, timer;
     public TextColorMode colorMode;
+    public Settings settingUI;
     public UnitOf unit;
     string answerUnit, difficulty;
+    public HeartManager heartManager;
     int passedLevel;
     [SerializeField] bool timerOn = false, loaded = false;
     [SerializeField] TMP_InputField answerFieldHorizontal;
@@ -73,7 +75,7 @@ public class QuestionControllerVThree : MonoBehaviour
     {
         if (endLevel)
         {
-            
+
         }
         else
         {
@@ -92,20 +94,56 @@ public class QuestionControllerVThree : MonoBehaviour
     {
 
     }
-    public void ActivateResult(string message, bool isCorrect)
+
+    public void EvaluatePlayerScore()
     {
+        string playerPrefsName = "";
+        switch (levelDifficulty)
+        {
+            case Difficulty.Easy:
+                playerPrefsName = ($"level{levelName}Easy");
+                break;
+            case Difficulty.Medium:
+                playerPrefsName = ($"level{levelName}Medium");
+                break;
+            case Difficulty.Hard:
+                playerPrefsName = ($"level{levelName}Hard");
+                break;
+        }
+
+        PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
+        settingUI.ToggleLevelFinished();
+        //SceneManager.LoadScene("LevelSelectV2");
+
+    }
+    public void ActivateResult(string message, bool isCorrect, bool isComplete = false)
+    {
+        Debug.Log("ActivateResult Triggered");
         answerIsCorrect = isCorrect;
         isModalOpen = true;
         if (isCorrect)
         {
-            actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
-            modalTitle = "Stunt Success!";
-            modalText = message;
-            SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+            if (isComplete)
+            {
+                actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+                actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
+
+                actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Finish";
+                modalTitle = "Stunts Completed!";
+                modalText = message;
+                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+            }
+            else
+            {
+                actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
+                modalTitle = "Stunt Success!";
+                modalText = message;
+                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+            }
         }
         else
         {
-            actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
+            actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
             modalTitle = "Stunt Failed!";
             modalText = message;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
@@ -124,6 +162,7 @@ public class QuestionControllerVThree : MonoBehaviour
 
     public string AnswerLimiter(string value)
     {
+        // Bug when using whole number
         string[] splitted = value.Split('.');
         if (splitted[1].Length < 2)
         {
@@ -223,7 +262,7 @@ public class QuestionControllerVThree : MonoBehaviour
             //             break;
             //     }
             // }
-            SceneManager.LoadScene("LevelSelection");
+            //SceneManager.LoadScene("LevelSelection");
         }
     }
     IEnumerator Retry()

@@ -4,32 +4,26 @@ using GameConfig;
 using TMPro;
 public class StageTwoManager : MonoBehaviour
 {
-    private PlayerV1_1 thePlayer;
+    public PlayerV1_1 thePlayer;
     UnitOf whatIsAsk;
-    private CeillingGenerator theCeiling;
-    private HeartManager theHeart;
+    public CeillingGenerator theCeiling;
+    public HeartManager theHeart;
     [SerializeField] float distance, speed, finalSpeed, answer, answerRO, currentPos, playerAnswer, playerDistance;
     string gender, pronoun, question, errorMessage;
     Vector2 PlayerStartPoint;
     public float elapsed;
     public GameObject safePoint, rubbleStopper, rubbleBlocker, ragdollSpawn, groundPlatform;
-    private RumblingManager theRumbling;
+    public RumblingManager theRumbling;
     private ScoreManager theScorer;
     bool answerIs;
-    IndicatorManagerV1_1 labels;
-    QuestionControllerVThree qc;
+    public IndicatorManagerV1_1 labels;
+    public QuestionControllerVThree qc;
     public TMP_Text debugAnswer;
     void Start()
     {
-        qc = FindObjectOfType<QuestionControllerVThree>();
-        labels = FindObjectOfType<IndicatorManagerV1_1>();
-        thePlayer = FindObjectOfType<PlayerV1_1>();
         theScorer = FindObjectOfType<ScoreManager>();
         gender = PlayerPrefs.GetString("Gender");
-        PlayerStartPoint = thePlayer.transform.position;
-        theCeiling = FindObjectOfType<CeillingGenerator>();
-        theRumbling = FindObjectOfType<RumblingManager>();
-        theHeart = FindObjectOfType<HeartManager>();
+        PlayerStartPoint = thePlayer.transform.position;       
         whatIsAsk = UnitOf.time;
         reset();
     }

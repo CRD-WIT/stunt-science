@@ -15,8 +15,8 @@ public class VelocityEasyStage3 : MonoBehaviour
     public GameObject slidePlatform, lowerGround, safeZone, rubblesStopper, ragdollSpawn, manholeCover, templeBeam;
     bool answerIs;
     float answer, initialDistance;
-    IndicatorManagerV1_1 dimensionLine;
-    QuestionControllerVThree qc;
+    public GameObject dimensionLine;
+    public QuestionControllerVThree qc;
     public TMP_Text debugAnswer;
 
     // Start is cdimensionLineled before the first frame update
@@ -24,7 +24,6 @@ public class VelocityEasyStage3 : MonoBehaviour
     public void Start()
     {
         playerGender = PlayerPrefs.GetString("Gender");
-        Debug.Log(playerGender);
         if (playerGender == "Male")
         {
             pronoun = "he";
@@ -33,14 +32,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         {
             pronoun = "she";
         }
-        qc = FindObjectOfType<QuestionControllerVThree>();
-        theCeiling = FindObjectOfType<CeillingGenerator>();
-        myPlayer = FindObjectOfType<PlayerV1_1>();
-        HeartManager = FindObjectOfType<HeartManager>();
         playerName = PlayerPrefs.GetString("Name");
-
-        Scorer = FindObjectOfType<ScoreManager>();
-        dimensionLine = FindObjectOfType<IndicatorManagerV1_1>();
 
         Stage3SetUp();
 
@@ -53,14 +45,14 @@ public class VelocityEasyStage3 : MonoBehaviour
         {
             float totalDistance = 40f;
             initialDistance = totalDistance - answer;
-            dimensionLine.distanceSpawnPnt.x = initialDistance;
-            dimensionLine.timeSpawnPnt.x = initialDistance;
-            dimensionLine.showLines(answer, answer, null, Speed, gameTime);
+            dimensionLine.GetComponent<IndicatorManagerV1_1>().distanceSpawnPnt.x = initialDistance;
+            dimensionLine.GetComponent<IndicatorManagerV1_1>().timeSpawnPnt.x = initialDistance;
+            dimensionLine.GetComponent<IndicatorManagerV1_1>().showLines(answer, answer, null, Speed, gameTime);
         }
         if (SimulationManager.isAnswered)
         {
-            dimensionLine.ShowVelocityLabel(true);
-            dimensionLine.SetPlayerPosition(myPlayer.transform.position);
+            dimensionLine.GetComponent<IndicatorManagerV1_1>().ShowVelocityLabel(true);
+            dimensionLine.GetComponent<IndicatorManagerV1_1>().SetPlayerPosition(myPlayer.transform.position);
             myPlayer.moveSpeed = Speed;
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.fixedDeltaTime;
@@ -108,16 +100,18 @@ public class VelocityEasyStage3 : MonoBehaviour
                         answerMessage = PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                 }
-                dimensionLine.AnswerIs(answerIs, true);
+                dimensionLine.GetComponent<IndicatorManagerV1_1>().AnswerIs(answerIs, true);
             }
-            dimensionLine.IsRunning(answer, myPlayer.transform.position.x - (40 - answer), elapsed, myPlayer.transform.position.x - (40 - answer));
+            dimensionLine.GetComponent<IndicatorManagerV1_1>().IsRunning(answer, myPlayer.transform.position.x - (40 - answer), elapsed, myPlayer.transform.position.x - (40 - answer));
         }
     }
     public void Stage3SetUp()
     {
-        dimensionLine.showLines(null, null, null, 0, 0);
-        dimensionLine.ShowVelocityLabel(false);
+        Debug.Log("Setup launched");
         string question;
+        dimensionLine.GetComponent<IndicatorManagerV1_1>().showLines(null, null, null, 0, 0);
+        dimensionLine.GetComponent<IndicatorManagerV1_1>().ShowVelocityLabel(false);
+        
         qc.SetUnitTo(UnitOf.distance);
         templeBeam.SetActive(false);
         distance = 0;
@@ -153,7 +147,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         SimulationManager.directorIsCalling = true;
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
-        qc.ActivateResult(answerMessage, answerIs);
+        qc.ActivateResult(answerMessage, answerIs, true);
     }
     IEnumerator RagdollCollider()
     {
