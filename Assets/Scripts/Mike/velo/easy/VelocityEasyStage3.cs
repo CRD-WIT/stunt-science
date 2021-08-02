@@ -138,7 +138,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         myPlayer.transform.position = new Vector2(0f, -3);
         elapsed = 0;
         SimulationManager.isAnswered = false;
-        question = $"The entire ceiling is now crumbling and the only safe way out is for {playerName} to jump and slide down the manhole. If {pronoun} runs at constant velocity of {Speed.ToString()} meters per second for exactly {gameTime.ToString()} seconds, how far from the center of the manhole should {playerName} start running so that {pronoun} will fall down in it when {pronoun} stops?";
+        question = $"The entire ceiling is now crumbling and the only safe way out is for <b>{playerName}</b> to jump and slide down the manhole. If {pronoun} runs at constant velocity of <color=red>{Speed.ToString()} meters</color> per second for exactly <color=#006400>{gameTime.ToString()} seconds</color>, <color=purple>how far</color> from the center of the manhole should <b>{playerName}</b> start running so that {pronoun} will fall down in it when {pronoun} stops?";
         qc.SetQuestion(question);
     }
     IEnumerator StuntResult()

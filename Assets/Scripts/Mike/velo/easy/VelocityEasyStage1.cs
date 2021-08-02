@@ -140,7 +140,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         rubblesStopper.SetActive(true);
         SimulationManager.isAnswered = false;
 
-        question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from " + playerName + ". If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
+        question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from <b>" + playerName + "</b>. If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
         qc.SetQuestion(question);
         labels.SetPlayerPosition(myPlayer.transform.position);
     }

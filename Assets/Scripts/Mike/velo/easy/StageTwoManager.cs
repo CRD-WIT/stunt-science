@@ -133,7 +133,7 @@ public class StageTwoManager : MonoBehaviour
         qc.timer = "0.00s";
 
         qc.limit = 5f;
-        question = "The ceiling is still crumbling and the next safe spot is <color=red>" + distance.ToString() + " meters</color> away from " + PlayerPrefs.GetString("Name") + ". If " + pronoun + " runs at a constant velocity of <color=purple>" + finalSpeed.ToString() + " meters per second</color>, how <color=#006400>long</color> should " + pronoun + " run so " + pronoun + " will stop exactly on the same spot?";
+        question = "The ceiling is still crumbling and the next safe spot is <color=red>" + distance.ToString() + " meters</color> away from <b>" + PlayerPrefs.GetString("Name") + "</b>. If " + pronoun + " runs at a constant velocity of <color=purple>" + finalSpeed.ToString() + " meters per second</color>, how <color=#006400>long</color> should " + pronoun + " run so " + pronoun + " will stop exactly on the same spot?";
         qc.SetQuestion(question);
         answerRO = (float)System.Math.Round(answer, 2);
         safePoint.transform.position = new Vector2(distance, -2);

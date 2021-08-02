@@ -160,18 +160,32 @@ public class QuestionControllerVThree : MonoBehaviour
         return this.playerAnswer;
     }
 
-    public string AnswerLimiter(string value)
+    public void AnswerLimiter()
     {
+        string value = answerFieldHorizontal.text;
         // Bug when using whole number
         string[] splitted = value.Split('.');
-        if (splitted[1].Length < 2)
+        Debug.Log($"Split length: {splitted.Length}");
+        if (splitted.Length > 1)
         {
-            return $"{splitted[0]}.{splitted[1]}0";
+            if (splitted[1].Length < 2)
+            {
+                playerAnswer = float.Parse($"{splitted[0]}.{splitted[1]}0");
+            }
+            else
+            {
+                playerAnswer = float.Parse($"{splitted[0]}.{splitted[1].Substring(0, 2)}");
+            }
         }
         else
         {
-            return $"{splitted[0]}.{splitted[1].Substring(0, 2)}";
+            playerAnswer = int.Parse(value);
         }
+
+        playerAnswer = System.Convert.ToSingle(System.Math.Round(playerAnswer, 2));
+
+        answerFieldHorizontal.text = (playerAnswer.ToString());
+
 
     }
     public void SetAnswer()
@@ -181,10 +195,7 @@ public class QuestionControllerVThree : MonoBehaviour
             StartCoroutine(IsEmpty());
         }
         else
-        {
-            playerAnswer = float.Parse(AnswerLimiter(answerFieldHorizontal.text));
-            Debug.Log(playerAnswer);
-            AnswerLimiter(answerFieldHorizontal.text);
+        {        
             answerFieldHorizontal.text = playerAnswer + answerUnit;
             if (limit <= playerAnswer)
             {
