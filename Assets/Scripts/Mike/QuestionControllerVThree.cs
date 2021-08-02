@@ -165,31 +165,11 @@ public class QuestionControllerVThree : MonoBehaviour
         string value = answerFieldHorizontal.text;
         // Bug when using whole number
         string[] splitted = value.Split('.');
-        Debug.Log($"Split length: {splitted.Length}");
-        if (splitted.Length > 1)
-        {
-            if (splitted[1].Length < 2)
-            {
-                playerAnswer = float.Parse($"{splitted[0]}.{splitted[1]}0");
-            }
-            else
-            {
-                playerAnswer = float.Parse($"{splitted[0]}.{splitted[1].Substring(0, 2)}");
-            }
-        }
-        else
-        {
-            playerAnswer = int.Parse(value);
-        }
-
-        playerAnswer = System.Convert.ToSingle(System.Math.Round(playerAnswer, 2));
-
-        answerFieldHorizontal.text = (playerAnswer.ToString());
-
-
+        answerFieldHorizontal.characterLimit = splitted[0].Length + 3;        
     }
     public void SetAnswer()
     {
+        playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
             StartCoroutine(IsEmpty());
@@ -278,6 +258,7 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     IEnumerator Retry()
     {
+        // TODO: Fix delay for background intro.
         extraOn = false;
         answerFieldHorizontal.text = "";
         retried = true;
