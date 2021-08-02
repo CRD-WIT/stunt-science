@@ -212,6 +212,7 @@ public class AccHardSimulation : MonoBehaviour
     }
     public void answerLimiter()
     {
+        
         string[] num;
         num = answerField.text.Split('.');
         answerField.characterLimit = num[0].Length + 3;
