@@ -13,7 +13,7 @@ public class TestingScript : MonoBehaviour
     [SerializeField] public Vector2 distanceSpawnPnt = new Vector2(0, 0);
     [Header("Line Legnth")]
     [Space(2)]
-    public float distance = 20, angle, x, y;
+    public float distance = 20, angle = 20, x, y;
     float dimensionTxtLength, velocityTxtLength;
     Vector2 velocitySpawnPnt;
     [SerializeField] LineRenderer[] distanceLines = new LineRenderer[4];
@@ -62,21 +62,22 @@ public class TestingScript : MonoBehaviour
         // }
         if (!arrowPresent)
         {
-            arrowPresent =true;
+            arrowPresent = true;
             for (int i = 0; i <= 3; i++)
             {
                 arrows[i] = Instantiate(arrow);
                 arrows[i].transform.SetParent(transform.Find("Arrows"));
             }
-            arrows[0].transform.Rotate(0, 0, angle);
+            arrows[0].transform.Rotate(0, 0, 90+ angle);
+            arrows[1].transform.Rotate(0, 0, 90-angle);
         }
         distanceColor = TextColorMode.Given;
 
         dimensionTxtLength = labelTxt[0].GetComponent<TextMeshPro>().text.Length;
 
-        arrows[0].transform.position = new Vector2(x, distanceSpawnPnt.y);
-        // arrows[1].transform.position = new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y);
-        distanceLines[0].SetPosition(0, new Vector2(((x / 2) - (0.18f * dimensionTxtLength)) + distanceSpawnPnt.x, ((y / 2) - (0.18f * dimensionTxtLength)) + distanceSpawnPnt.y));
+        arrows[0].transform.position = new Vector2(x, y);
+        arrows[1].transform.position = new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y);
+        distanceLines[0].SetPosition(0, new Vector2(x + distanceSpawnPnt.x, y + distanceSpawnPnt.y));
         distanceLines[0].SetPosition(1, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y));
         // distanceLines[1].SetPosition(0, new Vector2(((x / 2) + (0.18f * dimensionTxtLength)) + distanceSpawnPnt.x, ((y / 2) + (0.18f * dimensionTxtLength)) + distanceSpawnPnt.y));
         // distanceLines[1].SetPosition(1, new Vector2((x + distanceSpawnPnt.x), distanceSpawnPnt.y));
@@ -84,7 +85,7 @@ public class TestingScript : MonoBehaviour
         // distanceLines[2].SetPosition(1, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y + 0.5f));
         // distanceLines[3].SetPosition(0, new Vector2(distanceSpawnPnt.x + x, distanceSpawnPnt.y - 1f));
         // distanceLines[3].SetPosition(1, new Vector2(distanceSpawnPnt.x + x, distanceSpawnPnt.y + 0.5f));
-        labelTxt[0].transform.position = new Vector2((x / 2) + distanceSpawnPnt.x, distanceSpawnPnt.y);
+        labelTxt[0].transform.position = new Vector2((x / 2) + distanceSpawnPnt.x, (y / 2) + distanceSpawnPnt.y);
 
         labelTxt[1].transform.position = velocitySpawnPnt;
         arrows[2].transform.position = new Vector2(velocitySpawnPnt.x + (0.22f * velocityTxtLength), velocitySpawnPnt.y);
