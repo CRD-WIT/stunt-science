@@ -21,7 +21,7 @@ public class ProjectileHardOne : MonoBehaviour
     {
         thePlayer.aim = true;
         generateProblem();
-        stoneGapOnX = stone.transform.position.x - theGolem.transform.position.x;
+        
     }
 
     // Update is called once per frame
@@ -29,6 +29,8 @@ public class ProjectileHardOne : MonoBehaviour
     {
         if (!hit)
         {
+            stoneDY = stone.transform.position.y - this.transform.position.y;
+            stoneDyR = (float)System.Math.Round(stoneDY, 2);
             trail.transform.position = this.transform.position;
             transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, generateAngle);
             //HRange = ((arrowVi*arrowVi) * (Mathf.Sin((generateAngle*2) * Mathf.Deg2Rad)))/ Mathf.Abs(Physics2D.gravity.y);
@@ -49,7 +51,7 @@ public class ProjectileHardOne : MonoBehaviour
                 trail.SetActive(true);
                 ProjSimulationManager.simulate = false;
                 theGolem.moveSpeed = 0;
-                theGolem.transform.position = new Vector2(transform.position.x + finalDistance + stoneGapOnX, theGolem.transform.position.y);
+                theGolem.transform.position = new Vector2(this.transform.position.x + finalDistance + stoneGapOnX, theGolem.transform.position.y);
                 timer = 0;
                 ShootArrow();
                 if (ProjSimulationManager.playerAnswer == correctAnswer)
@@ -77,7 +79,7 @@ public class ProjectileHardOne : MonoBehaviour
         hit = false;
         arrow.SetActive(false);
         trail.SetActive(false);
-        
+        stoneGapOnX =   theGolem.transform.position.x - stone.transform.position.x;
         arrow.transform.position = this.transform.position;
         theArrow.line.SetActive(true);
         theArrow.getAngle = false;
@@ -88,10 +90,9 @@ public class ProjectileHardOne : MonoBehaviour
         generateTime = Random.Range(3f, 4f);
         time = (float)System.Math.Round(generateTime, 2);
         //Mgear.transform.rotation = Quaternion.Euler(Mgear.transform.rotation.x, Mgear.transform.rotation.y, generateAngle);
-        totalDistance = stone.transform.position.x - transform.position.x;
+        totalDistance = stone.transform.position.x - this.transform.position.x;
         totalDistanceR = (float)System.Math.Round(totalDistance, 2);
-        stoneDY = stone.transform.position.y - transform.position.y;
-        stoneDyR = (float)System.Math.Round(stoneDY, 2);
+        
 
 
     }
