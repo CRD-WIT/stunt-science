@@ -20,31 +20,33 @@ public class SlantingIndicator : MonoBehaviour
     [SerializeField] GameObject arrow;
     GameObject[] arrows = new GameObject[3];
     [SerializeField] GameObject[] labelTxt = new GameObject[2];
-    bool arrowPresent = false;
+    bool arrowPresent = true;
     QuestionControllerVThree qc;
     private void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
     }
-    public void SetDistance(float distance, float angle, float x, float y)
+    public void SetDistance(float d, float a, float dx, float dy)
     {
         if (arrowPresent)
-        {
             foreach (var item in arrows)
                 Destroy(item);
-            arrowPresent = false;
-            if (!arrowPresent)
+        arrowPresent = false;
+        if (!arrowPresent)
+        {
+            for (int i = 0; i <= 2; i++)
             {
-                for (int i = 0; i <= 3; i++)
-                {
-                    arrows[i] = Instantiate(arrow);
-                    arrows[i].transform.SetParent(transform.Find("Arrows"));
-                }
-                arrows[0].transform.Rotate(0, 0, 90 + angle);
-                arrows[0].transform.Rotate(0, 0, 90 - angle);
+                arrows[i] = Instantiate(arrow);
+                arrows[i].transform.SetParent(transform.Find("Arrows"));
             }
-            distanceColor = TextColorMode.Given;
+            arrows[0].transform.Rotate(0, 0, (90 + angle));
+            arrows[1].transform.Rotate(0, 0, (90 - angle));
         }
+        distance = d;
+        angle =a;
+        x =dx;
+        y =dy;
+        distanceColor = TextColorMode.Given;
     }
     public void SetSpawnPnt(Vector2 pos)
     {

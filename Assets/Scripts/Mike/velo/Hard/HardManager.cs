@@ -85,10 +85,10 @@ public class HardManager : MonoBehaviour
     {
         isThrown = true;
         qc.limit = 10;
-        while (correctAnswer > qc.limit)
+        while (true)
         {
             bossV = -Random.Range(2f, 4f);
-            x = Random.Range(-3f, -8f);
+            x = Random.Range(-8f, -3f);
             y = -3;
             stoneV = 0;
             elapsed = 0;
@@ -96,10 +96,14 @@ public class HardManager : MonoBehaviour
             stuntTime = boss.SetVelocityOfTheHead(x, y, -bossV);
             correctAnswer = (20.5f + x) / stuntTime;
             Debug.Log(correctAnswer);
+            if (correctAnswer < qc.limit)
+                break;
         }
-        angle = Mathf.Atan(x / y);
+        angle = (float)((System.Math.Atan2(x,y)*180)/System.Math.PI);
         labels.SetDistance(distance, angle, x, y);
         labels.SetSpawnPnt(bossHead.transform.position);
+        Debug.Log(x + "," + y);
+        Debug.Log(distance+", "+angle);
     }
     void Play()
     {
