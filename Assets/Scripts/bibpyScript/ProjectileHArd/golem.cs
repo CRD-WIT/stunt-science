@@ -8,6 +8,7 @@ public class golem : MonoBehaviour
     public Rigidbody2D myRigidbody;
     private Animator myAnimator;
     public ProjSimulationManager theSimulate;
+    public bool throwing;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,5 +25,6 @@ public class golem : MonoBehaviour
         }
        
         myAnimator.SetFloat("speed", moveSpeed);
+        myAnimator.SetBool("throw", throwing);
     }
 }
