@@ -8,6 +8,7 @@ public class VelocityMediumManager : MonoBehaviour
 {
     QuestionControllerVThree qc;
     UnitOf whatIsAsk;
+    public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
 
     IndicatorManagerV1_1 indicators;
     IndicatorManager jmpDistFromBoulder;
@@ -16,6 +17,7 @@ public class VelocityMediumManager : MonoBehaviour
     GameObject boulder, directorsBubble, boulderA, velocityDirectionArrow1,
                 velocityDirectionArrow2, boulderShadow, playerShadow, JDIndicator;
     PlayerV2 myPlayer;
+    public TMP_Text debugAnswer;
     HeartManager life;
     ScoreManager score;
     CeillingGenerator createCeilling;
@@ -24,7 +26,8 @@ public class VelocityMediumManager : MonoBehaviour
     public static int stage;
     Rigidbody2D boulderRB, boulder2RB;
     float playerPos, playerAnswer, elapsed, distanceTraveled, currentPlayerPos, jumpTime, jumpForce, playerDistance;
-    string question, playerName, playerGender, pronoun, pPronoun, messageTxt;
+    string question, playerGender, pronoun, pPronoun, messageTxt;
+    string playerName = "Juan";
     bool isStartOfStunt, directorIsCalling, isAnswered, isAnswerCorrect, isEndOfStunt, onShadow;
     [SerializeField] TMP_Text playerSpeed, boulder1Speed, boulder2Speed;
     float correctD, timingD;
@@ -46,7 +49,7 @@ public class VelocityMediumManager : MonoBehaviour
 
         RagdollV2.myPlayer = myPlayer;
 
-        playerName = PlayerPrefs.GetString("Name");
+        //playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         sm.SetGameLevel(1);
         playerPos = myPlayer.gameObject.transform.position.x;
@@ -66,6 +69,7 @@ public class VelocityMediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        debugAnswer.SetText($"Answer: {stuntTime}");
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)
@@ -462,10 +466,13 @@ public class VelocityMediumManager : MonoBehaviour
             isStartOfStunt = false;
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Lights!";
+            lightssfx.Play();
             yield return new WaitForSeconds(0.75f);
             directorsSpeech.text = "Camera!";
+            camerasfx.Play();
             yield return new WaitForSeconds(0.75f);
             directorsSpeech.text = "Action!";
+            actionsfx.Play();
             yield return new WaitForSeconds(0.75f);
             directorsSpeech.text = "";
             directorsBubble.SetActive(false);
@@ -475,8 +482,10 @@ public class VelocityMediumManager : MonoBehaviour
         else
         {
             yield return new WaitForSeconds((35 / playerVelocity) - stuntTime);
+            cutsfx.Play();
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
+            
             RumblingManager.isCrumbling = true;
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
