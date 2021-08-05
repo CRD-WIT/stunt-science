@@ -122,7 +122,7 @@ public class AccManagerOne : MonoBehaviour
             {
                 actiontxt.text = "Next";
                 theQuestion.answerIsCorrect = true;
-                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " went through the tunnel</color>");
+                theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> m/s². ")+PlayerPrefs.GetString("Name") + " was able to enter tunnel succesfully!</color>");
                 theQuestion.SetModalTitle("Stunt Success");
 
             }

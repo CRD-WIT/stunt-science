@@ -23,7 +23,7 @@ public class AccManagerTwo : MonoBehaviour
     float playerVf;
     float currentPos;
     public float correctDistance;
-    string pronoun;
+    string pronoun, pronoun2;
     string gender;
     public GameObject walls, bikeInitials, cam, directionArrow;
     public TMP_Text Vitxt, Vftxt, Acctxt, timertxt, actiontxt;
@@ -46,10 +46,12 @@ public class AccManagerTwo : MonoBehaviour
         if (gender == "Male")
         {
             pronoun = ("he");
+            pronoun2 = ("his");
         }
         if (gender == "Female")
         {
             pronoun = ("she");
+            pronoun2 = ("her");
         }
         generateProblem();
     }
@@ -123,7 +125,7 @@ public class AccManagerTwo : MonoBehaviour
                 actiontxt.text = "Next";
                 theQuestion.answerIsCorrect = true;
                 theQuestion.SetModalTitle("Stunt Success");
-                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " went through the tunnel</color>");
+                theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> seconds. ")+ PlayerPrefs.GetString("Name") + " was able to enter tunnel succesfully!</color>");
 
 
             }
@@ -196,12 +198,12 @@ public class AccManagerTwo : MonoBehaviour
     public void generateProblem()
     {
         bikeInitials.transform.position = bikeInitialStartPos;
-        Vi = Random.Range(20, 30);
+        Vi = Random.Range(15, 20);
         generateAns = 60 / (Vi + 10);
         correctAns = (float)System.Math.Round(generateAns, 2);
         deacceleration = -(10 - Vi) / correctAns;
         //time = (float)System.Math.Round(generateTime, 2);
-        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> is initially speeding is motorcycle at <b>") + Vi.ToString("F1") + ("</b> m/s and must deacelerate to a final velocity of 10 m/s right before dropping the ledge so it could safely enter the tunnel across it. How long should <b>") + pronoun + ("</b> apply brake if braking deaccelerates the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²?")));
+        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + (" is instructed to initially speed ")+ pronoun2 +(" motorcycle at <b>") + Vi.ToString("F1") + ("</b> m/s and must deacelerate to a final velocity of 10 m/s right before dropping the ledge so it could safely enter the tunnel across it. How long should ") + pronoun + (" apply brake if braking deaccelerates the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²?")));
         theBike.transform.position = new Vector2(-15, .2f);
         theHeart.losslife = false;
         walls.SetActive(false);

@@ -148,7 +148,7 @@ public class AccManagerThree : MonoBehaviour
 
                 }
 
-                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has succesfully parked inside the truck! </color>");
+                theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> m/s. ")+PlayerPrefs.GetString("Name") + " have parked inside the truck succesfully! </color>");
 
 
             }
@@ -203,7 +203,7 @@ public class AccManagerThree : MonoBehaviour
         generateAns = 60 / time;
         generateAcceleration = generateAns / time;
         deacceleration = (float)System.Math.Round(generateAcceleration, 2);
-        theQuestion.SetQuestion(PlayerPrefs.GetString("Name") + ("</b> must park <b>") + pronoun2+ ("</b> motorcycle perfectly at the back of truck. If braking the motorcycle deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s, what should be its initial velocity(Vi) so it will come into complete stop after braking it for exactly  <b>") + time.ToString("F2") + ("</b> seconds?"));
+        theQuestion.SetQuestion(PlayerPrefs.GetString("Name") + (" is instructed to park ") + pronoun2+ (" motorcycle perfectly at the back of truck. If braking the motorcycle deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s², what should be its initial velocity(Vi) so it will come into complete stop after braking it for exactly <b>") + time.ToString("F2") + ("</b> seconds?"));
         vitxt.text = ("vi = ?");
         theHeart.losslife = false;
         velocitytxt.text = ("v = 0 m/s");
