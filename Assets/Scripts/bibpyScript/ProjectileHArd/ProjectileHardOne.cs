@@ -9,8 +9,10 @@ public class ProjectileHardOne : MonoBehaviour
     public QuestionControllerB theQuestion;
     public golem theGolem;
     public BoulderProjectile theBoulder;
+    public DistanceMeter[] theMeter;
     public Arrow theArrow;
-    public GameObject Mgear, stone, puller, arrow, blastPrefab, deflector, trail, lineAngle, boulder;
+    public GameObject Mgear, stone, puller, arrow, blastPrefab, deflector, trail, lineAngle, boulder,angleArrow;
+    public GameObject lineHorizontal;
     public float arrowVi;
     public float generateAngle, stoneAngle, stoneOpp,  HRange, timer, time, generateTime;
     public float stoneDY, correctAnswer, stoneDyR;
@@ -31,6 +33,8 @@ public class ProjectileHardOne : MonoBehaviour
         lineAngle.transform.position = stone.transform.position;
         if (!hit)
         {
+            angleArrow.transform.position = this.transform.position;
+            angleArrow.transform.rotation = this.transform.rotation;
             totalDistance = stone.transform.position.x - this.transform.position.x;
             totalDistanceR = (float)System.Math.Round(totalDistance, 2);
             stoneDY = stone.transform.position.y - this.transform.position.y;
@@ -45,6 +49,11 @@ public class ProjectileHardOne : MonoBehaviour
             //theShoot.speed = Mathf.Sqrt((stoneDH*Mathf.Abs(Physics2D.gravity.y)) / (Mathf.Sin((generateAngle*2) * Mathf.Deg2Rad)));
             arrowVi = ((Mathf.Sqrt((Mathf.Abs(Physics2D.gravity.y) / (2 * ((stoneOpp * (Mathf.Tan((generateAngle) * Mathf.Deg2Rad))) - stoneDyR))))) * stoneOpp) / (Mathf.Cos((generateAngle) * Mathf.Deg2Rad));
             correctAnswer = (float)System.Math.Round(arrowVi, 2);
+            lineHorizontal.transform.position = new Vector2(stone.transform.position.x, this.transform.position.y);
+            theMeter[0].positionX = lineHorizontal.transform.position.x+3;
+            theMeter[0].positionY = this.transform.position.y;
+            theMeter[0].distance = stoneDyR;
+
         }
         if (ProjSimulationManager.simulate == true)
         {

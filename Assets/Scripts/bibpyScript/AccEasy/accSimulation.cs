@@ -29,6 +29,7 @@ public class accSimulation : MonoBehaviour
     Vector2 playerstartPos;
     public QuestionControllerB theQuestion;
     public HeartManager theHeart;
+    public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
     //string accelaration;
     // Start is called before the first frame update
     void Start()
@@ -118,7 +119,7 @@ public class accSimulation : MonoBehaviour
     }
     public void retry()
     {
-        
+    
         StartCoroutine(exit());
        
     }
@@ -132,11 +133,14 @@ public class accSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Lights!";
-            yield return new WaitForSeconds(0.75f);
+            lightssfx.Play();
+            yield return new WaitForSeconds(1f);
             diretorsSpeech.text = "Camera!";
-            yield return new WaitForSeconds(0.75f);
+            camerasfx.Play();
+            yield return new WaitForSeconds(1f);
             diretorsSpeech.text = "Action!";
-            yield return new WaitForSeconds(0.75f);
+            actionsfx.Play();
+            yield return new WaitForSeconds(1f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
             simulate = true;
@@ -146,6 +150,7 @@ public class accSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
+            cutsfx.Play();
             yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";

@@ -185,9 +185,24 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 4449963900399715848, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
   m_PrefabInstance: {fileID: 4449963900701810225}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &788598915 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4809757330621410171, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+  m_PrefabInstance: {fileID: 4449963900701810225}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &829182486 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2211181115107134846, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+  m_PrefabInstance: {fileID: 4449963900701810225}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1471697808 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4449963901191787240, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+  m_PrefabInstance: {fileID: 4449963900701810225}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1492255411 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4809757331510837633, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
   m_PrefabInstance: {fileID: 4449963900701810225}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1505193494 stripped
@@ -248,6 +263,11 @@ MonoBehaviour:
   ropeHang: 0
   hangkick: 0
   climb: 0
+--- !u!82 &1812078402 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4809757331131629893, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+  m_PrefabInstance: {fileID: 4449963900701810225}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1981041708 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2593174840126738719, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
@@ -413,6 +433,22 @@ PrefabInstance:
       propertyPath: m_fontColor.r
       value: 0.34117648
       objectReference: {fileID: 0}
+    - target: {fileID: 4449963899962921217, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: cutsfx
+      value: 
+      objectReference: {fileID: 829182486}
+    - target: {fileID: 4449963899962921217, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: actionsfx
+      value: 
+      objectReference: {fileID: 1812078402}
+    - target: {fileID: 4449963899962921217, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: camerasfx
+      value: 
+      objectReference: {fileID: 788598915}
+    - target: {fileID: 4449963899962921217, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: lightssfx
+      value: 
+      objectReference: {fileID: 1492255411}
     - target: {fileID: 4449963900333310964, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
       propertyPath: m_fontColor.b
       value: 1
@@ -605,6 +641,34 @@ PrefabInstance:
       propertyPath: levelDifficulty
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4809757330621410171, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_Volume
+      value: 0.797
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809757330621410171, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c8565d029b83b3742b147f0e37706d7b, type: 3}
+    - target: {fileID: 4809757330621410171, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 0.553
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809757331131629893, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: df703cebc0e894444bd9386588a1575d, type: 3}
+    - target: {fileID: 4809757331131629893, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 0.553
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809757331510837633, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809757331510837633, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0f943f762b50fd94da609f7dd6445d50, type: 3}
     - target: {fileID: 7808350117603019872, guid: af1c2329410812843b4137ab66fcbe3c, type: 3}
       propertyPath: m_TranslationOffset.x
       value: 15591.618
