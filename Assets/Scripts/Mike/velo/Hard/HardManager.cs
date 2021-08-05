@@ -12,9 +12,10 @@ public class HardManager : MonoBehaviour
     QuestionControllerVThree qc;
     public GameObject directorsBubble, bossHead, stonePrefab;
     public TMP_Text directorsSpeech;
-    float x, y, bossV, playerAnswer, stuntTime, elapsed, distance, stoneV, correctAnswer, targetTime, angle;
+    float x, y, bossV, playerAnswer, stuntTime, elapsed, distance, stoneV, correctAnswer, angle;
     bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown;
-    string messageTxt;
+    string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
+    public int stage;
     public Rigidbody2D bossRB, stone;
     Rigidbody2D thrownStone;
     public Transform stoneObject;
@@ -25,43 +26,61 @@ public class HardManager : MonoBehaviour
         boss = FindObjectOfType<BossScript>();
         myPlayer = FindObjectOfType<Player>();
         qc = FindObjectOfType<QuestionControllerVThree>();
-        bossRB = bossHead.GetComponent<Rigidbody2D>();
+        bossRB = bossHead.GetComponent<Rigidbody2D>(); 
+        if (playerGender == "Male")
+        {
+            pronoun = "he";
+            pPronoun = "him";
+        }
+        else
+        {
+            pronoun = "she";
+            pPronoun = "her";
+        }
         SetUp();
     }
-
     // Update is called once per frame
     void Update()
     {
-        stuntTime = boss.t;
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
-        if (isAnswered)
+        switch (stage)
         {
-            playerAnswer = qc.GetPlayerAnswer();
-            qc.timer = elapsed.ToString("f2") + "s";
-            elapsed += Time.deltaTime;
-            bossRB.constraints = RigidbodyConstraints2D.None;
-            bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
-            if (isThrown)
-            {
-                StartCoroutine(Throw());
-            }
+            case 1:
+                if (isAnswered)
+                {
+                    playerAnswer = qc.GetPlayerAnswer();
+                    qc.timer = elapsed.ToString("f2") + "s";
+                    elapsed += Time.deltaTime;
+                    bossRB.constraints = RigidbodyConstraints2D.None;
+                    bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
+                    if (isThrown)
+                    {
+                        StartCoroutine(Throw());
+                    }
 
-            if ((boss.transform.position.y) <= (0))//stuntTime)
-            {
-                isAnswered = false;
-                elapsed = stuntTime;
-                bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
-                if (playerAnswer == correctAnswer)
-                {
-                    Debug.Log("correct");
+                    if ((boss.transform.position.y) <= (0))//stuntTime)
+                    {
+                        isAnswered = false;
+                        elapsed = stuntTime;
+                        bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
+                        if (playerAnswer == correctAnswer)
+                        {
+                            Debug.Log("correct");
+                        }
+                        else
+                        {
+                            Debug.Log("wrong");
+                        }
+                    }
                 }
-                else
-                {
-                    Debug.Log("wrong");
-                }
-            }
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
         }
+        // stuntTime = boss.t;
         if (isEndOfStunt)
         {
             StartCoroutine(StuntResult());
@@ -84,26 +103,40 @@ public class HardManager : MonoBehaviour
     void SetUp()
     {
         isThrown = true;
-        qc.limit = 10;
-        while (true)
+        stoneV = 0;
+        elapsed = 0;
+        switch (stage)
         {
-            bossV = -Random.Range(2f, 4f);
-            x = Random.Range(-8f, -3f);
-            y = -3;
-            stoneV = 0;
-            elapsed = 0;
-            distance = Mathf.Sqrt((x * x) + (y * y));
-            stuntTime = boss.SetVelocityOfTheHead(x, y, -bossV);
-            correctAnswer = (20.5f + x) / stuntTime;
-            Debug.Log(correctAnswer);
-            if (correctAnswer < qc.limit)
+            case 1:
+                qc.limit = 10;
+                while (true)
+                {
+                    bossV = Random.Range(2f, 4f);
+                    x = Random.Range(-8f, -3f);
+                    y = -3;
+                    distance = Mathf.Sqrt((x * x) + (y * y));
+                    stuntTime = distance / bossV;//boss.SetVelocityOfTheHead(x, y, -bossV);
+                    stoneV = (20.5f + x) / stuntTime;
+                    Debug.Log(stoneV);
+                    if (stoneV < qc.limit)
+                        break;
+                }
+                correctAnswer = (float)System.Math.Round(stoneV, 2);
+                boss.SetVelocityOfTheHead(stuntTime, x, y);
+                angle = (float)((System.Math.Atan2(x, y) * 180) / System.Math.PI);
+                labels.SetDistance(distance, angle, x, y);
+                labels.SetSpawnPnt(bossHead.transform.position);
+                question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + -angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + ". at what velocity should " +playerName+" throw the stone ti hit exactly at the gem?";
+                break;
+            case 2:
+                break;
+            case 3:
                 break;
         }
-        angle = (float)((System.Math.Atan2(x,y)*180)/System.Math.PI);
-        labels.SetDistance(distance, angle, x, y);
-        labels.SetSpawnPnt(bossHead.transform.position);
+        qc.question = question;
         Debug.Log(x + "," + y);
-        Debug.Log(distance+", "+angle);
+        Debug.Log(distance + ", " + angle);
+
     }
     void Play()
     {
@@ -172,9 +205,9 @@ public class HardManager : MonoBehaviour
         myPlayer.thrown = true;
         yield return new WaitForSeconds(1f);
         myPlayer.thrown = false;
-        GameObject bato = Instantiate(stonePrefab);
-        bato.transform.position = new Vector2(-19.5f, 2);
-        bato.GetComponent<Rigidbody2D>().gravityScale = 0;
-        bato.GetComponent<Rigidbody2D>().velocity = new Vector2(playerAnswer, 0);
+        GameObject stone = Instantiate(stonePrefab);
+        stone.transform.position = new Vector2(-19.5f, 2);
+        stone.GetComponent<Rigidbody2D>().gravityScale = 0;
+        stone.GetComponent<Rigidbody2D>().velocity = new Vector2(playerAnswer, 0);
     }
 }

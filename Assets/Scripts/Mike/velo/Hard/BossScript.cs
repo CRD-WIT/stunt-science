@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossScript : MonoBehaviour
 {
-    public float Vx, Vy, dist, t;
+    public float Vx, Vy;
     void Start()
     {
     }
@@ -17,12 +17,9 @@ public class BossScript : MonoBehaviour
     {
         return new Vector2(Vx, Vy);
     }
-    public float SetVelocityOfTheHead(float x, float y, float velocity)
+    public void SetVelocityOfTheHead(float t, float x, float y)
     {
-        dist = Mathf.Sqrt((x * x) + (y * y));
-        this.t = dist / velocity;
         this.Vx = x / t;
         this.Vy = y / t;
-        return t;
     }
 }
