@@ -26,7 +26,7 @@ public class HardManager : MonoBehaviour
         boss = FindObjectOfType<BossScript>();
         myPlayer = FindObjectOfType<Player>();
         qc = FindObjectOfType<QuestionControllerVThree>();
-        bossRB = bossHead.GetComponent<Rigidbody2D>(); 
+        bossRB = bossHead.GetComponent<Rigidbody2D>();
         if (playerGender == "Male")
         {
             pronoun = "he";
@@ -105,13 +105,14 @@ public class HardManager : MonoBehaviour
         isThrown = true;
         stoneV = 0;
         elapsed = 0;
+        correctAnswer = 0;
+        bossV = (float)System.Math.Round(Random.Range(2f, 4f), 2);
         switch (stage)
         {
             case 1:
                 qc.limit = 10;
                 while (true)
                 {
-                    bossV = Random.Range(2f, 4f);
                     x = Random.Range(-8f, -3f);
                     y = -3;
                     distance = Mathf.Sqrt((x * x) + (y * y));
@@ -123,12 +124,26 @@ public class HardManager : MonoBehaviour
                 }
                 correctAnswer = (float)System.Math.Round(stoneV, 2);
                 boss.SetVelocityOfTheHead(stuntTime, x, y);
-                angle = (float)((System.Math.Atan2(x, y) * 180) / System.Math.PI);
+                angle = (float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
                 labels.SetDistance(distance, angle, x, y);
                 labels.SetSpawnPnt(bossHead.transform.position);
-                question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + -angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + ". at what velocity should " +playerName+" throw the stone ti hit exactly at the gem?";
+                question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
             case 2:
+                while (correctAnswer < qc.limit)
+                {
+                    x = Random.Range(-8f, -3f);
+                    y = -3;
+                    distance = Mathf.Sqrt((x * x) + (y * y));
+                    stuntTime = distance / bossV;//boss.SetVelocityOfTheHead(x, y, -bossV);
+                    stoneV = (20.5f + x) / stuntTime;
+                    Debug.Log(stoneV);
+                }
+                correctAnswer = (float)System.Math.Round(stoneV, 2);
+                boss.SetVelocityOfTheHead(stuntTime, x, y);
+                angle = (float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
+                labels.SetDistance(distance, angle, x, y);
+                labels.SetSpawnPnt(bossHead.transform.position);
                 break;
             case 3:
                 break;
