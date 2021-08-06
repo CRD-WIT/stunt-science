@@ -195,7 +195,7 @@ public class AccManagerThree : MonoBehaviour
         bikeInitials.transform.position = bikeInitialStartPos;
         addingAcc = true;
         generateTime = Random.Range(2.5f, 4.5f);
-        theBike.transform.position = new Vector2(-15, 0.2f);
+        theBike.transform.position = new Vector2(-17, 0.2f);
         time = (float)System.Math.Round(generateTime, 2);
         theTruck.transform.position = truckPosition;
         theTruck.moveSpeed = 0;
