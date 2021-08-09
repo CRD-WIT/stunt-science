@@ -16,6 +16,8 @@ public class SimulationManager : MonoBehaviour
     private HeartManager theHeart;
     QuestionControllerVThree qc;
     IndicatorManagerV1_1 dimLine;
+     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -77,10 +79,13 @@ public class SimulationManager : MonoBehaviour
         if (isStartOfStunt)
         {
             directorsBubble.SetActive(true);
+            lightssfx.Play();
             diretorsSpeech.text = "Lights!";
             yield return new WaitForSeconds(0.75f);
+            camerasfx.Play();
             diretorsSpeech.text = "Camera!";
             yield return new WaitForSeconds(0.75f);
+            actionsfx.Play();
             diretorsSpeech.text = "Action!";
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
@@ -92,6 +97,7 @@ public class SimulationManager : MonoBehaviour
             RumblingManager.shakeON = false;
             yield return new WaitForSeconds(1.75f);
             directorsBubble.SetActive(true);
+            cutsfx.Play();
             diretorsSpeech.text = "Cut!";
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);

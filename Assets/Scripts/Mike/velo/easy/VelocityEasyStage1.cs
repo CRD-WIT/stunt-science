@@ -14,10 +14,12 @@ public class VelocityEasyStage1 : MonoBehaviour
     public float distance, gameTime, Speed, elapsed, currentPos;
     CeillingGenerator theCeiling;
     StageManager sm = new StageManager();
+    public AudioSource scream;
     IndicatorManagerV1_1 labels;
     QuestionControllerVThree qc;
 
     public TMP_Text debugAnswer;
+    public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
 
     void Start()
     {
@@ -80,11 +82,13 @@ public class VelocityEasyStage1 : MonoBehaviour
                     answerIs = false;
                     if (answer < Speed)
                     {
+                        scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos - 0.2f, myPlayer.transform.position.y);
                         errorMessage = PlayerPrefs.GetString("Name") + " ran too slow and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
                     else //if(answer > Speed)
                     {
+                        scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos + 0.2f, myPlayer.transform.position.y);
                         errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }

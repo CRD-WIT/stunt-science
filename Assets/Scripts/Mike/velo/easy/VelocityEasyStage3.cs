@@ -18,6 +18,7 @@ public class VelocityEasyStage3 : MonoBehaviour
     public GameObject dimensionLine;
     public QuestionControllerVThree qc;
     public TMP_Text debugAnswer;
+    public AudioSource scream;
 
     // Start is cdimensionLineled before the first frame update
 
@@ -91,11 +92,13 @@ public class VelocityEasyStage3 : MonoBehaviour
                     currentPos = (40 - answer) + (Speed * gameTime);
                     if (answer < distance)
                     {
+                        scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos + 0.4f, myPlayer.transform.position.y);
                         answerMessage = PlayerPrefs.GetString("Name") + " ran too near from the manhole and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                     else
                     {
+                        scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos - 0.4f, myPlayer.transform.position.y);
                         answerMessage = PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }

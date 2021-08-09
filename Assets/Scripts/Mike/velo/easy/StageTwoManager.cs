@@ -18,12 +18,15 @@ public class StageTwoManager : MonoBehaviour
     bool answerIs;
     public IndicatorManagerV1_1 labels;
     public QuestionControllerVThree qc;
+
+    public AudioSource scream;
+
     public TMP_Text debugAnswer;
     void Start()
     {
         theScorer = FindObjectOfType<ScoreManager>();
         gender = PlayerPrefs.GetString("Gender");
-        PlayerStartPoint = thePlayer.transform.position;       
+        PlayerStartPoint = thePlayer.transform.position;
         whatIsAsk = UnitOf.time;
         reset();
     }
@@ -82,6 +85,7 @@ public class StageTwoManager : MonoBehaviour
                     playerDistance = playerAnswer * speed;
                     if (playerAnswer < answerRO)
                     {
+                        scream.Play();
                         thePlayer.transform.position = new Vector2(playerDistance - 0.2f, thePlayer.transform.position.y);
                         errorMessage = PlayerPrefs.GetString("Name") + " stopped too early and " + pronoun + " stopped before the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
                     }
@@ -92,8 +96,12 @@ public class StageTwoManager : MonoBehaviour
                             thePlayer.transform.position = new Vector2(currentPos, -10);
                         }
                         else
+                        {
+                            scream.Play();
                             thePlayer.transform.position = new Vector2(playerDistance + 0.2f, thePlayer.transform.position.y);
-                        errorMessage = PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
+                            errorMessage = PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
+
+                        }
 
                         labels.ShowCorrectDistance(distance, true, new Vector2(0, 2));
                         labels.ShowCorrectTime(answer, answer * speed, true);
@@ -143,7 +151,7 @@ public class StageTwoManager : MonoBehaviour
         theHeart.losslife = false;
         groundPlatform.transform.localScale = new Vector3(68.05f, groundPlatform.transform.localScale.y, 1);
         ragdollSpawn.transform.position = new Vector3(30.5f, ragdollSpawn.transform.position.y, 0);
-        
+
         labels.timeSpawnPnt = new Vector2(0, -2.25f);
         labels.distanceSpawnPnt = new Vector2(0, -2);
         labels.showLines(distance, distance, null, speed, answer);

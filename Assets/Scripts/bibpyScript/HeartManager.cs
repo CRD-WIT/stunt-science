@@ -56,8 +56,9 @@ public class HeartManager : MonoBehaviour
 
             if (life == 0)
             {
+                
                 Time.timeScale = 0.4f;
-
+                Debug.Log("Gameover triggered!");
                 StartCoroutine(actionreset());
                 StartCoroutine(gameover());
             }
@@ -74,6 +75,7 @@ public class HeartManager : MonoBehaviour
     {
         bgm.Stop();
         Gameoversfx.Play();
+        Debug.Log($"Game over triggered!");
         StartCoroutine(endBGgone());
         yield return new WaitForSeconds(2);
         // SceneManager.LoadScene("LevelOne");
@@ -83,8 +85,8 @@ public class HeartManager : MonoBehaviour
     {
         
         yield return new WaitForSeconds(7f);
-        gameOverBG.SetActive(true);
-        //gameOverBG.SetActive(false);
+        //gameOverBG.SetActive(true);
+        gameOverBG.SetActive(false);
     }
 
 
