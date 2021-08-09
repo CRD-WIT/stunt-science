@@ -11,13 +11,13 @@ public class ProjectileHardOne : MonoBehaviour
     public BoulderProjectile theBoulder;
     public DistanceMeter[] theMeter;
     public Arrow theArrow;
-    public GameObject Mgear, stone, target, puller, arrow, blastPrefab, deflector, trail, lineAngle, boulder,angleArrow;
-    public GameObject lineVertical;
-    public float arrowVi;
-    public float generateAngle, stoneAngle, stoneOpp,  HRange, timer, time, generateTime;
-    public float stoneDY, correctAnswer, stoneDyR;
-    public float totalDistance, totalDistanceR;
-    public bool hit, answerIsCorrect;
+    public GameObject Mgear, stone, target, puller, arrow, blastPrefab, deflector, trail, lineAngle, boulder, angleArrow;
+    public GameObject lineVertical, dimension;
+    public float vi, generateVG, vG;
+    public float generateAngle, stoneAngle, stoneOpp, HRange, timer, projectileTime, golemTravelTime;
+    public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
+    public float generateDistance, distance, golemDistanceToTravel;
+    public bool timeStart, answerIsCorrect, shootReady;
 
     // Start is called before the first frame update
     void Start()
@@ -31,47 +31,68 @@ public class ProjectileHardOne : MonoBehaviour
     void FixedUpdate()
     {
         lineAngle.transform.position = stone.transform.position;
-        if (!hit)
+        if (!timeStart)
         {
+            stone.transform.position = new Vector2(this.transform.position.x + distance, target.transform.position.y);
             angleArrow.transform.position = this.transform.position;
             angleArrow.transform.rotation = this.transform.rotation;
-            totalDistance = stone.transform.position.x - this.transform.position.x;
-            totalDistanceR = (float)System.Math.Round(totalDistance, 2);
+            golemDistanceToTravel = target.transform.position.x - stone.transform.position.x;
+            golemTravelTime = golemDistanceToTravel / vG;
+            //generateDistance = stone.transform.position.x - this.transform.position.x;
+            //distance = (float)System.Math.Round(generateDistance, 2);
             stoneDY = stone.transform.position.y - this.transform.position.y;
             stoneDyR = (float)System.Math.Round(stoneDY, 2);
-            stoneAngle = Mathf.Atan((totalDistance / stoneDyR)) * Mathf.Rad2Deg;
+            stoneAngle = Mathf.Atan((generateDistance / stoneDyR)) * Mathf.Rad2Deg;
             stoneOpp = (Mathf.Tan(stoneAngle * Mathf.Deg2Rad)) * stoneDyR;
-            stone.transform.position = new Vector2(stone.transform.position.x , target.transform.position.y);
+            stone.transform.position = new Vector2(stone.transform.position.x, target.transform.position.y);
             trail.transform.position = this.transform.position;
             transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, generateAngle);
             //HRange = ((arrowVi*arrowVi) * (Mathf.Sin((generateAngle*2) * Mathf.Deg2Rad)))/ Mathf.Abs(Physics2D.gravity.y);
             //rangePoint.transform.position = new Vector2(theShoot.transform.position.x +stoneDH, theShoot.transform.position.y);
             //theShoot.speed = Mathf.Sqrt((stoneDH*Mathf.Abs(Physics2D.gravity.y)) / (Mathf.Sin((generateAngle*2) * Mathf.Deg2Rad)));
-            arrowVi = ((Mathf.Sqrt((Mathf.Abs(Physics2D.gravity.y) / (2 * ((stoneOpp * (Mathf.Tan((generateAngle) * Mathf.Deg2Rad))) - stoneDyR))))) * stoneOpp) / (Mathf.Cos((generateAngle) * Mathf.Deg2Rad));
-            correctAnswer = (float)System.Math.Round(arrowVi, 2);
+            vi = ((Mathf.Sqrt((Mathf.Abs(Physics2D.gravity.y) / (2 * ((stoneOpp * (Mathf.Tan((generateAngle) * Mathf.Deg2Rad))) - stoneDyR))))) * stoneOpp) / (Mathf.Cos((generateAngle) * Mathf.Deg2Rad));
+            generateAnswer = golemTravelTime - projectileTime;
+            correctAnswer = (float)System.Math.Round(generateAnswer, 2);
+            projectileTime = stoneOpp / (vi * (Mathf.Cos(generateAngle * Mathf.Deg2Rad)));
             lineVertical.transform.position = new Vector2(stone.transform.position.x, this.transform.position.y);
-            theMeter[0].positionX = lineVertical.transform.position.x+3;
+            theMeter[0].positionX = lineVertical.transform.position.x + 1;
             theMeter[0].positionY = this.transform.position.y;
             theMeter[0].distance = stoneDyR;
 
         }
+        if (timeStart)
+        {
+            timer += Time.fixedDeltaTime;
+
+        }
+
         if (ProjSimulationManager.simulate == true)
         {
-
-
+            timeStart = true;
+            theGolem.moveSpeed = vG;
             trail.SetActive(true);
-            ProjSimulationManager.simulate = false;
-            ShootArrow();
-            if (ProjSimulationManager.playerAnswer == correctAnswer)
+            dimension.SetActive(false);
+            if (shootReady)
             {
-                theQuestion.answerIsCorrect = true;
-                Shoot();
-                answerIsCorrect = true;
-                deflector.GetComponent<Collider2D>().isTrigger = true;
+                if (timer >= ProjSimulationManager.playerAnswer+.1f)
+                {
+                    ShootArrow();
+                    ProjSimulationManager.simulate = false;
+                    if (ProjSimulationManager.playerAnswer == correctAnswer)
+                    {
+                        theQuestion.answerIsCorrect = true;
+                        Shoot();
+                        answerIsCorrect = true;
+                        deflector.GetComponent<Collider2D>().isTrigger = true;
+                    }
+                    shootReady = false;
+                }
             }
+
+
             if (ProjSimulationManager.playerAnswer != correctAnswer)
             {
-                StartCoroutine(golemThrow());
+                //StartCoroutine(golemThrow());
                 StartCoroutine(StuntResult());
             }
 
@@ -84,37 +105,40 @@ public class ProjectileHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        dimension.SetActive(true);
+        generateVG = Random.Range(2f, 3f);
+        vG = (float)System.Math.Round(generateVG, 2);
+        generateDistance = Random.Range(25f, 30);
+        distance = (float)System.Math.Round(generateDistance, 2);
         theGolem.transform.position = new Vector2(20, theGolem.transform.position.y);
-        hit = false;
+        timeStart = false;
         arrow.SetActive(false);
         trail.SetActive(false);
         arrow.transform.position = this.transform.position;
         theArrow.line.SetActive(true);
         theArrow.getAngle = false;
         theArrow.generateLine = true;
-        generateAngle = Random.Range(47, 50);
-        generateTime = Random.Range(3f, 4f);
-        time = (float)System.Math.Round(generateTime, 2);
+        generateAngle = Random.Range(50, 60);
         //Mgear.transform.rotation = Quaternion.Euler(Mgear.transform.rotation.x, Mgear.transform.rotation.y, generateAngle);
-        
-        
+
+
 
 
 
     }
     IEnumerator ropePull()
     {
-        generateAngle = 20;
-        
-        yield return new WaitForSeconds(1.5f);
-        theGolem.throwing = true;
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 20);
+
+        yield return new WaitForSeconds(projectileTime);
+        //theGolem.throwing = true;
+        theGolem.moveSpeed = 0;
         yield return new WaitForSeconds(.55f);
         boulder.SetActive(false);
-        theGolem.throwing = false;
-        theBoulder.boulderThrow();
-        puller.GetComponent<Rigidbody2D>().velocity = transform.right * arrowVi;
+        //theGolem.throwing = false;
+        //theBoulder.boulderThrow();
+        puller.GetComponent<Rigidbody2D>().velocity = transform.right * 30;
         thePlayer.airdive = true;
-        hit = true;
         thePlayer.aim = false;
 
     }
@@ -141,15 +165,15 @@ public class ProjectileHardOne : MonoBehaviour
         arrow.transform.position = transform.position;
         if (ProjSimulationManager.playerAnswer < correctAnswer)
         {
-            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer - .3f);
+            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
         }
         if (ProjSimulationManager.playerAnswer > correctAnswer)
         {
-            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer + .3f);
+            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
         }
         if (ProjSimulationManager.playerAnswer == correctAnswer)
         {
-            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer);
+            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
         }
         GameObject explosion = Instantiate(blastPrefab);
         explosion.transform.position = transform.position;
