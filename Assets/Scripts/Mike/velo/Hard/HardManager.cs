@@ -46,21 +46,19 @@ public class HardManager : MonoBehaviour
     {
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
-        switch (stage)
+
+        if (isAnswered)
         {
-            case 1:
-                if (isAnswered)
-                {
-                    playerAnswer = qc.GetPlayerAnswer();
-                    qc.timer = elapsed.ToString("f2") + "s";
-                    elapsed += Time.deltaTime;
+            playerAnswer = qc.GetPlayerAnswer();
+            qc.timer = elapsed.ToString("f2") + "s";
+            elapsed += Time.deltaTime;
+            if (isThrown)
+                StartCoroutine(Throw());
+            switch (stage)
+            {
+                case 1:
                     bossRB.constraints = RigidbodyConstraints2D.None;
                     bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
-                    if (isThrown)
-                    {
-                        StartCoroutine(Throw());
-                    }
-
                     if ((boss.transform.position.y) <= (0))//stuntTime)
                     {
                         isAnswered = false;
@@ -75,12 +73,28 @@ public class HardManager : MonoBehaviour
                             Debug.Log("wrong");
                         }
                     }
-                }
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
+                    break;
+                case 2:
+                    bossRB.constraints = RigidbodyConstraints2D.None;
+                    bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
+                    if ((boss.transform.position.y) <= (0))//stuntTime)
+                    {
+                        isAnswered = false;
+                        elapsed = stuntTime;
+                        bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
+                        if (playerAnswer == correctAnswer)
+                        {
+                            Debug.Log("correct");
+                        }
+                        else
+                        {
+                            Debug.Log("wrong");
+                        }
+                    }
+                    break;
+                case 3:
+                    break;
+            }
         }
         // stuntTime = boss.t;
         if (isEndOfStunt)
@@ -113,21 +127,20 @@ public class HardManager : MonoBehaviour
         {
             case 1:
                 y = -3;
+                x = 0;
                 qc.limit = 10;
                 while (true)
                 {
-                    x = Random.Range(-8f, -3f);
-                    distance = (float)System.Math.Round(Mathf.Sqrt((x * x) + (y * y)));
-                    stuntTime = distance / bossV;//boss.SetVelocityOfTheHead(x, y, -bossV);
-                    stoneV = (20.5f + x) / stuntTime+1;
+                    distance = 3;
+                    stuntTime = distance / bossV;
+                    stoneV = y / (stuntTime - 1);
                     Debug.Log(stoneV);
-                    // indicators.timeSpawnPnt = myPlayer.transform.position;
                     if (stoneV < qc.limit)
                         break;
                 }
                 indicators.distanceSpawnPnt = new Vector2(-19.5f, 2);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(20.5F+x, null, null, playerAnswer, stuntTime);
+                indicators.showLines(20.5F + x, null, null, playerAnswer, stuntTime);
                 indicators.UnknownIs('v');
 
                 correctAnswer = (float)System.Math.Round(stoneV, 2);
@@ -138,6 +151,32 @@ public class HardManager : MonoBehaviour
                 question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
             case 2:
+                y = -3;
+                qc.limit = 10;
+                while (true)
+                {
+                    x = Random.Range(-8f, -3f);
+                    distance = (float)System.Math.Round(Mathf.Sqrt((x * x) + (y * y)));
+                    stuntTime = distance / bossV;//boss.SetVelocityOfTheHead(x, y, -bossV);
+                    stoneV = (20.5f + x) / (stuntTime + 1);
+                    Debug.Log(stoneV);
+                    // indicators.timeSpawnPnt = myPlayer.transform.position;
+                    if (stoneV < qc.limit)
+                        break;
+                }
+                indicators.distanceSpawnPnt = new Vector2(-19.5f, 2);
+                indicators.SetPlayerPosition(myPlayer.transform.position);
+                indicators.showLines(20.5F + x, null, null, playerAnswer, stuntTime);
+                indicators.UnknownIs('v');
+
+                correctAnswer = (float)System.Math.Round(stoneV, 2);
+                boss.SetVelocityOfTheHead(stuntTime, x, y);
+                angle = (float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
+                labels.SetDistance(distance, angle, x, y);
+                labels.SetSpawnPnt(new Vector2(1, 5));
+                question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
+                break;
+            case 3:
                 while (correctAnswer < qc.limit)
                 {
                     x = Random.Range(-8f, -3f);
@@ -155,9 +194,6 @@ public class HardManager : MonoBehaviour
                 labels.SetDistance(distance, angle, x, y);
                 labels.SetSpawnPnt(bossHead.transform.position);
                 break;
-            case 3:
-                break;
-
         }
         qc.question = question;
         Debug.Log(x + "," + y);
