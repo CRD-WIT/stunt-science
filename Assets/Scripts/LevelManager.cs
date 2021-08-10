@@ -30,130 +30,58 @@ public class LevelManager : MonoBehaviour
     [Range(0, 3)] public int levelForcesHard = 0;
     public LevelCard[] levelCards;
 
-    bool level1Locked;
-
-    bool level2Locked;
-
-    bool level3Locked;
-
-    bool level4Locked;
-
-    bool level5Locked;
-
     void Start()
     {
-        unlockedCount = PlayerPrefs.GetInt("unlockedCount", 2);
+        //unlockedCount = PlayerPrefs.GetInt("unlockedCount", 2);
 
         levelVelocityEasy = PlayerPrefs.GetInt("levelVelocityEasy", 0);
         levelVelocityMedium = PlayerPrefs.GetInt("levelVelocityMedium", 0);
         levelVelocityHard = PlayerPrefs.GetInt("levelVelocityHard", 0);
-        level1Locked = PlayerPrefs.GetInt("level1Locked", 0) == 0 ? false : true;
+
+        levelCards[0].locked = false;
+        levelCards[1].locked = PlayerPrefs.GetInt("level1MediumLocked", 1) == 1 ? true : false;
+        levelCards[2].locked = PlayerPrefs.GetInt("level1HardLocked", 1) == 1 ? true : false;
 
         levelAccelerationEasy = PlayerPrefs.GetInt("levelAccelerationEasy", 0);
         levelAccelerationMedium = PlayerPrefs.GetInt("levelAccelerationMedium", 0);
         levelAccelerationHard = PlayerPrefs.GetInt("levelAccelerationHard", 0);
-        level2Locked = PlayerPrefs.GetInt("level2Locked", 0) == 0 ? false : true;
+
+        levelCards[3].locked = PlayerPrefs.GetInt("level2EasyLocked", 1) == 1 ? true : false;
+        levelCards[4].locked = PlayerPrefs.GetInt("level2MediumLocked", 1) == 1 ? true : false;
+        levelCards[5].locked = PlayerPrefs.GetInt("level2HardLocked", 1) == 1 ? true : false;
 
         levelFreeFallProjectileEasy = PlayerPrefs.GetInt("levelFreeFallProjectileEasy", 0);
         levelFreeFallProjectileMedium = PlayerPrefs.GetInt("levelFreeFallProjectileMedium", 0);
         levelFreeFallProjectileHard = PlayerPrefs.GetInt("levelFreeFallProjectileHard", 0);
-        level3Locked = PlayerPrefs.GetInt("level3Locked", 0) == 0 ? false : true;
+
+        levelCards[6].locked = PlayerPrefs.GetInt("level3EasyLocked", 1) == 1 ? true : false;
+        levelCards[7].locked = PlayerPrefs.GetInt("level3MediumLocked", 1) == 1 ? true : false;
+        levelCards[8].locked = PlayerPrefs.GetInt("level3HardLocked", 1) == 1 ? true : false;
 
         levelCircularMotionEasy = PlayerPrefs.GetInt("levelCircularMotionEasy", 0);
         levelCircularMotionMedium = PlayerPrefs.GetInt("levelCircularMotionMedium", 0);
         levelCircularMotionHard = PlayerPrefs.GetInt("levelCircularMotionHard", 0);
-        level4Locked = PlayerPrefs.GetInt("level4Locked", 0) == 0 ? false : true;
+
+        levelCards[9].locked = PlayerPrefs.GetInt("level4EasyLocked", 1) == 1 ? true : false;
+        levelCards[10].locked = PlayerPrefs.GetInt("level4MediumLocked", 1) == 1 ? true : false;
+        levelCards[11].locked = PlayerPrefs.GetInt("level4HardLocked", 1) == 1 ? true : false;
 
         levelForcesEasy = PlayerPrefs.GetInt("levelForcesEasy", 0);
         levelForcesMedium = PlayerPrefs.GetInt("levelForcesMedium", 0);
         levelForcesHard = PlayerPrefs.GetInt("levelForcesHard", 0);
-        level5Locked = PlayerPrefs.GetInt("level5Locked", 0) == 0 ? false : true;
-    }
 
-    public LevelData GetLevelData(int levelNumber, Difficulty difficulty)
-    {
-        // level 1
-        if (levelNumber == 1 && difficulty == Difficulty.Easy)
-        {
-            return new LevelData(levelVelocityEasy, level1Locked);
-        }
-        if (levelNumber == 1 && difficulty == Difficulty.Medium)
-        {
-            return new LevelData(levelVelocityMedium, level1Locked);
-        }
-        if (levelNumber == 1 && difficulty == Difficulty.Hard)
-        {
-            return new LevelData(levelVelocityHard, level1Locked);
-        }
-
-        // level 2
-        if (levelNumber == 2 && difficulty == Difficulty.Easy)
-        {
-            return new LevelData(levelAccelerationEasy, level2Locked);
-        }
-        if (levelNumber == 2 && difficulty == Difficulty.Medium)
-        {
-            return new LevelData(levelAccelerationMedium, level2Locked);
-        }
-        if (levelNumber == 2 && difficulty == Difficulty.Hard)
-        {
-            return new LevelData(levelAccelerationHard, level2Locked);
-        }
-
-        // level 3
-        if (levelNumber == 3 && difficulty == Difficulty.Easy)
-        {
-            return new LevelData(levelFreeFallProjectileEasy, level3Locked);
-        }
-        if (levelNumber == 3 && difficulty == Difficulty.Medium)
-        {
-            return new LevelData(levelFreeFallProjectileMedium, level3Locked);
-        }
-        if (levelNumber == 3 && difficulty == Difficulty.Hard)
-        {
-            return new LevelData(levelCircularMotionHard, level3Locked);
-        }
-
-
-        // level 4
-        if (levelNumber == 4 && difficulty == Difficulty.Easy)
-        {
-            return new LevelData(levelCircularMotionEasy, level4Locked);
-        }
-        if (levelNumber == 4 && difficulty == Difficulty.Medium)
-        {
-            return new LevelData(levelCircularMotionMedium, level4Locked);
-        }
-        if (levelNumber == 4 && difficulty == Difficulty.Hard)
-        {
-            return new LevelData(levelCircularMotionHard, level4Locked);
-        }
-
-        // level 5
-        if (levelNumber == 5 && difficulty == Difficulty.Easy)
-        {
-            return new LevelData(levelForcesEasy, level5Locked);
-        }
-        if (levelNumber == 5 && difficulty == Difficulty.Medium)
-        {
-            return new LevelData(levelForcesMedium, level5Locked);
-        }
-        if (levelNumber == 5 && difficulty == Difficulty.Hard)
-        {
-            return new LevelData(levelForcesHard, level5Locked);
-        }
-
-        return new LevelData(0, true);
-
+        levelCards[12].locked = PlayerPrefs.GetInt("level5EasyLocked", 1) == 1 ? true : false;
+        levelCards[13].locked = PlayerPrefs.GetInt("level5MediumLocked", 1) == 1 ? true : false;
+        levelCards[14].locked = PlayerPrefs.GetInt("level5HardLocked", 1) == 1 ? true : false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < levelCards.Length; i++)
-        {
-            levelCards[i].locked = unlockedCount <= i + 1;
-        }
+        // for (int i = 0; i < levelCards.Length; i++)
+        // {
+        //     levelCards[i].locked = unlockedCount <= i + 1;
+        // }
         levelCards[0].starActiveCount = levelVelocityEasy;
         levelCards[1].starActiveCount = levelVelocityMedium;
         levelCards[2].starActiveCount = levelVelocityHard;
@@ -170,7 +98,7 @@ public class LevelManager : MonoBehaviour
         levelCards[13].starActiveCount = levelForcesMedium;
         levelCards[14].starActiveCount = levelForcesHard;
 
-        
+
 
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 public class StageManager
 {
     string[] levelDifficulties = { "", "easy", "medium", "hard" };
-    string[] gameLevel = {"","Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum"};
+    string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     string currentLevelDifficulty, currentGameLevel;
 
     // public void SetStage(int stageNumber)
@@ -18,7 +18,7 @@ public class StageManager
     public void SetDifficulty(int difficultyLevel)
     {
         //this.currentLevelDifficulty = levelDifficulties[difficultyLevel];
-        PlayerPrefs.SetString("Difficulty Level",levelDifficulties[difficultyLevel]);
+        PlayerPrefs.SetString("Difficulty Level", levelDifficulties[difficultyLevel]);
     }
     public string GetDifficulty()
     {
@@ -29,18 +29,22 @@ public class StageManager
     // {
     //     return stage;
     // }
-    public void SetGameLevel(int level){
+    public void SetGameLevel(int level)
+    {
         //this.currentGameLevel = gameLevel[level];
-        PlayerPrefs.SetString("Level",gameLevel[level]);
+        PlayerPrefs.SetString("Level", gameLevel[level]);
     }
-    public int GetLevelNum(string n){
-        int i =0;
-        while(gameLevel[i] != n){
+    public int GetLevelNum(string n)
+    {
+        int i = 0;
+        while (gameLevel[i] != n)
+        {
             i++;
         }
         return i;
     }
-    public string GetGameLevel(){
+    public string GetGameLevel()
+    {
         return PlayerPrefs.GetString("Level");
     }
 }

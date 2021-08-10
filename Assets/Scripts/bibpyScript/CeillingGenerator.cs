@@ -36,7 +36,7 @@ public class CeillingGenerator : MonoBehaviour
             {
                 GameObject TempGo2 = Instantiate(rubble[Random.Range(0, 2)]);
                 TempGo2.transform.localScale = new Vector2(TempGo2.transform.localScale.x * (Random.Range(0.7f, 0.9f)), TempGo2.transform.localScale.y * (Random.Range(0.5f, 0.7f)));
-                TempGo2.transform.position = new Vector3(x - 3 * tileoffset, (9 * tileoffset)+i, 1);
+                TempGo2.transform.position = new Vector3(x - 3 * tileoffset, (9 * tileoffset) + i, 1);
                 i++;
             }
         }

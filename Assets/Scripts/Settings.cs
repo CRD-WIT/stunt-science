@@ -62,7 +62,8 @@ public class Settings : MonoBehaviour
         versionCodeText.text = $"Version: {versionCode}";
     }
 
-    public void GotoNextLevel(){
+    public void GotoNextLevel(string LevelToUnlock){
+        PlayerPrefs.SetInt(LevelToUnlock, 0);
         SceneManager.LoadScene("LevelSelectV2");
     }
 
