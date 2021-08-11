@@ -52,13 +52,13 @@ public class HardManager : MonoBehaviour
             playerAnswer = qc.GetPlayerAnswer();
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.deltaTime;
+            bossRB.constraints = RigidbodyConstraints2D.None;
+            bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
             if (isThrown)
                 StartCoroutine(Throw());
             switch (stage)
             {
                 case 1:
-                    bossRB.constraints = RigidbodyConstraints2D.None;
-                    bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
                     if ((boss.transform.position.y) <= (0))//stuntTime)
                     {
                         isAnswered = false;
@@ -75,8 +75,6 @@ public class HardManager : MonoBehaviour
                     }
                     break;
                 case 2:
-                    bossRB.constraints = RigidbodyConstraints2D.None;
-                    bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
                     if ((boss.transform.position.y) <= (0))//stuntTime)
                     {
                         isAnswered = false;
@@ -93,6 +91,20 @@ public class HardManager : MonoBehaviour
                     }
                     break;
                 case 3:
+                    if ((boss.transform.position.y) <= (0))//stuntTime)
+                    {
+                        isAnswered = false;
+                        elapsed = stuntTime;
+                        bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
+                        if (playerAnswer == correctAnswer)
+                        {
+                            Debug.Log("correct");
+                        }
+                        else
+                        {
+                            Debug.Log("wrong");
+                        }
+                    }
                     break;
             }
         }
@@ -129,11 +141,11 @@ public class HardManager : MonoBehaviour
                 y = -3;
                 x = 0;
                 qc.limit = 10;
+                distance = 3;
                 while (true)
                 {
-                    distance = 3;
                     stuntTime = distance / bossV;
-                    stoneV = y / (stuntTime - 1);
+                    stoneV = 20.5f / (stuntTime - 1);
                     Debug.Log(stoneV);
                     if (stoneV < qc.limit)
                         break;
@@ -148,7 +160,7 @@ public class HardManager : MonoBehaviour
                 angle = (float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
                 labels.SetDistance(distance, angle, x, y);
                 labels.SetSpawnPnt(new Vector2(1, 5));
-                question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
+                question = "The target is the gem inside the mouth of the golem. If the golem is moving at straight downward with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
             case 2:
                 y = -3;
@@ -179,8 +191,8 @@ public class HardManager : MonoBehaviour
             case 3:
                 while (correctAnswer < qc.limit)
                 {
-                    x = Random.Range(-8f, -3f);
-                    y = 3;
+                    x = Random.Range(-8f, 10f);
+                    y = 5;
                     distance = (float)System.Math.Round(Mathf.Sqrt((x * x) + (y * y)));
                     stuntTime = distance / bossV;//boss.SetVelocityOfTheHead(x, y, -bossV);
                     stoneV = (20.5f + x) / stuntTime;
