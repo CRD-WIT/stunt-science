@@ -37,6 +37,7 @@ public class Arrow : MonoBehaviour
         }
         if(generateLine)
         {
+            trail.SetActive(true);
             trail.transform.position = this.transform.position;
         }
 
