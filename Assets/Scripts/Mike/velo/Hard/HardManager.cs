@@ -144,7 +144,7 @@ public class HardManager : MonoBehaviour
                 distance = 3;
                 while (true)
                 {
-                    stuntTime = distance / bossV;
+                    stuntTime = (distance / bossV) + 1;
                     stoneV = 20.5f / (stuntTime - 1);
                     Debug.Log(stoneV);
                     if (stoneV < qc.limit)
@@ -189,22 +189,27 @@ public class HardManager : MonoBehaviour
                 question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
             case 3:
+                float sX, sY = -2, sDist;
+                y = -5;
+                Rock.throwVeloX = 0;
+                Rock.throwVeloY = 0;
                 while (correctAnswer < qc.limit)
                 {
                     x = Random.Range(-8f, 10f);
-                    y = 5;
                     distance = (float)System.Math.Round(Mathf.Sqrt((x * x) + (y * y)));
                     stuntTime = distance / bossV;//boss.SetVelocityOfTheHead(x, y, -bossV);
                     stoneV = (20.5f + x) / stuntTime;
                     Debug.Log(stoneV);
                 }
 
-
+                sX = 20.5f + x;
+                sDist = Mathf.Sqrt((sX * sX) + (sY * sY));
                 correctAnswer = (float)System.Math.Round(stoneV, 2);
                 boss.SetVelocityOfTheHead(stuntTime, x, y);
                 angle = (float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
                 labels.SetDistance(distance, angle, x, y);
                 labels.SetSpawnPnt(bossHead.transform.position);
+                question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
         }
         qc.question = question;
