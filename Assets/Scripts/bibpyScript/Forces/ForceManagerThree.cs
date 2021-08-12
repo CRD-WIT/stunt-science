@@ -5,8 +5,8 @@ using TMPro;
 
 public class ForceManagerThree : MonoBehaviour
 {
-    public Player thePlayer;
-    public QuestionController theQuestion;
+    public PlayerB thePlayer;
+    public QuestionControllerB theQuestion;
     public BombScript theBombScript;
     private ForceSimulation theSimulate;
     private ColliderManager theCollider;
@@ -15,7 +15,7 @@ public class ForceManagerThree : MonoBehaviour
     private ScoreManager theScorer;
     float generateAccelaration, accelaration, playerAccelaration, generateForce, force, generateCorrectAnswer, currentPos, totalMass;
     public float correctAnswer, playerAnswer,increaseMass, playerForce;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, glassDebri, cameraman, playerSpeech, napsack, speechBubble, playerInitials, action, navigator;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, glassDebri, cameraman, playerSpeech, napsack, speechBubble, playerInitials, action, navigator,zombiePrefab;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady, startAddingMass, crowdExit;
     public bool throwBomb, addingWeight, startRunning, goExit;
@@ -44,6 +44,11 @@ public class ForceManagerThree : MonoBehaviour
         cameraman.transform.localScale = new Vector2(-cameraman.transform.localScale.x, cameraman.transform.localScale.y);
         thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
         speechBubble.transform.localScale = new Vector2(-speechBubble.transform.localScale.x, speechBubble.transform.localScale.y);
+        thePlayer.exitDown = false;
+        thePlayer.brake = false;
+        theSimulate.destroyZombies = false;
+        thePlayer.myRigidbody.bodyType = RigidbodyType2D.Dynamic;
+        thePlayer.myCollider.isTrigger = false;
         gender = PlayerPrefs.GetString("Gender");
          if (gender == "Male")
         {
@@ -104,6 +109,7 @@ public class ForceManagerThree : MonoBehaviour
 
         if (startRunning)
         {
+            theSimulate.zombieChase = true;
              if(playerAnswer == correctAnswer)
             {
                 forcetxt.text = ("f = ")+ force.ToString("F2")+("N");
@@ -127,7 +133,7 @@ public class ForceManagerThree : MonoBehaviour
                     action.SetActive(false);
                     theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully escaped from the explosion </color>");
                     glassHolder.SetActive(false);
-                    StartCoroutine(thiswaySpeech());
+                    //StartCoroutine(thiswaySpeech());
 
                     if (currentPos >= 22)
                     {
@@ -186,6 +192,7 @@ public class ForceManagerThree : MonoBehaviour
     }
     public void GenerateProblem()
     {
+        StartCoroutine(createZombies());
         increaseMass = 70;
         playerMass.text = ("m = ")+increaseMass.ToString("F2") + ("kg");
         playerMass.gameObject.SetActive(true);
@@ -194,16 +201,16 @@ public class ForceManagerThree : MonoBehaviour
         accelaration = (float)System.Math.Round(generateAccelaration, 2);
         generateForce = Random.Range(300, 500);
         force = (float)System.Math.Round(generateForce, 2);
-        theBomb.glassHolder[2].SetActive(true);
-        theBomb.otherGlassHolder[0].SetActive(true);
+        theSimulate.glassHolder[2].SetActive(true);
+        theSimulate.otherGlassHolder[0].SetActive(true);
         ragdollReady = true;
-        theBomb.bomb.SetActive(true);
-        theBomb.bomb.transform.position = thePlayer.transform.position;
-        theBomb.followRagdoll = false;
-        thePlayer.transform.position = new Vector2(0, 3.2f);
-        theBombScript.gameObject.transform.position = new Vector2(7.8f, 1.5f);
+        //theBomb.bomb.SetActive(true);
+        //theBomb.bomb.transform.position = thePlayer.transform.position;
+        //theBomb.followRagdoll = false;
+        thePlayer.transform.position = new Vector2(0, 2.59f);
+        //theBombScript.gameObject.transform.position = new Vector2(7.8f, 1.5f);
         glassRespawn();
-        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> cannot find the third bomb to throw out and decided to help the trapped persons inside the building get out instead by breaking the glass and letting them slide down the rope outside, If  <b>") + PlayerPrefs.GetString("Name") + ("</b> runs with the accelaration of  <b>") + accelaration.ToString("F2") + ("</b> m/s² and the glass breaks at an impact force of <b>") + force.ToString("F2") + ("</b> N, how much  mass ")+ pronoun1 + (" should add to ")+ pronoun2 + (" 70kg body in order to run into the glass and break it without overshooting?")));
+        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> still chased by these hungry zombies and need to break another glass wall to escape from them, If  <b>") + PlayerPrefs.GetString("Name") + ("</b> runs with the accelaration of  <b>") + accelaration.ToString("F2") + ("</b> m/s² and the glass breaks at an impact force of <b>") + force.ToString("F2") + ("</b> N, how much  mass ")+ pronoun1 + (" should add to ")+ pronoun2 + (" 70kg body in order to run into the glass and break it without overshooting?")));
         acctxt.text = ("a = ")+ accelaration.ToString("F2")+ ("m/s²");
         breakingforcetxt.text = ("Breaking Impact Force = ")+ force.ToString("F2");
         playerInitials.SetActive(true);
@@ -222,25 +229,18 @@ public class ForceManagerThree : MonoBehaviour
     IEnumerator braking()
     {
         thePlayer.brake = true;
-        thePlayer.thisway = true;
-        crowdExit = true;
-        yield return new WaitForSeconds(1);
+        //thePlayer.thisway = true;
+        //crowdExit = true;
+        yield return new WaitForSeconds(.5f);
         //throwBomb = true;
         thePlayer.brake = false;
-        theBombScript.inPlayer = false;
-        yield return new WaitForSeconds(5);
-        goExit = true;
-        thePlayer.thisway = false;
-        thePlayer.moveSpeed = 5;
-        yield return new WaitForSeconds(1);
-        goExit = false;
-        thePlayer.godown = false;
-        yield return new WaitForSeconds(1.2f);
-        theBomb.explodebomb = true;
-        thePlayer.moveSpeed = 5;
-        yield return new WaitForSeconds(1.5f);
-        thePlayer.moveSpeed = 0;
-        thePlayer.happy = true;
+        //theBombScript.inPlayer = false;
+        thePlayer.toJump = true;
+        yield return new WaitForSeconds(.7f);
+        thePlayer.transform.position = new Vector2(23.2f, thePlayer.transform.position.y +1.3f);
+        thePlayer.climb = true;
+        //thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
+        thePlayer.moveSpeedY = 1.5f;
         StartCoroutine(StuntResult());
     }
     IEnumerator collision()
@@ -254,6 +254,10 @@ public class ForceManagerThree : MonoBehaviour
         ForceSimulation.simulate = false;
         yield return new WaitForSeconds(1);
         StartCoroutine(theSimulate.DirectorsCall());
+        if(playerAnswer != correctAnswer)
+       {
+            theSimulate.zombieChase = false;
+       }
         yield return new WaitForSeconds(3);
         theQuestion.ToggleModal();
         if(playerAnswer == correctAnswer)
@@ -298,7 +302,7 @@ public class ForceManagerThree : MonoBehaviour
         playerMass.gameObject.SetActive(false);
         startRunning = true;
     }
-    IEnumerator thiswaySpeech()
+    /*IEnumerator thiswaySpeech()
     {
         yield return new WaitForSeconds(1.2f);
         playerSpeech.SetActive(true);
@@ -314,6 +318,19 @@ public class ForceManagerThree : MonoBehaviour
         yield return new WaitForSeconds(1);
         playerSpeech.SetActive(false);
 
+    }*/
+    public IEnumerator createZombies()
+    {
+        yield return new WaitForEndOfFrame();
+        theSimulate.destroyZombies = false;
+        GameObject zombie1 = Instantiate(theSimulate.zombiePrefab);
+        zombie1.transform.position = new Vector2(-9, 3.86f);
+        GameObject zombie2 = Instantiate(theSimulate.zombiePrefab);
+        zombie2.transform.position = new Vector2(-11.5f, 3.86f);
+        GameObject zombie3 = Instantiate(theSimulate.zombiePrefab);
+        zombie3.transform.position = new Vector2(-13.6f, 3.86f);
+        GameObject zombie4 = Instantiate(theSimulate.zombiePrefab);
+        zombie4.transform.position = new Vector2(-15, 3.86f);
     }
 
 }

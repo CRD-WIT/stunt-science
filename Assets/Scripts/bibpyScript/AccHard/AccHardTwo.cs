@@ -9,7 +9,7 @@ public class AccHardTwo : MonoBehaviour
     //public Quaternion angleB;
     public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions, cam, directorPlatform;
     public GameObject verticalOne, horizontal;
-    public GameObject bulletPos, wheelPos, bulletHere, targetHere, truckInitials;
+    public GameObject bulletPos, wheelPos, bulletHere, targetHere, truckInitials, chopperInitials;
     public TruckManager theTruck;
     public MulticabManager theMulticab;
     public Hellicopter theChopper;
@@ -25,9 +25,9 @@ public class AccHardTwo : MonoBehaviour
     float ChopperY, chopperX, truckTime, bulletTime, truckCurrentPos, chopperTimeToTravel, distanceBetween,truckTimeToTravel;
     bool shoot, shootReady, gas, startTime;
     public bool posCheck,toRetry,camFollow;
-    public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt;
+    public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt, viHtxt, accHtxt;
     float camPos, distanceCheck;
-    int tries, stopTruckPos, attemp;
+    int tries, attemp;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,15 +35,17 @@ public class AccHardTwo : MonoBehaviour
         theSimulate.stage = 2;
         StartCoroutine(positioning());
         camPos = cam.transform.position.x - theChopper.transform.position.x;
-        stopTruckPos = 210;
         theSimulate.takeNumber = 1;
         camFollow = true;
+        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+        truckInitials.transform.position = theTruck.transform.position;
+        accHtxt.text = ("a = 0 m/s²");
+        chopperInitials.transform.position = theChopper.transform.position;
         truckDistance = (viT * truckTimeToTravel) + (aT * (truckTimeToTravel * truckTimeToTravel)) / 2;
         overlapDistance = sideB - dX;
         targetDistance = truckDistance + overlapDistance;
@@ -71,14 +73,11 @@ public class AccHardTwo : MonoBehaviour
             theTruck.accelerating = false;
             theTruck.moveSpeed = 0;
             startTime = false;
-            if(toRetry)
-            {
-                theQuestion.ToggleModal();
-                toRetry = false;
-            }
+            
         }
         if (AccHardSimulation.simulate == true)
         {
+            viHtxt.text = ("v = " + viH.ToString("F2"))+ ("m/s");
             camFollow = true;
             startTime = true;
             target.transform.position = targetWheel.transform.position;
@@ -102,12 +101,15 @@ public class AccHardTwo : MonoBehaviour
             {
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
+                 theQuestion.SetModalTitle("Stunt success");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " successfully hit the 2nd target!");
                 if (timer >= time+.3f)
                 {
                     shoot = true;
                     theChopper.flySpeed = 0;
                     theChopper.accelaration = 0;
                     theChopper.accelarating = false;
+                    viHtxt.color = new Color32(13, 106, 0, 255);
                    
                     
                 }
@@ -115,6 +117,8 @@ public class AccHardTwo : MonoBehaviour
             if (playerAnswer > answer)
             {
                 theChopper.flySpeed = viH + 1f;
+                theQuestion.SetModalTitle("Stunt failed");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " flies the helicopter too fast. The correct answer is </color>" + answer.ToString("F2") + "m/s.");
                 if (timer >= time)
                 {
                     theChopper.flySpeed = 0;
@@ -128,6 +132,8 @@ public class AccHardTwo : MonoBehaviour
             if (playerAnswer < answer)
             {
                 theChopper.flySpeed = viH - 1.5f;
+                theQuestion.SetModalTitle("Stunt failed");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " flies the helicopter too slow. The correct answer is </color>" + answer.ToString("F2") + "m/s.");
 
                 if (timer >= time)
                 {
@@ -145,7 +151,7 @@ public class AccHardTwo : MonoBehaviour
             projectileLine.SetActive(false);
             AccHardSimulation.simulate = false;
             target.SetActive(false);
-            timertxt.text = chopperTimeToTravel.ToString("F2");
+            timertxt.text = time.ToString("F2")+ ("s");
 
             if (shootReady)
             {
@@ -180,6 +186,8 @@ public class AccHardTwo : MonoBehaviour
                 StartCoroutine(StuntResult());
                 shoot = false;
                 theMulticab.moveSpeed = 0;
+                startTime = false;
+                timertxtTruck.text = (time + bulletTime).ToString("F2")+ ("s");
                 
             }
 
@@ -189,6 +197,7 @@ public class AccHardTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        chopperInitials.SetActive(true);
         projectileLine.SetActive(true);
         theChopper.transform.position = new Vector2(cam.transform.position.x + 5, theChopper.transform.position.y);
         //directorPlatform.transform.localScale = new Vector2(-directorPlatform.transform.localScale.x, directorPlatform.transform.localScale.y);
@@ -232,6 +241,7 @@ public class AccHardTwo : MonoBehaviour
         viTtxt.text = ("vi = ") + viT.ToString("F2") + ("m/s");
         aTtxt.text = ("a = ") + aT.ToString("F2") + ("m/s²");
         timertxtTruck.text = timer.ToString("F2") + ("s");
+        timertxtTruck.color = new Color32(87, 0, 255, 255);
         theMulticab.transform.position = new Vector2(theChopper.transform.position.x - 30, theMulticab.transform.position.y);
         theTruck.transform.position = new Vector2(gunBarrel.transform.position.x - (dX-6), theTruck.transform.position.y);
         theMeter[0].positionX = targetWheel.transform.position.x;
@@ -246,6 +256,7 @@ public class AccHardTwo : MonoBehaviour
         sideC = Mathf.Sqrt((dY * dY) + (sideB * sideB));
         bulletTime = sideC / vB;
         truckTimeToTravel = time + bulletTime;
+        viHtxt.text = ("v = ?");
         theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to shoot the hub or the center of the moving truck's 2nd wheel from a moving helicopter. If at time = Φ, the hub is <b>") + dX.ToString("F2") + ("</b> meters horizontally behind and <b>") + dY.ToString("F2") + ("</b> meters vertically below the tip of the gun barrel that <b>") + PlayerPrefs.GetString("Name") + ("</b> holding, if <b>") + PlayerPrefs.GetString("Name") + ("</b> shoots exactly after <b>")+ time.ToString("F2")+("</b> seconds, if the truck has an initial velocity of <b>") + viT.ToString("F2") + ("</b> m/s and accelerating at <b>") + aT.ToString("F2") + ("</b> m/s², what should be the velocity of helicopter, while the gun is aimed <b>") + angleB.ToString("F2") + ("</b> degrees below the horizon and its bullet travels at a constant velocity of <b>") + vB.ToString("F2") + ("</b> m/s?")));
     }
     
@@ -276,6 +287,7 @@ public class AccHardTwo : MonoBehaviour
         yield return new WaitForSeconds(2f);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1f);
+        theQuestion.ToggleModal();
         theTruck.deaccelerating = false;
         if (playerAnswer == answer)
         {

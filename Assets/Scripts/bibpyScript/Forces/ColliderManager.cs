@@ -5,14 +5,14 @@ using UnityEngine;
 public class ColliderManager : MonoBehaviour
 {
      public bool collide;
-     private Player thePlayer;
+     private PlayerB thePlayer;
      public GameObject braker; 
      private ForceManagerThree theManagerThree;
 
     // Start is called before the first frame update
     void Start()
     {
-        thePlayer = FindObjectOfType<Player>();
+        thePlayer = FindObjectOfType<PlayerB>();
         
     }
     // Update is called once per frame

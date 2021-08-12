@@ -75,7 +75,7 @@ half4 frag( v2f i ) : COLOR
 
     screenPos.x = (screenPos.x + 1) * 0.5;
 
-    screenPos.y = 1- (screenPos.y + 1) * 0.5 * -1;
+    screenPos.y = 1-(screenPos.y + 1) * 0.5;
 
 	//horizontal 
 	
@@ -159,7 +159,7 @@ half4 frag( v2f i ) : COLOR
 
     screenPos.x = (screenPos.x + 1) * 0.5;
 
-    screenPos.y = (screenPos.y + 1) * 0.5;
+    screenPos.y = 1-(screenPos.y + 1) * 0.5;
     
     half4 sum = half4(0.0h,0.0h,0.0h,0.0h);
   

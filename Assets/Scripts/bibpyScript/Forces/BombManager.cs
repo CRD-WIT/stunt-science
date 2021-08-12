@@ -28,7 +28,7 @@ public class BombManager : MonoBehaviour
     {
         theManagerTwo = FindObjectOfType<ForceManagerTwo>();
         theManagerThree = FindObjectOfType<ForceManagerThree>();
-        if (theSimulate.stage == 1)
+    /*if (theSimulate.stage == 1)
         {
             if (theCollide.collide == true)
             {
@@ -69,7 +69,7 @@ public class BombManager : MonoBehaviour
 
             }
 
-        }
+        }*/
     }
     IEnumerator explode()
     { yield return new WaitForSeconds(0.05f);

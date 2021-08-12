@@ -24,7 +24,7 @@ public class AccManagerThree : MonoBehaviour
     float playerVf;
     float currentPos;
     public float correctDistance;
-    string pronoun;
+    string  pronoun2;
     string gender;
     public GameObject walls, stopper, bikeInitials, actionButton,cam, directionArrow;
 
@@ -59,11 +59,13 @@ public class AccManagerThree : MonoBehaviour
         truckStartRot = theTruck.transform.rotation;
         if (gender == "Male")
         {
-            pronoun = ("he");
+            
+            pronoun2 = ("his");
         }
         if (gender == "Female")
         {
-            pronoun = ("she");
+          
+             pronoun2 = ("her");
         }
         generateProblem();
     }
@@ -71,6 +73,8 @@ public class AccManagerThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
+
         correctAns = (float)System.Math.Round(generateAns, 2);
         playerDistance = (time * time) * deacceleration / 2;
         playerVf = (2 * playerDistance) / time;
@@ -144,7 +148,7 @@ public class AccManagerThree : MonoBehaviour
 
                 }
 
-                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has succesfully parked inside the truck! </color>");
+                theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> m/s. ")+PlayerPrefs.GetString("Name") + " have parked inside the truck succesfully! </color>");
 
 
             }
@@ -159,6 +163,7 @@ public class AccManagerThree : MonoBehaviour
                     timer += Time.fixedDeltaTime;
                     velocitytxt.text = ("v = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
                     theBike.moveSpeed -= deacceleration * Time.fixedDeltaTime;
+
                 }
                 if (timer >= time)
                 {
@@ -171,9 +176,17 @@ public class AccManagerThree : MonoBehaviour
                     {
                         velocitytxt.text = ("vf = 0.00 m/s");
                     }
+
                 }
+
             }
+
+
+
         }
+
+
+
 
     }
     public void generateProblem()
@@ -182,7 +195,7 @@ public class AccManagerThree : MonoBehaviour
         bikeInitials.transform.position = bikeInitialStartPos;
         addingAcc = true;
         generateTime = Random.Range(2.5f, 4.5f);
-        theBike.transform.position = new Vector2(-15, 0.2f);
+        theBike.transform.position = new Vector2(-17, 0.2f);
         time = (float)System.Math.Round(generateTime, 2);
         theTruck.transform.position = truckPosition;
         theTruck.moveSpeed = 0;
@@ -190,7 +203,7 @@ public class AccManagerThree : MonoBehaviour
         generateAns = 60 / time;
         generateAcceleration = generateAns / time;
         deacceleration = (float)System.Math.Round(generateAcceleration, 2);
-        theQuestion.SetQuestion(PlayerPrefs.GetString("Name") + ("</b> must park his motorcycle perfectly at the back of truck. If braking the motorcycle deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s, what should be its initial velocity(Vi) so it will come into complete stop after braking it for exactly  <b>") + time.ToString("F2") + ("</b> seconds?"));
+        theQuestion.SetQuestion(PlayerPrefs.GetString("Name") + (" is instructed to park ") + pronoun2+ (" motorcycle perfectly at the back of truck. If braking the motorcycle deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s², what should be its initial velocity(Vi) so it will come into complete stop after braking it for exactly <b>") + time.ToString("F2") + ("</b> seconds?"));
         vitxt.text = ("vi = ?");
         theHeart.losslife = false;
         velocitytxt.text = ("v = 0 m/s");

@@ -39,6 +39,7 @@ public class AccHardOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        truckInitials.transform.position = theTruck.transform.position;
         cam.transform.position = new Vector3(theChopper.transform.position.x + camPos, cam.transform.position.y, cam.transform.position.z);
         truckCurrentPos = theTruck.transform.position.x;
         theBullet = FindObjectOfType<BulletManager>();
@@ -77,10 +78,13 @@ public class AccHardOne : MonoBehaviour
             {
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
+                theQuestion.SetModalTitle("Stunt success");
+                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " successfully hit the target!");
                 if (timer >= correctAnswer + .05f)
                 {
 
                     shoot = true;
+                    timertxtTruck.color = new Color32(13, 106, 0, 255);
 
                 }
             }
@@ -117,7 +121,7 @@ public class AccHardOne : MonoBehaviour
         {
             AccHardSimulation.simulate = false;
             target.SetActive(false);
-            timertxt.text = playerAnswer.ToString("F2");
+            timertxt.text = playerAnswer.ToString("F2")+ ("s");
 
             if (shootReady)
             {
@@ -146,10 +150,11 @@ public class AccHardOne : MonoBehaviour
                 StartCoroutine(StuntResult());
                 shoot = false;
                 startTime = false;
+                timertxtTruck.text = (playerAnswer + bulletTime).ToString("F2")+ ("s");
             }
 
         }
-        if (truckCurrentPos >= 50)
+        if (truckCurrentPos >= 70)
         {
             theTruck.moveSpeed = 0;
         }

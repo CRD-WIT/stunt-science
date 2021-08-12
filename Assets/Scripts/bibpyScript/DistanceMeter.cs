@@ -42,10 +42,9 @@ public class DistanceMeter : MonoBehaviour
             distancetxt.text = distance.ToString("F2") + ("m");
             distancetxt.gameObject.transform.position = new Vector2(positionX + (distance / 2), distancetxt.gameObject.transform.position.y);
         }
-        if (vertical)
-        {
-            mother.transform.rotation = Quaternion.Euler(mother.transform.rotation.x, mother.transform.rotation.y, 90);
-            edgePos = positionY + distance;
+        if(vertical)
+        {   mother.transform.rotation = Quaternion.Euler(mother.transform.rotation.x,mother.transform.rotation.y,90);
+            edgePos = positionY+ distance;
             d1Scale = (distance / 2) - 1f;
             d2Pos = positionY + ((distance / 2) + 1);
             d2Scale = (distance / 2) - 1.5f;
@@ -60,11 +59,11 @@ public class DistanceMeter : MonoBehaviour
             mother.transform.position = new Vector2(positionX, positionY);
             edge.transform.position = new Vector2(edge.transform.position.x, edgePos);
             d1.transform.localScale = new Vector2(d1Scale, d1.transform.localScale.y);
-            d1.transform.position = new Vector2(d1.transform.position.x, positionY + .5f);
+            d1.transform.position = new Vector2( d1.transform.position.x, positionY + .5f);
             d2.transform.position = new Vector2(d2.transform.position.x, d2Pos);
             d2.transform.localScale = new Vector2(d2Scale, d2.transform.localScale.y);
             distancetxt.text = distance.ToString("F2") + ("m");
-            distancetxt.gameObject.transform.rotation = Quaternion.Euler(distancetxt.gameObject.transform.rotation.x, distancetxt.gameObject.transform.rotation.y, 0);
+            distancetxt.gameObject.transform.rotation =  Quaternion.Euler(distancetxt.gameObject.transform.rotation.x,distancetxt.gameObject.transform.rotation.y,0);
             distancetxt.gameObject.transform.position = new Vector2(distancetxt.gameObject.transform.position.x, positionY + (distance / 2));
         }
 

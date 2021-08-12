@@ -44,16 +44,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 9159924412010981214}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ed0069576c96f20b97112e073091bed, type: 3}
+  m_Script: {fileID: 11500000, guid: 852c4f7acfd642e49a1cc7bae133a2cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _segments: 60
   _horizRadius: 2
   _vertRadius: 2
-  _degrees: 90
+  _degrees: 360
   _axis: 2
   _checkValuesChanged: 1
-  initialAngle: -50
+  textOffset: {x: 0, y: 0}
+  initialAngle: 0
   _origin: {x: 0, y: 0}
   fontSize: 4
   revealValue: 1
@@ -111,7 +112,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2f1c188f4cda68dce99299677bcbdc43, type: 2}
+  - {fileID: 2100000, guid: 9af7adf18fba87c4dafa1706d4a3577c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -155,8 +156,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0, g: 0.4811321, b: 0.0705038, a: 1}
+      key1: {r: 0, g: 0.4811321, b: 0.0705038, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -355,12 +356,12 @@ MonoBehaviour:
   m_margin: {x: 8.990824, y: 1.5603101, z: 8.989957, w: 1.6011231}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 9159924412186718959}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 9159924412186718959}
+  m_maskType: 0
 --- !u!1 &9159924412383348005
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +434,7 @@ SpriteRenderer:
   m_SortingLayerID: 209528741
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 56515e6a3034c665d9bba24e81aae83e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ce4edc63ba65ed64788b2a3e727b411f, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -516,7 +517,7 @@ SpriteRenderer:
   m_SortingLayerID: 209528741
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c0d3d5eb110dafe4199463d2e275c16d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1050db83468a75f4aae026fcfcb84c1f, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0

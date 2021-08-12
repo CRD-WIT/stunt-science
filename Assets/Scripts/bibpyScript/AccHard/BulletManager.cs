@@ -52,6 +52,16 @@ public class BulletManager : MonoBehaviour
             }
 
         }
+        if (other.gameObject.tag == ("wall3"))
+        {
+            if (theSimulate.stage == 3)
+            {
+                theSimulate.posCheck = true;
+                Destroy(gameObject);
+            }
+
+        }
+
 
 
         if (other.gameObject.tag == ("ground"))

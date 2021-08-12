@@ -165,12 +165,12 @@ MonoBehaviour:
   m_margin: {x: -0.10920334, y: 0, z: -0.081905365, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 8729271154585868597}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 8729271154585868597}
+  m_maskType: 0
 --- !u!1 &8261778666658350814
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +284,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8261778667918475531}
-  - component: {fileID: 8261778667918475532}
   - component: {fileID: 7591140389502099526}
   m_Layer: 0
   m_Name: safezone
@@ -301,29 +300,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8261778667918475530}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.89, y: 7.67, z: 0}
+  m_LocalPosition: {x: 5.89, y: 12.57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8261778666658350784}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &8261778667918475532
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8261778667918475530}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 3.72}
-  serializedVersion: 2
-  m_Radius: 0.38
 --- !u!114 &7591140389502099526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,7 +316,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8261778667918475530}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96c1d78dac390f24bb2c1b580d1e6f5e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6eb2421354a38b04eb43fd0c383e1be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   text: 

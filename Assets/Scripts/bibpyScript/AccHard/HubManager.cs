@@ -22,10 +22,7 @@ public class HubManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(hit)
-        {
-            myRb.velocity = new Vector2(moveSpeed,myRb.velocity.y);
-        }
+       
        
     }
     void OnTriggerEnter2D(Collider2D other)
@@ -37,8 +34,10 @@ public class HubManager : MonoBehaviour
                 myHinge.enabled = false;
                 GameObject explosion = Instantiate(blastprefab);
                 explosion.transform.position = transform.position;
-                hit = true;
-                StartCoroutine(bounce());
+                
+                
+                //hit = true;
+               StartCoroutine(bounce());
                 theTruck.accelerating = false;
                 //theTruck.moveSpeed = 10;
 
@@ -47,12 +46,8 @@ public class HubManager : MonoBehaviour
     }
     IEnumerator bounce()
     {
-        myRb.velocity = transform.up * 3;
-        moveSpeed = 8;
-        yield return new WaitForSeconds(.2f);
-         myRb.velocity = transform.up * 3;
-        yield return new WaitForSeconds(2f);
-        hit = false;
-
+        myRb.velocity = transform.up * 10;
+        yield return new WaitForSeconds(.1f);
+        myRb.velocity = transform.right * 2;
     }
 }

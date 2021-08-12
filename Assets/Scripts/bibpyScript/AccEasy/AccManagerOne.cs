@@ -122,7 +122,7 @@ public class AccManagerOne : MonoBehaviour
             {
                 actiontxt.text = "Next";
                 theQuestion.answerIsCorrect = true;
-                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " went through the tunnel</color>");
+                theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> m/s². ")+PlayerPrefs.GetString("Name") + " was able to enter tunnel succesfully!</color>");
                 theQuestion.SetModalTitle("Stunt Success");
 
             }
@@ -179,7 +179,7 @@ public class AccManagerOne : MonoBehaviour
         timertxt.text = ("0.00s");
         generateTime = Random.Range(3.0f, 3.5f);
         time = (float)System.Math.Round(generateTime, 2);
-        theQuestion.SetQuestion(("In order for <b>") + PlayerPrefs.GetString("Name") + ("</b> to enter the tunnel on the otherside of the platform where  <b>") + pronoun + ("</b> is in, <b>") + pronoun + ("</b> must drive his motorcycle from a complete stand still to a speed of <b>") + Vf.ToString("F2") + ("</b> m/s, after <b>") + time.ToString("F2") + ("</b> seconds. What should be ") + pronoun2 + (" acceleration in order to achieve the final velocity?"));
+        theQuestion.SetQuestion( PlayerPrefs.GetString("Name") + (" is instructed to enter the tunnel on the otherside of the platform where  ") + pronoun + (" is in, ") + pronoun + (" must drive his motorcycle from a complete stand still to a speed of <b>") + Vf.ToString("F2") + ("</b> m/s, after <b>") + time.ToString("F2") + ("</b> seconds. What should be ") + pronoun2 + (" acceleration in order to achieve the final velocity?"));
         theHeart.losslife = false;
         theBike.moveSpeed = 0;
         Acctxt.text = ("a = ?");

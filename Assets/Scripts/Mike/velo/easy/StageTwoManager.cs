@@ -18,9 +18,7 @@ public class StageTwoManager : MonoBehaviour
     bool answerIs;
     public IndicatorManagerV1_1 labels;
     public QuestionControllerVThree qc;
-
     public AudioSource scream;
-
     public TMP_Text debugAnswer;
     void Start()
     {

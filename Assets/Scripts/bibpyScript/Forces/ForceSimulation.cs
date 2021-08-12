@@ -6,8 +6,8 @@ using TMPro;
 public class ForceSimulation : MonoBehaviour
 {
     public Button playButton;
-    public Player thePlayer;
-    public QuestionController theQuestion;
+    public PlayerB thePlayer;
+    public QuestionControllerB theQuestion;
     public ForceManagerOne theManagerOne;
     public ForceManagerTwo theManagerTwo;
     public ForceManagerThree theManagerThree;
@@ -18,14 +18,17 @@ public class ForceSimulation : MonoBehaviour
     public static bool simulate;
     public bool playerDead;
     public int stage;
+    public GameObject[] glassHolder, otherGlassHolder;
     public Quaternion startRotation;
     public Vector2 startPosition;
 
     public GameObject  fadeOut, fadeIn;
     public GameObject[] ground;
     bool directorIsCalling;
-    public GameObject directorBubble;
+    public GameObject directorBubble,zombiePrefab;
     private ragdollScript theRagdoll;
+    public bool zombieChase, destroyZombies;
+
     //string accelaration;
     // Start is called before the first frame update
     void Start()
@@ -33,23 +36,40 @@ public class ForceSimulation : MonoBehaviour
         PlayerPrefs.SetString("CurrentString", ("Forces"));
         PlayerPrefs.SetInt("level", 4);
         theHeart = FindObjectOfType<HeartManager>();
+        StartCoroutine(theManagerOne.createZombies());
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         theRagdoll = FindObjectOfType<ragdollScript>();
-
+        playerAnswer = float.Parse(answerField.text);
+        if(playerAnswer >= 10 & playerAnswer < 100)
+        {
+            answerField.characterLimit = 5;
+        }
+        if(playerAnswer < 10)
+        {
+            answerField.characterLimit = 4;
+        }
+        if(playerAnswer >= 100 & playerAnswer <1000)
+        {
+            answerField.characterLimit = 6;
+        }
+        if(playerAnswer >= 1000)
+        {
+            answerField.characterLimit = 7;
+        }
     }
     public void PlayButton()
     {
-        playerAnswer = float.Parse(answerField.text);
+       
         if (stage == 1)
         {
-            if (answerField.text == "" || playerAnswer < 200 || playerAnswer < 1)
+            if (answerField.text == "" || playerAnswer < 10 || playerAnswer > 1000)
             {
                 StartCoroutine(errorMesage());
-               theQuestion.errorText = ("Please enter a valid answer!");
+               theQuestion.errorText = ("Invalid strength of a glass");
             }
             else
             {
@@ -85,7 +105,7 @@ public class ForceSimulation : MonoBehaviour
             if (answerField.text == "" || playerAnswer > 100)
             {
                 StartCoroutine(errorMesage());
-                theQuestion.errorText = ("too heavy for you!");
+                theQuestion.errorText = ("too heavy for a human!");
             }
             else
             {
@@ -104,10 +124,13 @@ public class ForceSimulation : MonoBehaviour
 
         StartCoroutine(theHeart.endBGgone());
         StartCoroutine(nextStage());
+        
        
     }
     public void retry()
     {
+        
+        StartCoroutine(theHeart.startBGgone());
         thePlayer.standup = false;
         simulate = false;
         playButton.interactable = true;
@@ -120,10 +143,11 @@ public class ForceSimulation : MonoBehaviour
 
         if (stage == 1)
         {
+            StartCoroutine(theManagerOne.createZombies());
             theManagerOne.GenerateProblem();
             theManagerOne.tooStrong = false;
             theManagerOne.tooWeak = false;
-            thePlayer.transform.position = new Vector2(0, -0.6f);
+            thePlayer.transform.position = new Vector2(.16f, 3.86f);
         }
         if (stage == 2)
         {
@@ -205,12 +229,16 @@ public class ForceSimulation : MonoBehaviour
         theQuestion.ToggleModal();
         if(theQuestion.answerIsCorrect == false)
         {
+            destroyZombies = true;
             retry();
             
         }
         else
         {
+            zombieChase = false;
+            destroyZombies = true;
             next();
         }
     }
+    
 }
