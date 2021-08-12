@@ -8,7 +8,7 @@ public class ProjSimulationManager : MonoBehaviour
 {
     public Button playButton;
     public TMP_InputField answerField;
-    public GameObject directorBubble;
+    public GameObject directorBubble, trail, projectTrail;
     public ProjectileHardOne theManagerOne;
     public ProjectileHardTwo theManagerTwo;
     public ProjectileHardThree theManagerThree;
@@ -47,10 +47,11 @@ public class ProjSimulationManager : MonoBehaviour
     }
     public void PlayButton()
     {
+        
         if (stage == 1)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" || playerAnswer > 50 || playerAnswer < 1)
+            if (answerField.text == "" || playerAnswer > 50 || playerAnswer < 0.1)
             {
                
                 theQuestion.errorText = ("believe me! its too long!");
@@ -114,7 +115,7 @@ public class ProjSimulationManager : MonoBehaviour
     }
     public void retry()
     {
-        
+        StartCoroutine(theHeart.startBGgone());
         playerAnswer = 0;
         simulate = false;
         answerField.text = ("");
@@ -122,9 +123,6 @@ public class ProjSimulationManager : MonoBehaviour
         if (stage == 1)
         {
             theManagerOne.generateProblem();
-
-
-
         }
         if (stage == 2)
         {
@@ -167,6 +165,7 @@ public class ProjSimulationManager : MonoBehaviour
             diretorsSpeech.text = "Camera!";
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Action!";
+            projectTrail.GetComponent<TrailRenderer>().time = 0;
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);

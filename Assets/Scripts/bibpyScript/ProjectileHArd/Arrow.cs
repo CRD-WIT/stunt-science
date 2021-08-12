@@ -6,7 +6,7 @@ public class Arrow : MonoBehaviour
 {
     public ProjectileHardOne theManagerOne;
     public ProjSimulationManager theSimulate;
-    Rigidbody2D rb;
+     public Rigidbody2D rb;
     float mylastrotX, mylastrotY, angle, newAngle;
     public bool getAngle;
     Quaternion lastRot;

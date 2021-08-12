@@ -12,15 +12,15 @@ public class ProjectileHardOne : MonoBehaviour
     public CircularAnnotation[] theCircular;
     public BoulderProjectile theBoulder;
     public DistanceMeter[] theMeter;
-    public Arrow theArrow;
-    public GameObject Mgear, stone, target, puller, arrow,projectArrow, blastPrefab, deflector, trail, lineAngle, lineDistance, boulder, angleArrow;
+    public Arrow[] theArrow;
+    public GameObject Mgear, stone, target, puller, arrow,projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineAngle, lineDistance, boulder, angleArrow;
     public GameObject lineVertical, lineHorizontal, dimension;
     public float vi, generateVG, vG;
     public float generateAngle, generateStoneAngle, stoneAngle, stoneOpp, HRange, timer, projectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
     public float generateDistance, totalDistance, golemDistanceToTravel;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile;
-    public TMP_Text golemVelo, golemAcc, projViTxt;
+    public TMP_Text golemVelo, golemAcc, projViTxt, timerTxt;
     string pronoun, pronoun2, gender;
 
     // Start is called before the first frame update
@@ -91,7 +91,7 @@ public class ProjectileHardOne : MonoBehaviour
             theCircular[1]._degrees = generateStoneAngle;
             theCircular[1]._origin = new Vector2(stone.transform.position.x-.2f , stone.transform.position.y-.2f);
             projViTxt.text = ("vi = ")+ vi.ToString("F2") + (" m/s");
-             theQuestion.SetQuestion(( PlayerPrefs.GetString("Name") + (" is now instructed to fire a gun aiming at an angle of <b>") + generateAngle.ToString("F2") + ("</b> degrees horizontally and must hit a moving Golem in its weakspot that measures <b>") + (stoneDyR + 1.62).ToString("F2") + ("</b> meters from the ground and moves <b>") + vG.ToString("F2") + ("</b> m/s directly towards ") + PlayerPrefs.GetString("Name") + (" wherein <b>") + ((-this.transform.position.x + target.transform.position.x)).ToString("F2") + ("</b> meters away from the Golem. In order to perfect this stunt, ") +pronoun+ ("will use a special gun with a muscle initial velocity of <b>") +vi.ToString("F2") + ("</b> m/s, firing at a height of <b>1.62</b> meters from the ground to the tip of its gun barrel. How long will ") +PlayerPrefs.GetString("Name")+ (" wait before pulling the trigger?")));
+             theQuestion.SetQuestion(( PlayerPrefs.GetString("Name") + (" is now instructed to fire a gun aiming at an angle of <b>") + generateAngle.ToString("F2") + ("</b> degrees horizontally and must hit a moving Golem in its weakspot that measures <b>") + (stoneDyR + 1.62).ToString("F2") + ("</b> meters from the ground and moves <b>") + vG.ToString("F2") + ("</b> m/s directly towards ") + PlayerPrefs.GetString("Name") + (" wherein <b>") + ((-this.transform.position.x + target.transform.position.x)).ToString("F2") + ("</b> meters away from the Golem. In order to perfect this stunt, ") +pronoun+ (" will use a special gun with a muscle initial velocity of <b>") +vi.ToString("F2") + ("</b> m/s, firing at a height of <b>1.62</b> meters from the ground to the tip of its gun barrel. How long will ") +PlayerPrefs.GetString("Name")+ (" wait before pulling the trigger?")));
             if(showProjectile)
             {
                 StartCoroutine(project());
@@ -102,6 +102,14 @@ public class ProjectileHardOne : MonoBehaviour
         if (timeStart)
         {
             timer += Time.fixedDeltaTime;
+             if(timer < ProjSimulationManager.playerAnswer)
+            {
+                timerTxt.text = timer.ToString("F2");
+            }
+            if (timer >= ProjSimulationManager.playerAnswer)
+            {
+                timerTxt.text = ProjSimulationManager.playerAnswer.ToString("F2");
+            }
             if(timer >= projectileTime + ProjSimulationManager.playerAnswer)
             {
                 theGolem.moveSpeed = 0;
@@ -119,7 +127,7 @@ public class ProjectileHardOne : MonoBehaviour
             {
                 if (timer >= ProjSimulationManager.playerAnswer)
                 {
-                    
+                   
                     ProjSimulationManager.simulate = false;
                     if (ProjSimulationManager.playerAnswer == correctAnswer)
                     {
@@ -132,10 +140,12 @@ public class ProjectileHardOne : MonoBehaviour
                     if (ProjSimulationManager.playerAnswer > correctAnswer)
                     {
                         vi += .3f;
+                        StartCoroutine(StuntResult());
                     }
                      if (ProjSimulationManager.playerAnswer < correctAnswer)
                     {
                         vi -= .3f;
+                        StartCoroutine(StuntResult());
                     }
                     ShootArrow();
 
@@ -149,7 +159,7 @@ public class ProjectileHardOne : MonoBehaviour
             if (ProjSimulationManager.playerAnswer != correctAnswer)
             {
                 //StartCoroutine(golemThrow());
-                StartCoroutine(StuntResult());
+               
             }
 
 
@@ -161,6 +171,16 @@ public class ProjectileHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
+
+        trail.GetComponent<TrailRenderer>().time = 0;
+        projectArrowTrail.SetActive(false);
+        showProjectile = true;
+        theArrow[0].generateLine = true;
+        theArrow[1].generateLine = true;
+        theArrow[1].rb.bodyType = RigidbodyType2D.Dynamic;
+        projectArrow.SetActive(false);
+        timer = 0;
+        shootReady = true;
         dimension.SetActive(true);
         generateVG = Random.Range(2f, 3f);
         vG = (float)System.Math.Round(generateVG, 2);
@@ -169,10 +189,11 @@ public class ProjectileHardOne : MonoBehaviour
         timeStart = false;
         arrow.SetActive(false);
         trail.SetActive(false);
+        projectArrow.transform.position = this.transform.position;
         arrow.transform.position = this.transform.position;
-        theArrow.line.SetActive(true);
-        theArrow.getAngle = false;
-        theArrow.generateLine = true;
+        theArrow[0].line.SetActive(true);
+        theArrow[0].getAngle = false;
+        theArrow[0].generateLine = true;
         generateAngle = Random.Range(50, 60);
        
         //Mgear.transform.rotation = Quaternion.Euler(Mgear.transform.rotation.x, Mgear.transform.rotation.y, generateAngle);
@@ -219,6 +240,7 @@ public class ProjectileHardOne : MonoBehaviour
     public void ShootArrow()
     {
         arrow.SetActive(true);
+        trail.GetComponent<TrailRenderer>().time = 3000;
         arrow.transform.position = transform.position;
         if (ProjSimulationManager.playerAnswer < correctAnswer)
         {
@@ -238,14 +260,16 @@ public class ProjectileHardOne : MonoBehaviour
     }
     IEnumerator project()
     {
+        
         yield return new WaitForSeconds(1);
+        projectArrowTrail.GetComponent<TrailRenderer>().time = 3000;
         projectArrow.SetActive(true);
         projectArrow.transform.position = transform.position;
         projectArrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
     }
     IEnumerator StuntResult()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(projectileTime);
         StartCoroutine(theSimulate.DirectorsCall());
         theQuestion.ToggleModal();
     }
