@@ -134,18 +134,18 @@ public class HardManager : MonoBehaviour
         stoneV = 0;
         elapsed = 0;
         correctAnswer = 0;
-        bossV = (float)System.Math.Round(Random.Range(2f, 4f), 2);
+        bossV = (float)System.Math.Round(Random.Range(1f, 2f), 2);
         switch (stage)
         {
             case 1:
                 y = -3;
                 x = 0;
-                qc.limit = 10;
+                qc.limit = 20;
                 distance = 3;
                 while (true)
                 {
-                    stuntTime = (distance / bossV) + 1;
-                    stoneV = 20.5f / (stuntTime - 1);
+                    stuntTime = (distance / bossV)+1;
+                    stoneV = 20.5f / (stuntTime);
                     Debug.Log(stoneV);
                     if (stoneV < qc.limit)
                         break;
@@ -215,7 +215,6 @@ public class HardManager : MonoBehaviour
         qc.question = question;
         Debug.Log(x + "," + y);
         Debug.Log(distance + ", " + angle);
-
     }
     void Play()
     {
