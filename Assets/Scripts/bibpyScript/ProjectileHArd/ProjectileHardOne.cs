@@ -87,7 +87,7 @@ public class ProjectileHardOne : MonoBehaviour
             theMeter[2].distance = -this.transform.position.x + target.transform.position.x;
 
             theCircular[0]._degrees = generateAngle;
-            theCircular[0]._origin = new Vector2(this.transform.position.x + .5f, this.transform.position.y - .1f);
+            theCircular[0]._origin = new Vector2(this.transform.position.x + .5f, this.transform.position.y );
             theCircular[1]._degrees = generateStoneAngle;
             theCircular[1]._origin = new Vector2(stone.transform.position.x-.2f , stone.transform.position.y-.2f);
             projViTxt.text = ("vi = ")+ vi.ToString("F2") + (" m/s");
