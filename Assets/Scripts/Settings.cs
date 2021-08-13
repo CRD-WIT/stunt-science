@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+
 public class Settings : MonoBehaviour
 {
     public GameObject settingsPanel;
@@ -49,10 +50,13 @@ public class Settings : MonoBehaviour
     int level5MediumPoints;
     int level5HardPoints;
     bool level5Locked;
+    public AudioSource backgroundAudio;
+
+    public AudioSource[] sfxAudios;
 
     void Start()
     {
-
+        LoadVolumes();
         settingsPanel.SetActive(settingsPanelIsOpen);
         levelFinishedPanel.SetActive(leveFinishedIsOpen);
         soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
@@ -62,14 +66,16 @@ public class Settings : MonoBehaviour
         versionCodeText.text = $"Version: {versionCode}";
     }
 
-    public void GotoNextLevel(string LevelToUnlock){
+    public void GotoNextLevel(string LevelToUnlock)
+    {
         PlayerPrefs.SetInt(LevelToUnlock, 0);
         SceneManager.LoadScene("LevelSelectV2");
     }
 
-     public void ReloadLevel(){
-         Scene scene = SceneManager.GetActiveScene(); 
-         SceneManager.LoadScene(scene.name);
+    public void ReloadLevel()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
     }
 
 
@@ -85,7 +91,7 @@ public class Settings : MonoBehaviour
         musicIconOff.SetActive(musicLevel == 0);
         soundIconOn.SetActive(soundLevel != 0);
         musicIconOn.SetActive(musicLevel != 0);
-        // AudioListener.volume = musicLevel;
+        AudioListener.volume = soundLevel;
     }
     public void ToggleSettings()
     {
@@ -103,6 +109,23 @@ public class Settings : MonoBehaviour
     public void UpdateMusicValue()
     {
         musicLevel = musicSlider.value;
+        for (int i = 0; i < sfxAudios.Length; i++)
+        {
+            sfxAudios[i].volume = musicLevel;
+        }
+    }
+
+    public void SaveVolume()
+    {
+        PlayerPrefs.SetFloat("MusicVolume", musicLevel);
+        PlayerPrefs.SetFloat("SoundVolume", soundLevel);
+        LoadVolumes();
+    }
+
+    public void LoadVolumes()
+    {
+        soundLevel = PlayerPrefs.GetFloat("SoundVolume");
+        musicLevel = PlayerPrefs.GetFloat("MusicVolume");
     }
 
 }
