@@ -128,4 +128,8 @@ public class Settings : MonoBehaviour
         musicLevel = PlayerPrefs.GetFloat("MusicVolume");
     }
 
+    public void QuitApp(){
+        Application.Quit();
+    }
+
 }
