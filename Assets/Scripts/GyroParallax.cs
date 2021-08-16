@@ -7,7 +7,8 @@ public class GyroParallax : MonoBehaviour
 {
     public TMP_Text debugText;
     public Transform[] parallaxLayers;
-    public float[] paralaxScales;
+    public Transform[] backgrounds;
+    public float[] parallaxScales;
     public Transform cameraObject;
     private Vector3 previousCamPos;
     // Start is called before the first frame update
@@ -18,6 +19,21 @@ public class GyroParallax : MonoBehaviour
     void Start()
     {
         previousCamPos = cameraObject.position;
+
+        parallaxScales = new float[backgrounds.Length];
+        
+        for (int i = 0; i < backgrounds.Length; i++)
+        {
+            parallaxScales[i] = backgrounds[i].position.z*-1;
+        }
+
+
+
+
+
+
+
+
         if(!Input.gyro.enabled){
             Input.gyro.enabled = true;
         }        
@@ -27,10 +43,14 @@ public class GyroParallax : MonoBehaviour
     void Update()
     {
         debugText.text = "input.gyro: " + Input.gyro.attitude;   
-        // for (int i = 0; i < parallaxLayers.Length; i++)
-        // {
-        //     parallaxLayers[i].transform.position.x += Input.gyro.attitude.x;
-        // }
+        for (int i = 0; i < backgrounds.Length; i++)
+        {
+            float parallax = (previousCamPos.x -cameraObject.position.x) * parallaxScales[i];
+
+            float backgroundTargetPosX = backgrounds[i].position.x + parallax;
+
+            
+        }
     }
 
      private static Quaternion GyroToUnity(Quaternion q)
