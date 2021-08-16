@@ -16,34 +16,37 @@ public class SlantingIndicator : MonoBehaviour
     public float distance, angle, x, y;
     float dimensionTxtLength, velocityTxtLength;
     Vector2 velocitySpawnPnt;
-    [SerializeField] LineRenderer[] distanceLines = new LineRenderer[4];
+    [SerializeField] LineRenderer[] distanceLines;
     [SerializeField] GameObject arrow;
     GameObject[] arrows = new GameObject[3];
     [SerializeField] GameObject[] labelTxt = new GameObject[2];
-    bool arrowPresent = false;
+    bool arrowPresent = true;
     QuestionControllerVThree qc;
     private void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
     }
-    public void SetDistance(float distance, float angle, float x, float y)
+    public void SetDistance(float d, float a, float dx, float dy)
     {
         if (arrowPresent)
-        {
             foreach (var item in arrows)
                 Destroy(item);
-            arrowPresent = false;
-            if (!arrowPresent)
+        arrowPresent = false;
+        if (!arrowPresent)
+        {
+            for (int i = 0; i <= 2; i++)
             {
-                for (int i = 0; i <= 3; i++)
-                {
-                    arrows[i] = Instantiate(arrow);
-                    arrows[i].transform.SetParent(transform.Find("Arrows"));
-                }
-                arrows[0].transform.Rotate(0, 0, angle);
+                arrows[i] = Instantiate(arrow);
+                arrows[i].transform.SetParent(transform.Find("Arrows"));
             }
-            distanceColor = TextColorMode.Given;
+            arrows[0].transform.Rotate(0, 0, (90 + angle));
+            arrows[1].transform.Rotate(0, 0, (90 - angle));
         }
+        distance = d;
+        angle =a;
+        x =dx;
+        y =dy;
+        distanceColor = TextColorMode.Given;
     }
     public void SetSpawnPnt(Vector2 pos)
     {
@@ -56,16 +59,10 @@ public class SlantingIndicator : MonoBehaviour
 
         dimensionTxtLength = labelTxt[0].GetComponent<TextMeshPro>().text.Length;
 
-        arrows[0].transform.position = new Vector2(x, distanceSpawnPnt.y);
+        arrows[0].transform.position = new Vector2(x, y);
         arrows[1].transform.position = new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y);
-        distanceLines[0].SetPosition(0, new Vector2(((x / 2) - (0.18f * dimensionTxtLength)) + distanceSpawnPnt.x, ((y / 2) - (0.18f * dimensionTxtLength)) + distanceSpawnPnt.y));
+        distanceLines[0].SetPosition(0, new Vector2(x + distanceSpawnPnt.x, y + distanceSpawnPnt.y));
         distanceLines[0].SetPosition(1, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y));
-        distanceLines[1].SetPosition(0, new Vector2(((x / 2) + (0.18f * dimensionTxtLength)) + distanceSpawnPnt.x, ((y / 2) + (0.18f * dimensionTxtLength)) + distanceSpawnPnt.y));
-        distanceLines[1].SetPosition(1, new Vector2((x + distanceSpawnPnt.x), distanceSpawnPnt.y));
-        distanceLines[2].SetPosition(0, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y - 1f));
-        distanceLines[2].SetPosition(1, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y + 0.5f));
-        distanceLines[3].SetPosition(0, new Vector2(distanceSpawnPnt.x + x, distanceSpawnPnt.y - 1f));
-        distanceLines[3].SetPosition(1, new Vector2(distanceSpawnPnt.x + x, distanceSpawnPnt.y + 0.5f));
         labelTxt[0].transform.position = new Vector2((x / 2) + distanceSpawnPnt.x, distanceSpawnPnt.y);
 
         labelTxt[1].transform.position = velocitySpawnPnt;
@@ -77,12 +74,6 @@ public class SlantingIndicator : MonoBehaviour
         qc.SetColor(labelTxt[0].GetComponent<TMP_Text>(), distanceColor);
         distanceLines[0].startColor = qc.getHexColor(distanceColor);
         distanceLines[0].endColor = qc.getHexColor(distanceColor);
-        distanceLines[1].startColor = qc.getHexColor(distanceColor);
-        distanceLines[1].endColor = qc.getHexColor(distanceColor);
-        distanceLines[2].startColor = qc.getHexColor(distanceColor);
-        distanceLines[2].endColor = qc.getHexColor(distanceColor);
-        distanceLines[3].startColor = qc.getHexColor(distanceColor);
-        distanceLines[3].endColor = qc.getHexColor(distanceColor);
         arrows[0].GetComponent<SpriteRenderer>().color = qc.getHexColor(distanceColor);
         arrows[1].GetComponent<SpriteRenderer>().color = qc.getHexColor(distanceColor);
         foreach (var item in labelTxt)
