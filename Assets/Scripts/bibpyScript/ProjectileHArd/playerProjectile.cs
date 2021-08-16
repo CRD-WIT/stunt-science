@@ -38,7 +38,7 @@ public class playerProjectile : MonoBehaviour
             StartCoroutine(slowMo());
             sword.SetActive(true);
             slash = true;
-            theManagerOne.generateAngle += 10;
+            theManagerOne.generateAngle +=5;
             theManagerOne.reShoot();
         }
     }
