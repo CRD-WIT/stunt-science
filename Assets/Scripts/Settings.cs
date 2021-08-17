@@ -96,9 +96,12 @@ public class Settings : MonoBehaviour
         soundIconOn.SetActive(soundLevel != 0);
         musicIconOn.SetActive(musicLevel != 0);
         AudioListener.volume = soundLevel;
-        if(AudioListener.volume == 0){
+        if (AudioListener.volume == 0)
+        {
             soundButtonImage.sprite = soundButtonImages[1];
-        }else{
+        }
+        else
+        {
             soundButtonImage.sprite = soundButtonImages[0];
         }
     }
@@ -126,8 +129,13 @@ public class Settings : MonoBehaviour
 
     public void ToggleVolume()
     {
-        AudioListener.volume = soundOn?PlayerPrefs.GetFloat("MusicVolume"):0;
+        if(soundOn){
+            soundLevel = 0;
+        }else{
+            soundLevel = PlayerPrefs.GetFloat("SoundVolume");
+        }
         soundOn = !soundOn;
+        soundSlider.value = soundLevel;
     }
 
     public void SaveVolume()
@@ -143,7 +151,8 @@ public class Settings : MonoBehaviour
         musicLevel = PlayerPrefs.GetFloat("MusicVolume");
     }
 
-    public void QuitApp(){
+    public void QuitApp()
+    {
         Application.Quit();
     }
 
