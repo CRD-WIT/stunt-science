@@ -44,6 +44,9 @@ public class Settings : MonoBehaviour
     int level4MediumPoints;
     int level4HardPoints;
     bool level4Locked;
+    public Sprite[] soundButtonImages;
+
+    public Image soundButtonImage;
 
 
     int level5EasyPoints;
@@ -51,6 +54,7 @@ public class Settings : MonoBehaviour
     int level5HardPoints;
     bool level5Locked;
     public AudioSource backgroundAudio;
+    bool soundOn = true;
 
     public AudioSource[] sfxAudios;
 
@@ -92,6 +96,11 @@ public class Settings : MonoBehaviour
         soundIconOn.SetActive(soundLevel != 0);
         musicIconOn.SetActive(musicLevel != 0);
         AudioListener.volume = soundLevel;
+        if(AudioListener.volume == 0){
+            soundButtonImage.sprite = soundButtonImages[1];
+        }else{
+            soundButtonImage.sprite = soundButtonImages[0];
+        }
     }
     public void ToggleSettings()
     {
@@ -113,6 +122,12 @@ public class Settings : MonoBehaviour
         {
             sfxAudios[i].volume = musicLevel;
         }
+    }
+
+    public void ToggleVolume()
+    {
+        AudioListener.volume = soundOn?PlayerPrefs.GetFloat("MusicVolume"):0;
+        soundOn = !soundOn;
     }
 
     public void SaveVolume()
