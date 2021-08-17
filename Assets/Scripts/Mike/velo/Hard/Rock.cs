@@ -23,8 +23,8 @@ public class Rock : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
-        this.throwVeloX = 0;
-        this.throwVeloY = 0;
-        this.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+        this.GetComponent<Rigidbody2D>().gravityScale = 2;
+        this.throwVeloX = this.GetComponent<Rigidbody2D>().velocity.x;
+        this.throwVeloY = this.GetComponent<Rigidbody2D>().velocity.y;
     }
 }

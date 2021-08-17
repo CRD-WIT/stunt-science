@@ -14,7 +14,7 @@ public class HardManager : MonoBehaviour
     public GameObject directorsBubble, bossHead, stonePrefab, bossAtk;
     public TMP_Text directorsSpeech;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime;
-    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown;
+    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
     public int stage;
     public Rigidbody2D bossRB, stone;
@@ -44,9 +44,26 @@ public class HardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (stage1Flag)
+        {
+            if (myPlayer.transform.position.x < (-playerAnswer - 0.5f))
+            {
+                myPlayer.moveSpeed = 1.99f;
+            }
+            else
+            {
+                myPlayer.moveSpeed = 0;
+                myPlayer.transform.position = new Vector2(-playerAnswer + 0.5f, myPlayer.transform.position.y);
+                indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 5);
+                indicators.SetPlayerPosition(myPlayer.transform.position);
+                indicators.showLines(distance, null, null, stoneV, stuntTime);
+                stage1Flag = false;
+                isStartOfStunt = true;
+                directorIsCalling = true;
+            }
+        }
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
-
         if (isAnswered)
         {
             qc.timer = elapsed.ToString("f2") + "s";
@@ -141,27 +158,25 @@ public class HardManager : MonoBehaviour
                 qc.limit = 20.5f;
                 bossDistance = 3;
                 // distance = (float)System.Math.Round(Random.Range(14.5f, 20.5f), 2);
-                stoneV = (float)System.Math.Round(Random.Range(15f, 20f), 2);
-                bossV = (float)System.Math.Round(Random.Range(1f, 2f), 2);
                 while (true)
                 {
+                    stoneV = (float)System.Math.Round(Random.Range(18f, 20f), 2);
+                    bossV = (float)System.Math.Round(Random.Range(1.5f, 2f), 2);
                     stuntTime = (bossDistance / bossV);
                     // stoneV = 20.5f / (stuntTime - 1);
                     distance = stoneV * (stuntTime - 1);
-                    if (distance <= qc.limit)
+                    if ((distance < qc.limit) && (distance > 16.5f))
                         break;
                 }
-                Debug.Log(distance+ "dist");
-                indicators.distanceSpawnPnt = new Vector2(-19.5f, 2);
-                indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(20.5F + x, null, null, playerAnswer, stuntTime);
+                indicators.showLines(null, null, null, playerAnswer, stuntTime);
                 indicators.UnknownIs('v');
 
                 correctAnswer = (float)System.Math.Round(distance, 2);
+                Debug.Log(correctAnswer + " ans");
                 boss.SetVelocityOfTheHead(stuntTime, x, y);
                 angle = (float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
                 labels.SetDistance(bossDistance, angle, x, y);
-                labels.SetSpawnPnt(new Vector2(1, 5));
+                labels.SetSpawnPnt(new Vector2(1, 8));
                 question = "The target is the gem inside the mouth of the golem. If the golem is moving at straight downward with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
             case 2:
@@ -180,7 +195,7 @@ public class HardManager : MonoBehaviour
                         break;
                 }
                 distance = 20.5f + x;
-                Debug.Log("dist "+ distance);
+                Debug.Log("dist " + distance);
                 indicators.distanceSpawnPnt = new Vector2(-19.5f, 2);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
                 indicators.showLines(20.5F + x, null, null, playerAnswer, stuntTime);
@@ -224,15 +239,24 @@ public class HardManager : MonoBehaviour
     {
         playerAnswer = qc.GetPlayerAnswer();
         qc.isSimulating = false;
-        isStartOfStunt = true;
-        directorIsCalling = true;
-        if (playerAnswer > correctAnswer)
-            throwTime = (playerAnswer / stoneV) - 0.5f;
-        else if (playerAnswer < correctAnswer)
-            throwTime = (playerAnswer / stoneV) + 0.5f;
-        else
-            throwTime = playerAnswer / stoneV;
-
+        switch (stage)
+        {
+            case 1:
+                stage1Flag = true;
+                if (playerAnswer > correctAnswer)
+                    throwTime = (playerAnswer / stoneV) - 0.5f;
+                else if (playerAnswer < correctAnswer)
+                    throwTime = (playerAnswer / stoneV) + 0.5f;
+                else
+                    throwTime = playerAnswer / stoneV;
+                break;
+            case 2:
+                isStartOfStunt = true;
+                directorIsCalling = true;
+                break;
+            case 3:
+                break;
+        }
     }
     IEnumerator Retry()
     {
@@ -296,9 +320,9 @@ public class HardManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         myPlayer.thrown = false;
         GameObject stone = Instantiate(stonePrefab);
-        stone.transform.position = new Vector2(-distance, 5);
+        stone.transform.position = new Vector2(-distance + 1, 5);
         // stone.GetComponent<Rigidbody2D>().gravityScale = 0;
-        stone.GetComponent<Rock>().SetVelocity(throwTime, 20.5f, 0);
+        stone.GetComponent<Rock>().SetVelocity(throwTime, distance, 0);
         // stone.GetComponent<Rigidbody2D>().velocity = new Vector2(playerAnswer, 0);
     }
     IEnumerator BossAttack()
