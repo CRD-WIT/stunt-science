@@ -8,7 +8,7 @@ public class golem : MonoBehaviour
     public Rigidbody2D myRigidbody;
     private Animator myAnimator;
     public ProjSimulationManager theSimulate;
-    public bool throwing, damage;
+    public bool throwing, damage, standUp;
     public GameObject hpBar, head, hpBarParent;
     public float fullHp, currentHp;
     public bool reduceHp;
@@ -26,19 +26,20 @@ public class golem : MonoBehaviour
     {
         hpBarParent.transform.position = head.transform.position;
         hpBar.transform.localScale = new Vector2(currentHp, hpBar.transform.localScale.y);
-        if(reduceHp)
+        if (reduceHp)
         {
-            currentHp -= Time.deltaTime *(fullHp * 0.1f);
+            currentHp -= Time.deltaTime * (fullHp * 0.1f);
 
         }
-        if(theSimulate.stage == 1)
+        if (theSimulate.stage == 1)
         {
             myRigidbody.velocity = new Vector2(-moveSpeed, myRigidbody.velocity.y);
         }
-       
+
         myAnimator.SetFloat("speed", moveSpeed);
         myAnimator.SetBool("throw", throwing);
-         myAnimator.SetBool("damage", damage);
+        myAnimator.SetBool("damage", damage);
+        myAnimator.SetBool("standUp", standUp);
     }
     public IEnumerator takeDamaged()
     {

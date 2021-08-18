@@ -5,7 +5,7 @@ using UnityEngine;
 public class playerProjectile : MonoBehaviour
 {
      private Animator myAnimator;
-     public bool shooting, airdive, slash, aim;
+     public bool shooting, airdive, slash, aim, running;
      public GameObject puller,mGear, sword,arrow;
      public ProjectileHardOne theManagerOne;
      public bool grounded;
@@ -28,6 +28,7 @@ public class playerProjectile : MonoBehaviour
         myAnimator.SetBool("slash", slash);
         myAnimator.SetBool("aim", aim);
         myAnimator.SetBool("grounded", grounded);
+        myAnimator.SetBool("running", running);
     }
     void OnTriggerEnter2D(Collider2D other)
     {

@@ -144,6 +144,7 @@ public class ProjSimulationManager : MonoBehaviour
             theManagerTwo.gameObject.SetActive(true);
             theQuestion.isSimulating = false;
             playButton.interactable = true;
+            StartCoroutine(theManagerTwo.positioning());
         }
         if (stage == 2)
         {

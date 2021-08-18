@@ -14,13 +14,13 @@ public class ProjectileHardOne : MonoBehaviour
     public DistanceMeter[] theMeter;
     public Arrow[] theArrow;
     public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineAngle, lineDistance, boulder, angleArrow;
-    public GameObject lineVertical, lineHorizontal, dimension;
+    public GameObject lineVertical, lineHorizontal, dimension, golemInitial;
     public float vi, generateVG, vG;
     public float generateAngle, generateStoneAngle, stoneAngle, stoneOpp, HRange, timer, projectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
     public float generateDistance, totalDistance, golemDistanceToTravel;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile;
-    public TMP_Text golemVelo, golemAcc, projViTxt, timerTxt;
+    public TMP_Text golemVelo, golemAcc, projViTxt, timerTxt, actiontxt;
     string pronoun, pronoun2, gender;
 
     // Start is called before the first frame update
@@ -45,6 +45,7 @@ public class ProjectileHardOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        golemInitial.transform.position = theGolem.transform.position;
         lineAngle.transform.position = stone.transform.position;
         lineDistance.transform.position = new Vector2(stone.transform.position.x, this.transform.position.y);
         if (!timeStart)
@@ -133,9 +134,11 @@ public class ProjectileHardOne : MonoBehaviour
                     {
                         vi += .08f;
                         theQuestion.answerIsCorrect = true;
+                        actiontxt.text = ("next");
                         Shoot();
                         answerIsCorrect = true;
                         deflector.GetComponent<Collider2D>().isTrigger = true;
+                        
                     }
                     if (ProjSimulationManager.playerAnswer > correctAnswer)
                     {
@@ -212,7 +215,7 @@ public class ProjectileHardOne : MonoBehaviour
 
 
         yield return new WaitForSeconds(projectileTime);
-        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 20);
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 19);
         //theGolem.throwing = true;
         theGolem.moveSpeed = 0;
         yield return new WaitForSeconds(.55f);
@@ -222,6 +225,7 @@ public class ProjectileHardOne : MonoBehaviour
         puller.GetComponent<Rigidbody2D>().velocity = transform.right * 30;
         thePlayer.airdive = true;
         thePlayer.aim = false;
+        StartCoroutine(StuntResult());
 
     }
     IEnumerator golemThrow()
@@ -276,6 +280,8 @@ public class ProjectileHardOne : MonoBehaviour
         yield return new WaitForSeconds(projectileTime);
         StartCoroutine(theSimulate.DirectorsCall());
         theQuestion.ToggleModal();
+        theArrow[0].generateLine = false;
+        trail.SetActive(false);
     }
 
 }
