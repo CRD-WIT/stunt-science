@@ -79,7 +79,7 @@ public class LevelManager : MonoBehaviour
     void Update()
     {
         // for (int i = 0; i < levelCards.Length; i++)
-        // {
+        // {-------------------
         //     levelCards[i].locked = unlockedCount <= i + 1;
         // }
         levelCards[0].starActiveCount = levelVelocityEasy;
