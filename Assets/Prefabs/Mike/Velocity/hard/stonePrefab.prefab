@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5904023318496523573}
   - component: {fileID: 7401270820282688088}
   - component: {fileID: 6539888278844829133}
+  - component: {fileID: 3173672577366649221}
   - component: {fileID: 3596488670555407395}
   m_Layer: 0
   m_Name: stonePrefab
@@ -27,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8529411082651532840}
   m_LocalRotation: {x: -0, y: -0, z: -0.0008880198, w: 0.99999964}
-  m_LocalPosition: {x: -18.37, y: 1.98, z: 0}
-  m_LocalScale: {x: 0.03201813, y: -0.026704472, z: 1}
+  m_LocalPosition: {x: -18.3515, y: 2.0007, z: 0}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 1.682677}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -99,13 +100,25 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3173672577366649221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8529411082651532840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0e16d77e05de643a8fca9427921051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!60 &3596488670555407395
 PolygonCollider2D:
   m_ObjectHideFlags: 0
