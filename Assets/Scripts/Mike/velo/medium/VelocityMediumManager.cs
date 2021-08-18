@@ -68,7 +68,7 @@ public class VelocityMediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        debugAnswer.SetText($"Answer: {stuntTime}");
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)
