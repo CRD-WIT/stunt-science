@@ -8,22 +8,21 @@ public class ProjectileHardTwo : MonoBehaviour
     public ProjSimulationManager theSimulate;
     public QuestionControllerB theQuestion;
     public golem theGolem;
+    public HeartManager theHeart;
     public CircularAnnotation[] theCircular;
     public Arrow[] theArrow;
     public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineAngle, lineDistance, boulder, angleArrow;
-    public GameObject lineVertical, lineHorizontal, dimension;
+    public GameObject lineVertical, lineHorizontal, dimension, cam, golemInitial;
     public float vi, generateVG, vG;
     public float generateAngle, generateStoneAngle, stoneAngle, stoneOpp, HRange, timer, projectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
-    public float generateDistance, totalDistance, golemDistanceToTravel;
-    public bool timeStart, answerIsCorrect, shootReady, showProjectile;
+    public float generateDistance, totalDistance, golemDistanceToTravel, camDistance;
+    public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow;
     string pronoun, pronoun2, gender;
     void Start()
     {
-        theGolem.transform.localScale = new Vector2(-theGolem.transform.localScale.x, theGolem.transform.localScale.y);
-        thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
         gender = PlayerPrefs.GetString("Gender");
-        thePlayer.aim = true;
+        camDistance = thePlayer.transform.position.x - cam.transform.position.x;
         //generateProblem();
         if (gender == "Male")
         {
@@ -38,19 +37,27 @@ public class ProjectileHardTwo : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        golemInitial.transform.position = theGolem.transform.position;
+        if (running)
+        {
+            puller.GetComponent<Rigidbody2D>().velocity = new Vector2(5, 0);
+        }
+        if (camFollow)
+        {
+            cam.transform.position = new Vector3(thePlayer.transform.position.x - camDistance, cam.transform.position.y, cam.transform.position.z);
+        }
     }
     public void generateProblem()
     {
         thePlayer.transform.position = new Vector2(20, thePlayer.transform.position.y);
         theGolem.transform.position = new Vector2(-10, theGolem.transform.position.y);
-        generateAngle = Random.Range(30,50);
-        generateVG = Random.Range(2f,4f);
+        generateAngle = Random.Range(30, 50);
+        generateVG = Random.Range(2f, 4f);
         vG = (float)System.Math.Round(generateStoneAngle, 2);
     }
-     IEnumerator ropePull()
+    IEnumerator ropePull()
     {
         yield return new WaitForSeconds(projectileTime);
         transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 20);
@@ -63,5 +70,27 @@ public class ProjectileHardTwo : MonoBehaviour
         puller.GetComponent<Rigidbody2D>().velocity = transform.right * 30;
         thePlayer.airdive = true;
         thePlayer.aim = false;
+    }
+    public IEnumerator positioning()
+    {
+        thePlayer.aim = false;
+        thePlayer.slash = false;
+        thePlayer.airdive = false;
+        camFollow = true;
+        running = true;
+        thePlayer.running = true;
+        yield return new WaitForSeconds(2);
+        theGolem.standUp = true;
+        StartCoroutine(theHeart.endBGgone());
+        yield return new WaitForSeconds(2);
+        running = false;
+        camFollow = false;
+        thePlayer.running = false;
+        thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
+        puller.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        theGolem.transform.localScale = new Vector2(-theGolem.transform.localScale.x, theGolem.transform.localScale.y);
+        yield return new WaitForSeconds(1.2f);
+        theGolem.standUp = false;
+        theGolem.damage = false;
     }
 }
