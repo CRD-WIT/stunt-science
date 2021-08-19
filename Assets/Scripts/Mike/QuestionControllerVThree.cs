@@ -123,6 +123,7 @@ public class QuestionControllerVThree : MonoBehaviour
         isModalOpen = true;
         if (isCorrect)
         {
+            // NOTE: Use this template when ending levels.
             if (isComplete)
             {
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();

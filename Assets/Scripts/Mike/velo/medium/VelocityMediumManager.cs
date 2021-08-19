@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using GameConfig;
 
@@ -8,7 +9,7 @@ public class VelocityMediumManager : MonoBehaviour
     QuestionControllerVThree qc;
     UnitOf whatIsAsk;
     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
-
+    public GameObject actionBtn;
     IndicatorManagerV1_1 indicators;
     IndicatorManager jmpDistFromBoulder;
     StageManager sm = new StageManager();
@@ -221,7 +222,9 @@ public class VelocityMediumManager : MonoBehaviour
         else
         {
             if (qc.nextStage)
+            {
                 StartCoroutine(Next());
+            }
             else if (qc.retried)
                 StartCoroutine(Retry());
             else
@@ -450,7 +453,7 @@ public class VelocityMediumManager : MonoBehaviour
         PrefabDestroyer.end = true;
         yield return new WaitForSeconds(3f);
         StartCoroutine(life.endBGgone());
-        yield return new WaitForSeconds(2.8f);
+        yield return new WaitForSeconds(1.8f);
         myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
@@ -484,7 +487,7 @@ public class VelocityMediumManager : MonoBehaviour
             cutsfx.Play();
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
-            
+
             RumblingManager.isCrumbling = true;
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
@@ -506,7 +509,15 @@ public class VelocityMediumManager : MonoBehaviour
         RumblingManager.shakeON = false;
         RumblingManager.isCrumbling = true;
         yield return new WaitForSeconds(3);
-        qc.ActivateResult(messageTxt, isAnswerCorrect);
+        if (stage == 3)
+        {
+            qc.ActivateResult(messageTxt, isAnswerCorrect, true);
+        }
+        else
+        {
+            qc.ActivateResult(messageTxt, isAnswerCorrect);
+        }
+
     }
     IEnumerator Jump()
     {

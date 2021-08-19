@@ -150,6 +150,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         SimulationManager.directorIsCalling = true;
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
+        // True means the level is complete.
         qc.ActivateResult(answerMessage, answerIs, true);
     }
     IEnumerator RagdollCollider()
