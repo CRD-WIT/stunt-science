@@ -26,7 +26,8 @@ public class IndicatorManagerV1_1 : MonoBehaviour
     [SerializeField] float distance;
     [SerializeField] float timerLength;
     [SerializeField] float height;
-    float velocity, timer, dimensionTxtLength, timeTxtLength, heightTxtLength, correctDistanceTxtLength, velocityTxtLength, annotationDistanceEnds, annotationTimeEnds;
+    float velocity, timer, dimensionTxtLength, timeTxtLength, heightTxtLength, correctDistanceTxtLength, velocityTxtLength, annotationDistanceEnds, annotationTimeEnds,
+        upperDistanceEndLines = 0.5f, lowerDistanceEndLines = 1, leftHeightEndLines = 0.25f, rightHeightEndLines = 1.5f;
     Vector2 velocitySpawnPnt;
     [SerializeField] LineRenderer[] distanceLines = new LineRenderer[4], timeLines = new LineRenderer[4], heightLines = new LineRenderer[4], correctDistanceLines = new LineRenderer[4], correctTimeLines = new LineRenderer[4];
     [SerializeField] GameObject arrow;
@@ -59,6 +60,18 @@ public class IndicatorManagerV1_1 : MonoBehaviour
             arrows[6].transform.Rotate(0, 0, 180);
             return new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y - 3);
         }
+    }
+    public void ResizeEndLines(float? upD, float? lowD, float? lH, float? rH)
+    {
+        if (upD != null)
+            upperDistanceEndLines = (float)upD;
+        if (lowD != null)
+            lowerDistanceEndLines = (float)lowD;
+
+        if (lH != null)
+            leftHeightEndLines = (float)lH;
+        if (rH != null)
+            rightHeightEndLines = (float)rH;
     }
 
     // IEnumerator 
@@ -338,10 +351,10 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         distanceLines[0].SetPosition(1, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y));
         distanceLines[1].SetPosition(0, new Vector2(((distance / 2) + (0.18f * dimensionTxtLength)) + distanceSpawnPnt.x, distanceSpawnPnt.y));
         distanceLines[1].SetPosition(1, new Vector2((distance + distanceSpawnPnt.x), distanceSpawnPnt.y));
-        distanceLines[2].SetPosition(0, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y - 1f));
-        distanceLines[2].SetPosition(1, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y + 0.5f));
-        distanceLines[3].SetPosition(0, new Vector2(distanceSpawnPnt.x + distance, distanceSpawnPnt.y - 1f));
-        distanceLines[3].SetPosition(1, new Vector2(distanceSpawnPnt.x + distance, distanceSpawnPnt.y + 0.5f));
+        distanceLines[2].SetPosition(0, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y - lowerDistanceEndLines));
+        distanceLines[2].SetPosition(1, new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y + upperDistanceEndLines));
+        distanceLines[3].SetPosition(0, new Vector2(distanceSpawnPnt.x + distance, distanceSpawnPnt.y - lowerDistanceEndLines));
+        distanceLines[3].SetPosition(1, new Vector2(distanceSpawnPnt.x + distance, distanceSpawnPnt.y + upperDistanceEndLines));
         labelTxt[0].transform.position = new Vector2((distance / 2) + distanceSpawnPnt.x, distanceSpawnPnt.y);
 
         arrows[2].transform.position = new Vector2(timerLength + timeSpawnPnt.x, timeSpawnPnt.y + 1);
@@ -361,10 +374,10 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         heightLines[0].SetPosition(1, new Vector2(heightSpawnPnt.x, heightSpawnPnt.y));
         heightLines[1].SetPosition(0, new Vector2(heightSpawnPnt.x, ((height / 2) + (0.18f * 1.5f)) + heightSpawnPnt.y));
         heightLines[1].SetPosition(1, new Vector2((heightSpawnPnt.x), height + heightSpawnPnt.y));
-        heightLines[2].SetPosition(0, new Vector2(heightSpawnPnt.x + 1.5f, heightSpawnPnt.y));
-        heightLines[2].SetPosition(1, new Vector2(heightSpawnPnt.x - .25f, heightSpawnPnt.y));
-        heightLines[3].SetPosition(0, new Vector2(heightSpawnPnt.x + 1.5f, heightSpawnPnt.y + height));
-        heightLines[3].SetPosition(1, new Vector2(heightSpawnPnt.x - .25f, heightSpawnPnt.y + height));
+        heightLines[2].SetPosition(0, new Vector2(heightSpawnPnt.x +rightHeightEndLines, heightSpawnPnt.y));
+        heightLines[2].SetPosition(1, new Vector2(heightSpawnPnt.x - leftHeightEndLines, heightSpawnPnt.y));
+        heightLines[3].SetPosition(0, new Vector2(heightSpawnPnt.x + rightHeightEndLines, heightSpawnPnt.y + height));
+        heightLines[3].SetPosition(1, new Vector2(heightSpawnPnt.x - leftHeightEndLines, heightSpawnPnt.y + height));
         labelTxt[2].transform.position = new Vector2(heightSpawnPnt.x, (height / 2) + heightSpawnPnt.y);
 
         labelTxt[4].transform.position = velocitySpawnPnt;
