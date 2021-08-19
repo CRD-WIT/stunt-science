@@ -13,14 +13,15 @@ public class ProjectileHardTwo : MonoBehaviour
     public Arrow[] theArrow;
     public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineAngle, lineDistance, boulder, angleArrow;
     public GameObject lineVertical, lineHorizontal, dimension, cam, golemInitial;
-    public float vi, generateVG, vG;
-    public float generateAngle, generateStoneAngle, stoneAngle, stoneOpp, HRange, timer, projectileTime, golemTravelTime;
+    public float vi, generateVG, vG, generateVP, vP;
+    public float generateAngle, generateStoneAngle, stoneAngle, stoneOpp, HRange, timer,generateTime, time, projectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
-    public float generateDistance, totalDistance, golemDistanceToTravel, camDistance;
+    public float generateDistance, totalDistance, golemDistanceToTravel, camDistance,playerSpeed;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow;
     string pronoun, pronoun2, gender;
     void Start()
     {
+        theSimulate.stage = 2;
         gender = PlayerPrefs.GetString("Gender");
         camDistance = thePlayer.transform.position.x - cam.transform.position.x;
         //generateProblem();
@@ -42,20 +43,51 @@ public class ProjectileHardTwo : MonoBehaviour
         golemInitial.transform.position = theGolem.transform.position;
         if (running)
         {
-            puller.GetComponent<Rigidbody2D>().velocity = new Vector2(5, 0);
+            puller.GetComponent<Rigidbody2D>().velocity = new Vector2(playerSpeed, 0);
         }
         if (camFollow)
         {
             cam.transform.position = new Vector3(thePlayer.transform.position.x - camDistance, cam.transform.position.y, cam.transform.position.z);
         }
+        if (!timeStart)
+        {
+            stoneDY = stone.transform.position.y - this.transform.position.y;
+            stoneDyR = (float)System.Math.Round(stoneDY, 2);
+            transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 150);
+        }
+        if (ProjSimulationManager.simulate == true)
+        {
+            timeStart = true;
+        }
+        if(timeStart)
+        {
+            theGolem.moveSpeed = vG;
+            playerSpeed = vP;
+            running = true;
+            timer += Time.fixedDeltaTime;
+            if(timer >= time)
+            {
+                if(shootReady)
+                {
+                    ShootArrow();
+                    shootReady = false;
+                }
+            }
+        }
     }
     public void generateProblem()
     {
-        thePlayer.transform.position = new Vector2(20, thePlayer.transform.position.y);
-        theGolem.transform.position = new Vector2(-10, theGolem.transform.position.y);
-        generateAngle = Random.Range(30, 50);
+        puller.transform.position = new Vector2(45, thePlayer.transform.position.y);
+        theGolem.transform.position = new Vector2(5, theGolem.transform.position.y);
+
         generateVG = Random.Range(2f, 4f);
-        vG = (float)System.Math.Round(generateStoneAngle, 2);
+        generateTime = Random.Range(2f,3f);
+        time = (float)System.Math.Round(generateTime, 2);
+        projectileTime =  (float)System.Math.Round(Random.Range(2f,3f), 2);
+        generateVG = Random.Range(2f,3f);
+        vG = (float)System.Math.Round(generateVG, 2);
+        generateVP = Random.Range(2f,3f);
+        vP = (float)System.Math.Round(generateVP, 2);
     }
     IEnumerator ropePull()
     {
@@ -71,6 +103,27 @@ public class ProjectileHardTwo : MonoBehaviour
         thePlayer.airdive = true;
         thePlayer.aim = false;
     }
+    public void ShootArrow()
+    {
+        arrow.SetActive(true);
+        trail.GetComponent<TrailRenderer>().time = 3000;
+        arrow.transform.position = transform.position;
+        if (ProjSimulationManager.playerAnswer < correctAnswer)
+        {
+            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer);
+        }
+        if (ProjSimulationManager.playerAnswer > correctAnswer)
+        {
+            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer);
+        }
+        if (ProjSimulationManager.playerAnswer == correctAnswer)
+        {
+            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer);
+        }
+        GameObject explosion = Instantiate(blastPrefab);
+        explosion.transform.position = transform.position;
+
+    }
     public IEnumerator positioning()
     {
         thePlayer.aim = false;
@@ -83,6 +136,7 @@ public class ProjectileHardTwo : MonoBehaviour
         theGolem.standUp = true;
         StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(2);
+        generateProblem();
         running = false;
         camFollow = false;
         thePlayer.running = false;
@@ -92,5 +146,8 @@ public class ProjectileHardTwo : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         theGolem.standUp = false;
         theGolem.damage = false;
+        thePlayer.aim = true;
+        camFollow = false;
+        
     }
 }

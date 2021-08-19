@@ -282,6 +282,9 @@ public class ProjectileHardOne : MonoBehaviour
         theQuestion.ToggleModal();
         theArrow[0].generateLine = false;
         trail.SetActive(false);
+        theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;
+        theArrow[0].gameObject.SetActive(false);
+        thePlayer.sword.SetActive(false);
     }
 
 }
