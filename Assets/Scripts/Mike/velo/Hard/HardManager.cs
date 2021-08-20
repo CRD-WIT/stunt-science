@@ -13,7 +13,7 @@ public class HardManager : MonoBehaviour
     QuestionControllerVThree qc;
     public GameObject directorsBubble, bossHead, stonePrefab, bossAtk;
     public TMP_Text directorsSpeech;
-    float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX;
+    float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance;
     bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
     public int stage;
@@ -42,7 +42,7 @@ public class HardManager : MonoBehaviour
             pPronoun = "her";
         }
         bossStartPos = bossHead.transform.position;
-        qc.stage =stage;
+        qc.stage = stage;
         SetUp();
     }
     // Update is called once per frame
@@ -52,17 +52,18 @@ public class HardManager : MonoBehaviour
         {
             if (myPlayer.transform.position.x < (-playerAnswer + 0.5f))
             {
+                initialDistance = 1 - playerAnswer;
                 myPlayer.moveSpeed = 1.99f;
+                indicators.gameObject.SetActive(true);
+                indicators.distanceSpawnPnt = new Vector2(initialDistance, 5);
+                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
+                // indicators.SetPlayerPosition(stone.transform.position);
+                indicators.showLines(playerAnswer, null, 3, stoneV, stuntTime);
             }
             else
             {
                 myPlayer.moveSpeed = 0;
                 myPlayer.transform.position = new Vector2(-playerAnswer + 0.5f, myPlayer.transform.position.y);
-                indicators.gameObject.SetActive(true);
-                indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 5);
-                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
-                // indicators.SetPlayerPosition(stone.transform.position);
-                indicators.showLines(playerAnswer, null, 3, stoneV, stuntTime);
                 stage1Flag = false;
                 isStartOfStunt = true;
                 directorIsCalling = true;
@@ -95,12 +96,12 @@ public class HardManager : MonoBehaviour
                         isEndOfStunt = true;
                         if (playerAnswer == correctAnswer)
                         {
-                            isAnswerCorrect =true;
+                            isAnswerCorrect = true;
                             Debug.Log("correct");
                         }
                         else
                         {
-                            isAnswerCorrect =false;
+                            isAnswerCorrect = false;
                             Debug.Log("wrong");
                         }
                     }
@@ -176,7 +177,7 @@ public class HardManager : MonoBehaviour
                 x = 0;
                 qc.limit = 20.5f;
                 bossDistance = 3;
-                bossHead .transform.position = bossStartPos;
+                bossHead.transform.position = bossStartPos;
                 // distance = (float)System.Math.Round(Random.Range(14.5f, 20.5f), 2);
                 while (true)
                 {
@@ -189,7 +190,7 @@ public class HardManager : MonoBehaviour
                         break;
                 }
                 indicators.showLines(null, null, bossDistance, 0, 0);
-                // indicators.UnknownIs('d');
+                indicators.UnknownIs('n');
                 indicators.heightSpawnPnt = new Vector2(1, 5);
                 indicators.ShowVelocityLabel(false);
                 indicators.ResizeEndLines(null, 6.5f, 0.25f, 0.25f);
@@ -203,21 +204,21 @@ public class HardManager : MonoBehaviour
                 question = "The target is the gem inside the mouth of the golem. If the golem is moving at straight downward with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
             case 2:
-                bossHead .transform.position = bossStartPos;
+                bossHead.transform.position = bossStartPos;
                 y = -3;
-                qc.limit = 20;
+                qc.limit = 5;
                 while (true)
                 {
                     bossV = (float)System.Math.Round(Random.Range(1f, 2.5f), 2);
                     x = Random.Range(-5f, 5f);
-                    bossDistance = (float)System.Math.Round(Mathf.Sqrt((x * x) + (y * y)));
+                    bossDistance = Mathf.Sqrt((x * x) + (y * y));
                     stuntTime = bossDistance / bossV;//boss.SetVelocityOfTheHead(x, y, -bossV);
-                    stoneV = (20.5f + x) / (stuntTime - 1);
-                    Debug.Log(stoneV + "ans");
                     // indicators.timeSpawnPnt = myPlayer.transform.position;
-                    if (stoneV < qc.limit)
+                    if (stuntTime < qc.limit)
                         break;
                 }
+                Debug.Log(stuntTime + " ans");
+                stoneV = (20.5f + x) / (stuntTime - 1);
                 distance = 20.5f + x;
                 Debug.Log("dist " + distance);
                 indicators.distanceSpawnPnt = new Vector2(-19.5f, 2);
@@ -227,8 +228,8 @@ public class HardManager : MonoBehaviour
 
                 correctAnswer = (float)System.Math.Round(stoneV, 2);
                 boss.SetVelocityOfTheHead(stuntTime, x, y);
-                angle = (float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
-                labels.arc = angle + 90;
+                angle = Mathf.Atan(x / y) * Mathf.Rad2Deg;//(float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
+                labels.arc = angle;
                 labels.legB = bossDistance;
                 question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
@@ -285,7 +286,7 @@ public class HardManager : MonoBehaviour
     IEnumerator Retry()
     {
         qc.retried = false;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
         SetUp();
@@ -294,8 +295,8 @@ public class HardManager : MonoBehaviour
     {
         qc.nextStage = false;
         myPlayer.happy = false;
-        yield return new WaitForSeconds(3f);
-        yield return new WaitForSeconds(2.8f);
+        yield return new WaitForSeconds(1f);
+        // yield return new WaitForSeconds(2.8f);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
         SetUp();

@@ -75,7 +75,7 @@ public class AngleAnnotaion : MonoBehaviour
             item.fontSize = fontSize;
             item.color = Color.black;
         }
-        labelTxt[0].text = arc.ToString("f2") + qc.Unit(UnitOf.angle);
+        labelTxt[0].text = Mathf.Abs(arc).ToString("f2") + qc.Unit(UnitOf.angle);
         labelTxt[1].transform.position = new Vector2(this.transform.position.x + ((legA * Mathf.Sin(startingAngle * Mathf.Deg2Rad)) / 2), this.transform.position.y + ((legA * Mathf.Cos(startingAngle * Mathf.Deg2Rad)) / 2));
         labelTxt[1].text = legA.ToString("f2") + qc.Unit(UnitOf.distance);
         labelTxt[2].transform.position = new Vector2(this.transform.position.x + (xSL / 2), this.transform.position.y + (ySL / 2));

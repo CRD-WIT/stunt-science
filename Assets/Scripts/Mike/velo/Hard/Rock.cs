@@ -29,10 +29,5 @@ public class Rock : MonoBehaviour
         this.GetComponent<Rigidbody2D>().gravityScale = 2;
         this.throwVeloX = this.GetComponent<Rigidbody2D>().velocity.x;
         this.throwVeloY = this.GetComponent<Rigidbody2D>().velocity.y;
-        if(other.gameObject.tag == "boss"){
-
-        }else{
-            Destroy(this.gameObject);
-        }
     }
 }
