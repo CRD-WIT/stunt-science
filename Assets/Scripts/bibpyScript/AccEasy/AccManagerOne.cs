@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class AccManagerOne : MonoBehaviour
 {
-
+    public TMP_Text debugAnswer;
     public float Vi;
     public float Vf;
     public float timer;
@@ -59,7 +59,7 @@ public class AccManagerOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        debugAnswer.SetText($"Answer: {correctAns}");
         generateAns = (Vf - Vi) / time;
         correctAns = (float)System.Math.Round(generateAns, 2);
         playerDistance = (time * time) * accelaration / 2;
