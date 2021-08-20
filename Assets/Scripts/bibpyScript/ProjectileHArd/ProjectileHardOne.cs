@@ -182,7 +182,7 @@ public class ProjectileHardOne : MonoBehaviour
         trail.GetComponent<TrailRenderer>().time = 0;
         projectArrowTrail.SetActive(false);
         showProjectile = true;
-        theArrow[0].generateLine = true;
+       // theArrow[0].generateLine = true;
         theArrow[1].generateLine = true;
         theArrow[1].rb.bodyType = RigidbodyType2D.Dynamic;
         projectArrow.SetActive(false);
@@ -277,12 +277,14 @@ public class ProjectileHardOne : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
+        trail.GetComponent<TrailRenderer>().time = 3;
         yield return new WaitForSeconds(projectileTime);
         StartCoroutine(theSimulate.DirectorsCall());
         theQuestion.ToggleModal();
         theArrow[0].generateLine = false;
         trail.SetActive(false);
         theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;
+        theArrow[0].getAngle = false;
         theArrow[0].gameObject.SetActive(false);
         thePlayer.sword.SetActive(false);
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class playerProjectile : MonoBehaviour
 {
      private Animator myAnimator;
-     public bool shooting, airdive, slash, aim, running;
+     public bool shooting, airdive, slash, aim, running, backward;
      public GameObject puller,mGear, sword,arrow;
      public ProjectileHardOne theManagerOne;
      public bool grounded;
@@ -29,6 +29,7 @@ public class playerProjectile : MonoBehaviour
         myAnimator.SetBool("aim", aim);
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("running", running);
+        myAnimator.SetBool("backward", backward);
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -49,5 +50,10 @@ public class playerProjectile : MonoBehaviour
         yield return new WaitForSeconds(.7f);
         Time.timeScale = 1;
         arrow.GetComponent<LineRenderer>().enabled = false;
+    }
+     public void playfootstep()
+    {
+        // TODO: Fix sound
+        //footstep.Play(0);
     }
 }

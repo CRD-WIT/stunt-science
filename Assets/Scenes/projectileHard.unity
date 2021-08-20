@@ -1040,19 +1040,19 @@ PrefabInstance:
       objectReference: {fileID: 812711690912878322}
     - target: {fileID: 2070458416814834350, guid: 24ba22a54339d534da7f4777f48f3d31, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.951048
+      value: 0.94883233
       objectReference: {fileID: 0}
     - target: {fileID: 2070458416814834350, guid: 24ba22a54339d534da7f4777f48f3d31, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.27943546
+      value: 0.28686875
       objectReference: {fileID: 0}
     - target: {fileID: 2070458416814834350, guid: 24ba22a54339d534da7f4777f48f3d31, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.1266449
+      value: -0.12634984
       objectReference: {fileID: 0}
     - target: {fileID: 2070458416814834350, guid: 24ba22a54339d534da7f4777f48f3d31, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.037210606
+      value: 0.03820045
       objectReference: {fileID: 0}
     - target: {fileID: 8277697472418705316, guid: 24ba22a54339d534da7f4777f48f3d31, type: 3}
       propertyPath: myCamera
@@ -8917,15 +8917,12 @@ MonoBehaviour:
   dimension: {fileID: 1533912669}
   cam: {fileID: 2118702883}
   golemInitial: {fileID: 14218954}
-  vi: 0
+  Vo: 0
   generateVG: 0
   vG: 0
   generateVP: 0
   vP: 0
-  generateAngle: 0
-  generateStoneAngle: 0
-  stoneAngle: 0
-  stoneOpp: 0
+  angle: 0
   HRange: 0
   timer: 0
   generateTime: 0
@@ -8937,8 +8934,9 @@ MonoBehaviour:
   stoneDyR: 0
   generateAnswer: 0
   generateDistance: 0
-  totalDistance: 0
+  finalDistance: 0
   golemDistanceToTravel: 0
+  playerDistanceToTravel: 0
   camDistance: 0
   playerSpeed: 5
   timeStart: 0
@@ -9572,7 +9570,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524710684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.86, y: 1.18, z: 0}
+  m_LocalPosition: {x: -20.86, y: 0.845, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 812711690912878322}
@@ -21088,7 +21086,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812711690912878326}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0030002594, y: -0.865, z: 20.286184}
+  m_LocalPosition: {x: 0.0030002594, y: -1, z: 20.286184}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children:
   - {fileID: 5609165873684441809}
@@ -21145,6 +21143,7 @@ MonoBehaviour:
   slash: 0
   aim: 0
   running: 0
+  backward: 0
   puller: {fileID: 1524710684}
   mGear: {fileID: 1750099656}
   sword: {fileID: 23673828}
@@ -27981,12 +27980,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9009904808565123676}
-  m_LocalRotation: {x: -0, y: -0, z: -0.9631246, w: -0.26905614}
-  m_LocalPosition: {x: 0.034, y: -0.078, z: 2}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.6142149, w: -0.78913885}
+  m_LocalPosition: {x: -0.28279456, y: 0.64055604, z: 2}
+  m_LocalScale: {x: 0.3, y: 0.29999998, z: 1}
   m_Children: []
-  m_Father: {fileID: 5609165873068089033}
-  m_RootOrder: 1
+  m_Father: {fileID: 5609165874154899900}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 44.562}
 --- !u!1 &4495542651012924078
 GameObject:
@@ -33038,7 +33037,6 @@ Transform:
   m_LocalScale: {x: 0.99999976, y: 0.99999976, z: 1}
   m_Children:
   - {fileID: 5609165874154899900}
-  - {fileID: 4464989156668304199}
   m_Father: {fileID: 5609165874440451600}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 242.702}
@@ -33093,8 +33091,8 @@ MonoBehaviour:
   - {fileID: 5609165873684441809}
   - {fileID: 5609165874440451600}
   m_Bounds:
-    m_Center: {x: 0.23615009, y: -1.5590217, z: 0}
-    m_Extent: {x: 0.7972046, y: 0.32529432, z: 0}
+    m_Center: {x: 0.23615009, y: -1.5590218, z: 0}
+    m_Extent: {x: 0.7972046, y: 0.32529426, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -33296,7 +33294,7 @@ MonoBehaviour:
   - {fileID: 5609165874154899900}
   m_Bounds:
     m_Center: {x: 2.6528711, y: -2.6435242, z: 0}
-    m_Extent: {x: 0.42865348, y: 0.18205798, z: 0}
+    m_Extent: {x: 0.42865348, y: 0.18205786, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -33418,7 +33416,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5609165874581718540}
   m_Bounds:
-    m_Center: {x: -1.6996392, y: -1.0605364, z: 0}
+    m_Center: {x: -1.6996392, y: -1.0605366, z: 0}
     m_Extent: {x: 0.5690476, y: 0.16112226, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -33727,6 +33725,7 @@ Transform:
   - {fileID: 3947232261691697188}
   - {fileID: 7621415916615220124}
   - {fileID: 23673829}
+  - {fileID: 4464989156668304199}
   m_Father: {fileID: 5609165873068089033}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 91.268}
@@ -33832,7 +33831,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5609165874207975247}
   m_Bounds:
-    m_Center: {x: -0.0013712943, y: -3.0275655, z: 0}
+    m_Center: {x: -0.0013712943, y: -3.027566, z: 0}
     m_Extent: {x: 0.25956133, y: 0.4443406, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -34003,8 +34002,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5609165873264278958}
   m_Bounds:
-    m_Center: {x: -0.7946173, y: -1.5525076, z: 0}
-    m_Extent: {x: 0.4863862, y: 0.33905149, z: 0}
+    m_Center: {x: -0.7946173, y: -1.5525079, z: 0}
+    m_Extent: {x: 0.4863862, y: 0.33905154, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -34274,7 +34273,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5609165873217787690}
   m_Bounds:
-    m_Center: {x: -0.060067475, y: -1.0865026, z: 0}
+    m_Center: {x: -0.060067475, y: -1.0865028, z: 0}
     m_Extent: {x: 0.59348106, y: 0.16342705, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -34546,7 +34545,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5609165874459219495}
   m_Bounds:
-    m_Center: {x: -0.10266125, y: -1.460454, z: 0}
+    m_Center: {x: -0.10266125, y: -1.4604542, z: 0}
     m_Extent: {x: 0.43931377, y: 0.38267118, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1

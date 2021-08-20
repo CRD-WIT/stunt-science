@@ -24,6 +24,8 @@ public class Arrow : MonoBehaviour
     {
         if (!getAngle)
         {
+            generateLine = true;
+            line.SetActive(true);
             angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             lastRot = transform.rotation;

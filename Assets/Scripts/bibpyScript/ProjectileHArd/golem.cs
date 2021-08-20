@@ -35,6 +35,10 @@ public class golem : MonoBehaviour
         {
             myRigidbody.velocity = new Vector2(-moveSpeed, myRigidbody.velocity.y);
         }
+        if (theSimulate.stage == 2)
+        {
+            myRigidbody.velocity = new Vector2(moveSpeed, myRigidbody.velocity.y);
+        }
 
         myAnimator.SetFloat("speed", moveSpeed);
         myAnimator.SetBool("throw", throwing);
