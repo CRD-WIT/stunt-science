@@ -13,7 +13,8 @@ public class HardManager : MonoBehaviour
     QuestionControllerVThree qc;
     public GameObject directorsBubble, bossHead, stonePrefab, bossAtk;
     public TMP_Text directorsSpeech;
-    float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance;
+    float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
+        initialPlayerPos;
     bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
     public int stage;
@@ -41,6 +42,8 @@ public class HardManager : MonoBehaviour
             pronoun = "she";
             pPronoun = "her";
         }
+        qc.levelDifficulty = Difficulty.Hard;
+        initialPlayerPos = myPlayer.transform.position.x;
         bossStartPos = bossHead.transform.position;
         qc.stage = stage;
         SetUp();
@@ -193,7 +196,7 @@ public class HardManager : MonoBehaviour
                 indicators.UnknownIs('n');
                 indicators.heightSpawnPnt = new Vector2(1, 5);
                 indicators.ShowVelocityLabel(false);
-                indicators.ResizeEndLines(null, 6.5f, 0.25f, 0.25f);
+                indicators.ResizeEndLines(null, 6.5f, 0.25f, 0.25f, null, null);
 
                 labels.gameObject.SetActive(false);
 
@@ -212,25 +215,33 @@ public class HardManager : MonoBehaviour
                     bossV = (float)System.Math.Round(Random.Range(1f, 2.5f), 2);
                     x = Random.Range(-5f, 5f);
                     bossDistance = Mathf.Sqrt((x * x) + (y * y));
-                    stuntTime = bossDistance / bossV;//boss.SetVelocityOfTheHead(x, y, -bossV);
+                    stuntTime = bossDistance / bossV;
+                    angle = Mathf.Atan(x / y) * Mathf.Rad2Deg;//boss.SetVelocityOfTheHead(x, y, -bossV);
                     // indicators.timeSpawnPnt = myPlayer.transform.position;
-                    if (stuntTime < qc.limit)
+                    if ((stuntTime < qc.limit) && (Mathf.Abs(angle) > 45))
                         break;
                 }
+                distance = Random.Range(16f, 23f);
                 Debug.Log(stuntTime + " ans");
-                stoneV = (20.5f + x) / (stuntTime - 1);
-                distance = 20.5f + x;
+                stoneV = distance / (stuntTime - 1);
                 Debug.Log("dist " + distance);
-                indicators.distanceSpawnPnt = new Vector2(-19.5f, 2);
+                
+                myPlayer.transform.position = new Vector2(-distance + 0.5f, myPlayer.transform.position.y);
+                indicators.distanceSpawnPnt = new Vector2(-distance + 1, 4.5f);
+                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x+0.5f, 4);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(20.5F + x, null, null, playerAnswer, stuntTime);
-                indicators.UnknownIs('v');
+                indicators.showLines(distance, distance + x, null, stoneV, stuntTime);
+                indicators.UnknownIs('t');
+                indicators.ResizeEndLines(0.5f, 0.25f, null, null, 0.25f, 1.5f);
+                // indicators.distanceSpawnPnt = new Vector2(initialPlayerPos, 5);
+                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
 
                 correctAnswer = (float)System.Math.Round(stoneV, 2);
                 boss.SetVelocityOfTheHead(stuntTime, x, y);
-                angle = Mathf.Atan(x / y) * Mathf.Rad2Deg;//(float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
+                //(float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
                 labels.arc = angle;
                 labels.legB = bossDistance;
+                labels.HideValuesOf(false, false, true, true);
                 question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
             case 3:

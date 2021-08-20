@@ -10,6 +10,7 @@ public class AngleAnnotaion : MonoBehaviour
     float angle, x, y, xSL, ySL, actualAngle;
     public float startingAngle, arc, legA, legB, legC, hypotenuse, fontSize = 4, angleLabelOffset;
     int arcPnts;
+    bool hideAngle = false, hideSideA = false, hideSideB = false, hideSideC = false;
     [SerializeField] TMP_Text[] labelTxt;
     [SerializeField] LineRenderer[] lines;
     QuestionControllerVThree qc;
@@ -80,7 +81,7 @@ public class AngleAnnotaion : MonoBehaviour
         labelTxt[1].text = legA.ToString("f2") + qc.Unit(UnitOf.distance);
         labelTxt[2].transform.position = new Vector2(this.transform.position.x + (xSL / 2), this.transform.position.y + (ySL / 2));
         labelTxt[2].text = legB.ToString("f2") + qc.Unit(UnitOf.distance);
-        labelTxt[3].transform.position = new Vector2(this.transform.position.x + (((legA * Mathf.Sin(startingAngle * Mathf.Deg2Rad))+xSL)/2), this.transform.position.y + (((legA * Mathf.Cos(startingAngle * Mathf.Deg2Rad))+ySL)/2));
+        labelTxt[3].transform.position = new Vector2(this.transform.position.x + (((legA * Mathf.Sin(startingAngle * Mathf.Deg2Rad)) + xSL) / 2), this.transform.position.y + (((legA * Mathf.Cos(startingAngle * Mathf.Deg2Rad)) + ySL) / 2));
         labelTxt[3].text = legC.ToString("f2") + qc.Unit(UnitOf.distance);
     }
     void CreatePoints()
@@ -115,5 +116,17 @@ public class AngleAnnotaion : MonoBehaviour
         lines[0].endColor = qc.getHexColor(lineColor);
         lines[1].startColor = qc.getHexColor(lineColor);
         lines[1].endColor = qc.getHexColor(lineColor);
+
+        labelTxt[0].gameObject.SetActive(!hideAngle);
+        labelTxt[1].gameObject.SetActive(!hideSideA);
+        labelTxt[2].gameObject.SetActive(!hideSideB);
+        labelTxt[3].gameObject.SetActive(!hideSideC);
+    }
+    public void HideValuesOf(bool angle, bool sideA, bool sideB, bool sideC)
+    {
+        hideAngle = angle;
+        hideSideA = sideA;
+        hideSideB = sideB;
+        hideSideC = sideC;
     }
 }
