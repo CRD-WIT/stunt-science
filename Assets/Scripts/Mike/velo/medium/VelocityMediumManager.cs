@@ -12,6 +12,7 @@ public class VelocityMediumManager : MonoBehaviour
     public GameObject actionBtn;
     IndicatorManagerV1_1 indicators;
     IndicatorManager jmpDistFromBoulder;
+    public GameObject transitionCanvas;
     StageManager sm = new StageManager();
     [SerializeField]
     GameObject boulder, directorsBubble, boulderA, velocityDirectionArrow1,
@@ -427,6 +428,7 @@ public class VelocityMediumManager : MonoBehaviour
     }
     IEnumerator Retry()
     {
+        transitionCanvas.SetActive(true);
         Destroy(pShadow);
         Destroy(b1Shadow);
         Destroy(b2Shadow);
@@ -434,16 +436,19 @@ public class VelocityMediumManager : MonoBehaviour
         qc.retried = false;
         PrefabDestroyer.end = true;
         StartCoroutine(life.endBGgone());
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         myPlayer.ToggleTrigger();
         myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
         RumblingManager.isCrumbling = false;
         VeloMediumSetUp();
+        transitionCanvas.SetActive(false);
     }
     IEnumerator Next()
     {
+        // Do Transition Here
+        transitionCanvas.SetActive(true);
         Destroy(pShadow);
         Destroy(b1Shadow);
         Destroy(b2Shadow);
@@ -451,14 +456,16 @@ public class VelocityMediumManager : MonoBehaviour
         qc.nextStage = false;
         myPlayer.happy = false;
         PrefabDestroyer.end = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         StartCoroutine(life.endBGgone());
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(1.3f);
         myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
         RumblingManager.isCrumbling = false;
         VeloMediumSetUp();
+        transitionCanvas.SetActive(false);
+
     }
     public IEnumerator DirectorsCall()
     {
