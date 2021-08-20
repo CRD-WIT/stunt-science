@@ -50,7 +50,9 @@ public class accSimulation : MonoBehaviour
     void FixedUpdate()
     {
         theRagdoll = FindObjectOfType<ragdollScript>();
-        playerAnswer = float.Parse(answerField.text);
+        Debug.Log($"Debug Player's Answer: {answerField.text}");
+        //TODO: Fix integration
+        //playerAnswer = float.Parse(answerField.text);
     }
     
     public void PlayButton()
