@@ -14,14 +14,14 @@ public class ProjectileHardTwo : MonoBehaviour
     public Arrow[] theArrow;
     public DistanceMeter[] theMeter;
     public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer, lineDistance, boulder, angleArrow;
-    public GameObject lineVertical, lineHorizontal, dimension, cam, golemInitial;
+    public GameObject lineVertical, lineHorizontal, dimension, cam, golemInitial, playerInitial;
     public float Vo, generateVG, vG, generateVP, vP;
-    public float angle, HRange, timer, generateTime, time, projectileTime, golemTravelTime;
+    public float angle, HRange, timer, generateTime, time, projectileTime,playerProjectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
     public float generateDistance, finalDistance, golemDistanceToTravel, playerDistanceToTravel, camDistance, playerSpeed;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow;
     string pronoun, pronoun2, gender;
-     public TMP_Text golemVelo, golemAcc, VoTxt;
+     public TMP_Text golemVelo, golemAcc, VoTxt, playerVelo;
     void Start()
     {
         theSimulate.stage = 2;
@@ -44,6 +44,7 @@ public class ProjectileHardTwo : MonoBehaviour
     void FixedUpdate()
     {
         golemInitial.transform.position = theGolem.transform.position;
+        playerInitial.transform.position = thePlayer.transform.position;
         if (running)
         {
             puller.GetComponent<Rigidbody2D>().velocity = new Vector2(playerSpeed, puller.GetComponent<Rigidbody2D>().velocity.y);
@@ -55,6 +56,7 @@ public class ProjectileHardTwo : MonoBehaviour
         if (!timeStart)
         {
             golemVelo.text = ("v = ") + vG.ToString("F2") + (" m/s");
+            playerVelo.text = "v = " + vP.ToString("F2") + "m/s";
             golemAcc.text = ("a = none");
             VoTxt.text = "vi = ?";
             VoTxt.gameObject.transform.position = angleArrow.transform.position;
@@ -69,6 +71,8 @@ public class ProjectileHardTwo : MonoBehaviour
             transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (180 - angle));
             angle = Mathf.Atan(((stoneDyR + ((9.81f / 2) * (projectileTime * projectileTime))) / finalDistance)) * Mathf.Rad2Deg;
             Vo = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) * projectileTime);
+            correctAnswer = (float)System.Math.Round(Vo, 2);
+            playerProjectileTime = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) * ProjSimulationManager.playerAnswer);
             angleArrow.transform.rotation = this.transform.rotation;
             angleArrow.transform.position = this.transform.position;
             theMeter[0].positionX = target.transform.position.x;
@@ -149,21 +153,23 @@ public class ProjectileHardTwo : MonoBehaviour
         arrow.transform.position = this.transform.position;
         theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;
         lineRenderer.GetComponent<LineRenderer>().enabled = true;
-        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo + 0.08f);
         theArrow[0].generateLine = true;
         trail.GetComponent<TrailRenderer>().time = 3000;
-        /*if (ProjSimulationManager.playerAnswer < correctAnswer)
+        if (ProjSimulationManager.playerAnswer < correctAnswer)
         {
-            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer);
+            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer-.5f);
+            StartCoroutine(StuntResult());
         }
         if (ProjSimulationManager.playerAnswer > correctAnswer)
         {
-            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer);
+            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer + .5f);
+            StartCoroutine(StuntResult());
         }
         if (ProjSimulationManager.playerAnswer == correctAnswer)
         {
-            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer);
-        }*/
+            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer+ .08f);
+            StartCoroutine(StuntResult());
+        }
         GameObject explosion = Instantiate(blastPrefab);
         explosion.transform.position = transform.position;
 
@@ -198,5 +204,18 @@ public class ProjectileHardTwo : MonoBehaviour
     {
         puller.GetComponent<Rigidbody2D>().velocity = transform.right * 10;
     }
+     IEnumerator StuntResult()
+    {
+        trail.GetComponent<TrailRenderer>().time = 10;
+        yield return new WaitForSeconds(projectileTime);
+        StartCoroutine(theSimulate.DirectorsCall());
+        theQuestion.ToggleModal();
+        //theArrow[0].generateLine = false;
+        //trail.SetActive(false);
+        theArrow[0].getAngle = false;
+        //theArrow[0].gameObject.SetActive(false);
+        //thePlayer.sword.SetActive(false);
+    }
+
 
 }
