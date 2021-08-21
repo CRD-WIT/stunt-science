@@ -21,7 +21,7 @@ public class ProjectileHardTwo : MonoBehaviour
     public float generateDistance, finalDistance, golemDistanceToTravel, playerDistanceToTravel, camDistance, playerSpeed;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow;
     string pronoun, pronoun2, gender;
-     public TMP_Text golemVelo, golemAcc, VoTxt, playerVelo;
+     public TMP_Text golemVelo, VoTxt, playerVelo, actionTxt;
     void Start()
     {
         theSimulate.stage = 2;
@@ -57,7 +57,6 @@ public class ProjectileHardTwo : MonoBehaviour
         {
             golemVelo.text = ("v = ") + vG.ToString("F2") + (" m/s");
             playerVelo.text = "v = " + vP.ToString("F2") + "m/s";
-            golemAcc.text = ("a = none");
             VoTxt.text = "vi = ?";
             VoTxt.gameObject.transform.position = angleArrow.transform.position;
             trail.transform.position = this.transform.position;
@@ -106,7 +105,6 @@ public class ProjectileHardTwo : MonoBehaviour
                     ShootArrow();
                     thePlayer.backward = false;
                     vP = 0;
-                    StartCoroutine(ropePull());
                     shootReady = false;
                    
                 }
@@ -157,16 +155,21 @@ public class ProjectileHardTwo : MonoBehaviour
         trail.GetComponent<TrailRenderer>().time = 3000;
         if (ProjSimulationManager.playerAnswer < correctAnswer)
         {
+            actionTxt.text = "retry";
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer-.5f);
             StartCoroutine(StuntResult());
         }
         if (ProjSimulationManager.playerAnswer > correctAnswer)
         {
+            actionTxt.text = "retry";
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer + .5f);
             StartCoroutine(StuntResult());
         }
         if (ProjSimulationManager.playerAnswer == correctAnswer)
         {
+            actionTxt.text = "next";
+            StartCoroutine(ropePull());
+            theQuestion.answerIsCorrect = true;
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer+ .08f);
             StartCoroutine(StuntResult());
         }
@@ -187,6 +190,7 @@ public class ProjectileHardTwo : MonoBehaviour
         StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(2);
         generateProblem();
+        playerInitial.SetActive(true);
         running = false;
         camFollow = false;
         thePlayer.running = false;
@@ -198,6 +202,7 @@ public class ProjectileHardTwo : MonoBehaviour
         theGolem.damage = false;
         thePlayer.aim = true;
         camFollow = false;
+        theQuestion.answerIsCorrect = false;
 
     }
     public void reShoot()

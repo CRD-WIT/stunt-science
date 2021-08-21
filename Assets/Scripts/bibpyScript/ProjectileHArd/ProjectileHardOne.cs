@@ -20,7 +20,7 @@ public class ProjectileHardOne : MonoBehaviour
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
     public float generateDistance, totalDistance, golemDistanceToTravel;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile;
-    public TMP_Text golemVelo, golemAcc, VoTxt, timerTxt, actiontxt;
+    public TMP_Text golemVelo, VoTxt, timerTxt, actiontxt;
     string pronoun, pronoun2, gender;
 
     // Start is called before the first frame update
@@ -51,7 +51,6 @@ public class ProjectileHardOne : MonoBehaviour
         if (!timeStart)
         {
             golemVelo.text = ("v = ") + vG.ToString("F2") + (" m/s");
-            golemAcc.text = ("a = none");
             stone.transform.position = new Vector2(this.transform.position.x + generateDistance, target.transform.position.y);
             angleArrow.transform.position = this.transform.position;
             angleArrow.transform.rotation = this.transform.rotation;
@@ -276,7 +275,7 @@ public class ProjectileHardOne : MonoBehaviour
     IEnumerator StuntResult()
     {
         trail.GetComponent<TrailRenderer>().time = 3;
-        yield return new WaitForSeconds(projectileTime);
+        yield return new WaitForSeconds(projectileTime + 2);
         StartCoroutine(theSimulate.DirectorsCall());
         theQuestion.ToggleModal();
         theArrow[0].generateLine = false;
