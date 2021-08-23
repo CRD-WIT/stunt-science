@@ -15,13 +15,15 @@ public class HardManager : MonoBehaviour
     public TMP_Text directorsSpeech;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
         initialPlayerPos;
-    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag;
+    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent;
+    public bool destroyStone;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
     public int stage;
     Vector2 bossStartPos;
     public Rigidbody2D bossRB;
     GameObject stone;
     Rigidbody2D thrownStone;
+    Rock stoneScript;
     public Transform stoneObject;
     // Start is called before the first frame update
     void Start()
@@ -58,10 +60,10 @@ public class HardManager : MonoBehaviour
                 initialDistance = 1 - playerAnswer;
                 myPlayer.moveSpeed = 1.99f;
                 indicators.gameObject.SetActive(true);
-                indicators.distanceSpawnPnt = new Vector2(initialDistance, 5);
-                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
+                indicators.distanceSpawnPnt = new Vector2(initialDistance, 3);
+                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 2);
                 // indicators.SetPlayerPosition(stone.transform.position);
-                indicators.showLines(playerAnswer, null, 3, stoneV, stuntTime);
+                indicators.showLines(playerAnswer, null, 5, stoneV, stuntTime);
             }
             else
             {
@@ -74,31 +76,28 @@ public class HardManager : MonoBehaviour
         }
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
+        if (isThrown)
+            StartCoroutine(Throw());
         if (isAnswered)
         {
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.deltaTime;
             bossRB.constraints = RigidbodyConstraints2D.None;
             bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
-            if (isThrown)
-            {
-                StartCoroutine(Throw());
-            }
             // indicators.SetPlayerPosition(new Vector2((-distance + 1) + (stoneV * (elapsed - 1)), 5));
-            stonePosX = playerAnswer + stone.transform.position.x;
-
             switch (stage)
             {
                 case 1:
-                    if ((boss.transform.position.y) <= (4))//stuntTime)
+                    // stonePosX = playerAnswer + stone.transform.position.x -1;
+                    if ((boss.transform.position.y) <= (1))//stuntTime)
                     {
-                        stonePosX = playerAnswer;
                         isAnswered = false;
                         elapsed = stuntTime;
-                        bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
+                        // bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
                         isEndOfStunt = true;
                         if (playerAnswer == correctAnswer)
                         {
+                            stonePosX = playerAnswer;
                             isAnswerCorrect = true;
                             Debug.Log("correct");
                         }
@@ -108,20 +107,23 @@ public class HardManager : MonoBehaviour
                             Debug.Log("wrong");
                         }
                     }
-                    indicators.IsRunning(playerAnswer, stonePosX, elapsed, null);
+                    // indicators.IsRunning(playerAnswer, stonePosX, elapsed, null);
                     break;
                 case 2:
-                    if ((boss.transform.position.y) <= (4))//stuntTime)
+                    if (elapsed >= playerAnswer)
                     {
+                        elapsed = playerAnswer;
+                        isThrown = true;
                         isAnswered = false;
-                        elapsed = stuntTime;
-                        bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
+                        // bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
                         if (playerAnswer == correctAnswer)
                         {
+                            isAnswerCorrect = true;
                             Debug.Log("correct");
                         }
                         else
                         {
+                            isAnswerCorrect = false;
                             Debug.Log("wrong");
                         }
                     }
@@ -146,7 +148,24 @@ public class HardManager : MonoBehaviour
                     break;
             }
         }
-        // stuntTime = boss.t;
+        if (stoneIsPresent)
+        {
+            if (stoneScript.hit != null)
+            {
+                bool hit = (bool)stoneScript.hit;
+                bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
+                isEndOfStunt = true;
+                stoneIsPresent = false;
+                if (hit)
+                {
+                    Debug.Log("correct");
+                }
+                else
+                {
+                    Debug.Log("Wrong");
+                }
+            }
+        }
         if (isEndOfStunt)
         {
             StartCoroutine(StuntResult());
@@ -169,23 +188,23 @@ public class HardManager : MonoBehaviour
     public void SetUp()
     {
         stage = qc.stage;
-        isThrown = true;
+        isThrown = false;
         stoneV = 0;
         elapsed = 0;
         correctAnswer = 0;
         switch (stage)
         {
             case 1:
-                y = -3;
+                y = -5;
                 x = 0;
                 qc.limit = 20.5f;
-                bossDistance = 3;
+                bossDistance = 5;
                 bossHead.transform.position = bossStartPos;
                 // distance = (float)System.Math.Round(Random.Range(14.5f, 20.5f), 2);
                 while (true)
                 {
                     stoneV = (float)System.Math.Round(Random.Range(18f, 20f), 2);
-                    bossV = (float)System.Math.Round(Random.Range(1.5f, 2f), 2);
+                    bossV = (float)System.Math.Round(Random.Range(2.5f, 4f), 2);
                     stuntTime = (bossDistance / bossV);
                     // stoneV = 20.5f / (stuntTime - 1);
                     distance = stoneV * (stuntTime - 1);
@@ -194,7 +213,7 @@ public class HardManager : MonoBehaviour
                 }
                 indicators.showLines(null, null, bossDistance, 0, 0);
                 indicators.UnknownIs('n');
-                indicators.heightSpawnPnt = new Vector2(1, 5);
+                indicators.heightSpawnPnt = new Vector2(1, 3);
                 indicators.ShowVelocityLabel(false);
                 indicators.ResizeEndLines(null, 6.5f, 0.25f, 0.25f, null, null);
 
@@ -208,35 +227,35 @@ public class HardManager : MonoBehaviour
                 break;
             case 2:
                 bossHead.transform.position = bossStartPos;
-                y = -3;
-                qc.limit = 5;
+                y = -5;
+                qc.limit = 7;
                 while (true)
                 {
-                    bossV = (float)System.Math.Round(Random.Range(1f, 2.5f), 2);
-                    x = Random.Range(-5f, 5f);
+                    bossV = (float)System.Math.Round(Random.Range(2.5f, 4f), 2);
+                    x = Random.Range(-10f, 10);
                     bossDistance = Mathf.Sqrt((x * x) + (y * y));
                     stuntTime = bossDistance / bossV;
                     angle = Mathf.Atan(x / y) * Mathf.Rad2Deg;//boss.SetVelocityOfTheHead(x, y, -bossV);
                     // indicators.timeSpawnPnt = myPlayer.transform.position;
-                    if ((stuntTime < qc.limit) && (Mathf.Abs(angle) > 45))
+                    if ((stuntTime < qc.limit) && (Mathf.Abs(angle) > 45) && (stuntTime > 3))
                         break;
                 }
+                float allowanceTime = Random.Range(1f, 2f);
                 distance = Random.Range(16f, 23f);
-                Debug.Log(stuntTime + " ans");
-                stoneV = distance / (stuntTime - 1);
+                correctAnswer = (float)System.Math.Round(stuntTime - allowanceTime - 1, 2);
+                Debug.Log(correctAnswer + " ans");
+                // stoneV = distance / (stuntTime - 1);
                 Debug.Log("dist " + distance);
-                
+
                 myPlayer.transform.position = new Vector2(-distance + 0.5f, myPlayer.transform.position.y);
-                indicators.distanceSpawnPnt = new Vector2(-distance + 1, 4.5f);
-                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x+0.5f, 4);
+                indicators.distanceSpawnPnt = new Vector2(-distance + 1, 2.5f);
+                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 1);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
                 indicators.showLines(distance, distance + x, null, stoneV, stuntTime);
                 indicators.UnknownIs('t');
-                indicators.ResizeEndLines(0.5f, 0.25f, null, null, 0.25f, 1.5f);
+                indicators.ResizeEndLines(0.5f, 0.25f, null, null, 0.25f, 1f);
                 // indicators.distanceSpawnPnt = new Vector2(initialPlayerPos, 5);
-                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
 
-                correctAnswer = (float)System.Math.Round(stoneV, 2);
                 boss.SetVelocityOfTheHead(stuntTime, x, y);
                 //(float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
                 labels.arc = angle;
@@ -268,7 +287,7 @@ public class HardManager : MonoBehaviour
         }
         qc.question = question;
         Debug.Log(stuntTime + "st");
-        Debug.Log(x + "," + y);
+        Debug.Log(x + "," + y+","+stoneV);
         Debug.Log(bossDistance + ", " + angle);
     }
     void Play()
@@ -284,11 +303,18 @@ public class HardManager : MonoBehaviour
                 else if (playerAnswer < correctAnswer)
                     throwTime = (playerAnswer / stoneV) + 0.5f;
                 else
-                    throwTime = playerAnswer / stoneV;
+                    throwTime = correctAnswer / stoneV;
                 break;
             case 2:
                 isStartOfStunt = true;
                 directorIsCalling = true;
+
+                if (playerAnswer > correctAnswer)
+                    throwTime = (stuntTime - 1 - correctAnswer) - 0.5f;
+                else if (playerAnswer < correctAnswer)
+                    throwTime = (stuntTime - 1 - correctAnswer) + 0.5f;
+                else
+                    throwTime = (stuntTime - 1 - correctAnswer);
                 break;
             case 3:
                 break;
@@ -307,7 +333,6 @@ public class HardManager : MonoBehaviour
         qc.nextStage = false;
         myPlayer.happy = false;
         yield return new WaitForSeconds(1f);
-        // yield return new WaitForSeconds(2.8f);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
         SetUp();
@@ -325,7 +350,9 @@ public class HardManager : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             directorsSpeech.text = "Action!";
             yield return new WaitForSeconds(0.75f);
-            isThrown = true;
+            if (stage == 2)
+                isThrown = false;
+            else isThrown = true;
             directorsSpeech.text = "";
             directorsBubble.SetActive(false);
             isAnswered = true;
@@ -349,6 +376,9 @@ public class HardManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         qc.ActivateResult(messageTxt, isAnswerCorrect);
     }
+    // IEnumerator DestroyStone(){
+
+    // }
     IEnumerator Throw()
     {
         isThrown = false;
@@ -356,27 +386,36 @@ public class HardManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         myPlayer.thrown = false;
         stone = Instantiate(stonePrefab);
-        stone.transform.position = new Vector2(-distance + 1, 5);
+        stone.transform.position = new Vector2(-distance + 1, 3);
+        stoneScript = FindObjectOfType<Rock>();
         // stone.GetComponent<Rigidbody2D>().gravityScale = 0;
-        stone.GetComponent<Rock>().SetVelocity(throwTime, distance, 0);
+        if (stage == 2)
+            stoneScript.SetVelocity(throwTime, distance + x, 0);
+        else
+            stoneScript.SetVelocity(throwTime, distance, 0);
         indicators.ShowVelocityLabel(true);
+        stoneIsPresent = true;
         // stone.GetComponent<Rigidbody2D>().velocity = new Vector2(playerAnswer, 0);
     }
-    IEnumerator BossAttack()
-    {
-        boss.SetVelocityOfTheHead(0.5f, -x, 2);
-        yield return new WaitForEndOfFrame();
-        bossRB.constraints = RigidbodyConstraints2D.None;
-        bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
-        yield return new WaitForSeconds(0.5f);
-        bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
-        GameObject BAtk = Instantiate(bossAtk);
-        BAtk.transform.position = bossHead.transform.position;
-        BAtk.GetComponent<Rigidbody2D>().gravityScale = 0;
-        BAtk.GetComponent<Rigidbody2D>().velocity = new Vector2(15, 0);
-    }
+    // IEnumerator BossAttack()
+    // {
+    //     boss.SetVelocityOfTheHead(0.5f, -x, 2);
+    //     yield return new WaitForEndOfFrame();
+    //     bossRB.constraints = RigidbodyConstraints2D.None;
+    //     bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
+    //     yield return new WaitForSeconds(0.5f);
+    //     bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
+    //     GameObject BAtk = Instantiate(bossAtk);
+    //     BAtk.transform.position = bossHead.transform.position;
+    //     BAtk.GetComponent<Rigidbody2D>().gravityScale = 0;
+    //     BAtk.GetComponent<Rigidbody2D>().velocity = new Vector2(15, 0);
+    // }
     public void GetStonePos()
     {
         stonePosX = playerAnswer;
+    }
+    void OnCollisionEnter2D(Collision2D other)
+    {
+
     }
 }
