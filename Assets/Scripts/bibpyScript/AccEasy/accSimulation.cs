@@ -50,19 +50,16 @@ public class accSimulation : MonoBehaviour
     void FixedUpdate()
     {
         theRagdoll = FindObjectOfType<ragdollScript>();
-        Debug.Log($"Debug Player's Answer: {answerField.text}");
-        //TODO: Fix integration
-        //playerAnswer = float.Parse(answerField.text);
     }
-    
+
     public void PlayButton()
     {
-        
-        
-       
+        theQuestion.SetAnswer();
+        playerAnswer = theQuestion.GetPlayerAnswer();
         if (stage == 1)
         {
-           
+            Debug.Log($"Player Answer: {playerAnswer}");
+
             if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
             {
                 theQuestion.errorText = ("exceed the maximum accelaration of motorcycles");
@@ -82,7 +79,7 @@ public class accSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
-           
+
             if (answerField.text == "" || playerAnswer > 100)
             {
                 theQuestion.errorText = ("Please enter a valid answer!");
@@ -101,7 +98,7 @@ public class accSimulation : MonoBehaviour
         }
         if (stage == 3)
         {
-            
+
             if (answerField.text == "" || playerAnswer > 70)
             {
                 theQuestion.errorText = ("Please enter a valid answer!");
@@ -121,9 +118,9 @@ public class accSimulation : MonoBehaviour
     }
     public void retry()
     {
-    
+
         StartCoroutine(exit());
-       
+
     }
     public void next()
     {
@@ -167,18 +164,18 @@ public class accSimulation : MonoBehaviour
         answerField.text = ("");
         playButton.interactable = true;
         theQuestion.answerIsCorrect = false;
-        if(stage == 1)
+        if (stage == 1)
         {
             theManagerOne.gameObject.SetActive(false);
             theManagerTwo.gameObject.SetActive(true);
             ground[0].SetActive(false);
             ground[1].SetActive(true);
-           
+
             //director.transform.position = new Vector2(-1.31f, 4.98f);
-            
-            
+
+
         }
-         if(stage == 2)
+        if (stage == 2)
         {
             theManagerTwo.gameObject.SetActive(false);
             theManagerThree.gameObject.SetActive(true);
@@ -186,9 +183,9 @@ public class accSimulation : MonoBehaviour
             ground[2].SetActive(true);
             truck.SetActive(true);
             theBike.brake = false;
-            
+
             //director.transform.position = new Vector2(1.1f, 4.98f);
-           
+
         }
     }
     IEnumerator exit()
@@ -206,26 +203,26 @@ public class accSimulation : MonoBehaviour
         playerAnswer = 0;
         answerField.text = ("");
         player.transform.position = playerstartPos;
-        if(theBike.collided == true)
+        if (theBike.collided == true)
         {
             //Destroy(theRagdoll.gameObject);
             theBike.collided = false;
         }
-         if (stage == 3)
+        if (stage == 3)
         {
             theManagerThree.generateProblem();
             theManagerThree.timer = 0;
             theBike.brake = false;
             theBike.transform.position = new Vector2(-15, 0.2f);
-            
+
         }
         if (stage == 2)
         {
-            
+
             theManagerTwo.timer = 0;
             theBike.brake = false;
             theBike.transform.position = new Vector2(-10, 0.2f);
-            
+
             theManagerTwo.generateProblem();
         }
         if (stage == 1)
@@ -236,7 +233,7 @@ public class accSimulation : MonoBehaviour
             theManagerOne.timer = 0;
             theBike.transform.position = startPosition;
             theManagerOne.walls.SetActive(false);
-            
+
         }
 
     }
@@ -246,14 +243,14 @@ public class accSimulation : MonoBehaviour
         yield return new WaitForSeconds(3);
         theQuestion.popupVisible = false;
     }
-    
+
     public void action()
     {
-       // theQuestion.ToggleModal();
-        if(theQuestion.answerIsCorrect == false)
+        // theQuestion.ToggleModal();
+        if (theQuestion.answerIsCorrect == false)
         {
             retry();
-            
+
         }
         else
         {

@@ -1,14 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using GameConfig;
+using UnityEngine.UI;
 
 public class QuestionControllerB : MonoBehaviour
 {
-       float playerAnswer;
+    float playerAnswer;
     public float limit = 0;
     public Transform baseComponent, problemBox, extraComponent, levelBadge;
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
@@ -24,9 +23,10 @@ public class QuestionControllerB : MonoBehaviour
     int passedLevel;
     [SerializeField] bool timerOn = false, loaded = false;
     [SerializeField] TMP_InputField answerFieldHorizontal;
-    public Transform difficultyName;
+    public Transform difficultyName, stageName;
     public string modalText, errorText;
     public bool popupVisible, extraOn;
+    public TMP_Text levelNumberText;
 
     [SerializeField]
     GameObject modalComponentHorizontal, popupComponentHorizontal, playButtonHorizontal, timerComponentHorizontal, problemBoxHorizontal,
@@ -35,14 +35,10 @@ public class QuestionControllerB : MonoBehaviour
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
     HeartManager life;
-    public GameObject stageName;
 
     // Start is called before the first frame update
     void Start()
     {
-        baseComponent = transform.Find("Base");
-        levelBadge = baseComponent.Find("LevelBadge");
-
         Transform[] components = { baseComponent, modalComponentHorizontal.transform, extraComponent };
 
         givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
@@ -274,7 +270,7 @@ public class QuestionControllerB : MonoBehaviour
     IEnumerator IsEmpty()
     {
         popupVisible = true;
-        errorText = "Please enter your answer!";
+        errorText = "Answer box is empty!";
         yield return new WaitForSeconds(3);
         popupVisible = false;
         errorText = "";
@@ -414,8 +410,17 @@ public class QuestionControllerB : MonoBehaviour
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
 
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
-        levelBadge.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");
+        levelNumberText.SetText($"{levelNumber}");
         stageName.GetComponent<TMP_Text>().SetText($"Stage {stage}");
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
     }
 }
+/*That means that Bolt's speed during his world-record run was 10.44 meters per second.
+Since many people are more familiar with automobiles and speed limits, it might be more
+useful to think of this in terms of kilometers per hour or miles per hour: 37.58 or 23.35, respectively
+Usain Bolt of Jamaica, set at the 2009 World Athletics Championships final in Berlin, Germany on 16 August 2009,
+
+Average human speed is 1.4m/s.*/
+
+
+// TODO: Implement limiter
