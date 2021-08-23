@@ -34,10 +34,8 @@ public class AccManagerOne : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //theQuestion.stageNumber = 1;
-        theQuestion.levelName = "Acceleration";
+        // Set current level in prefs
         bikeInitialsPos = bikeInitials.transform.position;
-        //thePlayer = FindObjectOfType<Player>();
         theBike = FindObjectOfType<BikeManager>();
         gender = PlayerPrefs.GetString("Gender");
         theSimulation = FindObjectOfType<accSimulation>();

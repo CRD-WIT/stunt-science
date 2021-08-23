@@ -14,7 +14,9 @@ public class QuestionControllerB : MonoBehaviour
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
     public Difficulty levelDifficulty;
     public int levelNumber, stage;
-    public string levelName, modalTitle, question, timer;
+    public string modalTitle, question, timer;
+
+    public string levelName;
     public TextColorMode colorMode;
     public Settings settingUI;
     public UnitOf unit;
@@ -23,7 +25,8 @@ public class QuestionControllerB : MonoBehaviour
     int passedLevel;
     [SerializeField] bool timerOn = false, loaded = false;
     [SerializeField] TMP_InputField answerFieldHorizontal;
-    public Transform difficultyName, stageName;
+    public Transform difficultyName;
+    public TMP_Text stageName;
     public string modalText, errorText;
     public bool popupVisible, extraOn;
     public TMP_Text levelNumberText;
@@ -411,7 +414,7 @@ public class QuestionControllerB : MonoBehaviour
 
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
         levelNumberText.SetText($"{levelNumber}");
-        stageName.GetComponent<TMP_Text>().SetText($"Stage {stage}");
+        stageName.SetText($"Stage {stage}");
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
     }
 }
