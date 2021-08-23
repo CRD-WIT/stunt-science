@@ -1,97 +1,154 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using GameConfig;
 
 public class QuestionControllerB : MonoBehaviour
 {
-   float playerAnswer;
-    public bool answerIsCorrect = false;
-    public bool isModalOpen = true;
-    public Camera renderCamera;
-    public Color correctAnswerColor;
-    public Color givenColor;
-    public Color wrongAnswerColor;
+       float playerAnswer;
+    public float limit = 0;
+    public Transform baseComponent, problemBox, extraComponent, levelBadge;
+    public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
+    public Color correctAnswerColor, givenColor, wrongAnswerColor;
     public Difficulty levelDifficulty;
-    public int levelNumber;
-    public int stageNumber;
-    public Orientation orientation;
-    public string levelName;
-    public string modalTitle;
-    public string question;
+    public int levelNumber, stage;
+    public string levelName, modalTitle, question, timer;
     public TextColorMode colorMode;
-    public UnitOf unitOf;
-
-    string answerUnit;
+    public Settings settingUI;
+    public UnitOf unit;
+    string answerUnit, difficulty;
+    public HeartManager heartManager;
+    int passedLevel;
+    [SerializeField] bool timerOn = false, loaded = false;
     [SerializeField] TMP_InputField answerFieldHorizontal;
-    [SerializeField] TMP_InputField answerFieldVertical;
-    [SerializeField] GameObject difficultyName;
-    [SerializeField] GameObject stageName;
-    public bool isSimulating;
-    [SerializeField] string modalText;
-    public string errorText;
-    public bool popupVisible;
+    public Transform difficultyName;
+    public string modalText, errorText;
+    public bool popupVisible, extraOn;
 
-    [Header("Components")]
-    [Space(10)]
-    [SerializeField] private Transform baseComponent;
-    [SerializeField] Transform extraComponent;
-    [SerializeField] GameObject levelNameBox;
-    [SerializeField] GameObject problemBoxContainer;
-    [SerializeField] GameObject levelBadge;
-    [SerializeField] GameObject modalComponentHorizontal;
-    [SerializeField] GameObject popupComponentHorizontal;
-    [SerializeField] GameObject popupComponentVertical;
+    [SerializeField]
+    GameObject modalComponentHorizontal, popupComponentHorizontal, playButtonHorizontal, timerComponentHorizontal, problemBoxHorizontal,
+            problemTextHorizontal, modalTextHorizontal, modalTitleHorizontal, wrongIconHorizontal, correctIconHorizontal;
     [SerializeField] TMP_Text popupTextHorizontal;
-    [SerializeField] TMP_Text popupTextVertical;
-    [SerializeField] GameObject modalComponentVertical;
-    [SerializeField] GameObject playButtonVertical;
-    [SerializeField] GameObject playButtonHorizontal;
-    [SerializeField] GameObject timerComponentHorizontal;
-    [SerializeField] GameObject timerComponentVertical;
-    [SerializeField] GameObject problemBoxVertical;
-    [SerializeField] GameObject problemBoxHorizontal;
-    [SerializeField] GameObject problemTextVertical;
-    [SerializeField] GameObject problemTextHorizontal;
-    [SerializeField] GameObject modalTitleVertical;
-    [SerializeField] GameObject modalTextHorizontal;
-    [SerializeField] GameObject modalTextVertical;
-    [SerializeField] GameObject modalTitleHorizontal;
-    [SerializeField] GameObject wrongIconHorizontal;
-    [SerializeField] GameObject correctIconHorizontal;
-    [SerializeField] GameObject wrongIconVertical;
-    [SerializeField] GameObject correctIconVertical;
-    public Transform[] allComponentTransforms;
+    [SerializeField] Button actionBtn;
+    StageManager level = new StageManager();
+    HeartManager life;
+    public GameObject stageName;
 
     // Start is called before the first frame update
     void Start()
     {
-        baseComponent.gameObject.GetComponent<Canvas>().worldCamera = renderCamera;
+        baseComponent = transform.Find("Base");
+        levelBadge = baseComponent.Find("LevelBadge");
+
+        Transform[] components = { baseComponent, modalComponentHorizontal.transform, extraComponent };
 
         givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
         correctAnswerColor = new Color32(150, 217, 72, 255);
-        wrongAnswerColor = new Color32(237, 66, 66, 255);
+        wrongAnswerColor = Color.red;
 
+        levelName = level.GetGameLevel();
+        switch (levelDifficulty)
+        {
+            case Difficulty.Easy:
+                difficulty = level.GetDifficulty();
+                break;
+            case Difficulty.Medium:
+                difficulty = level.GetDifficulty();
+                break;
+            case Difficulty.Hard:
+                difficulty = level.GetDifficulty();
+                break;
+        }
+        difficultyName.GetComponent<TMP_Text>().text = difficulty;
+        levelNumber = level.GetLevelNum(levelName);
+        if (level.GetLevelNum(levelName) > 3)
+            levelNumber--;
+
+        life = FindObjectOfType<HeartManager>();
     }
-
-
-
-    public void ToggleModal()
+    public void ActionBtn(bool endLevel)
     {
-        isModalOpen = !isModalOpen;
-    }
-    public void SetModalText(string s)
-    {
-        modalText = s;
+        if (endLevel)
+        {
+
+        }
+        else
+        {
+            answerFieldHorizontal.text = "";
+            if (answerIsCorrect)
+                Next();
+            else
+                StartCoroutine(Retry());
+            isModalOpen = false;
+            timerOn = false;
+        }
+
     }
 
-    public void SetModalTitle(string s)
+    public void EndLevel()
     {
-        modalTitle = s;
+
     }
 
+    public void EvaluatePlayerScore()
+    {
+        string playerPrefsName = "";
+        switch (levelDifficulty)
+        {
+            case Difficulty.Easy:
+                playerPrefsName = ($"level{levelName}Easy");
+                break;
+            case Difficulty.Medium:
+                playerPrefsName = ($"level{levelName}Medium");
+                break;
+            case Difficulty.Hard:
+                playerPrefsName = ($"level{levelName}Hard");
+                break;
+        }
+
+        PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
+        settingUI.ToggleLevelFinished();
+        //SceneManager.LoadScene("LevelSelectV2");
+
+    }
+    public void ActivateResult(string message, bool isCorrect, bool isComplete = false)
+    {
+        Debug.Log("ActivateResult Triggered");
+        answerIsCorrect = isCorrect;
+        isModalOpen = true;
+        if (isCorrect)
+        {
+            // NOTE: Use this template when ending levels.
+            if (isComplete)
+            {
+                actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+                actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
+
+                actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Finish";
+                modalTitle = "Stunts Completed!";
+                modalText = message;
+                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+            }
+            else
+            {
+                actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
+                modalTitle = "Stunt Success!";
+                modalText = message;
+                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+            }
+        }
+        else
+        {
+            actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
+            modalTitle = "Stunt Failed!";
+            modalText = message;
+            SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
+        }
+        actionBtn.interactable = true;
+    }
     public void SetQuestion(string qstn)
     {
         question = qstn;
@@ -99,46 +156,176 @@ public class QuestionControllerB : MonoBehaviour
 
     public float GetPlayerAnswer()
     {
-        return playerAnswer;
+        return this.playerAnswer;
     }
 
-    /*public void SetAnswer()
+    public void AnswerLimiter()
     {
-        if (orientation == Orientation.Horizontal)
+        string value = answerFieldHorizontal.text;
+        // Bug when using whole number
+        string[] splitted = value.Split('.');
+        answerFieldHorizontal.characterLimit = splitted[0].Length + 3;        
+    }
+    public void SetAnswer()
+    {
+        playerAnswer = float.Parse(answerFieldHorizontal.text);
+        if (answerFieldHorizontal.text == "")
         {
-            if (answerFieldHorizontal.text == "")
+            StartCoroutine(IsEmpty());
+        }
+        else
+        {        
+            answerFieldHorizontal.text = playerAnswer + answerUnit;
+            if (limit <= playerAnswer)
+            {
                 StartCoroutine(IsEmpty());
+            }
             else
             {
-                playerAnswer = float.Parse(answerFieldHorizontal.text);
-                answerFieldHorizontal.text = playerAnswer + answerUnit;
+                timerOn = true;
+                isSimulating = true;
             }
+        }
+        extraOn = true;
+    }
+    public void Next()
+    {
+        if (stage == 1)
+        {
+            stage = 2;
+            nextStage = true;
+        }
+        else if (stage == 2)
+        {
+            stage = 3;
+            nextStage = true;
         }
         else
         {
-            if (answerFieldVertical.text == "")
-                StartCoroutine(IsEmpty());
-            else
-            {
-                playerAnswer = float.Parse(answerFieldVertical.text);
-                answerFieldVertical.text = playerAnswer + answerUnit;
-            }
+            // string difficulty = level.GetDifficulty();
+            // if (difficulty == "easy")
+            // {
+            //     stage = 1;
+            //     level.SetDifficulty(2);
+            // }
+            // else if (difficulty == "medium")
+            // {
+            //     stage = 1;
+            //     level.SetDifficulty(3);
+            // }
+            // else
+            // {
+            //     passedLevel++;
+            //     level.SetDifficulty(1);
+            //     stage = 1;
+            //     switch (level.GetGameLevel())
+            //     {
+            //         case "Velocity":
+            //             level.SetGameLevel(2);
+            //             break;
+            //         case "Acceleration":
+            //             level.SetGameLevel(3);
+            //             break;
+            //         case "Free Fall":
+            //             level.SetGameLevel(4);
+            //             break;
+            //         case "Projectile Motion":
+            //             level.SetGameLevel(5);
+            //             break;
+            //         case "Circular Motion":
+            //             level.SetGameLevel(6);
+            //             break;
+            //         case "Forces":
+            //             level.SetGameLevel(7);
+            //             break;
+            //         case "Work":
+            //             level.SetGameLevel(8);
+            //             break;
+            //         case "Energy":
+            //             level.SetGameLevel(9);
+            //             break;
+            //         case "Power":
+            //             level.SetGameLevel(10);
+            //             break;
+            //         case "Momentum":
+            //             //Done
+            //             break;
+            //     }
+            // }
+            //SceneManager.LoadScene("LevelSelection");
         }
-
-    }*/
-
-    public void Retry()
+    }
+    IEnumerator Retry()
     {
-        modalComponentHorizontal.gameObject.SetActive(false);
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        // TODO: Fix delay for background intro.
+        extraOn = false;
+        answerFieldHorizontal.text = "";
+        retried = true;
+        if (stage == 1)
+            stage = 1;
+        else if (stage == 2)
+            stage = 2;
+        else
+            stage = 3;
+        yield return new WaitForEndOfFrame();
+        isModalOpen = false;
     }
 
-
-
-    public string Unit()
+    IEnumerator IsEmpty()
     {
-        //TODO: passed the appropriate unit in the answerFieldHorizontal suffixed to the answer
+        popupVisible = true;
+        errorText = "Please enter your answer!";
+        yield return new WaitForSeconds(3);
+        popupVisible = false;
+        errorText = "";
+    }
+
+    public string Unit(UnitOf unitOf)
+    {
+        string unit = "";
+        switch (unitOf)
+        {
+            case UnitOf.distance:
+                unit = "m";
+                break;
+            case UnitOf.time:
+                unit = "s";
+                break;
+            case UnitOf.velocity:
+                unit = "m/s";
+                break;
+            case UnitOf.acceleration:
+                unit = "m/s²";
+                break;
+            case UnitOf.angle:
+                unit = "°";
+                break;
+            case UnitOf.angularVelocity:
+                unit = "°/s";
+                break;
+            case UnitOf.force:
+                unit = "N";
+                break;
+            case UnitOf.mass:
+                unit = "kg";
+                break;
+            case UnitOf.work:
+                unit = "J";
+                break;
+            case UnitOf.energy:
+                unit = "kW";
+                break;
+            case UnitOf.power:
+                unit = "kWh";
+                break;
+            case UnitOf.momuntum:
+                unit = "kg•m/s";
+                break;
+        }
+        return unit;
+    }
+    public void SetUnitTo(UnitOf unitOf)
+    {
         switch (unitOf)
         {
             case UnitOf.distance:
@@ -178,22 +365,19 @@ public class QuestionControllerB : MonoBehaviour
                 answerUnit = "kg•m/s";
                 break;
         }
-        return answerUnit;
     }
-
-    public string getHexColor(TextColorMode mode)
+    public Color getHexColor(TextColorMode mode)
     {
         switch (mode)
         {
             case TextColorMode.Wrong:
-                return ColorUtility.ToHtmlStringRGB(wrongAnswerColor);
+                return wrongAnswerColor;
             case TextColorMode.Correct:
-                return ColorUtility.ToHtmlStringRGB(correctAnswerColor);
+                return correctAnswerColor;
             default:
-                return ColorUtility.ToHtmlStringRGB(givenColor);
+                return givenColor;
         }
     }
-
     public void SetColor(TMP_Text target, TextColorMode mode)
     {
         switch (mode)
@@ -209,88 +393,29 @@ public class QuestionControllerB : MonoBehaviour
                 break;
         }
     }
-
-    void ToggleOrientation(Orientation o)
-    {
-        bool condition = o == Orientation.Horizontal;
-        problemBoxHorizontal.SetActive(condition);
-        problemTextHorizontal.SetActive(condition);
-        problemBoxVertical.SetActive(!condition);
-        problemTextVertical.SetActive(!condition);
-    }
-
     void Update()
     {
+        //levelNumber = level.GetLevelNum(levelName);
+        correctIconHorizontal.SetActive(answerIsCorrect);
+        wrongIconHorizontal.SetActive(!answerIsCorrect);
+        popupComponentHorizontal.SetActive(popupVisible);
+        popupTextHorizontal.SetText(errorText);
+        modalComponentHorizontal.gameObject.SetActive(isModalOpen);
+        modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
+        problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
+        modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
+        problemTextHorizontal.SetActive(!isModalOpen);
+        // playButtonHorizontal.SetActive(!isModalOpen);
+        answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
 
-        ToggleOrientation(orientation);
+        extraComponent.gameObject.SetActive(timerOn || popupVisible);
+        playButtonHorizontal.SetActive(!timerOn);
+        // timerComponentHorizontal.gameObject.SetActive(timerOn);
+        timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
 
-        if (orientation == Orientation.Horizontal)
-        {
-            popupComponentHorizontal.SetActive(popupVisible);
-            popupComponentVertical.SetActive(false);
-            popupTextHorizontal.SetText(errorText);
-            modalComponentHorizontal.gameObject.SetActive(isModalOpen);
-            problemTextHorizontal.SetActive(!isModalOpen);
-            modalComponentVertical.SetActive(false);
-            modalTitleHorizontal.SetActive(true);
-            modalTitleVertical.SetActive(false);
-            modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
-            playButtonHorizontal.SetActive(!isSimulating);
-            answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
-            problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
-            modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
-            if (answerIsCorrect)
-            {
-                wrongIconHorizontal.SetActive(false);
-                correctIconHorizontal.SetActive(true);
-                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
-            }
-            else
-            {
-                wrongIconHorizontal.SetActive(true);
-                correctIconHorizontal.SetActive(false);
-                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
-            }
-        }
-        else
-        {
-            popupComponentVertical.SetActive(popupVisible);
-            popupComponentHorizontal.SetActive(false);
-            popupTextVertical.SetText(errorText);
-            modalComponentVertical.gameObject.SetActive(isModalOpen);
-            problemTextVertical.SetActive(!isModalOpen);
-            modalComponentHorizontal.SetActive(false);
-            modalTitleHorizontal.SetActive(false);
-            modalTitleVertical.SetActive(true);
-            playButtonVertical.SetActive(!isSimulating);
-            playButtonVertical.SetActive(!isModalOpen);
-            answerFieldVertical.gameObject.SetActive(!isModalOpen);
-            problemTextVertical.GetComponent<TMP_Text>().SetText(question);
-            modalTitleVertical.GetComponent<TMP_Text>().SetText(modalTitle);
-            modalTextVertical.GetComponent<TMP_Text>().SetText(modalText);
-            if (answerIsCorrect)
-            {
-                wrongIconVertical.SetActive(false);
-                correctIconVertical.SetActive(true);
-                SetColor(modalTitleVertical.GetComponent<TMP_Text>(), TextColorMode.Correct);
-            }
-            else
-            {
-                wrongIconVertical.SetActive(true);
-                correctIconVertical.SetActive(false);
-                SetColor(modalTitleVertical.GetComponent<TMP_Text>(), TextColorMode.Wrong);
-            }
-        }
-
-        timerComponentHorizontal.SetActive(isSimulating && (orientation == Orientation.Horizontal));
-        timerComponentVertical.SetActive(isSimulating && (orientation == Orientation.Vertical));
-
-        // correctIconHorizontal.SetActive(!answerIsCorrect);
-        // wrongIconHorizontal.SetActive(answerIsCorrect);
-
-        levelNameBox.GetComponent<TMP_Text>().SetText($"{levelName}");
-        extraComponent.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");
-        stageName.GetComponent<TMP_Text>().SetText($"Stage {stageNumber}");
+        problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
+        levelBadge.Find("LevelNumber").GetComponent<TMP_Text>().SetText($"{levelNumber}");
+        stageName.GetComponent<TMP_Text>().SetText($"Stage {stage}");
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
     }
 }
