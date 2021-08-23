@@ -24,7 +24,7 @@ public class AccHardSimulation : MonoBehaviour
     public bool posCheck;
     public string take;
     public int takeNumber;
-    
+
 
 
     // Start is called before the first frame update
@@ -38,15 +38,15 @@ public class AccHardSimulation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(takeNumber == 1)
+        if (takeNumber == 1)
         {
             take = "One";
         }
-        if(takeNumber == 2)
+        if (takeNumber == 2)
         {
             take = "Two";
         }
-        if(takeNumber == 3)
+        if (takeNumber == 3)
         {
             take = "three";
         }
@@ -61,9 +61,9 @@ public class AccHardSimulation : MonoBehaviour
             playerAnswer = float.Parse(answerField.text);
             if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
             {
-               
+
                 theQuestion.errorText = ("believe me! its too long!");
-                 StartCoroutine(errorMesage());
+                StartCoroutine(errorMesage());
             }
             else
             {
@@ -83,9 +83,9 @@ public class AccHardSimulation : MonoBehaviour
 
             if (answerField.text == "" || playerAnswer > 111.67)
             {
-                
+
                 theQuestion.errorText = ("fastest helicopter flies at 111.67 m/s only");
-                 StartCoroutine(errorMesage());
+                StartCoroutine(errorMesage());
             }
             else
             {
@@ -106,7 +106,7 @@ public class AccHardSimulation : MonoBehaviour
             {
                 //StartCoroutine(theManagerThree.errorMesage());
                 theQuestion.errorText = ("exceeds the helicopter's fastest acceleration");
-                
+
             }
             else
             {
@@ -123,7 +123,7 @@ public class AccHardSimulation : MonoBehaviour
     }
     public void retry()
     {
-        
+
         playerAnswer = 0;
         simulate = false;
         answerField.text = ("");
@@ -143,7 +143,7 @@ public class AccHardSimulation : MonoBehaviour
         if (stage == 3)
         {
             StartCoroutine(theManagerThree.positioningTwo());
-            
+
         }
     }
     public void next()
@@ -199,7 +199,7 @@ public class AccHardSimulation : MonoBehaviour
     }
     public void action()
     {
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         if (theQuestion.answerIsCorrect == false)
         {
             retry();
@@ -212,7 +212,7 @@ public class AccHardSimulation : MonoBehaviour
     }
     public void answerLimiter()
     {
-        
+
         string[] num;
         num = answerField.text.Split('.');
         answerField.characterLimit = num[0].Length + 3;

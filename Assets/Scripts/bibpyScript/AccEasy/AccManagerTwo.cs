@@ -34,7 +34,7 @@ public class AccManagerTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        theQuestion.stageNumber = 2;
+        //theQuestion.stageNumber = 2;
         cam.transform.position = new Vector3(17.5f, cam.transform.position.y, cam.transform.position.z);
         thePlayer = FindObjectOfType<PlayerB>();
         theBike = FindObjectOfType<BikeManager>();
@@ -101,7 +101,7 @@ public class AccManagerTwo : MonoBehaviour
                 actiontxt.text = "retry";
                 walls.SetActive(true);
                 accSimulation.playerDead = true;
-                theQuestion.SetModalTitle("Stunt failed");
+                //theQuestion.SetModalTitle("Stunt failed");
 
                 if (time < correctAns & time > correctAns - 0.5f)
                 {
@@ -113,19 +113,19 @@ public class AccManagerTwo : MonoBehaviour
                 }
                 if (time < correctAns)
                 {
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " deaccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " deaccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
                 }
                 if (time > correctAns)
                 {
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " deaccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " deaccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
                 }
             }
             if (time == correctAns)
             {
                 actiontxt.text = "Next";
                 theQuestion.answerIsCorrect = true;
-                theQuestion.SetModalTitle("Stunt Success");
-                theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> seconds. ")+ PlayerPrefs.GetString("Name") + " was able to enter tunnel succesfully!</color>");
+                //theQuestion.SetModalTitle("Stunt Success");
+                //theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> seconds. ")+ PlayerPrefs.GetString("Name") + " was able to enter tunnel succesfully!</color>");
 
 
             }
@@ -217,7 +217,7 @@ public class AccManagerTwo : MonoBehaviour
         yield return new WaitForSeconds(2);
         StartCoroutine(theSimulation.DirectorsCall());
         yield return new WaitForSeconds(2);
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         walls.SetActive(false);
         theBike.moveSpeed = 0;
     }

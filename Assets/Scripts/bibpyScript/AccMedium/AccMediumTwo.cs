@@ -29,7 +29,7 @@ public class AccMediumTwo : MonoBehaviour
     {
         theHeart = FindObjectOfType<HeartManager>();
         theHeart.startbgentrance();
-        theQuestion.stageNumber = 2;
+        //theQuestion.stageNumber = 2;
         theSimulate = FindObjectOfType<AccMidSimulation>();
         gender = PlayerPrefs.GetString("Gender");
         if (gender == "Male")
@@ -126,8 +126,8 @@ public class AccMediumTwo : MonoBehaviour
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
                     theMeter[0].distance = chopperCurrentPos;
-                    theQuestion.SetModalTitle("Stunt Success");
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" has successfully jumped into the van"));
+                    //theQuestion.SetModalTitle("Stunt Success");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" has successfully jumped into the van"));
                     if (chopperCurrentPos >= playerKickDistance - 1.2f)
                     {
                         timer = kickpointTimeA;
@@ -151,8 +151,8 @@ public class AccMediumTwo : MonoBehaviour
                     {
                         theMeter[0].distance = chopperCurrentPos;
                     }
-                    theQuestion.SetModalTitle("Stunt Failed");
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" got hit by the van before he could kick the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>."));
+                    //theQuestion.SetModalTitle("Stunt Failed");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" got hit by the van before he could kick the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>."));
                     if (chopperCurrentPos >= kickDistance)
                     {
                         timer = kickpointTimeA;
@@ -179,8 +179,8 @@ public class AccMediumTwo : MonoBehaviour
                     {
                         theMeter[0].distance = chopperCurrentPos;
                     }
-                    theQuestion.SetModalTitle("Stunt Failed");
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" kick before touching  the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>."));
+                    //theQuestion.SetModalTitle("Stunt Failed");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" kick before touching  the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>."));
                     vanCollider.SetActive(true);
                     windshield.SetActive(true);
                     if (chopperCurrentPos >= playerKickDistance - 2f)
@@ -315,7 +315,7 @@ public class AccMediumTwo : MonoBehaviour
         }
         yield return new WaitForSeconds(3);
         StartCoroutine(theSimulate.DirectorsCall());
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         yield return new WaitForSeconds(2);
         theChopper.accelarating = false;
         theChopper.flySpeed = 0;
@@ -332,7 +332,7 @@ public class AccMediumTwo : MonoBehaviour
     }
      public void action()
     {
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         if(theQuestion.answerIsCorrect == false)
         {
             theSimulate.retry();

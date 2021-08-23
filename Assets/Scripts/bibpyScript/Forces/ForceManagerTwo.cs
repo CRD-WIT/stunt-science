@@ -33,7 +33,7 @@ public class ForceManagerTwo : MonoBehaviour
         {
             pronoun = ("she");
         }
-        theQuestion.stageNumber = 2;
+        //theQuestion.stageNumber = 2;
         theCollider = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
         //theBomb = FindObjectOfType<BombManager>();
@@ -86,8 +86,8 @@ public class ForceManagerTwo : MonoBehaviour
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
                     glassHolder.SetActive(false);
-                    theQuestion.SetModalTitle("Stunt Success");
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully thrown the bomb</color>");
+                    //theQuestion.SetModalTitle("Stunt Success");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully thrown the bomb</color>");
                     if(currentPos <= 5.7f)
                     {
                         braking();
@@ -110,8 +110,8 @@ public class ForceManagerTwo : MonoBehaviour
                         thePlayer.standup = true;
                     }
                     //theBombScript.inPlayer = false;
-                    theQuestion.SetModalTitle("Stunt Failed");
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated too slow and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².");
+                    //theQuestion.SetModalTitle("Stunt Failed");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated too slow and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².");
                     tooWeak = true;
                     thePlayer.gameObject.SetActive(false);
                    
@@ -130,8 +130,8 @@ public class ForceManagerTwo : MonoBehaviour
                     {
                         ragdollSpawn();
                     }
-                    theQuestion.SetModalTitle("Stunt Failed");
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated too fast and able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².");
+                    //theQuestion.SetModalTitle("Stunt Failed");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated too fast and able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².");
                     tooStrong = true;
                     thePlayer.gameObject.SetActive(false);
                     glassHolder.SetActive(false);
@@ -208,7 +208,7 @@ public class ForceManagerTwo : MonoBehaviour
             theSimulate.zombieChase = false;
             yield return new WaitForSeconds(3);
        }
-       theQuestion.ToggleModal();
+       //theQuestion.ToggleModal();
     }
     public void glassRespawn()
     {

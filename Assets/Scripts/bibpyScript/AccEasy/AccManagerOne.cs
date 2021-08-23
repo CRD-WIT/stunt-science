@@ -34,7 +34,7 @@ public class AccManagerOne : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        theQuestion.stageNumber = 1;
+        //theQuestion.stageNumber = 1;
         theQuestion.levelName = "Acceleration";
         bikeInitialsPos = bikeInitials.transform.position;
         //thePlayer = FindObjectOfType<Player>();
@@ -101,7 +101,7 @@ public class AccManagerOne : MonoBehaviour
             {
                 walls.SetActive(true);
                 accSimulation.playerDead = true;
-                theQuestion.SetModalTitle("Stunt failed");
+                //theQuestion.SetModalTitle("Stunt failed");
                 if (accelaration < correctAns & accelaration > correctAns - .5f)
                 {
                     accelaration -= .5f;
@@ -113,7 +113,7 @@ public class AccManagerOne : MonoBehaviour
 
                 if (accSimulation.playerAnswer > correctAns)
                 {
-                   theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
+                   //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
                 }
                 
 
@@ -122,8 +122,8 @@ public class AccManagerOne : MonoBehaviour
             {
                 actiontxt.text = "Next";
                 theQuestion.answerIsCorrect = true;
-                theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> m/s². ")+PlayerPrefs.GetString("Name") + " was able to enter tunnel succesfully!</color>");
-                theQuestion.SetModalTitle("Stunt Success");
+                //theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> m/s². ")+PlayerPrefs.GetString("Name") + " was able to enter tunnel succesfully!</color>");
+                //theQuestion.SetModalTitle("Stunt Success");
 
             }
             if (gas)
@@ -151,11 +151,11 @@ public class AccManagerOne : MonoBehaviour
                     }
                     if (currentPos < 38)
                     {
-                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and not able to cross tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and not able to cross tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
                     }
                     if (currentPos >= 38)
                     {
-                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
                     }
 
                 }
@@ -198,7 +198,7 @@ public class AccManagerOne : MonoBehaviour
         walls.SetActive(false);
         accSimulation.simulate = false;
         theBike.moveSpeed = 0;
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
     }
 
 

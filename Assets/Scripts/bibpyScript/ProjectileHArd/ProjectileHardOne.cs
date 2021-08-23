@@ -183,7 +183,7 @@ public class ProjectileHardOne : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         StartCoroutine(theSimulate.DirectorsCall());
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
     }
 
 }

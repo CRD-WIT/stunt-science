@@ -226,7 +226,7 @@ public class ForceSimulation : MonoBehaviour
     }
     public void action()
     {
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         if(theQuestion.answerIsCorrect == false)
         {
             destroyZombies = true;

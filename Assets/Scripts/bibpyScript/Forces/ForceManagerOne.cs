@@ -23,7 +23,7 @@ public class ForceManagerOne : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        theQuestion.stageNumber = 1;
+        //theQuestion.stageNumber = 1;
         //thePlayer = FindObjectOfType<Player>();
         theCollider = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
@@ -56,8 +56,8 @@ public class ForceManagerOne : MonoBehaviour
                     
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
-                    theQuestion.SetModalTitle("Stunt Success");
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully escaped from zombies</color>");
+                    //theQuestion.SetModalTitle("Stunt Success");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully escaped from zombies</color>");
                     glassHolder.SetActive(false);
                     
                     if(currentPos >= 22)
@@ -75,8 +75,8 @@ public class ForceManagerOne : MonoBehaviour
                 }
                 if(playerAnswer > correctAnswer)
                 {
-                    theQuestion.SetModalTitle("Stunt Failed");
-                    theQuestion.SetModalText(" the glass was too tough for </color>" + PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.");
+                    //theQuestion.SetModalTitle("Stunt Failed");
+                    //theQuestion.SetModalText(" the glass was too tough for </color>" + PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.");
                     tooWeak = true;
                     thePlayer.gameObject.SetActive(false);
                     if(ragdollReady)
@@ -94,8 +94,8 @@ public class ForceManagerOne : MonoBehaviour
                 if(playerAnswer < correctAnswer)
                 {
                    //triggerDevour.SetActive(true);
-                    theQuestion.SetModalTitle("Stunt Failed");
-                    theQuestion.SetModalText(" the glass was too weak for </color>" + PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.");
+                    //theQuestion.SetModalTitle("Stunt Failed");
+                    //theQuestion.SetModalText(" the glass was too weak for </color>" + PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.");
                     tooStrong = true;
                     thePlayer.gameObject.SetActive(false);
                     glassHolder.SetActive(false);
@@ -177,7 +177,7 @@ public class ForceManagerOne : MonoBehaviour
             theSimulate.zombieChase = false;
             yield return new WaitForSeconds(3);
        }
-       theQuestion.ToggleModal();
+       //theQuestion.ToggleModal();
         
     }
     public void glassRespawn()

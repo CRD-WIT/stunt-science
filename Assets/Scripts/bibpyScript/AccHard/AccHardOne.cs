@@ -78,8 +78,8 @@ public class AccHardOne : MonoBehaviour
             {
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
-                theQuestion.SetModalTitle("Stunt success");
-                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " successfully hit the target!");
+                //theQuestion.SetModalTitle("Stunt success");
+                //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " successfully hit the target!");
                 if (timer >= correctAnswer + .05f)
                 {
 
@@ -90,8 +90,8 @@ public class AccHardOne : MonoBehaviour
             }
             if (playerAnswer > answer)
             {
-                theQuestion.SetModalTitle("Stunt failed");
-                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " shot too late. The correct answer is </color>" + answer.ToString("F2") + "seconds.");
+                //theQuestion.SetModalTitle("Stunt failed");
+                //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " shot too late. The correct answer is </color>" + answer.ToString("F2") + "seconds.");
                 if (timer >= playerAnswer + .1f)
                 {
                     shoot = true;
@@ -100,8 +100,8 @@ public class AccHardOne : MonoBehaviour
             }
             if (playerAnswer < answer)
             {
-                theQuestion.SetModalTitle("Stunt failed");
-                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " shot too soon. The correct answer is </color>" + answer.ToString("F2") + "seconds.");
+                //theQuestion.SetModalTitle("Stunt failed");
+                //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " shot too soon. The correct answer is </color>" + answer.ToString("F2") + "seconds.");
 
                 if (timer >= playerAnswer - .1f)
                 {
@@ -213,7 +213,7 @@ public class AccHardOne : MonoBehaviour
         yield return new WaitForSeconds(2f);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1f);
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         theTruck.deaccelerating = false;
         if (playerAnswer == answer)
         {

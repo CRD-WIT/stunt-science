@@ -31,7 +31,7 @@ public class AccHardThree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        theQuestion.stageNumber = 3;
+        //theQuestion.stageNumber = 3;
         theSimulate.stage = 3;
         StartCoroutine(positioning());
         camPosChopper = cam.transform.position.x - theChopper.transform.position.x;
@@ -80,7 +80,7 @@ public class AccHardThree : MonoBehaviour
             startTime = false;
             if(toRetry)
             {
-                theQuestion.ToggleModal();
+                //theQuestion.ToggleModal();
                 toRetry = false;
             }
         }
@@ -109,8 +109,8 @@ public class AccHardThree : MonoBehaviour
             {
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
-                theQuestion.SetModalTitle("Stunt success");
-                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " hit the successfully hit the final target!");
+                //theQuestion.SetModalTitle("Stunt success");
+                //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " hit the successfully hit the final target!");
                 if (timer >= time)
                 {
                     accHtxt.color = new Color32(13, 106, 0, 255);
@@ -126,8 +126,8 @@ public class AccHardThree : MonoBehaviour
             if (playerAnswer > answer)
             {
                 theChopper.accelaration = aH + 1f;
-                theQuestion.SetModalTitle("Stunt failed");
-                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the helicopter too fast. The correct answer is </color>" + answer.ToString("F2") + "m/s².");
+                //theQuestion.SetModalTitle("Stunt failed");
+                //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the helicopter too fast. The correct answer is </color>" + answer.ToString("F2") + "m/s².");
                 if (timer >= time)
                 {
                     theChopper.flySpeed = 0;
@@ -142,8 +142,8 @@ public class AccHardThree : MonoBehaviour
             if (playerAnswer < answer)
             {
                 theChopper.accelaration = aH - 1.5f;
-                theQuestion.SetModalTitle("Stunt failed");
-                theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the helicopter too slow. The correct answer is </color>" + answer.ToString("F2") + "m/s².");
+                //theQuestion.SetModalTitle("Stunt failed");
+                //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the helicopter too slow. The correct answer is </color>" + answer.ToString("F2") + "m/s².");
 
                 if (timer >= time)
                 {
@@ -298,7 +298,7 @@ public class AccHardThree : MonoBehaviour
         {
             targetWheel.SetActive(false);
             theTruck.moveSpeed = 0;
-            theQuestion.ToggleModal();
+            //theQuestion.ToggleModal();
 
         }
 

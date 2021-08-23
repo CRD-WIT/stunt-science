@@ -99,8 +99,8 @@ public class AccMediumOne : MonoBehaviour
                             StartCoroutine(jump());
                             //grabline.SetActive(true);
                         }
-                        theQuestion.SetModalTitle("Stunt Success");
-                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" has grabbed the rope and is now succesfully hanging from a hellicopter</color>"));
+                        //theQuestion.SetModalTitle("Stunt Success");
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" has grabbed the rope and is now succesfully hanging from a hellicopter</color>"));
                     }
                     if (truckPos >= 72)
                     {
@@ -131,14 +131,14 @@ public class AccMediumOne : MonoBehaviour
 
                     }
 
-                    theQuestion.SetModalTitle("Stunt Failed");
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds.");
+                    //theQuestion.SetModalTitle("Stunt Failed");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds.");
                 }
                 if (answer > correctAnswer)
                 {
 
                     actiontxt.text = "Retry";
-                    theQuestion.SetModalTitle("Stunt Failed");
+                    //theQuestion.SetModalTitle("Stunt Failed");
                     AccMidSimulation.playerDead = true;
                     if (playerGrabLineDistance < 56)
                     {
@@ -151,7 +151,7 @@ public class AccMediumOne : MonoBehaviour
                                 StartCoroutine(StuntResult());
 
                             }
-                            theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" grab the rope too late. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."));
+                            //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" grab the rope too late. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."));
                         }
                         if (truckPos >= 70)
                         {
@@ -174,7 +174,7 @@ public class AccMediumOne : MonoBehaviour
                             timeOn = false;
                             
                         }
-                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" didnt get the chance to grab the rope. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."));
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" didnt get the chance to grab the rope. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."));
                     }
 
 
@@ -242,7 +242,7 @@ public class AccMediumOne : MonoBehaviour
         }
         velocity = 0;
         StartCoroutine(theSimulate.DirectorsCall());
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         AccMidSimulation.simulate = false;
         timertxt.gameObject.SetActive(false);
 
@@ -316,7 +316,7 @@ public class AccMediumOne : MonoBehaviour
     }
     public void action()
     {
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         if (theQuestion.answerIsCorrect == false)
         {
             theSimulate.retry();

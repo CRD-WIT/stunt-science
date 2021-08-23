@@ -249,7 +249,7 @@ public class accSimulation : MonoBehaviour
     
     public void action()
     {
-        theQuestion.ToggleModal();
+       // theQuestion.ToggleModal();
         if(theQuestion.answerIsCorrect == false)
         {
             retry();

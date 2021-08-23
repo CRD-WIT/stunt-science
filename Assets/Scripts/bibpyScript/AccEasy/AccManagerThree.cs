@@ -43,7 +43,7 @@ public class AccManagerThree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        theQuestion.stageNumber = 3;
+        //theQuestion.stageNumber = 3;
         cam.transform.position = new Vector3(18f, cam.transform.position.y, cam.transform.position.z);
         //thePlayer = FindObjectOfType<Player>();
         theBike = FindObjectOfType<BikeManager>();
@@ -95,7 +95,7 @@ public class AccManagerThree : MonoBehaviour
             if (Vi != correctAns)
             {
                 actiontxt.text = "retry";
-                theQuestion.SetModalTitle("Stunt failed");
+                //theQuestion.SetModalTitle("Stunt failed");
                 accSimulation.playerDead = true;
                 if (timer >= time)
                 {
@@ -118,11 +118,11 @@ public class AccManagerThree : MonoBehaviour
                     }
                     if (Vi < correctAns)
                     {
-                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drive too slow and unable to park the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drive too slow and unable to park the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
                     }
                     if (Vi > correctAns)
                     {
-                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drive too fast and unable to park and crashed the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drive too fast and unable to park and crashed the motorcycle  inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
                     }
                     addingAcc = false;
                 }
@@ -130,12 +130,12 @@ public class AccManagerThree : MonoBehaviour
             }
             if (Vi == correctAns)
             {
-                theQuestion.SetModalTitle("Stunt Success");
+                //theQuestion.SetModalTitle("Stunt Success");
                 if (timer >= time)
                 {
                     actionButton.SetActive(false);
                     theQuestion.answerIsCorrect = true;
-                    theQuestion.SetModalTitle("Stunt Success");
+                    //theQuestion.SetModalTitle("Stunt Success");
                     theBike.moveSpeed = 0.5f;
                     if (currentPos >= 30)
                     {
@@ -148,7 +148,7 @@ public class AccManagerThree : MonoBehaviour
 
                 }
 
-                theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> m/s. ")+PlayerPrefs.GetString("Name") + " have parked inside the truck succesfully! </color>");
+                //theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> m/s. ")+PlayerPrefs.GetString("Name") + " have parked inside the truck succesfully! </color>");
 
 
             }
@@ -230,7 +230,7 @@ public class AccManagerThree : MonoBehaviour
         }
         StartCoroutine(theSimulation.DirectorsCall());
         yield return new WaitForSeconds(1);
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         yield return new WaitForSeconds(1);
         walls.SetActive(false);
     }
@@ -255,7 +255,7 @@ public class AccManagerThree : MonoBehaviour
             {
                 if (currentPos > 28)
                 {
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drive too slow, unable to park the motorcycle properly inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drive too slow, unable to park the motorcycle properly inside the truck and got left behind! The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
 
                     theBike.moveSpeed = 4;
                 }

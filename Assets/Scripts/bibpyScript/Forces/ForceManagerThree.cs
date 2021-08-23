@@ -30,7 +30,7 @@ public class ForceManagerThree : MonoBehaviour
     void Start()
     {
         //thePlayer = FindObjectOfType<Player>();
-        theQuestion.stageNumber = 3;
+        //theQuestion.stageNumber = 3;
         theCollider = FindObjectOfType<ColliderManager>();
         theSimulate = FindObjectOfType<ForceSimulation>();
         theBomb = FindObjectOfType<BombManager>();
@@ -131,7 +131,7 @@ public class ForceManagerThree : MonoBehaviour
                 {
                     theQuestion.answerIsCorrect = true;
                     action.SetActive(false);
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully escaped from the explosion </color>");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully escaped from the explosion </color>");
                     glassHolder.SetActive(false);
                     //StartCoroutine(thiswaySpeech());
 
@@ -150,7 +150,7 @@ public class ForceManagerThree : MonoBehaviour
                 {
                     actiontxt.text = "retry";
                     theQuestion.answerIsCorrect = false;
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");
                     tooWeak = true;
                     thePlayer.gameObject.SetActive(false);
                     if (ragdollReady)
@@ -169,7 +169,7 @@ public class ForceManagerThree : MonoBehaviour
                 {
                     actiontxt.text = "retry";
                     theQuestion.answerIsCorrect = false;
-                   theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");
                     tooStrong = true;
                     thePlayer.gameObject.SetActive(false);
                     glassHolder.SetActive(false);
@@ -259,7 +259,7 @@ public class ForceManagerThree : MonoBehaviour
             theSimulate.zombieChase = false;
        }
         yield return new WaitForSeconds(3);
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         if(playerAnswer == correctAnswer)
         {
             theScorer.finalstar();

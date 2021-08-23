@@ -34,7 +34,7 @@ public class AccMediumThree : MonoBehaviour
         theHeart = FindObjectOfType<HeartManager>();
         theScorer = FindObjectOfType<ScoreManager>();
         theHeart.startbgentrance();
-        theQuestion.stageNumber = 3;
+        //theQuestion.stageNumber = 3;
         currentLevel = PlayerPrefs.GetInt("level");
         currentStar = PlayerPrefs.GetInt("AcstarM");
         //thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
@@ -131,10 +131,10 @@ public class AccMediumThree : MonoBehaviour
                     aVtxt.color = new Color32(107, 0, 176, 255);
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
-                    theQuestion.SetModalTitle("Stunt Success");
+                    //theQuestion.SetModalTitle("Stunt Success");
                     hangingRagdoll.SetActive(true);
                     hangingRagdoll.transform.position = ropeTip.transform.position;
-                    theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grabbed the rope before the van fell on the water");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grabbed the rope before the van fell on the water");
                     actionButton.SetActive(false);
 
                 }
@@ -149,7 +149,7 @@ public class AccMediumThree : MonoBehaviour
                 if (accV != correctAnswer)
                 {
                     theHeart.losinglife();
-                    theQuestion.SetModalTitle("Stunt Failed");
+                    //theQuestion.SetModalTitle("Stunt Failed");
                     if (ropeDistance > 15)
                     {
                         theSubChopper.transform.position = new Vector2(ropeDistance, theSubChopper.transform.position.y);
@@ -179,11 +179,11 @@ public class AccMediumThree : MonoBehaviour
                     }
                     if(accV > correctAnswer)
                     {
-                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².");
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².");
                     }
                      if(accV < correctAnswer)
                     {
-                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drove the van too slow and  was still behind when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².");
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drove the van too slow and  was still behind when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².");
                     }
 
                 }
@@ -269,7 +269,7 @@ public class AccMediumThree : MonoBehaviour
         yield return new WaitForSeconds(4);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1);
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         if (accV == correctAnswer)
         {
             theScorer.finalstar();
@@ -293,7 +293,7 @@ public class AccMediumThree : MonoBehaviour
     }
     public void action()
     {
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         if(theQuestion.answerIsCorrect == false)
         {
             theSimulate.retry();

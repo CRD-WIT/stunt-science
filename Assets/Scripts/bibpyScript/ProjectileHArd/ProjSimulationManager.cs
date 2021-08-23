@@ -190,7 +190,7 @@ public class ProjSimulationManager : MonoBehaviour
     }
     public void action()
     {
-        theQuestion.ToggleModal();
+        //theQuestion.ToggleModal();
         playButton.interactable = true;
         if (theQuestion.answerIsCorrect == false)
         {
