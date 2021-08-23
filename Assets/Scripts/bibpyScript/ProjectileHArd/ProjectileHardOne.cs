@@ -20,7 +20,7 @@ public class ProjectileHardOne : MonoBehaviour
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
     public float generateDistance, totalDistance, golemDistanceToTravel;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile;
-    public TMP_Text golemVelo, golemAcc, projViTxt, timerTxt, actiontxt;
+    public TMP_Text golemVelo, golemAcc, VoTxt, timerTxt, actiontxt;
     string pronoun, pronoun2, gender;
 
     // Start is called before the first frame update
@@ -91,7 +91,8 @@ public class ProjectileHardOne : MonoBehaviour
             theCircular[0]._origin = new Vector2(this.transform.position.x + .5f, this.transform.position.y);
             theCircular[1]._degrees = generateStoneAngle;
             theCircular[1]._origin = new Vector2(stone.transform.position.x - .2f, stone.transform.position.y - .2f);
-            projViTxt.text = ("vi = ") + vi.ToString("F2") + (" m/s");
+            VoTxt.text = ("vi = ") + vi.ToString("F2") + (" m/s");
+            VoTxt.gameObject.transform.position = angleArrow.transform.position;
             theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + (" is now instructed to fire a gun aiming at an angle of <b>") + generateAngle.ToString("F2") + ("</b> degrees horizontally and must hit a moving Golem in its weakspot that measures <b>") + (stoneDyR + 1.62).ToString("F2") + ("</b> meters from the ground and moves <b>") + vG.ToString("F2") + ("</b> m/s directly towards ") + PlayerPrefs.GetString("Name") + (" wherein <b>") + ((-this.transform.position.x + target.transform.position.x)).ToString("F2") + ("</b> meters away from the Golem. In order to perfect this stunt, ") + pronoun + (" will use a special gun with a muscle initial velocity of <b>") + vi.ToString("F2") + ("</b> m/s, firing at a height of <b>1.62</b> meters from the ground to the tip of its gun barrel. How long will ") + PlayerPrefs.GetString("Name") + (" wait before pulling the trigger?")));
             if (showProjectile)
             {
@@ -283,7 +284,7 @@ public class ProjectileHardOne : MonoBehaviour
         theQuestion.ToggleModal();
         theArrow[0].generateLine = false;
         trail.SetActive(false);
-        theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;
+        //theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;
         theArrow[0].getAngle = false;
         theArrow[0].gameObject.SetActive(false);
         thePlayer.sword.SetActive(false);

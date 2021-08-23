@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ProjectileHardTwo : MonoBehaviour
 {
@@ -11,14 +12,16 @@ public class ProjectileHardTwo : MonoBehaviour
     public HeartManager theHeart;
     public CircularAnnotation[] theCircular;
     public Arrow[] theArrow;
+    public DistanceMeter[] theMeter;
     public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineAngle, lineDistance, boulder, angleArrow;
     public GameObject lineVertical, lineHorizontal, dimension, cam, golemInitial;
     public float Vo, generateVG, vG, generateVP, vP;
-    public float angle, HRange, timer,generateTime, time, projectileTime, golemTravelTime;
+    public float angle, HRange, timer, generateTime, time, projectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
-    public float generateDistance, finalDistance, golemDistanceToTravel, playerDistanceToTravel, camDistance,playerSpeed;
+    public float generateDistance, finalDistance, golemDistanceToTravel, playerDistanceToTravel, camDistance, playerSpeed;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow;
     string pronoun, pronoun2, gender;
+     public TMP_Text golemVelo, golemAcc, VoTxt;
     void Start()
     {
         theSimulate.stage = 2;
@@ -51,8 +54,12 @@ public class ProjectileHardTwo : MonoBehaviour
         }
         if (!timeStart)
         {
+            golemVelo.text = ("v = ") + vG.ToString("F2") + (" m/s");
+            golemAcc.text = ("a = none");
+            VoTxt.text = "vi = ?";
+            VoTxt.gameObject.transform.position = angleArrow.transform.position;
             trail.transform.position = this.transform.position;
-            generateDistance =  (float)System.Math.Round((this.transform.position.x - target.transform.position.x),2);
+            generateDistance = (float)System.Math.Round((this.transform.position.x - target.transform.position.x), 2);
             golemTravelTime = time + projectileTime;
             golemDistanceToTravel = vG * golemTravelTime;
             playerDistanceToTravel = vP * time;
@@ -60,36 +67,45 @@ public class ProjectileHardTwo : MonoBehaviour
             stoneDY = target.transform.position.y - this.transform.position.y;
             stoneDyR = (float)System.Math.Round(stoneDY, 2);
             transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (180 - angle));
-            angle = Mathf.Atan(((stoneDyR + ((9.81f/2)*(projectileTime * projectileTime)) )/finalDistance)) * Mathf.Rad2Deg;
-             Vo = finalDistance / (Mathf.Cos((angle* Mathf.Deg2Rad))* projectileTime);  
+            angle = Mathf.Atan(((stoneDyR + ((9.81f / 2) * (projectileTime * projectileTime))) / finalDistance)) * Mathf.Rad2Deg;
+            Vo = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) * projectileTime);
+            angleArrow.transform.rotation = this.transform.rotation;
+            angleArrow.transform.position = this.transform.position;
+            theMeter[0].positionX = target.transform.position.x;
+            theMeter[0].distance = generateDistance;
+            theMeter[1].positionX = this.transform.position.x - .7f;
+            theMeter[1].distance = this.transform.position.y + 0.25f;
+            theMeter[2].positionX = target.transform.position.x + 1;
+            theMeter[2].distance = target.transform.position.y + 0.25f;
         }
         if (ProjSimulationManager.simulate == true)
         {
             timeStart = true;
         }
-        if(timeStart)
+        if (timeStart)
         {
+            dimension.SetActive(false);
             theGolem.moveSpeed = vG;
             playerSpeed = vP;
             running = true;
             timer += Time.fixedDeltaTime;
-            if(timer < time)
+            if (timer < time)
             {
                 thePlayer.backward = true;
             }
-            if(timer >= time)
+            if (timer >= time)
             {
-                if(shootReady)
+                if (shootReady)
                 {
                     ShootArrow();
                     thePlayer.backward = false;
                     vP = 0;
                     shootReady = false;
-                    
+
                 }
-               
+
             }
-            if(timer >= golemTravelTime)
+            if (timer >= golemTravelTime)
             {
                 theGolem.moveSpeed = 0;
             }
@@ -97,17 +113,18 @@ public class ProjectileHardTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        dimension.SetActive(true);
         puller.transform.position = new Vector2(45, thePlayer.transform.position.y);
         theGolem.transform.position = new Vector2(5, theGolem.transform.position.y);
         generateVG = Random.Range(2f, 4f);
-        generateTime = Random.Range(2f,3f);
+        generateTime = Random.Range(3.5f, 4f);
         time = (float)System.Math.Round(generateTime, 2);
-        projectileTime =  (float)System.Math.Round(Random.Range(2f,3f), 2);
-        generateVG = Random.Range(2f,3f);
+        projectileTime = (float)System.Math.Round(Random.Range(2f, 3f), 2);
+        generateVG = Random.Range(2f, 3f);
         vG = (float)System.Math.Round(generateVG, 2);
-        generateVP = Random.Range(2f,3f);
+        generateVP = Random.Range(2f, 3f);
         vP = (float)System.Math.Round(generateVP, 2);
-        
+
     }
     IEnumerator ropePull()
     {
@@ -126,9 +143,11 @@ public class ProjectileHardTwo : MonoBehaviour
     public void ShootArrow()
     {
         arrow.SetActive(true);
+        arrow.transform.position = this.transform.position;
         trail.GetComponent<TrailRenderer>().time = 3000;
-        arrow.transform.position = transform.position;
-        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo+ 0.08f);
+        theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;
+        theArrow[0].generateLine = true;
+        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo + 0.08f);
         /*if (ProjSimulationManager.playerAnswer < correctAnswer)
         {
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer);
@@ -169,6 +188,6 @@ public class ProjectileHardTwo : MonoBehaviour
         theGolem.damage = false;
         thePlayer.aim = true;
         camFollow = false;
-        
+
     }
 }
