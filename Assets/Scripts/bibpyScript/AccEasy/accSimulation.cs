@@ -32,6 +32,20 @@ public class accSimulation : MonoBehaviour
     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
     //string accelaration;
     // Start is called before the first frame update
+
+
+    //TODO: Dynamically Change Stage
+    public GameObject stage1Manager;
+    public GameObject stage1Ground;
+
+
+    public GameObject stage2Manager;
+    public GameObject stage2Ground;
+
+
+    public GameObject stage3Manager;
+    public GameObject stage3Ground;
+
     void Start()
     {
         simulate = false;
@@ -50,6 +64,39 @@ public class accSimulation : MonoBehaviour
     void FixedUpdate()
     {
         theRagdoll = FindObjectOfType<ragdollScript>();
+        switch (stage)
+        {
+            case 1:
+                stage1Manager.SetActive(true);
+                stage1Ground.SetActive(true);
+
+                stage2Manager.SetActive(false);
+                stage2Ground.SetActive(false);
+
+                stage3Manager.SetActive(false);
+                stage3Ground.SetActive(false);
+                break;
+            case 2:
+                stage2Manager.SetActive(true);
+                stage2Ground.SetActive(true);
+
+                stage1Manager.SetActive(false);
+                stage1Ground.SetActive(false);
+
+                stage3Manager.SetActive(false);
+                stage3Ground.SetActive(false);
+                break;
+            default:
+                stage3Manager.SetActive(true);
+                stage3Ground.SetActive(true);
+
+                stage2Manager.SetActive(false);
+                stage2Ground.SetActive(false);
+
+                stage1Manager.SetActive(false);
+                stage1Ground.SetActive(false);
+                break;
+        }
     }
 
     public void PlayButton()
