@@ -33,10 +33,10 @@ public class AccManagerOne : MonoBehaviour
     bool tooSlow, follow;
     private Vector2 bikeInitialsPos;
     public QuestionControllerB theQuestion;
-    // Start is called before the first frame update
+
     void Start()
     {
-        // Set current level in prefs
+        theQuestion.SetGameLevel(2);
         bikeInitialsPos = bikeInitials.transform.position;
         theBike = FindObjectOfType<BikeManager>();
         gender = PlayerPrefs.GetString("Gender");

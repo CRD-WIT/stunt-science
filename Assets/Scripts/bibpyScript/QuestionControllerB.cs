@@ -38,7 +38,12 @@ public class QuestionControllerB : MonoBehaviour
     StageManager level = new StageManager();
     HeartManager life;
 
+    string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     // Start is called before the first frame update
+    public void SetGameLevel(int level)
+    {
+        PlayerPrefs.SetString("Level", gameLevel[level]);
+    }
     void Start()
     {
         Transform[] components = { baseComponent, modalComponentHorizontal.transform, extraComponent };
@@ -61,9 +66,6 @@ public class QuestionControllerB : MonoBehaviour
                 break;
         }
         difficultyName.GetComponent<TMP_Text>().text = difficulty;
-        levelNumber = level.GetLevelNum(levelName);
-        if (level.GetLevelNum(levelName) > 3)
-            levelNumber--;
 
         life = FindObjectOfType<HeartManager>();
     }
@@ -394,7 +396,6 @@ public class QuestionControllerB : MonoBehaviour
     }
     void Update()
     {
-        //levelNumber = level.GetLevelNum(levelName);
         correctIconHorizontal.SetActive(answerIsCorrect);
         wrongIconHorizontal.SetActive(!answerIsCorrect);
         popupComponentHorizontal.SetActive(popupVisible);
