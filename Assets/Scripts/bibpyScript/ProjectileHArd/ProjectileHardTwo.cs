@@ -13,7 +13,7 @@ public class ProjectileHardTwo : MonoBehaviour
     public CircularAnnotation[] theCircular;
     public Arrow[] theArrow;
     public DistanceMeter[] theMeter;
-    public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineAngle, lineDistance, boulder, angleArrow;
+    public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer, lineDistance, boulder, angleArrow;
     public GameObject lineVertical, lineHorizontal, dimension, cam, golemInitial;
     public float Vo, generateVG, vG, generateVP, vP;
     public float angle, HRange, timer, generateTime, time, projectileTime, golemTravelTime;
@@ -46,7 +46,7 @@ public class ProjectileHardTwo : MonoBehaviour
         golemInitial.transform.position = theGolem.transform.position;
         if (running)
         {
-            puller.GetComponent<Rigidbody2D>().velocity = new Vector2(playerSpeed, 0);
+            puller.GetComponent<Rigidbody2D>().velocity = new Vector2(playerSpeed, puller.GetComponent<Rigidbody2D>().velocity.y);
         }
         if (camFollow)
         {
@@ -81,13 +81,15 @@ public class ProjectileHardTwo : MonoBehaviour
         if (ProjSimulationManager.simulate == true)
         {
             timeStart = true;
+            running = true;
+            ProjSimulationManager.simulate = false;
         }
         if (timeStart)
         {
             dimension.SetActive(false);
             theGolem.moveSpeed = vG;
             playerSpeed = vP;
-            running = true;
+            
             timer += Time.fixedDeltaTime;
             if (timer < time)
             {
@@ -100,8 +102,9 @@ public class ProjectileHardTwo : MonoBehaviour
                     ShootArrow();
                     thePlayer.backward = false;
                     vP = 0;
+                    StartCoroutine(ropePull());
                     shootReady = false;
-
+                   
                 }
 
             }
@@ -116,20 +119,20 @@ public class ProjectileHardTwo : MonoBehaviour
         dimension.SetActive(true);
         puller.transform.position = new Vector2(45, thePlayer.transform.position.y);
         theGolem.transform.position = new Vector2(5, theGolem.transform.position.y);
-        generateVG = Random.Range(2f, 4f);
+        generateVG = Random.Range(2f, 2.5f);
         generateTime = Random.Range(3.5f, 4f);
         time = (float)System.Math.Round(generateTime, 2);
-        projectileTime = (float)System.Math.Round(Random.Range(2f, 3f), 2);
-        generateVG = Random.Range(2f, 3f);
+        projectileTime = (float)System.Math.Round(Random.Range(2.5f, 3f), 2);
         vG = (float)System.Math.Round(generateVG, 2);
-        generateVP = Random.Range(2f, 3f);
+        generateVP = Random.Range(1f, 1.7f);
         vP = (float)System.Math.Round(generateVP, 2);
 
     }
     IEnumerator ropePull()
     {
         yield return new WaitForSeconds(projectileTime);
-        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 20);
+        running = false;
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 160);
         //theGolem.throwing = true;
         theGolem.moveSpeed = 0;
         yield return new WaitForSeconds(.55f);
@@ -144,10 +147,11 @@ public class ProjectileHardTwo : MonoBehaviour
     {
         arrow.SetActive(true);
         arrow.transform.position = this.transform.position;
-        trail.GetComponent<TrailRenderer>().time = 3000;
         theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;
-        theArrow[0].generateLine = true;
+        lineRenderer.GetComponent<LineRenderer>().enabled = true;
         arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo + 0.08f);
+        theArrow[0].generateLine = true;
+        trail.GetComponent<TrailRenderer>().time = 3000;
         /*if (ProjSimulationManager.playerAnswer < correctAnswer)
         {
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer);
@@ -190,4 +194,9 @@ public class ProjectileHardTwo : MonoBehaviour
         camFollow = false;
 
     }
+    public void reShoot()
+    {
+        puller.GetComponent<Rigidbody2D>().velocity = transform.right * 10;
+    }
+
 }

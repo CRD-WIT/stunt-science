@@ -9,7 +9,7 @@ public class golem : MonoBehaviour
     private Animator myAnimator;
     public ProjSimulationManager theSimulate;
     public bool throwing, damage, standUp;
-    public GameObject hpBar, head, hpBarParent;
+    public GameObject hpBar, head, hpBarParent, smallBlast;
     public float fullHp, currentHp;
     public bool reduceHp;
     // Start is called before the first frame update
@@ -50,5 +50,6 @@ public class golem : MonoBehaviour
         reduceHp = true;
         yield return new WaitForSeconds(3.33f);
         reduceHp = false;
+        smallBlast.SetActive(false);
     }
 }

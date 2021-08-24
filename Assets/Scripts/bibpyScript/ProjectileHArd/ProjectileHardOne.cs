@@ -136,7 +136,7 @@ public class ProjectileHardOne : MonoBehaviour
                         vi += .08f;
                         theQuestion.answerIsCorrect = true;
                         actiontxt.text = ("next");
-                        Shoot();
+                        StartCoroutine(ropePull());
                         answerIsCorrect = true;
                         deflector.GetComponent<Collider2D>().isTrigger = true;
                         
@@ -223,7 +223,7 @@ public class ProjectileHardOne : MonoBehaviour
         boulder.SetActive(false);
         //theGolem.throwing = false;
         //theBoulder.boulderThrow();
-        puller.GetComponent<Rigidbody2D>().velocity = transform.right * 30;
+        puller.GetComponent<Rigidbody2D>().velocity = transform.right * 32;
         thePlayer.airdive = true;
         thePlayer.aim = false;
         StartCoroutine(StuntResult());
@@ -238,10 +238,7 @@ public class ProjectileHardOne : MonoBehaviour
         theGolem.throwing = false;
         theBoulder.boulderThrow();
     }
-    public void Shoot()
-    {
-        StartCoroutine(ropePull());
-    }
+
     public void reShoot()
     {
         puller.GetComponent<Rigidbody2D>().velocity = transform.right * 10;

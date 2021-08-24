@@ -732,6 +732,7 @@ MonoBehaviour:
   hpBar: {fileID: 1747026489}
   head: {fileID: 7060519545009299907}
   hpBarParent: {fileID: 1953811670}
+  smallBlast: {fileID: 3617344803316937322}
   fullHp: 0
   currentHp: 0
   reduceHp: 0
@@ -843,7 +844,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 248170883}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.38, y: 6.54, z: 0}
+  m_LocalPosition: {x: -4.9, y: 7.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1.4285713}
   m_Children: []
   m_Father: {fileID: 4227787531394649433}
@@ -963,6 +964,14 @@ PrefabInstance:
     - target: {fileID: 7911532744746674312, guid: fbf1ea0df1978844b9ac15aebd4ba8d9, type: 3}
       propertyPath: m_fontSize
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911532744746674312, guid: fbf1ea0df1978844b9ac15aebd4ba8d9, type: 3}
+      propertyPath: m_margin.x
+      value: 6.889271
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911532744746674312, guid: fbf1ea0df1978844b9ac15aebd4ba8d9, type: 3}
+      propertyPath: m_margin.z
+      value: 7.877825
       objectReference: {fileID: 0}
     - target: {fileID: 7911532744746674312, guid: fbf1ea0df1978844b9ac15aebd4ba8d9, type: 3}
       propertyPath: m_fontSizeBase
@@ -9527,7 +9536,7 @@ MonoBehaviour:
   blastPrefab: {fileID: 2570174218345609233, guid: a3f5dad868cff1f4095ea694c6a0d801, type: 3}
   deflector: {fileID: 1635459837}
   trail: {fileID: 3777009468509131364}
-  lineAngle: {fileID: 2059658154}
+  lineRenderer: {fileID: 2949856901187905787}
   lineDistance: {fileID: 862417442}
   boulder: {fileID: 1314206379}
   angleArrow: {fileID: 343593405}
@@ -22270,7 +22279,9 @@ MonoBehaviour:
   sword: {fileID: 23673828}
   arrow: {fileID: 2949856901187905787}
   theManagerOne: {fileID: 398461496}
+  theManagerTwo: {fileID: 1137101480}
   grounded: 0
+  theSimulate: {fileID: 361871446}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -24523,7 +24534,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 2
+    type: 17
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -28609,13 +28620,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3617344803316937322}
-  m_LocalRotation: {x: -0.27344638, y: -0.65209436, z: 0.6520944, w: 0.2734464}
+  m_LocalRotation: {x: 0.055846624, y: -0.70489806, z: 0.704898, w: -0.055846326}
   m_LocalPosition: {x: -0.62, y: -0.11, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1505961067}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 44.5, y: 270, z: -270}
+  m_LocalEulerAnglesHint: {x: 99.06, y: 270, z: -270}
 --- !u!1 &3617344803316937322
 GameObject:
   m_ObjectHideFlags: 0
@@ -28655,7 +28666,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
