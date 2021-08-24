@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class AccManagerOne : MonoBehaviour
 {
+    string stuntResultMessage;
+    bool answerIsCorrect;
     public TMP_Text debugAnswer;
     public float Vi;
     public float Vf;
@@ -54,7 +56,6 @@ public class AccManagerOne : MonoBehaviour
         generateProblem();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         debugAnswer.SetText($"Answer: {correctAns}");
@@ -80,7 +81,7 @@ public class AccManagerOne : MonoBehaviour
             {
                 tooSlow = false;
                 theBike.moveSpeed = 0;
-                StartCoroutine(StuntResult());
+                StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                 theHeart.losinglife();
             }
         }
@@ -88,7 +89,7 @@ public class AccManagerOne : MonoBehaviour
         if (accSimulation.simulate)
         {
             directionArrow.SetActive(false);
-            timertxt.text = timer.ToString("F2") + ("s");
+            theQuestion.timer = timer.ToString("F2") + ("s");
             accelaration = accSimulation.playerAnswer;
             Acctxt.text = ("a = ") + accelaration.ToString("F2") + ("m/s²");
             Vitxt.text = ("v = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
@@ -111,18 +112,15 @@ public class AccManagerOne : MonoBehaviour
 
                 if (accSimulation.playerAnswer > correctAns)
                 {
-                   //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
+                    theQuestion.ActivateResult($"{PlayerPrefs.GetString("Name")} accelerated the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F1")} m/s².", false);
                 }
                 
 
             }
             if (accelaration == correctAns)
-            {
-                actiontxt.text = "Next";
-                theQuestion.answerIsCorrect = true;
-                //theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> m/s². ")+PlayerPrefs.GetString("Name") + " was able to enter tunnel succesfully!</color>");
-                //theQuestion.SetModalTitle("Stunt Success");
-
+            {                                           
+                stuntResultMessage = $"The correct answer is <b> {correctAns.ToString("F2")}</b> m/s². {PlayerPrefs.GetString("Name")} was able to enter tunnel succesfully!</color>";
+                answerIsCorrect = true;
             }
             if (gas)
             {
@@ -135,7 +133,7 @@ public class AccManagerOne : MonoBehaviour
                 timertxt.text = time.ToString("F2") + ("s");
                 if (accelaration == correctAns)
                 {
-                    StartCoroutine(StuntResult());
+                    StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                     playerVf = 15;
                     Acctxt.color = new Color32(10, 103, 0, 255);
                 }
@@ -148,25 +146,22 @@ public class AccManagerOne : MonoBehaviour
                         tooSlow = true;
                     }
                     if (currentPos < 38)
-                    {
-                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and not able to cross tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
+                    {                                            
+                        stuntResultMessage = $"{PlayerPrefs.GetString("Name")} accelerated the motorcycle too slow and not able to cross tunnel entrance. The correct answer is </color> {correctAns.ToString("F1")} m/s².";
+                        answerIsCorrect = false;
                     }
                     if (currentPos >= 38)
                     {
-                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F1") + "m/s².");
+                        stuntResultMessage = $"{PlayerPrefs.GetString("Name")} accelerated the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F1")} m/s².";
+                        answerIsCorrect = false;
                     }
 
                 }
                 Vitxt.text = ("v = ") + playerVf.ToString("F2") + ("m/s");
-
-
             }
 
 
         }
-
-
-
 
     }
     public void generateProblem()
@@ -187,16 +182,14 @@ public class AccManagerOne : MonoBehaviour
 
 
     }
-    IEnumerator StuntResult()
-    {
-
-        
+    IEnumerator StuntResult(string message, bool isCorrect)
+    {        
         yield return new WaitForSeconds(3);
         StartCoroutine(theSimulation.DirectorsCall());
         walls.SetActive(false);
         accSimulation.simulate = false;
         theBike.moveSpeed = 0;
-        //theQuestion.ToggleModal();
+        theQuestion.ActivateResult(message, isCorrect);
     }
 
 

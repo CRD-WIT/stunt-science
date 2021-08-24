@@ -15,7 +15,6 @@ public class QuestionControllerB : MonoBehaviour
     public Difficulty levelDifficulty;
     public int levelNumber, stage;
     public string modalTitle, question, timer;
-
     public string levelName;
     public TextColorMode colorMode;
     public Settings settingUI;
@@ -166,7 +165,8 @@ public class QuestionControllerB : MonoBehaviour
         answerFieldHorizontal.characterLimit = splitted[0].Length + 3;        
     }
     public void SetAnswer()
-    {
+    {        
+        Debug.Log(playerAnswer);
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
@@ -409,7 +409,7 @@ public class QuestionControllerB : MonoBehaviour
 
         extraComponent.gameObject.SetActive(timerOn || popupVisible);
         playButtonHorizontal.SetActive(!timerOn);
-        // timerComponentHorizontal.gameObject.SetActive(timerOn);
+        //timerComponentHorizontal.gameObject.SetActive(timerOn);
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
 
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
