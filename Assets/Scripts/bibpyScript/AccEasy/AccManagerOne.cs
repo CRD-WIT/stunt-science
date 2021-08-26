@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class AccManagerOne : MonoBehaviour
 {
@@ -86,7 +84,7 @@ public class AccManagerOne : MonoBehaviour
             }
         }
 
-        if (accSimulation.simulate)
+        if (theQuestion.isSimulating)
         {
             directionArrow.SetActive(false);
             theQuestion.timer = timer.ToString("F2") + ("s");
@@ -129,7 +127,7 @@ public class AccManagerOne : MonoBehaviour
             timer += Time.fixedDeltaTime;
             if (timer >= time)
             {
-                accSimulation.simulate = false;
+                theQuestion.isSimulating = false;                
                 timertxt.text = time.ToString("F2") + ("s");
                 if (accelaration == correctAns)
                 {
@@ -187,7 +185,7 @@ public class AccManagerOne : MonoBehaviour
         yield return new WaitForSeconds(3);
         StartCoroutine(theSimulation.DirectorsCall());
         walls.SetActive(false);
-        accSimulation.simulate = false;
+        theQuestion.isSimulating = false;        
         theBike.moveSpeed = 0;
         theQuestion.ActivateResult(message, isCorrect);
     }

@@ -88,7 +88,7 @@ public class AccManagerThree : MonoBehaviour
             vitxt.text = ("vi = ")+ Vi.ToString("F2")+("m/s");
         }
 
-        if (accSimulation.simulate)
+        if (theQuestion.isSimulating)
         {
             gas = true;
 
@@ -100,7 +100,7 @@ public class AccManagerThree : MonoBehaviour
                 if (timer >= time)
                 {
                     theBike.moveSpeed = 0;
-                    accSimulation.simulate = false;
+                    theQuestion.isSimulating = true;                    
                     StartCoroutine(truckWillGo());
                 }
                 walls.SetActive(true);
@@ -141,7 +141,7 @@ public class AccManagerThree : MonoBehaviour
                     {
                         theBike.moveSpeed = 0;
                         //StartCoroutine(StuntResult());
-                        accSimulation.simulate = false;
+                        theQuestion.isSimulating = false;                        
                         vitxt.color = new Color32(10,103,0,255);
                         StartCoroutine(truckWillGo());
                     }

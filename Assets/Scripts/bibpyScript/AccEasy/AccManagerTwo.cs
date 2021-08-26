@@ -91,7 +91,7 @@ public class AccManagerTwo : MonoBehaviour
             theBike.moveSpeed = Vi;
         }
 
-        if (accSimulation.simulate)
+        if (theQuestion.isSimulating)
         {
             directionArrow.SetActive(false);
             gas = true;
@@ -179,7 +179,7 @@ public class AccManagerTwo : MonoBehaviour
             if (currentPos > 32)
             {
                 theBike.moveSpeed = theBike.myRigidbody.velocity.x;
-                accSimulation.simulate = false;
+                theQuestion.isSimulating = false;
                 //theBike.moveSpeed = theBike.myRigidbody.velocity.x;
                 if (time == correctAns)
                 {

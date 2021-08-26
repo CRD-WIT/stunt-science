@@ -14,7 +14,6 @@ public class accSimulation : MonoBehaviour
     public static string question;
     public TMP_Text diretorsSpeech;
     public static float playerAnswer;
-    public static bool simulate;
     public static bool playerDead;
     public int stage;
     public Quaternion startRotation;
@@ -42,13 +41,15 @@ public class accSimulation : MonoBehaviour
     public GameObject stage2Manager;
     public GameObject stage2Ground;
 
+    public GameObject transitionCanvas;
+
 
     public GameObject stage3Manager;
     public GameObject stage3Ground;
 
     void Start()
     {
-        simulate = false;
+        theQuestion.isSimulating = false;
         //accelaration = "accelaration";
         theBike = FindObjectOfType<BikeManager>();
         //stage = 1;
@@ -113,8 +114,7 @@ public class accSimulation : MonoBehaviour
                 StartCoroutine(errorMesage());
             }
             else
-            {
-                theQuestion.isSimulating = true;
+            {               
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -171,6 +171,7 @@ public class accSimulation : MonoBehaviour
     }
     public void next()
     {
+        transitionCanvas.SetActive(true);
         StartCoroutine(entrance());
     }
     public IEnumerator DirectorsCall()
@@ -189,7 +190,7 @@ public class accSimulation : MonoBehaviour
             yield return new WaitForSeconds(1f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
-            simulate = true;
+            theQuestion.isSimulating = true;
             directorIsCalling = false;
         }
         else
@@ -203,13 +204,13 @@ public class accSimulation : MonoBehaviour
         }
     }
     IEnumerator entrance()
-    {
+    {        
         StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1);
         StartCoroutine(theHeart.endBGgone());
         theQuestion.isSimulating = false;
         answerField.text = ("");
-        playButton.interactable = true;
+        // playButton.interactable = true;
         theQuestion.answerIsCorrect = false;
         if (stage == 1)
         {
@@ -234,6 +235,9 @@ public class accSimulation : MonoBehaviour
             //director.transform.position = new Vector2(1.1f, 4.98f);
 
         }
+
+        theQuestion.isModalOpen = false;
+        transitionCanvas.SetActive(false);
     }
     IEnumerator exit()
     {
@@ -283,6 +287,8 @@ public class accSimulation : MonoBehaviour
 
         }
 
+        theQuestion.isModalOpen = false;
+
     }
     public IEnumerator errorMesage()
     {
@@ -293,7 +299,6 @@ public class accSimulation : MonoBehaviour
 
     public void action()
     {
-        // theQuestion.ToggleModal();
         if (theQuestion.answerIsCorrect == false)
         {
             retry();

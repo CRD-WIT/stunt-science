@@ -184,7 +184,7 @@ public class QuestionControllerB : MonoBehaviour
             else
             {
                 timerOn = true;
-                isSimulating = true;
+                //isSimulating = true;
             }
         }
         extraOn = true;
