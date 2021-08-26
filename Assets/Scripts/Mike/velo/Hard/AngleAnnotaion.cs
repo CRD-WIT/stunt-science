@@ -11,6 +11,7 @@ public class AngleAnnotaion : MonoBehaviour
     public float startingAngle, arc, legA, legB, legC, hypotenuse, fontSize = 4, angleLabelOffset;
     int arcPnts;
     bool hideAngle = false, hideSideA = false, hideSideB = false, hideSideC = false;
+    // public Vector2 spawnPnt;
     [SerializeField] TMP_Text[] labelTxt;
     [SerializeField] LineRenderer[] lines;
     QuestionControllerVThree qc;

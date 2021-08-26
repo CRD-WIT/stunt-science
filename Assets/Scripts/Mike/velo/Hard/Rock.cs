@@ -7,6 +7,7 @@ public class Rock : MonoBehaviour
 
     public bool? hit;
     float throwVeloX, throwVeloY;
+    bool destroyer;
     HardManager hardManager;
     // Start is called before the first frame update
     void Start()
@@ -18,11 +19,11 @@ public class Rock : MonoBehaviour
     void Update()
     {
         this.GetComponent<Rigidbody2D>().velocity = new Vector2(throwVeloX, throwVeloY);
-        if (hardManager.destroyStone)
+        if (destroyer)
         {
             StartCoroutine(DestroyObj());
         }
-        Debug.Log("Destroyed "+hardManager.destroyStone);
+        // Debug.Log("Destroyed "+hardManager.destroyStone);
     }
     public void SetVelocity(float t, float x, float y)
     {
@@ -43,14 +44,14 @@ public class Rock : MonoBehaviour
         else if (other.gameObject.tag == "gem")
         {
             hit = true;
-            hardManager.destroyStone = true;
         }
+        destroyer =true;
     }
     IEnumerator DestroyObj()
-    {
+    {Debug.Log("destroyed");
         yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
         yield return new WaitForEndOfFrame();
-        hardManager.destroyStone = false;
+        destroyer = false;
     }
 }
