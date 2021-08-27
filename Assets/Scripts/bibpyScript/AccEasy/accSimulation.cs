@@ -117,7 +117,7 @@ public class accSimulation : MonoBehaviour
             {               
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
-                playButton.interactable = false;
+                //playButton.interactable = false;
                 {
                     answerField.text = playerAnswer.ToString() + "m/s²";
                 }
@@ -136,7 +136,7 @@ public class accSimulation : MonoBehaviour
                 theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
-                playButton.interactable = false;
+                //playButton.interactable = false;
                 {
                     answerField.text = playerAnswer.ToString() + "sec";
                 }
@@ -155,7 +155,7 @@ public class accSimulation : MonoBehaviour
                 theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
-                playButton.interactable = false;
+               // playButton.interactable = false;
                 {
                     answerField.text = playerAnswer.ToString() + "m/s²";
                 }
@@ -241,18 +241,18 @@ public class accSimulation : MonoBehaviour
     }
     IEnumerator exit()
     {
-        StartCoroutine(theHeart.endBGgone());
+        // StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1.2f);
-        theQuestion.answerIsCorrect = false;
-        theQuestion.isSimulating = false;
+        // theQuestion.answerIsCorrect = false;
+        // theQuestion.isSimulating = false;
         theBike.transform.rotation = startRotation;
         theBike.moveSpeed = 0;
         driver.SetActive(true);
         theBike.stopBackward = false;
         theBike.stopForward = false;
-        playButton.interactable = true;
-        playerAnswer = 0;
-        answerField.text = ("");
+        //playButton.interactable = true;
+        // playerAnswer = 0;
+        // answerField.text = ("");
         player.transform.position = playerstartPos;
         if (theBike.collided == true)
         {

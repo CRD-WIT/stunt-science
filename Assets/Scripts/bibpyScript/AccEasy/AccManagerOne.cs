@@ -189,6 +189,4 @@ public class AccManagerOne : MonoBehaviour
         theBike.moveSpeed = 0;
         theQuestion.ActivateResult(message, isCorrect);
     }
-
-
 }

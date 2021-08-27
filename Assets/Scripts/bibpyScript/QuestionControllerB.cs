@@ -13,6 +13,7 @@ public class QuestionControllerB : MonoBehaviour
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
     public Difficulty levelDifficulty;
+    public accSimulation simulationManager;
     public int levelNumber, stage;
     public string modalTitle, question, timer;
     public string levelName;
@@ -191,6 +192,7 @@ public class QuestionControllerB : MonoBehaviour
     }
     public void Next()
     {
+        simulationManager.next();
         if (stage == 1)
         {
             stage = 2;

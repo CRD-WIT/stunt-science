@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class AccManagerTwo : MonoBehaviour
 {
-
+    string stuntResultMessage;
     public float Vi;
     public float Vf;
     public float timer;
@@ -30,6 +30,7 @@ public class AccManagerTwo : MonoBehaviour
     private HeartManager theHeart;
     private Vector2 bikeInitialStartPos;
     public QuestionControllerB theQuestion;
+    public TMP_Text debugAnswer;
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +60,7 @@ public class AccManagerTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        debugAnswer.SetText($"Answer: {correctAns}");
         Vftxt.text = ("Vf = ") + Vf.ToString("F2") + ("m/s");
         playerVf = (-deacceleration * accSimulation.playerAnswer) + Vi;
         currentPos = theBike.transform.position.x;
@@ -113,19 +114,18 @@ public class AccManagerTwo : MonoBehaviour
                 }
                 if (time < correctAns)
                 {
-                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " deaccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
+                    stuntResultMessage = $"{PlayerPrefs.GetString("Name")} deaccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F2")} seconds.";                    
                 }
                 if (time > correctAns)
                 {
-                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " deaccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color>" + correctAns.ToString("F2") + "seconds.");
+                    stuntResultMessage = $"{PlayerPrefs.GetString("Name")} deccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F2")} seconds.";                    
                 }
             }
             if (time == correctAns)
             {
                 actiontxt.text = "Next";
                 theQuestion.answerIsCorrect = true;
-                //theQuestion.SetModalTitle("Stunt Success");
-                //theQuestion.SetModalText(("The correct answer is <b>") + correctAns.ToString("F2") + ("</b> seconds. ")+ PlayerPrefs.GetString("Name") + " was able to enter tunnel succesfully!</color>");
+                stuntResultMessage = $"The correct answer is <b> {correctAns.ToString("F2")} </b> seconds. {PlayerPrefs.GetString("Name")} was able to enter tunnel succesfully!</color>";              
 
 
             }
@@ -183,17 +183,12 @@ public class AccManagerTwo : MonoBehaviour
                 //theBike.moveSpeed = theBike.myRigidbody.velocity.x;
                 if (time == correctAns)
                 {
-                    StartCoroutine(StuntResult());
+                    //TODO: Log current answer
+                    //StartCoroutine(StuntResult());
                 }
-
             }
-
-
+            Debug.Log($"Current Pos: {currentPos}");
         }
-
-
-
-
     }
     public void generateProblem()
     {
@@ -212,12 +207,13 @@ public class AccManagerTwo : MonoBehaviour
         timertxt.text = timer.ToString("F2") + ("s");
         directionArrow.SetActive(true);
     }
-    IEnumerator StuntResult()
+    IEnumerator StuntResult(string message, bool isCorrect)
     {
         yield return new WaitForSeconds(2);
         StartCoroutine(theSimulation.DirectorsCall());
         yield return new WaitForSeconds(2);
         //theQuestion.ToggleModal();
+        theQuestion.ActivateResult(message, isCorrect);
         walls.SetActive(false);
         theBike.moveSpeed = 0;
     }
