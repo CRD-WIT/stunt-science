@@ -114,7 +114,7 @@ public class AccManagerTwo : MonoBehaviour
                 }
                 if (time < correctAns)
                 {
-                    stuntResultMessage = $"{PlayerPrefs.GetString("Name")} deaccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F2")} seconds.";                    
+                    stuntResultMessage = $"{PlayerPrefs.GetString("Name")} deccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F2")} seconds.";                    
                 }
                 if (time > correctAns)
                 {
