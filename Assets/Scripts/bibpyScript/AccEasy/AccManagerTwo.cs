@@ -14,6 +14,7 @@ public class AccManagerTwo : MonoBehaviour
     float generateAcceleration;
     public float deacceleration;
     private PlayerB thePlayer;
+    bool answerIsCorrect;
     private accSimulation theSimulation;
     private BikeManager theBike;
     public bool gas, follow;
@@ -35,7 +36,6 @@ public class AccManagerTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //theQuestion.stageNumber = 2;
         cam.transform.position = new Vector3(17.5f, cam.transform.position.y, cam.transform.position.z);
         thePlayer = FindObjectOfType<PlayerB>();
         theBike = FindObjectOfType<BikeManager>();
@@ -62,19 +62,18 @@ public class AccManagerTwo : MonoBehaviour
     {
         debugAnswer.SetText($"Answer: {correctAns}");
         Vftxt.text = ("Vf = ") + Vf.ToString("F2") + ("m/s");
-        playerVf = (-deacceleration * accSimulation.playerAnswer) + Vi;
+        playerVf = (-deacceleration * theQuestion.GetPlayerAnswer()) + Vi;
         currentPos = theBike.transform.position.x;
         if (theBike.brake == true)
-        {
-            
-            if(timer <= accSimulation.playerAnswer)
+        {            
+            if(timer <= theQuestion.GetPlayerAnswer())
             {
                 timer += Time.fixedDeltaTime;
                 timertxt.text = timer.ToString("F2") + ("s");
             }
-            if(timer >= accSimulation.playerAnswer)
+            if(timer >= theQuestion.GetPlayerAnswer())
             {
-                timertxt.text = accSimulation.playerAnswer.ToString("F2") + ("s");
+                timertxt.text = theQuestion.GetPlayerAnswer().ToString("F2") + ("s");
             }
         }
         if (follow)
@@ -84,7 +83,6 @@ public class AccManagerTwo : MonoBehaviour
         if (currentPos >= 28)
         {
             follow = false;
-
         }
 
         if (gas)
@@ -94,12 +92,14 @@ public class AccManagerTwo : MonoBehaviour
 
         if (theQuestion.isSimulating)
         {
+            Debug.Log("Now simulating...");
             directionArrow.SetActive(false);
             gas = true;
-            time = accSimulation.playerAnswer;
+            time = theQuestion.GetPlayerAnswer();
             if (time != correctAns)
             {
-                actiontxt.text = "retry";
+                // actiontxt.text = "retry";
+                answerIsCorrect = false;
                 walls.SetActive(true);
                 accSimulation.playerDead = true;
                 //theQuestion.SetModalTitle("Stunt failed");
@@ -123,10 +123,9 @@ public class AccManagerTwo : MonoBehaviour
             }
             if (time == correctAns)
             {
-                actiontxt.text = "Next";
-                theQuestion.answerIsCorrect = true;
+                actiontxt.text = "Next";                
                 stuntResultMessage = $"The correct answer is <b> {correctAns.ToString("F2")} </b> seconds. {PlayerPrefs.GetString("Name")} was able to enter tunnel succesfully!</color>";              
-
+                answerIsCorrect = true;
 
             }
             if (theBike.brake == true)
@@ -183,8 +182,7 @@ public class AccManagerTwo : MonoBehaviour
                 //theBike.moveSpeed = theBike.myRigidbody.velocity.x;
                 if (time == correctAns)
                 {
-                    //TODO: Log current answer
-                    //StartCoroutine(StuntResult());
+                    StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                 }
             }
             Debug.Log($"Current Pos: {currentPos}");
@@ -212,7 +210,6 @@ public class AccManagerTwo : MonoBehaviour
         yield return new WaitForSeconds(2);
         StartCoroutine(theSimulation.DirectorsCall());
         yield return new WaitForSeconds(2);
-        //theQuestion.ToggleModal();
         theQuestion.ActivateResult(message, isCorrect);
         walls.SetActive(false);
         theBike.moveSpeed = 0;

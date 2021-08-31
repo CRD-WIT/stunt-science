@@ -92,10 +92,8 @@ public class BikeManager : MonoBehaviour
 
     public void driverspawn()
     {
-
-        GameObject stick = Instantiate(stickprefab);
-        stick.transform.position = stickmanpoint.transform.position;
-        stick.transform.rotation = stickmanpoint.transform.rotation;
+        GameObject stick = Instantiate(stickprefab, stickmanpoint.transform.position, stickmanpoint.transform.rotation);
+        Debug.Log("Driver spawned...");
     }
     IEnumerator StuntResult()
     {

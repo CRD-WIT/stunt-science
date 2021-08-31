@@ -146,9 +146,10 @@ public class QuestionControllerB : MonoBehaviour
             actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
             modalTitle = "Stunt Failed!";
             modalText = message;
-            SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
+            SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);            
         }
         actionBtn.interactable = true;
+        isSimulating = false;
     }
     public void SetQuestion(string qstn)
     {
@@ -169,7 +170,6 @@ public class QuestionControllerB : MonoBehaviour
     }
     public void SetAnswer()
     {        
-        Debug.Log(playerAnswer);
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
@@ -180,7 +180,7 @@ public class QuestionControllerB : MonoBehaviour
             answerFieldHorizontal.text = playerAnswer + answerUnit;
             if (limit <= playerAnswer)
             {
-                StartCoroutine(IsEmpty());
+                //StartCoroutine(IsEmpty());
             }
             else
             {

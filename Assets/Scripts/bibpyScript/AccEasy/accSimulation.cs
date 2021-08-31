@@ -24,7 +24,7 @@ public class accSimulation : MonoBehaviour
     bool directorIsCalling;
     public GameObject directorBubble;
 
-    private ragdollScript theRagdoll;
+    public ragdollScript theRagdoll;
     Vector2 playerstartPos;
     public QuestionControllerB theQuestion;
     public HeartManager theHeart;
@@ -64,7 +64,6 @@ public class accSimulation : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        theRagdoll = FindObjectOfType<ragdollScript>();
         switch (stage)
         {
             case 1:
@@ -132,8 +131,7 @@ public class accSimulation : MonoBehaviour
                 theQuestion.errorText = ("Please enter a valid answer!");
             }
             else
-            {
-                theQuestion.isSimulating = true;
+            {        
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 //playButton.interactable = false;
@@ -152,7 +150,7 @@ public class accSimulation : MonoBehaviour
             }
             else
             {
-                theQuestion.isSimulating = true;
+                //theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                // playButton.interactable = false;
@@ -171,8 +169,11 @@ public class accSimulation : MonoBehaviour
     }
     public void next()
     {
-        transitionCanvas.SetActive(true);
-        StartCoroutine(entrance());
+        if(stage!=3){
+            transitionCanvas.SetActive(true);
+            StartCoroutine(entrance());
+        }
+        
     }
     public IEnumerator DirectorsCall()
     {
@@ -205,9 +206,9 @@ public class accSimulation : MonoBehaviour
     }
     IEnumerator entrance()
     {        
-        StartCoroutine(theHeart.endBGgone());
-        yield return new WaitForSeconds(1);
-        StartCoroutine(theHeart.endBGgone());
+        ///StartCoroutine(theHeart.endBGgone());
+       yield return new WaitForSeconds(1);
+       // StartCoroutine(theHeart.endBGgone());
         theQuestion.isSimulating = false;
         answerField.text = ("");
         // playButton.interactable = true;
