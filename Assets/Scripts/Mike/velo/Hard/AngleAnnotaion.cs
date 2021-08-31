@@ -7,7 +7,7 @@ using TMPro;
 public class AngleAnnotaion : MonoBehaviour
 {
     TextColorMode lineColor;
-    float angle, x, y, xSL, ySL;
+    float angle, x, y, xSL, ySL, angle1, x1, y1, xSL1, ySL1;
     public float startingAngle, angleA, angleB, angleC, legA, legB, legC, hypotenuse, fontSize = 4, angleLabelOffset;
     int arcPntsA, arcPntsB, arcPntsC;
     bool hideAngle = false, hideSideA = false, hideSideB = false, hideSideC = false;
@@ -26,7 +26,8 @@ public class AngleAnnotaion : MonoBehaviour
         lines[1].positionCount = 3;
         lineColor = TextColorMode.Given;
     }
-    public void SetSpawnPnt(Vector2 sp){
+    public void SetSpawnPnt(Vector2 sp)
+    {
         spawnPnt = sp;
     }
 
@@ -73,55 +74,60 @@ public class AngleAnnotaion : MonoBehaviour
         }
 
     }
-    void AngleB(){
+    void AngleB()
+    {
         float actualAngle = Mathf.Abs(angleB % 360);
         if ((angleB == 90) || (angleB == -90))
         {
-            lines[0].positionCount = 3;
+            lines[2].positionCount = 3;
             arcPntsB = 2;
-            labelTxt[0].transform.position = new Vector2(this.transform.position.x + lines[0].GetPosition(1).x + angleLabelOffset, this.transform.position.y + lines[0].GetPosition(1).y + angleLabelOffset);
-            legC = Mathf.Sqrt((legA * legA) + (legB * legB));
-            hypotenuse = legC;
+            labelTxt[0].transform.position = new Vector2(this.transform.position.x + lines[2].GetPosition(1).x + angleLabelOffset, this.transform.position.y + lines[2].GetPosition(1).y + angleLabelOffset);
+            // legC = Mathf.Sqrt((legA * legA) + (legB * legB));
+            // hypotenuse = legC;
         }
         else
         {
-            if (actualAngle == 270)
-            {
-                legC = Mathf.Sqrt((legA * legA) + (legB * legB));
-                hypotenuse = legC;
-            }
-            else
-            {
-                legC = Mathf.Sqrt((legA * legA) + (legB * legB) - (2 * legA * legB * Mathf.Cos(angleB * Mathf.Deg2Rad)));
-                if (legA > legB)
-                {
-                    if (legA > legC)
-                        hypotenuse = legA;
-                    else
-                        hypotenuse = legC;
-                }
-                else
-                {
-                    if (legB > legC)
-                        hypotenuse = legB;
-                    else
-                        hypotenuse = legC;
-                }
-            }
-            lines[0].positionCount = 61;
+            // if (actualAngle == 270)
+            // {
+            //     legC = Mathf.Sqrt((legA * legA) + (legB * legB));
+            //     hypotenuse = legC;
+            // }
+            // else
+            // {
+            //     legC = Mathf.Sqrt((legA * legA) + (legB * legB) - (2 * legA * legB * Mathf.Cos(angleB * Mathf.Deg2Rad)));
+            //     if (legA > legB)
+            //     {
+            //         if (legA > legC)
+            //             hypotenuse = legA;
+            //         else
+            //             hypotenuse = legC;
+            //     }
+            //     else
+            //     {
+            //         if (legB > legC)
+            //             hypotenuse = legB;
+            //         else
+            //             hypotenuse = legC;
+            //     }
+            // }
+            lines[2].positionCount = 61;
             arcPntsB = 60;
-            labelTxt[0].transform.position = new Vector2(this.transform.position.x + lines[0].GetPosition(30).x + angleLabelOffset, this.transform.position.y + lines[0].GetPosition(30).y + angleLabelOffset);
+            // labelTxt[0].transform.position = new Vector2(this.transform.position.x + lines[2].GetPosition(30).x + angleLabelOffset, this.transform.position.y + lines[2].GetPosition(30).y + angleLabelOffset);
         }
     }
-    void AngleC(){
+    void AngleC()
+    {
 
     }
-    void Update() {
+    void Update()
+    {
         this.gameObject.transform.position = spawnPnt;
+        angleC = Mathf.Acos(((legB*legB)-(legC*legC)-(legA*legA))/(-2*legC*legA)) * Mathf.Rad2Deg;
+        angleB = 180 - angleC - angleA;
         AngleA();
-        // AngleB();
-        
+        AngleB();
         lines[1].SetPosition(1, new Vector2(0, 0));
+        lines[2].transform.position = new Vector2(lines[1].GetPosition(2).x, lines[1].GetPosition(2).y);
         CreatePoints();
         foreach (var item in labelTxt)
         {
@@ -140,12 +146,14 @@ public class AngleAnnotaion : MonoBehaviour
     {
         lines[0].enabled = true;
         lines[1].enabled = true;
+        lines[2].enabled = true;
         angle = startingAngle;
+        angle1 = startingAngle-90;
         lines[1].SetPosition(0, new Vector2(legA * Mathf.Sin(startingAngle * Mathf.Deg2Rad), legA * Mathf.Cos(startingAngle * Mathf.Deg2Rad)));
         for (int i = 0; i <= arcPntsA; i++)
         {
-            x = Mathf.Sin(Mathf.Deg2Rad * angle) * 1f;
-            y = Mathf.Cos(Mathf.Deg2Rad * angle) * 1f;
+            x = Mathf.Sin(Mathf.Deg2Rad * angle);
+            y = Mathf.Cos(Mathf.Deg2Rad * angle);
             xSL = Mathf.Sin(Mathf.Deg2Rad * angle) * legB;
             ySL = Mathf.Cos(Mathf.Deg2Rad * angle) * legB;
 
@@ -161,30 +169,30 @@ public class AngleAnnotaion : MonoBehaviour
             {
                 lines[0].SetPosition(i, new Vector2(x, y));
             }
-            angle += ((float)System.Math.Round(angleA, 2) / arcPntsA);
+            angle += angleA / arcPntsA;
         }
+        // lines[1].SetPosition(0, new Vector2(legA * Mathf.Sin(startingAngle * Mathf.Deg2Rad), legA * Mathf.Cos(startingAngle * Mathf.Deg2Rad)));
+        for (int i = 0; i <= arcPntsB; i++)
+        {
+            x1 = (Mathf.Sin(Mathf.Deg2Rad * angle1) * 1f);
+            y1 = (Mathf.Cos(Mathf.Deg2Rad * angle1) * 1f);
+            xSL1 = Mathf.Sin(Mathf.Deg2Rad * angle1) * legC;
+            ySL1 = Mathf.Cos(Mathf.Deg2Rad * angle1) * legC;
 
-        // for (int i = 0; i <= arcPntsB; i++)
-        // {
-        //     x = Mathf.Sin(Mathf.Deg2Rad * angle) * (legB - 1f);
-        //     y = Mathf.Cos(Mathf.Deg2Rad * angle) * (legB + 1f);
-        //     xSL = Mathf.Sin(Mathf.Deg2Rad * angle) * legC;
-        //     ySL = Mathf.Cos(Mathf.Deg2Rad * angle) * legC;
+            // lines[1].SetPosition(2, new Vector2(xSL, ySL));
 
-        //     lines[1].SetPosition(2, new Vector2(xSL, ySL));
-
-        //     if ((angleB == 90) || (angleB == -90))
-        //     {
-        //         lines[2].SetPosition(0, new Vector2(1 * Mathf.Sin(startingAngle * Mathf.Deg2Rad), 1 * Mathf.Cos(startingAngle * Mathf.Deg2Rad)));
-        //         lines[2].SetPosition(1, new Vector2(x + Mathf.Sin(startingAngle * Mathf.Deg2Rad), y + Mathf.Cos(startingAngle * Mathf.Deg2Rad)));
-        //         lines[2].SetPosition(2, new Vector2(x, y));
-        //     }
-        //     else
-        //     {
-        //         lines[2].SetPosition(i, new Vector2(x, y));
-        //     }
-        //     angle += ((float)System.Math.Round(angleB, 2) / arcPntsB);
-        // }
+            if ((angleB == 90) || (angleB == -90))
+            {
+                lines[2].SetPosition(0, new Vector2(1 * Mathf.Sin(startingAngle * Mathf.Deg2Rad), 1 * Mathf.Cos(startingAngle* Mathf.Deg2Rad)));
+                lines[2].SetPosition(1, new Vector2(x1 + Mathf.Sin(startingAngle * Mathf.Deg2Rad), y1 + Mathf.Cos(startingAngle * Mathf.Deg2Rad)));
+                lines[2].SetPosition(2, new Vector2(x1, y1));
+            }
+            else
+            {
+                lines[2].SetPosition(i, new Vector2(x1, y1));
+            }
+            angle1 += angleB / arcPntsB;
+        }
 
         lines[0].startColor = qc.getHexColor(lineColor);
         lines[0].endColor = qc.getHexColor(lineColor);
@@ -192,8 +200,8 @@ public class AngleAnnotaion : MonoBehaviour
         lines[1].endColor = qc.getHexColor(lineColor);
         lines[2].startColor = qc.getHexColor(lineColor);
         lines[2].endColor = qc.getHexColor(lineColor);
-        lines[3].startColor = qc.getHexColor(lineColor);
-        lines[3].endColor = qc.getHexColor(lineColor);
+        // lines[3].startColor = qc.getHexColor(lineColor);
+        // lines[3].endColor = qc.getHexColor(lineColor);
 
         labelTxt[0].gameObject.SetActive(!hideAngle);
         labelTxt[1].gameObject.SetActive(!hideSideA);
