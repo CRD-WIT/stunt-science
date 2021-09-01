@@ -26,29 +26,20 @@ public class Settings : MonoBehaviour
     int level1MediumPoints;
     int level1HardPoints;
     bool level1Locked;
-
-
     int level2EasyPoints;
     int level2MediumPoints;
     int level2HardPoints;
     bool level2Locked;
-
-
     int level3EasyPoints;
     int level3MediumPoints;
     int level3HardPoints;
     bool level3Locked;
-
-
     int level4EasyPoints;
     int level4MediumPoints;
     int level4HardPoints;
     bool level4Locked;
     public Sprite[] soundButtonImages;
-
     public Image soundButtonImage;
-
-
     int level5EasyPoints;
     int level5MediumPoints;
     int level5HardPoints;
@@ -62,12 +53,19 @@ public class Settings : MonoBehaviour
     {
         LoadVolumes();
         settingsPanel.SetActive(settingsPanelIsOpen);
-        levelFinishedPanel.SetActive(leveFinishedIsOpen);
+        if (levelFinishedPanel)
+        {
+            levelFinishedPanel.SetActive(leveFinishedIsOpen);
+        }
         soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
         musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
         soundSlider.value = soundLevel;
         musicSlider.value = musicLevel;
-        versionCodeText.text = $"Version: {versionCode}";
+        if (versionCodeText)
+        {
+            versionCodeText.text = $"Version: {versionCode}";
+        }
+
     }
 
     public void GotoNextLevel(string LevelToUnlock)
@@ -82,13 +80,19 @@ public class Settings : MonoBehaviour
         SceneManager.LoadScene(scene.name);
     }
 
-
     // Update is called once per frame
     void Update()
     {
-        fps.text = $"Frame Rate: {(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()}f/s";
+        if (fps)
+        {
+            fps.text = $"Frame Rate: {(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()}f/s";
+        }
         settingsPanel.SetActive(settingsPanelIsOpen);
-        levelFinishedPanel.SetActive(leveFinishedIsOpen);
+        if (levelFinishedPanel)
+        {
+            levelFinishedPanel.SetActive(leveFinishedIsOpen);
+        }
+
         soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
         musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
         soundIconOff.SetActive(soundLevel == 0);
@@ -129,9 +133,12 @@ public class Settings : MonoBehaviour
 
     public void ToggleVolume()
     {
-        if(soundOn){
+        if (soundOn)
+        {
             soundLevel = 0;
-        }else{
+        }
+        else
+        {
             soundLevel = PlayerPrefs.GetFloat("SoundVolume");
         }
         soundOn = !soundOn;

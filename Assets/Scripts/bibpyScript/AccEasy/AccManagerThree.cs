@@ -217,6 +217,7 @@ public class AccManagerThree : MonoBehaviour
         if (Vi == correctAns)
         {
             theQuestion.ActivateResult(message, isCorrect, true);
+            
             // theScorer.finalstar();
             // if (theHeart.life > currentStar)
             // {

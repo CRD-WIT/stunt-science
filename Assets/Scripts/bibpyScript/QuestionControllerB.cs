@@ -84,7 +84,7 @@ public class QuestionControllerB : MonoBehaviour
             else
                 StartCoroutine(Retry());
             isModalOpen = false;
-            timerOn = false;
+            isSimulating = false;
         }
 
     }
@@ -178,15 +178,15 @@ public class QuestionControllerB : MonoBehaviour
         else
         {        
             answerFieldHorizontal.text = playerAnswer + answerUnit;
-            if (limit <= playerAnswer)
-            {
-                //StartCoroutine(IsEmpty());
-            }
-            else
-            {
-                timerOn = true;
-                //isSimulating = true;
-            }
+            // if (limit <= playerAnswer)
+            // {
+            //     //StartCoroutine(IsEmpty());
+            // }
+            // else
+            // {
+            //     timerOn = true;
+            //     //isSimulating = true;
+            // }
         }
         extraOn = true;
     }
@@ -410,8 +410,8 @@ public class QuestionControllerB : MonoBehaviour
         // playButtonHorizontal.SetActive(!isModalOpen);
         answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
 
-        extraComponent.gameObject.SetActive(timerOn || popupVisible);
-        playButtonHorizontal.SetActive(!timerOn);
+        extraComponent.gameObject.SetActive(isSimulating || popupVisible);
+        playButtonHorizontal.SetActive(!isSimulating);
         //timerComponentHorizontal.gameObject.SetActive(timerOn);
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
 
