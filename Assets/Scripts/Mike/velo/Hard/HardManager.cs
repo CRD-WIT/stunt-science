@@ -273,7 +273,7 @@ public class HardManager : MonoBehaviour
                 labels.SetSpawnPnt(bossHead.transform.position);
                 labels.angleA = angle;
                 labels.legB = bossDistance;
-                labels.HideValuesOf(false, false, true, true);
+                labels.HideValuesOf(false, true, true, false, true, true);
                 question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
             case 3:
@@ -313,7 +313,7 @@ public class HardManager : MonoBehaviour
                 labels.SetSpawnPnt(bossHead.transform.position);
                 labels.angleA = angle;
                 labels.legB = bossDistance;
-                labels.HideValuesOf(false, false, true, true);
+                labels.HideValuesOf(false, false, true, false, true, true);
                 question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
         }
