@@ -5,12 +5,12 @@ using GameConfig;
 
 public class HardManager : MonoBehaviour
 {
-    AngleAnnotaion labels;
+    AngleAnnotaion labels, triangleAnnotaion;
     IndicatorManagerV1_1 indicators;
     BossScript boss;
     Player myPlayer;
     QuestionControllerVThree qc;
-    public GameObject directorsBubble, bossHead, stonePrefab, bossAtk;
+    public GameObject directorsBubble, bossHead, stonePrefab, bossAtk, triangle;
     public TMP_Text directorsSpeech;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
         initialPlayerPos, sX, sY, sDist;
@@ -28,6 +28,7 @@ public class HardManager : MonoBehaviour
     {
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
         labels = FindObjectOfType<AngleAnnotaion>();
+        triangleAnnotaion = triangle.GetComponent<AngleAnnotaion>();
         boss = FindObjectOfType<BossScript>();
         myPlayer = FindObjectOfType<Player>();
         qc = FindObjectOfType<QuestionControllerVThree>();
@@ -277,30 +278,32 @@ public class HardManager : MonoBehaviour
                 question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
             case 3:
-                float angleC;
+                float angleC, xS, dT;
                 bossHead.transform.position = new Vector2(bossStartPos.x, bossStartPos.y - 6);
-                qc.limit = 25;
+                qc.limit = 40;
                 while (true)
                 {
-                    x = Random.Range(-10f, 10f);
-                    y = Random.Range(-2f, 6f);
-                    distance = Random.Range(18f, 23f);
+                    bossV = (float)System.Math.Round(Random.Range(4f, 5f), 2);
+                    x = Random.Range(5f, 10f);
+                    y = Random.Range(4f, 6f);
+                    xS = Random.Range(16f, 17f);
+                    dT = xS + x;
+                    distance = Mathf.Sqrt((dT * dT) + (y * y));
                     bossDistance = Mathf.Sqrt((x * x) + (y * y));
-                    stuntTime = bossDistance / bossV;//boss.SetVelocityOfTheHead(x, y, -bossV);
-                    stoneV = (distance + x) / stuntTime;
-                    angleC = Mathf.Abs(Mathf.Asin(x / bossDistance) * Mathf.Rad2Deg);
-                    angle = Mathf.Acos(x / bossDistance) * Mathf.Rad2Deg;
+                    stuntTime = bossDistance / bossV;
+                    stoneV = distance / stuntTime;
+                    angle = Mathf.Atan(x / y) * Mathf.Rad2Deg;
                     Debug.Log(stoneV);
-                    if ((stoneV < qc.limit) && ((angleC) == 270))
+                    if ((stoneV < qc.limit))// && (Mathf.Abs(x) > 5))//&&(Mathf.Abs(angleC)==90))//&&(Mathf.Abs(angle)==90))
                         break;
                 }
-                sY = y;
-                Debug.Log(angleC + "refAngle");
-                myPlayer.transform.position = new Vector2(-distance + 0.5f, myPlayer.transform.position.y);
-                indicators.distanceSpawnPnt = new Vector2(-distance + 1, 2.5f);
+                // sY = y;
+                // Debug.Log(angleC + "refAngle");
+                myPlayer.transform.position = new Vector2(-xS + 0.5f, myPlayer.transform.position.y);
+                indicators.distanceSpawnPnt = new Vector2(-xS + 1, 2.5f);
                 // indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 1);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(distance, null, null, stoneV, stuntTime);
+                indicators.showLines(xS, null, null, stoneV, stuntTime);
                 indicators.UnknownIs('v');
                 indicators.ResizeEndLines(0.5f, 0.25f, null, null, 0.25f, 1f);
                 // sX = 20.5f + x;
@@ -309,11 +312,22 @@ public class HardManager : MonoBehaviour
                 boss.SetVelocityOfTheHead(stuntTime, x, y);
 
 
-                labels.startingAngle = 360;
-                labels.SetSpawnPnt(bossHead.transform.position);
+                labels.startingAngle = 180;
+                labels.SetSpawnPnt(new Vector2(bossHead.transform.position.x + x, bossHead.transform.position.y + y));
+                labels.legA = y;
                 labels.angleA = angle;
                 labels.legB = bossDistance;
-                labels.HideValuesOf(false, false, true, false, true, true);
+
+                // triangleAnnotaion.legA = y;
+                // triangleAnnotaion.legB = Mathf.Sqrt((dT*dT)+(y*y));
+                // triangleAnnotaion.angleA = Mathf.Atan(dT / y) * Mathf.Rad2Deg; ::ubrahan bag-o, d pwede idungan.
+
+                // if ((Mathf.Abs(y) / y) == -1)
+                // {
+                //     labels.legB = x;
+                //     labels.SetSpawnPnt(new Vector2(bossHead.transform.position.x - x, bossHead.transform.position.y - y));
+                // }
+                labels.HideValuesOf(false, true, true, false, true, true);
                 question = "The target is the gem inside the mouth of the golem. If the golem is moving at " + angle + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV + qc.Unit(UnitOf.velocity) + ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
         }
