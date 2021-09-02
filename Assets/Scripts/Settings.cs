@@ -52,7 +52,11 @@ public class Settings : MonoBehaviour
     void Start()
     {
         LoadVolumes();
-        settingsPanel.SetActive(settingsPanelIsOpen);
+        if (settingsPanel)
+        {
+            settingsPanel.SetActive(settingsPanelIsOpen);
+        }
+
         if (levelFinishedPanel)
         {
             levelFinishedPanel.SetActive(leveFinishedIsOpen);
@@ -87,18 +91,39 @@ public class Settings : MonoBehaviour
         {
             fps.text = $"Frame Rate: {(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()}f/s";
         }
-        settingsPanel.SetActive(settingsPanelIsOpen);
+        if (settingsPanel)
+        {
+            settingsPanel.SetActive(settingsPanelIsOpen);
+        }
         if (levelFinishedPanel)
         {
             levelFinishedPanel.SetActive(leveFinishedIsOpen);
         }
+        if (soundValue)
+        {
+            soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
+        }
+        if (musicValue)
+        {
+            musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
+        }
+        if (soundIconOff)
+        {
+            soundIconOff.SetActive(soundLevel == 0);
+        }
+        if (musicIconOff)
+        {
+            musicIconOff.SetActive(musicLevel == 0);
+        }
+        if (soundIconOn)
+        {
+            soundIconOn.SetActive(soundLevel != 0);
+        }
+        if (musicIconOn)
+        {
+            musicIconOn.SetActive(musicLevel != 0);
+        }
 
-        soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
-        musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
-        soundIconOff.SetActive(soundLevel == 0);
-        musicIconOff.SetActive(musicLevel == 0);
-        soundIconOn.SetActive(soundLevel != 0);
-        musicIconOn.SetActive(musicLevel != 0);
         AudioListener.volume = soundLevel;
         if (AudioListener.volume == 0)
         {
@@ -106,7 +131,10 @@ public class Settings : MonoBehaviour
         }
         else
         {
-            soundButtonImage.sprite = soundButtonImages[0];
+            if (soundButtonImage)
+            {
+                soundButtonImage.sprite = soundButtonImages[0];
+            }
         }
     }
     public void ToggleSettings()
