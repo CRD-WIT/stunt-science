@@ -50,11 +50,15 @@ public class AngleAnnotaion : MonoBehaviour
         if ((angleA / Mathf.Abs(angleA)) == 1)
         {
             angleC = Mathf.Acos(((legB * legB) - (legC * legC) - (legA * legA)) / (-2 * legC * legA)) * Mathf.Rad2Deg;
+            if (angleC == 90.00001)
+                angleC = 90;
             angleB = 180 - Mathf.Abs(angleC) - Mathf.Abs(angleA);
         }
         else
         {
             angleC = -Mathf.Acos(((legB * legB) - (legC * legC) - (legA * legA)) / (-2 * legC * legA)) * Mathf.Rad2Deg;
+            if (angleC == -90.00001)
+                angleC = -90;
             angleB = -(180 - Mathf.Abs(angleC) - Mathf.Abs(angleA));
         }
         lines[1].SetPosition(2, new Vector2(xSL + spawnPnt.x, ySL + spawnPnt.y));
@@ -187,8 +191,8 @@ public class AngleAnnotaion : MonoBehaviour
             spawnPnt.y + ((legA * Mathf.Cos(startingAngle * Mathf.Deg2Rad)) / 2));
         labelTxt[2].transform.position = new Vector2(spawnPnt.x + (xSL / 2),
             spawnPnt.y + (ySL / 2));
-        labelTxt[3].transform.position = new Vector2(spawnPnt.x + ((legA * Mathf.Sin(startingAngle * Mathf.Deg2Rad)+ xSL) / 2),
-            spawnPnt.y + ((legA * Mathf.Cos(startingAngle * Mathf.Deg2Rad)+ ySL) / 2));
+        labelTxt[3].transform.position = new Vector2(spawnPnt.x + ((legA * Mathf.Sin(startingAngle * Mathf.Deg2Rad) + xSL) / 2),
+            spawnPnt.y + ((legA * Mathf.Cos(startingAngle * Mathf.Deg2Rad) + ySL) / 2));
         labelTxt[4].transform.position = new Vector2(lines[2].GetPosition(arcPntsB / 2).x + angleLabelOffset,
             lines[2].GetPosition(arcPntsB / 2).y + angleLabelOffset);
         labelTxt[5].transform.position = new Vector2(lines[3].GetPosition(arcPntsC / 2).x + angleLabelOffset,
