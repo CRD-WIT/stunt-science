@@ -23,7 +23,6 @@ public class Rock : MonoBehaviour
         {
             StartCoroutine(DestroyObj());
         }
-        // Debug.Log("Destroyed "+hardManager.destroyStone);
     }
     public void SetVelocity(float t, float x, float y)
     {
@@ -33,15 +32,17 @@ public class Rock : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
-        // hardManager.GetStonePos();
+        this.GetComponent<Rigidbody2D>().gravityScale = 1;
+        this.throwVeloX = this.GetComponent<Rigidbody2D>().velocity.x;
+        this.throwVeloY = this.GetComponent<Rigidbody2D>().velocity.y;
         if (other.gameObject.tag == "boss")
         {
             hit = false;
-            this.GetComponent<Rigidbody2D>().gravityScale = 1;
-            this.throwVeloX = this.GetComponent<Rigidbody2D>().velocity.x;
-            this.throwVeloY = this.GetComponent<Rigidbody2D>().velocity.y;
         }
-        else if (other.gameObject.tag == "gem")
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "gem")
         {
             hit = true;
             destroyer = true;

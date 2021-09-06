@@ -12,6 +12,8 @@ public class HardManager : MonoBehaviour
     Player myPlayer;
     QuestionControllerVThree qc;
     public GameObject directorsBubble, bossHead, stonePrefab, bossAtk, triangle;
+    public GameObject[] gem, bossParts;
+    public HingeJoint2D[] joints;
     public TMP_Text directorsSpeech;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
         initialPlayerPos, sX, sY, sDist, dT, xS;
@@ -159,14 +161,33 @@ public class HardManager : MonoBehaviour
             {
                 isAnswered = false;
                 elapsed = stuntTime;
-                // boss.SetVelocityOfTheHead(0,0,0);
                 bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
                 bool hit = (bool)stoneScript.hit;
                 isEndOfStunt = true;
                 stoneIsPresent = false;
                 if (hit)
                 {
-                    Debug.Log("correct");
+                    switch (stage)
+                    {
+                        case 1:
+                            gem[0].SetActive(false);
+                            gem[1].SetActive(true);
+                            break;
+                        case 2:
+                            gem[1].SetActive(false);
+                            gem[2].SetActive(true);
+                            break;
+                        case 3:
+                            gem[2].SetActive(false);
+                            foreach (var item in bossParts)
+                            {
+                                item.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                            }
+                            foreach(var item in joints)
+                                item.enabled =false;
+                            // bossRB.constraints = RigidbodyConstraints2D.None;
+                            break;
+                    }
                 }
                 else
                 {
@@ -195,6 +216,8 @@ public class HardManager : MonoBehaviour
     }
     public void SetUp()
     {
+        foreach (var item in gem)
+            item.SetActive(false);
         labels.gameObject.SetActive(false);
         triangle.SetActive(false);
         if (stoneIsPresent)
@@ -209,6 +232,7 @@ public class HardManager : MonoBehaviour
         switch (stage)
         {
             case 1:
+                gem[0].SetActive(true);
                 y = -6;
                 x = 0;
                 qc.limit = 20.5f;
@@ -237,6 +261,7 @@ public class HardManager : MonoBehaviour
                      + stoneV.ToString("f2") + qc.Unit(UnitOf.velocity) + ".";
                 break;
             case 2:
+                gem[1].SetActive(true);
                 labels.gameObject.SetActive(true);
                 float allowanceTime;
                 y = -6;
@@ -272,10 +297,11 @@ public class HardManager : MonoBehaviour
                 labels.HideValuesOf(false, true, true, false, true, true);
 
                 question = "The target is the gem inside the mouth of the golem. If the golem is moving at "
-                    + angle.ToString("f2") + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV.ToString("f2")+ " " + qc.Unit(UnitOf.velocity) +
+                    + angle.ToString("f2") + qc.Unit(UnitOf.angle) + " with the velocity of " + bossV.ToString("f2") + " " + qc.Unit(UnitOf.velocity) +
                     ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
             case 3:
+                gem[2].SetActive(true);
                 labels.gameObject.SetActive(true);
                 triangle.SetActive(true);
                 bossHead.transform.position = new Vector2(bossStartPos.x, bossStartPos.y - 6);
