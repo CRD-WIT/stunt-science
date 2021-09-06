@@ -13,11 +13,12 @@ public class AccMediumOne : MonoBehaviour
     public SubHellicopter theSubChopper;
     public TruckManager theTruck;
     private AccMidSimulation theSimulate;
+    public TMP_Text debugAnswer;
     private HeartManager theHeart;
     public bool chase, togreen, tored;
     public float timer, correctAnswer;
     public float velocity, accelaration, vf, distanceH;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerC theQuestion;
     float generateVelocity, generateAccelaration, generateCorrectAnswer;
     public float chopperPos, truckPos, answer;
     public bool readyToJump, follow, timeOn;
@@ -32,34 +33,31 @@ public class AccMediumOne : MonoBehaviour
         chopperStartPos = theChopper.transform.position;
         theSimulate = FindObjectOfType<AccMidSimulation>();
         generateProblem();
-
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         vHtxt.text = ("v = ") + velocity.ToString("F2") + ("m/s");
-        vf = accelaration * AccMidSimulation.playerAnswer;
+        vf = accelaration * theQuestion.GetPlayerAnswer();
         aTtxt.text = ("a = ") + accelaration.ToString("F2") + ("m/s²");
         //playerGrabLineDistance = velocity * AccMidSimulation.playerAnswer;
-        playerGrabLineDistance = (accelaration * (AccMidSimulation.playerAnswer * AccMidSimulation.playerAnswer)) / 2;
+        playerGrabLineDistance = (accelaration * (theQuestion.GetPlayerAnswer() * theQuestion.GetPlayerAnswer())) / 2;
         truckPos = theTruck.transform.position.x;
 
-    if(theTruck.transform.position.x >= 72)
-    {
-        theTruck.moveSpeed = 0;
-        theTruck.accelerating = false;
-    }
-
-
-        if (AccMidSimulation.simulate == true)
+        if (theTruck.transform.position.x >= 72)
         {
+            theTruck.moveSpeed = 0;
+            theTruck.accelerating = false;
+        }
 
-            answer = AccMidSimulation.playerAnswer;
+        if (theQuestion.isSimulating)
+        {
+            answer = theQuestion.GetPlayerAnswer();
             distanceH = answer * velocity + 0.67f;
             timertxt.gameObject.SetActive(true);
 
-            
             chopperPos = theChopper.transform.position.x;
             hangingRagdoll.transform.position = ropeTip.transform.position;
             theChopper.flySpeed = velocity;
@@ -77,14 +75,11 @@ public class AccMediumOne : MonoBehaviour
                 chopperArrow.SetActive(false);
                 carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2.1f, theTruck.transform.position.y);
                 chopperInitials.transform.position = new Vector2(theChopper.transform.position.x + 2.1f, theChopper.transform.position.y);
-
-
+                
                 viTtxt.text = ("v= ") + theTruck.moveSpeed.ToString("F2") + ("m/s");
                 timertxt.gameObject.transform.position = theTruck.transform.position;
                 theTruck.accelerating = true;
                 theTruck.accelaration = accelaration;
-                
-
 
                 if (answer == correctAnswer)
                 {
@@ -130,7 +125,6 @@ public class AccMediumOne : MonoBehaviour
                         }
 
                     }
-
                     //theQuestion.SetModalTitle("Stunt Failed");
                     //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds.");
                 }
@@ -146,7 +140,7 @@ public class AccMediumOne : MonoBehaviour
                         {
                             if (readyToJump)
                             {
-                               
+
                                 StartCoroutine(jump());
                                 StartCoroutine(StuntResult());
 
@@ -172,14 +166,10 @@ public class AccMediumOne : MonoBehaviour
                             velocity = 0;
                             chase = false;
                             timeOn = false;
-                            
                         }
                         //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + (" didnt get the chance to grab the rope. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."));
                     }
-
-
                 }
-
             }
             if (follow)
             {
@@ -215,8 +205,8 @@ public class AccMediumOne : MonoBehaviour
         theSubChopper.fade = false;
         playerGrabline.SetActive(false);
         timer = 0;
-        timertxt.text = timer.ToString("F2") + "s";
-        playTimertxt.text = timer.ToString("F2") + "s";
+        //timertxt.text = timer.ToString("F2") + "s";
+        //playTimertxt.text = timer.ToString("F2") + "s";
         readyToJump = true;
         generateAccelaration = Random.Range(4f, 8f);
         generateVelocity = Random.Range(8f, 10f);
@@ -227,7 +217,7 @@ public class AccMediumOne : MonoBehaviour
         grabLineDistance = velocity * correctAnswer;
         carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2f, theTruck.transform.position.y);
         chopperInitials.transform.position = new Vector2(theSubChopper.transform.position.x + 2.2f, theSubChopper.transform.position.y);
-        viTtxt.text = ("vi = 0m/s ");
+        viTtxt.text = ("vi = 0m/s ");    
         theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is standing in top of a non moving truck, waiting for the hellicopter to pass by, chase it with the truck, and grab the rope hanging from it, If the hellicopter flies forward at a constant speed of <b>") + velocity.ToString("F2") + ("</b> m/s and the truck follows to catch up with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s² the moment the rope passes by <b>") + PlayerPrefs.GetString("Name") + ("</b>, after how many seconds should <b>") + PlayerPrefs.GetString("Name") + ("</b> precisely grab the rope the moment the truck starts moving?")));
     }
     IEnumerator StuntResult()
@@ -285,7 +275,6 @@ public class AccMediumOne : MonoBehaviour
             //viTtxt.text = ("v= ") + vf.ToString("F2") + ("m/s");
             if (answer != correctAnswer)
             {
-                
                 timertxt.color = new Color32(188, 10, 0, 255);
                 playerGrabline.SetActive(true);
                 ropePoint.SetActive(true);
