@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections; 
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -75,7 +75,7 @@ public class AccMediumOne : MonoBehaviour
                 chopperArrow.SetActive(false);
                 carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2.1f, theTruck.transform.position.y);
                 chopperInitials.transform.position = new Vector2(theChopper.transform.position.x + 2.1f, theChopper.transform.position.y);
-                
+
                 viTtxt.text = ("v= ") + theTruck.moveSpeed.ToString("F2") + ("m/s");
                 timertxt.gameObject.transform.position = theTruck.transform.position;
                 theTruck.accelerating = true;
@@ -217,7 +217,7 @@ public class AccMediumOne : MonoBehaviour
         grabLineDistance = velocity * correctAnswer;
         carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2f, theTruck.transform.position.y);
         chopperInitials.transform.position = new Vector2(theSubChopper.transform.position.x + 2.2f, theSubChopper.transform.position.y);
-        viTtxt.text = ("vi = 0m/s ");    
+        viTtxt.text = ("vi = 0m/s ");
         theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is standing in top of a non moving truck, waiting for the hellicopter to pass by, chase it with the truck, and grab the rope hanging from it, If the hellicopter flies forward at a constant speed of <b>") + velocity.ToString("F2") + ("</b> m/s and the truck follows to catch up with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s² the moment the rope passes by <b>") + PlayerPrefs.GetString("Name") + ("</b>, after how many seconds should <b>") + PlayerPrefs.GetString("Name") + ("</b> precisely grab the rope the moment the truck starts moving?")));
     }
     IEnumerator StuntResult()
