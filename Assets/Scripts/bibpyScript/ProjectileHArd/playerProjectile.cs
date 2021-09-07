@@ -9,6 +9,7 @@ public class playerProjectile : MonoBehaviour
     public GameObject puller, mGear, sword, arrow;
     public ProjectileHardOne theManagerOne;
     public ProjectileHardTwo theManagerTwo;
+    public ProjectileHardThree theManagerThree;
     public bool grounded;
     public ProjSimulationManager theSimulate;
     public LayerMask whatIsGround;
@@ -51,6 +52,11 @@ public class playerProjectile : MonoBehaviour
             {
                 theManagerTwo.gameObject.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 155);
                 theManagerTwo.reShoot();
+            }
+            if (theSimulate.stage == 3)
+            {
+                theManagerThree.gameObject.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 25);
+                theManagerThree.reShoot();
             }
 
            

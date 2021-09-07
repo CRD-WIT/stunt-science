@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class golem : MonoBehaviour
 {
-    public float moveSpeed;
+    public float moveSpeed, accelaration;
     public Rigidbody2D myRigidbody;
     private Animator myAnimator;
     public ProjSimulationManager theSimulate;
     public bool throwing, damage, standUp;
     public GameObject hpBar, head, hpBarParent, smallBlast;
     public float fullHp, currentHp;
-    public bool reduceHp;
+    public bool reduceHp, accelarating;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +39,14 @@ public class golem : MonoBehaviour
         if (theSimulate.stage == 2)
         {
             myRigidbody.velocity = new Vector2(moveSpeed, myRigidbody.velocity.y);
+        }
+        if (theSimulate.stage == 3)
+        {
+            myRigidbody.velocity = new Vector2(-moveSpeed, myRigidbody.velocity.y);
+        }
+        if(accelarating)
+        {
+            moveSpeed += accelaration * Time.fixedDeltaTime;
         }
 
         myAnimator.SetFloat("speed", moveSpeed);
