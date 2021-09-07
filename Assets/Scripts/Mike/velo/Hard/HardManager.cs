@@ -11,22 +11,21 @@ public class HardManager : MonoBehaviour
     BossScript boss;
     Player myPlayer;
     QuestionControllerVThree qc;
-    public GameObject directorsBubble, bossHead, stonePrefab, bossAtk, triangle;
+    public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling;
     public GameObject[] gem, bossParts;
     public HingeJoint2D[] joints;
     public TMP_Text directorsSpeech;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
-        initialPlayerPos, sX, sY, sDist, dT, xS;
+        initialPlayerPos, sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f;
     bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
     public int stage;
     Vector2 bossStartPos, currentBossPos;
+    Vector3 originaCamlPos;
     public Rigidbody2D bossRB;
     GameObject stone;
-    Rigidbody2D thrownStone;
     Rock stoneScript;
-    public Transform stoneObject;
-    // Start is called before the first frame update
+    public Transform camTransform;
     void Start()
     {
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
@@ -52,7 +51,6 @@ public class HardManager : MonoBehaviour
         qc.stage = stage;
         SetUp();
     }
-    // Update is called once per frame
     void Update()
     {
         if (reset)
@@ -70,7 +68,6 @@ public class HardManager : MonoBehaviour
                 indicators.gameObject.SetActive(true);
                 indicators.distanceSpawnPnt = new Vector2(initialDistance, 3);
                 indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 2);
-                // indicators.SetPlayerPosition(stone.transform.position);
                 indicators.showLines(playerAnswer, null, bossDistance, stoneV, stuntTime);
             }
             else
@@ -91,12 +88,9 @@ public class HardManager : MonoBehaviour
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.deltaTime;
             bossRB.constraints = RigidbodyConstraints2D.None;
-            // bossRB.constraints = RigidbodyConstraints2D.FreezeRotation;
-            // indicators.SetPlayerPosition(new Vector2((-distance + 1) + (stoneV * (elapsed - 1)), 5));
             switch (stage)
             {
                 case 1:
-                    // stonePosX = playerAnswer + stone.transform.position.x -1;
                     if ((boss.transform.position.y) <= (1))//stuntTime)
                     {
                         isAnswered = false;
@@ -107,12 +101,12 @@ public class HardManager : MonoBehaviour
                     {
                         stonePosX = playerAnswer;
                         isAnswerCorrect = true;
-                        Debug.Log("correct");
+                        messageTxt = "Correct";
                     }
                     else
                     {
                         isAnswerCorrect = false;
-                        Debug.Log("wrong");
+                        messageTxt = "Wrong";
                     }
                     // indicators.IsRunning(playerAnswer, stonePosX, elapsed, null);
                     break;
@@ -125,12 +119,12 @@ public class HardManager : MonoBehaviour
                         if (playerAnswer == correctAnswer)
                         {
                             isAnswerCorrect = true;
-                            Debug.Log("correct");
+                            messageTxt = "Correct";
                         }
                         else
                         {
                             isAnswerCorrect = false;
-                            Debug.Log("wrong");
+                            messageTxt = "Wrong";
                         }
                     }
                     break;
@@ -143,12 +137,12 @@ public class HardManager : MonoBehaviour
                         if (playerAnswer == correctAnswer)
                         {
                             isAnswerCorrect = true;
-                            Debug.Log("correct");
+                            messageTxt = "Correct";
                         }
                         else
                         {
                             isAnswerCorrect = false;
-                            Debug.Log("wrong");
+                            messageTxt = "Wrong";
                         }
                     }
                     break;
@@ -159,6 +153,8 @@ public class HardManager : MonoBehaviour
         {
             if (stoneScript.hit != null)
             {
+                shakeDuration = 2.5f;
+                shakeAmount = 0.02f;
                 isAnswered = false;
                 elapsed = stuntTime;
                 bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -178,22 +174,29 @@ public class HardManager : MonoBehaviour
                             gem[2].SetActive(true);
                             break;
                         case 3:
+                            shakeAmount = 0.05f;
                             gem[2].SetActive(false);
-                            foreach (var item in bossParts)
-                            {
-                                item.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                            }
-                            foreach(var item in joints)
-                                item.enabled =false;
-                            // bossRB.constraints = RigidbodyConstraints2D.None;
+                            StartCoroutine(BossCrumble());
                             break;
                     }
                 }
                 else
                 {
-                    Debug.Log("Wrong");
+                    shakeAmount = 0;
+                    // Debug.Log("Wrong");
                 }
             }
+        }
+        if (shakeDuration > 0)
+        {
+            rumbling.SetActive(true);
+            camTransform.localPosition = originaCamlPos + Random.insideUnitSphere * (shakeAmount * 3);
+            shakeDuration -= Time.deltaTime * (decreaseFactor * 2);
+        }
+        else
+        {
+            rumbling.SetActive(false);
+            camTransform.localPosition = originaCamlPos;
         }
         if (isEndOfStunt)
         {
@@ -214,6 +217,10 @@ public class HardManager : MonoBehaviour
             }
         }
     }
+    void OnEnable()
+    {
+        originaCamlPos = camTransform.localPosition;
+    }
     public void SetUp()
     {
         foreach (var item in gem)
@@ -229,6 +236,9 @@ public class HardManager : MonoBehaviour
         elapsed = 0;
         correctAnswer = 0;
         sY = 0;
+        myPlayer.happy = false;
+        myPlayer.lost = false;
+        myPlayer.standup =false;
         switch (stage)
         {
             case 1:
@@ -243,7 +253,7 @@ public class HardManager : MonoBehaviour
                     bossV = (float)System.Math.Round(Random.Range(4f, 5f), 2);
                     stuntTime = (bossDistance / bossV);
                     stoneV = distance / (stuntTime - 1);
-                    if ((stoneV < 40f))// && (distance > 16.5f))
+                    if ((stoneV < 40f))
                         break;
                 }
                 indicators.showLines(null, null, bossDistance, 0, 0);
@@ -253,11 +263,10 @@ public class HardManager : MonoBehaviour
                 indicators.ResizeEndLines(null, 6.5f, 0.25f, 0.25f, null, null);
 
                 correctAnswer = distance;
-                boss.SetVelocityOfTheHead(stuntTime, x, y);
                 angle = (float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
 
-                question = "The target is the gem inside the mouth of the golem. If the golem is moving straight downward with the velocity of "
-                     + bossV.ToString("f2") + qc.Unit(UnitOf.velocity) + ". How far from the boss should " + playerName + " throw the stone to hit exactly at the gem? After 1 second the stone is released with the speed of "
+                question = "The only weakness is inside the mouth of the Giant Worm who's guarding the exit of the cave. If the worm's head is moving 6m straight downward with the velocity of "
+                     + bossV.ToString("f2") + qc.Unit(UnitOf.velocity) + ". How far from the worm should " + playerName + " throw the stone to exactly hit the worm's mouth? After 1 second the stone is released with the velocity of "
                      + stoneV.ToString("f2") + qc.Unit(UnitOf.velocity) + ".";
                 break;
             case 2:
@@ -265,7 +274,7 @@ public class HardManager : MonoBehaviour
                 labels.gameObject.SetActive(true);
                 float allowanceTime;
                 y = -6;
-                qc.limit = 7;
+                qc.limit = 5;
                 while (true)
                 {
                     bossV = (float)System.Math.Round(Random.Range(4f, 5f), 2);
@@ -289,7 +298,6 @@ public class HardManager : MonoBehaviour
                 indicators.UnknownIs('t');
                 indicators.ResizeEndLines(0.5f, 0.25f, null, null, 0.25f, 1f);
 
-                boss.SetVelocityOfTheHead(stuntTime, x, y);
                 labels.startingAngle = 180;
                 labels.SetSpawnPnt(bossHead.transform.position);
                 labels.angleA = angle;
@@ -330,7 +338,6 @@ public class HardManager : MonoBehaviour
                 indicators.ResizeEndLines(0.5f, 0.25f, null, null, 0.25f, 1f);
 
                 correctAnswer = (float)System.Math.Round(stoneV, 2);
-                boss.SetVelocityOfTheHead(stuntTime, x, y);
 
                 labels.startingAngle = 180;
                 labels.SetSpawnPnt(new Vector2(bossHead.transform.position.x + x, bossHead.transform.position.y + y));
@@ -351,12 +358,10 @@ public class HardManager : MonoBehaviour
                     ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
         }
+        boss.SetVelocityOfTheHead(stuntTime, x, y);
         sX = x;
         qc.question = question;
         Debug.Log(correctAnswer + " ans");
-        Debug.Log(stuntTime + "st");
-        Debug.Log(x + "," + y + "," + stoneV);
-        Debug.Log(bossDistance + ", " + angle);
     }
     void Play()
     {
@@ -450,12 +455,30 @@ public class HardManager : MonoBehaviour
         }
         else
         {
+            if (isAnswerCorrect)
+                myPlayer.happy = true;
+            else
+            {
+                myPlayer.lost = true;
+                myPlayer.standup = true;
+            }
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
             directorsSpeech.text = "";
         }
+    }
+    IEnumerator BossCrumble()
+    {
+        yield return new WaitForSeconds(0.5f);
+        foreach (var item in bossParts)
+            item.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        foreach (var item in joints)
+            item.enabled = false;
+
+        boss.SetVelocityOfTheHead(0, 0, 0);
+        bossRB.constraints = RigidbodyConstraints2D.None;
     }
     IEnumerator StuntResult()
     {
@@ -474,7 +497,7 @@ public class HardManager : MonoBehaviour
         myPlayer.thrown = false;
         stone = Instantiate(stonePrefab);
         stoneScript = FindObjectOfType<Rock>();
-        stone.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
+        stone.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, myPlayer.transform.position.y + 1f);
 
         stoneScript.hit = null;
         stone.GetComponent<Rigidbody2D>().gravityScale = 0;
