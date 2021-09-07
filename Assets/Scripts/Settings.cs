@@ -191,4 +191,8 @@ public class Settings : MonoBehaviour
         Application.Quit();
     }
 
+    public void ResetSettings(){
+        PlayerPrefs.DeleteAll();
+    }
+
 }
