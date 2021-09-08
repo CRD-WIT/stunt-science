@@ -8,7 +8,7 @@ public class AngleAnnotaion1 : MonoBehaviour
 {
     [SerializeField] TextColorMode lineColor;
     float angle, x, y, xSL, ySL, angle1, x1, y1, angle2, x2, y2;
-    public float startingAngle, angleA, angleB, angleC, legA, legB, legC, hypotenuse, fontSize = 4, angleLabelOffset, MoE;
+    public float startingAngle, angleA, angleB, angleC, legA, legB, legC, hypotenuse, fontSize = 4, angleLabelOffset, MoE= 0.00001f;
     int arcPntsA, arcPntsB, arcPntsC;
     public bool hideAngleA, hideAngleB, hideAngleC, hideSideA, hideSideB, hideSideC;
     public Vector2 spawnPnt;
