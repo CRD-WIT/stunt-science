@@ -8,7 +8,7 @@ public class AngleAnnotaion : MonoBehaviour
 {
     [SerializeField] TextColorMode lineColor;
     float angle, x, y, xSL, ySL, angle1, x1, y1, angle2, x2, y2;
-    public float startingAngle, angleA, angleB, angleC, legA, legB, legC, hypotenuse, fontSize = 4, angleLabelOffset;
+    public float startingAngle, angleA, angleB, angleC, legA, legB, legC, hypotenuse, fontSize = 4, angleLabelOffset, MoE = 0.00001f;
     int arcPntsA, arcPntsB, arcPntsC;
     public bool hideAngleA, hideAngleB, hideAngleC, hideSideA, hideSideB, hideSideC;
     public Vector2 spawnPnt;
@@ -50,14 +50,14 @@ public class AngleAnnotaion : MonoBehaviour
         if ((angleA / Mathf.Abs(angleA)) == 1)
         {
             angleC = Mathf.Acos(((legB * legB) - (legC * legC) - (legA * legA)) / (-2 * legC * legA)) * Mathf.Rad2Deg;
-            if (angleC == 90.00001)
+            if (((angleC - MoE) == 90) || ((angleC + MoE) == 90))
                 angleC = 90;
             angleB = 180 - Mathf.Abs(angleC) - Mathf.Abs(angleA);
         }
         else
         {
             angleC = -Mathf.Acos(((legB * legB) - (legC * legC) - (legA * legA)) / (-2 * legC * legA)) * Mathf.Rad2Deg;
-            if (angleC == -90.00001)
+            if (((angleC + MoE) == -90) || ((angleC - MoE) == -90))
                 angleC = -90;
             angleB = -(180 - Mathf.Abs(angleC) - Mathf.Abs(angleA));
         }
