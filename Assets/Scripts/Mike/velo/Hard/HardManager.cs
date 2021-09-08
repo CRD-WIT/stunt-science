@@ -9,18 +9,18 @@ public class HardManager : MonoBehaviour
     AngleAnnotaion1 triangleAnnotaion;
     IndicatorManagerV1_1 indicators;
     BossScript boss;
-    Player myPlayer;
+    PlayerV2 myPlayer;
     QuestionControllerVThree qc;
-    public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling;
+    public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling, ragdollSpawn;
     public GameObject[] gem, bossParts;
     public HingeJoint2D[] joints;
     public TMP_Text directorsSpeech;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
-        initialPlayerPos, sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f;
-    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset;
+        sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f;
+    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset, ragdoll = false;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
     public int stage;
-    Vector2 bossStartPos, currentBossPos;
+    Vector2 bossStartPos, currentBossPos, initialPlayerPos;
     Vector3 originaCamlPos;
     public Rigidbody2D bossRB;
     GameObject stone;
@@ -32,9 +32,10 @@ public class HardManager : MonoBehaviour
         labels = FindObjectOfType<AngleAnnotaion>();
         triangleAnnotaion = triangle.GetComponent<AngleAnnotaion1>();
         boss = FindObjectOfType<BossScript>();
-        myPlayer = FindObjectOfType<Player>();
+        myPlayer = FindObjectOfType<PlayerV2>();
         qc = FindObjectOfType<QuestionControllerVThree>();
         bossRB = bossHead.GetComponent<Rigidbody2D>();
+        RagdollV2.myPlayer = myPlayer;
         if (playerGender == "Male")
         {
             pronoun = "he";
@@ -46,7 +47,7 @@ public class HardManager : MonoBehaviour
             pPronoun = "her";
         }
         qc.levelDifficulty = Difficulty.Hard;
-        initialPlayerPos = myPlayer.transform.position.x;
+        initialPlayerPos = myPlayer.transform.position;
         bossStartPos = bossHead.transform.position;
         qc.stage = stage;
         SetUp();
@@ -159,6 +160,8 @@ public class HardManager : MonoBehaviour
                 elapsed = stuntTime;
                 bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
                 bool hit = (bool)stoneScript.hit;
+                if (isAnswerCorrect)
+                    hit = true;
                 isEndOfStunt = true;
                 stoneIsPresent = false;
                 if (hit)
@@ -182,8 +185,9 @@ public class HardManager : MonoBehaviour
                 }
                 else
                 {
+                    hit =false;
                     shakeAmount = 0;
-                    // Debug.Log("Wrong");
+                    //ToDo: heart manager. deduct 1 life
                 }
             }
         }
@@ -200,6 +204,8 @@ public class HardManager : MonoBehaviour
         }
         if (isEndOfStunt)
         {
+            if (stage == 3)
+                myPlayer.moveSpeed = 5;
             StartCoroutine(StuntResult());
         }
         if (qc.isSimulating)
@@ -216,6 +222,13 @@ public class HardManager : MonoBehaviour
                 qc.retried = false;
             }
         }
+        if (RagdollV2.disableRagdoll)
+        {
+            ragdoll = true;
+            y = 0;
+            stage1Flag = false;
+            isEndOfStunt = true;
+        }
     }
     void OnEnable()
     {
@@ -223,12 +236,11 @@ public class HardManager : MonoBehaviour
     }
     public void SetUp()
     {
+        ragdollSpawn.SetActive(true);
         foreach (var item in gem)
             item.SetActive(false);
         labels.gameObject.SetActive(false);
         triangle.SetActive(false);
-        if (stoneIsPresent)
-            StartCoroutine(DestroyRock());
         bossHead.transform.position = bossStartPos;
         stage = qc.stage;
         isThrown = false;
@@ -238,7 +250,7 @@ public class HardManager : MonoBehaviour
         sY = 0;
         myPlayer.happy = false;
         myPlayer.lost = false;
-        myPlayer.standup =false;
+        myPlayer.standup = false;
         switch (stage)
         {
             case 1:
@@ -261,6 +273,8 @@ public class HardManager : MonoBehaviour
                 indicators.heightSpawnPnt = new Vector2(1, 3);
                 indicators.ShowVelocityLabel(false);
                 indicators.ResizeEndLines(null, 6.5f, 0.25f, 0.25f, null, null);
+
+                myPlayer.transform.position = initialPlayerPos;
 
                 correctAnswer = distance;
                 angle = (float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
@@ -309,6 +323,7 @@ public class HardManager : MonoBehaviour
                     ". at what velocity should " + playerName + " throw the stone to hit exactly at the gem?";
                 break;
             case 3:
+                ragdollSpawn.SetActive(false);
                 gem[2].SetActive(true);
                 labels.gameObject.SetActive(true);
                 triangle.SetActive(true);
@@ -408,19 +423,15 @@ public class HardManager : MonoBehaviour
         bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
         SetUp();
     }
-    IEnumerator DestroyRock()
-    {
-        yield return new WaitForEndOfFrame();
-        Destroy(stonePrefab);
-        stoneIsPresent = false;
-    }
     IEnumerator Retry()
     {
         qc.retried = false;
         yield return new WaitForSeconds(1);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
-        stoneScript.destroyer = true;
+        if (!ragdoll)
+            stoneScript.destroyer = true;
+        ragdoll = false;
         reset = true;
     }
     IEnumerator Next()
@@ -455,12 +466,24 @@ public class HardManager : MonoBehaviour
         }
         else
         {
-            if (isAnswerCorrect)
-                myPlayer.happy = true;
-            else
+            if (stage != 3)
             {
-                myPlayer.lost = true;
-                myPlayer.standup = true;
+                if (isAnswerCorrect)
+                    myPlayer.happy = true;
+                else
+                {
+                    if (ragdoll)
+                    {
+                        myPlayer.lost = false;
+                        myPlayer.standup = false;
+                        myPlayer.ToggleTrigger();
+                    }
+                    else
+                    {
+                        myPlayer.lost = true;
+                        myPlayer.standup = true;
+                    }
+                }
             }
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";

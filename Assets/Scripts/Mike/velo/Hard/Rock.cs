@@ -19,8 +19,6 @@ public class Rock : MonoBehaviour
     void Update()
     {
         this.GetComponent<Rigidbody2D>().velocity = new Vector2(throwVeloX, throwVeloY);
-        if (hit != null)
-            destroyer = (bool)hit;
         if (destroyer)
         {
             StartCoroutine(DestroyObj());
@@ -38,17 +36,17 @@ public class Rock : MonoBehaviour
         this.throwVeloX = this.GetComponent<Rigidbody2D>().velocity.x;
         this.throwVeloY = this.GetComponent<Rigidbody2D>().velocity.y;
         hit = false;
-        if (triggered)
+        if (other.gameObject.tag == "gem")
         {
-            hit = false;
+            destroyer =false;
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "gem")
         {
-            triggered = true;
             hit = true;
+            destroyer = true;
         }
     }
     IEnumerator DestroyObj()
