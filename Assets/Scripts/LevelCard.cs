@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using GameConfig;
+ using UnityEngine.UI;
 
 public class LevelCard : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class LevelCard : MonoBehaviour
     public GameObject cardLocked;
     public GameObject levelDetails;
     public Difficulty levelDifficultyName;
+    public Sprite cardUnlockedImage;
+    public Sprite cardUnlockedGoldImage;
 
     void Start()
     {
@@ -34,6 +37,11 @@ public class LevelCard : MonoBehaviour
         cardUnlocked.SetActive(!locked);
         levelDetails.SetActive(!locked);
         cardLocked.SetActive(locked);
+        if(starActiveCount>0){
+            cardUnlocked.GetComponent<Image>().sprite = cardUnlockedGoldImage;
+        }else{
+            cardUnlocked.GetComponent<Image>().sprite = cardUnlockedImage;
+        }
         switch (levelDifficultyName)
         {
             case Difficulty.Easy:
