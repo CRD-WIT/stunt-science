@@ -2229,7 +2229,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 858087779}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.31, y: 2.1399348, z: -44.907883}
+  m_LocalPosition: {x: -14.13, y: 2.1399348, z: -44.907883}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3147,6 +3147,11 @@ PolygonCollider2D:
       - {x: -1.2285347, y: -1.2206213}
       - {x: 0.11252552, y: -1.5813051}
       - {x: 1.0698719, y: -0.60754937}
+--- !u!82 &1183226291 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5897525656052412603, guid: 12a0f11ef46f7c3419f7b1e38857ff1e, type: 3}
+  m_PrefabInstance: {fileID: 1585766684}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1208325085
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3555,6 +3560,8 @@ GameObject:
   - component: {fileID: 1305228128}
   - component: {fileID: 1305228127}
   - component: {fileID: 1305228129}
+  - component: {fileID: 1305228130}
+  - component: {fileID: 1305228131}
   m_Layer: 6
   m_Name: Square
   m_TagString: ground
@@ -3654,6 +3661,40 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1305228130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305228126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 607e693244db70d4d953d15a341a8b66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!68 &1305228131
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305228126}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.51}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.5, y: 0}
+  - {x: 0.5, y: 0}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &1321187138
 GameObject:
   m_ObjectHideFlags: 0
@@ -4985,6 +5026,7 @@ MonoBehaviour:
   stonePrefab: {fileID: 8529411082651532840, guid: 27be4fe52dd1591449fd7bb1139a280b, type: 3}
   triangle: {fileID: 500260202}
   rumbling: {fileID: 2115514014}
+  ragdollSpawn: {fileID: 858087779}
   gem:
   - {fileID: 875846930}
   - {fileID: 432759502}
@@ -5008,7 +5050,7 @@ MonoBehaviour:
   - {fileID: 1415707334}
   - {fileID: 1790086876}
   directorsSpeech: {fileID: 1997664678}
-  stage: 1
+  stage: 3
   bossRB: {fileID: 0}
   camTransform: {fileID: 909408063}
 --- !u!1 &1738216841
@@ -5879,7 +5921,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4176326098591815231, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1266
+      value: 617.5
       objectReference: {fileID: 0}
     - target: {fileID: 4176326098756204038, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6345,7 +6387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826717117485440972}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.5, y: 4, z: 0}
+  m_LocalPosition: {x: -21.5, y: 2.33, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children:
   - {fileID: 6902148872668675051}
@@ -6418,7 +6460,7 @@ GameObject:
   - component: {fileID: 1826717117485440969}
   - component: {fileID: 1826717117485440971}
   - component: {fileID: 1237904924594863535}
-  - component: {fileID: 2333593415668714520}
+  - component: {fileID: 1826717117485440973}
   - component: {fileID: 6902148873458509056}
   m_Layer: 7
   m_Name: stickmanmale 1
@@ -6427,6 +6469,46 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1826717117485440973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826717117485440972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be517316ac7f124d83c70c406eb34a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
+  groundedRadius: 0
+  jumpforce: 0
+  myAnimator: {fileID: 1826717117485440971}
+  player: {fileID: 1826717117485440972}
+  stickprefab: {fileID: 3466479453583936867, guid: 1c95e1d1313af62448265756bb403fc4, type: 3}
+  stickmanpoint: {fileID: 6902148872695004264}
+  lost: 0
+  happy: 0
+  ragdollblow: 0
+  posready: 0
+  grounded: 0
+  standup: 0
+  slide: 0
+  isHanging: 0
+  brake: 0
+  isGrabbing: 0
+  hangWalk: 0
+  isFalling: 0
+  toJump: 0
+  jumpHang: 0
+  isLanded: 0
+  thrown: 0
+  footstep: {fileID: 1183226291}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheck: {fileID: 2145556303460992815}
 --- !u!1 &1867198277031260082
 GameObject:
   m_ObjectHideFlags: 0
@@ -6576,46 +6658,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2333593415668714520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826717117485440972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 718ecbefd2b5f3d44989033edfbcb17d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 0
-  player: {fileID: 1826717117485440972}
-  stickmanpoint: {fileID: 6902148872695004264}
-  lost: 0
-  happy: 0
-  ragdollblow: 0
-  footstep: {fileID: 0}
-  stickprefab: {fileID: 3466479453583936867, guid: 1c95e1d1313af62448265756bb403fc4, type: 3}
-  posready: 0
-  grounded: 0
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
-  groundCheck: {fileID: 2145556303460992815}
-  groundedRadius: 1
-  slideCollider: {fileID: 6902148873458509056}
-  jumpforce: 6
-  standup: 0
-  slide: 0
-  isHanging: 0
-  brake: 0
-  isGrabbing: 0
-  hangWalk: 0
-  isFalling: 0
-  toJump: 0
-  jumpHang: 0
-  isLanded: 0
-  thrown: 0
 --- !u!4 &2339845697309456185
 Transform:
   m_ObjectHideFlags: 0
@@ -12526,8 +12568,8 @@ MonoBehaviour:
   - {fileID: 6902148872668675051}
   - {fileID: 6902148873456133930}
   m_Bounds:
-    m_Center: {x: -0.45342913, y: 0.082868755, z: 0}
-    m_Extent: {x: 0.3899643, y: 0.7753773, z: 0}
+    m_Center: {x: -0.45342913, y: 0.08286899, z: 0}
+    m_Extent: {x: 0.3899643, y: 0.7753775, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -12631,7 +12673,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6902148873016610803}
   m_Bounds:
-    m_Center: {x: 0.52076495, y: -0.79437214, z: 0}
+    m_Center: {x: 0.52076495, y: -0.7943731, z: 0}
     m_Extent: {x: 0.39614597, y: 0.31722134, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -13108,7 +13150,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6902148873134851600}
   m_Bounds:
-    m_Center: {x: 0.8073407, y: -0.7395231, z: 0}
+    m_Center: {x: 0.8073407, y: -0.73952264, z: 0}
     m_Extent: {x: 0.36461645, y: 0.53635365, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -13213,7 +13255,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6902148873436890909}
   m_Bounds:
-    m_Center: {x: 0.13237299, y: -0.51201665, z: 0}
+    m_Center: {x: 0.13237299, y: -0.5120157, z: 0}
     m_Extent: {x: 0.2224499, y: 0.51410925, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
