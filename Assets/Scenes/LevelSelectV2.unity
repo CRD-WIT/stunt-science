@@ -15889,7 +15889,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702434, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: starActiveCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702435, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15898,6 +15898,10 @@ PrefabInstance:
     - target: {fileID: 4996755950723702435, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.y
       value: -74.99999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996755950723702444, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (a)
       objectReference: {fileID: 0}
     - target: {fileID: 5204232765211536950, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15918,6 +15922,14 @@ PrefabInstance:
     - target: {fileID: 5204232765211536951, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: levelDifficultyName
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204232765211536953, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (c)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204232765387062193, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (b)
       objectReference: {fileID: 0}
     - target: {fileID: 5204232765387062206, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15971,7 +15983,7 @@ GameObject:
   - component: {fileID: 591826447}
   - component: {fileID: 591826448}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: LevelManagerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16124,6 +16136,8 @@ MonoBehaviour:
   - {fileID: 1703921460}
   - {fileID: 1364591089}
   - {fileID: 1597164574}
+  levelScoreCollection: 
+  levelScoreTotal: 0
 --- !u!114 &591826447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21521,7 +21535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702434, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: starActiveCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702435, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21530,6 +21544,10 @@ PrefabInstance:
     - target: {fileID: 4996755950723702435, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.y
       value: -74.99999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996755950723702444, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (j)
       objectReference: {fileID: 0}
     - target: {fileID: 5204232765211536950, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21550,6 +21568,14 @@ PrefabInstance:
     - target: {fileID: 5204232765211536951, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: levelDifficultyName
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204232765211536953, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (l)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204232765387062193, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (k)
       objectReference: {fileID: 0}
     - target: {fileID: 5204232765387062193, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_IsActive
@@ -21590,6 +21616,51 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4996755950490925784, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
   m_PrefabInstance: {fileID: 798778811}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &824582036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 824582038}
+  - component: {fileID: 824582037}
+  m_Layer: 0
+  m_Name: StarsCountManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &824582037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824582036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5323336b9533759f8a978a0b8ef3ad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelManager: {fileID: 591826446}
+  scoreText: {fileID: 1281445879}
+--- !u!4 &824582038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824582036}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.4376655, y: 1.7104797, z: 72.003395}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &840714931
 GameObject:
   m_ObjectHideFlags: 0
@@ -36851,7 +36922,7 @@ GameObject:
   - component: {fileID: 1281445880}
   - component: {fileID: 1281445879}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: StarsCountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43533,7 +43604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702434, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: starActiveCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702435, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.x
@@ -43542,6 +43613,10 @@ PrefabInstance:
     - target: {fileID: 4996755950723702435, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.y
       value: -74.99999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996755950723702444, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (d)
       objectReference: {fileID: 0}
     - target: {fileID: 5204232765211536950, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.x
@@ -43562,6 +43637,14 @@ PrefabInstance:
     - target: {fileID: 5204232765211536951, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: levelDifficultyName
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204232765211536953, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (f)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204232765387062193, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (e)
       objectReference: {fileID: 0}
     - target: {fileID: 5204232765387062206, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.x
@@ -49034,7 +49117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702434, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: starActiveCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702435, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.x
@@ -49043,6 +49126,10 @@ PrefabInstance:
     - target: {fileID: 4996755950723702435, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.y
       value: -74.99999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996755950723702444, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (g)
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702444, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_IsActive
@@ -49067,6 +49154,14 @@ PrefabInstance:
     - target: {fileID: 5204232765211536951, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: levelDifficultyName
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204232765211536953, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (i)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204232765387062193, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (h)
       objectReference: {fileID: 0}
     - target: {fileID: 5204232765387062206, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54358,7 +54453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702434, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: starActiveCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702435, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54367,6 +54462,10 @@ PrefabInstance:
     - target: {fileID: 4996755950723702435, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_LocalPosition.y
       value: -74.99999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996755950723702444, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (m)
       objectReference: {fileID: 0}
     - target: {fileID: 4996755950723702444, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_IsActive
@@ -54391,6 +54490,14 @@ PrefabInstance:
     - target: {fileID: 5204232765211536951, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: levelDifficultyName
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204232765211536953, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (o)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204232765387062193, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
+      propertyPath: m_Name
+      value: LevelCard (n)
       objectReference: {fileID: 0}
     - target: {fileID: 5204232765387062193, guid: b3c8e0f4fb878d6f69ac6200d4e63ede, type: 3}
       propertyPath: m_IsActive
