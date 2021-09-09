@@ -6,7 +6,7 @@ public class PlayerV2 : MonoBehaviour
     public float moveSpeed, groundedRadius, jumpforce;
     private Rigidbody2D myRigidbody;
     public Animator myAnimator;
-    public GameObject player, stickprefab, stickmanpoint;
+    public GameObject player, stickprefab, stickmanpoint, skirt, hair;
     public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang,
         isLanded, thrown;
     public AudioSource footstep;
@@ -23,6 +23,13 @@ public class PlayerV2 : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>(); 
         life = FindObjectOfType<HeartManager>();
+        if(PlayerPrefs.GetString("Gender") == "Female"){
+            hair.SetActive(true);
+            skirt.SetActive(true);
+        }else{
+            hair.SetActive(false);
+            skirt.SetActive(false);
+        }
     }
 
     // Update is called once per frame

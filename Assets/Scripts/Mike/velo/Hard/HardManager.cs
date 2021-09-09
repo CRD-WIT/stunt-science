@@ -36,6 +36,8 @@ public class HardManager : MonoBehaviour
         qc = FindObjectOfType<QuestionControllerVThree>();
         bossRB = bossHead.GetComponent<Rigidbody2D>();
         RagdollV2.myPlayer = myPlayer;
+        playerName = PlayerPrefs.GetString("Name");
+        playerGender = PlayerPrefs.GetString("Gender");
         if (playerGender == "Male")
         {
             pronoun = "he";
