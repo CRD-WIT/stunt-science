@@ -29,6 +29,7 @@ public class PlayerV2 : MonoBehaviour
         }else{
             hair.SetActive(false);
             skirt.SetActive(false);
+
         }
     }
 

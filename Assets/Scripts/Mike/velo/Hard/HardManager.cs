@@ -186,7 +186,7 @@ public class HardManager : MonoBehaviour
                             gem[2].SetActive(true);
                             break;
                         case 3:
-                            distanceTraveled = distance + x;
+                            distanceTraveled = xS + x;
                             shakeAmount = 0.05f;
                             gem[2].SetActive(false);
                             StartCoroutine(BossCrumble());
@@ -200,7 +200,7 @@ public class HardManager : MonoBehaviour
                     //ToDo: deduct 1 life
                 }
             }
-            indicators.IsRunning(playerAnswer, distanceTraveled, elapsed, stage == 3 ? stuntTime : (float?)null);
+            indicators.IsRunning(playerAnswer, distanceTraveled, elapsed, null);//stage == 3 ? stuntTime : (float?)null);
         }
         if (shakeDuration > 0)
         {
@@ -426,6 +426,7 @@ public class HardManager : MonoBehaviour
                     throwTime = (stuntTime - 1 - correctAnswer);
                 break;
             case 3:
+                indicators.showLines(null, distanceTraveled, null, stoneV, stuntTime);
                 isStartOfStunt = true;
                 directorIsCalling = true;
                 if (playerAnswer > correctAnswer)
