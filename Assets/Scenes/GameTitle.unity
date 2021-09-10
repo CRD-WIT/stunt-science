@@ -455,7 +455,7 @@ Transform:
   m_GameObject: {fileID: 60408587}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.1251, y: 0.0597, z: 0}
-  m_LocalScale: {x: 4.2118974, y: 3.935597, z: 4.2118974}
+  m_LocalScale: {x: 4.2118974, y: 3.935597, z: 4.211897}
   m_Children: []
   m_Father: {fileID: 100455355}
   m_RootOrder: 1
@@ -470,6 +470,7 @@ GameObject:
   m_Component:
   - component: {fileID: 100455355}
   - component: {fileID: 100455356}
+  - component: {fileID: 100455357}
   m_Layer: 0
   m_Name: GyroParallax
   m_TagString: Untagged
@@ -516,6 +517,25 @@ MonoBehaviour:
   - {fileID: 591996595}
   parallaxScales: []
   cameraObject: {fileID: 0}
+--- !u!95 &100455357
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100455354}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a13b88a7db2af949d90600f385274060, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &101380920
 GameObject:
   m_ObjectHideFlags: 0
@@ -896,7 +916,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorTexture: {fileID: 2800000, guid: 6403d2b91d5a5cf92934e433d421c133, type: 3}
   cursorMode: 1
-  hotSpot: {x: 0, y: 0}
 --- !u!114 &418489123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -987,7 +1006,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 591996593}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.86, y: -7.34, z: 0}
+  m_LocalPosition: {x: 7.36, y: -7.5, z: 0}
   m_LocalScale: {x: 2.878501, y: 2.878501, z: 2.878501}
   m_Children: []
   m_Father: {fileID: 100455355}
@@ -1845,7 +1864,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1191485188}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.0926, y: -1.326, z: 0}
+  m_LocalPosition: {x: -5.76, y: -0.45, z: 0}
   m_LocalScale: {x: 2.6978385, y: 2.6978385, z: 2.6978385}
   m_Children: []
   m_Father: {fileID: 100455355}

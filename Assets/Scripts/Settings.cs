@@ -61,10 +61,24 @@ public class Settings : MonoBehaviour
         {
             levelFinishedPanel.SetActive(leveFinishedIsOpen);
         }
-        soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
-        musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
-        soundSlider.value = soundLevel;
-        musicSlider.value = musicLevel;
+        if (soundValue)
+        {
+            soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
+        }
+        if (musicValue)
+        {
+            musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
+        }
+        if (soundSlider)
+        {
+            soundSlider.value = soundLevel;
+        }
+        if (musicSlider)
+        {
+            musicSlider.value = musicLevel;
+        }
+
+
         if (versionCodeText)
         {
             versionCodeText.text = $"Version: {versionCode}";
@@ -127,7 +141,10 @@ public class Settings : MonoBehaviour
         AudioListener.volume = soundLevel;
         if (AudioListener.volume == 0)
         {
-            soundButtonImage.sprite = soundButtonImages[1];
+            if (soundButtonImage)
+            {
+                soundButtonImage.sprite = soundButtonImages[1];
+            }
         }
         else
         {
@@ -161,6 +178,7 @@ public class Settings : MonoBehaviour
 
     public void ToggleVolume()
     {
+
         if (soundOn)
         {
             soundLevel = 0;
@@ -168,6 +186,11 @@ public class Settings : MonoBehaviour
         else
         {
             soundLevel = PlayerPrefs.GetFloat("SoundVolume");
+            if (soundLevel == 0)
+            {
+                soundLevel = 1;
+            }
+            Debug.Log($"Current value: {soundLevel}");
         }
         soundOn = !soundOn;
         soundSlider.value = soundLevel;
@@ -182,8 +205,8 @@ public class Settings : MonoBehaviour
 
     public void LoadVolumes()
     {
-        soundLevel = PlayerPrefs.GetFloat("SoundVolume");
-        musicLevel = PlayerPrefs.GetFloat("MusicVolume");
+        soundLevel = PlayerPrefs.GetFloat("SoundVolume", 1f);
+        musicLevel = PlayerPrefs.GetFloat("MusicVolume", 1f);
     }
 
     public void QuitApp()
@@ -191,7 +214,8 @@ public class Settings : MonoBehaviour
         Application.Quit();
     }
 
-    public void ResetSettings(){
+    public void ResetSettings()
+    {
         PlayerPrefs.DeleteAll();
     }
 

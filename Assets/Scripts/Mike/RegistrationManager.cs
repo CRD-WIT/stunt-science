@@ -3,11 +3,16 @@ using UnityEngine.UI;
 
 public class RegistrationManager : MonoBehaviour
 {
+    public Settings settingsUI;
     public Button mButton, fButton;
     public static string playerName, playerGender;
     public Animator maleAnimator;
     public Animator femaleAnimator;
     public bool male;
+
+    void Start(){
+        settingsUI.ResetSettings();
+    }
 
     void Update()
     {
