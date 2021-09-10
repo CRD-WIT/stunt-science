@@ -164,7 +164,7 @@ public class HardManager : MonoBehaviour
                 shakeDuration = 2.5f;
                 shakeAmount = 0.02f;
                 isAnswered = false;
-                elapsed = stuntTime;
+                // elapsed = stuntTime;
                 bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
                 bool hit = (bool)stoneScript.hit;
                 if (isAnswerCorrect)
@@ -186,7 +186,7 @@ public class HardManager : MonoBehaviour
                             gem[2].SetActive(true);
                             break;
                         case 3:
-                            distanceTraveled = xS + x;
+                            distanceTraveled = sX+x;
                             shakeAmount = 0.05f;
                             gem[2].SetActive(false);
                             StartCoroutine(BossCrumble());
@@ -200,7 +200,7 @@ public class HardManager : MonoBehaviour
                     //ToDo: deduct 1 life
                 }
             }
-            indicators.IsRunning(playerAnswer, distanceTraveled, elapsed, null);//stage == 3 ? stuntTime : (float?)null);
+            indicators.IsRunning(playerAnswer, distanceTraveled, elapsed, stage == 3 ? (stone.transform.position.x + myPlayer.transform.position.x) : (float?)null);
         }
         if (shakeDuration > 0)
         {
@@ -426,6 +426,8 @@ public class HardManager : MonoBehaviour
                     throwTime = (stuntTime - 1 - correctAnswer);
                 break;
             case 3:
+                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, myPlayer.transform.position.y - 1);
+                // indicators.SetPlayerPosition(myPlayer.transform.position.x - );
                 indicators.showLines(null, distanceTraveled, null, stoneV, stuntTime);
                 isStartOfStunt = true;
                 directorIsCalling = true;
