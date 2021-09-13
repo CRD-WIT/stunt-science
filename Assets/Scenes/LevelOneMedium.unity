@@ -1473,6 +1473,67 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 5897525656052412603, guid: 12a0f11ef46f7c3419f7b1e38857ff1e, type: 3}
   m_PrefabInstance: {fileID: 593159115}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &815981702
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1826717117673667976, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 8d808e037a06eb44f85984e8d557b86a, type: 2}
+    - target: {fileID: 1826717117673667979, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_RootOrder
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826717117673667979, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826717117673667979, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826717117673667979, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826717117673667979, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826717117673667979, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826717117673667979, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826717117673667979, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826717117673667979, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826717117673667979, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826717117673667979, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826717117673667983, guid: a308b6a0470f1174b91842f36114252f, type: 3}
+      propertyPath: m_Name
+      value: stickmanmale 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a308b6a0470f1174b91842f36114252f, type: 3}
 --- !u!1001 &866942689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2986,7 +3047,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1115753419006550859, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
       propertyPath: stage
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1115753419006550859, guid: 495ce044b6fa51e44b900295fb59695e, type: 3}
       propertyPath: popupVisible
@@ -4395,7 +4456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1919375448988741011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4415,6 +4476,8 @@ MonoBehaviour:
   player: {fileID: 1919375448988741010}
   stickprefab: {fileID: 3466479453583936867, guid: a7417a9dea14b2c44891546ecb2fc9b6, type: 3}
   stickmanpoint: {fileID: 6643490681854955062}
+  skirt: {fileID: 0}
+  hair: {fileID: 0}
   lost: 0
   happy: 0
   ragdollblow: 0
@@ -4430,6 +4493,7 @@ MonoBehaviour:
   toJump: 0
   jumpHang: 0
   isLanded: 0
+  thrown: 0
   footstep: {fileID: 797017940}
   whatIsGround:
     serializedVersion: 2
@@ -4496,7 +4560,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 0.5099434
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -7272,6 +7336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCamera: {fileID: 1775369818}
+  v3Pos: {x: 0.8, y: 0.85, z: 0.25}
 --- !u!95 &2581860267774537509
 Animator:
   serializedVersion: 3
@@ -12788,6 +12853,7 @@ MonoBehaviour:
     m_Extent: {x: 0.48102832, y: 0.6888791, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &6643490681844570416
 GameObject:
   m_ObjectHideFlags: 0
@@ -12826,6 +12892,7 @@ MonoBehaviour:
     m_Extent: {x: 0.2079339, y: 0.5597872, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!4 &6643490681844570419
 Transform:
   m_ObjectHideFlags: 0
@@ -12994,6 +13061,7 @@ MonoBehaviour:
     m_Extent: {x: 0.6533127, y: 0.6086729, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!4 &6643490682039261897
 Transform:
   m_ObjectHideFlags: 0
@@ -13099,6 +13167,7 @@ MonoBehaviour:
     m_Extent: {x: 0.27076727, y: 0.803191, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!4 &6643490682400890407
 Transform:
   m_ObjectHideFlags: 0
@@ -13416,6 +13485,7 @@ MonoBehaviour:
     m_Extent: {x: 0.310147, y: 0.48481846, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!4 &6643490682793186147
 Transform:
   m_ObjectHideFlags: 0
@@ -13635,6 +13705,7 @@ MonoBehaviour:
     m_Extent: {x: 0.3715777, y: 0.35308528, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!4 &6643490682978683700
 Transform:
   m_ObjectHideFlags: 0
@@ -13739,6 +13810,7 @@ MonoBehaviour:
     m_Extent: {x: 0.16402107, y: 0.50961405, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &6643490683065670282
 GameObject:
   m_ObjectHideFlags: 0
@@ -13777,6 +13849,7 @@ MonoBehaviour:
     m_Extent: {x: 0.32254195, y: 0.5429822, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!4 &6643490683065670285
 Transform:
   m_ObjectHideFlags: 0
@@ -14079,6 +14152,7 @@ MonoBehaviour:
     m_Extent: {x: 0.3230847, y: 0.72769284, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!1 &6643490683461551144
 GameObject:
   m_ObjectHideFlags: 0
@@ -14167,6 +14241,7 @@ MonoBehaviour:
     m_Extent: {x: 0.47790635, y: 0.16700765, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+  m_AutoRebind: 0
 --- !u!4 &6643490683515382083
 Transform:
   m_ObjectHideFlags: 0
