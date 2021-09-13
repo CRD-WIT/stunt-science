@@ -21,6 +21,7 @@ public class LevelCard : MonoBehaviour
     public Difficulty levelDifficultyName;
     public Sprite cardUnlockedImage;
     public Sprite cardUnlockedGoldImage;
+    public Sprite cardUnlockedGreenImage;
 
     void Start()
     {

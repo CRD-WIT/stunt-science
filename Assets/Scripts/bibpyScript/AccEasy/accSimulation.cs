@@ -26,7 +26,7 @@ public class accSimulation : MonoBehaviour
 
     public ragdollScript theRagdoll;
     Vector2 playerstartPos;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerAcceleration theQuestion;
     public HeartManager theHeart;
     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
     //string accelaration;
@@ -113,7 +113,7 @@ public class accSimulation : MonoBehaviour
                 StartCoroutine(errorMesage());
             }
             else
-            {               
+            {
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 //playButton.interactable = false;
@@ -131,7 +131,7 @@ public class accSimulation : MonoBehaviour
                 theQuestion.errorText = ("Please enter a valid answer!");
             }
             else
-            {        
+            {
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 //playButton.interactable = false;
@@ -153,7 +153,7 @@ public class accSimulation : MonoBehaviour
                 //theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
-               // playButton.interactable = false;
+                // playButton.interactable = false;
                 {
                     answerField.text = playerAnswer.ToString() + "m/s²";
                 }
@@ -163,17 +163,18 @@ public class accSimulation : MonoBehaviour
     }
     public void retry()
     {
-
+        transitionCanvas.SetActive(true);
         StartCoroutine(exit());
 
     }
     public void next()
     {
-        if(stage!=3){
+        if (stage != 3)
+        {
             transitionCanvas.SetActive(true);
             StartCoroutine(entrance());
         }
-        
+
     }
     public IEnumerator DirectorsCall()
     {
@@ -205,10 +206,10 @@ public class accSimulation : MonoBehaviour
         }
     }
     IEnumerator entrance()
-    {        
+    {
         ///StartCoroutine(theHeart.endBGgone());
-       yield return new WaitForSeconds(1);
-       // StartCoroutine(theHeart.endBGgone());
+        yield return new WaitForSeconds(1);
+        // StartCoroutine(theHeart.endBGgone());
         theQuestion.isSimulating = false;
         answerField.text = ("");
         // playButton.interactable = true;
@@ -242,6 +243,7 @@ public class accSimulation : MonoBehaviour
     }
     IEnumerator exit()
     {
+        Debug.Log("Retry triggered.");
         // StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1.2f);
         // theQuestion.answerIsCorrect = false;
@@ -257,7 +259,7 @@ public class accSimulation : MonoBehaviour
         player.transform.position = playerstartPos;
         if (theBike.collided == true)
         {
-            //Destroy(theRagdoll.gameObject);
+            Destroy(theRagdoll.gameObject);
             theBike.collided = false;
         }
         if (stage == 3)
@@ -287,7 +289,7 @@ public class accSimulation : MonoBehaviour
             theManagerOne.walls.SetActive(false);
 
         }
-
+        transitionCanvas.SetActive(false);
         theQuestion.isModalOpen = false;
 
     }

@@ -27,10 +27,10 @@ public class AccManagerTwo : MonoBehaviour
     string pronoun, pronoun2;
     string gender;
     public GameObject walls, bikeInitials, cam, directionArrow;
-    public TMP_Text Vitxt, Vftxt, Acctxt, timertxt, actiontxt;
+    public TMP_Text Vitxt, Vftxt, Acctxt, actiontxt;
     private HeartManager theHeart;
     private Vector2 bikeInitialStartPos;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerAcceleration theQuestion;
     public TMP_Text debugAnswer;
 
     // Start is called before the first frame update
@@ -65,15 +65,15 @@ public class AccManagerTwo : MonoBehaviour
         playerVf = (-deacceleration * theQuestion.GetPlayerAnswer()) + Vi;
         currentPos = theBike.transform.position.x;
         if (theBike.brake == true)
-        {            
-            if(timer <= theQuestion.GetPlayerAnswer())
+        {
+            if (timer <= theQuestion.GetPlayerAnswer())
             {
                 timer += Time.fixedDeltaTime;
-                timertxt.text = timer.ToString("F2") + ("s");
+                // timertxt.text = timer.ToString("F2") + ("s");
             }
-            if(timer >= theQuestion.GetPlayerAnswer())
+            if (timer >= theQuestion.GetPlayerAnswer())
             {
-                timertxt.text = theQuestion.GetPlayerAnswer().ToString("F2") + ("s");
+                // timertxt.text = theQuestion.GetPlayerAnswer().ToString("F2") + ("s");
             }
         }
         if (follow)
@@ -114,17 +114,17 @@ public class AccManagerTwo : MonoBehaviour
                 }
                 if (time < correctAns)
                 {
-                    stuntResultMessage = $"{PlayerPrefs.GetString("Name")} deccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F2")} seconds.";                    
+                    stuntResultMessage = $"{PlayerPrefs.GetString("Name")} deccelerates the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F2")} seconds.";
                 }
                 if (time > correctAns)
                 {
-                    stuntResultMessage = $"{PlayerPrefs.GetString("Name")} deccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F2")} seconds.";                    
+                    stuntResultMessage = $"{PlayerPrefs.GetString("Name")} deccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F2")} seconds.";
                 }
             }
             if (time == correctAns)
             {
-                actiontxt.text = "Next";                
-                stuntResultMessage = $"The correct answer is <b> {correctAns.ToString("F2")} </b> seconds. {PlayerPrefs.GetString("Name")} was able to enter tunnel succesfully!</color>";              
+                actiontxt.text = "Next";
+                stuntResultMessage = $"The correct answer is <b> {correctAns.ToString("F2")} </b> seconds. {PlayerPrefs.GetString("Name")} was able to enter tunnel succesfully!</color>";
                 answerIsCorrect = true;
 
             }
@@ -133,13 +133,13 @@ public class AccManagerTwo : MonoBehaviour
 
                 Acctxt.text = ("a = -") + deacceleration.ToString("F2") + ("m/s²");
                 gas = false;
-                
+
                 if (time > correctAns)
                 {
-                    
+
                     if (timer < time)
                     {
-                        
+
                         if (currentPos <= 32)
                         {
                             theBike.moveSpeed -= deacceleration * Time.fixedDeltaTime;
@@ -184,6 +184,10 @@ public class AccManagerTwo : MonoBehaviour
                 {
                     StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                 }
+                else
+                {
+                    StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
+                }
             }
             Debug.Log($"Current Pos: {currentPos}");
         }
@@ -196,13 +200,13 @@ public class AccManagerTwo : MonoBehaviour
         correctAns = (float)System.Math.Round(generateAns, 2);
         deacceleration = -(10 - Vi) / correctAns;
         //time = (float)System.Math.Round(generateTime, 2);
-        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + (" is instructed to initially speed ")+ pronoun2 +(" motorcycle at <b>") + Vi.ToString("F1") + ("</b> m/s and must deacelerate to a final velocity of 10 m/s right before dropping the ledge so it could safely enter the tunnel across it. How long should ") + pronoun + (" apply brake if braking deaccelerates the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²?")));
+        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + (" is instructed to initially speed ") + pronoun2 + (" motorcycle at <b>") + Vi.ToString("F1") + ("</b> m/s and must deacelerate to a final velocity of 10 m/s right before dropping the ledge so it could safely enter the tunnel across it. How long should ") + pronoun + (" apply brake if braking deaccelerates the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²?")));
         theBike.transform.position = new Vector2(-17, .2f);
         theHeart.losslife = false;
         walls.SetActive(false);
         Vitxt.text = ("vi = ") + Vi.ToString("F2") + ("m/s");
         Acctxt.text = ("a = -") + deacceleration.ToString("F2") + ("m/s²");
-        timertxt.text = timer.ToString("F2") + ("s");
+        // timertxt.text = timer.ToString("F2") + ("s");
         directionArrow.SetActive(true);
     }
     IEnumerator StuntResult(string message, bool isCorrect)

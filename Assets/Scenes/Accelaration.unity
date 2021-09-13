@@ -130,6 +130,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6467935964382186}
     m_Modifications:
+    - target: {fileID: 834068653955943614, guid: 892126174b11c49bda79c6a5e416868d, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 834068653955943614, guid: 892126174b11c49bda79c6a5e416868d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1765163463
+      objectReference: {fileID: 0}
+    - target: {fileID: 834068654756363990, guid: 892126174b11c49bda79c6a5e416868d, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 834068654756363990, guid: 892126174b11c49bda79c6a5e416868d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1765163463
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896746679079878305, guid: 892126174b11c49bda79c6a5e416868d, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896746679079878305, guid: 892126174b11c49bda79c6a5e416868d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896746679079878305, guid: 892126174b11c49bda79c6a5e416868d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1765163463
+      objectReference: {fileID: 0}
     - target: {fileID: 4896746679079878310, guid: 892126174b11c49bda79c6a5e416868d, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -149,6 +177,10 @@ PrefabInstance:
     - target: {fileID: 4896746679079878310, guid: 892126174b11c49bda79c6a5e416868d, type: 3}
       propertyPath: m_LocalPosition.y
       value: 353
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896746679079878311, guid: 892126174b11c49bda79c6a5e416868d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 892126174b11c49bda79c6a5e416868d, type: 3}
@@ -3312,6 +3344,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &485058816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3466479453583936867, guid: 48dd00e06f48bbc4ba33f48df967c64b, type: 3}
+  m_PrefabInstance: {fileID: 1669502840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &485058817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485058816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815afd2def0d58d42a09ca11ee780ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeedforward: 0
+  moveSpeedbackward: 0
+  moveSpeedupward: 0
+  stick: {fileID: 0}
+  stickloc: {fileID: 0}
 --- !u!1 &487068499
 GameObject:
   m_ObjectHideFlags: 0
@@ -9679,12 +9733,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -10420,8 +10474,8 @@ MonoBehaviour:
   - {fileID: 2099752062}
   - {fileID: 1702726872}
   directorBubble: {fileID: 6827676537402878247}
-  theRagdoll: {fileID: 0}
-  theQuestion: {fileID: 1079668222454469828}
+  theRagdoll: {fileID: 3466479454038594320}
+  theQuestion: {fileID: 6467937279768950}
   theHeart: {fileID: 698630596}
   lightssfx: {fileID: 1579280299}
   camerasfx: {fileID: 1995657836}
@@ -12853,7 +12907,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 392077459
+  m_SortingLayerID: 1488418657
   m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!1 &1104878071
@@ -19082,7 +19136,7 @@ MonoBehaviour:
   vitxt: {fileID: 682774832}
   theTruck: {fileID: 1678539254}
   debugAnswer: {fileID: 463655198}
-  theQuestion: {fileID: 1079668222454469828}
+  theQuestion: {fileID: 6467937279768950}
 --- !u!4 &1766770911
 Transform:
   m_ObjectHideFlags: 0
@@ -25257,11 +25311,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1161927772507168480, guid: a868616e2454595f5a5cde0bf4e75ec6, type: 3}
       propertyPath: m_SortingLayer
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1161927772507168480, guid: a868616e2454595f5a5cde0bf4e75ec6, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1488418657
+      value: -1765163463
+      objectReference: {fileID: 0}
+    - target: {fileID: 1161927772507168486, guid: a868616e2454595f5a5cde0bf4e75ec6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1161927772507168487, guid: a868616e2454595f5a5cde0bf4e75ec6, type: 3}
       propertyPath: m_RootOrder
@@ -25827,9 +25885,8 @@ MonoBehaviour:
   Vitxt: {fileID: 960012003}
   Vftxt: {fileID: 329398960}
   Acctxt: {fileID: 748980517}
-  timertxt: {fileID: 6467935474536968}
   actiontxt: {fileID: 6467936441504802}
-  theQuestion: {fileID: 1079668222454469828}
+  theQuestion: {fileID: 6467937279768950}
   debugAnswer: {fileID: 463655198}
 --- !u!1 &1965269541
 GameObject:
@@ -27105,6 +27162,7 @@ MonoBehaviour:
   Vf: 15
   timer: 0
   time: 0
+  transitionCanvas: {fileID: 667443831}
   accelaration: 0
   thePlayer: {fileID: 8189285403202226128}
   gas: 1
@@ -27117,7 +27175,7 @@ MonoBehaviour:
   Acctxt: {fileID: 1125597995}
   timertxt: {fileID: 6467935474536968}
   actiontxt: {fileID: 6467936441504802}
-  theQuestion: {fileID: 1079668222454469828}
+  theQuestion: {fileID: 6467937279768950}
 --- !u!1 &2109689752
 GameObject:
   m_ObjectHideFlags: 0
@@ -28307,7 +28365,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 587.6, y: 144.1}
+  m_AnchoredPosition: {x: 616.5, y: 161}
   m_SizeDelta: {x: 104.49, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6467935382836565
@@ -28354,8 +28412,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1079668222454469828}
-        m_TargetAssemblyTypeName: QuestionControllerB, Assembly-CSharp
+      - m_Target: {fileID: 6467937279768950}
+        m_TargetAssemblyTypeName: QuestionControllerAcceleration, Assembly-CSharp
         m_MethodName: ActionBtn
         m_Mode: 6
         m_Arguments:
@@ -29634,9 +29692,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 209528741
-  m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingLayerID: -1765163463
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 313567a5e3f408af09f03d3c1a77036f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.7882353}
   m_FlipX: 0
@@ -30969,9 +31027,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 209528741
-  m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 5e0507dca27b323efb94aeb1b4603ff8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -31403,8 +31461,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 209528741
-  m_SortingLayer: 1
+  m_SortingLayerID: -1765163463
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: b4e24c462e392ea32a3cc2e98c183888, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -31732,7 +31790,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 392077459
+  m_SortingLayerID: -1765163463
   m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!1 &6467936791423561
@@ -33021,9 +33079,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 209528741
-  m_SortingLayer: 1
-  m_SortingOrder: 2
+  m_SortingLayerID: -1765163463
+  m_SortingLayer: 3
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8289b40ccedff2e37a8e5c77a4973106, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -33179,6 +33237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6467937279768949}
   - component: {fileID: 1079668222454469828}
+  - component: {fileID: 6467937279768950}
   m_Layer: 0
   m_Name: QuestionControlV2 1
   m_TagString: Untagged
@@ -33201,6 +33260,65 @@ Transform:
   m_Father: {fileID: 1599002670713991182}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6467937279768950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6467937279768948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f168388436e8adc3aa03a0cc5c215ae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  limit: 10
+  baseComponent: {fileID: 6467936766744051}
+  problemBox: {fileID: 6467937123304839}
+  extraComponent: {fileID: 6467936243450523}
+  levelBadge: {fileID: 6467936685120489}
+  answerIsCorrect: 0
+  isModalOpen: 0
+  isSimulating: 0
+  nextStage: 0
+  retried: 0
+  correctAnswerColor: {r: 0, g: 0, b: 0, a: 0}
+  givenColor: {r: 0, g: 0, b: 0, a: 0}
+  wrongAnswerColor: {r: 0, g: 0, b: 0, a: 0}
+  levelDifficulty: 0
+  simulationManager: {fileID: 742297392}
+  levelNumber: 2
+  stage: 1
+  modalTitle: Acceleration
+  question: 
+  timer: 
+  levelName: Acceleration
+  colorMode: 0
+  settingUI: {fileID: 1828921950}
+  unit: 0
+  heartManager: {fileID: 698630596}
+  timerOn: 0
+  loaded: 0
+  answerFieldHorizontal: {fileID: 6467935534272045}
+  difficultyName: {fileID: 6467935771799528}
+  stageName: {fileID: 6467935270299417}
+  modalText: 
+  errorText: 
+  popupVisible: 0
+  extraOn: 0
+  levelNumberText: {fileID: 6467936894304171}
+  modalComponentHorizontal: {fileID: 6467935964382185}
+  popupComponentHorizontal: {fileID: 6467935850542650}
+  playButtonHorizontal: {fileID: 6467936816639274}
+  timerComponentHorizontal: {fileID: 6467935474536966}
+  problemBoxHorizontal: {fileID: 6467936555703910}
+  problemTextHorizontal: {fileID: 6467936615753566}
+  modalTextHorizontal: {fileID: 6467937078135920}
+  modalTitleHorizontal: {fileID: 6467937268076388}
+  wrongIconHorizontal: {fileID: 422729}
+  correctIconHorizontal: {fileID: 1956202814}
+  popupTextHorizontal: {fileID: 6467935565785681}
+  actionBtn: {fileID: 6467935382836565}
 --- !u!1 &18379785244401704
 GameObject:
   m_ObjectHideFlags: 0
@@ -33532,7 +33650,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6467937279768948}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c29d26118c04f264383ed2a2725e8193, type: 3}
   m_Name: 
@@ -36983,7 +37101,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 392077459
+  m_SortingLayerID: 1488418657
   m_SortingOrder: 7
   m_TargetDisplay: 0
 --- !u!224 &2298166935795968413
@@ -39098,6 +39216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3466479454038594319}
   - component: {fileID: 5092978544466551013}
+  - component: {fileID: 3466479454038594320}
   m_Layer: 0
   m_Name: ragdoll 1
   m_TagString: Untagged
@@ -39129,6 +39248,23 @@ Transform:
   m_Father: {fileID: 1963660859}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -20.694}
+--- !u!114 &3466479454038594320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3466479454038594318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815afd2def0d58d42a09ca11ee780ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeedforward: 0
+  moveSpeedbackward: 0
+  moveSpeedupward: 0
+  stick: {fileID: 0}
+  stickloc: {fileID: 0}
 --- !u!212 &3477487624162636819
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -49276,7 +49412,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 1
   m_TranslationAtRest: {x: -466, y: -582, z: 0}
-  m_TranslationOffset: {x: 20944.156, y: 24876.078, z: 3936.8162}
+  m_TranslationOffset: {x: 15591.618, y: 18511.56, z: 2952.6123}
   m_AffectTranslationX: 0
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 0

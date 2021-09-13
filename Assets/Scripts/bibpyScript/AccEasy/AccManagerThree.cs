@@ -40,7 +40,7 @@ public class AccManagerThree : MonoBehaviour
     int currentStar;
     private Vector2 bikeInitialStartPos;
     public TMP_Text debugAnswer;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerAcceleration theQuestion;
     Quaternion truckStartRot;
 
     // Start is called before the first frame update

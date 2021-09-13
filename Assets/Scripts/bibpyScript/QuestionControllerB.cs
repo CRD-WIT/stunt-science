@@ -146,7 +146,8 @@ public class QuestionControllerB : MonoBehaviour
             actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
             modalTitle = "Stunt Failed!";
             modalText = message;
-            SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);            
+            retried = true;
+            SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
         }
         actionBtn.interactable = true;
         isSimulating = false;
@@ -166,18 +167,19 @@ public class QuestionControllerB : MonoBehaviour
         string value = answerFieldHorizontal.text;
         // Bug when using whole number
         string[] splitted = value.Split('.');
-        answerFieldHorizontal.characterLimit = splitted[0].Length + 3;        
+        answerFieldHorizontal.characterLimit = splitted[0].Length + 3;
     }
     public void SetAnswer()
-    {        
+    {
+        Debug.Log($"Player Answer: {answerFieldHorizontal.text}");
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
             StartCoroutine(IsEmpty());
         }
         else
-        {        
-            answerFieldHorizontal.text = playerAnswer + answerUnit;
+        {
+            answerFieldHorizontal.text = playerAnswer.ToString() + answerUnit;
             // if (limit <= playerAnswer)
             // {
             //     //StartCoroutine(IsEmpty());
@@ -411,8 +413,9 @@ public class QuestionControllerB : MonoBehaviour
         answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
 
         extraComponent.gameObject.SetActive(isSimulating || popupVisible);
-        playButtonHorizontal.SetActive(!isSimulating);
+        playButtonHorizontal.SetActive(!isSimulating && !popupVisible);
         //timerComponentHorizontal.gameObject.SetActive(timerOn);
+        Debug.Log($"Timer Value: {timer}");
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
 
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
