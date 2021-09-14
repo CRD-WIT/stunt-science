@@ -94,7 +94,7 @@ public class ProjSimulationManager : MonoBehaviour
         if (stage == 3)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" || playerAnswer > 20.98)
+            if (answerField.text == "" || playerAnswer > 70)
             {
                 //StartCoroutine(theManagerThree.errorMesage());
                 theQuestion.errorText = ("exceeds the helicopter's fastest acceleration");
@@ -120,24 +120,26 @@ public class ProjSimulationManager : MonoBehaviour
         simulate = false;
         answerField.text = ("");
         theQuestion.isSimulating = false;
+        trail.GetComponent<TrailRenderer>().time = 0.05f;
         if (stage == 1)
         {
             theManagerOne.generateProblem();
         }
         if (stage == 2)
         {
-            //StartCoroutine(theManagerTwo.positioningTwo());
+            theManagerTwo.generateProblem();
 
         }
         if (stage == 3)
         {
-            //StartCoroutine(theManagerThree.positioningTwo());
+            theManagerThree.generateProblem();
             
         }
     }
     public void next()
     {
         playerAnswer = 0;
+         trail.GetComponent<TrailRenderer>().time = 0.05f;
         if (stage == 1)
         {
             theManagerOne.gameObject.SetActive(false);
@@ -152,6 +154,7 @@ public class ProjSimulationManager : MonoBehaviour
             theManagerThree.gameObject.SetActive(true);
             theQuestion.isSimulating = false;
             playButton.interactable = true;
+            StartCoroutine(theManagerThree.positioning());
         }
     }
     public IEnumerator DirectorsCall()

@@ -20,7 +20,7 @@ public class ProjectileHardOne : MonoBehaviour
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
     public float generateDistance, totalDistance, golemDistanceToTravel;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile;
-    public TMP_Text golemVelo, golemAcc, VoTxt, timerTxt, actiontxt;
+    public TMP_Text golemVelo, VoTxt, timerTxt, actiontxt;
     string pronoun, pronoun2, gender;
 
     // Start is called before the first frame update
@@ -51,7 +51,6 @@ public class ProjectileHardOne : MonoBehaviour
         if (!timeStart)
         {
             golemVelo.text = ("v = ") + vG.ToString("F2") + (" m/s");
-            golemAcc.text = ("a = none");
             stone.transform.position = new Vector2(this.transform.position.x + generateDistance, target.transform.position.y);
             angleArrow.transform.position = this.transform.position;
             angleArrow.transform.rotation = this.transform.rotation;
@@ -179,11 +178,9 @@ public class ProjectileHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
-
-        trail.GetComponent<TrailRenderer>().time = 0;
+        generateAngle = Random.Range(50, 60);
         projectArrowTrail.SetActive(false);
         showProjectile = true;
-       // theArrow[0].generateLine = true;
         theArrow[1].generateLine = true;
         theArrow[1].rb.bodyType = RigidbodyType2D.Dynamic;
         projectArrow.SetActive(false);
@@ -193,7 +190,7 @@ public class ProjectileHardOne : MonoBehaviour
         generateVG = Random.Range(2f, 3f);
         vG = (float)System.Math.Round(generateVG, 2);
         generateDistance = Random.Range(25f, 30);
-        theGolem.transform.position = new Vector2(20, theGolem.transform.position.y);
+        theGolem.transform.position = new Vector2(30, theGolem.transform.position.y);
         timeStart = false;
         arrow.SetActive(false);
         trail.SetActive(false);
@@ -202,7 +199,7 @@ public class ProjectileHardOne : MonoBehaviour
         theArrow[0].line.SetActive(true);
         theArrow[0].getAngle = false;
         theArrow[0].generateLine = true;
-        generateAngle = Random.Range(50, 60);
+       
 
         //Mgear.transform.rotation = Quaternion.Euler(Mgear.transform.rotation.x, Mgear.transform.rotation.y, generateAngle);
 
@@ -275,12 +272,12 @@ public class ProjectileHardOne : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-        trail.GetComponent<TrailRenderer>().time = 3;
-        yield return new WaitForSeconds(projectileTime);
+        //trail.GetComponent<TrailRenderer>().time = 3;
+        yield return new WaitForSeconds(projectileTime + 2);
         StartCoroutine(theSimulate.DirectorsCall());
         theQuestion.ToggleModal();
         theArrow[0].generateLine = false;
-        trail.SetActive(false);
+        //trail.SetActive(false);
         //theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;
         theArrow[0].getAngle = false;
         theArrow[0].gameObject.SetActive(false);
