@@ -544,7 +544,7 @@ public class HardManager : MonoBehaviour
         myPlayer.thrown = false;
         stone = Instantiate(stonePrefab);
         stoneScript = FindObjectOfType<Rock>();
-        stone.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, myPlayer.transform.position.y + 1f);
+        stone.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
 
         stoneScript.hit = null;
         stone.GetComponent<Rigidbody2D>().gravityScale = 0;
