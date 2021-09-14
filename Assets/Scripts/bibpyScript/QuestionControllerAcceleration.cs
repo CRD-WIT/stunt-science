@@ -8,12 +8,13 @@ using UnityEngine.UI;
 public class QuestionControllerAcceleration : MonoBehaviour
 {
     float playerAnswer;
+    public accSimulation simulationManager;
     public float limit = 0;
     public Transform baseComponent, problemBox, extraComponent, levelBadge;
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
     public Difficulty levelDifficulty;
-    public accSimulation simulationManager;
+
     public int levelNumber, stage;
     public string modalTitle, question, timer;
     public string levelName;
@@ -180,15 +181,6 @@ public class QuestionControllerAcceleration : MonoBehaviour
         else
         {
             answerFieldHorizontal.text = playerAnswer.ToString() + answerUnit;
-            // if (limit <= playerAnswer)
-            // {
-            //     //StartCoroutine(IsEmpty());
-            // }
-            // else
-            // {
-            //     timerOn = true;
-            //     //isSimulating = true;
-            // }
         }
         extraOn = true;
     }
@@ -205,63 +197,12 @@ public class QuestionControllerAcceleration : MonoBehaviour
             stage = 3;
             nextStage = true;
         }
-        else
-        {
-            // string difficulty = level.GetDifficulty();
-            // if (difficulty == "easy")
-            // {
-            //     stage = 1;
-            //     level.SetDifficulty(2);
-            // }
-            // else if (difficulty == "medium")
-            // {
-            //     stage = 1;
-            //     level.SetDifficulty(3);
-            // }
-            // else
-            // {
-            //     passedLevel++;
-            //     level.SetDifficulty(1);
-            //     stage = 1;
-            //     switch (level.GetGameLevel())
-            //     {
-            //         case "Velocity":
-            //             level.SetGameLevel(2);
-            //             break;
-            //         case "Acceleration":
-            //             level.SetGameLevel(3);
-            //             break;
-            //         case "Free Fall":
-            //             level.SetGameLevel(4);
-            //             break;
-            //         case "Projectile Motion":
-            //             level.SetGameLevel(5);
-            //             break;
-            //         case "Circular Motion":
-            //             level.SetGameLevel(6);
-            //             break;
-            //         case "Forces":
-            //             level.SetGameLevel(7);
-            //             break;
-            //         case "Work":
-            //             level.SetGameLevel(8);
-            //             break;
-            //         case "Energy":
-            //             level.SetGameLevel(9);
-            //             break;
-            //         case "Power":
-            //             level.SetGameLevel(10);
-            //             break;
-            //         case "Momentum":
-            //             //Done
-            //             break;
-            //     }
-            // }
-            //SceneManager.LoadScene("LevelSelection");
-        }
     }
     IEnumerator Retry()
     {
+        GameObject ragdoll = GameObject.Find("ragdoll 3(Clone)");
+        Destroy(ragdoll);
+        Debug.Log($"Detected: {ragdoll.name}");
         // TODO: Fix delay for background intro.
         extraOn = false;
         answerFieldHorizontal.text = "";
@@ -275,6 +216,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
         yield return new WaitForEndOfFrame();
         isModalOpen = false;
         simulationManager.retry();
+        
     }
 
     IEnumerator IsEmpty()
@@ -410,11 +352,18 @@ public class QuestionControllerAcceleration : MonoBehaviour
         problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
         modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
         problemTextHorizontal.SetActive(!isModalOpen);
-        // playButtonHorizontal.SetActive(!isModalOpen);
+        
         answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
+        
 
         extraComponent.gameObject.SetActive(isSimulating || popupVisible);
-        playButtonHorizontal.SetActive(!isSimulating && !popupVisible);
+        playButtonHorizontal.SetActive(!isSimulating); 
+        playButtonHorizontal.SetActive(!isModalOpen && !isSimulating && !simulationManager.directorIsCalling);     
+       
+        // if(isModalOpen){
+        //     Debug.Log("popup visible");
+        //     playButtonHorizontal.SetActive(false);
+        // }
         //timerComponentHorizontal.gameObject.SetActive(timerOn);
         Debug.Log($"Timer Value: {timer}");
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);

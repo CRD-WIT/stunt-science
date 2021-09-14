@@ -21,7 +21,7 @@ public class accSimulation : MonoBehaviour
 
     public GameObject driver, truck, player, director;
     public GameObject[] ground;
-    bool directorIsCalling;
+    public bool directorIsCalling;
     public GameObject directorBubble;
 
     public ragdollScript theRagdoll;
@@ -105,6 +105,7 @@ public class accSimulation : MonoBehaviour
         playerAnswer = theQuestion.GetPlayerAnswer();
         if (stage == 1)
         {
+            //playButton.gameObject.SetActive(false);
             Debug.Log($"Player Answer: {playerAnswer}");
 
             if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
@@ -116,7 +117,8 @@ public class accSimulation : MonoBehaviour
             {
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
-                //playButton.interactable = false;
+
+                // playButton.interactable = false;
                 {
                     answerField.text = playerAnswer.ToString() + "m/s²";
                 }
@@ -134,7 +136,8 @@ public class accSimulation : MonoBehaviour
             {
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
-                //playButton.interactable = false;
+                //playButton.gameObject.SetActive(false);
+                // playButton.interactable = false;
                 {
                     answerField.text = playerAnswer.ToString() + "sec";
                 }
@@ -153,6 +156,7 @@ public class accSimulation : MonoBehaviour
                 //theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
+                //playButton.gameObject.SetActive(false);
                 // playButton.interactable = false;
                 {
                     answerField.text = playerAnswer.ToString() + "m/s²";
@@ -180,6 +184,7 @@ public class accSimulation : MonoBehaviour
     {
         if (directorIsCalling)
         {
+            //playButton.gameObject.SetActive(false);
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Lights!";
             lightssfx.Play();
@@ -213,6 +218,7 @@ public class accSimulation : MonoBehaviour
         theQuestion.isSimulating = false;
         answerField.text = ("");
         // playButton.interactable = true;
+        //playButton.gameObject.SetActive(true);
         theQuestion.answerIsCorrect = false;
         if (stage == 1)
         {
@@ -253,13 +259,16 @@ public class accSimulation : MonoBehaviour
         driver.SetActive(true);
         theBike.stopBackward = false;
         theBike.stopForward = false;
+
+        playButton.gameObject.SetActive(true);
         //playButton.interactable = true;
+
         // playerAnswer = 0;
         // answerField.text = ("");
         player.transform.position = playerstartPos;
         if (theBike.collided == true)
         {
-            Destroy(theRagdoll.gameObject);
+            // Destroy(theRagdoll.gameObject);
             theBike.collided = false;
         }
         if (stage == 3)
