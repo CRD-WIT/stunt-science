@@ -39,7 +39,7 @@ public class VelocityMediumManager : MonoBehaviour
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
-        jmpDistFromBoulder = FindObjectOfType<IndicatorManager>();
+        jmpDistFromBoulder = FindObjectOfType<IndicatorManager>();       
 
         myPlayer = FindObjectOfType<PlayerV2>();
         createCeilling = FindObjectOfType<CeillingGenerator>();
@@ -535,7 +535,7 @@ public class VelocityMediumManager : MonoBehaviour
                 myPlayer.jumpforce = jumpForce - 0.1f;
                 jumpTime -= 0.04f;
             }
-            else if (stage ==1)
+            else if (stage == 1)
             {
                 if (playerAnswer > correctAnswer)
                 {
@@ -547,7 +547,9 @@ public class VelocityMediumManager : MonoBehaviour
                     myPlayer.jumpforce = jumpForce - 0.03f;
                     jumpTime -= 0.04f;
                 }
-            }else{
+            }
+            else
+            {
                 if (playerAnswer > correctAnswer)
                 {
                     myPlayer.jumpforce = jumpForce - 0.04f;
@@ -561,7 +563,8 @@ public class VelocityMediumManager : MonoBehaviour
 
             }
         }
-        else{ 
+        else
+        {
             myPlayer.jumpforce = jumpForce;
         }
         myPlayer.jump();

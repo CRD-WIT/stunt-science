@@ -46,6 +46,7 @@ public class AccManagerThree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        timer = 0;
         //theQuestion.stageNumber = 3;
         cam.transform.position = new Vector3(18f, cam.transform.position.y, cam.transform.position.z);
         //thePlayer = FindObjectOfType<Player>();
@@ -157,7 +158,12 @@ public class AccManagerThree : MonoBehaviour
             {
                 gas = false;
                 directionArrow.SetActive(false);
-                timertxt.text = timer.ToString("F2") + ("s");
+
+                // timer += Time.fixedDeltaTime;
+                // theQuestion.timer = timer.ToString("F2") + ("s");
+
+                //timertxt.text = timer.ToString("F2") + ("s");
+
                 bikeInitials.transform.position = theBike.transform.position;
                 if (timer < time)
                 {
@@ -179,7 +185,7 @@ public class AccManagerThree : MonoBehaviour
                     }
 
                 }
-
+                theQuestion.timer = timer.ToString("F2") + ("s");
             }
 
 
@@ -217,7 +223,7 @@ public class AccManagerThree : MonoBehaviour
         if (Vi == correctAns)
         {
             theQuestion.ActivateResult(message, isCorrect, true);
-            
+
             // theScorer.finalstar();
             // if (theHeart.life > currentStar)
             // {

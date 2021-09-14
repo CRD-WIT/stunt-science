@@ -136,7 +136,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         safeZone.transform.position = new Vector2(40, -3);
         safeZone.GetComponent<BoxCollider2D>().enabled = false;
         ragdollSpawn.SetActive(true);
-        ragdollSpawn.transform.position = new Vector2(43.65f, -3);
+        ragdollSpawn.transform.position = new Vector2(41.2f, -3);
         qc.timer = "0.00s";
         myPlayer.transform.position = new Vector2(0f, -3);
         elapsed = 0;

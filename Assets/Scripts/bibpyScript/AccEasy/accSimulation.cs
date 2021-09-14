@@ -32,6 +32,8 @@ public class accSimulation : MonoBehaviour
     //string accelaration;
     // Start is called before the first frame update
 
+    public GameObject timeExtraComponent;
+
 
     //TODO: Dynamically Change Stage
     public GameObject stage1Manager;

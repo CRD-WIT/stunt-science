@@ -9,6 +9,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
 {
     float playerAnswer;
     public accSimulation simulationManager;
+    public GameObject timerComponentHorizontalEmpty;
     public float limit = 0;
     public Transform baseComponent, problemBox, extraComponent, levelBadge;
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
@@ -186,6 +187,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
     }
     public void Next()
     {
+        timer = "0.00s";
         simulationManager.next();
         if (stage == 1)
         {
@@ -199,7 +201,8 @@ public class QuestionControllerAcceleration : MonoBehaviour
         }
     }
     IEnumerator Retry()
-    {
+    {        
+        timer = "0.00s";
         GameObject ragdoll = GameObject.Find("ragdoll 3(Clone)");
         Destroy(ragdoll);
         Debug.Log($"Detected: {ragdoll.name}");
@@ -216,7 +219,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
         yield return new WaitForEndOfFrame();
         isModalOpen = false;
         simulationManager.retry();
-        
+
     }
 
     IEnumerator IsEmpty()
@@ -352,14 +355,14 @@ public class QuestionControllerAcceleration : MonoBehaviour
         problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
         modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
         problemTextHorizontal.SetActive(!isModalOpen);
-        
+
         answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
-        
+        //timerComponentHorizontalEmpty.SetActive(!simulationManager.directorIsCalling);
 
         extraComponent.gameObject.SetActive(isSimulating || popupVisible);
-        playButtonHorizontal.SetActive(!isSimulating); 
-        playButtonHorizontal.SetActive(!isModalOpen && !isSimulating && !simulationManager.directorIsCalling);     
-       
+        playButtonHorizontal.SetActive(!isSimulating);
+        playButtonHorizontal.SetActive(!isModalOpen && !isSimulating && !simulationManager.directorIsCalling);
+
         // if(isModalOpen){
         //     Debug.Log("popup visible");
         //     playButtonHorizontal.SetActive(false);

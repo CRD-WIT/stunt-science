@@ -66,15 +66,17 @@ public class AccManagerTwo : MonoBehaviour
         currentPos = theBike.transform.position.x;
         if (theBike.brake == true)
         {
-            if (timer <= theQuestion.GetPlayerAnswer())
-            {
-                timer += Time.fixedDeltaTime;
-                // timertxt.text = timer.ToString("F2") + ("s");
-            }
-            if (timer >= theQuestion.GetPlayerAnswer())
-            {
-                // timertxt.text = theQuestion.GetPlayerAnswer().ToString("F2") + ("s");
-            }
+            timer += Time.fixedDeltaTime;
+            theQuestion.timer = timer.ToString("F2") + ("s");
+            // if (float.Parse(theQuestion.timer) <= theQuestion.GetPlayerAnswer())
+            // {
+                
+            //     // timertxt.text = timer.ToString("F2") + ("s");
+            // }
+            // if (timer >= theQuestion.GetPlayerAnswer())
+            // {
+            //     // timertxt.text = theQuestion.GetPlayerAnswer().ToString("F2") + ("s");
+            // }
         }
         if (follow)
         {
@@ -189,7 +191,10 @@ public class AccManagerTwo : MonoBehaviour
                     StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                 }
             }
-            Debug.Log($"Current Pos: {currentPos}");
+            //Debug.Log($"Current Pos: {currentPos}");
+            
+        }else{
+            theQuestion.timer = "0.00s";
         }
     }
     public void generateProblem()
