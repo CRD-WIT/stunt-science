@@ -23,14 +23,14 @@ public class PlayerV2 : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>(); 
         life = FindObjectOfType<HeartManager>();
-        if(PlayerPrefs.GetString("Gender") == "Female"){
-            hair.SetActive(true);
-            skirt.SetActive(true);
-        }else{
-            hair.SetActive(false);
-            skirt.SetActive(false);
+        // if(PlayerPrefs.GetString("Gender") == "Female"){
+        //     hair.SetActive(true);
+        //     skirt.SetActive(true);
+        // }else{
+        //     hair.SetActive(false);
+        //     skirt.SetActive(false);
 
-        }
+        // }
     }
 
     // Update is called once per frame
