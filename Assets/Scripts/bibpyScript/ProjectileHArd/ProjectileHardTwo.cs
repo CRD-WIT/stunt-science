@@ -187,12 +187,12 @@ public class ProjectileHardTwo : MonoBehaviour
         {
             deflector.GetComponent<Collider2D>().isTrigger = true;
             theQuestion.answerIsCorrect = true;
-            playerProjectileTime += 4;
+            playerProjectileTime += 2;
             actionTxt.text = "next";
             StartCoroutine(ropePull());
             theQuestion.answerIsCorrect = true;
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer+ .08f);
-            StartCoroutine(StuntResult());
+            
            
         }
         GameObject explosion = Instantiate(blastPrefab);
@@ -237,15 +237,15 @@ public class ProjectileHardTwo : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-        trail.GetComponent<TrailRenderer>().time = 3;
+        //trail.GetComponent<TrailRenderer>().time = 3;
         yield return new WaitForSeconds(playerProjectileTime);
         StartCoroutine(theSimulate.DirectorsCall());
         theQuestion.ToggleModal();
         theArrow[0].generateLine = false;
-        trail.SetActive(false);
+        //trail.SetActive(false);
         //theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;
-        theArrow[0].getAngle = false;
-        theArrow[0].gameObject.SetActive(false);
+        theArrow[0].getAngle = true;
+        //theArrow[0].gameObject.SetActive(false);
         thePlayer.sword.SetActive(false);
     }
 

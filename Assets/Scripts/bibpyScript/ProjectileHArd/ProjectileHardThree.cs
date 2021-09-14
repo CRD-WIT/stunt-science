@@ -5,25 +5,24 @@ using TMPro;
 
 public class ProjectileHardThree : MonoBehaviour
 {
-     public playerProjectile thePlayer;
+    public playerProjectile thePlayer;
     public ProjSimulationManager theSimulate;
     public QuestionControllerB theQuestion;
     public golem theGolem;
     public HeartManager theHeart;
-    public CircularAnnotation[] theCircular;
+    public CircularAnnotation theCircular;
     public Arrow[] theArrow;
     public DistanceMeter[] theMeter;
-    public GameObject Mgear, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer,boulder, angleArrow;
-    public GameObject dimension, cam, golemInitial, playerInitial;
+    public GameObject Mgear, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer, boulder, angleArrow;
+    public GameObject dimension, cam, golemInitial, playerInitial, angleDimension,angleLine;
     public float Vo, generateVG, vG, generateVP, vP, accG;
-    float playerGunTipDif;
-    public float angle, HRange, timer, generateTime, time, projectileTime,playerProjectileTime, golemTravelTime;
+    public float angle, HRange, timer, generateTime, time, projectileTime, playerProjectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
-    public float hypSide,oppSide, adjSide,oppSide2, angleGround, finalHeight;
+    public float hypSide, oppSide, adjSide, oppSide2, angleGround, finalHeight;
     public float initialDistance, finalDistance, golemDistanceToTravel, playerDistanceToTravel, camDistance, playerSpeed;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow;
     string pronoun, pronoun2, gender;
-     public TMP_Text golemVelo,golemAcc, VoTxt, playerVelo, actionTxt;
+    public TMP_Text golemVelo, golemAcc, VoTxt, playerVelo, actionTxt, angleTxt;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,9 +34,12 @@ public class ProjectileHardThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        angleLine.transform.position = this.transform.position;
+        theCircular._origin = new Vector2(this.transform.position.x + .5f, this.transform.position.y);
+        angleArrow.transform.rotation = this.transform.rotation;
+        angleArrow.transform.position = new Vector2(transform.position.x +.1f, transform.position.y);
         golemInitial.transform.position = theGolem.transform.position;
         playerInitial.transform.position = thePlayer.transform.position;
-        playerGunTipDif = this.transform.position.x - thePlayer.transform.position.x;
         if (running)
         {
             trail.transform.position = this.transform.position;
@@ -47,16 +49,16 @@ public class ProjectileHardThree : MonoBehaviour
         {
             cam.transform.position = new Vector3(thePlayer.transform.position.x - camDistance, cam.transform.position.y, cam.transform.position.z);
         }
-        if(!timeStart)
+        if (!timeStart)
         {
             golemVelo.text = ("v = ") + vG.ToString("F2") + (" m/s");
             playerVelo.text = "v = " + vP.ToString("F2") + "m/s";
             VoTxt.text = "vi = ?";
-            golemAcc.text = "a = "+ accG.ToString("F2") + "m/s²";
+            golemAcc.text = "a = " + accG.ToString("F2") + "m/s²";
 
             VoTxt.gameObject.transform.position = angleArrow.transform.position;
 
-            initialDistance = initialDistance = (float)System.Math.Round((target.transform.position.x-this.transform.position.x), 2);
+            initialDistance = initialDistance = (float)System.Math.Round((target.transform.position.x - this.transform.position.x), 2);
             playerDistanceToTravel = vP * time;
             golemTravelTime = time + projectileTime;
             hypSide = playerDistanceToTravel;
@@ -64,9 +66,9 @@ public class ProjectileHardThree : MonoBehaviour
             stoneDyR = (float)System.Math.Round(stoneDY, 2);
             oppSide = Mathf.Sin(angleGround * Mathf.Deg2Rad) * hypSide;
             adjSide = Mathf.Cos(angleGround * Mathf.Deg2Rad) * hypSide;
-            oppSide2 = Mathf.Sqrt((hypSide * hypSide)-(adjSide*adjSide));
+            oppSide2 = Mathf.Sqrt((hypSide * hypSide) - (adjSide * adjSide));
             finalDistance = initialDistance + adjSide - golemDistanceToTravel;
-            stoneDY = 1.62f + oppSide; 
+            stoneDY = 1.62f + oppSide;
             finalHeight = 5.97f - stoneDY;
             angle = Mathf.Atan(((finalHeight + ((9.81f / 2) * (projectileTime * projectileTime))) / finalDistance)) * Mathf.Rad2Deg;
             Vo = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) * projectileTime);
@@ -79,50 +81,54 @@ public class ProjectileHardThree : MonoBehaviour
             theMeter[2].positionX = this.transform.position.x;
             theMeter[2].positionY = this.transform.position.y - 2.5f;
             theMeter[2].distance = -this.transform.position.x + target.transform.position.x;
+            theCircular._degrees = angle;
+            theCircular.initialAngle = 85 - angle;
             transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (angle));
         }
         if (ProjSimulationManager.simulate == true)
         {
-            
+            theCircular._degrees =ProjSimulationManager.playerAnswer;
+            theCircular.initialAngle = 85 - ProjSimulationManager.playerAnswer;
+            angleTxt.text = "Θ = " + ProjSimulationManager.playerAnswer.ToString("F2") + "°";
             trail.SetActive(true);
             timeStart = true;
             running = true;
-             if(ProjSimulationManager.playerAnswer > correctAnswer)
+            if (ProjSimulationManager.playerAnswer > correctAnswer)
             {
                 transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (ProjSimulationManager.playerAnswer));
                 actionTxt.text = "retry";
                 Vo -= .2f;
-                
+
             }
-            if(ProjSimulationManager.playerAnswer < correctAnswer)
+            if (ProjSimulationManager.playerAnswer < correctAnswer)
             {
                 transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (ProjSimulationManager.playerAnswer));
                 actionTxt.text = "retry";
-                 Vo += .2f;
+                Vo += .2f;
             }
-            if(ProjSimulationManager.playerAnswer == correctAnswer)
+            if (ProjSimulationManager.playerAnswer == correctAnswer)
             {
                 deflector.GetComponent<Collider2D>().isTrigger = true;
                 theQuestion.answerIsCorrect = true;
                 playerProjectileTime += 4;
                 actionTxt.text = "done";
-                
+
             }
             ProjSimulationManager.simulate = false;
 
         }
         if (timeStart)
-        {  
-            playerProjectileTime = finalDistance / (Mathf.Cos((ProjSimulationManager.playerAnswer * Mathf.Deg2Rad)) * Vo); 
-            if (timer == 0) 
+        {
+            playerProjectileTime = finalDistance / (Mathf.Cos((ProjSimulationManager.playerAnswer * Mathf.Deg2Rad)) * Vo);
+            if (timer == 0)
             {
                 dimension.SetActive(false);
                 theGolem.accelarating = true;
                 theGolem.accelaration = accG;
                 theGolem.moveSpeed = vG;
-                playerSpeed = -vP;   
-            
-            }     
+                playerSpeed = -vP;
+
+            }
             timer += Time.fixedDeltaTime;
             if (timer < time)
             {
@@ -136,7 +142,7 @@ public class ProjectileHardThree : MonoBehaviour
                     thePlayer.backward = false;
                     vP = 0;
                     shootReady = false;
-                   
+
                 }
             }
             if (timer >= golemTravelTime)
@@ -144,47 +150,50 @@ public class ProjectileHardThree : MonoBehaviour
                 theGolem.accelarating = false;
                 theGolem.moveSpeed = 0;
             }
-           
+
         }
-       
-        
+
+
     }
     public void generateProblem()
     {
+        angleTxt.text = "Θ = ?";
+        angleDimension.SetActive(true);
         dimension.SetActive(true);
-        timer = 0;       
+        timer = 0;
         arrow.SetActive(false);
         timeStart = false;
         shootReady = true;
         running = false;
         theArrow[0].getAngle = false;
         //dimension.SetActive(true);
-        puller.transform.position = new Vector2(-14.55f + playerGunTipDif, 1.5f);
-        theGolem.transform.position = new Vector2(30, theGolem.transform.position.y); 
-        time = (float)System.Math.Round( Random.Range(2f, 2.5f), 2);
-        projectileTime = (float)System.Math.Round( Random.Range(2.7f, 3.1f), 2);
-        accG = (float)System.Math.Round(Random.Range(.5f, 1f), 2);
+        puller.transform.position = new Vector2(-15.23f, 1.5f);
+        theGolem.transform.position = new Vector2(30, theGolem.transform.position.y);
+        time = (float)System.Math.Round(Random.Range(2f, 2.5f), 2);
+        projectileTime = (float)System.Math.Round(Random.Range(2.9f, 3.3f), 2);
+        accG = (float)System.Math.Round(Random.Range(.3f, 0.6f), 2);
         vG = (float)System.Math.Round(Random.Range(2f, 2.5f), 2);
         vP = (float)System.Math.Round(Random.Range(1f, 1.7f), 2);
         angle = (float)System.Math.Round(Random.Range(50f, 58f), 2);
         trail.SetActive(false);
-        theQuestion.SetQuestion("Simulation Test");
+        theQuestion.SetQuestion("Simulation Test"); 
         //Vo = (float)System.Math.Round((Random.Range(50f, 57f)), 2);
     }
-     public void ShootArrow()
+    public void ShootArrow()
     {
+        angleDimension.SetActive(false);
         arrow.SetActive(true);
         arrow.transform.position = this.transform.position;
         theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;
         lineRenderer.GetComponent<LineRenderer>().enabled = true;
         theArrow[0].generateLine = true;
         trail.GetComponent<TrailRenderer>().time = 3000;
-        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo+.2f);   
+        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo + .1f);
         if (ProjSimulationManager.playerAnswer == correctAnswer)
         {
             StartCoroutine(ropePull());
         }
-        StartCoroutine(StuntResult());  
+        StartCoroutine(StuntResult());
         GameObject explosion = Instantiate(blastPrefab);
         explosion.transform.position = transform.position;
     }
@@ -193,7 +202,7 @@ public class ProjectileHardThree : MonoBehaviour
         yield return new WaitForSeconds(projectileTime);
         playerInitial.SetActive(false);
         running = false;
-        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y,17);
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 17);
         //theGolem.throwing = true;
         theGolem.moveSpeed = 0;
         yield return new WaitForSeconds(.55f);
@@ -204,12 +213,13 @@ public class ProjectileHardThree : MonoBehaviour
         thePlayer.airdive = true;
         thePlayer.aim = false;
     }
-     public void reShoot()
+    public void reShoot()
     {
         puller.GetComponent<Rigidbody2D>().velocity = transform.right * 10;
     }
     public IEnumerator positioning()
     {
+        arrow.SetActive(false);
         theQuestion.answerIsCorrect = false;
         thePlayer.aim = false;
         thePlayer.slash = false;
@@ -241,10 +251,10 @@ public class ProjectileHardThree : MonoBehaviour
         theQuestion.answerIsCorrect = false;
 
     }
-     IEnumerator StuntResult()
+    IEnumerator StuntResult()
     {
         running = false;
-        yield return new WaitForSeconds(playerProjectileTime+4);
+        yield return new WaitForSeconds(playerProjectileTime + 4);
         StartCoroutine(theSimulate.DirectorsCall());
         theQuestion.ToggleModal();
         theArrow[0].generateLine = false;

@@ -9,7 +9,7 @@ public class golem : MonoBehaviour
     private Animator myAnimator;
     public ProjSimulationManager theSimulate;
     public bool throwing, damage, standUp;
-    public GameObject hpBar, head, hpBarParent, smallBlast;
+    public GameObject hpBar, head, hpBarParent, smallBlast, golemRagdoll;
     public float fullHp, currentHp;
     public bool reduceHp, accelarating;
     
@@ -53,6 +53,12 @@ public class golem : MonoBehaviour
         myAnimator.SetBool("throw", throwing);
         myAnimator.SetBool("damage", damage);
         myAnimator.SetBool("standUp", standUp);
+        if(currentHp <= 0)
+        {
+            GameObject rocks = Instantiate(golemRagdoll);
+            rocks.transform.position = transform.position;
+            gameObject.SetActive(false);
+        }
     }
     public IEnumerator takeDamaged()
     {
