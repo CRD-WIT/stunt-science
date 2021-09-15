@@ -22,6 +22,7 @@ public class ProjSimulationManager : MonoBehaviour
     public string take;
     public int takeNumber;
     public bool answerIsCorrect;
+    public GameObject  hit, miss;
     // Start is called before the first frame update
     void Start()
     {

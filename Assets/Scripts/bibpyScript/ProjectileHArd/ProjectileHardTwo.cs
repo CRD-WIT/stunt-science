@@ -14,14 +14,14 @@ public class ProjectileHardTwo : MonoBehaviour
     public Arrow[] theArrow;
     public DistanceMeter[] theMeter;
     public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer, boulder, angleArrow;
-    public GameObject  dimension, cam, golemInitial, playerInitials;
+    public GameObject dimension, cam, golemInitial, playerInitials;
     public float Vo, generateVG, vG, generateVP, vP;
-    public float angle, HRange, timer, generateTime, time, projectileTime,playerProjectileTime, golemTravelTime;
+    public float angle, HRange, timer, generateTime, time, projectileTime, playerProjectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
     public float initialDistance, finalDistance, golemDistanceToTravel, playerDistanceToTravel, camDistance, playerSpeed;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow;
     string pronoun, pronoun2, gender;
-     public TMP_Text golemVelo, VoTxt, playerVelo, actionTxt, vPtxt;
+    public TMP_Text golemVelo, VoTxt, playerVelo, actionTxt, vPtxt;
     void Start()
     {
         theSimulate.stage = 2;
@@ -63,7 +63,7 @@ public class ProjectileHardTwo : MonoBehaviour
             playerVelo.text = "v = " + vP.ToString("F2") + "m/s";
             VoTxt.text = "vi = ?";
             VoTxt.gameObject.transform.position = angleArrow.transform.position;
-           
+
             initialDistance = (float)System.Math.Round((this.transform.position.x - target.transform.position.x), 2);
             golemTravelTime = time + projectileTime;
             golemDistanceToTravel = vG * golemTravelTime;
@@ -84,11 +84,11 @@ public class ProjectileHardTwo : MonoBehaviour
             theMeter[1].distance = this.transform.position.y + 0.25f;
             theMeter[2].positionX = target.transform.position.x + 1;
             theMeter[2].distance = target.transform.position.y + 0.25f;
-            playerProjectileTime = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) *Vo);
+            playerProjectileTime = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) * Vo);
         }
         if (ProjSimulationManager.simulate == true)
         {
-            
+
             trail.SetActive(true);
             timeStart = true;
             running = true;
@@ -96,7 +96,7 @@ public class ProjectileHardTwo : MonoBehaviour
         }
         if (timeStart)
         {
-            
+
             dimension.SetActive(false);
             theGolem.moveSpeed = vG;
             playerSpeed = vP;
@@ -128,7 +128,7 @@ public class ProjectileHardTwo : MonoBehaviour
     }
     public void generateProblem()
     {
-        timer = 0;       
+        timer = 0;
         arrow.SetActive(false);
         timeStart = false;
         shootReady = true;
@@ -145,6 +145,7 @@ public class ProjectileHardTwo : MonoBehaviour
         generateVP = Random.Range(1f, 1.7f);
         vP = (float)System.Math.Round(generateVP, 2);
         trail.SetActive(false);
+        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to fire a gun hitting a Golem in its weakest spot. ") + PlayerPrefs.GetString("Name") + (" and the Golem is <b>") + initialDistance.ToString("F2") + ("</b> meters apart when the Golem starts to chase ") + PlayerPrefs.GetString("Name") + (" at the velocity of <b>") + vG.ToString("F2") + ("</b> m/s while ") + PlayerPrefs.GetString("Name") + (" is moving away at the velocity of <b>") + vP.ToString("F2") + ("</b> m/s. After <b>") + time.ToString("F2") + ("</b> seconds, ") + PlayerPrefs.GetString("Name") + (" stops running and fire its gun at a certain angle. What should be the initial velocity of the bullet if its hits the weakspot at exactly <b>") + projectileTime.ToString("F2") + ("</b> seconds projectile time?")));
 
     }
     IEnumerator ropePull()
@@ -174,7 +175,8 @@ public class ProjectileHardTwo : MonoBehaviour
         if (ProjSimulationManager.playerAnswer < correctAnswer)
         {
             actionTxt.text = "retry";
-            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer-.2f);
+            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer - .2f);
+            theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " fired the gun but the initial velocity of <b>" + ProjSimulationManager.playerAnswer.ToString("F2")+ "</b> m/s is too slow. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
             StartCoroutine(StuntResult());
         }
         if (ProjSimulationManager.playerAnswer > correctAnswer)
@@ -182,6 +184,7 @@ public class ProjectileHardTwo : MonoBehaviour
             actionTxt.text = "retry";
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer + .2f);
             StartCoroutine(StuntResult());
+            theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " fired the gun but the initial velocity of <b>" + ProjSimulationManager.playerAnswer.ToString("F2")+ "</b> m/s is too fast. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
         }
         if (ProjSimulationManager.playerAnswer == correctAnswer)
         {
@@ -191,9 +194,9 @@ public class ProjectileHardTwo : MonoBehaviour
             actionTxt.text = "next";
             StartCoroutine(ropePull());
             theQuestion.answerIsCorrect = true;
-            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer+ .08f);
-            
-           
+            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (ProjSimulationManager.playerAnswer + .08f);
+            theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " fired the gun with the exact initial velocity. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
+
         }
         GameObject explosion = Instantiate(blastPrefab);
         explosion.transform.position = transform.position;
@@ -237,6 +240,10 @@ public class ProjectileHardTwo : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
+         if(ProjSimulationManager.playerAnswer != correctAnswer)
+        {
+           //TODO: reduceLife
+        }
         //trail.GetComponent<TrailRenderer>().time = 3;
         yield return new WaitForSeconds(playerProjectileTime);
         StartCoroutine(theSimulate.DirectorsCall());

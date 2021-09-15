@@ -169,10 +169,10 @@ public class ProjectileHardThree : MonoBehaviour
         //dimension.SetActive(true);
         puller.transform.position = new Vector2(-15.23f, 1.5f);
         theGolem.transform.position = new Vector2(30, theGolem.transform.position.y);
-        time = (float)System.Math.Round(Random.Range(2f, 2.5f), 2);
-        projectileTime = (float)System.Math.Round(Random.Range(2.9f, 3.3f), 2);
+        time = (float)System.Math.Round(Random.Range(1.7f, 2.2f), 2);
+        projectileTime = (float)System.Math.Round(Random.Range(3f, 3.4f), 2);
         accG = (float)System.Math.Round(Random.Range(.3f, 0.6f), 2);
-        vG = (float)System.Math.Round(Random.Range(2f, 2.5f), 2);
+        vG = (float)System.Math.Round(Random.Range(1.7f, 2.2f), 2);
         vP = (float)System.Math.Round(Random.Range(1f, 1.7f), 2);
         angle = (float)System.Math.Round(Random.Range(50f, 58f), 2);
         trail.SetActive(false);
@@ -188,7 +188,7 @@ public class ProjectileHardThree : MonoBehaviour
         lineRenderer.GetComponent<LineRenderer>().enabled = true;
         theArrow[0].generateLine = true;
         trail.GetComponent<TrailRenderer>().time = 3000;
-        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo + .1f);
+        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo + .2f);
         if (ProjSimulationManager.playerAnswer == correctAnswer)
         {
             StartCoroutine(ropePull());
@@ -253,6 +253,10 @@ public class ProjectileHardThree : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
+         if(ProjSimulationManager.playerAnswer != correctAnswer)
+        {
+           //TODO: reduceLife
+        }
         running = false;
         yield return new WaitForSeconds(playerProjectileTime + 4);
         StartCoroutine(theSimulate.DirectorsCall());

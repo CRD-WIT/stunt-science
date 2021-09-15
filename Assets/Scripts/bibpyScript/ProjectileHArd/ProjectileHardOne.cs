@@ -12,6 +12,7 @@ public class ProjectileHardOne : MonoBehaviour
     public CircularAnnotation[] theCircular;
     public BoulderProjectile theBoulder;
     public DistanceMeter[] theMeter;
+    public HeartManager theHeart;
     public Arrow[] theArrow;
     public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineAngle, lineDistance, boulder, angleArrow;
     public GameObject lineVertical, lineHorizontal, dimension, golemInitial;
@@ -19,7 +20,7 @@ public class ProjectileHardOne : MonoBehaviour
     public float generateAngle, generateStoneAngle, stoneAngle, stoneOpp, HRange, timer, projectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
     public float generateDistance, totalDistance, golemDistanceToTravel;
-    public bool timeStart, answerIsCorrect, shootReady, showProjectile;
+    public bool timeStart, answerIsCorrect, shootReady, showProjectile, indicatorReady;
     public TMP_Text golemVelo, VoTxt, timerTxt, actiontxt;
     string pronoun, pronoun2, gender;
 
@@ -115,6 +116,14 @@ public class ProjectileHardOne : MonoBehaviour
             {
                 theGolem.moveSpeed = 0;
             }
+            if (timer >= projectileTime + ProjSimulationManager.playerAnswer)
+            {
+                if (indicatorReady)
+                {
+                    theSimulate.hit.SetActive(true);
+                    theSimulate.hit.transform.position = new Vector2(arrow.transform.position.x + 1, arrow.transform.position.y + 1);
+                }
+            }
 
         }
 
@@ -138,19 +147,21 @@ public class ProjectileHardOne : MonoBehaviour
                         StartCoroutine(ropePull());
                         answerIsCorrect = true;
                         deflector.GetComponent<Collider2D>().isTrigger = true;
-                        
+
+                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " pulled the trigger at the exact timed. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
+
                     }
                     if (ProjSimulationManager.playerAnswer > correctAnswer)
                     {
                         theQuestion.SetModalTitle("Stunt failed");
-                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " pulled the trigger too late. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
+                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " pulled the trigger after <b>" + ProjSimulationManager.playerAnswer.ToString("F2") + "</b> seconds and too late to hit the target. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
                         vi += .3f;
                         StartCoroutine(StuntResult());
                     }
                     if (ProjSimulationManager.playerAnswer < correctAnswer)
                     {
                         theQuestion.SetModalTitle("Stunt failed");
-                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " pulled the trigger too soon. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
+                        theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " pulled the trigger after <b>" + ProjSimulationManager.playerAnswer.ToString("F2") + "</b> seconds and too soon to hit the target. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
                         vi -= .3f;
                         StartCoroutine(StuntResult());
                     }
@@ -178,6 +189,7 @@ public class ProjectileHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        indicatorReady = true;
         generateAngle = Random.Range(50, 60);
         projectArrowTrail.SetActive(false);
         showProjectile = true;
@@ -199,7 +211,7 @@ public class ProjectileHardOne : MonoBehaviour
         theArrow[0].line.SetActive(true);
         theArrow[0].getAngle = false;
         theArrow[0].generateLine = true;
-       
+
 
         //Mgear.transform.rotation = Quaternion.Euler(Mgear.transform.rotation.x, Mgear.transform.rotation.y, generateAngle);
 
@@ -272,6 +284,10 @@ public class ProjectileHardOne : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
+        if (ProjSimulationManager.playerAnswer != correctAnswer)
+        {
+            //TODO: reduceLife
+        }
         //trail.GetComponent<TrailRenderer>().time = 3;
         yield return new WaitForSeconds(projectileTime + 2);
         StartCoroutine(theSimulate.DirectorsCall());

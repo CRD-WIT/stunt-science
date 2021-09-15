@@ -291,6 +291,11 @@ public class AccHardThree : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
+        
+         if(ProjSimulationManager.playerAnswer != answer)
+        {
+           //TODO: reduceLife
+        }
         yield return new WaitForSeconds(2f);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1f);
