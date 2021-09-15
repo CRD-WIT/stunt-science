@@ -39,22 +39,24 @@ public class ConveyorTooth : MonoBehaviour
         if (other.gameObject.name == "UpperToothReset")
         {
             GameObject parent = this.transform.parent.gameObject;
-            Destroy(this.gameObject);
-            GameObject tooth = Instantiate(this.gameObject);
-            tooth.transform.position = parent.transform.Find("UpperSpawnPoint").position;
-            tooth.GetComponent<Collider2D>().enabled = true;
-            tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(-ConveyorManager.conveyorSpeed, 0);
-            tooth.transform.SetParent(parent.transform);
+            // Destroy(this.gameObject);
+            // GameObject tooth = Instantiate(this.gameObject);
+            // tooth.transform.position = parent.transform.Find("UpperSpawnPoint").position;
+            // tooth.GetComponent<Collider2D>().enabled = true;
+            // tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(-ConveyorManager.conveyorSpeed, 0);
+            // tooth.transform.SetParent(parent.transform);
+            this.gameObject.transform.position = parent.transform.Find("UpperSpawnPoint").position;
         }
         else
         {
             GameObject parent = this.transform.parent.gameObject;
-            Destroy(this.gameObject);
-            GameObject tooth = Instantiate(this.gameObject);
-            tooth.transform.position = parent.transform.Find("LowerSpawnPoint").position;
-            tooth.GetComponent<Collider2D>().enabled = true;
-            tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(ConveyorManager.conveyorSpeed, 0);
-            tooth.transform.SetParent(parent.transform);
+            // Destroy(this.gameObject);
+            // GameObject tooth = Instantiate(this.gameObject);
+            // tooth.transform.position = parent.transform.Find("LowerSpawnPoint").position;
+            // tooth.GetComponent<Collider2D>().enabled = true;
+            // tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(ConveyorManager.conveyorSpeed, 0);
+            // tooth.transform.SetParent(parent.transform);
+            this.gameObject.transform.position = parent.transform.Find("LowerSpawnPoint").position;
         }
     }
 }
