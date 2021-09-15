@@ -8592,8 +8592,8 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 1
-  m_MatchWidthOrHeight: 0
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -13235,7 +13235,7 @@ MonoBehaviour:
   extraComponent: {fileID: 1988647917}
   levelBadge: {fileID: 246996284}
   answerIsCorrect: 0
-  isModalOpen: 1
+  isModalOpen: 0
   isSimulating: 0
   nextStage: 0
   retried: 0
@@ -13244,8 +13244,8 @@ MonoBehaviour:
   wrongAnswerColor: {r: 0, g: 0, b: 0, a: 0}
   levelDifficulty: 1
   simulationManager: {fileID: 742297392}
-  levelNumber: 0
-  stage: 0
+  levelNumber: 2
+  stage: 1
   modalTitle: 
   question: 
   timer: 
@@ -14075,18 +14075,18 @@ MonoBehaviour:
   theManagerThree: {fileID: 753629766}
   theManagerTwo: {fileID: 879044184}
   answerField:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1315256575}
+  - {fileID: 1315256575}
+  - {fileID: 1315256575}
   questionTextBox: {fileID: 0}
   errorTextBox: {fileID: 21478578995525694}
   levelText: {fileID: 21478578595536500}
   diretorsSpeech: {fileID: 596383506}
   stage: 1
   theQuestion:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 672901077}
+  - {fileID: 672901077}
+  - {fileID: 672901077}
   ground:
   - {fileID: 1233839156}
   - {fileID: 109714220}
@@ -15842,8 +15842,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: QuestionControllerB, Assembly-CSharp
+      - m_Target: {fileID: 672901077}
+        m_TargetAssemblyTypeName: QuestionControllerC, Assembly-CSharp
         m_MethodName: SetAnswer
         m_Mode: 1
         m_Arguments:
@@ -15853,10 +15853,22 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
       - m_Target: {fileID: 111082826}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 742297392}
+        m_TargetAssemblyTypeName: AccMidSimulation, Assembly-CSharp
+        m_MethodName: PlayButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16223,7 +16235,7 @@ MonoBehaviour:
   vihTxt: {fileID: 2113766474}
   accvTxt: {fileID: 1478478604}
   acchTxt: {fileID: 1021574687}
-  actiontxt: {fileID: 0}
+  actiontxt: {fileID: 1031474003}
   timertxt: {fileID: 0}
 --- !u!4 &879044185
 Transform:
@@ -26173,7 +26185,7 @@ GameObject:
   - component: {fileID: 1315256573}
   - component: {fileID: 1315256575}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: AnswerFieldMain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30729,8 +30741,8 @@ MonoBehaviour:
   vHtxt: {fileID: 2113766474}
   viTtxt: {fileID: 1192256006}
   aTtxt: {fileID: 1478478604}
-  actiontxt: {fileID: 0}
-  playTimertxt: {fileID: 0}
+  actiontxt: {fileID: 500682038}
+  playTimertxt: {fileID: 1031474003}
 --- !u!1 &1593118575
 GameObject:
   m_ObjectHideFlags: 0
@@ -34637,7 +34649,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorTexture: {fileID: 2800000, guid: 6403d2b91d5a5cf92934e433d421c133, type: 3}
   cursorMode: 1
-  hotSpot: {x: 0, y: 0}
 --- !u!1 &1785893580
 GameObject:
   m_ObjectHideFlags: 0

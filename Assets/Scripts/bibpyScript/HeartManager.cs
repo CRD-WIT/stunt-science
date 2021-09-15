@@ -7,6 +7,8 @@ public class HeartManager : MonoBehaviour
 {
     //public GameObject[] hearts;
     public AudioSource bgm;
+
+    
     public AudioSource Gameoversfx;
     public int life;
     public GameObject gameOverBG, startBG;

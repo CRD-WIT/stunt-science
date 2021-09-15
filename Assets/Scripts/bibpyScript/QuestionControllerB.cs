@@ -66,7 +66,11 @@ public class QuestionControllerB : MonoBehaviour
                 difficulty = level.GetDifficulty();
                 break;
         }
-        difficultyName.GetComponent<TMP_Text>().text = difficulty;
+
+        if (difficultyName)
+        {
+            difficultyName.GetComponent<TMP_Text>().text = difficulty;
+        }
 
         life = FindObjectOfType<HeartManager>();
     }
@@ -417,11 +421,22 @@ public class QuestionControllerB : MonoBehaviour
         //timerComponentHorizontal.gameObject.SetActive(timerOn);
         Debug.Log($"Timer Value: {timer}");
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
-
-        problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
-        levelNumberText.SetText($"{levelNumber}");
-        stageName.SetText($"Stage {stage}");
-        difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
+        if (problemBox)
+        {
+            problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
+        }
+        if (levelNumberText)
+        {
+            levelNumberText.SetText($"{levelNumber}");
+        }
+        if (stageName)
+        {
+            stageName.SetText($"Stage {stage}");
+        }
+        if (difficultyName.GetComponent<TMP_Text>())
+        {
+            difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
+        }
     }
 }
 /*That means that Bolt's speed during his world-record run was 10.44 meters per second.
