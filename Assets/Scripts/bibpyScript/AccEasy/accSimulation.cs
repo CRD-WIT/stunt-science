@@ -32,7 +32,7 @@ public class accSimulation : MonoBehaviour
     //string accelaration;
     // Start is called before the first frame update
 
-    public GameObject timeExtraComponent;
+    public GameObject timeExtraTimerComponent;
 
 
     //TODO: Dynamically Change Stage
@@ -51,6 +51,7 @@ public class accSimulation : MonoBehaviour
 
     void Start()
     {
+        timeExtraTimerComponent.SetActive(false);
         theQuestion.isSimulating = false;
         //accelaration = "accelaration";
         theBike = FindObjectOfType<BikeManager>();
@@ -186,7 +187,7 @@ public class accSimulation : MonoBehaviour
     {
         if (directorIsCalling)
         {
-            //playButton.gameObject.SetActive(false);
+            timeExtraTimerComponent.SetActive(true);
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Lights!";
             lightssfx.Play();
@@ -195,9 +196,10 @@ public class accSimulation : MonoBehaviour
             camerasfx.Play();
             yield return new WaitForSeconds(1f);
             diretorsSpeech.text = "Action!";
-            actionsfx.Play();
+            actionsfx.Play();            
             yield return new WaitForSeconds(1f);
             diretorsSpeech.text = "";
+            timeExtraTimerComponent.SetActive(false);
             directorBubble.SetActive(false);
             theQuestion.isSimulating = true;
             directorIsCalling = false;
@@ -214,6 +216,7 @@ public class accSimulation : MonoBehaviour
     }
     IEnumerator entrance()
     {
+        timeExtraTimerComponent.SetActive(true);
         ///StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1);
         // StartCoroutine(theHeart.endBGgone());
