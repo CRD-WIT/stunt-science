@@ -176,6 +176,7 @@ public class accSimulation : MonoBehaviour
     }
     public void next()
     {
+        timeExtraTimerComponent.SetActive(false);
         if (stage != 3)
         {
             transitionCanvas.SetActive(true);
@@ -196,7 +197,7 @@ public class accSimulation : MonoBehaviour
             camerasfx.Play();
             yield return new WaitForSeconds(1f);
             diretorsSpeech.text = "Action!";
-            actionsfx.Play();            
+            actionsfx.Play();
             yield return new WaitForSeconds(1f);
             diretorsSpeech.text = "";
             timeExtraTimerComponent.SetActive(false);
@@ -206,17 +207,18 @@ public class accSimulation : MonoBehaviour
         }
         else
         {
+            timeExtraTimerComponent.SetActive(false);
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
             cutsfx.Play();
             yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";
+
         }
     }
     IEnumerator entrance()
     {
-        timeExtraTimerComponent.SetActive(true);
         ///StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1);
         // StartCoroutine(theHeart.endBGgone());
