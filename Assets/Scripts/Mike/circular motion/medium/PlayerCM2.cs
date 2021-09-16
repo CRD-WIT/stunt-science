@@ -49,32 +49,25 @@ public class PlayerCM2 : MonoBehaviour
         myAnimator.SetBool("walking", walking);
         myAnimator.SetBool("ropeGrab", ropeGrab);
         myAnimator.SetBool("successGrab", successGrab);
-        myAnimator.SetBool("grab", grab);
+        // myAnimator.SetBool("grab", grab);
 
         if (climb)
-        {
             myRigidbody.velocity = new Vector2(0, 1);
-        }
         if (posready == true)
-        {
             if (currentpos >= 0)
             {
                 moveSpeed = 0;
                 player.transform.position = new Vector3(0f, player.transform.position.y, player.transform.position.z);
                 posready = false;
             }
-        }
         if (happy == true)
-        {
             StartCoroutine(happyOn());
-        }
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == ("stickmanspawn"))
-        {
             ragdollblow = true;
-        }
     }
     public void ragdollspawn()
     {

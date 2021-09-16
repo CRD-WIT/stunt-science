@@ -13,8 +13,7 @@ public class MediumManager : MonoBehaviour
     ScoreManager score;
     PlayerCM2 myPlayer;
     StageManager sm = new StageManager();
-    [SerializeField] GameObject directorsBubble, rope, AVelocityIndicator, ragdoll, stage1Layout, stage2Layout, UI1, UI2, UI3;
-    public GameObject conveyor1, conveyor2;
+    [SerializeField] GameObject directorsBubble, rope, AVelocityIndicator, ragdoll, stage1Layout, stage2Layout, UI1, UI2, UI3, conveyor1, conveyor2;
     Animator playerAnim;
     Animation walk;
     [SerializeField] TMP_Text directorsSpeech;
@@ -77,11 +76,12 @@ public class MediumManager : MonoBehaviour
                         // timingD = playerAnswer * playerVelocity;
                         // spawnPoint = new Vector2(stuntTime * playerVelocity, 1);
                         // playerAnim.SetBool("running", false);
-                        myPlayer.running = false;
+                        // myPlayer.running = false;
                         myPlayer.moveSpeed = 0;
                         timingD = (playerAnswer - conveyorSpeed) * stuntTime;
                         playerAnim.speed = 1;
                         elapsed = stuntTime;
+                        ropeGrab = true;
                         if (playerAnswer == playerSpeed)
                         {
                             isAnswerCorrect = true;
@@ -105,7 +105,6 @@ public class MediumManager : MonoBehaviour
                             // indicators.ShowCorrectTime(stuntTime, stuntTime * playerVelocity, true);
                         }
                         isAnswered = false;
-                        ropeGrab = true;
                         indicators.AnswerIs(isAnswerCorrect, false);
                     }
                     indicators.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed), elapsed, timingD);
@@ -289,7 +288,7 @@ public class MediumManager : MonoBehaviour
         qc.SetQuestion(question);
 
         myPlayer.moveSpeed = 0;
-        
+
         Debug.Log(conveyorSpeed + "cs");
         Debug.Log(playerSpeed + "ps");
         Debug.Log(acceleration + "ac");
@@ -373,26 +372,28 @@ public class MediumManager : MonoBehaviour
     }
     IEnumerator GrabRope()
     {
-        ropeGrab = false;
         myPlayer.running = false;
-        myPlayer.ropeGrab =true;
+        ropeGrab = false;
+        myPlayer.ropeGrab = true;
         // playerAnim.SetBool("running", false);
         // playerAnim.SetBool("ropeGrab", true);
         yield return new WaitForSeconds(0.15f);
-        myPlayer.ropeGrab = false;
         if (isAnswerCorrect)
         {
             myPlayer.successGrab = true;
             // playerAnim.SetBool("successGrab", true);
             yield return new WaitForSeconds(1.01f);
-            myPlayer.successGrab =false;
+            myPlayer.successGrab = false;
             myPlayer.climb = true;
+            // myPlayer.ropeGrab = false;
         }
         else
         {
+            // myPlayer.ropeGrab = false;
             ragdollActive = true;
             yield return new WaitForSeconds(0.51f);
         }
+        myPlayer.ropeGrab = false;
     }
     void RagdollSpawn()
     {
