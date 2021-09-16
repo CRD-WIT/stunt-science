@@ -12,6 +12,7 @@ public class ProjectileHardThree : MonoBehaviour
     public HeartManager theHeart;
     public CircularAnnotation theCircular;
     public Arrow[] theArrow;
+    public IndicatorManager theIndicator;
     public DistanceMeter[] theMeter;
     public GameObject Mgear, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer, boulder, angleArrow;
     public GameObject dimension, cam, golemInitial, playerInitial, angleDimension,angleLine;
@@ -84,9 +85,11 @@ public class ProjectileHardThree : MonoBehaviour
             theCircular._degrees = angle;
             theCircular.initialAngle = 85 - angle;
             transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (angle));
+            
         }
         if (ProjSimulationManager.simulate == true)
         {
+            playerProjectileTime = finalDistance / (Mathf.Cos(((( ((angle - ProjSimulationManager.playerAnswer)/2)+ ProjSimulationManager.playerAnswer)) * Mathf.Deg2Rad)) * Vo);
             theCircular._degrees =ProjSimulationManager.playerAnswer;
             theCircular.initialAngle = 85 - ProjSimulationManager.playerAnswer;
             angleTxt.text = "Θ = " + ProjSimulationManager.playerAnswer.ToString("F2") + "°";
@@ -110,7 +113,6 @@ public class ProjectileHardThree : MonoBehaviour
             {
                 deflector.GetComponent<Collider2D>().isTrigger = true;
                 theQuestion.answerIsCorrect = true;
-                playerProjectileTime += 4;
                 actionTxt.text = "done";
 
             }
@@ -119,7 +121,7 @@ public class ProjectileHardThree : MonoBehaviour
         }
         if (timeStart)
         {
-            playerProjectileTime = finalDistance / (Mathf.Cos((ProjSimulationManager.playerAnswer * Mathf.Deg2Rad)) * Vo);
+           
             if (timer == 0)
             {
                 dimension.SetActive(false);
@@ -150,6 +152,10 @@ public class ProjectileHardThree : MonoBehaviour
                 theGolem.accelarating = false;
                 theGolem.moveSpeed = 0;
             }
+             if (timer >= playerProjectileTime + time)
+            {
+               StartCoroutine(theIndicator.showIndicator());
+            }
 
         }
 
@@ -157,6 +163,7 @@ public class ProjectileHardThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        theIndicator.showReady = true;
         angleTxt.text = "Θ = ?";
         angleDimension.SetActive(true);
         dimension.SetActive(true);
@@ -188,7 +195,7 @@ public class ProjectileHardThree : MonoBehaviour
         lineRenderer.GetComponent<LineRenderer>().enabled = true;
         theArrow[0].generateLine = true;
         trail.GetComponent<TrailRenderer>().time = 3000;
-        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo + .2f);
+        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo + .17f);
         if (ProjSimulationManager.playerAnswer == correctAnswer)
         {
             StartCoroutine(ropePull());

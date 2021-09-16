@@ -11,13 +11,14 @@ public class ProjectileHardTwo : MonoBehaviour
     public golem theGolem;
     public HeartManager theHeart;
     public CircularAnnotation[] theCircular;
+    public IndicatorManager theIndicator;
     public Arrow[] theArrow;
     public DistanceMeter[] theMeter;
     public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer, boulder, angleArrow;
     public GameObject dimension, cam, golemInitial, playerInitials;
     public float Vo, generateVG, vG, generateVP, vP;
     public float angle, HRange, timer, generateTime, time, projectileTime, playerProjectileTime, golemTravelTime;
-    public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
+    public float stoneDY, correctAnswer, stoneDyR, generateAnswer,projectileDiff;
     public float initialDistance, finalDistance, golemDistanceToTravel, playerDistanceToTravel, camDistance, playerSpeed;
     public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow;
     string pronoun, pronoun2, gender;
@@ -75,7 +76,6 @@ public class ProjectileHardTwo : MonoBehaviour
             angle = Mathf.Atan(((stoneDyR + ((9.81f / 2) * (projectileTime * projectileTime))) / finalDistance)) * Mathf.Rad2Deg;
             Vo = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) * projectileTime);
             correctAnswer = (float)System.Math.Round(Vo, 2);
-            playerProjectileTime = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) * ProjSimulationManager.playerAnswer);
             angleArrow.transform.rotation = this.transform.rotation;
             angleArrow.transform.position = this.transform.position;
             theMeter[0].positionX = target.transform.position.x;
@@ -84,11 +84,11 @@ public class ProjectileHardTwo : MonoBehaviour
             theMeter[1].distance = this.transform.position.y + 0.25f;
             theMeter[2].positionX = target.transform.position.x + 1;
             theMeter[2].distance = target.transform.position.y + 0.25f;
-            playerProjectileTime = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) * Vo);
+            
         }
         if (ProjSimulationManager.simulate == true)
         {
-
+            playerProjectileTime = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) * ((Vo - ProjSimulationManager.playerAnswer)+ Vo));
             trail.SetActive(true);
             timeStart = true;
             running = true;
@@ -123,11 +123,16 @@ public class ProjectileHardTwo : MonoBehaviour
             {
                 theGolem.moveSpeed = 0;
             }
+             if (timer >= playerProjectileTime + time)
+            {
+               StartCoroutine(theIndicator.showIndicator());
+            }
         }
 
     }
     public void generateProblem()
     {
+        theIndicator.showReady = true;
         timer = 0;
         arrow.SetActive(false);
         timeStart = false;
@@ -190,7 +195,6 @@ public class ProjectileHardTwo : MonoBehaviour
         {
             deflector.GetComponent<Collider2D>().isTrigger = true;
             theQuestion.answerIsCorrect = true;
-            playerProjectileTime += 2;
             actionTxt.text = "next";
             StartCoroutine(ropePull());
             theQuestion.answerIsCorrect = true;
@@ -245,7 +249,7 @@ public class ProjectileHardTwo : MonoBehaviour
            //TODO: reduceLife
         }
         //trail.GetComponent<TrailRenderer>().time = 3;
-        yield return new WaitForSeconds(playerProjectileTime);
+        yield return new WaitForSeconds(playerProjectileTime+2);
         StartCoroutine(theSimulate.DirectorsCall());
         theQuestion.ToggleModal();
         theArrow[0].generateLine = false;
@@ -254,6 +258,7 @@ public class ProjectileHardTwo : MonoBehaviour
         theArrow[0].getAngle = true;
         //theArrow[0].gameObject.SetActive(false);
         thePlayer.sword.SetActive(false);
+        running = false;
     }
 
 
