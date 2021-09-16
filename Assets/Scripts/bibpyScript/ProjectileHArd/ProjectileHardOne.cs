@@ -8,6 +8,7 @@ public class ProjectileHardOne : MonoBehaviour
     public playerProjectile thePlayer;
     public ProjSimulationManager theSimulate;
     public QuestionControllerB theQuestion;
+    public IndicatorManager theIndicator;
     public golem theGolem;
     public CircularAnnotation[] theCircular;
     public BoulderProjectile theBoulder;
@@ -118,11 +119,7 @@ public class ProjectileHardOne : MonoBehaviour
             }
             if (timer >= projectileTime + ProjSimulationManager.playerAnswer)
             {
-                if (indicatorReady)
-                {
-                    theSimulate.hit.SetActive(true);
-                    theSimulate.hit.transform.position = new Vector2(arrow.transform.position.x + 1, arrow.transform.position.y + 1);
-                }
+                StartCoroutine(theIndicator.showIndicator());
             }
 
         }
@@ -189,6 +186,7 @@ public class ProjectileHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        theIndicator.showReady = true;
         indicatorReady = true;
         generateAngle = Random.Range(50, 60);
         projectArrowTrail.SetActive(false);
