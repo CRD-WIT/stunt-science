@@ -21,7 +21,7 @@ public class AccMidSimulation : MonoBehaviour
     public static bool simulate;
     public static bool playerDead;
     public int stage;
-    public QuestionControllerC[] theQuestion;
+    public QuestionControllerC theQuestion;
 
     public GameObject[] ground, dimension, arrow;
     bool directorIsCalling;
@@ -44,33 +44,27 @@ public class AccMidSimulation : MonoBehaviour
         PlayerPrefs.SetString("CurrentString", ("AccelarationMedium"));
         PlayerPrefs.SetInt("level", 4);
         playerstartPos = thePlayer.transform.position;
-
-
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+
     }
-    public void PlayButton()
+    public void TriggerSimulation()
     {
-
-
-
         if (stage == 1)
         {
-            playerAnswer = float.Parse(answerField[0].text);
+            playerAnswer = theQuestion.GetPlayerAnswer();
             //subChopper[0].SetActive(false);
             dimension[0].SetActive(false);
-            if (answerField[0].text == "" || playerAnswer > 100 || playerAnswer < 1)
+            if (playerAnswer > 100 || playerAnswer < 1)
             {
                 StartCoroutine(theManagerOne.errorMesage());
-                theQuestion[0].errorText = ("invalid");
+                theQuestion.errorText = ("Answer is out of range.");
             }
             else
-            {
-                theQuestion[0].isSimulating = true;
+            {              
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -84,14 +78,13 @@ public class AccMidSimulation : MonoBehaviour
         {
             playerAnswer = float.Parse(answerField[1].text);
 
-            if (answerField[1].text == "" || playerAnswer > 40)
+            if (playerAnswer > 40)
             {
                 StartCoroutine(theManagerTwo.errorMesage());
-                theQuestion[1].errorText = ("invalid or ecxeeded to given distance");
+                theQuestion.errorText = ("invalid or ecxeeded to given distance");
             }
             else
             {
-                theQuestion[1].isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -107,11 +100,10 @@ public class AccMidSimulation : MonoBehaviour
             if (answerField[2].text == "" || playerAnswer > 16)
             {
                 StartCoroutine(theManagerThree.errorMesage());
-                theQuestion[2].errorText = ("exceed the average car acceleratoin");
+                theQuestion.errorText = ("exceed the average car acceleratoin");
             }
             else
-            {
-                theQuestion[2].isSimulating = true;
+            {              
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -133,7 +125,7 @@ public class AccMidSimulation : MonoBehaviour
         if (stage == 1)
         {
             answerField[0].text = ("");
-            theQuestion[0].isSimulating = false;
+            theQuestion.isSimulating = false;
             dimension[0].SetActive(true);
             theTruck.transform.position = truckStartPos;
             theTruck.transform.rotation = TruckStartRot;
@@ -146,7 +138,7 @@ public class AccMidSimulation : MonoBehaviour
         if (stage == 2)
         {
             answerField[1].text = ("");
-            theQuestion[1].isSimulating = false;
+            theQuestion.isSimulating = false;
             theManagerTwo.generateProblem();
             thePlayer.standup = false;
             theSubVan[0].fade = false;
@@ -155,7 +147,7 @@ public class AccMidSimulation : MonoBehaviour
         if (stage == 3)
         {
             answerField[2].text = ("");
-            theQuestion[2].isSimulating = false;
+            theQuestion.isSimulating = false;
             theSubVan[1].fade = false;
             theSuv[1].myCollider.enabled = true;
             theSubVan[1].gameObject.SetActive(true);
@@ -197,7 +189,7 @@ public class AccMidSimulation : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
-            simulate = true;
+            theQuestion.isSimulating = true;
             directorIsCalling = false;
         }
         else
@@ -208,13 +200,6 @@ public class AccMidSimulation : MonoBehaviour
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";
         }
-    }
-    public void answerLimiter()
-    {
-        int I = stage - 1;
-        string[] num;
-        num = answerField[I].text.Split('.');
-        answerField[I].characterLimit = num[0].Length + 3;
     }
 
 
