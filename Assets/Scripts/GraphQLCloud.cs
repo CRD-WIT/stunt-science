@@ -7,7 +7,8 @@ using System;
 public class GraphQLCloud : MonoBehaviour
 {
     public GraphQLConfig Config;
-    public async void GameLogMutation()
+
+    public async void GameLogMutation(string? modeValue = "Problem", string? genderValue="Male", int? stageValue=1, int? levelValue=1, string? difficultyValue="Easy", string actionValue="Next", string deviceID="", DateTime? startTime=null, DateTime? endTime=null)
     {
         var client = new GraphQLClient("https://stunt-science-cloud.herokuapp.com/graphql");
 
@@ -56,15 +57,15 @@ public class GraphQLCloud : MonoBehaviour
             ",
             Variables = new
             {
-                level = 1,
-                difficulty = "Easy",
-                action = "Completed",
-                device = "123456",
-                end = DateTime.Now,
-                start = DateTime.Now,
-                stage = 1,
-                gender = "Male",
-                mode="Problem"
+                level = levelValue,
+                difficulty = difficultyValue,
+                action = actionValue,
+                device = deviceID,
+                end = startTime,
+                start = endTime,
+                stage = stageValue,
+                gender = genderValue,
+                mode=modeValue
             }
         };
         var responseType = new
@@ -74,9 +75,11 @@ public class GraphQLCloud : MonoBehaviour
         Debug.Log(response.ToString());
     }
     // Start is called before the first frame update
+
+
     void Start()
     {
-        GameLogMutation();
+
     }
 
     // Update is called once per frame
