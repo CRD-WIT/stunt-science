@@ -6,8 +6,6 @@ using System;
 
 public class GraphQLCloud : MonoBehaviour
 {
-    public GraphQLConfig Config;
-
     public async void GameLogMutation(string? modeValue = "Problem", string? genderValue="Male", int? stageValue=1, int? levelValue=1, string? difficultyValue="Easy", string actionValue="Next", string deviceID="", DateTime? startTime=null, DateTime? endTime=null)
     {
         var client = new GraphQLClient("https://stunt-science-cloud.herokuapp.com/graphql");
@@ -38,7 +36,7 @@ public class GraphQLCloud : MonoBehaviour
                         Stage: $stage
                         Gender: $gender  
                         Mode: $mode
-                    }
+                     }
                     }
                 ) {
                     gameLog {

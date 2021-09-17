@@ -38,6 +38,7 @@ public class QuestionControllerB : MonoBehaviour
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
     HeartManager life;
+    public GraphQLCloud graphQLCloud;
 
     string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     // Start is called before the first frame update
@@ -84,9 +85,15 @@ public class QuestionControllerB : MonoBehaviour
         {
             answerFieldHorizontal.text = "";
             if (answerIsCorrect)
+            {
                 Next();
+            }
             else
+            {
+                graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Retry", SystemInfo.deviceUniqueIdentifier, System.DateTime.Now, null);
                 StartCoroutine(Retry());
+            }
+
             isModalOpen = false;
             isSimulating = false;
         }
@@ -129,6 +136,7 @@ public class QuestionControllerB : MonoBehaviour
             // NOTE: Use this template when ending levels.
             if (isComplete)
             {
+                graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Finished", SystemInfo.deviceUniqueIdentifier, null, System.DateTime.Now);
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
                 actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
 
@@ -139,6 +147,7 @@ public class QuestionControllerB : MonoBehaviour
             }
             else
             {
+                graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Next", SystemInfo.deviceUniqueIdentifier, null, System.DateTime.Now);
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
                 modalTitle = "Stunt Success!";
                 modalText = message;
@@ -175,6 +184,7 @@ public class QuestionControllerB : MonoBehaviour
     }
     public void SetAnswer()
     {
+        graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Start", SystemInfo.deviceUniqueIdentifier, System.DateTime.Now, null);
         Debug.Log($"Player Answer: {answerFieldHorizontal.text}");
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
@@ -184,15 +194,7 @@ public class QuestionControllerB : MonoBehaviour
         else
         {
             answerFieldHorizontal.text = playerAnswer.ToString() + answerUnit;
-            // if (limit <= playerAnswer)
-            // {
-            //     //StartCoroutine(IsEmpty());
-            // }
-            // else
-            // {
-            //     timerOn = true;
-            //     //isSimulating = true;
-            // }
+
         }
         extraOn = true;
     }
@@ -208,60 +210,6 @@ public class QuestionControllerB : MonoBehaviour
         {
             stage = 3;
             nextStage = true;
-        }
-        else
-        {
-            // string difficulty = level.GetDifficulty();
-            // if (difficulty == "easy")
-            // {
-            //     stage = 1;
-            //     level.SetDifficulty(2);
-            // }
-            // else if (difficulty == "medium")
-            // {
-            //     stage = 1;
-            //     level.SetDifficulty(3);
-            // }
-            // else
-            // {
-            //     passedLevel++;
-            //     level.SetDifficulty(1);
-            //     stage = 1;
-            //     switch (level.GetGameLevel())
-            //     {
-            //         case "Velocity":
-            //             level.SetGameLevel(2);
-            //             break;
-            //         case "Acceleration":
-            //             level.SetGameLevel(3);
-            //             break;
-            //         case "Free Fall":
-            //             level.SetGameLevel(4);
-            //             break;
-            //         case "Projectile Motion":
-            //             level.SetGameLevel(5);
-            //             break;
-            //         case "Circular Motion":
-            //             level.SetGameLevel(6);
-            //             break;
-            //         case "Forces":
-            //             level.SetGameLevel(7);
-            //             break;
-            //         case "Work":
-            //             level.SetGameLevel(8);
-            //             break;
-            //         case "Energy":
-            //             level.SetGameLevel(9);
-            //             break;
-            //         case "Power":
-            //             level.SetGameLevel(10);
-            //             break;
-            //         case "Momentum":
-            //             //Done
-            //             break;
-            //     }
-            // }
-            //SceneManager.LoadScene("LevelSelection");
         }
     }
     IEnumerator Retry()

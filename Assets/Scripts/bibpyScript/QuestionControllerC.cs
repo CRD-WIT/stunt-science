@@ -9,6 +9,7 @@ public class QuestionControllerC : MonoBehaviour
 {
     float playerAnswer;
     public float limit = 0;
+    public GraphQLCloud graphQLCloud;
     public Transform baseComponent, problemBox, extraComponent, levelBadge;
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
@@ -82,7 +83,11 @@ public class QuestionControllerC : MonoBehaviour
             if (answerIsCorrect)
                 Next();
             else
+            {
                 StartCoroutine(Retry());
+                graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Retry", SystemInfo.deviceUniqueIdentifier, System.DateTime.Now, null);
+            }
+                
             isModalOpen = false;
             isSimulating = false;
         }
