@@ -30,6 +30,17 @@ public class ProjectileHardThree : MonoBehaviour
         theSimulate.stage = 3;
         camDistance = thePlayer.transform.position.x - cam.transform.position.x;
         golemAcc.gameObject.SetActive(true);
+        gender = PlayerPrefs.GetString("Gender");
+         if (gender == "Male")
+        {
+            pronoun = ("he");
+            pronoun2 = ("him");
+        }
+        if (gender == "Female")
+        {
+            pronoun = ("she");
+            pronoun2 = ("her");
+        }
     }
 
     // Update is called once per frame
@@ -81,7 +92,7 @@ public class ProjectileHardThree : MonoBehaviour
             theMeter[1].distance = this.transform.position.y + 0.25f;
             theMeter[2].positionX = this.transform.position.x;
             theMeter[2].positionY = this.transform.position.y - 2.5f;
-            theMeter[2].distance = -this.transform.position.x + target.transform.position.x;
+            theMeter[2].distance = target.transform.position.x-this.transform.position.x;
             theCircular._degrees = angle;
             theCircular.initialAngle = 85 - angle;
             transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (angle));
@@ -183,7 +194,8 @@ public class ProjectileHardThree : MonoBehaviour
         vP = (float)System.Math.Round(Random.Range(1f, 1.7f), 2);
         angle = (float)System.Math.Round(Random.Range(50f, 58f), 2);
         trail.SetActive(false);
-        theQuestion.SetQuestion("Simulation Test"); 
+        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to fire his gun after moving upward in an inclined plane with a velocity of <b>") + vP.ToString("F2") + ("</b> m/s for <b>") 
+        + time.ToString("F2") + ("</b> seconds and must hit the weakest spot of the Golem which is initially <b>") + initialDistance.ToString("F2") + ("</b>  meters away from ")+ pronoun2 + (" and moves forward at the velocity of <b>") + vG.ToString("F2") + ("</b> m/s and accelerates at <b>") + accG.ToString("F2") + ("</b> m/s². If the bullet shall hit the target with a projectile time of <b>") + projectileTime.ToString("F2") + ("</b> seconds. What should be the angle of the projectile in order for ") + PlayerPrefs.GetString("Name") + (" to perfect the stunt?"))); 
         //Vo = (float)System.Math.Round((Random.Range(50f, 57f)), 2);
     }
     public void ShootArrow()
