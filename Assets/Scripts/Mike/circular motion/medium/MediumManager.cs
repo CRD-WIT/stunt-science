@@ -13,7 +13,9 @@ public class MediumManager : MonoBehaviour
     ScoreManager score;
     PlayerCM2 myPlayer;
     StageManager sm = new StageManager();
-    [SerializeField] GameObject directorsBubble, rope, AVelocityIndicator, ragdoll, stage1Layout, stage2Layout, UI1, UI2, UI3, conveyor1, conveyor2;
+    [SerializeField]
+    GameObject directorsBubble, rope, AVelocityIndicator, ragdoll, stage1Layout, stage2Layout, UI1, UI2, UI3, conveyor1, conveyor2,
+         aVelocityArrow;
     Animator playerAnim;
     Animation walk;
     [SerializeField] TMP_Text directorsSpeech;
@@ -228,7 +230,8 @@ public class MediumManager : MonoBehaviour
                     conveyor.SetConveyorSpeed(aVelocity, stuntTime, 1.15f);
                     conveyorSpeed = conveyor.GetConveyorVelocity();
                     playerSpeed = (float)System.Math.Round(((distance / stuntTime) + conveyorSpeed), 2);
-                    AVelocityIndicator.transform.Find("label").GetComponent<TMP_Text>().text = aVelocity.ToString("f2") + qc.Unit(UnitOf.angularVelocity);
+                    AVelocityIndicator.transform.Find("label").GetComponent<TMP_Text>().text = aVelocity.ToString("f2")
+                        + qc.Unit(UnitOf.angularVelocity);
                     rope.transform.position = new Vector2(distance - 10, rope.transform.position.y);
                     playerAnim.speed = conveyorSpeed / 5.6f; // set to 1 before grabbing.
                     indicators.showLines(null, distance, 2.3f, playerSpeed, stuntTime);
@@ -245,10 +248,15 @@ public class MediumManager : MonoBehaviour
                 indicators.showLines(null, distance, 2.3f, playerSpeed, stuntTime);
                 indicators.UnknownIs('v');
 
-                question = playerName + " is instructed to run on a moving conveyor belt and the rope is<b> " + ConveyorManager.angularVelocity + " degrees per second</b>, how fast should " + playerName + " run if " + pronoun + " is to grab the rope exactly after <b>" + stuntTime.ToString("f2") + " seconds</b>?";
+                question = playerName + " is instructed to run on a moving conveyor with the speed of <b> " + ConveyorManager.angularVelocity
+                    + qc.Unit(UnitOf.angularVelocity) + "</b>, how fast should " + playerName + " run if " + pronoun
+                    + " is to grab the rope that is " + distance.ToString("f2") + qc.Unit(UnitOf.distance) + " away from"
+                    + pPronoun + " at exactly after <b>" + stuntTime.ToString("f2") + qc.Unit(UnitOf.time) + "</b> ?";
                 break;
             case 2:
                 stage2Layout.SetActive(true);
+                aVelocityArrow.transform.SetPositionAndRotation(new Vector2(aVelocityArrow.transform.position.x - 0.05f, aVelocityArrow.transform.position.y - 1.133f), Quaternion.Euler(new Vector3(0, 0, 52)));
+                AVelocityIndicator.transform.position = new Vector2(-13, AVelocityIndicator.transform.position.y);
                 qc = UI2.GetComponent<QuestionControllerVThree>();
                 qc.stage = 2;
                 Instantiate(conveyor2).transform.position = new Vector2(-5, 0);
@@ -377,23 +385,26 @@ public class MediumManager : MonoBehaviour
         myPlayer.ropeGrab = true;
         // playerAnim.SetBool("running", false);
         // playerAnim.SetBool("ropeGrab", true);
+        // myPlayer.successGrab = true;
         yield return new WaitForSeconds(0.15f);
         if (isAnswerCorrect)
         {
             myPlayer.successGrab = true;
             // playerAnim.SetBool("successGrab", true);
             yield return new WaitForSeconds(1.01f);
+            myPlayer.ropeGrab = false;
             myPlayer.successGrab = false;
             myPlayer.climb = true;
             // myPlayer.ropeGrab = false;
         }
         else
         {
-            // myPlayer.ropeGrab = false;
             ragdollActive = true;
             yield return new WaitForSeconds(0.51f);
+            myPlayer.ropeGrab = false;
         }
-        myPlayer.ropeGrab = false;
+        // myPlayer.ropeGrab = false;
+        isEndOfStunt = true;
     }
     void RagdollSpawn()
     {
