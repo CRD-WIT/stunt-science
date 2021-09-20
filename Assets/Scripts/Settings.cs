@@ -7,12 +7,11 @@ public class Settings : MonoBehaviour
 {
     public GameObject settingsPanel;
     public GameObject levelFinishedPanel;
-
-    public GameObject assistantPanel;
+    public GameObject stuntGuidePanel;
     bool leveFinishedIsOpen;
     bool settingsPanelIsOpen;
 
-    bool assistantPanelIsOpen;
+    bool stuntGuidePanelIsOpen;
     public float soundLevel = 1f;
     public float musicLevel = 1f;
     public Slider soundSlider;
@@ -117,9 +116,9 @@ public class Settings : MonoBehaviour
         {
             levelFinishedPanel.SetActive(leveFinishedIsOpen);
         }
-        if (assistantPanel)
+        if (stuntGuidePanel)
         {
-            assistantPanel.SetActive(assistantPanelIsOpen);
+            stuntGuidePanel.SetActive(stuntGuidePanelIsOpen);
         }
         if (soundValue)
         {
@@ -145,7 +144,6 @@ public class Settings : MonoBehaviour
         {
             musicIconOn.SetActive(musicLevel != 0);
         }
-
         AudioListener.volume = soundLevel;
         if (AudioListener.volume == 0)
         {
@@ -169,7 +167,7 @@ public class Settings : MonoBehaviour
 
     public void ToggleAssistance()
     {
-        assistantPanelIsOpen = !assistantPanelIsOpen;
+        stuntGuidePanelIsOpen = !stuntGuidePanelIsOpen;
     }
 
     public void ToggleLevelFinished()
