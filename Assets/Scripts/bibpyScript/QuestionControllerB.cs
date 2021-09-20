@@ -13,6 +13,7 @@ public class QuestionControllerB : MonoBehaviour
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
     public Difficulty levelDifficulty;
+    public accSimulation simulationManager;
     public int levelNumber, stage;
     public string modalTitle, question, timer;
     public string levelName;
@@ -37,6 +38,7 @@ public class QuestionControllerB : MonoBehaviour
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
     HeartManager life;
+    public GraphQLCloud graphQLCloud;
 
     string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     // Start is called before the first frame update
@@ -65,7 +67,11 @@ public class QuestionControllerB : MonoBehaviour
                 difficulty = level.GetDifficulty();
                 break;
         }
-        difficultyName.GetComponent<TMP_Text>().text = difficulty;
+
+        if (difficultyName)
+        {
+            difficultyName.GetComponent<TMP_Text>().text = difficulty;
+        }
 
         life = FindObjectOfType<HeartManager>();
     }
@@ -79,11 +85,17 @@ public class QuestionControllerB : MonoBehaviour
         {
             answerFieldHorizontal.text = "";
             if (answerIsCorrect)
+            {
                 Next();
+            }
             else
+            {
+                graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Retry", SystemInfo.deviceUniqueIdentifier, System.DateTime.Now, null);
                 StartCoroutine(Retry());
+            }
+
             isModalOpen = false;
-            timerOn = false;
+            isSimulating = false;
         }
 
     }
@@ -124,6 +136,7 @@ public class QuestionControllerB : MonoBehaviour
             // NOTE: Use this template when ending levels.
             if (isComplete)
             {
+                graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Finished", SystemInfo.deviceUniqueIdentifier, null, System.DateTime.Now);
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
                 actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
 
@@ -134,6 +147,7 @@ public class QuestionControllerB : MonoBehaviour
             }
             else
             {
+                graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Next", SystemInfo.deviceUniqueIdentifier, null, System.DateTime.Now);
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
                 modalTitle = "Stunt Success!";
                 modalText = message;
@@ -145,9 +159,11 @@ public class QuestionControllerB : MonoBehaviour
             actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
             modalTitle = "Stunt Failed!";
             modalText = message;
+            retried = true;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
         }
         actionBtn.interactable = true;
+        isSimulating = false;
     }
     public void SetQuestion(string qstn)
     {
@@ -164,33 +180,27 @@ public class QuestionControllerB : MonoBehaviour
         string value = answerFieldHorizontal.text;
         // Bug when using whole number
         string[] splitted = value.Split('.');
-        answerFieldHorizontal.characterLimit = splitted[0].Length + 3;        
+        answerFieldHorizontal.characterLimit = splitted[0].Length + 3;
     }
     public void SetAnswer()
-    {        
-        Debug.Log(playerAnswer);
+    {
+        graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Start", SystemInfo.deviceUniqueIdentifier, System.DateTime.Now, null);
+        Debug.Log($"Player Answer: {answerFieldHorizontal.text}");
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
             StartCoroutine(IsEmpty());
         }
         else
-        {        
-            answerFieldHorizontal.text = playerAnswer + answerUnit;
-            if (limit <= playerAnswer)
-            {
-                StartCoroutine(IsEmpty());
-            }
-            else
-            {
-                timerOn = true;
-                //isSimulating = true;
-            }
+        {
+            answerFieldHorizontal.text = playerAnswer.ToString() + answerUnit;
+
         }
         extraOn = true;
     }
     public void Next()
     {
+        simulationManager.next();
         if (stage == 1)
         {
             stage = 2;
@@ -200,60 +210,6 @@ public class QuestionControllerB : MonoBehaviour
         {
             stage = 3;
             nextStage = true;
-        }
-        else
-        {
-            // string difficulty = level.GetDifficulty();
-            // if (difficulty == "easy")
-            // {
-            //     stage = 1;
-            //     level.SetDifficulty(2);
-            // }
-            // else if (difficulty == "medium")
-            // {
-            //     stage = 1;
-            //     level.SetDifficulty(3);
-            // }
-            // else
-            // {
-            //     passedLevel++;
-            //     level.SetDifficulty(1);
-            //     stage = 1;
-            //     switch (level.GetGameLevel())
-            //     {
-            //         case "Velocity":
-            //             level.SetGameLevel(2);
-            //             break;
-            //         case "Acceleration":
-            //             level.SetGameLevel(3);
-            //             break;
-            //         case "Free Fall":
-            //             level.SetGameLevel(4);
-            //             break;
-            //         case "Projectile Motion":
-            //             level.SetGameLevel(5);
-            //             break;
-            //         case "Circular Motion":
-            //             level.SetGameLevel(6);
-            //             break;
-            //         case "Forces":
-            //             level.SetGameLevel(7);
-            //             break;
-            //         case "Work":
-            //             level.SetGameLevel(8);
-            //             break;
-            //         case "Energy":
-            //             level.SetGameLevel(9);
-            //             break;
-            //         case "Power":
-            //             level.SetGameLevel(10);
-            //             break;
-            //         case "Momentum":
-            //             //Done
-            //             break;
-            //     }
-            // }
-            //SceneManager.LoadScene("LevelSelection");
         }
     }
     IEnumerator Retry()
@@ -408,15 +364,27 @@ public class QuestionControllerB : MonoBehaviour
         // playButtonHorizontal.SetActive(!isModalOpen);
         answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
 
-        extraComponent.gameObject.SetActive(timerOn || popupVisible);
-        playButtonHorizontal.SetActive(!timerOn);
+        extraComponent.gameObject.SetActive(isSimulating || popupVisible);
+        playButtonHorizontal.SetActive(!isSimulating && !popupVisible);
         //timerComponentHorizontal.gameObject.SetActive(timerOn);
+        Debug.Log($"Timer Value: {timer}");
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
-
-        problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
-        levelNumberText.SetText($"{levelNumber}");
-        stageName.SetText($"Stage {stage}");
-        difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
+        if (problemBox)
+        {
+            problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
+        }
+        if (levelNumberText)
+        {
+            levelNumberText.SetText($"{levelNumber}");
+        }
+        if (stageName)
+        {
+            stageName.SetText($"Stage {stage}");
+        }
+        if (difficultyName.GetComponent<TMP_Text>())
+        {
+            difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
+        }
     }
 }
 /*That means that Bolt's speed during his world-record run was 10.44 meters per second.

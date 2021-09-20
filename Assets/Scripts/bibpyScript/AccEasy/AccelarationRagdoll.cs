@@ -67,11 +67,11 @@ public class AccelarationRagdoll : MonoBehaviour
             {
                 moveSpeedbackward = myRigidbody.velocity.x;
             }
-        }
-        if (theAccsimulate.playButton.interactable == true)
-        {
-            Destroy(stick.gameObject);
-        }
+        }        
+        // if (!theAccsimulate.playButton.isActiveAndEnabled)
+        // {
+        //     Destroy(stick.gameObject);
+        // }
 
     }
     IEnumerator driverSpawn()

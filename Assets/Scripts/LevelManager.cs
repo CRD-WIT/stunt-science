@@ -1,5 +1,6 @@
 using UnityEngine;
 using GameConfig;
+using System.Linq;
 
 public class LevelManager : MonoBehaviour
 {
@@ -29,6 +30,10 @@ public class LevelManager : MonoBehaviour
     [Range(0, 3)] public int levelForcesMedium = 0;
     [Range(0, 3)] public int levelForcesHard = 0;
     public LevelCard[] levelCards;
+
+    public int[] levelScoreCollection;
+
+    public int levelScoreTotal = 0;
 
     void Start()
     {
@@ -73,15 +78,32 @@ public class LevelManager : MonoBehaviour
         levelCards[12].locked = PlayerPrefs.GetInt("level5EasyLocked", 1) == 1 ? true : false;
         levelCards[13].locked = PlayerPrefs.GetInt("level5MediumLocked", 1) == 1 ? true : false;
         levelCards[14].locked = PlayerPrefs.GetInt("level5HardLocked", 1) == 1 ? true : false;
+
+        levelScoreCollection = new int[15] {
+            levelVelocityEasy,
+            levelVelocityMedium,
+            levelVelocityHard,
+            levelAccelerationEasy,
+            levelAccelerationMedium,
+            levelAccelerationHard,
+            levelFreeFallProjectileEasy,
+            levelFreeFallProjectileMedium,
+            levelFreeFallProjectileHard,
+            levelCircularMotionEasy,
+            levelCircularMotionMedium,
+            levelCircularMotionHard,
+            levelForcesEasy,
+            levelForcesMedium,
+            levelForcesHard
+        };
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // for (int i = 0; i < levelCards.Length; i++)
-        // {-------------------
-        //     levelCards[i].locked = unlockedCount <= i + 1;
-        // }
+        levelScoreTotal = levelScoreCollection.Sum();
         levelCards[0].starActiveCount = levelVelocityEasy;
         levelCards[1].starActiveCount = levelVelocityMedium;
         levelCards[2].starActiveCount = levelVelocityHard;
@@ -97,8 +119,5 @@ public class LevelManager : MonoBehaviour
         levelCards[12].starActiveCount = levelForcesEasy;
         levelCards[13].starActiveCount = levelForcesMedium;
         levelCards[14].starActiveCount = levelForcesHard;
-
-
-
     }
 }

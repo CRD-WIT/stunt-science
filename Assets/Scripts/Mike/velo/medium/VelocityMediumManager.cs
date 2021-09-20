@@ -39,7 +39,7 @@ public class VelocityMediumManager : MonoBehaviour
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
-        jmpDistFromBoulder = FindObjectOfType<IndicatorManager>();
+        jmpDistFromBoulder = FindObjectOfType<IndicatorManager>();       
 
         myPlayer = FindObjectOfType<PlayerV2>();
         createCeilling = FindObjectOfType<CeillingGenerator>();
@@ -305,7 +305,7 @@ public class VelocityMediumManager : MonoBehaviour
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
-                jumpForce = 1.2f / (jumpTime);
+                jumpForce = 2f / (jumpTime);
 
                 indicators.timeSpawnPnt = myPlayer.transform.position;
                 indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
@@ -344,7 +344,7 @@ public class VelocityMediumManager : MonoBehaviour
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
-                jumpForce = 1.276f / (jumpTime);
+                jumpForce = 1.8f / (jumpTime);
                 correctD = correctAnswer;
 
                 indicators.distanceSpawnPnt = new Vector2(spawnPoint.x, 1);
@@ -388,7 +388,7 @@ public class VelocityMediumManager : MonoBehaviour
                 boulderA.transform.position = new Vector2(boulder.transform.position.x + d, 0);
                 myPlayer.transform.position = new Vector2(boulderA.transform.position.x - Dac, 0);
                 jumpTime = 0.5f;
-                jumpForce = 1.076f / jumpTime;
+                jumpForce = 1.5f / jumpTime;
 
                 JDIndicator.SetActive(true);
                 jmpDistFromBoulder.spawnPoint = new Vector2(boulderA.transform.position.x, 1.5f);
@@ -532,15 +532,15 @@ public class VelocityMediumManager : MonoBehaviour
         {
             if (stage == 3)
             {
-                myPlayer.jumpforce = jumpForce - 0.08f;
+                myPlayer.jumpforce = jumpForce - 0.1f;
                 jumpTime -= 0.04f;
             }
-            else
+            else if (stage == 1)
             {
                 if (playerAnswer > correctAnswer)
                 {
                     myPlayer.jumpforce = jumpForce - 0.04f;
-                    jumpTime -= 0.03f;
+                    jumpTime -= 0.08f;
                 }
                 else
                 {
@@ -548,6 +548,24 @@ public class VelocityMediumManager : MonoBehaviour
                     jumpTime -= 0.04f;
                 }
             }
+            else
+            {
+                if (playerAnswer > correctAnswer)
+                {
+                    myPlayer.jumpforce = jumpForce - 0.04f;
+                    jumpTime -= 0.08f;
+                }
+                else
+                {
+                    myPlayer.jumpforce = jumpForce - 0.03f;
+                    jumpTime -= 0.16f;
+                }
+
+            }
+        }
+        else
+        {
+            myPlayer.jumpforce = jumpForce;
         }
         myPlayer.jump();
         yield return new WaitForSeconds(jumpTime / 2);

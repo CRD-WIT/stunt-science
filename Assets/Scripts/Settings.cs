@@ -7,8 +7,11 @@ public class Settings : MonoBehaviour
 {
     public GameObject settingsPanel;
     public GameObject levelFinishedPanel;
+    public GameObject stuntGuidePanel;
     bool leveFinishedIsOpen;
     bool settingsPanelIsOpen;
+
+    bool stuntGuidePanelIsOpen;
     public float soundLevel = 1f;
     public float musicLevel = 1f;
     public Slider soundSlider;
@@ -26,29 +29,20 @@ public class Settings : MonoBehaviour
     int level1MediumPoints;
     int level1HardPoints;
     bool level1Locked;
-
-
     int level2EasyPoints;
     int level2MediumPoints;
     int level2HardPoints;
     bool level2Locked;
-
-
     int level3EasyPoints;
     int level3MediumPoints;
     int level3HardPoints;
     bool level3Locked;
-
-
     int level4EasyPoints;
     int level4MediumPoints;
     int level4HardPoints;
     bool level4Locked;
     public Sprite[] soundButtonImages;
-
     public Image soundButtonImage;
-
-
     int level5EasyPoints;
     int level5MediumPoints;
     int level5HardPoints;
@@ -61,13 +55,38 @@ public class Settings : MonoBehaviour
     void Start()
     {
         LoadVolumes();
-        settingsPanel.SetActive(settingsPanelIsOpen);
-        levelFinishedPanel.SetActive(leveFinishedIsOpen);
-        soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
-        musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
-        soundSlider.value = soundLevel;
-        musicSlider.value = musicLevel;
-        versionCodeText.text = $"Version: {versionCode}";
+        if (settingsPanel)
+        {
+            settingsPanel.SetActive(settingsPanelIsOpen);
+        }
+
+        if (levelFinishedPanel)
+        {
+            levelFinishedPanel.SetActive(leveFinishedIsOpen);
+        }
+        if (soundValue)
+        {
+            soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
+        }
+        if (musicValue)
+        {
+            musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
+        }
+        if (soundSlider)
+        {
+            soundSlider.value = soundLevel;
+        }
+        if (musicSlider)
+        {
+            musicSlider.value = musicLevel;
+        }
+
+
+        if (versionCodeText)
+        {
+            versionCodeText.text = $"Version: {versionCode}";
+        }
+
     }
 
     public void GotoNextLevel(string LevelToUnlock)
@@ -82,32 +101,73 @@ public class Settings : MonoBehaviour
         SceneManager.LoadScene(scene.name);
     }
 
-
     // Update is called once per frame
     void Update()
     {
-        fps.text = $"Frame Rate: {(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()}f/s";
-        settingsPanel.SetActive(settingsPanelIsOpen);
-        levelFinishedPanel.SetActive(leveFinishedIsOpen);
-        soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
-        musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
-        soundIconOff.SetActive(soundLevel == 0);
-        musicIconOff.SetActive(musicLevel == 0);
-        soundIconOn.SetActive(soundLevel != 0);
-        musicIconOn.SetActive(musicLevel != 0);
+        if (fps)
+        {
+            fps.text = $"Frame Rate: {(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()}f/s";
+        }
+        if (settingsPanel)
+        {
+            settingsPanel.SetActive(settingsPanelIsOpen);
+        }
+        if (levelFinishedPanel)
+        {
+            levelFinishedPanel.SetActive(leveFinishedIsOpen);
+        }
+        if (stuntGuidePanel)
+        {
+            stuntGuidePanel.SetActive(stuntGuidePanelIsOpen);
+        }
+        if (soundValue)
+        {
+            soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
+        }
+        if (musicValue)
+        {
+            musicValue.text = $"{Mathf.RoundToInt(musicLevel * 100)}%";
+        }
+        if (soundIconOff)
+        {
+            soundIconOff.SetActive(soundLevel == 0);
+        }
+        if (musicIconOff)
+        {
+            musicIconOff.SetActive(musicLevel == 0);
+        }
+        if (soundIconOn)
+        {
+            soundIconOn.SetActive(soundLevel != 0);
+        }
+        if (musicIconOn)
+        {
+            musicIconOn.SetActive(musicLevel != 0);
+        }
         AudioListener.volume = soundLevel;
         if (AudioListener.volume == 0)
         {
-            soundButtonImage.sprite = soundButtonImages[1];
+            if (soundButtonImage)
+            {
+                soundButtonImage.sprite = soundButtonImages[1];
+            }
         }
         else
         {
-            soundButtonImage.sprite = soundButtonImages[0];
+            if (soundButtonImage)
+            {
+                soundButtonImage.sprite = soundButtonImages[0];
+            }
         }
     }
     public void ToggleSettings()
     {
         settingsPanelIsOpen = !settingsPanelIsOpen;
+    }
+
+    public void ToggleAssistance()
+    {
+        stuntGuidePanelIsOpen = !stuntGuidePanelIsOpen;
     }
 
     public void ToggleLevelFinished()
@@ -129,10 +189,19 @@ public class Settings : MonoBehaviour
 
     public void ToggleVolume()
     {
-        if(soundOn){
+
+        if (soundOn)
+        {
             soundLevel = 0;
-        }else{
+        }
+        else
+        {
             soundLevel = PlayerPrefs.GetFloat("SoundVolume");
+            if (soundLevel == 0)
+            {
+                soundLevel = 1;
+            }
+            Debug.Log($"Current value: {soundLevel}");
         }
         soundOn = !soundOn;
         soundSlider.value = soundLevel;
@@ -147,13 +216,18 @@ public class Settings : MonoBehaviour
 
     public void LoadVolumes()
     {
-        soundLevel = PlayerPrefs.GetFloat("SoundVolume");
-        musicLevel = PlayerPrefs.GetFloat("MusicVolume");
+        soundLevel = PlayerPrefs.GetFloat("SoundVolume", 1f);
+        musicLevel = PlayerPrefs.GetFloat("MusicVolume", 1f);
     }
 
     public void QuitApp()
     {
         Application.Quit();
+    }
+
+    public void ResetSettings()
+    {
+        PlayerPrefs.DeleteAll();
     }
 
 }
