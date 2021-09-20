@@ -35,8 +35,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     Vector2 spawnPointValue;
     float distance;
     float distanceGiven;
-    string playerName = "Junjun";
-    string pronoun = "he";
+    string playerName, pronoun, pPronoun;
     public QuestionController questionController;
     public CameraScript cameraScript;
     void Start()
@@ -82,6 +81,18 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         playerHingeJoint.transform.position = new Vector3(spawnPointValue.x - 1, distanceGiven, 0);
         platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, spawnPointValue.y, 0);
         platformBarTop.transform.position = new Vector3(spawnPointValue.x - 9, distanceGiven, 0);
+
+        playerName = PlayerPrefs.GetString("Name");
+        if (PlayerPrefs.GetString("Gender") == "Male")
+        {
+            pronoun = "he";
+            pPronoun = "him";
+        }
+        else
+        {
+            pronoun = "she";
+            pPronoun = "her";
+        }
     }
 
     public void CallAction()
@@ -104,7 +115,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
 
     public void GotoNextScene()
     {
-
+        SceneManager.LoadScene("LevelThreeStage3");
     }
 
     IEnumerator StuntResult(Action callback)

@@ -1635,7 +1635,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3931283652318112044}
-  - component: {fileID: 3931283652318112047}
+  - component: {fileID: 8293924655638535475}
   m_Layer: 0
   m_Name: QuestionControlV2
   m_TagString: Untagged
@@ -1659,7 +1659,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3931283652318112047
+--- !u!114 &8293924655638535475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1668,60 +1668,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 3931283652318112045}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dab1fb6fc663d24e7ac9eb3be73ee5bd, type: 3}
+  m_Script: {fileID: 11500000, guid: bd40ef69e345d6f488e7a5d9c1a6a3df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  limit: 0
   answerIsCorrect: 0
   isModalOpen: 1
-  renderCamera: {fileID: 0}
-  correctAnswerColor: {r: 150, g: 217, b: 72, a: 1}
-  givenColor: {r: 83, g: 173, b: 23, a: 1}
-  wrongAnswerColor: {r: 237, g: 66, b: 66, a: 1}
+  isSimulating: 0
+  nextStage: 0
+  retried: 0
+  correctAnswerColor: {r: 0, g: 0, b: 0, a: 0}
+  givenColor: {r: 0, g: 0, b: 0, a: 0}
+  wrongAnswerColor: {r: 0, g: 0, b: 0, a: 0}
   levelDifficulty: 0
   levelNumber: 0
-  stageNumber: 0
-  orientation: 1
-  levelName: Projectile Motion
-  modalTitle: Test
-  question: The quick brown fox jumps over the lazy dog near the bank of the river.
+  stage: 0
+  levelName: 
+  modalTitle: 
+  question: 
+  timer: 
   colorMode: 0
-  unitOf: 0
+  unit: 0
+  timerOn: 0
+  loaded: 0
   answerFieldHorizontal: {fileID: 3931283652989066868}
-  answerFieldVertical: {fileID: 3931283652954645094}
   difficultyName: {fileID: 3931283653771820977}
-  stageName: {fileID: 3931283651656941932}
-  isSimulating: 0
-  modalText: Test
-  errorText: Test
+  stageName: {fileID: 3931283653001393985}
+  modalText: 
+  errorText: 
   popupVisible: 0
-  baseComponent: {fileID: 3931283652610917802}
-  extraComponent: {fileID: 3931283652096119490}
-  problemBox: {fileID: 3931283652439168478}
-  problemBoxContainer: {fileID: 3931283652439168479}
-  levelBadge: {fileID: 3931283651732310961}
+  extraOn: 0
   modalComponentHorizontal: {fileID: 3931283653427172272}
-  popupComponentHorizontal: {fileID: 3931283653573273187}
-  popupComponentVertical: {fileID: 3931283653380998295}
-  popupTextHorizontal: {fileID: 3931283652751784456}
-  popupTextVertical: {fileID: 3931283652635539986}
-  modalComponentVertical: {fileID: 3931283653309277098}
-  playButtonVertical: {fileID: 3931283652397786273}
-  playButtonHorizontal: {fileID: 3931283652660919667}
-  timerComponentHorizontal: {fileID: 3931283652929258079}
-  timerComponentVertical: {fileID: 3931283652488872433}
-  problemBoxVertical: {fileID: 3931283652602945635}
-  problemBoxHorizontal: {fileID: 3931283651862515263}
-  problemTextVertical: {fileID: 3931283652116314008}
-  problemTextHorizontal: {fileID: 3931283651654629127}
-  modalTitleVertical: {fileID: 3931283653064579683}
-  modalTextHorizontal: {fileID: 3931283652385512489}
-  modalTextVertical: {fileID: 3931283653051494684}
-  modalTitleHorizontal: {fileID: 3931283652306984765}
-  wrongIconHorizontal: {fileID: 3931283653680320291}
-  correctIconHorizontal: {fileID: 3931283651970803851}
-  wrongIconVertical: {fileID: 3931283652062144636}
-  correctIconVertical: {fileID: 3931283653763284370}
-  allComponentTransforms: []
+  popupComponentHorizontal: {fileID: 0}
+  playButtonHorizontal: {fileID: 0}
+  timerComponentHorizontal: {fileID: 0}
+  problemBoxHorizontal: {fileID: 0}
+  problemTextHorizontal: {fileID: 0}
+  modalTextHorizontal: {fileID: 0}
+  modalTitleHorizontal: {fileID: 0}
+  wrongIconHorizontal: {fileID: 0}
+  correctIconHorizontal: {fileID: 0}
+  popupTextHorizontal: {fileID: 0}
+  actionBtn: {fileID: 0}
 --- !u!1 &3931283652385512489
 GameObject:
   m_ObjectHideFlags: 0
@@ -2030,7 +2018,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 1
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: 184.68001, y: 0, z: 9720}
+  m_TranslationOffset: {x: 960, y: 540, z: 0}
   m_AffectTranslationX: 0
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 0

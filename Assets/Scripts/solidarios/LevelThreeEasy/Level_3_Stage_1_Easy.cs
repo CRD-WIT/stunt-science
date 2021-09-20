@@ -36,8 +36,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     float accurateColliderInitialPointY;
     public GameObject timerAnnotation;
     public QuestionController questionController;
-    String playerName = "Junjun";
-    String pronoun = "he";
+    String playerName, pronoun, pPronoun;
     bool metTargetTime = false;
     [SerializeField] CameraScript cameraScript;
 
@@ -47,7 +46,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
 
         // Given        
-        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1.0f), 2);
+        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(1.2f, 1.8f), 2);
         gravityGiven = Physics2D.gravity;
         // Formula
         correctAnswer = Mathf.Abs((gravityGiven.y / 2) * Mathf.Pow(timeGiven, 2));
@@ -92,6 +91,18 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         playerOnRopeInitialY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
         timeGivenContainer.SetText($"Time: {timeGiven}s");
+
+        playerName = PlayerPrefs.GetString("Name");
+        if (PlayerPrefs.GetString("Gender") == "Male")
+        {
+            pronoun = "he";
+            pPronoun = "him";
+        }
+        else
+        {
+            pronoun = "she";
+            pPronoun = "her";
+        }
     }
 
     public void ResetLevel()
@@ -101,7 +112,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     public void GotoNextScene()
     {
-
+        SceneManager.LoadScene("LevelThreeStage2");
     }
 
     public void CallAction()
@@ -223,7 +234,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
                             thePlayer.SetActive(false);
                             playerHangingFixed.SetActive(true);
-                            playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1.5f, 1);
+                            playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1.2f, 1);
                             platformBar.GetComponent<Animator>().SetBool("collided", true);
                             playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                             cameraScript.isStartOfStunt = false;
