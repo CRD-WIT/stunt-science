@@ -92,6 +92,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
         correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
         Debug.Log($"Correct Answer: {correctAnswer}");
+        hook.GetComponent<TrailRenderer>().time = 3000;
     }
 
     void RegenerateVelocities()
@@ -171,13 +172,15 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                     {
                         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                         hook.GetComponent<Rigidbody2D>().WakeUp();
-                        hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
+                        
+                        //hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
+                        hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer());
                         doneFiring = true;
                     }
 
                     if (hook.GetComponent<Hook>().isCollided)
                     {
-                        thinRope.gameObject.SetActive(true);
+                        //thinRope.gameObject.SetActive(true);
                         hookLine.SetActive(false);
                         elapsed -= 0.01f;
                         isSimulating = false;
@@ -201,7 +204,9 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                     {
                         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                         hook.GetComponent<Rigidbody2D>().WakeUp();
-                        hook.GetComponent<Rigidbody2D>().velocity = new Vector3(questionController.GetPlayerAnswer(), velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
+                        
+                        //hook.GetComponent<Rigidbody2D>().velocity = new Vector3(questionController.GetPlayerAnswer(), velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
+                        hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer());
                         doneFiring = true;
                     }
 
@@ -210,7 +215,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         cameraScript.isStartOfStunt = false;
                         questionController.answerIsCorrect = true;
                         // todo 
-                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
+                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt failed!!!</b>", $"{playerName} missed the target!", "retry")));
                         questionController.isSimulating = false;
                     }
                 }
