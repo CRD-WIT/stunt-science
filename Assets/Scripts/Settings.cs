@@ -7,8 +7,12 @@ public class Settings : MonoBehaviour
 {
     public GameObject settingsPanel;
     public GameObject levelFinishedPanel;
+
+    public GameObject assistantPanel;
     bool leveFinishedIsOpen;
     bool settingsPanelIsOpen;
+
+    bool assistantPanelIsOpen;
     public float soundLevel = 1f;
     public float musicLevel = 1f;
     public Slider soundSlider;
@@ -113,6 +117,10 @@ public class Settings : MonoBehaviour
         {
             levelFinishedPanel.SetActive(leveFinishedIsOpen);
         }
+        if (assistantPanel)
+        {
+            assistantPanel.SetActive(assistantPanelIsOpen);
+        }
         if (soundValue)
         {
             soundValue.text = $"{Mathf.RoundToInt(soundLevel * 100)}%";
@@ -157,6 +165,11 @@ public class Settings : MonoBehaviour
     public void ToggleSettings()
     {
         settingsPanelIsOpen = !settingsPanelIsOpen;
+    }
+
+    public void ToggleAssistance()
+    {
+        assistantPanelIsOpen = !assistantPanelIsOpen;
     }
 
     public void ToggleLevelFinished()
