@@ -37,16 +37,16 @@ public class PlayerV2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isMale)
-        {
-            hair.SetActive(true);
-            skirt.SetActive(true);
-        }
-        else
-        {
-            hair.SetActive(false);
-            skirt.SetActive(false);
-        }
+        // if (!isMale)
+        // {
+        //     hair.SetActive(true);
+        //     skirt.SetActive(true);
+        // }
+        // else
+        // {
+        //     hair.SetActive(false);
+        //     skirt.SetActive(false);
+        // }
 
 
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundedRadius, whatIsGround);
