@@ -8,10 +8,11 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     // Start is called before the first frame update
     string question;
     public TMP_Text questionText, levelName, timerText;
+    public Hook theHook;
     public GameObject AfterStuntMessage;
     Animator thePlayerAnimation;
     public GameObject HookAttachmentCollider;
-    public GameObject hook;
+    public GameObject hook,trail;
     bool isSimulating = false;
     public GameObject thePlayer;
     Vector3 thePlayer_position;
@@ -92,7 +93,8 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
         correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
         Debug.Log($"Correct Answer: {correctAnswer}");
-        hook.GetComponent<TrailRenderer>().time = 3000;
+        trail.GetComponent<TrailRenderer>().time = 3000;
+        theHook.isTrailing = true;
     }
 
     void RegenerateVelocities()
@@ -170,6 +172,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                 {
                     if (!doneFiring)
                     {
+                        hook.SetActive(true);
                         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                         hook.GetComponent<Rigidbody2D>().WakeUp();
                         
@@ -181,7 +184,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                     if (hook.GetComponent<Hook>().isCollided)
                     {
                         //thinRope.gameObject.SetActive(true);
-                        hookLine.SetActive(false);
+                        //hookLine.SetActive(false);
                         elapsed -= 0.01f;
                         isSimulating = false;
 
@@ -202,6 +205,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
                     if (!doneFiring)
                     {
+                        hook.SetActive(true);
                         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                         hook.GetComponent<Rigidbody2D>().WakeUp();
                         
