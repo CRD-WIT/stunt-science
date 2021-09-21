@@ -11,7 +11,6 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     string question;
     public float elapsed;
     public GameObject platformCollider;
-    public TMP_Text questionText, levelName;
     Animator thePlayerAnimation;
     public GameObject playerHingeJoint;
     public GameObject thePlayer;
@@ -190,7 +189,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
                     }
                 }
             }
-            questionController.timer = elapsed.ToString("f2") + "s";
+            questionController.timer = elapsed.ToString("f2") + questionController.Unit(GameConfig.UnitOf.time);
         }
         else
         {
