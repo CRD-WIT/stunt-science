@@ -123,7 +123,7 @@ public class AccManagerOne : MonoBehaviour
 
                 if (accSimulation.playerAnswer > correctAns)
                 {
-                    theQuestion.ActivateResult($"{PlayerPrefs.GetString("Name")} accelerated the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F1")} m/s².", false);
+                    stuntResultMessage = $"{PlayerPrefs.GetString("Name")} accelerated the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F1")} m/s².";
                 }
 
 

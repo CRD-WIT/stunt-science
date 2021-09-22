@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class QuestionControllerC : MonoBehaviour
 {
+    
     float playerAnswer;
     public float limit = 0;
     public GraphQLCloud graphQLCloud;
@@ -209,60 +210,7 @@ public class QuestionControllerC : MonoBehaviour
             stage = 3;
             nextStage = true;
         }
-        else
-        {
-            // string difficulty = level.GetDifficulty();
-            // if (difficulty == "easy")
-            // {
-            //     stage = 1;
-            //     level.SetDifficulty(2);
-            // }
-            // else if (difficulty == "medium")
-            // {
-            //     stage = 1;
-            //     level.SetDifficulty(3);
-            // }
-            // else
-            // {
-            //     passedLevel++;
-            //     level.SetDifficulty(1);
-            //     stage = 1;
-            //     switch (level.GetGameLevel())
-            //     {
-            //         case "Velocity":
-            //             level.SetGameLevel(2);
-            //             break;
-            //         case "Acceleration":
-            //             level.SetGameLevel(3);
-            //             break;
-            //         case "Free Fall":
-            //             level.SetGameLevel(4);
-            //             break;
-            //         case "Projectile Motion":
-            //             level.SetGameLevel(5);
-            //             break;
-            //         case "Circular Motion":
-            //             level.SetGameLevel(6);
-            //             break;
-            //         case "Forces":
-            //             level.SetGameLevel(7);
-            //             break;
-            //         case "Work":
-            //             level.SetGameLevel(8);
-            //             break;
-            //         case "Energy":
-            //             level.SetGameLevel(9);
-            //             break;
-            //         case "Power":
-            //             level.SetGameLevel(10);
-            //             break;
-            //         case "Momentum":
-            //             //Done
-            //             break;
-            //     }
-            // }
-            //SceneManager.LoadScene("LevelSelection");
-        }
+        graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Completed", SystemInfo.deviceUniqueIdentifier, System.DateTime.Now, null);
     }
     IEnumerator Retry()
     {
