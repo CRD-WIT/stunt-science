@@ -11,7 +11,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     public Hook theHook;
     public GameObject AfterStuntMessage;
     Animator thePlayerAnimation;
-    public GameObject HookAttachmentCollider;
+    public GameObject HookAttachmentCollider,shootPosTriger,puller;
     public GameObject hook,trail;
     bool isSimulating = false;
     public GameObject thePlayer;
@@ -21,7 +21,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     public GameObject thePlayerRunning;
     float distanceGiven;
     float angleGiven;
-    float correctAnswer;
+    public float correctAnswer;
     public GameObject movingToHookHand;
     float velocityX = 0;
     public GameObject thinRope;
@@ -38,6 +38,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     string pronoun = "he";
     public QuestionController questionController;
     public CameraScript cameraScript;
+    public playerProjectileMed thePlayerProjMed;
     void Start()
     {
         // Given            
@@ -95,6 +96,8 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         Debug.Log($"Correct Answer: {correctAnswer}");
         trail.GetComponent<TrailRenderer>().time = 3000;
         theHook.isTrailing = true;
+        thePlayerProjMed.aim = true;
+       
     }
 
     void RegenerateVelocities()
@@ -104,6 +107,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
+        //hookLine.SetActive(true);
     }
 
     IEnumerator DropRope()
@@ -127,9 +131,12 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         cameraScript.isStartOfStunt = true;
         questionController.SetAnswer();
     }
+    
 
     void FixedUpdate()
     {
+        hookLine.GetComponent<LineRenderer>().SetPosition(0, movingToHookHand.transform.position);
+        hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
         if (thePlayerRunning.GetComponent<RunningPlayer>().isCollided)
         {
             thePlayer.SetActive(true);
@@ -137,13 +144,17 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
             transform.Find("Annotation").GetComponent<Annotation>().Show();
             transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Show();
             transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Show();
+            shootPosTriger.SetActive(false);
+            puller.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            
+
         }
 
         Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
         dynamicPlatform.transform.position = new Vector3(line.distance + 32.34f, -15.69f, 1);
         grapplingPointIndicator.transform.position = new Vector3(line.distance + 4.4f, 1, 1);
 
-        if (isMovingToHook && !isSimulating)
+        /*if (isMovingToHook && !isSimulating)
         {
             hookLine.GetComponent<LineRenderer>().SetPosition(0, movingToHookHand.transform.position);
             hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
@@ -152,14 +163,14 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         {
             hookLine.GetComponent<LineRenderer>().SetPosition(0, hookLauncher.transform.position);
             hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
-        }
+        }*/
 
         if (questionController.isSimulating)
         {
             if (questionController.GetPlayerAnswer() > 0)
             {
                 RegenerateVelocities();
-
+                theHook.correctAnswer = (float)System.Math.Round(correctAnswer, 2);
                 transform.Find("Annotation").GetComponent<Annotation>().Hide();
                 transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Hide();
                 transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Hide();
@@ -175,7 +186,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         hook.SetActive(true);
                         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                         hook.GetComponent<Rigidbody2D>().WakeUp();
-                        
+                        hookLine.SetActive(true);
                         //hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
                         hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer());
                         doneFiring = true;
@@ -188,7 +199,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         elapsed -= 0.01f;
                         isSimulating = false;
 
-                        Rope2HookEnd.GetComponent<Rigidbody2D>().velocity = new Vector3(2, 0, 0);
+                        //Rope2HookEnd.GetComponent<Rigidbody2D>().velocity = new Vector3(2, 0, 0);
                         StartCoroutine(PullRope());
 
                         cameraScript.isStartOfStunt = false;
@@ -208,7 +219,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         hook.SetActive(true);
                         hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                         hook.GetComponent<Rigidbody2D>().WakeUp();
-                        
+                        hookLine.SetActive(true);
                         //hook.GetComponent<Rigidbody2D>().velocity = new Vector3(questionController.GetPlayerAnswer(), velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
                         hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer());
                         doneFiring = true;
