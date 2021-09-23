@@ -312,7 +312,7 @@ public class HardManager : MonoBehaviour
                 while (true)
                 {
                     bossV = (float)System.Math.Round(Random.Range(4f, 5f), 2);
-                    x = Random.Range(-0f, 0);
+                    x = Random.Range(-20f, 0);
                     bossDistance = Mathf.Sqrt((x * x) + (y * y));
                     stuntTime = bossDistance / bossV;
                     angle = Mathf.Atan(x / y) * Mathf.Rad2Deg;
@@ -322,12 +322,12 @@ public class HardManager : MonoBehaviour
                 }
                 distance = Random.Range(18f, 35f);
                 correctAnswer = (float)System.Math.Round(stuntTime - allowanceTime - 1, 2);
-                stoneV = (distance + x) / (allowanceTime);
+                stoneV = (distance + x + 10) / (allowanceTime);
 
                 myPlayer.transform.position = new Vector2(-distance + 0.5f, myPlayer.transform.position.y);
                 indicators.distanceSpawnPnt = new Vector2(-distance + 1, 2.5f);
                 indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 1);
-                indicators.showLines(distance, null, null, stoneV, stuntTime);
+                indicators.showLines(distance + 10, null, null, stoneV, stuntTime);
                 indicators.UnknownIs('t');
                 indicators.ResizeEndLines(0.5f, 0.25f, null, null, 0.25f, 1f);
 
@@ -354,8 +354,8 @@ public class HardManager : MonoBehaviour
                 while (true)
                 {
                     bossV = (float)System.Math.Round(Random.Range(4f, 5f), 2);
-                    x = Random.Range(-10f, 10f);
-                    y = Random.Range(4f, 6f);
+                    x = Random.Range(-20f, 0f);
+                    y = Random.Range(2.5f, 7f);
                     xS = Random.Range(16f, 17f);
                     dT = xS + x;
                     distance = Mathf.Sqrt((dT * dT) + (y * y));
@@ -557,7 +557,7 @@ public class HardManager : MonoBehaviour
         stoneScript.hit = null;
         stone.GetComponent<Rigidbody2D>().gravityScale = 0;
         if (stage == 2)
-            stoneScript.SetVelocity(throwTime, distance + x, sY);
+            stoneScript.SetVelocity(throwTime, distance + x + 10, sY);
         else if (stage == 1)
             stoneScript.SetVelocity(throwTime, distance, sY);
         else
