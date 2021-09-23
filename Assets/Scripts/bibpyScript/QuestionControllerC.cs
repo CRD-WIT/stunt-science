@@ -71,6 +71,12 @@ public class QuestionControllerC : MonoBehaviour
         difficultyName.GetComponent<TMP_Text>().text = difficulty;
 
         life = FindObjectOfType<HeartManager>();
+
+        // Set global gameplay stats for data logging.
+        PlayerPrefs.SetString("LevelNumber", levelNumber.ToString());
+        PlayerPrefs.SetString("DifficultyName", difficulty);
+        PlayerPrefs.SetString("Stage", stage.ToString());
+
     }
     public void ActionBtn(bool endLevel)
     {
@@ -86,7 +92,7 @@ public class QuestionControllerC : MonoBehaviour
             else
             {
                 StartCoroutine(Retry());
-                graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Retry", SystemInfo.deviceUniqueIdentifier, System.DateTime.Now, null);
+                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
             }
                 
             isModalOpen = false;
@@ -138,6 +144,7 @@ public class QuestionControllerC : MonoBehaviour
                 modalTitle = "Stunts Completed!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
             }
             else
             {
@@ -145,6 +152,7 @@ public class QuestionControllerC : MonoBehaviour
                 modalTitle = "Stunt Success!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
             }
         }
         else
@@ -153,6 +161,7 @@ public class QuestionControllerC : MonoBehaviour
             modalTitle = "Stunt Failed!";
             modalText = message;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
+            graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);
         }
         actionBtn.interactable = true;
         isSimulating = false;
@@ -177,6 +186,7 @@ public class QuestionControllerC : MonoBehaviour
     }
     public void SetAnswer()
     {
+        graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
@@ -184,16 +194,7 @@ public class QuestionControllerC : MonoBehaviour
         }
         else
         {
-            answerFieldHorizontal.text = playerAnswer + answerUnit;
-            // if (limit <= playerAnswer)
-            // {
-            //     //StartCoroutine(IsEmpty());
-            // }
-            // else
-            // {
-            //     timerOn = true;
-            //     //isSimulating = true;
-            // }
+            answerFieldHorizontal.text = playerAnswer + answerUnit;        
         }
         extraOn = true;
     }
@@ -210,7 +211,7 @@ public class QuestionControllerC : MonoBehaviour
             stage = 3;
             nextStage = true;
         }
-        graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Completed", SystemInfo.deviceUniqueIdentifier, System.DateTime.Now, null);
+        graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
     }
     IEnumerator Retry()
     {

@@ -74,6 +74,11 @@ public class QuestionControllerB : MonoBehaviour
         }
 
         life = FindObjectOfType<HeartManager>();
+
+        // Set global gameplay stats for data logging.
+        PlayerPrefs.SetString("LevelNumber", levelNumber.ToString());
+        PlayerPrefs.SetString("DifficultyName", difficulty);
+        PlayerPrefs.SetString("Stage", stage.ToString());
     }
     public void ActionBtn(bool endLevel)
     {
@@ -90,7 +95,7 @@ public class QuestionControllerB : MonoBehaviour
             }
             else
             {
-                graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Retry", SystemInfo.deviceUniqueIdentifier, System.DateTime.Now, null);
+                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
                 StartCoroutine(Retry());
             }
 
@@ -123,7 +128,6 @@ public class QuestionControllerB : MonoBehaviour
 
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
         settingUI.ToggleLevelFinished();
-        //SceneManager.LoadScene("LevelSelectV2");
 
     }
     public void ActivateResult(string message, bool isCorrect, bool isComplete = false)
@@ -136,7 +140,7 @@ public class QuestionControllerB : MonoBehaviour
             // NOTE: Use this template when ending levels.
             if (isComplete)
             {
-                graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Finished", SystemInfo.deviceUniqueIdentifier, null, System.DateTime.Now);
+                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
                 actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
 
@@ -147,7 +151,7 @@ public class QuestionControllerB : MonoBehaviour
             }
             else
             {
-                graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Next", SystemInfo.deviceUniqueIdentifier, null, System.DateTime.Now);
+                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
                 modalTitle = "Stunt Success!";
                 modalText = message;
@@ -183,8 +187,8 @@ public class QuestionControllerB : MonoBehaviour
         answerFieldHorizontal.characterLimit = splitted[0].Length + 3;
     }
     public void SetAnswer()
-    {
-        graphQLCloud.GameLogMutation(null, PlayerPrefs.GetString("Gender"), stage, levelNumber, difficulty, "Start", SystemInfo.deviceUniqueIdentifier, System.DateTime.Now, null);
+    {        
+        graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
         Debug.Log($"Player Answer: {answerFieldHorizontal.text}");
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")

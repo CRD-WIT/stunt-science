@@ -40,6 +40,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
     HeartManager life;
+    public GraphQLCloud graphQLCloud;
 
     string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     // Start is called before the first frame update
@@ -71,6 +72,11 @@ public class QuestionControllerAcceleration : MonoBehaviour
         difficultyName.GetComponent<TMP_Text>().text = difficulty;
 
         life = FindObjectOfType<HeartManager>();
+
+        // Set global gameplay stats for data logging.
+        PlayerPrefs.SetString("LevelNumber", levelNumber.ToString());
+        PlayerPrefs.SetString("DifficultyName", difficulty);
+        PlayerPrefs.SetString("Stage", stage.ToString());
     }
     public void ActionBtn(bool endLevel)
     {
@@ -134,6 +140,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
                 modalTitle = "Stunts Completed!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
             }
             else
             {
@@ -141,6 +148,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
                 modalTitle = "Stunt Success!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
             }
         }
         else
@@ -150,6 +158,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
             modalText = message;
             retried = true;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
+            graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);
         }
         actionBtn.interactable = true;
         isSimulating = false;
@@ -173,6 +182,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
     }
     public void SetAnswer()
     {
+        graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
         Debug.Log($"Player Answer: {answerFieldHorizontal.text}");
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
@@ -201,7 +211,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
         }
     }
     IEnumerator Retry()
-    {        
+    {
         timer = "0.00s";
         GameObject ragdoll = GameObject.Find("ragdoll 3(Clone)");
         Destroy(ragdoll);

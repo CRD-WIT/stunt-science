@@ -35,6 +35,7 @@ public class QuestionControllerVThree : MonoBehaviour
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
     HeartManager life;
+    public GraphQLCloud graphQLCloud;
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +67,7 @@ public class QuestionControllerVThree : MonoBehaviour
                 break;
         }
         difficultyName.GetComponent<TMP_Text>().text = difficulty;
+        
         levelNumber = level.GetLevelNum(levelName);
         if (level.GetLevelNum(levelName) > 3)
             levelNumber--;
