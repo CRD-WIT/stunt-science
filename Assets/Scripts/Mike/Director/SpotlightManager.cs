@@ -14,16 +14,18 @@ public class SpotlightManager : MonoBehaviour
     {
         dm = FindObjectOfType<DirectorManager>();
         sLight = transform.Find("Light");
+    }
+
+    void Update()
+    {
         target = dm.target;
 
         //initialization of values
         rotation.z = 0;
         pos.z = 0;
         target.position = new Vector2(target.position.x, target.position.y);
-    }
 
-    void Update()
-    {
+
         pos = this.gameObject.transform.position;
         targetPos = target.transform.position - pos;
 
@@ -36,8 +38,8 @@ public class SpotlightManager : MonoBehaviour
 
         if (this.gameObject.name == "SpotLight")  //for spotlight
         {
-            scale.y = (Mathf.Sqrt((targetPos.y * targetPos.y) + (targetPos.x * targetPos.x)) + 3) / 15;
-            scale.x = 1 + (scale.y / 100);
+            scale.y = ((Mathf.Sqrt((targetPos.y * targetPos.y) + (targetPos.x * targetPos.x)) + 3) / 15)*3.75f;
+            scale.x = (1 + (scale.y / 100));
 
             sLight.localScale = scale;
             this.gameObject.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);

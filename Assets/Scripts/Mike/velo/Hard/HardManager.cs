@@ -58,7 +58,10 @@ public class HardManager : MonoBehaviour
     {
         if (reset)
         {
-            boss.SetVelocityOfTheHead(0.5f, -x, -y);
+            if (stage == 1)
+                boss.SetVelocityOfTheHead(1f, -x, -y);
+            else if (stage == 2)
+                boss.SetVelocityOfTheHead(1f, 10, 7);
             bossRB.constraints = RigidbodyConstraints2D.None;
             StartCoroutine(Reset());
         }
@@ -67,7 +70,7 @@ public class HardManager : MonoBehaviour
             if (myPlayer.transform.position.x < (-playerAnswer + 0.5f))
             {
                 initialDistance = 1 - playerAnswer;
-                myPlayer.moveSpeed = 1.99f;
+                myPlayer.moveSpeed = 2.99f;
                 indicators.gameObject.SetActive(true);
                 indicators.distanceSpawnPnt = new Vector2(initialDistance, 3);
                 indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 2);
@@ -186,7 +189,7 @@ public class HardManager : MonoBehaviour
                             gem[2].SetActive(true);
                             break;
                         case 3:
-                            distanceTraveled = sX+x;
+                            distanceTraveled = sX + x;
                             shakeAmount = 0.05f;
                             gem[2].SetActive(false);
                             StartCoroutine(BossCrumble());
@@ -224,7 +227,10 @@ public class HardManager : MonoBehaviour
         else
         {
             if (qc.nextStage)
+            {
+                stage = qc.stage;
                 StartCoroutine(Next());
+            }
             else if (qc.retried)
                 StartCoroutine(Retry());
             else
@@ -252,7 +258,6 @@ public class HardManager : MonoBehaviour
             item.SetActive(false);
         labels.gameObject.SetActive(false);
         triangle.SetActive(false);
-        bossHead.transform.position = bossStartPos;
         stage = qc.stage;
         isThrown = false;
         stoneV = 0;
@@ -265,6 +270,7 @@ public class HardManager : MonoBehaviour
         switch (stage)
         {
             case 1:
+                bossHead.transform.position = bossStartPos;
                 gem[0].SetActive(true);
                 y = -6;
                 x = 0;
@@ -296,16 +302,17 @@ public class HardManager : MonoBehaviour
                      + stoneV.ToString("f2") + qc.Unit(UnitOf.velocity) + ".";
                 break;
             case 2:
+                bossHead.transform.position = new Vector2(bossStartPos.x + 10, bossStartPos.y + 1);
                 qc.SetUnitTo(UnitOf.time);
                 gem[1].SetActive(true);
                 labels.gameObject.SetActive(true);
                 float allowanceTime;
-                y = -6;
+                y = -7;
                 qc.limit = 5;
                 while (true)
                 {
                     bossV = (float)System.Math.Round(Random.Range(4f, 5f), 2);
-                    x = Random.Range(-10f, 10);
+                    x = Random.Range(-0f, 0);
                     bossDistance = Mathf.Sqrt((x * x) + (y * y));
                     stuntTime = bossDistance / bossV;
                     angle = Mathf.Atan(x / y) * Mathf.Rad2Deg;
@@ -313,7 +320,7 @@ public class HardManager : MonoBehaviour
                     if ((stuntTime < qc.limit) && (Mathf.Abs(angle) > 45) && (stuntTime > (allowanceTime + 2)))
                         break;
                 }
-                distance = Random.Range(18f, 23f);
+                distance = Random.Range(18f, 35f);
                 correctAnswer = (float)System.Math.Round(stuntTime - allowanceTime - 1, 2);
                 stoneV = (distance + x) / (allowanceTime);
 
@@ -327,6 +334,7 @@ public class HardManager : MonoBehaviour
                 labels.startingAngle = 180;
                 labels.SetSpawnPnt(bossHead.transform.position);
                 labels.angleA = angle;
+                labels.legA = 7;
                 labels.legB = bossDistance;
                 labels.HideValuesOf(false, true, true, false, true, true);
 
@@ -443,7 +451,7 @@ public class HardManager : MonoBehaviour
     IEnumerator Reset()
     {
         reset = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
         SetUp();
     }
