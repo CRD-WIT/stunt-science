@@ -4,39 +4,41 @@ using UnityEngine;
 
 public class DirectorManager : MonoBehaviour
 {
-    public FacingTo facingTo, platformIsOn;
+    public Transform target;
+    public To directorIsFacingTo, platformIsOn;
     float platformScale;
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (platformIsOn == FacingTo.Left)
-            this.transform.parent.localScale = new Vector2(1, 1);
-        else
-            this.transform.parent.localScale = new Vector2(-1, 1);
-        platformScale = this.transform.parent.localScale.x;
-        if (facingTo == FacingTo.Right)
-            this.transform.localScale = new Vector2(platformScale, 1);
-        else
-            this.transform.localScale = new Vector2(-platformScale, 1);
-    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.name == "LowerBody")
+        if (platformIsOn == To.Left)
         {
-            Debug.Log(other.gameObject.name);
-            if (facingTo == FacingTo.Right)
-                facingTo = FacingTo.Left;
+            this.transform.localScale = new Vector2(1, 1);
+
+            if (Mathf.Abs(GetComponentInChildren<SpotlightManager>().angle) >= 90)
+                directorIsFacingTo = To.Left;
             else
-                facingTo = FacingTo.Right;
+                directorIsFacingTo = To.Right;
         }
+        else
+        {
+            this.transform.localScale = new Vector2(-1, 1);
+
+            if ((Mathf.Abs(GetComponentInChildren<SpotlightManager>().angle) >= 270) || (Mathf.Abs(GetComponentInChildren<SpotlightManager>().angle) <= 90))
+                directorIsFacingTo = To.Left;
+            else
+                directorIsFacingTo = To.Right;
+        }
+
+
+        platformScale = this.transform.localScale.x;
+
+
+        if (directorIsFacingTo == To.Right)
+            this.transform.Find("Director").localScale = new Vector2(platformScale, 1);
+        else
+            this.transform.Find("Director").localScale = new Vector2(-platformScale, 1);
     }
-    public enum FacingTo : byte
+    public enum To : byte
     {
         Right = 0,
         Left = 1

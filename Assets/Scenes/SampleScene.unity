@@ -164,10 +164,8 @@ GameObject:
   m_Component:
   - component: {fileID: 87082593}
   - component: {fileID: 87082592}
-  - component: {fileID: 87082595}
-  - component: {fileID: 87082594}
   m_Layer: 0
-  m_Name: director
+  m_Name: Director
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,42 +238,6 @@ Transform:
   m_Father: {fileID: 2031399024}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &87082594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87082591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1526cbe4e5df9ea4dbd405021e65e588, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  facingTo: 0
-  platformIsOn: 0
---- !u!68 &87082595
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87082591}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 1
-  m_Points:
-  - {x: 0, y: -50}
-  - {x: 0, y: 0}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
 --- !u!1 &134190197
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,7 +634,7 @@ GameObject:
   - component: {fileID: 350575171}
   - component: {fileID: 350575170}
   m_Layer: 0
-  m_Name: spot_light
+  m_Name: SpotLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -690,7 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3338489a9153f43abbc6f301327bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 869524069}
+  angle: 0
 --- !u!212 &350575171
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -750,7 +712,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 350575169}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0, w: 1}
   m_LocalPosition: {x: 0.10999966, y: 3.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1637,7 +1599,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 869524067}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.85, y: 1.84, z: -2.199649}
+  m_LocalPosition: {x: -16.31, y: 8.79, z: -2.199649}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2273,7 +2235,7 @@ GameObject:
   - component: {fileID: 1560031558}
   - component: {fileID: 1560031557}
   m_Layer: 0
-  m_Name: light_stand
+  m_Name: LightStand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2679,7 +2641,7 @@ GameObject:
   - component: {fileID: 2027677270}
   - component: {fileID: 2027677272}
   m_Layer: 0
-  m_Name: camera
+  m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2763,7 +2725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3338489a9153f43abbc6f301327bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 869524069}
+  angle: 0
 --- !u!1 &2031399023
 GameObject:
   m_ObjectHideFlags: 0
@@ -2773,6 +2735,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2031399024}
+  - component: {fileID: 2031399025}
   m_Layer: 0
   m_Name: DirectorPlatform
   m_TagString: Untagged
@@ -2797,6 +2760,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2031399025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031399023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1526cbe4e5df9ea4dbd405021e65e588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 869524069}
+  directorIsFacingTo: 0
+  platformIsOn: 0
 --- !u!1 &2093081617
 GameObject:
   m_ObjectHideFlags: 0
