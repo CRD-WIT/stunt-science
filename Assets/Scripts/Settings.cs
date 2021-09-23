@@ -50,6 +50,8 @@ public class Settings : MonoBehaviour
     public AudioSource backgroundAudio;
     bool soundOn = true;
 
+    public bool isFirstStart = false;
+
     public AudioSource[] sfxAudios;
     public GraphQLCloud graphQLCloud;
 
@@ -86,6 +88,16 @@ public class Settings : MonoBehaviour
         if (versionCodeText)
         {
             versionCodeText.text = $"Version: {versionCode}";
+        }
+
+        // Set global gameplay stats for data logging.
+        int levelNumber = 0;
+        string difficulty = null;
+        int stage = 0;
+
+        if (isFirstStart)
+        {
+            graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.StartedGame, 0);
         }
 
     }
@@ -174,9 +186,12 @@ public class Settings : MonoBehaviour
         int stage = int.Parse(PlayerPrefs.GetString("Stage"));
 
         stuntGuidePanelIsOpen = !stuntGuidePanelIsOpen;
-        if(stuntGuidePanelIsOpen){
+        if (stuntGuidePanelIsOpen)
+        {
             graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.OpenedStuntGuide, 0);
-        }else{
+        }
+        else
+        {
             graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.ClosedStuntGuide, 0);
         }
     }
@@ -212,7 +227,7 @@ public class Settings : MonoBehaviour
             soundLevel = 0;
         }
         else
-        {            
+        {
             soundLevel = PlayerPrefs.GetFloat("SoundVolume");
             if (soundLevel == 0)
             {
@@ -252,11 +267,12 @@ public class Settings : MonoBehaviour
     public void ResetSettings()
     {
         // Set global gameplay stats for data logging.
-        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber"));
-        string difficulty = PlayerPrefs.GetString("DifficultyName");
-        int stage = int.Parse(PlayerPrefs.GetString("Stage"));
+        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber", "0"));
+        string difficulty = PlayerPrefs.GetString("DifficultyName", null);
+        Debug.Log($"Difficulty: {difficulty}");
+        int stage = int.Parse(PlayerPrefs.GetString("Stage", "0"));
 
-        graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NewGame, 0);
+        graphQLCloud.GameLogMutation(levelNumber, stage, difficulty.Length > 1 ? difficulty : null, Actions.NewGame, 0);
 
         PlayerPrefs.DeleteAll();
     }

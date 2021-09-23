@@ -16,7 +16,8 @@ public class VelocityEasyStage1 : MonoBehaviour
     StageManager sm = new StageManager();
     public AudioSource scream;
     IndicatorManagerV1_1 labels;
-    QuestionControllerVThree qc;
+    public GraphQLCloud graphQLCloud;
+    public QuestionControllerVThree questionController;
 
     public TMP_Text debugAnswer;
     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
@@ -26,7 +27,6 @@ public class VelocityEasyStage1 : MonoBehaviour
         RumblingManager.isCrumbling = false;
         sm.SetGameLevel(1);
         sm.SetDifficulty(1);
-        qc = FindObjectOfType<QuestionControllerVThree>();
         labels = FindObjectOfType<IndicatorManagerV1_1>();
         theCeiling = FindObjectOfType<CeillingGenerator>();
         myPlayer = FindObjectOfType<PlayerV1_1>();
@@ -35,18 +35,35 @@ public class VelocityEasyStage1 : MonoBehaviour
         playerGender = PlayerPrefs.GetString("Gender");
         whatIsAsk = UnitOf.velocity;
         VelocityEasyStage1SetUp();
+
+        PlayerPrefs.SetString("LevelNumber", questionController.levelNumber.ToString());
+        
+        switch (questionController.levelDifficulty)
+        {
+            case Difficulty.Medium:
+                PlayerPrefs.SetString("DifficultyName", "Medium"); break;
+            case Difficulty.Hard:
+                PlayerPrefs.SetString("DifficultyName", "Hard"); break;
+            default:
+                PlayerPrefs.SetString("DifficultyName", "Easy");
+                break;
+        }
+
+        PlayerPrefs.SetString("LevelNumber", questionController.levelNumber.ToString());
+
+        graphQLCloud.GameLogMutation(questionController.levelNumber+1, questionController.stage, PlayerPrefs.GetString("DifficultyName", "Easy"), Actions.Started, 0);
     }
     void FixedUpdate()
     {
         debugAnswer.SetText($"Answer: {Speed}");
-        float answer = qc.GetPlayerAnswer();
+        float answer = questionController.GetPlayerAnswer();
         if (SimulationManager.isAnswered)
         {
             labels.distanceSpawnPnt = new Vector2(0, -2);
-            labels.timeSpawnPnt = new Vector2(0,-2.25f);
+            labels.timeSpawnPnt = new Vector2(0, -2.25f);
             currentPos = answer * elapsed;
             myPlayer.moveSpeed = answer;
-            qc.timer = elapsed.ToString("f2") + "s";
+            questionController.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.fixedDeltaTime;
             if (elapsed >= gameTime)
             {
@@ -56,7 +73,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 myPlayer.moveSpeed = 0;
                 SimulationManager.isAnswered = false;
                 elapsed = gameTime;
-                qc.timer = gameTime.ToString("f2") + "s";
+                questionController.timer = gameTime.ToString("f2") + "s";
                 if ((answer == Speed))
                 {
                     currentPos = distance;
@@ -103,7 +120,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     }
     public void VelocityEasyStage1SetUp()
     {
-        qc.SetUnitTo(whatIsAsk);
+        questionController.SetUnitTo(whatIsAsk);
         myPlayer.lost = false;
         myPlayer.standup = false;
         Speed = 0;
@@ -125,7 +142,7 @@ public class VelocityEasyStage1 : MonoBehaviour
             gameTime = (float)System.Math.Round(t, 2);
             Speed = (float)System.Math.Round((distance / gameTime), 2);
         }
-        qc.limit = 10.4f;
+        questionController.limit = 10.4f;
         rubbleBlocker.SetActive(false);
         ragdollSpawn.SetActive(true);
         HeartManager.losslife = false;
@@ -136,16 +153,16 @@ public class VelocityEasyStage1 : MonoBehaviour
         labels.showLines(distance, distance, null, Speed, gameTime);
         labels.UnknownIs('v');
 
-        theCeiling.createQuadtilemap(qc.stage);
+        theCeiling.createQuadtilemap(questionController.stage);
         safeZone.transform.position = new Vector2(distance, -2);
-        qc.timer = "0.00s";
+        questionController.timer = "0.00s";
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);
         elapsed = 0;
         rubblesStopper.SetActive(true);
         SimulationManager.isAnswered = false;
 
         question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from <b>" + playerName + "</b>. If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
-        qc.SetQuestion(question);
+        questionController.SetQuestion(question);
         labels.SetPlayerPosition(myPlayer.transform.position);
     }
     IEnumerator StuntResult()
@@ -155,6 +172,6 @@ public class VelocityEasyStage1 : MonoBehaviour
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
         rubbleBlocker.SetActive(false);
-        qc.ActivateResult(errorMessage, answerIs);
+        questionController.ActivateResult(errorMessage, answerIs);
     }
 }

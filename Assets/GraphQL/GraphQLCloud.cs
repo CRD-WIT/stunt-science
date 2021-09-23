@@ -6,9 +6,11 @@ using System;
 
 public class GraphQLCloud : MonoBehaviour
 {
-    public async void GameLogMutation(int? levelValue = 1, int? stageValue = 1,  string? difficultyValue = "Easy", string actionValue = "Next", float? value = 0)
+    public async void GameLogMutation(int? levelValue = 1, int? stageValue = 1, string? difficultyValue = "Easy", string actionValue = "Next", float? value = 0)
     {
         DateTime? time_stamp = DateTime.Now;
+
+        string gender = PlayerPrefs.GetString("Gender");
 
         var client = new GraphQLClient("https://stunt-science-cloud.herokuapp.com/graphql");
 
@@ -60,7 +62,7 @@ public class GraphQLCloud : MonoBehaviour
                 device = SystemInfo.deviceUniqueIdentifier,
                 time_stamp = time_stamp,
                 stage = stageValue,
-                gender = PlayerPrefs.GetString("Gender"),
+                gender = gender.Length > 1 ? gender : "Male",
                 value = value
             }
         };
@@ -68,6 +70,6 @@ public class GraphQLCloud : MonoBehaviour
         { };
         var response = await client.Send(() => responseType, request);
 
-        Debug.Log(response.ToString());
+        Debug.Log(response.Data.ToString());
     }
 }
