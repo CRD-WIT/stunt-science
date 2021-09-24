@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Level_3_Stage_1_Medium : MonoBehaviour
 {
@@ -92,7 +93,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     void GenerateInitialVelocity()
     {
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
-        correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+        correctAnswer = (float)System.Math.Round(Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad))),2);
         Debug.Log($"Correct Answer: {correctAnswer}");
         trail.GetComponent<TrailRenderer>().time = 3000;
         theHook.isTrailing = true;
@@ -130,6 +131,19 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         cameraScript.directorIsCalling = true;
         cameraScript.isStartOfStunt = true;
         questionController.SetAnswer();
+    }
+    public void action()
+    {
+        if(questionController.GetPlayerAnswer() == correctAnswer)
+        {
+            SceneManager.LoadScene("LevelThreeStage2Medium");
+        }
+        else
+        {
+            SceneManager.LoadScene("LevelThreeStage1Medium");            
+        }
+
+        
     }
     
 

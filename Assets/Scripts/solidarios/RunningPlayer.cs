@@ -7,7 +7,7 @@ public class RunningPlayer : MonoBehaviour
     void Start()
     {
         transform.GetComponent<Animator>().SetBool("grounded", true);
-        transform.GetComponent<Animator>().SetFloat("speed", 4);
+        transform.GetComponent<Animator>().SetFloat("speed", 6);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
