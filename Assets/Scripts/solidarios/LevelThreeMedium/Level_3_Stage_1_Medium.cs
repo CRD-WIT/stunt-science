@@ -235,7 +235,15 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         hook.GetComponent<Rigidbody2D>().WakeUp();
                         hookLine.SetActive(true);
                         //hook.GetComponent<Rigidbody2D>().velocity = new Vector3(questionController.GetPlayerAnswer(), velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
-                        hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer());
+                        if(questionController.GetPlayerAnswer()< correctAnswer)
+                        {
+                            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer() - .5f);
+                        }
+                        if(questionController.GetPlayerAnswer()> correctAnswer)
+                        {
+                            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer() + .5f);   
+                        }
+                        
                         doneFiring = true;
                     }
 

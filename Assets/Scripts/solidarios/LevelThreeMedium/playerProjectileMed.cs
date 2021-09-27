@@ -28,6 +28,10 @@ public class playerProjectileMed : MonoBehaviour
         myAnimator.SetBool("running", running);
         myAnimator.SetBool("backward", backward);
         myAnimator.SetBool("jump", jump);
+        if(running)
+        {
+            puller.GetComponent<Rigidbody2D>().velocity = new Vector2(6,0);
+        }
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -46,5 +50,7 @@ public class playerProjectileMed : MonoBehaviour
         Time.timeScale = .4f;
         yield return new WaitForSeconds(.7f);
         Time.timeScale = 1;
+        running = true;
+        
     }
 }

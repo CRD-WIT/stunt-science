@@ -7,6 +7,7 @@ public class Hook : MonoBehaviour
     public bool isCollided, isTrailing, getAngle;
     public bool isCollidedToFailCollider;
     public Rigidbody2D rb;
+    public float RopePullAngle, ropePullVelocity;
     public GameObject[] rope;
     public playerProjectileMed thePlayer;
     public QuestionController theQuestion;
@@ -136,8 +137,8 @@ public class Hook : MonoBehaviour
     public IEnumerator ropePull()
     {
         yield return new WaitForSeconds(2f);
-        hookLauncher.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 19);
-        puller.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (25);
+        hookLauncher.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, RopePullAngle);
+        puller.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (ropePullVelocity);
         playerShadow.SetActive(true);
         thePlayer.aim = false;
         thePlayer.airdive = true;

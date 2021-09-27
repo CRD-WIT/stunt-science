@@ -10,7 +10,7 @@ public class Annotation : MonoBehaviour
     public Vector2 spawnPoint;
     public float distance;
     public Mode arrowMode;
-    public float fontSize = 4;
+    public float fontSize = 10;
     LineRenderer line1;
     LineRenderer line2;
     GameObject textDimension;
