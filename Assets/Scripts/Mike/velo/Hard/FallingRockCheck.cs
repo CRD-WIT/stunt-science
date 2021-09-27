@@ -20,7 +20,7 @@ public class FallingRockCheck : MonoBehaviour
     {
         if ((other.gameObject.tag == "boss")&&(hm.readyToCheck))
         {
-            other.gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+            other.gameObject.GetComponent<CircleCollider2D>().enabled = false;
             other.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             Debug.Log("dropped");
         }

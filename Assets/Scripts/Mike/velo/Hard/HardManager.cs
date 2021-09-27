@@ -11,7 +11,7 @@ public class HardManager : MonoBehaviour
     BossScript boss;
     PlayerV2 myPlayer;
     QuestionControllerVThree qc;
-    public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling, ragdollSpawn, throwingPath;
+    public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling, ragdollSpawn, throwingPath, throwingPathTxt;
     public GameObject[] gem, bossParts;
     public HingeJoint2D[] joints;
     public TMP_Text directorsSpeech;
@@ -83,8 +83,8 @@ public class HardManager : MonoBehaviour
                 indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 2);
                 indicators.showLines(playerAnswer, null, bossDistance, stoneV, stuntTime);
 
-                throwingPath.transform.localScale = new Vector2(playerAnswer / 5f, throwingPath.transform.localScale.y);
-                throwingPath.transform.position = new Vector2(bossHead.transform.position.x, 3);
+                throwingPath.transform.localScale = new Vector2(40 / 5f, throwingPath.transform.localScale.y);
+                throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
             }
             else
             {
@@ -101,6 +101,9 @@ public class HardManager : MonoBehaviour
             StartCoroutine(Throw());
         if (isAnswered)
         {
+            throwingPath.SetActive(false);
+            throwingPathTxt.SetActive(false);
+
             elapsed += Time.deltaTime;
             bossRB.constraints = RigidbodyConstraints2D.None;
             switch (stage)
@@ -166,18 +169,16 @@ public class HardManager : MonoBehaviour
         }
         if (stoneIsPresent)
         {
+            indicators.SetPlayerPosition(stone.transform.position);
             if (stage == 1)
                 distanceTraveled = stone.transform.position.x + playerAnswer;
-            else //(stage == 2)
-                distanceTraveled = stone.transform.position.x + distance;
-            //     else
-            // indicators.SetPlayerPosition(stone.transform.position);
+            else
+                distanceTraveled = stone.transform.position.x - myPlayer.transform.position.x - 0.5f;
             if (stoneScript.hit != null)
             {
                 shakeDuration = 2.5f;
                 shakeAmount = 0.02f;
                 isAnswered = false;
-                // elapsed = stuntTime;
                 bool hit = (bool)stoneScript.hit;
                 if (isAnswerCorrect)
                     hit = true;
@@ -202,8 +203,7 @@ public class HardManager : MonoBehaviour
                             break;
                         case 3:
                             readyToCheck = true;
-                            timeL = stone.transform.position.x + myPlayer.transform.position.x;
-                            distanceTraveled = sX + x;
+                            timeL = xS + x;
                             shakeAmount = 0.05f;
                             gem[2].SetActive(false);
                             StartCoroutine(BossCrumble());
@@ -267,6 +267,9 @@ public class HardManager : MonoBehaviour
     }
     public void SetUp()
     {
+        throwingPath.SetActive(true);
+        throwingPathTxt.SetActive(true);
+
         readyToCheck = false;
         bossAnim.SetBool("hit", false);
         ragdollSpawn.SetActive(true);
@@ -313,8 +316,9 @@ public class HardManager : MonoBehaviour
                 correctAnswer = distance;
                 angle = (float)System.Math.Round(((System.Math.Atan2(x, y) * 180) / System.Math.PI), 2);
 
-                throwingPath.transform.localScale = new Vector2(23f / 5f, throwingPath.transform.localScale.y);
-                throwingPath.transform.position = new Vector2(bossHead.transform.position.x, 3);
+                throwingPath.transform.localScale = new Vector2(40f / 5f, throwingPath.transform.localScale.y);
+                throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
+                throwingPathTxt.transform.position = throwingPath.transform.position + new Vector3(distance / 2f, 0);
 
                 question = playerName + " is istructed to throw a rock inside the monster's mouth that is guarding the exit. If " + playerName + " can throw the rock horizontally at "
                     + stoneV.ToString("f2") + qc.Unit(UnitOf.velocity) + " and the monster is moving downward at " + bossV.ToString("f2") + qc.Unit(UnitOf.velocity)
@@ -350,6 +354,7 @@ public class HardManager : MonoBehaviour
                 indicators.showLines(distance, null, null, stoneV, stuntTime);
                 indicators.UnknownIs('t');
                 indicators.ResizeEndLines(0.5f, 0.25f, null, null, 0.25f, 1f);
+                indicators.SetPlayerPosition(myPlayer.transform.position);
 
                 labels.startingAngle = 180;
                 labels.SetSpawnPnt(bossHead.transform.position);
@@ -358,13 +363,15 @@ public class HardManager : MonoBehaviour
                 labels.legB = bossDistance;
                 labels.HideValuesOf(false, true, true, false, true, true);
 
-                throwingPath.transform.localScale = new Vector2((distance + x) / 5, throwingPath.transform.localScale.y);
-                throwingPath.transform.position = new Vector2(bossHead.transform.position.x + x, 3);
+                throwingPath.transform.localScale = new Vector2(40 / 5, throwingPath.transform.localScale.y);
+                throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
+                throwingPathTxt.transform.position = throwingPath.transform.position + new Vector3((distance + x) / 2f, 0);
 
-                question = "Now, the worm is moving at " + Mathf.Abs(angle).ToString("f2") + qc.Unit(UnitOf.angle) + " rightmost downward with the velocity of "
-                    + bossV.ToString("f2") + qc.Unit(UnitOf.velocity) + ". at after how many seconds should " + playerName +
-                    " throw the stone to hit exactly inside the mouth of the worm, if " + pronoun + " is standing " + distance.ToString("f2") + qc.Unit(UnitOf.distance) +
-                    " horizontally away and 6m vertically below from the worm? The stone is released after 1 second with the velocity of " + stoneV.ToString("f2") + qc.Unit(UnitOf.velocity) + ".";
+                question = "Now, the monster is moving at the angle of " + Mathf.Abs(angle).ToString("f2") + qc.Unit(UnitOf.angle) + " rightmost downward with the velocity of "
+                    + bossV.ToString("f2") + qc.Unit(UnitOf.velocity) + ". At after how many seconds should " + playerName +
+                    " throw the stone to hit exactly inside the mouth of the monster, if " + pronoun + " is standing " + distance.ToString("f2") + qc.Unit(UnitOf.distance) +
+                    " horizontally away from the monster, and the monster is 7m vertically above the throwing path? The stone is released after 1 second with the velocity of "
+                    + stoneV.ToString("f2") + qc.Unit(UnitOf.velocity) + ".";
                 break;
             case 3:
                 float sideA;
@@ -415,9 +422,12 @@ public class HardManager : MonoBehaviour
                 triangleAnnotaion.angleA = Mathf.Atan(dT / sideA) * Mathf.Rad2Deg;
                 triangleAnnotaion.HideValuesOf(true, false, true, true, true, false);
 
-                throwingPath.transform.localScale = new Vector2(Mathf.Sqrt((dT * dT) + (sideA * sideA)) / 5, throwingPath.transform.localScale.y);
+                throwingPath.transform.localScale = new Vector2(40 / 5, throwingPath.transform.localScale.y);
                 throwingPath.transform.Rotate(0, 0, 90 - Mathf.Atan(dT / sideA) * Mathf.Rad2Deg);
-                throwingPath.transform.position = new Vector2(bossHead.transform.position.x + x, bossHead.transform.position.y + y);
+                throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
+
+                // throwingPathTxt[2].SetActive(true);
+                throwingPathTxt.transform.position = throwingPath.transform.position + new Vector3(dT / 2, (y - 1) / 2);
 
                 string direction;
                 if (x / Mathf.Abs(x) == 1)
