@@ -266,7 +266,7 @@ public class QuestionController : MonoBehaviour
             modalTitleHorizontal.SetActive(true);
             modalTitleVertical.SetActive(false);
             modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
-            playButtonHorizontal.SetActive(!isSimulating);
+            //playButtonHorizontal.SetActive(!isSimulating);
             if (!isSimulating && isModalOpen)
             {
                 playButtonHorizontal.SetActive(!isModalOpen);

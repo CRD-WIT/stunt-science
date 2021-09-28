@@ -2,49 +2,107 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Level_3_Stage_2_Medium : MonoBehaviour
 {
     // Start is called before the first frame update
-    string question;
-    public TMP_Text initalVelociyText, playerNameText, stuntMessageText, timerText, questionText, levelName, VoTxt,angleTxt;
+    string question, gender, pronoun, pronoun2;
+    public TMP_Text initalVelociyText, questionText, levelName, VoTxt, angleTxt, timerTxt;
     bool isSimulating = false;
     public GameObject hook, hookLauncher, thePlayerRunning, shootPosTriger, puller, angularAnotation, gun, dimensions, target;
-    public GameObject hookLine, trail;
+    public GameObject hookLine, trail, playButton, targetLock;
     public GameObject hookIndicator;
-    public TextMeshPro timeIndicator;
     public playerProjectileMed thePlayer;
     public float distanceX, distanceY;
-    public float angleGiven, projectileTime, Vo;
+    public float angleGiven, projectileTime, Vo, timer, correctAnswer;
 
-    public bool collided, preSetUp;
+    public bool collided, preSetUp, startTime, showResult;
     public CircularAnnotation theCircular;
     public CameraScript cameraScript;
     public Hook theHook;
     public QuestionController questionController;
     void Start()
     {
-
+        gender = PlayerPrefs.GetString("Gender");
+        if (gender == "Male")
+        {
+            pronoun = ("he");
+            pronoun2 = ("his");
+        }
+        if (gender == "Female")
+        {
+            pronoun = ("she");
+            pronoun2 = ("her");
+        }
+        questionController.SetQuestion("......");
     }
     public void StartSimulation()
     {
+        playButton.SetActive(false);
+        timerTxt.gameObject.SetActive(true);
         cameraScript.directorIsCalling = true;
         cameraScript.isStartOfStunt = true;
         questionController.SetAnswer();
     }
     public void showProblem()
     {
+        targetLock.SetActive(true);
+        showResult = true;
         preSetUp = true;
-        projectileTime = (float)System.Math.Round(Random.Range(2f, 2.5f), 2);
+        projectileTime = (float)System.Math.Round(Random.Range(2.7f, 3.2f), 2);
     }
     public IEnumerator shoot()
     {
         hook.SetActive(true);
         hook.transform.position = hookLauncher.transform.position;
-        hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo);
+        if (questionController.GetPlayerAnswer() == correctAnswer)
+        {
+            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo);
+        }
+        if (questionController.GetPlayerAnswer() > correctAnswer)
+        {
+            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo - .5f);
+        }
+        if (questionController.GetPlayerAnswer() < correctAnswer)
+        {
+            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo + .5f);
+        }
+
         yield return new WaitForEndOfFrame();
         theHook.isTrailing = true;
         trail.GetComponent<TrailRenderer>().time = 3000;
+
+    }
+    IEnumerator StuntResult()
+    {
+        if (questionController.GetPlayerAnswer() == correctAnswer)
+        {
+            yield return new WaitForSeconds(4);
+            questionController.answerIsCorrect = true;
+            questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{PlayerPrefs.GetString("Name")} safely grabbed the pole!", "Next");
+
+        }
+        if (questionController.GetPlayerAnswer() != correctAnswer)
+        {
+            yield return new WaitForSeconds(1);
+            questionController.answerIsCorrect = false;
+            questionController.ToggleModal($"<b>Stunt failed!!!</b>", $"{PlayerPrefs.GetString("Name")} missed the target!", "retry");
+
+        }
+
+    }
+    public void action()
+    {
+        if (questionController.GetPlayerAnswer() == correctAnswer)
+        {
+            SceneManager.LoadScene("LevelThreeStage3Medium");
+        }
+        else
+        {
+            SceneManager.LoadScene("LevelThreeStage2Medium");
+        }
+
 
     }
 
@@ -57,6 +115,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         {
             if (!collided)
             {
+                playButton.SetActive(true);
                 thePlayer.gameObject.SetActive(true);
                 thePlayerRunning.SetActive(false);
                 shootPosTriger.SetActive(false);
@@ -76,19 +135,25 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
             angularAnotation.transform.position = gun.transform.position;
             hookLauncher.transform.position = gun.transform.position;
             trail.transform.position = hookLauncher.transform.position;
-            theCircular._origin = new Vector2(hookLauncher.transform.position.x, hookLauncher.transform.position.y);
+            theCircular._origin = new Vector2(hookLauncher.transform.position.x + .3f, hookLauncher.transform.position.y - .1f);
             theCircular._degrees = angleGiven;
             theCircular.initialAngle = 45 - (angleGiven - 45);
             distanceX = (float)System.Math.Round(target.transform.position.x - hookLauncher.transform.position.x, 2);
             distanceY = (float)System.Math.Round(target.transform.position.y - hookLauncher.transform.position.y, 2);
             angleGiven = (float)System.Math.Round(Mathf.Atan(((distanceY + ((9.81f / 2) * (projectileTime * projectileTime))) / distanceX)) * Mathf.Rad2Deg, 2);
+            correctAnswer = angleGiven;
             Vo = distanceX / (Mathf.Cos((angleGiven * Mathf.Deg2Rad)) * projectileTime);
             angularAnotation.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);
+            theHook.correctAnswer = correctAnswer;
+            question = $"{PlayerPrefs.GetString("Name")} is now instructed to fire {pronoun2} climbing device and must hit the target to be able to cross on the other cliff. If the target horizontally <b>{distanceX}m</b> away and vertically <b>{distanceY}m</b> above from the barrel of the climbing device, What should be the shooting angle of the climbing device if the target can only be hit with a projectile time <b>{projectileTime} seconds</b> ?";
+            questionController.SetQuestion(question);
             //VoTxt.text = "Vo = "+ Vo.ToString("F2")+" m/s";
         }
         if (questionController.isSimulating)
         {
-            angleTxt.text = "Θ = "+ questionController.GetPlayerAnswer().ToString("F2")+"°";
+            targetLock.SetActive(false);
+            startTime = true;
+            angleTxt.text = "Θ = " + questionController.GetPlayerAnswer().ToString("F2") + "°";
             preSetUp = false;
             theCircular._degrees = angleGiven;
             theCircular.initialAngle = 45 - (questionController.GetPlayerAnswer() - 45);
@@ -100,6 +165,26 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
             StartCoroutine(shoot());
             questionController.isSimulating = false;
         }
+        if (startTime)
+        {
+            timer += Time.fixedDeltaTime;
+            timerTxt.text = timer.ToString("F2") + "s";
+            if (timer >= projectileTime)
+            {
+                startTime = false;
+                timer = projectileTime;
+                timerTxt.text = timer.ToString("F2") + "s";
+            }
+        }
+        if (showResult)
+        {
+            if (theHook.isCollided)
+            {
+                StartCoroutine(StuntResult());
+                showResult = false;
+            }
+        }
+
 
     }
 }

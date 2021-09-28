@@ -89,6 +89,7 @@ public class Hook : MonoBehaviour
                 isCollidedToFailCollider = true;
                 isTrailing = false;
                 getAngle = true;
+                isCollided = true;
 
             }
 
@@ -104,6 +105,7 @@ public class Hook : MonoBehaviour
                 isCollidedToFailCollider = true;
                 isTrailing = false;
                 getAngle = true;
+                isCollided = true;
 
             }
 

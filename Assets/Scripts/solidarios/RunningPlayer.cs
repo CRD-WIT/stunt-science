@@ -3,6 +3,7 @@ using UnityEngine;
 public class RunningPlayer : MonoBehaviour
 {
     public bool isCollided;
+    public float moveSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +24,7 @@ public class RunningPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.GetComponent<Rigidbody2D>().velocity = new Vector2(3, transform.GetComponent<Rigidbody2D>().velocity.y);        
+        transform.GetComponent<Rigidbody2D>().velocity = new Vector2(moveSpeed, transform.GetComponent<Rigidbody2D>().velocity.y);        
     }
 
 
