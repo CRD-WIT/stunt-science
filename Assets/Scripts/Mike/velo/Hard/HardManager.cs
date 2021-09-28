@@ -88,9 +88,9 @@ public class HardManager : MonoBehaviour
             }
             else
             {
+                stage1Flag = false;
                 myPlayer.moveSpeed = 0;
                 myPlayer.transform.position = new Vector2(-playerAnswer + 0.5f, myPlayer.transform.position.y);
-                stage1Flag = false;
                 isStartOfStunt = true;
                 directorIsCalling = true;
             }
@@ -233,7 +233,7 @@ public class HardManager : MonoBehaviour
         if (isEndOfStunt)
         {
             if (stage == 3)
-                myPlayer.moveSpeed = 5;
+                StartCoroutine(EndOfHard());
             StartCoroutine(StuntResult());
         }
         if (qc.isSimulating)
@@ -255,11 +255,19 @@ public class HardManager : MonoBehaviour
         }
         if (RagdollV2.disableRagdoll)
         {
+            RagdollV2.disableRagdoll = false;
             ragdoll = true;
             y = 0;
             stage1Flag = false;
             isEndOfStunt = true;
         }
+    }
+    IEnumerator EndOfHard()
+    {
+        myPlayer.happy = true;
+        yield return new WaitForSeconds(2.5f);
+        myPlayer.happy = false;
+        myPlayer.moveSpeed = 5;
     }
     void OnEnable()
     {
@@ -566,13 +574,13 @@ public class HardManager : MonoBehaviour
     }
     IEnumerator BossCrumble()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.15f);
         foreach (var item in bossParts)
             item.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         foreach (var item in joints)
             item.enabled = false;
 
-        boss.SetVelocityOfTheHead(0, 0, 0);
+        boss.SetVelocityOfTheHead(1, 10, -8);
         bossRB.constraints = RigidbodyConstraints2D.None;
     }
     IEnumerator StuntResult()

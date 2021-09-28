@@ -77,6 +77,7 @@ public class AngleAnnotaion : MonoBehaviour
         }
         else
         {
+            lines[0].enabled = !hideAngleA;
             if (actualAngleA == 270)
             {
                 legC = Mathf.Sqrt((legA * legA) + (legB * legB));
@@ -128,6 +129,7 @@ public class AngleAnnotaion : MonoBehaviour
         }
         else
         {
+            lines[2].enabled = !hideAngleB;
             lines[2].positionCount = 61;
             arcPntsB = 60;
         }
@@ -155,6 +157,7 @@ public class AngleAnnotaion : MonoBehaviour
         }
         else
         {
+            lines[3].enabled = !hideAngleC;
             lines[3].positionCount = 61;
             arcPntsC = 60;
         }
