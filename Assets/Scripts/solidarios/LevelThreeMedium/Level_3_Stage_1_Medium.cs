@@ -35,7 +35,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     public float elapsed;
     public GameObject dynamicPlatform;
     public GameObject grapplingPointIndicator;
-    string playerName = "Junjun";
+    string playerName;
     string pronoun = "he";
     public QuestionController questionController;
     public CameraScript cameraScript;
@@ -46,9 +46,10 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(22f, 25f), 2);
         angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(40f, 45f), 2);
         gravityGiven = Physics2D.gravity;
+        
 
         //Problem
-        question = $"{playerName} is instructed to cross another diff using this climbing device. If {playerName} shoot its gripping projectile at an angle of {angleGiven} degrees up to precisely get the corner of the cliff {distanceGiven} meters away horizontally from the shooting device, at what velocity should the projectile be shot to hit the gripping part?";
+        question = $"{PlayerPrefs.GetString("Name")} is instructed to cross another diff using this climbing device. If {PlayerPrefs.GetString("Name")} shoot its gripping projectile at an angle of {angleGiven} degrees up to precisely get the corner of the cliff {distanceGiven} meters away horizontally from the shooting device, at what velocity should the projectile be shot to hit the gripping part?";
 
         questionController.SetQuestion(question);
 
@@ -206,19 +207,15 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         doneFiring = true;
                     }
 
-                    if (hook.GetComponent<Hook>().isCollided)
+                    if (theHook.isCollided)
                     {
                         //thinRope.gameObject.SetActive(true);
                         //hookLine.SetActive(false);
                         elapsed -= 0.01f;
                         isSimulating = false;
-
-                        //Rope2HookEnd.GetComponent<Rigidbody2D>().velocity = new Vector3(2, 0, 0);
-                        StartCoroutine(PullRope());
-
                         cameraScript.isStartOfStunt = false;
                         questionController.answerIsCorrect = true;
-                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
+                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{PlayerPrefs.GetString("Name")} safely grabbed the pole!", "Next")));
                         questionController.isSimulating = false;
                     }
                 }
@@ -247,12 +244,12 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         doneFiring = true;
                     }
 
-                    if (hook.GetComponent<Hook>().isCollidedToFailCollider)
+                    if (theHook.isCollided)
                     {
                         cameraScript.isStartOfStunt = false;
-                        questionController.answerIsCorrect = true;
+                        questionController.answerIsCorrect = false;
                         // todo 
-                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt failed!!!</b>", $"{playerName} missed the target!", "retry")));
+                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt failed!!!</b>", $"{PlayerPrefs.GetString("Name")} missed the target!", "retry")));
                         questionController.isSimulating = false;
                     }
                 }
