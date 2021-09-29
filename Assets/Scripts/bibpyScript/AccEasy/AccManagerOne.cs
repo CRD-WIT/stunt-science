@@ -4,6 +4,7 @@ using TMPro;
 
 public class AccManagerOne : MonoBehaviour
 {
+    public GraphQLCloud graphQLCloud;
     string stuntResultMessage;
     bool answerIsCorrect;
     public TMP_Text debugAnswer;
@@ -30,7 +31,7 @@ public class AccManagerOne : MonoBehaviour
     public GameObject walls, bikeInitials, directionArrow;
     public TMP_Text Vitxt, Vftxt, Acctxt, timertxt, actiontxt;
     bool tooSlow, follow;
-    private Vector2 bikeInitialsPos;    
+    private Vector2 bikeInitialsPos;
     public QuestionControllerAcceleration theQuestion;
 
     void Start()
@@ -54,18 +55,16 @@ public class AccManagerOne : MonoBehaviour
         }
         generateProblem();
     }
-
-    IEnumerator Retry(){
+    IEnumerator Retry()
+    {
         transitionCanvas.SetActive(true);
         theQuestion.retried = false;
         Debug.Log("Retry triggered.");
         yield return new WaitForSeconds(3f);
         transitionCanvas.SetActive(true);
         yield return new WaitForSeconds(1f);
-        theSimulation.retry();        
-        
+        theSimulation.retry();
     }
-
     void FixedUpdate()
     {
         debugAnswer.SetText($"Answer: {correctAns}");
@@ -83,7 +82,6 @@ public class AccManagerOne : MonoBehaviour
         {
             follow = false;
         }
-
         if (tooSlow)
         {
             theBike.moveSpeed -= 2 * Time.fixedDeltaTime;
@@ -95,7 +93,6 @@ public class AccManagerOne : MonoBehaviour
                 theHeart.losinglife();
             }
         }
-
         if (theQuestion.isSimulating)
         {
             directionArrow.SetActive(false);
@@ -103,8 +100,6 @@ public class AccManagerOne : MonoBehaviour
             accelaration = accSimulation.playerAnswer;
             Acctxt.text = ("a = ") + accelaration.ToString("F2") + ("m/s²");
             Vitxt.text = ("v = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
-
-
 
             if (accelaration != correctAns)
             {
@@ -125,8 +120,6 @@ public class AccManagerOne : MonoBehaviour
                 {
                     stuntResultMessage = $"{PlayerPrefs.GetString("Name")} accelerated the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F1")} m/s².";
                 }
-
-
             }
             if (accelaration == correctAns)
             {
@@ -170,7 +163,6 @@ public class AccManagerOne : MonoBehaviour
                     }
                     StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                     playerVf = 0;
-
                 }
                 Vitxt.text = ("v = ") + playerVf.ToString("F2") + ("m/s");
             }
@@ -191,11 +183,9 @@ public class AccManagerOne : MonoBehaviour
         Vitxt.text = ("vi = ") + Vi.ToString("F2") + ("m/s");
         Vftxt.text = ("vf = ") + Vf.ToString("F2") + ("m/s");
         directionArrow.SetActive(true);
-
-
     }
     IEnumerator StuntResult(string message, bool isCorrect)
-    {
+    {        
         yield return new WaitForSeconds(3);
         StartCoroutine(theSimulation.DirectorsCall());
         walls.SetActive(false);
