@@ -11,7 +11,7 @@ public class Hook : MonoBehaviour
     public GameObject[] rope;
     public playerProjectileMed thePlayer;
     public QuestionController theQuestion;
-    public GameObject puller, hookLauncher;
+    public GameObject puller, hookLauncher,hit, missed ,indicator;
     public float correctAnswer;
     Quaternion lastRot;
     float mylastrotX,
@@ -58,6 +58,8 @@ public class Hook : MonoBehaviour
                 transform.GetComponent<Rigidbody2D>().Sleep();
                 getAngle = true;
                 StartCoroutine(ropePull());
+                hit.SetActive(true);
+                indicator.transform.position = transform.position;
                 isCollided = true;
             }
 
@@ -71,6 +73,9 @@ public class Hook : MonoBehaviour
                 transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                 transform.GetComponent<Rigidbody2D>().Sleep();
                 getAngle = true;
+               indicator.transform.position = transform.position;
+                missed.SetActive(true);
+               
                 //StartCoroutine(ropePull());
                 isCollided = true;
             }
@@ -88,6 +93,8 @@ public class Hook : MonoBehaviour
                 StartCoroutine(ropeFail());
                 isCollidedToFailCollider = true;
                 isTrailing = false;
+                missed.SetActive(true);
+               indicator.transform.position = transform.position;
                 getAngle = true;
                 isCollided = true;
 
@@ -105,6 +112,8 @@ public class Hook : MonoBehaviour
                 isCollidedToFailCollider = true;
                 isTrailing = false;
                 getAngle = true;
+                missed.SetActive(true);
+                indicator.transform.position = transform.position;
                 isCollided = true;
 
             }

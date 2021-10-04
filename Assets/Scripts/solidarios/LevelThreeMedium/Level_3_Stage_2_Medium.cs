@@ -11,7 +11,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     public TMP_Text initalVelociyText, questionText, levelName, VoTxt, angleTxt, timerTxt;
     bool isSimulating = false;
     public GameObject hook, hookLauncher, thePlayerRunning, shootPosTriger, puller, angularAnotation, gun, dimensions, target;
-    public GameObject hookLine, trail, playButton, targetLock,targetWall;
+    public GameObject hookLine, trail, playButton, targetLock;
     public GameObject hookIndicator;
     public playerProjectileMed thePlayer;
     public float distanceX, distanceY;
@@ -59,7 +59,6 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         if (questionController.GetPlayerAnswer() == correctAnswer)
         {
             hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo);
-            targetWall.SetActive(false);
         }
         if (questionController.GetPlayerAnswer() > correctAnswer)
         {
