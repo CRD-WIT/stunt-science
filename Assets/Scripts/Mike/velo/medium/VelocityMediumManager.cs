@@ -290,8 +290,8 @@ public class VelocityMediumManager : MonoBehaviour
                     Dj = ((Va + Vb) / 2) + 0.53f;
                     t = (d - Dj) / (Va + Vb);
                     stuntTime = (float)System.Math.Round(t, 2);
-                    Da = playerVelocity * stuntTime;
-                    Db = boulderVelocity * stuntTime;
+                    Da = Va * t;
+                    Db = Vb * t;
                     correctAnswer = stuntTime;
                     correctD = Da;
 
@@ -328,11 +328,11 @@ public class VelocityMediumManager : MonoBehaviour
                     playerVelocity = (float)System.Math.Round(Va, 2);
                     boulder2Velocity = (float)System.Math.Round(Vb, 2);
                     distance = (float)System.Math.Round(d, 2);
-                    Dj = (Vb - Va) / 2;
-                    t = (distance - Dj) / (boulder2Velocity - playerVelocity);
+                    Dj = (Vb - Va) / 2f;
+                    t = (d - Dj) / (Vb - Va);
                     stuntTime = (float)System.Math.Round(t, 2);
-                    Da = playerVelocity * stuntTime;
-                    Db = boulder2Velocity * stuntTime;
+                    Da = Va * t;
+                    Db = Vb * t;
                     correctAnswer = (float)System.Math.Round(Da, 2);
                     if (correctAnswer < qc.limit && (stuntTime > 1f || stuntTime < 5f)) break;
                 }
@@ -370,15 +370,15 @@ public class VelocityMediumManager : MonoBehaviour
                 boulder2Velocity = (float)System.Math.Round(Vb, 2);
                 distance = (float)System.Math.Round(d, 2);
 
-                t = distance / (Va + Vb);
+                t = d / (Va + Vb);
                 Tp = t - 0.5f;
-                Db = boulder2Velocity * t;
-                Da = boulderVelocity * t;
+                Db = Vb\* t;
+                Da = Va * t;
                 Dp = Dac - Db;
                 playerDistance = d - Dac;
 
                 stuntTime = (float)System.Math.Round(Tp, 2);
-                Vp = Dp / stuntTime;
+                Vp = Dp / Tp;
 
                 correctAnswer = (float)System.Math.Round(Vp, 2);
                 correctD = Dp;
