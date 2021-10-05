@@ -78,12 +78,12 @@ public class AccMediumTwo : MonoBehaviour
             {
                 if (chopperCurrentPos < playerKickDistance)
                 {
-                    hangingRagdoll2.transform.position = ropeTip2.transform.position;
+                    hangingRagdoll2.transform.position =  new Vector2(ropeTip2.transform.position.x ,ropeTip2.transform.position.y-.7f);
                 }
             }
             else
             {
-                hangingRagdoll2.transform.position = ropeTip2.transform.position;
+                 hangingRagdoll2.transform.position =  new Vector2(ropeTip2.transform.position.x ,ropeTip2.transform.position.y-.7f);
             }
             if (reposition)
             {
