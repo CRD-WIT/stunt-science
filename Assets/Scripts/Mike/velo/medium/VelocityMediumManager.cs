@@ -372,7 +372,7 @@ public class VelocityMediumManager : MonoBehaviour
 
                 t = d / (Va + Vb);
                 Tp = t - 0.5f;
-                Db = Vb\* t;
+                Db = Vb * t;
                 Da = Va * t;
                 Dp = Dac - Db;
                 playerDistance = d - Dac;

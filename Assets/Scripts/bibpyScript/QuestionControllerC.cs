@@ -186,7 +186,7 @@ public class QuestionControllerC : MonoBehaviour
     }
     public void SetAnswer()
     {
-        graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
+        //graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
