@@ -19,7 +19,7 @@ public class DirectorManager : MonoBehaviour
     {
         platformScale = this.transform.localScale.x;
 
-        if (!target.parent.parent.gameObject.activeSelf)
+        if (!target.parent.gameObject.activeSelf)
             target = GameObject.FindWithTag("Player").GetComponent<Transform>();
 
         if (platformIsOn == To.Left)

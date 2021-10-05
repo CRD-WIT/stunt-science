@@ -3,6 +3,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.SceneManagement;
+using GameConfig;
 
 public class Level_3_Stage_1_Easy : MonoBehaviour
 {
@@ -11,11 +12,13 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     float lastHitYPosition;
     GameObject[] ropeBones;
     public float elapsed;
-    public TMP_Text playerNameText, timerText, questionText, levelName, timeGivenContainer;
+    // public TMP_Text playerNameText, timerText, questionText, levelName, 
+    public TMP_Text timeGivenContainer;
     public GameObject AfterStuntMessage;
     Animator thePlayerAnimation;
-    public TMP_InputField playerAnswer;
+    // public TMP_InputField playerAnswer;
     public GameObject playerOnRope;
+    public Annotation annotation;
     public GameObject playerHingeJoint;
     public GameObject thePlayer;
     public GameObject playerHangingFixed;
@@ -35,14 +38,16 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     float playerOnRopeInitialY;
     float accurateColliderInitialPointY;
     public GameObject timerAnnotation;
-    public QuestionControllerVX questionController;
+    public QuestionControllerVThree questionController;
     String playerName = "Junjun";
-    String pronoun = "he";
+    String pronoun, pPronoun;
         string answerUnit;
     bool metTargetTime = false;
     [SerializeField] CameraScript cameraScript;
 
     float globalTime;
+    StageManager sm = new StageManager();
+
     void Start()
     {
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
@@ -52,9 +57,10 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         gravityGiven = Physics2D.gravity;
         // Formula
         correctAnswer = Mathf.Abs((gravityGiven.y / 2) * Mathf.Pow(timeGiven, 2));
+        questionController.limit = correctAnswer +1;
 
-        transform.Find("Annotation1").GetComponent<Annotation>().SetDistance(correctAnswer);
-        transform.Find("Annotation1").GetComponent<Annotation>().SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
+        annotation.SetDistance(correctAnswer);
+        annotation.SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
 
         Debug.Log($"Distance: {correctAnswer}");
         Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
@@ -62,17 +68,31 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
-        levelName.SetText("Stage 1");
-        question = $"{playerName} is hanging from a rope and {pronoun} is instructed to let go of it, drop down, and hang again to the horizontal pole below. If {playerName} will let go ang grab the pole after exactly <b><color=#006d00>{timeGiven} sec</color></b>, at what <b><color=#006d00>distance</color></b> should {pronoun} hands above the pole before letting go?";
-
-        if (questionText != null)
+        // levelName.SetText("Stage 1");
+        sm.SetGameLevel(3);
+        questionController.levelDifficulty = Difficulty.Medium;
+        playerName = PlayerPrefs.GetString("Name");
+        String playerGender = PlayerPrefs.GetString("Gender");
+        if (playerGender == "Male")
         {
-            questionController.SetQuestion(question);
+            pronoun = "he";
+            pPronoun = "him";
         }
         else
         {
-            Debug.Log("QuestionText object not loaded.");
+            pronoun = "she";
+            pPronoun = "her";
         }
+        question = $"{playerName} is hanging from a rope and {pronoun} is instructed to let go of it, drop down, and hang again to the horizontal pole below. If {playerName} will let go ang grab the pole after exactly <b><color=#006d00>{timeGiven} sec</color></b>, at what <b><color=#006d00>distance</color></b> should {pronoun} hands above the pole before letting go?";
+
+        // if (questionText != null)
+        // {
+            questionController.SetQuestion(question);
+        // }
+        // else
+        // {
+        //     Debug.Log("QuestionText object not loaded.");
+        // }
 
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
 
@@ -80,11 +100,11 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
         thePlayer_position = thePlayer.transform.position;
 
-        distance = transform.Find("Annotation1").GetComponent<Annotation>().distance;
+        distance = annotation.distance;
 
         playerOnRopeTransform = playerOnRope.transform.position;
 
-        spawnPointValue = transform.Find("Annotation1").GetComponent<Annotation>().SpawnPointValue();
+        spawnPointValue = annotation.SpawnPointValue();
 
         platformBar.transform.position = new Vector3(spawnPointValue.x - 9, spawnPointValue.y, 0);
 
@@ -93,6 +113,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         playerOnRopeInitialY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
         timeGivenContainer.SetText($"Time: {timeGiven}s");
+        // questionController.timer = timeGiven.ToString("f2");
     }
 
     public void ResetLevel()
@@ -149,10 +170,10 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (playerAnswer.text.Length > 0)
-        {
-
-            float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
+        // if (playerAnswer.text.Length > 0)
+        // {
+        //     float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
+        float answer = questionController.GetPlayerAnswer();
             float correct = (float)Math.Round(correctAnswer, 2);
 
             if (questionController.isSimulating)
@@ -209,7 +230,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                     }
                 }
 
-                transform.Find("Annotation1").GetComponent<Annotation>().Hide();
+                annotation.Hide();
 
                 if (respositioned)
                 {
@@ -228,12 +249,13 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
                             thePlayer.SetActive(false);
                             playerHangingFixed.SetActive(true);
-                            playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1.5f, 1);
+                            playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1f, 1);
                             platformBar.GetComponent<Animator>().SetBool("collided", true);
                             playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                             cameraScript.isStartOfStunt = false;
                             questionController.answerIsCorrect = true;
-                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
+                            StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} safely grabbed the pole!", true, false)));
+                            //ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
                             questionController.isSimulating = false;
 
                         }
@@ -249,7 +271,8 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                                 questionController.answerIsCorrect = false;
                                 questionController.isSimulating = false;
                                 cameraScript.directorIsCalling = true;
-                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
+                                StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", false, false)));
+                                //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                             }
                         }
                         else
@@ -261,13 +284,14 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                                 questionController.answerIsCorrect = false;
                                 questionController.isSimulating = false;
                                 cameraScript.directorIsCalling = true;
-                                StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
+                                StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", false, false)));
+                                //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                             }
                         }
                     }
                 }
 
-                timerText.text = $"{(elapsed).ToString("f2")}s";
+                questionController.timer = $"{(elapsed).ToString("f2")}s";
 
             }
             else
@@ -276,7 +300,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                 // platformBar.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);           
                 if (respositioned)
                 {
-                    timerText.text = $"{(timeGiven).ToString("f2")}s";
+                    questionController.timer = $"{(timeGiven).ToString("f2")}s";
                     // timerAnnotation.GetComponent<TMP_Text>().text = $"t={(timeGiven).ToString("f2")}s";
                 }
                 questionController.isSimulating = false;
@@ -329,6 +353,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
             //     //timerAnnotation.transform.position = new Vector3(17, playerHingeJoint.transform.position.y, 1);
             //     //lastHitYPosition = playerHingeJoint.transform.position.y;
             // }
-        }
+        // }
     }
+
 }
