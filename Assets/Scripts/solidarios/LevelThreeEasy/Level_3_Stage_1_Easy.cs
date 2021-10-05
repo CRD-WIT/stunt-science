@@ -13,7 +13,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     GameObject[] ropeBones;
     public float elapsed;
     // public TMP_Text playerNameText, timerText, questionText, levelName, 
-    public TMP_Text timeGivenContainer;
+    public TMP_Text timeGivenContainer, calloutText;
     public GameObject AfterStuntMessage;
     Animator thePlayerAnimation;
     // public TMP_InputField playerAnswer;
@@ -22,8 +22,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     public GameObject playerHingeJoint;
     public GameObject thePlayer;
     public GameObject playerHangingFixed;
-    public GameObject FirstCamera;
-    public GameObject SecondCamera;
+    public GameObject callout;
     Vector3 thePlayer_position;
     public GameObject accurateCollider;
     public GameObject platformBar;
@@ -42,10 +41,9 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     String playerName = "Junjun";
     String pronoun, pPronoun;
         string answerUnit;
-    bool metTargetTime = false;
-    [SerializeField] CameraScript cameraScript;
+    bool metTargetTime = false, isStartOfStunt, directorIsCalling, isSimulating;
 
-    float globalTime;
+    float globalTime, answer;
     StageManager sm = new StageManager();
 
     void Start()
@@ -116,14 +114,19 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         // questionController.timer = timeGiven.ToString("f2");
     }
 
-    public void ResetLevel()
+    void ResetLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void GotoNextScene()
+    void GotoNextScene()
     {
 
+    }
+    void Play(){
+        answer = questionController.GetPlayerAnswer();
+        directorIsCalling =true;
+        isStartOfStunt =true;
     }
 
     public void CallAction()
@@ -144,6 +147,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     {
         //messageFlag = false;
         yield return new WaitForSeconds(2f);
+        directorIsCalling = true;
         callback();
     }
 
@@ -157,28 +161,24 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         this.letGoRope = true;
     }
 
-    public void StartSimulation()
-    {
-        cameraScript.directorIsCalling = true;
-        cameraScript.isStartOfStunt = true;
-        questionController.SetAnswer();
-    }
+    // public void StartSimulation()
+    // {
+    //     cameraScript.directorIsCalling = true;
+    //     cameraScript.isStartOfStunt = true;
+    //     questionController.SetAnswer();
+    // }
     public string GetUnit()
     {
         return answerUnit;
     }
     void FixedUpdate()
     {
-
-        // if (playerAnswer.text.Length > 0)
-        // {
-        //     float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
-        float answer = questionController.GetPlayerAnswer();
+        if(directorIsCalling)
+            StartCoroutine(DirectorsCall());
             float correct = (float)Math.Round(correctAnswer, 2);
 
-            if (questionController.isSimulating)
+            if (isSimulating)
             {
-
                 float playerOnRopeY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
                 if (answer != correct)
@@ -220,13 +220,10 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                     RepositionRopeComplete();
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                     {
-                        FirstCamera.SetActive(false);
-                        SecondCamera.SetActive(true);
-
                         thePlayer.SetActive(false);
                         playerHangingFixed.SetActive(true);
                         playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
-                        questionController.isSimulating = false;
+                        isSimulating = false;
                     }
                 }
 
@@ -244,19 +241,16 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                         Debug.Log("Distance is correct!");
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
-                            FirstCamera.SetActive(false);
-                            SecondCamera.SetActive(true);
-
                             thePlayer.SetActive(false);
                             playerHangingFixed.SetActive(true);
                             playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1f, 1);
                             platformBar.GetComponent<Animator>().SetBool("collided", true);
                             playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
-                            cameraScript.isStartOfStunt = false;
+                            isStartOfStunt = false;
                             questionController.answerIsCorrect = true;
                             StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} safely grabbed the pole!", true, false)));
                             //ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
-                            questionController.isSimulating = false;
+                            isSimulating = false;
 
                         }
                     }
@@ -267,10 +261,9 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                             if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                             {
                                 Debug.Log("Distance is too short!");
-                                cameraScript.isStartOfStunt = false;
+                                isStartOfStunt = false;
                                 questionController.answerIsCorrect = false;
-                                questionController.isSimulating = false;
-                                cameraScript.directorIsCalling = true;
+                                isSimulating = false;
                                 StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", false, false)));
                                 //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                             }
@@ -280,10 +273,9 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                             if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                             {
                                 Debug.Log("Distance is too long!");
-                                cameraScript.isStartOfStunt = false;
+                                isStartOfStunt = false;
                                 questionController.answerIsCorrect = false;
-                                questionController.isSimulating = false;
-                                cameraScript.directorIsCalling = true;
+                                isSimulating = false;
                                 StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", false, false)));
                                 //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                             }
@@ -303,7 +295,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                     questionController.timer = $"{(timeGiven).ToString("f2")}s";
                     // timerAnnotation.GetComponent<TMP_Text>().text = $"t={(timeGiven).ToString("f2")}s";
                 }
-                questionController.isSimulating = false;
+                isSimulating = false;
             }
 
             if (respositioned)
@@ -338,7 +330,9 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
                 // timerAnnotation.GetComponent<TMP_Text>().text = $"t={(timeGiven).ToString("f2")}s";
             }
-
+            if(questionController.isSimulating)
+                Play();
+                else{}
 
 
 
@@ -355,5 +349,29 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
             // }
         // }
     }
-
+    public IEnumerator DirectorsCall()
+    {
+        directorIsCalling =false;
+        if (isStartOfStunt)
+        {
+            isStartOfStunt =false;
+            callout.SetActive(true);
+            calloutText.SetText("Lights!");
+            yield return new WaitForSeconds(0.75f);
+            calloutText.SetText("Camera!");
+            yield return new WaitForSeconds(0.75f);
+            calloutText.SetText("Action!");
+            yield return new WaitForSeconds(0.75f);
+            calloutText.SetText("");
+            callout.SetActive(false);
+            isSimulating = true;
+        }
+        else
+        {
+            calloutText.SetText("Cut!");
+            callout.SetActive(true);            
+            yield return new WaitForSeconds(0.75f);
+            callout.SetActive(false); 
+        }
+    }
 }
