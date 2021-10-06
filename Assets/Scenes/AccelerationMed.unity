@@ -10048,6 +10048,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1244884273333369193, guid: 970b34223efb24943b42d37ce893cd90, type: 3}
   m_PrefabInstance: {fileID: 1228067633777999023}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &393405689 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1982444264597920958, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
+  m_PrefabInstance: {fileID: 1535677794}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &399514276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3317707553789025929, guid: 6b64097cfeb82c145bcd0d0a366697f0, type: 3}
@@ -14379,12 +14384,13 @@ MonoBehaviour:
   theSuv: {fileID: 1883357144}
   thePlayer: {fileID: 1919375448176089038}
   theChopper: {fileID: 574515705}
+  theHeart: {fileID: 523694479}
   viVtxt: {fileID: 1192256006}
   viHtxt: {fileID: 2113766474}
   aVtxt: {fileID: 1478478604}
   aHtxt: {fileID: 1021574687}
   actiontxt: {fileID: 0}
-  theQuestion: {fileID: 0}
+  theQuestion: {fileID: 672901077}
   actionButton: {fileID: 0}
 --- !u!1 &754672237
 GameObject:
@@ -15001,7 +15007,7 @@ MonoBehaviour:
   moveSpeedY: 0
   myRigidbody: {fileID: 0}
   player: {fileID: 1982444264598943753}
-  stickmanpoint: {fileID: 6643490682116060265}
+  stickmanpoint: {fileID: 1982444265628241625}
   lost: 0
   brake: 0
   happy: 0
@@ -15014,7 +15020,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  groundCheck: {fileID: 2179104847013908270}
+  groundCheck: {fileID: 393405689}
   groundedRadius: 0
   myCollider: {fileID: 0}
   jumpforce: 0
@@ -16390,6 +16396,7 @@ MonoBehaviour:
   theMeter:
   - {fileID: 814194226}
   - {fileID: 399268}
+  theHeart: {fileID: 523694479}
   theQuestion: {fileID: 672901077}
   vivTxt: {fileID: 1192256006}
   vihTxt: {fileID: 2113766474}
@@ -25822,7 +25829,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1242462026}
   m_LocalRotation: {x: 0.00000006862327, y: 0.000000068822004, z: 0.73630923, w: 0.6766453}
-  m_LocalPosition: {x: 2.16, y: -0.46, z: 0.55}
+  m_LocalPosition: {x: 1.26, y: -0.54, z: 0.55}
   m_LocalScale: {x: 5.2487483, y: 5.2487483, z: 5.2487507}
   m_Children: []
   m_Father: {fileID: 1982444264592430026}
@@ -31397,7 +31404,7 @@ MonoBehaviour:
   theSubChopper: {fileID: 105607688}
   theTruck: {fileID: 1678539254}
   debugAnswer: {fileID: 166518073}
-  theHeart: {fileID: 1985283026}
+  theHeart: {fileID: 523694479}
   chase: 0
   togreen: 0
   tored: 0
@@ -31688,7 +31695,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -794.4999, y: 402.59985}
+  m_AnchoredPosition: {x: -794.4999, y: 403.2}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1595932301

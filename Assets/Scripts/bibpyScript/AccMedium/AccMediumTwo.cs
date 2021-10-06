@@ -14,7 +14,7 @@ public class AccMediumTwo : MonoBehaviour
     public Suv theVan;
     private AccMidSimulation theSimulate;
     public DistanceMeter[] theMeter;
-    private HeartManager theHeart;
+    public HeartManager theHeart;
     float A, B, C, D;
     float generateViH, Vih, generateAccH, accH, generateViV, Viv, generateAccV, accV, generateDistance, distance, checkDistance;
     float chopperCurrentPos, vanCurrentPos, kickpointTimeA, kickpointTimeB, timer, generatekickDistance, kickDistance, kickpointTimeC, playerKickDistance;
@@ -27,7 +27,6 @@ public class AccMediumTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        theHeart = FindObjectOfType<HeartManager>();
         theHeart.startbgentrance();
         //theQuestion.stageNumber = 2;
         theSimulate = FindObjectOfType<AccMidSimulation>();
@@ -137,7 +136,7 @@ public class AccMediumTwo : MonoBehaviour
                             
                             thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                             StartCoroutine(kick());
-                            AccMidSimulation.simulate = false;
+                            theQuestion.isSimulating = false;
 
                         }
                     }
@@ -163,9 +162,9 @@ public class AccMediumTwo : MonoBehaviour
                         thePlayer.standup = true;
                         if (kickReady)
                         {
-                            theHeart.losinglife();
+                            theHeart.ReduceLife();
                             StartCoroutine(StuntResult());
-                            AccMidSimulation.simulate = false;
+                            theQuestion.isSimulating = false;
 
                         }
                     }
@@ -201,8 +200,8 @@ public class AccMediumTwo : MonoBehaviour
                             thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                             thePlayer.ropeHang = false;
                             thePlayer.standup = true;
-                            theHeart.losinglife();
-                            AccMidSimulation.simulate = false;
+                            theHeart.ReduceLife();
+                           theQuestion.isSimulating = false;
                         }
                     }
                 }
@@ -315,6 +314,19 @@ public class AccMediumTwo : MonoBehaviour
         }
         yield return new WaitForSeconds(3);
         StartCoroutine(theSimulate.DirectorsCall());
+        if (playerKickDistance == kickDistance)
+        {
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" has successfully jumped into the van")),true, false);
+        }
+        if (playerKickDistance < kickDistance)
+        {
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" kick before touching  the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>.")),false, false);
+        }
+        if (playerKickDistance > kickDistance)
+        {
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" got hit by the van before he could kick the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>.")),false, false);
+        }
+        
         //theQuestion.ToggleModal();
         yield return new WaitForSeconds(2);
         theChopper.accelarating = false;

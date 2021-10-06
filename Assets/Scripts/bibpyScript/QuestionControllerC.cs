@@ -92,7 +92,7 @@ public class QuestionControllerC : MonoBehaviour
             else
             {
                 StartCoroutine(Retry());
-                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
+                //graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
             }
                 
             isModalOpen = false;

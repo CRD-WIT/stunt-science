@@ -17,7 +17,7 @@ public class AccHardSimulation : MonoBehaviour
     public static float playerAnswer;
     public static bool simulate;
     public int stage;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerC theQuestion;
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     private Vector2 truckStartPoint;
@@ -58,7 +58,7 @@ public class AccHardSimulation : MonoBehaviour
 
         if (stage == 1)
         {
-            playerAnswer = float.Parse(answerField.text);
+            playerAnswer = theQuestion.GetPlayerAnswer();
             if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
             {
 
