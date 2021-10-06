@@ -15,7 +15,7 @@ public class AccHardOne : MonoBehaviour
     public ShootManager theShoot;
     public DistanceMeter[] theMeter;
     public CircularAnnotation theCurve;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerC theQuestion;
     private BulletManager theBullet;
     public MulticabManager theMulticab;
     public HeartManager theHeart;
@@ -213,12 +213,22 @@ public class AccHardOne : MonoBehaviour
         yield return new WaitForSeconds(2f);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1f);
+
         //theQuestion.ToggleModal();
         theTruck.deaccelerating = false;
         if (playerAnswer == answer)
         {
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the target!",true, false);
             targetWheel.SetActive(false);
             Time.timeScale = 0;
+        }
+        if (playerAnswer > answer)
+        {
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " shot too late. The correct answer is </color>" + answer.ToString("F2") + "seconds.",false, false);
+        }
+        if (playerAnswer < answer)
+        {
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " shot too soon. The correct answer is </color>" + answer.ToString("F2") + "seconds.",false, false);
         }
 
 
