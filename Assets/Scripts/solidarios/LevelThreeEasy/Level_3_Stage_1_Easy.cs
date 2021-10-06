@@ -119,7 +119,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
         // if (questionText != null)
         // {
-        questionController.SetQuestion (question);
+        questionController.SetQuestion(question);
 
         // }
         // else

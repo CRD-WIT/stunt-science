@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using TMPro;
 using UnityEngine.SceneManagement;
+using GameConfig;
 public class Level_3_Stage_2_Easy : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -37,8 +38,10 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     float distanceGiven;
     string playerName = "Junjun";
     string pronoun = "he";
-    public QuestionControllerVX questionController;
+    public QuestionControllerVThree questionController;
     public CameraScript cameraScript;
+    StageManager sm = new StageManager();
+    public Annotation annnotation;
     void Start()
     {
         // Given        
@@ -49,7 +52,11 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         // Formula
         correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
 
-        transform.Find("Annotation1").GetComponent<Annotation>().SetDistance(distanceGiven);
+
+        annotation.SetDistance(distanceGiven);
+        annotation.revealValue = true;
+        annotation.SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
+        // transform.Find("Annotation1").GetComponent<Annotation>().SetDistance(distanceGiven);
         //transform.Find("Annotation1").GetComponent<Annotation>().SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
 
         //Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
@@ -58,17 +65,20 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         Debug.Log($"Correct Answer Rounded: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
-        levelName.SetText("Free Fall | Stage 2");
+        // levelName.SetText("Free Fall | Stage 2");
+        sm.SetGameLevel(3);
+        questionController.stage = 2;
+        questionController.levelDifficulty = Difficulty.Easy;
         question = $"{playerName} is hanging on a horizontal pole and {pronoun} is instructed to let go of it, drop down, and hang again to another pole below. If the hands of {playerName} is exactly <color=#006A11>{distanceGiven}</color> meters above the second pole, how long should [name] fall down before {pronoun} grabs the second pole?";
 
-        if (questionText != null)
-        {
+        // if (questionText != null)
+        // {
             questionController.SetQuestion(question);
-        }
-        else
-        {
-            Debug.Log("QuestionText object not loaded.");
-        }
+        // }
+        // else
+        // {
+        //     Debug.Log("QuestionText object not loaded.");
+        // }
 
         thePlayerAnimation = thePlayer.GetComponent<Animator>();
         thePlayerAnimation.SetBool("isHangingInBar", true);
@@ -122,13 +132,13 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (playerAnswer.text.Length > 0)
-        {
+        // if (playerAnswer.text.Length > 0)
+        // {
 
             if (questionController.isSimulating)
             {
 
-                float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
+                float answer = questionController.GetPlayerAnswer();//float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
                 transform.Find("Annotation1").GetComponent<Annotation>().Hide();
                 elapsed += Time.fixedDeltaTime;
                 timerText.text = elapsed.ToString("f2") + "s";
@@ -155,7 +165,8 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
 
                         cameraScript.isStartOfStunt = false;
                         questionController.answerIsCorrect = true;
-                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{PlayerPrefs.GetString("Name")} safely grabbed the pole!", "Next")));
+                        StartCoroutine(StuntResult(() => questionController.ActivateResult($"{PlayerPrefs.GetString("Name")} safely grabbed the pole!",true,false)));
+                        //ToggleModal($"<b>Stunt Success!!!</b>", $"{PlayerPrefs.GetString("Name")} safely grabbed the pole!", "Next")));
                         questionController.isSimulating = false;
 
                     }
@@ -171,7 +182,8 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                             questionController.answerIsCorrect = false;
                             questionController.isSimulating = false;
                             cameraScript.directorIsCalling = true;
-                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
+                            StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", false, false)));
+                            //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                         }
                     }
                     else
@@ -183,7 +195,8 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                             questionController.answerIsCorrect = false;
                             questionController.isSimulating = false;
                             cameraScript.directorIsCalling = true;
-                            StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
+                            StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.",false,false)));
+                            //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                         }
                     }
                 }
@@ -194,6 +207,6 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                 questionController.isSimulating = false;
                 timerText.text = $"{(elapsed).ToString("f2")}s";
             }
-        }
+        // }
     }
 }
