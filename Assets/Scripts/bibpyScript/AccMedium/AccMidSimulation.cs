@@ -33,13 +33,12 @@ public class AccMidSimulation : MonoBehaviour
 
 
     private Quaternion TruckStartRot;
-    private HeartManager theHeart;
+    public HeartManager theHeart;
     //string accelaration;
     // Start is called before the first frame update
     void Start()
     {
         simulate = false;
-        theHeart = FindObjectOfType<HeartManager>();
         truckStartPos = theTruck.transform.position;
         TruckStartRot = theTruck.transform.rotation;
         PlayerPrefs.SetString("CurrentString", ("AccelarationMedium"));
