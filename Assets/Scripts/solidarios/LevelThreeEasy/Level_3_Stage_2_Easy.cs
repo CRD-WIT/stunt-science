@@ -156,8 +156,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isSimulating)
-        {
-                // float answer = questionController.GetPlayerAnswer();//float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
+        {                // float answer = questionController.GetPlayerAnswer();//float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
             annotation.Hide();
             elapsed += Time.fixedDeltaTime;
             questionController.timer = elapsed.ToString("f2");
@@ -172,7 +171,6 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                 Debug.Log("Time is correct!");
                 if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                 {
-
                     thePlayer.SetActive(false);
                     playerHangingFixed.SetActive(true);
                     playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 1f, platformBarBottom.transform.position.y - 1.2f, 1);
@@ -180,7 +178,6 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                     playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                     elapsed -= 0.01f;
                     isSimulating = false;
-
                     cameraScript.isStartOfStunt = false;
                     questionController.answerIsCorrect = true;
                     messageTxt = $"{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
@@ -211,7 +208,6 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                     {
                         cameraScript.isStartOfStunt = false;
-
                         questionController.answerIsCorrect = false;
                         cameraScript.directorIsCalling = true;
                         messageTxt = $"{playerName} grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
@@ -224,8 +220,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
             }
         }
         else
-        {
-                //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
+        {                //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
             isSimulating = false;
             questionController.timer = $"{(elapsed).ToString("f2")}s";
         }
