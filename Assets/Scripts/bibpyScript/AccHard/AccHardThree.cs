@@ -16,7 +16,7 @@ public class AccHardThree : MonoBehaviour
     public ShootManager theShoot;
     public DistanceMeter[] theMeter;
     public CircularAnnotation theCurve;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerC theQuestion;
     private BulletManager theBullet;
     public AccHardSimulation theSimulate;
     public HeartManager theHeart;
@@ -203,6 +203,7 @@ public class AccHardThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        theQuestion.isSimulating = false;
         projectileLine.SetActive(true);
         theChopper.transform.position = new Vector2(cam.transform.position.x - 20, theChopper.transform.position.y);
         //directorPlatform.transform.localScale = new Vector2(-directorPlatform.transform.localScale.x, directorPlatform.transform.localScale.y);
@@ -294,12 +295,20 @@ public class AccHardThree : MonoBehaviour
         yield return new WaitForSeconds(2f);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1f);
-        if (playerAnswer == answer)
+       if (playerAnswer == answer)
         {
             targetWheel.SetActive(false);
-            theTruck.moveSpeed = 0;
-            //theQuestion.ToggleModal();
-
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the last target!",true, true);
+            Time.timeScale = 0;
+        }
+        if (playerAnswer > answer)
+        {
+            yield return new WaitForSeconds(playerAnswer - 16);
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " accelerated the helicopter too fast. The correct answer is </color>" + answer.ToString("F2") + "m/s².",false, false);
+        }
+        if (playerAnswer < answer)
+        {
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " accelerated the helicopter too slow. The correct answer is </color>" + answer.ToString("F2") + "m/s².",false, false);
         }
 
 

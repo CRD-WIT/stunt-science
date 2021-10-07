@@ -133,6 +133,7 @@ public class AccHardOne : MonoBehaviour
             {
                 if (playerAnswer != answer)
                 {
+                    theHeart.ReduceLife();
                     actiontxt.text = ("Retry");
                     bulletPos.SetActive(true);
                     bulletPos.transform.position = theBullet.gameObject.transform.position;
@@ -161,6 +162,7 @@ public class AccHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
+         theQuestion.isSimulating = false;
         StartCoroutine(theHeart.startBGgone());
         truckInitials.SetActive(true);
         target.SetActive(true);
@@ -218,8 +220,8 @@ public class AccHardOne : MonoBehaviour
         theTruck.deaccelerating = false;
         if (playerAnswer == answer)
         {
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the target!",true, false);
             targetWheel.SetActive(false);
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the target!",true, false);
             Time.timeScale = 0;
         }
         if (playerAnswer > answer)
