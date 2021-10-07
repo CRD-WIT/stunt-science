@@ -8,7 +8,6 @@ using GameConfig;
 public class QuestionController : MonoBehaviour
 {
     float playerAnswer;
-    public GraphQLCloud graphQLCloud;
     public bool answerIsCorrect = false;
     public bool isModalOpen = true;
     public Camera renderCamera;

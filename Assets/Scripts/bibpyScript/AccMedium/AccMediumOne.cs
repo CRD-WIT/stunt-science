@@ -14,7 +14,7 @@ public class AccMediumOne : MonoBehaviour
     public TruckManager theTruck;
     private AccMidSimulation theSimulate;
     public TMP_Text debugAnswer;
-    public HeartManager theHeart;
+    private HeartManager theHeart;
     public bool chase, togreen, tored;
     public float timer, correctAnswer;
     public float velocity, accelaration, vf, distanceH;
@@ -28,6 +28,7 @@ public class AccMediumOne : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        theHeart = FindObjectOfType<HeartManager>();
         subChopperStartPos = theSubChopper.transform.position;
         chopperStartPos = theChopper.transform.position;
         theSimulate = FindObjectOfType<AccMidSimulation>();
@@ -232,28 +233,6 @@ public class AccMediumOne : MonoBehaviour
         velocity = 0;
         StartCoroutine(theSimulate.DirectorsCall());
         //theQuestion.ToggleModal();
-        if (answer == correctAnswer)
-        {
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" has grabbed the rope and is now succesfully hanging from a hellicopter</color>"),true, false);
-        }
-        if (answer < correctAnswer)
-        {
-             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") +" seconds.",false, false);
-        }
-        if (answer > correctAnswer)
-        {
-            if (playerGrabLineDistance < 56)
-            {
-                theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" grab the rope too late. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."),false, false);
-            }
-             if (playerGrabLineDistance > 56)
-             {
-                 theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" didnt get the chance to grab the rope. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."),false, false);
-             }
-             
-        }
-    
-        
         AccMidSimulation.simulate = false;
         timertxt.gameObject.SetActive(false);
 
@@ -326,15 +305,11 @@ public class AccMediumOne : MonoBehaviour
     }
     public void action()
     {
-        theQuestion.isModalOpen = false;
-        theHeart.startbgentrance();
-        theQuestion.isSimulating = false;
-
         //theQuestion.ToggleModal();
         if (theQuestion.answerIsCorrect == false)
         {
             theSimulate.retry();
-            
+
         }
         else
         {

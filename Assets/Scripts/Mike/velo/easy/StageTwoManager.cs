@@ -17,9 +17,10 @@ public class StageTwoManager : MonoBehaviour
     private ScoreManager theScorer;
     bool answerIs;
     public IndicatorManagerV1_1 labels;
-    public QuestionControllerVThree qc;
+    public QuestionControllerVThree questionController;
     public AudioSource scream;
     public TMP_Text debugAnswer;
+    public FirebaseManager firebaseManager;
     void Start()
     {
         theScorer = FindObjectOfType<ScoreManager>();
@@ -27,11 +28,25 @@ public class StageTwoManager : MonoBehaviour
         PlayerStartPoint = thePlayer.transform.position;
         whatIsAsk = UnitOf.time;
         reset();
+
+        switch (questionController.levelDifficulty)
+        {
+            case Difficulty.Medium:
+                PlayerPrefs.SetString("DifficultyName", "Medium"); break;
+            case Difficulty.Hard:
+                PlayerPrefs.SetString("DifficultyName", "Hard"); break;
+            default:
+                PlayerPrefs.SetString("DifficultyName", "Easy");
+                break;
+        }
+
+        PlayerPrefs.SetString("LevelNumber", questionController.levelNumber.ToString());     
+        firebaseManager.GameLogMutation(1, 2, "Easy", Actions.StartedStage, 0);                
     }
     void FixedUpdate()
     {
         debugAnswer.SetText($"Answer: {answerRO}");
-        playerAnswer = qc.GetPlayerAnswer();
+        playerAnswer = questionController.GetPlayerAnswer();
         if (SimulationManager.isAnswered)
         {
             labels.distanceSpawnPnt = new Vector2(0, -2);
@@ -39,17 +54,17 @@ public class StageTwoManager : MonoBehaviour
             thePlayer.moveSpeed = speed;
             elapsed += Time.fixedDeltaTime;
             currentPos = thePlayer.transform.position.x;
-            qc.timer = elapsed.ToString("f2") + "s";
+            questionController.timer = elapsed.ToString("f2") + "s";
             if ((elapsed >= playerAnswer) || (currentPos > 30))
             {
                 if (currentPos > 30)
                 {
                     rubbleStopper.SetActive(true);
-                    qc.timer = elapsed.ToString("f2") + "s";
+                    questionController.timer = elapsed.ToString("f2") + "s";
                 }
                 else
                 {
-                    qc.timer = playerAnswer.ToString("f2") + "s";
+                    questionController.timer = playerAnswer.ToString("f2") + "s";
                     rubbleStopper.SetActive(false);
                 }
                 thePlayer.moveSpeed = 0;
@@ -114,7 +129,7 @@ public class StageTwoManager : MonoBehaviour
     }
     public void generateProblem()
     {
-        qc.SetUnitTo(whatIsAsk);
+        questionController.SetUnitTo(whatIsAsk);
         playerAnswer = 0;
         answer = 0;
         elapsed = 0;
@@ -136,14 +151,14 @@ public class StageTwoManager : MonoBehaviour
         }
         thePlayer.transform.position = new Vector2(0, -3);
         RumblingManager.shakeON = true;
-        qc.timer = "0.00s";
+        questionController.timer = "0.00s";
 
-        qc.limit = 5f;
+        questionController.limit = 5f;
         question = "The ceiling is still crumbling and the next safe spot is <color=red>" + distance.ToString() + " meters</color> away from <b>" + PlayerPrefs.GetString("Name") + "</b>. If " + pronoun + " runs at a constant velocity of <color=purple>" + finalSpeed.ToString() + " meters per second</color>, how <color=#006400>long</color> should " + pronoun + " run so " + pronoun + " will stop exactly on the same spot?";
-        qc.SetQuestion(question);
+        questionController.SetQuestion(question);
         answerRO = (float)System.Math.Round(answer, 2);
         safePoint.transform.position = new Vector2(distance, -2);
-        theCeiling.createQuadtilemap(qc.stage);
+        theCeiling.createQuadtilemap(questionController.stage);
         ragdollSpawn.SetActive(true);
         rubbleStopper.SetActive(true);
         theHeart.losslife = false;
@@ -172,7 +187,7 @@ public class StageTwoManager : MonoBehaviour
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
         rubbleBlocker.SetActive(false);
-        qc.ActivateResult(errorMessage, answerIs);
+        questionController.ActivateResult(errorMessage, answerIs);
     }
     void safeSpot()
     {

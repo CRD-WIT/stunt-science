@@ -5,10 +5,18 @@ public class CharacterSwapParts : MonoBehaviour
 {
     [SerializeField] SpriteResolver[] swappableParts;
     string gender;
-    public bool isMale;  
+    public bool isMale;
     void Start()
     {
-        //gender = PlayerPrefs.GetString("Gender"); //::Actual value of gender
+        // gender = PlayerPrefs.GetString("Gender"); //::Actual value of gender
+        // if (gender == "Male")
+        // {
+        //     isMale = true;
+        // }
+        // else
+        // {
+        //     isMale = false;
+        // }
     }
     void Update()
     {

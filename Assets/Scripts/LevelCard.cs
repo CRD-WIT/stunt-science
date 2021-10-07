@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using GameConfig;
- using UnityEngine.UI;
+using UnityEngine.UI;
 
 public class LevelCard : MonoBehaviour
 {
@@ -22,6 +22,7 @@ public class LevelCard : MonoBehaviour
     public Sprite cardUnlockedImage;
     public Sprite cardUnlockedGoldImage;
     public Sprite cardUnlockedGreenImage;
+    public GameObject playIcon;
 
     void Start()
     {
@@ -38,6 +39,7 @@ public class LevelCard : MonoBehaviour
         cardUnlocked.SetActive(!locked);
         levelDetails.SetActive(!locked);
         cardLocked.SetActive(locked);
+        playIcon.SetActive(starActiveCount == 0 && !locked);
         if(starActiveCount>0){
             cardUnlocked.GetComponent<Image>().sprite = cardUnlockedGoldImage;
         }else{

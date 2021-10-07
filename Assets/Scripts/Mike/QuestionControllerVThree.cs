@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 using GameConfig;
 using UnityEngine.UI;
@@ -35,7 +34,7 @@ public class QuestionControllerVThree : MonoBehaviour
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
     HeartManager life;
-    public GraphQLCloud graphQLCloud;
+    public FirebaseManager firebaseManager;
 
     // Start is called before the first frame update
     void Start()
@@ -73,6 +72,9 @@ public class QuestionControllerVThree : MonoBehaviour
             levelNumber--;
 
         life = FindObjectOfType<HeartManager>();
+
+        PlayerPrefs.SetString("LevelNumber",stage.ToString());
+        PlayerPrefs.SetString("Stage",stage.ToString());
     }
     public void ActionBtn(bool endLevel)
     {
@@ -121,14 +123,14 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     public void ActivateResult(string message, bool isCorrect, bool isComplete = false)
     {
-        Debug.Log("ActivateResult Triggered");
         answerIsCorrect = isCorrect;
         isModalOpen = true;
         if (isCorrect)
         {
             // NOTE: Use this template when ending levels.
             if (isComplete)
-            {
+            {   
+                firebaseManager.GameLogMutation(levelNumber, stage, PlayerPrefs.GetString("DifficultyName", "Easy"), Actions.CompletedDifficulty, 0);                          
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
                 actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
 
@@ -143,10 +145,12 @@ public class QuestionControllerVThree : MonoBehaviour
                 modalTitle = "Stunt Success!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.FinishedStage, 0);
             }
         }
         else
         {
+            firebaseManager.GameLogMutation(levelNumber, stage, PlayerPrefs.GetString("DifficultyName", "Easy"), Actions.Failed, 0);            
             actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
             modalTitle = "Stunt Failed!";
             modalText = message;
@@ -173,6 +177,7 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     public void SetAnswer()
     {
+        firebaseManager.GameLogMutation(levelNumber, stage, PlayerPrefs.GetString("DifficultyName", "Easy"), Actions.StartedStage, 0);                
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
@@ -195,6 +200,7 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     public void Next()
     {
+        firebaseManager.GameLogMutation(levelNumber, stage, PlayerPrefs.GetString("DifficultyName", "Easy"), Actions.FinishedStage, 0);          
         if (stage == 1)
         {
             stage = 2;
@@ -208,6 +214,7 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     IEnumerator Retry()
     {
+        firebaseManager.GameLogMutation(levelNumber, stage, PlayerPrefs.GetString("DifficultyName", "Easy"), Actions.Retried, 0);                
         // TODO: Fix delay for background intro.
         extraOn = false;
         answerFieldHorizontal.text = "";

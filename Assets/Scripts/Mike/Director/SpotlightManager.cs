@@ -32,13 +32,13 @@ public class SpotlightManager : MonoBehaviour
         angle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg;
 
 
-        if (dm.platformIsOn == DirectorManager.To.Right)  //this is for platform adjustment
-            angle = angle + 180;
+        if(dm.platformIsOn == DirectorManager.To.Right)  //this is for platform adjustment
+            angle = angle +180;
 
 
         if (this.gameObject.name == "SpotLight")  //for spotlight
         {
-            scale.y = ((Mathf.Sqrt((targetPos.y * targetPos.y) + (targetPos.x * targetPos.x))) / 3);
+            scale.y = ((Mathf.Sqrt((targetPos.y * targetPos.y) + (targetPos.x * targetPos.x)) + 3) / 15)*3.75f;
             scale.x = (1 + (scale.y / 100));
 
             sLight.localScale = scale;
@@ -46,6 +46,7 @@ public class SpotlightManager : MonoBehaviour
         }
         else   //for camera
         {
+            Debug.Log(angle);
             if (this.transform.parent.localScale.x == -1)
                 this.gameObject.transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
             else

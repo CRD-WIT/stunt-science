@@ -16,9 +16,11 @@ public class VelocityEasyStage3 : MonoBehaviour
     bool answerIs;
     float answer, initialDistance;
     public GameObject dimensionLine;
-    public QuestionControllerVThree qc;
+    public QuestionControllerVThree questionController;
     public TMP_Text debugAnswer;
     public AudioSource scream;
+
+    public FirebaseManager firebaseManager;
 
     // Start is cdimensionLineled before the first frame update
 
@@ -37,10 +39,23 @@ public class VelocityEasyStage3 : MonoBehaviour
 
         Stage3SetUp();
 
+        switch (questionController.levelDifficulty)
+        {
+            case Difficulty.Medium:
+                PlayerPrefs.SetString("DifficultyName", "Medium"); break;
+            case Difficulty.Hard:
+                PlayerPrefs.SetString("DifficultyName", "Hard"); break;
+            default:
+                PlayerPrefs.SetString("DifficultyName", "Easy");
+                break;
+        }
+
+        PlayerPrefs.SetString("LevelNumber", questionController.levelNumber.ToString());
+        firebaseManager.GameLogMutation(1, 3, "Easy", Actions.StartedStage, 0);
     }
     void FixedUpdate()
     {
-        answer = qc.GetPlayerAnswer();
+        answer = questionController.GetPlayerAnswer();
         debugAnswer.SetText($"Answer: {distance}");
         if (SimulationManager.stage3Flag)
         {
@@ -55,7 +70,7 @@ public class VelocityEasyStage3 : MonoBehaviour
             dimensionLine.GetComponent<IndicatorManagerV1_1>().ShowVelocityLabel(true);
             dimensionLine.GetComponent<IndicatorManagerV1_1>().SetPlayerPosition(myPlayer.transform.position);
             myPlayer.moveSpeed = Speed;
-            qc.timer = elapsed.ToString("f2") + "s";
+            questionController.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.fixedDeltaTime;
             StartCoroutine(RagdollCollider());
             if (elapsed >= gameTime)
@@ -65,7 +80,7 @@ public class VelocityEasyStage3 : MonoBehaviour
                 RumblingManager.isCrumbling = true;
                 rubblesStopper.SetActive(false);
                 myPlayer.moveSpeed = 0;
-                qc.timer = gameTime.ToString("f2") + "s";
+                questionController.timer = gameTime.ToString("f2") + "s";
                 StartCoroutine(ManholeCover());
                 if ((answer == distance))
                 {
@@ -114,8 +129,8 @@ public class VelocityEasyStage3 : MonoBehaviour
         string question;
         dimensionLine.GetComponent<IndicatorManagerV1_1>().showLines(null, null, null, 0, 0);
         dimensionLine.GetComponent<IndicatorManagerV1_1>().ShowVelocityLabel(false);
-        
-        qc.SetUnitTo(UnitOf.distance);
+
+        questionController.SetUnitTo(UnitOf.distance);
         templeBeam.SetActive(false);
         distance = 0;
         rubblesStopper.SetActive(true);
@@ -127,22 +142,22 @@ public class VelocityEasyStage3 : MonoBehaviour
         float t = Random.Range(3f, 3.5f);
         gameTime = (float)System.Math.Round(t, 2);
         distance = (float)System.Math.Round((Speed * gameTime), 2);
-        qc.limit = 10 * 3.5f;
+        questionController.limit = 10 * 3.5f;
         HeartManager.losslife = false;
         myPlayer.lost = false;
         myPlayer.standup = false;
         RumblingManager.shakeON = true;
-        theCeiling.createQuadtilemap(qc.stage);
+        theCeiling.createQuadtilemap(questionController.stage);
         safeZone.transform.position = new Vector2(40, -3);
         safeZone.GetComponent<BoxCollider2D>().enabled = false;
         ragdollSpawn.SetActive(true);
         ragdollSpawn.transform.position = new Vector2(41.2f, -3);
-        qc.timer = "0.00s";
+        questionController.timer = "0.00s";
         myPlayer.transform.position = new Vector2(0f, -3);
         elapsed = 0;
         SimulationManager.isAnswered = false;
         question = $"The entire ceiling is now crumbling and the only safe way out is for <b>{playerName}</b> to jump and slide down the manhole. If {pronoun} runs at constant velocity of <color=red>{Speed.ToString()} meters</color> per second for exactly <color=#006400>{gameTime.ToString()} seconds</color>, <color=purple>how far</color> from the center of the manhole should <b>{playerName}</b> start running so that {pronoun} will fall down in it when {pronoun} stops?";
-        qc.SetQuestion(question);
+        questionController.SetQuestion(question);
     }
     IEnumerator StuntResult()
     {
@@ -151,7 +166,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
         // True means the level is complete.
-        qc.ActivateResult(answerMessage, answerIs, true);
+        questionController.ActivateResult(answerMessage, answerIs, true);
     }
     IEnumerator RagdollCollider()
     {
