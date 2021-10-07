@@ -40,6 +40,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     public CameraScript cameraScript;
     StageManager sm = new StageManager();
     public Annotation annotation;
+    public HeartManager life;
     void Start()
     {
         // Given        
@@ -217,6 +218,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                 }
                 isEndOfStunt = true;
                 isSimulating = false;
+                life.ReduceLife();
             }
         }
         else

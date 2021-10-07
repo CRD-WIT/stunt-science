@@ -19,7 +19,8 @@ public class HeartManager : MonoBehaviour
     void Start()
     {
         startbgentrance();
-
+        life = PlayerPrefs.GetInt("Life");
+        PlayerPrefs.SetInt("Life", life);
     }
     public void DestroyHearts()
     {
@@ -72,6 +73,7 @@ public class HeartManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         // TODO: Get data from playerprefs
         life = 3;
+        PlayerPrefs.SetInt("Life", life);
     }
     IEnumerator gameover()
     {
@@ -106,7 +108,9 @@ public class HeartManager : MonoBehaviour
     {
         if (losslife == false)
         {
+            life = PlayerPrefs.GetInt("Life");
             life -= 1;
+            PlayerPrefs.SetInt("Life", life);
             losslife = true;
         }
     }

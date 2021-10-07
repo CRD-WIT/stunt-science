@@ -75,6 +75,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     bool metTargetTime = false, isStartOfStunt, directorIsCalling, isSimulating, isEndOfStunt;
 
     float globalTime, answer;
+    public HeartManager life;
 
     StageManager sm = new StageManager();
 
@@ -323,6 +324,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                             //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                         }
                     }
+                    life.ReduceLife();
                 }
             }
             questionController.timer = $"{(elapsed).ToString("f2")}s";

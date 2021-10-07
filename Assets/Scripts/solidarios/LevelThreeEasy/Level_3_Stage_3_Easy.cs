@@ -36,6 +36,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     public QuestionControllerVThree questionController;
     public CameraScript cameraScript;
     public Annotation annotation;
+    public HeartManager life;
 
     void Start()
     {
@@ -193,6 +194,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
                     isSimulating = false;
                     isEndOfStunt =true;
                     isComplete = false;
+                    life.ReduceLife();
                 }
             }
             else
