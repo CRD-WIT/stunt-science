@@ -29,6 +29,7 @@ public class HardManager : MonoBehaviour
     public Transform camTransform;
     public Animator bossAnim;
     StageManager sm = new StageManager();
+    public HeartManager life;
     float? timeL;
     void Start()
     {
@@ -225,6 +226,7 @@ public class HardManager : MonoBehaviour
                     hit = false;
                     shakeAmount = 0;
                     //ToDo: deduct 1 life
+                    life.ReduceLife();
                 }
             }
             indicators.IsRunning(playerAnswer, distanceTraveled, elapsed, timeL);
@@ -313,6 +315,7 @@ public class HardManager : MonoBehaviour
         myPlayer.happy = false;
         myPlayer.lost = false;
         myPlayer.standup = false;
+        life.losslife = false;
         switch (stage)
         {
             case 1:
@@ -364,16 +367,16 @@ public class HardManager : MonoBehaviour
                 {
                     bossV = (float)System.Math.Round(Random.Range(4f, 5f), 2);
                     x = Random.Range(-20f, 0);
+                    distance = Random.Range(28f, 31f);
                     bossDistance = Mathf.Sqrt((x * x) + (y * y));
                     stuntTime = bossDistance / bossV;
                     angle = Mathf.Atan(x / y) * Mathf.Rad2Deg;
                     allowanceTime = Random.Range(0.75f, 1.5f);
-                    if ((stuntTime < qc.limit) && (Mathf.Abs(angle) > 45) && (stuntTime > (allowanceTime + 2)))
+                    stoneV = (distance + x) / (allowanceTime);
+                    if ((stuntTime < qc.limit) && (Mathf.Abs(angle) > 45) && (stuntTime > (allowanceTime + 2)&&(stoneV >= 14)))
                         break;
                 }
-                distance = Random.Range(28f, 31f);
                 correctAnswer = (float)System.Math.Round(stuntTime - allowanceTime - 1, 2);
-                stoneV = (distance + x) / (allowanceTime);
 
                 myPlayer.transform.position = new Vector2(-distance + 0.5f + 10, myPlayer.transform.position.y);
                 indicators.distanceSpawnPnt = new Vector2(-distance + 11, 2.5f);
@@ -421,7 +424,7 @@ public class HardManager : MonoBehaviour
                     stuntTime = bossDistance / bossV;
                     stoneV = distance / (stuntTime - 1);
                     angle = Mathf.Atan(x / y) * Mathf.Rad2Deg;
-                    if ((stoneV < qc.limit) && (Mathf.Abs(x) > 5))
+                    if ((stoneV < qc.limit) && (Mathf.Abs(x) > 5)&&(stoneV>=14))
                         break;
                 }
                 bossHead.transform.position = new Vector2(-4 - x, bossStartPos.y - 5);
