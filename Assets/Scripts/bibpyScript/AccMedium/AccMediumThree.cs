@@ -14,7 +14,7 @@ public class AccMediumThree : MonoBehaviour
     public Suv theSuv;
     public PlayerB thePlayer;
     public Hellicopter theChopper;
-    private HeartManager theHeart;
+    public HeartManager theHeart;
     private ScoreManager theScorer;
     float correctAnswer, accH, accV, velocity, dv, dx, dh = 40, ropeDistance, distanceH, vanTime;
     float time, suvPos, chopperPos, generateDv, generateVelocity, generateAccH, generateCorrectAnswer, playerTime;
@@ -23,7 +23,7 @@ public class AccMediumThree : MonoBehaviour
     string pronoun, gender;
     private Vector2 chopperStartPos, vanStartPos;
     private Quaternion vanstartRot;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerC theQuestion;
     public GameObject actionButton;
     int currentLevel;
     int currentStar;
@@ -31,7 +31,6 @@ public class AccMediumThree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        theHeart = FindObjectOfType<HeartManager>();
         theScorer = FindObjectOfType<ScoreManager>();
         theHeart.startbgentrance();
         //theQuestion.stageNumber = 3;
@@ -67,7 +66,7 @@ public class AccMediumThree : MonoBehaviour
         chopperPos = theChopper.transform.position.x;
         accV = AccMidSimulation.playerAnswer;
         theDistance.distance = dv;
-        if (AccMidSimulation.simulate == true)
+        if (theQuestion.isSimulating == true)
         {
             viHtxt.text = ("v = ") + (-theChopper.flySpeed).ToString("F2") + ("m/s");
             viVtxt.text = ("v = ") + (-theSuv.moveSpeed).ToString("F2") + ("m/s");
@@ -129,13 +128,13 @@ public class AccMediumThree : MonoBehaviour
                 if (accV == correctAnswer)
                 {
                     aVtxt.color = new Color32(107, 0, 176, 255);
-                    actiontxt.text = "Next";
+                    //actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
                     //theQuestion.SetModalTitle("Stunt Success");
                     hangingRagdoll.SetActive(true);
                     hangingRagdoll.transform.position = ropeTip.transform.position;
                     //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grabbed the rope before the van fell on the water");
-                    actionButton.SetActive(false);
+                    //actionButton.SetActive(false);
 
                 }
 
@@ -148,7 +147,7 @@ public class AccMediumThree : MonoBehaviour
                 theSuv.accelaration = accV * 3;
                 if (accV != correctAnswer)
                 {
-                    theHeart.losinglife();
+                    theHeart.ReduceLife();
                     //theQuestion.SetModalTitle("Stunt Failed");
                     if (ropeDistance > 15)
                     {
@@ -269,8 +268,21 @@ public class AccMediumThree : MonoBehaviour
         yield return new WaitForSeconds(4);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1);
-        //theQuestion.ToggleModal();
         if (accV == correctAnswer)
+        {
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " grabbed the rope before the van fell on the water"),true, true);
+        }
+         if (accV < correctAnswer)
+        {
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s²."),false, false);
+        }
+         if (accV > correctAnswer)
+        {
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s²."),false, false);
+        }
+        
+        //theQuestion.ToggleModal();
+        /*if (accV == correctAnswer)
         {
             theScorer.finalstar();
             if (theHeart.life > currentStar)
@@ -281,7 +293,7 @@ public class AccMediumThree : MonoBehaviour
             {
                 PlayerPrefs.SetInt("level", currentLevel + 1);
             }
-        }
+        }*/
        
 
     }

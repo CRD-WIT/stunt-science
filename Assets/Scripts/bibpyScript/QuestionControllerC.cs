@@ -90,8 +90,8 @@ public class QuestionControllerC : MonoBehaviour
                 Next();
             else
             {
-                StartCoroutine(Retry());                              
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
+                StartCoroutine(Retry());
+                //graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
             }
                 
             isModalOpen = false;
