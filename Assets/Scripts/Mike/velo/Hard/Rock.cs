@@ -23,6 +23,8 @@ public class Rock : MonoBehaviour
         {
             StartCoroutine(DestroyObj());
         }
+        if(hit != null)
+            this.throwVeloY = -1;
     }
     public void SetVelocity(float t, float x, float y)
     {

@@ -11,7 +11,7 @@ public class HardManager : MonoBehaviour
     BossScript boss;
     PlayerV2 myPlayer;
     QuestionControllerVThree qc;
-    public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling, ragdollSpawn, throwingPath, throwingPathTxt;
+    public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling, ragdollSpawn, throwingPath, throwingPathTxt, rock;
     public GameObject[] gem, bossParts;
     public HingeJoint2D[] joints;
     public TMP_Text directorsSpeech;
@@ -295,6 +295,7 @@ public class HardManager : MonoBehaviour
     {
         throwingPath.SetActive(true);
         throwingPathTxt.SetActive(true);
+        rock.SetActive(true);
 
         readyToCheck = false;
         bossAnim.SetBool("hit", false);
@@ -627,9 +628,12 @@ public class HardManager : MonoBehaviour
             stoneScript.SetVelocity(throwTime, distance + x, sY);
         else if (stage == 1)
             stoneScript.SetVelocity(throwTime, distance, sY);
-        else
+        else{
             stoneScript.SetVelocity(throwTime, dT, y - 1);
+            stone.transform.Rotate(0,0,angleB);
+        }
         indicators.ShowVelocityLabel(true);
+        rock.SetActive(false);
         stoneIsPresent = true;
     }
 }
