@@ -79,7 +79,7 @@ public class VelocityMediumManager : MonoBehaviour
         }
 
         PlayerPrefs.SetString("LevelNumber", "1");
-        firebaseManager.GameLogMutation(1, qc.stage, "Medium", Actions.StartedStage, 0);
+      //  firebaseManager.GameLogMutation(1, qc.stage, "Medium", Actions.StartedStage, 0);
     }
     // Update is called once per frame
     void Update()
