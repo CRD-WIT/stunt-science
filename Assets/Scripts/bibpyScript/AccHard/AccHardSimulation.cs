@@ -17,7 +17,7 @@ public class AccHardSimulation : MonoBehaviour
     public static float playerAnswer;
     public static bool simulate;
     public int stage;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerC theQuestion;
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     private Vector2 truckStartPoint;
@@ -58,7 +58,7 @@ public class AccHardSimulation : MonoBehaviour
 
         if (stage == 1)
         {
-            playerAnswer = float.Parse(answerField.text);
+            playerAnswer = theQuestion.GetPlayerAnswer();
             if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
             {
 
@@ -127,7 +127,7 @@ public class AccHardSimulation : MonoBehaviour
         playerAnswer = 0;
         simulate = false;
         answerField.text = ("");
-        theQuestion.isSimulating = false;
+        theHeart.losslife = false;
         if (stage == 1)
         {
             StartCoroutine(theManagerOne.positioningTwo());
@@ -153,14 +153,14 @@ public class AccHardSimulation : MonoBehaviour
         {
             theManagerOne.gameObject.SetActive(false);
             theManagerTwo.gameObject.SetActive(true);
-            theQuestion.isSimulating = false;
+            //theQuestion.isSimulating = false;
             playButton.interactable = true;
         }
         if (stage == 2)
         {
             theManagerTwo.gameObject.SetActive(false);
             theManagerThree.gameObject.SetActive(true);
-            theQuestion.isSimulating = false;
+            //theQuestion.isSimulating = false;
             playButton.interactable = true;
         }
     }
@@ -200,6 +200,7 @@ public class AccHardSimulation : MonoBehaviour
     public void action()
     {
         //theQuestion.ToggleModal();
+        theQuestion.isModalOpen = false;
         if (theQuestion.answerIsCorrect == false)
         {
             retry();

@@ -16,7 +16,7 @@ public class AccHardTwo : MonoBehaviour
     public ShootManager theShoot;
     public DistanceMeter[] theMeter;
     public CircularAnnotation theCurve;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerC theQuestion;
     private BulletManager theBullet;
     public AccHardSimulation theSimulate;
     public HeartManager theHeart;
@@ -197,6 +197,10 @@ public class AccHardTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        theQuestion.isSimulating = false;
+        startTime = false;
+        theTruck.accelerating = false;
+        theTruck.moveSpeed = 0;
         chopperInitials.SetActive(true);
         projectileLine.SetActive(true);
         theChopper.transform.position = new Vector2(cam.transform.position.x + 5, theChopper.transform.position.y);
@@ -292,7 +296,16 @@ public class AccHardTwo : MonoBehaviour
         if (playerAnswer == answer)
         {
             targetWheel.SetActive(false);
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the 2nd target!",true, false);
             Time.timeScale = 0;
+        }
+        if (playerAnswer > answer)
+        {
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " flies the helicopter too fast. The correct answer is </color>" + answer.ToString("F2") + "m/s.",false, false);
+        }
+        if (playerAnswer < answer)
+        {
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " flies the helicopter too slow. The correct answer is </color>" + answer.ToString("F2") + "m/s.",false, false);
         }
     }
     public IEnumerator positioningTwo()
