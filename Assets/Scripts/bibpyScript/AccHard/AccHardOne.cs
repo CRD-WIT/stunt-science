@@ -15,7 +15,7 @@ public class AccHardOne : MonoBehaviour
     public ShootManager theShoot;
     public DistanceMeter[] theMeter;
     public CircularAnnotation theCurve;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerC theQuestion;
     private BulletManager theBullet;
     public MulticabManager theMulticab;
     public HeartManager theHeart;
@@ -133,6 +133,7 @@ public class AccHardOne : MonoBehaviour
             {
                 if (playerAnswer != answer)
                 {
+                    theHeart.ReduceLife();
                     actiontxt.text = ("Retry");
                     bulletPos.SetActive(true);
                     bulletPos.transform.position = theBullet.gameObject.transform.position;
@@ -161,6 +162,7 @@ public class AccHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
+         theQuestion.isSimulating = false;
         StartCoroutine(theHeart.startBGgone());
         truckInitials.SetActive(true);
         target.SetActive(true);
@@ -213,12 +215,22 @@ public class AccHardOne : MonoBehaviour
         yield return new WaitForSeconds(2f);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1f);
+
         //theQuestion.ToggleModal();
         theTruck.deaccelerating = false;
         if (playerAnswer == answer)
         {
             targetWheel.SetActive(false);
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the target!",true, false);
             Time.timeScale = 0;
+        }
+        if (playerAnswer > answer)
+        {
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " shot too late. The correct answer is </color>" + answer.ToString("F2") + "seconds.",false, false);
+        }
+        if (playerAnswer < answer)
+        {
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " shot too soon. The correct answer is </color>" + answer.ToString("F2") + "seconds.",false, false);
         }
 
 

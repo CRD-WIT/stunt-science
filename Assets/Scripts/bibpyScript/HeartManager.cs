@@ -87,9 +87,8 @@ public class HeartManager : MonoBehaviour
     }
     public IEnumerator endBGgone()
     {
-        
-        yield return new WaitForSeconds(7f);
-        //gameOverBG.SetActive(true);
+        gameOverBG.SetActive(true);
+        yield return new WaitForSeconds(3f);  
         gameOverBG.SetActive(false);
     }
 

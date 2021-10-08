@@ -159,7 +159,6 @@ public class AccMediumOne : MonoBehaviour
 
                         if (truckPos >= 72)
                         {
-                            theHeart.losinglife();
                             theTruck.accelerating = false;
                             theTruck.moveSpeed = 0;
                             StartCoroutine(StuntResult());
@@ -233,6 +232,30 @@ public class AccMediumOne : MonoBehaviour
         velocity = 0;
         StartCoroutine(theSimulate.DirectorsCall());
         //theQuestion.ToggleModal();
+        if (answer == correctAnswer)
+        {
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" has grabbed the rope and is now succesfully hanging from a hellicopter</color>"),true, false);
+        }
+        if (answer < correctAnswer)
+        {
+             theHeart.ReduceLife();
+             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") +" seconds.",false, false);
+        }
+        if (answer > correctAnswer)
+        {
+             theHeart.ReduceLife();
+            if (playerGrabLineDistance < 56)
+            {
+                theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" grab the rope too late. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."),false, false);
+            }
+             if (playerGrabLineDistance > 56)
+             {
+                 theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" didnt get the chance to grab the rope. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."),false, false);
+             }
+             
+        }
+    
+        
         AccMidSimulation.simulate = false;
         timertxt.gameObject.SetActive(false);
 
