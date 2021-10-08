@@ -53,6 +53,7 @@ public class AccMidSimulation : MonoBehaviour
     }
     public void TriggerSimulation()
     {
+        playButton.interactable = false;
         if (stage == 1)
         {
             playerAnswer = theQuestion.GetPlayerAnswer();
@@ -116,6 +117,7 @@ public class AccMidSimulation : MonoBehaviour
     }
     public void retry()
     {
+        playButton.interactable = true;
         theHeart.startbgentrance();
         playButton.interactable = true;
         playerAnswer = 0;
@@ -156,6 +158,7 @@ public class AccMidSimulation : MonoBehaviour
     }
     public void next()
     {
+        playButton.interactable = true;
         if (stage == 1)
         {
             thePlayer.standup = false;
