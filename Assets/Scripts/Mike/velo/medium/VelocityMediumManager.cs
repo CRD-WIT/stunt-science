@@ -8,12 +8,11 @@ public class VelocityMediumManager : MonoBehaviour
 {
     QuestionControllerVThree qc;
     UnitOf whatIsAsk;
-
     IndicatorManagerV1_1 indicators;
     IndicatorManager jmpDistFromBoulder;
     StageManager sm = new StageManager();
     [SerializeField]
-    GameObject boulder, directorsBubble, boulderA, velocityDirectionArrow1,
+    GameObject boulder, directorsBubble, boulderA, velocityDirectionArrow1, boulderSFX, boulder2SFX,
                 velocityDirectionArrow2, boulderShadow, playerShadow, JDIndicator;
     PlayerV2 myPlayer;
     HeartManager life;
@@ -25,7 +24,7 @@ public class VelocityMediumManager : MonoBehaviour
     Rigidbody2D boulderRB, boulder2RB;
     float playerPos, playerAnswer, elapsed, distanceTraveled, currentPlayerPos, jumpTime, jumpForce, playerDistance;
     string question, playerName, playerGender, pronoun, pPronoun, messageTxt;
-    bool isStartOfStunt, directorIsCalling, isAnswered, isAnswerCorrect, isEndOfStunt, onShadow;
+    bool isStartOfStunt, directorIsCalling, isAnswered, isAnswerCorrect, isEndOfStunt, onShadow, sfxPlaying;
     [SerializeField] TMP_Text playerSpeed, boulder1Speed, boulder2Speed;
     float correctD, timingD;
     GameObject b2Shadow, b1Shadow, pShadow;
@@ -33,6 +32,8 @@ public class VelocityMediumManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        boulder2SFX.SetActive(false);
+        boulderSFX.SetActive(false);
         qc = FindObjectOfType<QuestionControllerVThree>();
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
         jmpDistFromBoulder = FindObjectOfType<IndicatorManager>();
@@ -68,8 +69,10 @@ public class VelocityMediumManager : MonoBehaviour
     {
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
+
         if (isAnswered)
         {
+            sfxPlaying = true;
             indicators.distanceSpawnPnt = spawnPoint;
             playerAnswer = qc.GetPlayerAnswer();
             qc.timer = elapsed.ToString("f2") + "s";
@@ -208,6 +211,11 @@ public class VelocityMediumManager : MonoBehaviour
                     break;
             }
         }
+        if (sfxPlaying)
+        {
+            StartCoroutine(BoulderSFX());
+        }
+
         indicators.SetPlayerPosition(myPlayer.transform.position);
         if (isEndOfStunt)
         {
@@ -227,6 +235,22 @@ public class VelocityMediumManager : MonoBehaviour
                 qc.retried = false;
             }
         }
+    }
+    IEnumerator BoulderSFX()
+    {
+        sfxPlaying = false;
+        // Debug.Log(boulderRB.velocity.x + " | " + boulder2RB.velocity.x);
+        if (boulderRB.velocity.x != 0)
+            boulderSFX.SetActive(true);
+        else
+            boulderSFX.SetActive(false);
+
+        if (boulder2RB.velocity.x != 0)
+            boulder2SFX.SetActive(true);
+        else
+            boulder2SFX.SetActive(false);
+
+        yield return new WaitForEndOfFrame();
     }
     void VeloMediumSetUp()
     {

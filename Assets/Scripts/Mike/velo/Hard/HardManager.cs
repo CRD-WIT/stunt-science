@@ -16,7 +16,7 @@ public class HardManager : MonoBehaviour
     public HingeJoint2D[] joints;
     public TMP_Text directorsSpeech;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
-        sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f, distanceTraveled;
+        sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f, distanceTraveled, angleB = 0;
     bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset, ragdoll = false;
     public bool readyToCheck;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
@@ -124,7 +124,10 @@ public class HardManager : MonoBehaviour
                     else
                     {
                         isAnswerCorrect = false;
-                        messageTxt = "Wrong";
+                        if(playerAnswer > correctAnswer)
+                            messageTxt = "Throw too far from the monster. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                        else
+                            messageTxt = "Throw too near from the monster. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
                     }
                     break;
                 case 2:
@@ -141,7 +144,10 @@ public class HardManager : MonoBehaviour
                         else
                         {
                             isAnswerCorrect = false;
-                            messageTxt = "Wrong";
+                            if(playerAnswer > correctAnswer)
+                                messageTxt = "Throw too late. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                            else
+                                messageTxt = "Throw too soon. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
                         }
                     }
                     break;
@@ -159,7 +165,10 @@ public class HardManager : MonoBehaviour
                         else
                         {
                             isAnswerCorrect = false;
-                            messageTxt = "Wrong";
+                            if(playerAnswer > correctAnswer)
+                                messageTxt = "Throw too strong. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                            else
+                                messageTxt = "Throw too weak. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
                         }
                     }
                     break;
@@ -264,10 +273,18 @@ public class HardManager : MonoBehaviour
     }
     IEnumerator EndOfHard()
     {
-        myPlayer.happy = true;
-        yield return new WaitForSeconds(2.5f);
-        myPlayer.happy = false;
-        myPlayer.moveSpeed = 5;
+        if(isAnswerCorrect){
+            myPlayer.happy = true;
+            yield return new WaitForSeconds(2.5f);
+            myPlayer.happy = false;
+            myPlayer.moveSpeed = 5;
+        }else{
+            myPlayer.lost = true;
+            yield return new WaitForSeconds(2.5f);
+            myPlayer.lost =false;
+            myPlayer.standup = true;
+            myPlayer.moveSpeed =0;
+        }
     }
     void OnEnable()
     {
@@ -382,7 +399,7 @@ public class HardManager : MonoBehaviour
                     + stoneV.ToString("f2") + qc.Unit(UnitOf.velocity) + ".";
                 break;
             case 3:
-                float sideA;
+                float sideA = 0;
                 qc.SetUnitTo(UnitOf.velocity);
                 ragdollSpawn.SetActive(false);
                 gem[2].SetActive(true);
@@ -431,8 +448,9 @@ public class HardManager : MonoBehaviour
                 triangleAnnotaion.HideValuesOf(true, false, true, true, true, false);
 
                 throwingPath.transform.localScale = new Vector2(40 / 5, throwingPath.transform.localScale.y);
-                throwingPath.transform.Rotate(0, 0, 90 - Mathf.Atan(dT / sideA) * Mathf.Rad2Deg);
+                throwingPath.transform.Rotate(0, 0, 90 - (Mathf.Atan(dT / sideA) * Mathf.Rad2Deg) - angleB);
                 throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
+                angleB = throwingPath.transform.localEulerAngles.z;
 
                 // throwingPathTxt[2].SetActive(true);
                 throwingPathTxt.transform.position = throwingPath.transform.position + new Vector3(dT / 2, (y - 1) / 2);
