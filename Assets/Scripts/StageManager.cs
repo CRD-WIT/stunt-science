@@ -45,7 +45,6 @@ public class StageManager
     }
     public string GetGameLevel()
     {
-        Debug.Log($"Level in DB: {PlayerPrefs.GetString("Level")}");
         return PlayerPrefs.GetString("Level");
     }
 }

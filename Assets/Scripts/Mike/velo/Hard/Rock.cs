@@ -53,7 +53,6 @@ public class Rock : MonoBehaviour
     }
     IEnumerator DestroyObj()
     {
-        Debug.Log("destroyed");
         yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
         yield return new WaitForEndOfFrame();
