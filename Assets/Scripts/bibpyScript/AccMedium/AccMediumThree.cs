@@ -27,6 +27,7 @@ public class AccMediumThree : MonoBehaviour
     public GameObject actionButton;
     int currentLevel;
     int currentStar;
+    public TMP_Text debugAnswer;
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +61,7 @@ public class AccMediumThree : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         thePlayer.transform.position = playerPos.transform.position;
         thePlayer.myRigidbody.mass = 0;
         suvPos = theSuv.transform.position.x;

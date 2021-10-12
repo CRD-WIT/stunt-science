@@ -17,7 +17,7 @@ public class HardManager : MonoBehaviour
     public TMP_Text directorsSpeech;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
         sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f, distanceTraveled, angleB = 0;
-    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset, ragdoll = false, isEnd =false;
+    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset, ragdoll = false, isEnd = false;
     public bool readyToCheck;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
     public int stage;
@@ -30,6 +30,7 @@ public class HardManager : MonoBehaviour
     public Animator bossAnim;
     StageManager sm = new StageManager();
     float? timeL;
+    public TMP_Text debugAnswer;
     void Start()
     {
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
@@ -61,6 +62,7 @@ public class HardManager : MonoBehaviour
     }
     void Update()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         if (reset)
         {
             if (stage == 3)
@@ -124,10 +126,10 @@ public class HardManager : MonoBehaviour
                     else
                     {
                         isAnswerCorrect = false;
-                        if(playerAnswer > correctAnswer)
-                            messageTxt = "Throw too far from the monster. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                        if (playerAnswer > correctAnswer)
+                            messageTxt = "Throw too far from the monster. The correctAnswer is " + correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
                         else
-                            messageTxt = "Throw too near from the monster. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                            messageTxt = "Throw too near from the monster. The correctAnswer is " + correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
                     }
                     break;
                 case 2:
@@ -144,10 +146,10 @@ public class HardManager : MonoBehaviour
                         else
                         {
                             isAnswerCorrect = false;
-                            if(playerAnswer > correctAnswer)
-                                messageTxt = "Throw too late. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                            if (playerAnswer > correctAnswer)
+                                messageTxt = "Throw too late. The correctAnswer is " + correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
                             else
-                                messageTxt = "Throw too soon. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                                messageTxt = "Throw too soon. The correctAnswer is " + correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
                         }
                     }
                     break;
@@ -166,10 +168,10 @@ public class HardManager : MonoBehaviour
                         else
                         {
                             isAnswerCorrect = false;
-                            if(playerAnswer > correctAnswer)
-                                messageTxt = "Throw too strong. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                            if (playerAnswer > correctAnswer)
+                                messageTxt = "Throw too strong. The correctAnswer is " + correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
                             else
-                                messageTxt = "Throw too weak. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                                messageTxt = "Throw too weak. The correctAnswer is " + correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
                         }
                     }
                     break;
@@ -274,17 +276,20 @@ public class HardManager : MonoBehaviour
     }
     IEnumerator EndOfHard()
     {
-        if(isAnswerCorrect){
+        if (isAnswerCorrect)
+        {
             myPlayer.happy = true;
             yield return new WaitForSeconds(2.5f);
             myPlayer.happy = false;
             myPlayer.moveSpeed = 5;
-        }else{
+        }
+        else
+        {
             myPlayer.lost = true;
             yield return new WaitForSeconds(2.5f);
-            myPlayer.lost =false;
+            myPlayer.lost = false;
             myPlayer.standup = true;
-            myPlayer.moveSpeed =0;
+            myPlayer.moveSpeed = 0;
         }
     }
     void OnEnable()

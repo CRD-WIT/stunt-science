@@ -28,6 +28,7 @@ public class AccHardThree : MonoBehaviour
     public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt,viHtxt, accHtxt;
     float camPosChopper,camPosTruck, distanceCheck;
     int tries, attemp;
+    public TMP_Text debugAnswer;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +46,7 @@ public class AccHardThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         chopperInitials.transform.position = theChopper.transform.position;
         truckInitials.transform.position = theTruck.transform.position;
         truckDistance = viT * truckTimeToTravel;        

@@ -26,6 +26,8 @@ public class AccHardOne : MonoBehaviour
     bool shoot, shootReady, gas, startTime;
     public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt;
     int tries, stopTruckPos, attemp;
+
+    public TMP_Text debugAnswer;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +41,7 @@ public class AccHardOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         truckInitials.transform.position = theTruck.transform.position;
         cam.transform.position = new Vector3(theChopper.transform.position.x + camPos, cam.transform.position.y, cam.transform.position.z);
         truckCurrentPos = theTruck.transform.position.x;

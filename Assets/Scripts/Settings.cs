@@ -114,6 +114,11 @@ public class Settings : MonoBehaviour
         SceneManager.LoadScene(scene.name);
     }
 
+    public void ResetHearts()
+    {
+        PlayerPrefs.SetInt("Life", 3);
+    }
+
     // Update is called once per frame
     void Update()
     {
