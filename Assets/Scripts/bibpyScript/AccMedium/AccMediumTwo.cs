@@ -21,7 +21,7 @@ public class AccMediumTwo : MonoBehaviour
     float chopperAccPos, vanAccPos, vanTime, chopperDistance, correctAnswer, playerTime, generateplayerVanDistance, playerVanDistance;
     bool reposition = true;
     bool kickReady, follow;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerC theQuestion;
     string gender, pronoun;
     public TMP_Text vivTxt, vihTxt, accvTxt, acchTxt, actiontxt,timertxt;
     // Start is called before the first frame update
@@ -69,7 +69,7 @@ public class AccMediumTwo : MonoBehaviour
         }
 
 
-        if (AccMidSimulation.simulate == true)
+        if (theQuestion.isSimulating)
         {
             timertxt.text = timer.ToString("F2") + ("s");
 
@@ -77,12 +77,12 @@ public class AccMediumTwo : MonoBehaviour
             {
                 if (chopperCurrentPos < playerKickDistance)
                 {
-                    hangingRagdoll2.transform.position = ropeTip2.transform.position;
+                    hangingRagdoll2.transform.position =  new Vector2(ropeTip2.transform.position.x ,ropeTip2.transform.position.y-.7f);
                 }
             }
             else
             {
-                hangingRagdoll2.transform.position = ropeTip2.transform.position;
+                 hangingRagdoll2.transform.position =  new Vector2(ropeTip2.transform.position.x ,ropeTip2.transform.position.y-.7f);
             }
             if (reposition)
             {

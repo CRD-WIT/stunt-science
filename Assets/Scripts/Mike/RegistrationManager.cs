@@ -5,20 +5,18 @@ public class RegistrationManager : MonoBehaviour
 {
     public Settings settingsUI;
     public Button mButton, fButton;
-    public static string playerName, playerGender, playerCode;
+    public static string playerName, playerGender;
     public Animator maleAnimator;
     public Animator femaleAnimator;
     public bool male;
 
-    public FirebaseManager firebaseManager;
-
-    void Start()
-    {
-        settingsUI.ResetSettings(firebaseManager);
+    void Start(){
+        settingsUI.ResetSettings();
     }
 
     void Update()
     {
+
         if (playerGender == "Male")
         {
             mButton.transform.localScale = new Vector3(1.2f, 1.2f, 0);

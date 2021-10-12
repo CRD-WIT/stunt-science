@@ -6,14 +6,13 @@ using System;
 
 public class GraphQLCloud : MonoBehaviour
 {
-    public WarningErrorUI warningErrorUI;    
     public async void GameLogMutation(int? levelValue = 1, int? stageValue = 1, string? difficultyValue = "Easy", string actionValue = "Next", float? value = 0)
     {
-        var client = new GraphQLClient("https://stunt-science-cloud.herokuapp.com/graphql");
-
         DateTime? time_stamp = DateTime.Now;
 
-        string gender = PlayerPrefs.GetString("Gender");        
+        string gender = PlayerPrefs.GetString("Gender");
+
+        var client = new GraphQLClient("https://stunt-science-cloud.herokuapp.com/graphql");
 
         var request = new Request
         {
@@ -23,7 +22,6 @@ public class GraphQLCloud : MonoBehaviour
                     $difficulty: ENUM_GAMELOG_DIFFICULTY
                     $action: ENUM_GAMELOG_ACTION
                     $device: String
-                    $id_code: String
                     $time_stamp: DateTime
                     $stage: Int
                     $gender: ENUM_GAMELOG_GENDER
@@ -36,7 +34,6 @@ public class GraphQLCloud : MonoBehaviour
                             Difficulty: $difficulty
                             Action: $action
                             DeviceID: $device
-                            IDCode: $id_code
                             TimeStamp: $time_stamp
                             Stage: $stage
                             Gender: $gender
@@ -46,7 +43,6 @@ public class GraphQLCloud : MonoBehaviour
                     ) {
                         gameLog {
                         DeviceID
-                        IDCode
                         TimeStamp
                         Level
                         Stage
@@ -63,7 +59,6 @@ public class GraphQLCloud : MonoBehaviour
                 level = levelValue,
                 difficulty = difficultyValue,
                 action = actionValue,
-                id_code = PlayerPrefs.GetString("IDCode"),
                 device = SystemInfo.deviceUniqueIdentifier,
                 time_stamp = time_stamp,
                 stage = stageValue,
@@ -73,87 +68,8 @@ public class GraphQLCloud : MonoBehaviour
         };
         var responseType = new
         { };
+        var response = await client.Send(() => responseType, request);
 
-        if (warningErrorUI)
-        {
-            if (warningErrorUI.promptInternetConnection)
-            {
-                StartCoroutine(warningErrorUI.checkInternetConnection(async (isConnected) =>
-                {
-                    if (isConnected)
-                    {
-
-                        var response = await client.Send(() => responseType, request);
-
-                        if (response.Data.ToString().Length > 0)
-                        {
-                            Debug.Log("GraphQL Success");
-                            Debug.Log($"Transaction: lv-{levelValue} s-{stageValue} d-{difficultyValue} a-{actionValue} v-{value}");
-                        }
-                        else
-                        {
-                            Debug.Log("GraphQL Failed");
-                        }
-                    }
-                    else
-                    {
-                        warningErrorUI.message = "Could not complete action. Please check your internet.";
-                        warningErrorUI.toggleInternetConnectionError();
-                    }
-
-                }));
-            }
-        }
-    }
-
-    public async void GameKeyQuery(String IDCode)
-    {       
-        var client = new GraphQLClient("https://stunt-science-cloud.herokuapp.com/graphql"); 
-
-        var request = new Request
-        {
-            Query = @"
-                query($id_code:String){
-                    gameKeys(where:{IDCode:$id_code}) {
-                        IDCode
-                    }
-                }
-            ",
-            Variables = new
-            {
-                id_code = IDCode,
-            }
-        };
-        var responseType = new
-        { };
-
-        if (warningErrorUI.promptInternetConnection)
-        {
-            StartCoroutine(warningErrorUI.checkInternetConnection(async (isConnected) =>
-            {
-                if (isConnected)
-                {
-
-                    var response = await client.Send(() => responseType, request);
-
-                    if (response.Data.ToString().Length > 0)
-                    {
-                        Debug.Log("GraphQL Success");
-                        Debug.Log($"{response.ToString()}");
-                    }
-                    else
-                    {
-                        Debug.Log("GraphQL Failed");
-                    }
-                }
-                else
-                {
-                    warningErrorUI.message = "Could not complete action. Please check your internet.";
-                    warningErrorUI.toggleInternetConnectionError();
-                }
-
-            }));
-        }
-
+        Debug.Log(response.Data.ToString());
     }
 }

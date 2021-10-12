@@ -14,7 +14,7 @@ public class AccMediumOne : MonoBehaviour
     public TruckManager theTruck;
     private AccMidSimulation theSimulate;
     public TMP_Text debugAnswer;
-    private HeartManager theHeart;
+    public HeartManager theHeart;
     public bool chase, togreen, tored;
     public float timer, correctAnswer;
     public float velocity, accelaration, vf, distanceH;
@@ -28,7 +28,6 @@ public class AccMediumOne : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        theHeart = FindObjectOfType<HeartManager>();
         subChopperStartPos = theSubChopper.transform.position;
         chopperStartPos = theChopper.transform.position;
         theSimulate = FindObjectOfType<AccMidSimulation>();
@@ -328,11 +327,15 @@ public class AccMediumOne : MonoBehaviour
     }
     public void action()
     {
+        theQuestion.isModalOpen = false;
+        theHeart.startbgentrance();
+        theQuestion.isSimulating = false;
+
         //theQuestion.ToggleModal();
         if (theQuestion.answerIsCorrect == false)
         {
             theSimulate.retry();
-
+            
         }
         else
         {

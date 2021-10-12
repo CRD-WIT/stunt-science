@@ -26,23 +26,26 @@ public class LevelCard : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
         levelNumberObject.SetText(levelNumberText.ToString());
-        levelStars[0].ToggleStar(starActiveCount>=1);
-        levelStars[1].ToggleStar(starActiveCount>=2);
-        levelStars[2].ToggleStar(starActiveCount>=3);
+        levelStars[0].ToggleStar(starActiveCount >= 1);
+        levelStars[1].ToggleStar(starActiveCount >= 2);
+        levelStars[2].ToggleStar(starActiveCount >= 3);
         cardUnlocked.SetActive(!locked);
         levelDetails.SetActive(!locked);
         cardLocked.SetActive(locked);
         playIcon.SetActive(starActiveCount == 0 && !locked);
-        if(starActiveCount>0){
+        if (starActiveCount > 0)
+        {
             cardUnlocked.GetComponent<Image>().sprite = cardUnlockedGoldImage;
-        }else{
+        }
+        else
+        {
             cardUnlocked.GetComponent<Image>().sprite = cardUnlockedImage;
         }
         switch (levelDifficultyName)
@@ -56,6 +59,6 @@ public class LevelCard : MonoBehaviour
             case Difficulty.Hard:
                 levelDifficultyObject.SetText("Hard");
                 break;
-        }        
+        }
     }
 }

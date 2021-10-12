@@ -16,11 +16,11 @@ public class VelocityEasyStage1 : MonoBehaviour
     StageManager sm = new StageManager();
     public AudioSource scream;
     IndicatorManagerV1_1 labels;
+    public GraphQLCloud graphQLCloud;
     public QuestionControllerVThree questionController;
 
     public TMP_Text debugAnswer;
     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
-    public FirebaseManager firebaseManager;
 
     void Start()
     {
@@ -34,7 +34,9 @@ public class VelocityEasyStage1 : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         whatIsAsk = UnitOf.velocity;
-        VelocityEasyStage1SetUp();        
+        VelocityEasyStage1SetUp();
+
+        PlayerPrefs.SetString("LevelNumber", questionController.levelNumber.ToString());
         
         switch (questionController.levelDifficulty)
         {
@@ -48,7 +50,8 @@ public class VelocityEasyStage1 : MonoBehaviour
         }
 
         PlayerPrefs.SetString("LevelNumber", questionController.levelNumber.ToString());
-        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.StartedStage, 0);                        
+
+        graphQLCloud.GameLogMutation(questionController.levelNumber+1, questionController.stage, PlayerPrefs.GetString("DifficultyName", "Easy"), Actions.Started, 0);
     }
     void FixedUpdate()
     {

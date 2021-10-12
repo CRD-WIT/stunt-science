@@ -132,7 +132,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 1982444264910839334}
   m_Bounds:
-    m_Center: {x: -0.020950437, y: -0.081962824, z: 0}
+    m_Center: {x: -0.02094853, y: -0.08196092, z: 0}
     m_Extent: {x: 1.9015825, y: 1.1989862, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -623,8 +623,8 @@ MonoBehaviour:
   - {fileID: 1982444265631054597}
   - {fileID: 1982444264423324511}
   m_Bounds:
-    m_Center: {x: -0.6692677, y: 0.0715394, z: 0.0000001377594}
-    m_Extent: {x: 0.9849196, y: 1.571537, z: 0.00000020142276}
+    m_Center: {x: -0.6692663, y: 0.07154131, z: 0.00000023557489}
+    m_Extent: {x: 0.9849182, y: 1.571537, z: 0.00000025174506}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -1129,8 +1129,8 @@ MonoBehaviour:
   - {fileID: 1982444265762744725}
   - {fileID: 1982444265364355996}
   m_Bounds:
-    m_Center: {x: -0.00022029877, y: 0.08692777, z: 0.00000020694696}
-    m_Extent: {x: 0.6964208, y: 1.5544857, z: 0.00000022060927}
+    m_Center: {x: -0.00021898746, y: 0.08692539, z: 0.00000023416953}
+    m_Extent: {x: 0.6964214, y: 1.5544862, z: 0.00000024497524}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -1270,7 +1270,7 @@ GameObject:
   - component: {fileID: 1982444265661174773}
   m_Layer: 0
   m_Name: UpperBody
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1357,7 +1357,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 1982444266046230973}
   m_Bounds:
-    m_Center: {x: 0.058335036, y: -0.0133600235, z: 0}
+    m_Center: {x: 0.05833885, y: -0.01335907, z: 0}
     m_Extent: {x: 0.33676142, y: 0.9974587, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -1646,6 +1646,7 @@ Transform:
   - {fileID: 1982444264269740987}
   - {fileID: 1982444264597920958}
   - {fileID: 1982444264092638138}
+  - {fileID: 6412759249663148967}
   m_Father: {fileID: 1982444265118731911}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1723,8 +1724,8 @@ MonoBehaviour:
   - {fileID: 1982444265735192397}
   - {fileID: 1982444264937151325}
   m_Bounds:
-    m_Center: {x: 0.55375934, y: -0.028732538, z: 0.00000020991767}
-    m_Extent: {x: 1.2260284, y: 2.5359492, z: 0.00000022757479}
+    m_Center: {x: 0.5537584, y: -0.028732061, z: 0.00000024296952}
+    m_Extent: {x: 1.2260251, y: 2.5359502, z: 0.0000002476706}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 1
@@ -1818,6 +1819,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   groundCheck: {fileID: 1982444264597920958}
+  isMale: 0
 --- !u!50 &6839280912594462156
 Rigidbody2D:
   serializedVersion: 4
@@ -1877,7 +1879,7 @@ PolygonCollider2D:
   m_Offset: {x: 0.27, y: -1.65}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 3.15, y: 5.09}
     newSize: {x: 3.15, y: 5.09}
     adaptiveTilingThreshold: 0.5
@@ -1924,4 +1926,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1982444265526616203}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8485954007720253372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6412759249663148967}
+  m_Layer: 0
+  m_Name: cameraTarget
+  m_TagString: Player
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6412759249663148967
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8485954007720253372}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.26, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1982444266066455914}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

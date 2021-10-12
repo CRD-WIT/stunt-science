@@ -10,7 +10,7 @@ public class CameraScript : MonoBehaviour
     public bool isCalloutOpen;
     [SerializeField] GameObject callout;
     [SerializeField] TMP_Text calloutText;
-    [SerializeField] QuestionController questionController;
+    [SerializeField] QuestionControllerVThree questionController;
     public bool directorIsCalling;
     public bool isStartOfStunt;
 

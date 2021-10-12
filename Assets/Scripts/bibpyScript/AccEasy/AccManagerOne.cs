@@ -4,6 +4,7 @@ using TMPro;
 
 public class AccManagerOne : MonoBehaviour
 {
+    public GraphQLCloud graphQLCloud;
     string stuntResultMessage;
     bool answerIsCorrect;
     public TMP_Text debugAnswer;
