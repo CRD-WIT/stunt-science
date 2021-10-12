@@ -85,8 +85,7 @@ public class QuestionControllerC : MonoBehaviour
 
         }
         else
-        {
-            answerFieldHorizontal.text = "";
+        {            
             if (answerIsCorrect)
                 Next();
             else
@@ -130,6 +129,7 @@ public class QuestionControllerC : MonoBehaviour
     public void ActivateResult(string message, bool isCorrect, bool isComplete = false)
     {
         Debug.Log("ActivateResult Triggered");
+        answerFieldHorizontal.text = "";
         answerIsCorrect = isCorrect;
         isModalOpen = true;
         if (isCorrect)
@@ -215,6 +215,7 @@ public class QuestionControllerC : MonoBehaviour
     }
     IEnumerator Retry()
     {
+
         // TODO: Fix delay for background intro.
         extraOn = false;
         answerFieldHorizontal.text = "";
