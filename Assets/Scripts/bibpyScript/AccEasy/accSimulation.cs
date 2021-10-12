@@ -104,7 +104,7 @@ public class accSimulation : MonoBehaviour
 
     public void PlayButton()
     {
-        playButton.interactable = false;
+        
         theQuestion.SetAnswer();
         playerAnswer = theQuestion.GetPlayerAnswer();
         if (stage == 1)
@@ -119,6 +119,7 @@ public class accSimulation : MonoBehaviour
             }
             else
             {
+                playButton.interactable = false;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
 
@@ -261,7 +262,7 @@ public class accSimulation : MonoBehaviour
     {
         Debug.Log("Retry triggered.");
         // StartCoroutine(theHeart.endBGgone());
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(.1f);
         // theQuestion.answerIsCorrect = false;
         // theQuestion.isSimulating = false;
         theBike.transform.rotation = startRotation;

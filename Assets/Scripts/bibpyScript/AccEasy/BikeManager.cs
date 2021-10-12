@@ -101,7 +101,7 @@ public class BikeManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(2);
-        //theQuestion.ToggleModal();
+       //theQuestion.ActivateResult(message, isCorrect);
     }
     IEnumerator disablecol()
     {
