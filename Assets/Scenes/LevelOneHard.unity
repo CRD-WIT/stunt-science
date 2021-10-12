@@ -1340,6 +1340,11 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.37
+--- !u!4 &305303557 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6412759249663148967, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
+  m_PrefabInstance: {fileID: 363379329}
+  m_PrefabAsset: {fileID: 0}
 --- !u!120 &341338862 stripped
 LineRenderer:
   m_CorrespondingSourceObject: {fileID: 4265077209990888238, guid: 7c14233002c66ea45a3e21794a3fa55c, type: 3}
@@ -3268,7 +3273,7 @@ PrefabInstance:
     - target: {fileID: 5227531847273591730, guid: bf1d0ecaeb90f084f96ae4ed162ec93b, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 1214010031}
+      objectReference: {fileID: 305303557}
     - target: {fileID: 5227531847273591730, guid: bf1d0ecaeb90f084f96ae4ed162ec93b, type: 3}
       propertyPath: platformIsOn
       value: 1
@@ -4523,11 +4528,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c14233002c66ea45a3e21794a3fa55c, type: 3}
---- !u!4 &1214010031 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1982444266066455914, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
-  m_PrefabInstance: {fileID: 363379329}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1265616388
 GameObject:
   m_ObjectHideFlags: 0
@@ -6514,7 +6514,7 @@ MonoBehaviour:
   - {fileID: 1790086876}
   directorsSpeech: {fileID: 1676707429}
   readyToCheck: 0
-  stage: 3
+  stage: 1
   bossRB: {fileID: 0}
   camTransform: {fileID: 909408063}
   bossAnim: {fileID: 1738216847}

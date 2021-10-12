@@ -352,7 +352,7 @@ public class HardManager : MonoBehaviour
 
                 question = playerName + " is istructed to throw a rock inside the monster's mouth that is guarding the exit. If " + playerName + " can throw the rock horizontally at "
                     + stoneV.ToString("f2") + qc.Unit(UnitOf.velocity) + " and the monster is moving downward at " + bossV.ToString("f2") + qc.Unit(UnitOf.velocity)
-                    + " at 6m above the throwing path, how far horihontally should " + playerName + " be away from the monster's mouth when " + pronoun
+                    + " at 6m above the throwing path, how far horizontally should " + playerName + " be away from the monster's mouth when " + pronoun
                     + " throws the rock so it will hit precisely the monster's mouth as it moves down? After 1 second the stone is released.";
                 break;
             case 2:
@@ -462,11 +462,11 @@ public class HardManager : MonoBehaviour
 
                 string direction;
                 if (x / Mathf.Abs(x) == 1)
-                    direction = " away ";
+                    direction = " away from ";
                 else
                     direction = " towards ";
                 question = "Finally, the worm is moving " + y.ToString("f2") + qc.Unit(UnitOf.distance) + " upward at "
-                    + Mathf.Abs(angle).ToString("f2") + qc.Unit(UnitOf.angle) + direction + "from " + playerName + " with the velocity of "
+                    + Mathf.Abs(angle).ToString("f2") + qc.Unit(UnitOf.angle) + direction + playerName + " with the velocity of "
                     + bossV.ToString("f2") + qc.Unit(UnitOf.velocity) +
                     ". At what velocity should " + pronoun +
                     " throw the stone to hit exactly inside the mouth of the worm? The stone is released after 1 second.";
