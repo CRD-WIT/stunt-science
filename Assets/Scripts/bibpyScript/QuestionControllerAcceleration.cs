@@ -148,7 +148,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
                 modalTitle = "Stunt Success!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
-                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
+               // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
             }
         }
         else
@@ -182,7 +182,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
     }
     public void SetAnswer()
     {
-        graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
+        //graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
         Debug.Log($"Player Answer: {answerFieldHorizontal.text}");
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
