@@ -397,6 +397,7 @@ public class HardManager : MonoBehaviour
                     + stoneV.ToString("f2") + qc.Unit(UnitOf.velocity) + ".";
                 break;
             case 3:
+                bossHead.transform.localEulerAngles = new Vector3(0,0,0);
                 float sideA = 0;
                 qc.SetUnitTo(UnitOf.velocity);
                 ragdollSpawn.SetActive(false);
@@ -528,6 +529,7 @@ public class HardManager : MonoBehaviour
             stoneScript.destroyer = true;
         ragdoll = false;
         reset = true;
+        boss.SetRotation(0, 0, 0);
     }
     IEnumerator Next()
     {
