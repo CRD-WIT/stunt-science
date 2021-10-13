@@ -34,6 +34,7 @@ public class AccHardOne : MonoBehaviour
         stopTruckPos = 50;
         camPos = cam.transform.position.x - theChopper.transform.position.x;
         generateProblem();
+        PlayerPrefs.SetInt("Life", 3);
     }
 
     // Update is called once per frame

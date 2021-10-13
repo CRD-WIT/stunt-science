@@ -102,7 +102,7 @@ public class AccManagerThree : MonoBehaviour
                 if (timer >= time)
                 {
                     theBike.moveSpeed = 0;
-                    theQuestion.isSimulating = true;
+                    theQuestion.isSimulating = false;
                     StartCoroutine(truckWillGo());
                 }
                 walls.SetActive(true);
@@ -195,6 +195,7 @@ public class AccManagerThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        walls.SetActive(false);
         theTruck.transform.rotation = truckStartRot;
         bikeInitials.transform.position = bikeInitialStartPos;
         addingAcc = true;
@@ -233,6 +234,10 @@ public class AccManagerThree : MonoBehaviour
             // {
             //     PlayerPrefs.SetInt("level", currentLevel + 1);
             // }
+        }
+        else
+        {
+            theQuestion.ActivateResult(message, isCorrect, false);
         }
         StartCoroutine(theSimulation.DirectorsCall());
         yield return new WaitForSeconds(1);

@@ -68,7 +68,7 @@ public class HeartManager : MonoBehaviour
         }
 
     }
-    IEnumerator actionreset()
+    public IEnumerator actionreset()
     {
         yield return new WaitForSeconds(3);
         // TODO: Get data from playerprefs
