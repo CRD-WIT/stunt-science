@@ -11,6 +11,9 @@ public class Settings : MonoBehaviour
     bool leveFinishedIsOpen;
     bool settingsPanelIsOpen;
 
+    public GameObject flashCard;
+    bool flashCardIsOpen;
+
     bool stuntGuidePanelIsOpen;
     public float soundLevel = 1f;
     public float musicLevel = 1f;
@@ -50,13 +53,23 @@ public class Settings : MonoBehaviour
     public AudioSource backgroundAudio;
     bool soundOn = true;
 
+    bool musicIsOn = true;
+
+    public bool muteIntroSoundOnStart;
+
     public bool isFirstStart = false;
 
     public AudioSource[] sfxAudios;
-    public GraphQLCloud graphQLCloud;
 
+    public FirebaseManager firebaseManager;
     void Start()
     {
+        if (!muteIntroSoundOnStart)
+        {
+            ToggleIntroMusic();
+        }
+
+        // Sound
         LoadVolumes();
         if (settingsPanel)
         {
@@ -97,7 +110,7 @@ public class Settings : MonoBehaviour
 
         if (isFirstStart)
         {
-            // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.StartedGame, 0);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.StartedGame, 0);
         }
 
     }
@@ -108,15 +121,15 @@ public class Settings : MonoBehaviour
         SceneManager.LoadScene("LevelSelectV2");
     }
 
+    public void ToggleFlashCard()
+    {
+        flashCardIsOpen = !flashCardIsOpen;
+    }
+
     public void ReloadLevel()
     {
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
-    }
-
-    public void ResetHearts()
-    {
-        PlayerPrefs.SetInt("Life", 3);
     }
 
     // Update is called once per frame
@@ -162,6 +175,10 @@ public class Settings : MonoBehaviour
         {
             musicIconOn.SetActive(musicLevel != 0);
         }
+        if (flashCard)
+        {
+            flashCard.SetActive(flashCardIsOpen);
+        }
         AudioListener.volume = soundLevel;
         if (AudioListener.volume == 0)
         {
@@ -193,11 +210,11 @@ public class Settings : MonoBehaviour
         stuntGuidePanelIsOpen = !stuntGuidePanelIsOpen;
         if (stuntGuidePanelIsOpen)
         {
-            // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.OpenedStuntGuide, 0);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.OpenedStuntGuide, 0);
         }
         else
         {
-            // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.ClosedStuntGuide, 0);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.ClosedStuntGuide, 0);
         }
     }
 
@@ -218,17 +235,32 @@ public class Settings : MonoBehaviour
         }
     }
 
+    public void ToggleIntroMusic()
+    {
+        if (musicIsOn)
+        {
+            backgroundAudio.volume = 0;
+        }
+        else
+        {
+            backgroundAudio.volume = PlayerPrefs.GetFloat("MusicVolume", musicLevel);
+
+        }
+        musicIsOn = !musicIsOn;
+        ToggleFlashCard();
+    }
+
     public void ToggleVolume()
     {
         // Set global gameplay stats for data logging.
-        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber"));
+        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber", "1"));
         string difficulty = PlayerPrefs.GetString("DifficultyName");
-        int stage = int.Parse(PlayerPrefs.GetString("Stage"));
+        int stage = int.Parse(PlayerPrefs.GetString("Stage", "1"));
 
 
         if (soundOn)
         {
-            // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.MutedSound, 0);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.MutedSound, 0);
             soundLevel = 0;
         }
         else
@@ -238,8 +270,7 @@ public class Settings : MonoBehaviour
             {
                 soundLevel = 1;
             }
-            // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.UnmutedSound, soundLevel);
-            Debug.Log($"Current value: {soundLevel}");
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.UnmutedSound, soundLevel);
         }
         soundOn = !soundOn;
         soundSlider.value = soundLevel;
@@ -264,21 +295,18 @@ public class Settings : MonoBehaviour
         int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber"));
         string difficulty = PlayerPrefs.GetString("DifficultyName");
         int stage = int.Parse(PlayerPrefs.GetString("Stage"));
-
-        // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.ExitedGame, 0);
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.ExitedGame, 0);
         Application.Quit();
     }
 
-    public void ResetSettings()
+    public void ResetSettings(FirebaseManager fm)
     {
         // Set global gameplay stats for data logging.
         int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber", "0"));
         string difficulty = PlayerPrefs.GetString("DifficultyName", null);
         Debug.Log($"Difficulty: {difficulty}");
         int stage = int.Parse(PlayerPrefs.GetString("Stage", "0"));
-
-        // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty.Length > 1 ? difficulty : null, Actions.NewGame, 0);
-
+        fm.GameLogMutation(levelNumber, stage, difficulty.Length > 1 ? difficulty : null, Actions.NewGame, 0);
         PlayerPrefs.DeleteAll();
     }
 
