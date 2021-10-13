@@ -11,8 +11,8 @@ public class HardManager : MonoBehaviour
     BossScript boss;
     PlayerV2 myPlayer;
     QuestionControllerVThree qc;
-    public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling, ragdollSpawn, throwingPath, throwingPathTxt, rock;
-    public GameObject[] gem, bossParts;
+    public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling, ragdollSpawn, throwingPath, throwingPathTxt, gem, rock;
+    public GameObject[] bossParts;
     public HingeJoint2D[] joints;
     public TMP_Text directorsSpeech;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
@@ -204,19 +204,15 @@ public class HardManager : MonoBehaviour
                     {
                         case 1:
                             distanceTraveled = correctAnswer;
-                            gem[0].SetActive(false);
-                            gem[1].SetActive(true);
                             break;
                         case 2:
                             distanceTraveled = distance + x;
-                            gem[1].SetActive(false);
-                            gem[2].SetActive(true);
                             break;
                         case 3:
                             readyToCheck = true;
                             timeL = xS + x;
                             shakeAmount = 0.05f;
-                            gem[2].SetActive(false);
+                            gem.SetActive(false);
                             StartCoroutine(BossCrumble());
                             break;
                     }
@@ -302,8 +298,6 @@ public class HardManager : MonoBehaviour
         readyToCheck = false;
         bossAnim.SetBool("hit", false);
         ragdollSpawn.SetActive(true);
-        foreach (var item in gem)
-            item.SetActive(false);
         labels.gameObject.SetActive(false);
         triangle.SetActive(false);
         stage = qc.stage;
@@ -316,11 +310,11 @@ public class HardManager : MonoBehaviour
         myPlayer.lost = false;
         myPlayer.standup = false;
         life.losslife = false;
+        gem.SetActive(true);
         switch (stage)
         {
             case 1:
                 bossHead.transform.position = bossStartPos - new Vector2(7, -2);
-                gem[0].SetActive(true);
                 y = -6;
                 x = 0;
                 qc.limit = 20.5f;
@@ -358,7 +352,6 @@ public class HardManager : MonoBehaviour
             case 2:
                 bossHead.transform.position = new Vector2(bossStartPos.x + 3, bossStartPos.y + 3);
                 qc.SetUnitTo(UnitOf.time);
-                gem[1].SetActive(true);
                 labels.gameObject.SetActive(true);
                 float allowanceTime;
                 y = -7;
@@ -407,7 +400,6 @@ public class HardManager : MonoBehaviour
                 float sideA = 0;
                 qc.SetUnitTo(UnitOf.velocity);
                 ragdollSpawn.SetActive(false);
-                gem[2].SetActive(true);
                 labels.gameObject.SetActive(true);
                 triangle.SetActive(true);
                 qc.limit = 40;
