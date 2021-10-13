@@ -79,6 +79,8 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     StageManager sm = new StageManager();
 
+    public TMP_Text debugAnswer;
+
     void Start()
     {
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
@@ -94,10 +96,10 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         annotation.revealValue = false;
         annotation.SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
 
-        Debug.Log($"Distance: {correctAnswer}");
-        Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
-        Debug.Log($"Time Generated: {timeGiven}");
-        Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
+        // Debug.Log($"Distance: {correctAnswer}");
+        // Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
+        // Debug.Log($"Time Generated: {timeGiven}");
+        // Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
         // levelName.SetText("Stage 1");
@@ -214,6 +216,8 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
+
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
 

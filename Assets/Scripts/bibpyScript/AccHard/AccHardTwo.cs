@@ -28,6 +28,7 @@ public class AccHardTwo : MonoBehaviour
     public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt, viHtxt, accHtxt;
     float camPos, distanceCheck;
     int tries, attemp;
+    public TMP_Text debugAnswer;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +44,7 @@ public class AccHardTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         truckInitials.transform.position = theTruck.transform.position;
         accHtxt.text = ("a = 0 m/s²");
         chopperInitials.transform.position = theChopper.transform.position;

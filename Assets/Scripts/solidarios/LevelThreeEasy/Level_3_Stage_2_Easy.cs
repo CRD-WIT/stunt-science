@@ -41,6 +41,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     StageManager sm = new StageManager();
     public Annotation annotation;
     public HeartManager life;
+    public TMP_Text debugAnswer;
     void Start()
     {
         // Given        
@@ -61,9 +62,9 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         //transform.Find("Annotation1").GetComponent<Annotation>().SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
 
         //Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
-        Debug.Log($"Distance Generated: {distanceGiven}");
-        Debug.Log($"Correct Answer: {correctAnswer}");
-        Debug.Log($"Correct Answer Rounded: {System.Math.Round(correctAnswer, 2)}");
+        // Debug.Log($"Distance Generated: {distanceGiven}");
+        // Debug.Log($"Correct Answer: {correctAnswer}");
+        // Debug.Log($"Correct Answer Rounded: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
         // levelName.SetText("Free Fall | Stage 2");
@@ -154,6 +155,8 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     }
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
+
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isSimulating)

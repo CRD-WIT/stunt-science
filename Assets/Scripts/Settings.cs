@@ -97,7 +97,7 @@ public class Settings : MonoBehaviour
 
         if (isFirstStart)
         {
-            graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.StartedGame, 0);
+            // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.StartedGame, 0);
         }
 
     }
@@ -112,6 +112,11 @@ public class Settings : MonoBehaviour
     {
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
+    }
+
+    public void ResetHearts()
+    {
+        PlayerPrefs.SetInt("Life", 3);
     }
 
     // Update is called once per frame
@@ -188,11 +193,11 @@ public class Settings : MonoBehaviour
         stuntGuidePanelIsOpen = !stuntGuidePanelIsOpen;
         if (stuntGuidePanelIsOpen)
         {
-            graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.OpenedStuntGuide, 0);
+            // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.OpenedStuntGuide, 0);
         }
         else
         {
-            graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.ClosedStuntGuide, 0);
+            // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.ClosedStuntGuide, 0);
         }
     }
 
@@ -223,7 +228,7 @@ public class Settings : MonoBehaviour
 
         if (soundOn)
         {
-            graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.MutedSound, 0);
+            // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.MutedSound, 0);
             soundLevel = 0;
         }
         else
@@ -233,7 +238,7 @@ public class Settings : MonoBehaviour
             {
                 soundLevel = 1;
             }
-            graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.UnmutedSound, soundLevel);
+            // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.UnmutedSound, soundLevel);
             Debug.Log($"Current value: {soundLevel}");
         }
         soundOn = !soundOn;
@@ -260,7 +265,7 @@ public class Settings : MonoBehaviour
         string difficulty = PlayerPrefs.GetString("DifficultyName");
         int stage = int.Parse(PlayerPrefs.GetString("Stage"));
 
-        graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.ExitedGame, 0);
+        // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.ExitedGame, 0);
         Application.Quit();
     }
 
@@ -272,7 +277,7 @@ public class Settings : MonoBehaviour
         Debug.Log($"Difficulty: {difficulty}");
         int stage = int.Parse(PlayerPrefs.GetString("Stage", "0"));
 
-        graphQLCloud.GameLogMutation(levelNumber, stage, difficulty.Length > 1 ? difficulty : null, Actions.NewGame, 0);
+        // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty.Length > 1 ? difficulty : null, Actions.NewGame, 0);
 
         PlayerPrefs.DeleteAll();
     }
