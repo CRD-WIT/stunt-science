@@ -24,6 +24,7 @@ public class AccMediumTwo : MonoBehaviour
     public QuestionControllerC theQuestion;
     string gender, pronoun;
     public TMP_Text vivTxt, vihTxt, accvTxt, acchTxt, actiontxt,timertxt;
+    public TMP_Text debugAnswer;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +48,7 @@ public class AccMediumTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         chopperCurrentPos = theChopper.transform.position.x;
         vanCurrentPos = theVan.transform.position.x;
         hangingRagdoll1.transform.position = ropeTip1.transform.position;

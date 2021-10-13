@@ -8,7 +8,7 @@ public class HeartManager : MonoBehaviour
     //public GameObject[] hearts;
     public AudioSource bgm;
 
-    
+
     public AudioSource Gameoversfx;
     public int life;
     public GameObject gameOverBG, startBG;
@@ -59,7 +59,7 @@ public class HeartManager : MonoBehaviour
 
             if (life == 0)
             {
-                
+
                 Time.timeScale = 0.4f;
                 Debug.Log("Gameover triggered!");
                 StartCoroutine(actionreset());
@@ -88,7 +88,7 @@ public class HeartManager : MonoBehaviour
     public IEnumerator endBGgone()
     {
         gameOverBG.SetActive(true);
-        yield return new WaitForSeconds(3f);  
+        yield return new WaitForSeconds(3f);
         gameOverBG.SetActive(false);
     }
 
@@ -119,7 +119,8 @@ public class HeartManager : MonoBehaviour
         SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
 
-    public void LoadLevelsMenu(){
+    public void LoadLevelsMenu()
+    {
         SceneManager.LoadScene("LevelSelectV2");
     }
 }

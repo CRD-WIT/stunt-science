@@ -37,6 +37,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     public CameraScript cameraScript;
     public Annotation annotation;
     public HeartManager life;
+    public TMP_Text debugAnswer;
 
     void Start()
     {
@@ -51,7 +52,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
 
         annotation.SetDistance(distanceGiven);
 
-        Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
+        //Debug.Log($"Correct Answer: {System.Math.Round(correctAnswer, 2)}");
 
         //Problem
         // levelName.SetText("Free Fall | Stage 3"); sm.SetGameLevel(3);
@@ -132,6 +133,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
 
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
         if(directorIsCalling)
             StartCoroutine(DirectorsCall());
             if (isSimulating)
