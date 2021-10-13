@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ProjSimulationManager : MonoBehaviour
+public class ProjHardSimulation : MonoBehaviour
 {
     public Button playButton;
     public TMP_InputField answerField;
-    public GameObject directorBubble;
+    public GameObject directorBubble, trail, projectTrail;
     public ProjectileHardOne theManagerOne;
     public ProjectileHardTwo theManagerTwo;
     public ProjectileHardThree theManagerThree;
@@ -22,6 +22,7 @@ public class ProjSimulationManager : MonoBehaviour
     public string take;
     public int takeNumber;
     public bool answerIsCorrect;
+    public GameObject  hit, miss;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +48,7 @@ public class ProjSimulationManager : MonoBehaviour
     }
     public void PlayButton()
     {
+        
         if (stage == 1)
         {
            playerAnswer = theQuestion.GetPlayerAnswer();
@@ -92,7 +94,7 @@ public class ProjSimulationManager : MonoBehaviour
         if (stage == 3)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" || playerAnswer > 20.98)
+            if (answerField.text == "" || playerAnswer > 70)
             {
                 //StartCoroutine(theManagerThree.errorMesage());
                 theQuestion.errorText = ("exceeds the helicopter's fastest acceleration");
@@ -100,7 +102,7 @@ public class ProjSimulationManager : MonoBehaviour
             }
             else
             {
-
+                theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -113,38 +115,38 @@ public class ProjSimulationManager : MonoBehaviour
     }
     public void retry()
     {
-        
+        StartCoroutine(theHeart.startBGgone());
         playerAnswer = 0;
         simulate = false;
         answerField.text = ("");
         theQuestion.isSimulating = false;
+        trail.GetComponent<TrailRenderer>().time = 0.05f;
         if (stage == 1)
         {
             theManagerOne.generateProblem();
-
-
-
         }
         if (stage == 2)
         {
-            //StartCoroutine(theManagerTwo.positioningTwo());
+            theManagerTwo.generateProblem();
 
         }
         if (stage == 3)
         {
-            //StartCoroutine(theManagerThree.positioningTwo());
+            theManagerThree.generateProblem();
             
         }
     }
     public void next()
     {
         playerAnswer = 0;
+         trail.GetComponent<TrailRenderer>().time = 0.05f;
         if (stage == 1)
         {
             theManagerOne.gameObject.SetActive(false);
             theManagerTwo.gameObject.SetActive(true);
             theQuestion.isSimulating = false;
             playButton.interactable = true;
+            StartCoroutine(theManagerTwo.positioning());
         }
         if (stage == 2)
         {
@@ -152,6 +154,7 @@ public class ProjSimulationManager : MonoBehaviour
             theManagerThree.gameObject.SetActive(true);
             theQuestion.isSimulating = false;
             playButton.interactable = true;
+            StartCoroutine(theManagerThree.positioning());
         }
     }
     public IEnumerator DirectorsCall()
@@ -166,6 +169,7 @@ public class ProjSimulationManager : MonoBehaviour
             diretorsSpeech.text = "Camera!";
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Action!";
+            projectTrail.GetComponent<TrailRenderer>().time = 0;
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
@@ -190,8 +194,8 @@ public class ProjSimulationManager : MonoBehaviour
     }
     public void action()
     {
-        theHeart.startbgentrance();
         //theQuestion.ToggleModal();
+        theHeart.startbgentrance();
         playButton.interactable = true;
         if (theQuestion.answerIsCorrect == false)
         {
@@ -209,5 +213,4 @@ public class ProjSimulationManager : MonoBehaviour
         num = answerField.text.Split('.');
         answerField.characterLimit = num[0].Length + 3;
     }
-
 }
