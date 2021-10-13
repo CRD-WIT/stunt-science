@@ -24,7 +24,7 @@ public class AccMediumThree : MonoBehaviour
     private Vector2 chopperStartPos, vanStartPos;
     private Quaternion vanstartRot;
     public QuestionControllerC theQuestion;
-    public GameObject actionButton;
+    public GameObject actionButton, navigator;
     int currentLevel;
     int currentStar;
 
