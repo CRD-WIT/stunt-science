@@ -38,7 +38,7 @@ public class QuestionControllerB : MonoBehaviour
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
     HeartManager life;
-    public GraphQLCloud graphQLCloud;
+    // // public GraphQLCloud graphQLCloud;
 
     string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     // Start is called before the first frame update
@@ -95,7 +95,7 @@ public class QuestionControllerB : MonoBehaviour
             }
             else
             {
-                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
+                // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
                 StartCoroutine(Retry());
             }
 
@@ -140,7 +140,7 @@ public class QuestionControllerB : MonoBehaviour
             // NOTE: Use this template when ending levels.
             if (isComplete)
             {
-                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
+                // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
                 actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
 
@@ -151,7 +151,7 @@ public class QuestionControllerB : MonoBehaviour
             }
             else
             {
-                graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
+                // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
                 modalTitle = "Stunt Success!";
                 modalText = message;
@@ -188,7 +188,7 @@ public class QuestionControllerB : MonoBehaviour
     }
     public void SetAnswer()
     {        
-        graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
+        // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
         Debug.Log($"Player Answer: {answerFieldHorizontal.text}");
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
