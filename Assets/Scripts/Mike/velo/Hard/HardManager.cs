@@ -314,7 +314,7 @@ public class HardManager : MonoBehaviour
         switch (stage)
         {
             case 1:
-                bossHead.transform.position = bossStartPos - new Vector2(7, -2);
+                bossHead.transform.position = bossStartPos - new Vector2(5.8f, -2);
                 y = -6;
                 x = 0;
                 qc.limit = 20.5f;
@@ -350,7 +350,7 @@ public class HardManager : MonoBehaviour
                     + " throws the rock so it will hit precisely the monster's mouth as it moves down? After 1 second the stone is released.";
                 break;
             case 2:
-                bossHead.transform.position = new Vector2(bossStartPos.x + 3, bossStartPos.y + 3);
+                bossHead.transform.position = new Vector2(11, bossStartPos.y + 3);
                 qc.SetUnitTo(UnitOf.time);
                 labels.gameObject.SetActive(true);
                 float allowanceTime;
@@ -380,7 +380,7 @@ public class HardManager : MonoBehaviour
                 indicators.SetPlayerPosition(myPlayer.transform.position);
 
                 labels.startingAngle = 180;
-                labels.SetSpawnPnt(bossHead.transform.position);
+                labels.SetSpawnPnt(new Vector2(11, bossHead.transform.position.y));
                 labels.angleA = angle;
                 labels.legA = 7;
                 labels.legB = bossDistance;
