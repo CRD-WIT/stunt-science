@@ -38,7 +38,7 @@ public class Register : MonoBehaviour
             warningErrorUI.togglePanel();
         }
         else
-        {           
+        {   PlayerPrefs.SetInt("Life", 3);        
             RegistrationManager.playerName = pName.GetComponent<Text>().text;
             RegistrationManager.playerCode = pCode.GetComponent<InputField>().text;
             PlayerPrefs.SetString("Name", RegistrationManager.playerName);

@@ -16,7 +16,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     StageManager sm = new StageManager();
     public AudioSource scream;
     IndicatorManagerV1_1 labels;
-    public GraphQLCloud graphQLCloud;
+    //public GraphQLCloud graphQLCloud;
     public QuestionControllerVThree questionController;
 
     public TMP_Text debugAnswer;
@@ -51,7 +51,7 @@ public class VelocityEasyStage1 : MonoBehaviour
 
         PlayerPrefs.SetString("LevelNumber", questionController.levelNumber.ToString());
 
-        graphQLCloud.GameLogMutation(questionController.levelNumber+1, questionController.stage, PlayerPrefs.GetString("DifficultyName", "Easy"), Actions.Started, 0);
+        //graphQLCloud.GameLogMutation(questionController.levelNumber+1, questionController.stage, PlayerPrefs.GetString("DifficultyName", "Easy"), Actions.Started, 0);
     }
     void FixedUpdate()
     {

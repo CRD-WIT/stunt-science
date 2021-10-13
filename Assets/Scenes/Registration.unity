@@ -952,6 +952,7 @@ MonoBehaviour:
   settingsPanel: {fileID: 0}
   levelFinishedPanel: {fileID: 0}
   stuntGuidePanel: {fileID: 0}
+  flashCard: {fileID: 0}
   soundLevel: 1
   musicLevel: 1
   soundSlider: {fileID: 0}
@@ -968,6 +969,7 @@ MonoBehaviour:
   soundButtonImages: []
   soundButtonImage: {fileID: 0}
   backgroundAudio: {fileID: 1735003426}
+  muteIntroSoundOnStart: 0
   isFirstStart: 0
   sfxAudios:
   - {fileID: 2036761550}
@@ -1415,7 +1417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pName: {fileID: 2113927156}
-  pCode: {fileID: 583401596}
+  pCode: {fileID: 0}
   popUp: {fileID: 414796836}
   warningErrorUI: {fileID: 0}
 --- !u!114 &614339190
@@ -2353,7 +2355,7 @@ MonoBehaviour:
   message: 
   panel: {fileID: 109400820}
   messageComponent:
-  - {fileID: 0}
+  - {fileID: 918570659}
   intertnetPanelIsOpen: 0
   internetPanel: {fileID: 0}
   promptInternetConnection: 1
