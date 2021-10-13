@@ -54,6 +54,7 @@ public class AccManagerOne : MonoBehaviour
             pronoun2 = ("her");
         }
         generateProblem();
+        PlayerPrefs.SetInt("Life", 3);
     }
     IEnumerator Retry()
     {
@@ -186,7 +187,7 @@ public class AccManagerOne : MonoBehaviour
     }
     IEnumerator StuntResult(string message, bool isCorrect)
     {        
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         StartCoroutine(theSimulation.DirectorsCall());
         walls.SetActive(false);
         theQuestion.isSimulating = false;

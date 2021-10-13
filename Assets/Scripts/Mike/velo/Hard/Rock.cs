@@ -23,6 +23,8 @@ public class Rock : MonoBehaviour
         {
             StartCoroutine(DestroyObj());
         }
+        if(hit != null)
+            this.throwVeloY = -1;
     }
     public void SetVelocity(float t, float x, float y)
     {
@@ -51,7 +53,6 @@ public class Rock : MonoBehaviour
     }
     IEnumerator DestroyObj()
     {
-        Debug.Log("destroyed");
         yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
         yield return new WaitForEndOfFrame();

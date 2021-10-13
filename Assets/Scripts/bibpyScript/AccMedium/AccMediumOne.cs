@@ -32,6 +32,7 @@ public class AccMediumOne : MonoBehaviour
         chopperStartPos = theChopper.transform.position;
         theSimulate = FindObjectOfType<AccMidSimulation>();
         generateProblem();
+        PlayerPrefs.SetInt("Life", 3);
     }
 
     // Update is called once per frame
@@ -303,7 +304,7 @@ public class AccMediumOne : MonoBehaviour
                 ragdollPause.SetActive(true);
                 ragdollPause.transform.position = new Vector2(playerGrabLineDistance + 2.67f, ragdollPrefab.transform.position.y);
                 theSubChopper.gameObject.SetActive(true);
-                theSubChopper.transform.position = new Vector2(distanceH, theSubChopper.transform.position.y);
+                theSubChopper.transform.position = new Vector2(distanceH+1, theSubChopper.transform.position.y);
                 ragdollSpawn();
                 yield return new WaitForSeconds(1.5f);
                 theHeart.losinglife();
