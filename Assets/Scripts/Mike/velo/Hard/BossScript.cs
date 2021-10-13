@@ -8,7 +8,7 @@ public class BossScript : MonoBehaviour
 
     void Update()
     {
-        transform.rotation = Quaternion.Inverse(Quaternion.Euler(0, 0, this.transform.rotation.z - rotate));
+        this.transform.rotation = Quaternion.AngleAxis(rotate, Vector3.forward);
         this.gameObject.GetComponent<Rigidbody2D>().velocity = GetVelocityOfTheHead();
     }
     public Vector2 GetVelocityOfTheHead()
