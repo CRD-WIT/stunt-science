@@ -33,7 +33,7 @@ public class IndicatorManagerV1_1 : MonoBehaviour
     [SerializeField] LineRenderer[] distanceLines = new LineRenderer[4], heightLines = new LineRenderer[4], correctDistanceLines = new LineRenderer[4];
     [SerializeField] LineRenderer timeLine;
     [SerializeField] GameObject arrow;
-    GameObject[] arrows = new GameObject[9];
+    GameObject[] arrows = new GameObject[8];
     [SerializeField] GameObject[] labelTxt;
     public bool showCorrectTime = false, showCorrectDistance = false;
     bool arrowPresent = false, answered, revealTime, revealDistance, revealVelocity, revealHeight;
@@ -46,20 +46,20 @@ public class IndicatorManagerV1_1 : MonoBehaviour
 
     private Vector2 CorrectIndicatorSpawnPos()
     {
+        arrows[4] = Instantiate(arrow);
         arrows[5] = Instantiate(arrow);
-        arrows[6] = Instantiate(arrow);
+        arrows[4].transform.SetParent(transform.Find("Correct"));
         arrows[5].transform.SetParent(transform.Find("Correct"));
-        arrows[6].transform.SetParent(transform.Find("Correct"));
         if (correctlengthOrientation == Mode.Vertical)
         {
-            arrows[5].transform.Rotate(0, 0, 90);
-            arrows[6].transform.Rotate(0, 0, -90);
+            arrows[4].transform.Rotate(0, 0, 90);
+            arrows[5].transform.Rotate(0, 0, -90);
 
             return new Vector2(heightSpawnPnt.x - 3, heightSpawnPnt.y);
         }
         else
         {
-            arrows[6].transform.Rotate(0, 0, 180);
+            arrows[5].transform.Rotate(0, 0, 180);
             return new Vector2(distanceSpawnPnt.x, distanceSpawnPnt.y - 3);
         }
     }
@@ -91,7 +91,7 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         arrowPresent = false;
         if (!arrowPresent)
         {
-            for (int i = 0; i <= 8; i++)
+            for (int i = 0; i <= 7; i++)
             {
                 arrows[i] = Instantiate(arrow);
                 arrows[i].transform.SetParent(transform.Find("UnusedArrows"));
@@ -127,28 +127,28 @@ public class IndicatorManagerV1_1 : MonoBehaviour
             {
                 height = (float)hLength;
 
-                arrows[3].transform.Rotate(0, 0, 90);
-                arrows[4].transform.Rotate(0, 0, -90);
+                arrows[2].transform.Rotate(0, 0, 90);
+                arrows[3].transform.Rotate(0, 0, -90);
+                arrows[2].transform.SetParent(transform.Find("Height"));
                 arrows[3].transform.SetParent(transform.Find("Height"));
-                arrows[4].transform.SetParent(transform.Find("Height"));
 
                 this.showHeight = true;
             }
             else this.showHeight = false;
 
             velocity = v;
-            arrows[7].transform.SetParent(transform.Find("Velocity"));
-            arrows[7].transform.Rotate(0, 0, 180);
+            arrows[6].transform.SetParent(transform.Find("Velocity"));
+            arrows[6].transform.Rotate(0, 0, 180);
 
             showCorrectDistance = false;
             showCorrectTime = false;
 
-            arrows[5].transform.Rotate(0, 0, 180);
+            arrows[4].transform.Rotate(0, 0, 180);
+            arrows[4].transform.SetParent(transform.Find("CorrectDistance"));
             arrows[5].transform.SetParent(transform.Find("CorrectDistance"));
-            arrows[6].transform.SetParent(transform.Find("CorrectDistance"));
 
-            arrows[8].transform.Rotate(0, 0, 180);
-            arrows[8].transform.SetParent(transform.Find("CorrectTime"));
+            // arrows[7].transform.Rotate(0, 0, 170);
+            // arrows[7].transform.SetParent(transform.Find("CorrectTime"));
 
             showCorrectTime = false;
             showCorrectDistance = false;
@@ -200,7 +200,6 @@ public class IndicatorManagerV1_1 : MonoBehaviour
     public void SetPlayerPosition(Vector2 Pnt)
     {
         velocitySpawnPnt = new Vector2(Pnt.x, Pnt.y + 2.5f);
-
         velocityTxtLength = labelTxt[3].GetComponent<TextMeshPro>().text.Length;
     }
     public void AnswerIs(bool isCorrect, bool lineRecolor)
@@ -308,8 +307,8 @@ public class IndicatorManagerV1_1 : MonoBehaviour
     {
         labelTxt[4].SetActive(show);
         if (!show)
-            arrows[7].transform.SetParent(transform.Find("UnusedArrows"));
-        else arrows[7].transform.SetParent(transform.Find("Velocity"));
+            arrows[6].transform.SetParent(transform.Find("UnusedArrows"));
+        else arrows[6].transform.SetParent(transform.Find("Velocity"));
 
     }
     private void Update()
@@ -342,10 +341,10 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         labelTxt[2].SetActive(showCorrectDistance);
         // labelTxt[4].SetActive(showCorrectTime);
 
+        arrows[2].SetActive(showHeight);
         arrows[3].SetActive(showHeight);
-        arrows[4].SetActive(showHeight);
+        arrows[4].SetActive(showCorrectDistance);
         arrows[5].SetActive(showCorrectDistance);
-        arrows[6].SetActive(showCorrectDistance);
         // arrows[8].SetActive(showCorrectTime);
 
         dimensionTxtLength = labelTxt[0].GetComponent<TextMeshPro>().text.Length;
@@ -375,8 +374,8 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         // timeLine[3].SetPosition(1, new Vector2(timeSpawnPnt.x + timerLength, timeSpawnPnt.y + timeEndline2+1));
         // labelTxt[1].transform.position = new Vector2((timerLength / 2) + timeSpawnPnt.x, timeSpawnPnt.y + 1);
 
-        arrows[4].transform.position = new Vector2(heightSpawnPnt.x, (height + heightSpawnPnt.y));
-        arrows[3].transform.position = new Vector2(heightSpawnPnt.x, heightSpawnPnt.y);
+        arrows[3].transform.position = new Vector2(heightSpawnPnt.x, (height + heightSpawnPnt.y));
+        arrows[2].transform.position = new Vector2(heightSpawnPnt.x, heightSpawnPnt.y);
         heightLines[0].SetPosition(0, new Vector2(heightSpawnPnt.x, ((height / 2) - (0.18f * 1.5f)) + heightSpawnPnt.y));
         heightLines[0].SetPosition(1, new Vector2(heightSpawnPnt.x, heightSpawnPnt.y));
         heightLines[1].SetPosition(0, new Vector2(heightSpawnPnt.x, ((height / 2) + (0.18f * 1.5f)) + heightSpawnPnt.y));
@@ -388,7 +387,7 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         labelTxt[1].transform.position = new Vector2(heightSpawnPnt.x, (height / 2) + heightSpawnPnt.y);
 
         labelTxt[3].transform.position = velocitySpawnPnt;
-        arrows[7].transform.position = new Vector2(velocitySpawnPnt.x + (0.18f * velocityTxtLength), velocitySpawnPnt.y - 0.35f);
+        arrows[6].transform.position = new Vector2(velocitySpawnPnt.x + (0.18f * velocityTxtLength), velocitySpawnPnt.y - 0.35f);
         timeLine.SetPosition(0, new Vector2(velocitySpawnPnt.x + (0.18f * velocityTxtLength), velocitySpawnPnt.y-0.35f));
         timeLine.SetPosition(1, new Vector2(velocitySpawnPnt.x - (0.18f * velocityTxtLength), velocitySpawnPnt.y-0.35f));
 
@@ -415,7 +414,7 @@ public class IndicatorManagerV1_1 : MonoBehaviour
                 break;
         }
         qc.SetColor(labelTxt[3].GetComponent<TMP_Text>(), velocityColor);
-        arrows[7].GetComponent<SpriteRenderer>().color = qc.getHexColor(velocityColor);
+        arrows[6].GetComponent<SpriteRenderer>().color = qc.getHexColor(velocityColor);
 
         qc.SetColor(labelTxt[0].GetComponent<TMP_Text>(), distanceColor);
         timeLine.startColor = qc.getHexColor(velocityColor);
@@ -452,8 +451,8 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         heightLines[2].endColor = qc.getHexColor(heightColor);
         heightLines[3].startColor = qc.getHexColor(heightColor);
         heightLines[3].endColor = qc.getHexColor(heightColor);
+        arrows[2].GetComponent<SpriteRenderer>().color = qc.getHexColor(heightColor);
         arrows[3].GetComponent<SpriteRenderer>().color = qc.getHexColor(heightColor);
-        arrows[4].GetComponent<SpriteRenderer>().color = qc.getHexColor(heightColor);
 
         foreach (var item in labelTxt)
         {
@@ -470,12 +469,12 @@ public class IndicatorManagerV1_1 : MonoBehaviour
             item.startColor = qc.getHexColor(TextColorMode.Correct);
             item.endColor = qc.getHexColor(TextColorMode.Correct);
         }
+        arrows[4].GetComponent<SpriteRenderer>().color = qc.getHexColor(TextColorMode.Correct);
         arrows[5].GetComponent<SpriteRenderer>().color = qc.getHexColor(TextColorMode.Correct);
-        arrows[6].GetComponent<SpriteRenderer>().color = qc.getHexColor(TextColorMode.Correct);
+        arrows[4].SetActive(showCorrectDistance);
         arrows[5].SetActive(showCorrectDistance);
-        arrows[6].SetActive(showCorrectDistance);
-        arrows[5].transform.position = new Vector2((correctD + pos.x), posY);
-        arrows[6].transform.position = new Vector2(pos.x, posY);
+        arrows[4].transform.position = new Vector2((correctD + pos.x), posY);
+        arrows[5].transform.position = new Vector2(pos.x, posY);
 
         labelTxt[2].GetComponent<TextMeshPro>().color = qc.getHexColor(TextColorMode.Correct);
         labelTxt[2].SetActive(showCorrectDistance);
