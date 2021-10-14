@@ -140,7 +140,7 @@ public class QuestionControllerVThree : MonoBehaviour
             else
             {
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
-                modalTitle = "Stunt Success!";
+                modalTitle = "Correct Answer!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
             }
@@ -148,7 +148,7 @@ public class QuestionControllerVThree : MonoBehaviour
         else
         {
             actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
-            modalTitle = "Stunt Failed!";
+            modalTitle = "Wrong Answer!";
             modalText = message;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
         }
