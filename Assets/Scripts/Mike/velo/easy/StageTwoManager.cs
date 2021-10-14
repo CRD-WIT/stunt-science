@@ -9,7 +9,7 @@ public class StageTwoManager : MonoBehaviour
     public CeillingGenerator theCeiling;
     public HeartManager theHeart;
     [SerializeField] float distance, speed, finalSpeed, answer, answerRO, currentPos, playerAnswer, playerDistance;
-    string gender, pronoun, question, errorMessage;
+    string gender, pronoun, question, errorMessage, playerName;
     Vector2 PlayerStartPoint;
     public float elapsed;
     public GameObject safePoint, rubbleStopper, rubbleBlocker, ragdollSpawn, groundPlatform;
@@ -24,6 +24,7 @@ public class StageTwoManager : MonoBehaviour
     {
         theScorer = FindObjectOfType<ScoreManager>();
         gender = PlayerPrefs.GetString("Gender");
+        playerName = PlayerPrefs.GetString("Name");
         PlayerStartPoint = thePlayer.transform.position;
         whatIsAsk = UnitOf.time;
         reset();
@@ -35,7 +36,7 @@ public class StageTwoManager : MonoBehaviour
         if (SimulationManager.isAnswered)
         {
             labels.distanceSpawnPnt = new Vector2(0, -2);
-            labels.timeSpawnPnt = new Vector2(0, -2.25f);
+            // labels.timeSpawnPnt = new Vector2(0, -2.25f);
             thePlayer.moveSpeed = speed;
             elapsed += Time.fixedDeltaTime;
             currentPos = thePlayer.transform.position.x;
@@ -63,7 +64,7 @@ public class StageTwoManager : MonoBehaviour
                     elapsed = answerRO;
                     rubbleBlocker.SetActive(true);
                     answerIs = true;
-                    errorMessage = PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
+                    errorMessage = $"{playerName} successfully performed the stunt and went to the safe spot!";//PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
                     thePlayer.transform.position = new Vector2(currentPos, thePlayer.transform.position.y);
                 }
                 else//if (playerAnswer != answerRO)
@@ -85,7 +86,7 @@ public class StageTwoManager : MonoBehaviour
                     {
                         scream.Play();
                         thePlayer.transform.position = new Vector2(playerDistance - 0.2f, thePlayer.transform.position.y);
-                        errorMessage = PlayerPrefs.GetString("Name") + " stopped too early and " + pronoun + " stopped before the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
+                        // errorMessage = PlayerPrefs.GetString("Name") + " stopped too early and " + pronoun + " stopped before the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
                     }
                     else if (playerAnswer > answerRO)
                     {
@@ -97,17 +98,17 @@ public class StageTwoManager : MonoBehaviour
                         {
                             scream.Play();
                             thePlayer.transform.position = new Vector2(playerDistance + 0.2f, thePlayer.transform.position.y);
-                            errorMessage = PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
-
+                            // errorMessage = PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
                         }
 
                         labels.ShowCorrectDistance(distance, true, new Vector2(0, 2));
-                        labels.ShowCorrectTime(answer, answer * speed, true);
-                    }
+                        // labels.ShowCorrectTime(answer, answer * speed, true);
+                    }                    
+                    errorMessage = $"{playerName} has unable to stop exactly at safe spot. Stunt Failed!";
                 }
                 labels.AnswerIs(answerIs, true);
             }
-            labels.IsRunning(playerAnswer, currentPos, elapsed, currentPos);
+            labels.IsRunning(playerAnswer, currentPos);
         }
         SimulationManager.isAnswerCorrect = answerIs;
         labels.SetPlayerPosition(thePlayer.transform.position);
@@ -139,7 +140,7 @@ public class StageTwoManager : MonoBehaviour
         qc.timer = "0.00s";
 
         qc.limit = 5f;
-        question = "The ceiling is still crumbling and the next safe spot is <color=red>" + distance.ToString() + " meters</color> away from <b>" + PlayerPrefs.GetString("Name") + "</b>. If " + pronoun + " runs at a constant velocity of <color=purple>" + finalSpeed.ToString() + " meters per second</color>, how <color=#006400>long</color> should " + pronoun + " run so " + pronoun + " will stop exactly on the same spot?";
+        question = $"{playerName} is instucted to run and stop exactly at the safe spot <b>{distance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away before the ceiling crumbles down. If {playerName} runs at a constant velocity of <b>{speed.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>, how long should {pronoun} run before stopping so {pronoun} will stop exactly at the safe spot?";
         qc.SetQuestion(question);
         answerRO = (float)System.Math.Round(answer, 2);
         safePoint.transform.position = new Vector2(distance, -2);
@@ -150,9 +151,9 @@ public class StageTwoManager : MonoBehaviour
         groundPlatform.transform.localScale = new Vector3(68.05f, groundPlatform.transform.localScale.y, 1);
         ragdollSpawn.transform.position = new Vector3(30.5f, ragdollSpawn.transform.position.y, 0);
 
-        labels.timeSpawnPnt = new Vector2(0, -2.25f);
+        // labels.timeSpawnPnt = new Vector2(0, -2.25f);
         labels.distanceSpawnPnt = new Vector2(0, -2);
-        labels.showLines(distance, distance, null, speed, answer);
+        labels.showLines(distance, null, speed, answer);
         labels.UnknownIs('t');
     }
     public void reset()

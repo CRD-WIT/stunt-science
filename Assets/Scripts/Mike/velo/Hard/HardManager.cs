@@ -81,8 +81,8 @@ public class HardManager : MonoBehaviour
                 myPlayer.moveSpeed = 2.99f;
                 indicators.gameObject.SetActive(true);
                 indicators.distanceSpawnPnt = new Vector2(initialDistance, 3);
-                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 2);
-                indicators.showLines(playerAnswer, null, bossDistance, stoneV, stuntTime);
+                // indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 2);
+                indicators.showLines(playerAnswer, bossDistance, stoneV, stuntTime);
 
                 throwingPath.transform.localScale = new Vector2(40 / 5f, throwingPath.transform.localScale.y);
                 throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
@@ -225,7 +225,7 @@ public class HardManager : MonoBehaviour
                     life.ReduceLife();
                 }
             }
-            indicators.IsRunning(playerAnswer, distanceTraveled, elapsed, timeL);
+            indicators.IsRunning(playerAnswer, distanceTraveled);
         }
         if (shakeDuration > 0)
         {
@@ -329,11 +329,11 @@ public class HardManager : MonoBehaviour
                         break;
                 }
                 qc.SetUnitTo(UnitOf.distance);
-                indicators.showLines(null, null, bossDistance, 0, 0);
+                indicators.showLines(null, bossDistance, 0, 0);
                 indicators.UnknownIs('n');
                 indicators.heightSpawnPnt = new Vector2(1, 3);
                 indicators.ShowVelocityLabel(false);
-                indicators.ResizeEndLines(null, 6.5f, 0.25f, 0.25f, null, null);
+                indicators.ResizeEndLines(null, 6.5f, 0.25f, 0.25f);
 
                 myPlayer.transform.position = initialPlayerPos;
 
@@ -373,10 +373,10 @@ public class HardManager : MonoBehaviour
 
                 myPlayer.transform.position = new Vector2(-distance + 0.5f + 10, myPlayer.transform.position.y);
                 indicators.distanceSpawnPnt = new Vector2(-distance + 11, 2.5f);
-                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 1);
-                indicators.showLines(distance, null, null, stoneV, stuntTime);
+                // indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, 1);
+                indicators.showLines(distance, null, stoneV, stuntTime);
                 indicators.UnknownIs('t');
-                indicators.ResizeEndLines(0.5f, 0.25f, null, null, 0.25f, 1f);
+                indicators.ResizeEndLines(0.5f, 0.25f, null, null);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
 
                 labels.startingAngle = 180;
@@ -425,9 +425,9 @@ public class HardManager : MonoBehaviour
                 indicators.distanceSpawnPnt = new Vector2(-xS - 4 - x, 1f);
 
                 indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(xS, null, null, stoneV, stuntTime);
+                indicators.showLines(xS, null, stoneV, stuntTime);
                 indicators.UnknownIs('v');
-                indicators.ResizeEndLines(0.5f, 0.25f, null, null, 0.25f, 1f);
+                indicators.ResizeEndLines(0.5f, 0.25f, null, null);
 
                 correctAnswer = (float)System.Math.Round(stoneV, 2);
 
@@ -498,9 +498,9 @@ public class HardManager : MonoBehaviour
                     throwTime = (stuntTime - 1 - correctAnswer);
                 break;
             case 3:
-                indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, myPlayer.transform.position.y - 1);
+                // indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, myPlayer.transform.position.y - 1);
                 // indicators.SetPlayerPosition(myPlayer.transform.position.x - );
-                indicators.showLines(null, distanceTraveled, null, stoneV, stuntTime);
+                indicators.showLines(null, null, stoneV, stuntTime);
                 isStartOfStunt = true;
                 directorIsCalling = true;
                 if (playerAnswer > correctAnswer)

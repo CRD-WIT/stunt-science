@@ -91,7 +91,7 @@ public class MediumManager : MonoBehaviour
                     }
                 }
             }
-            indicators.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed), elapsed, timingD);
+            indicators.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed));
         }
         indicators.SetPlayerPosition(myPlayer.transform.position);
         if (qc.isSimulating)
@@ -104,7 +104,7 @@ public class MediumManager : MonoBehaviour
         AVelocityIndicator.transform.Find("aVelocityIndicator").gameObject.GetComponent<SpriteRenderer>().color = qc.getHexColor(TextColorMode.Given);
         qc.SetColor(AVelocityIndicator.transform.Find("label").GetComponent<TMP_Text>(), TextColorMode.Given);
         indicators.heightSpawnPnt = new Vector2(-13.3f, -1.15f);
-        indicators.timeSpawnPnt = new Vector2(-10, .5f);
+        // indicators.timeSpawnPnt = new Vector2(-10, .5f);
         indicators.UnknownIs('v');
         qc.limit = 10.4f;
         while (true)
@@ -121,7 +121,7 @@ public class MediumManager : MonoBehaviour
         }
         rope.transform.position = new Vector2(distance - 10, rope.transform.position.y);
         playerAnim.speed = conveyorSpeed / 5.6f; // set to 1 before grabbing.
-        indicators.showLines(null, distance, 2.3f, playerSpeed, stuntTime);
+        indicators.showLines(null, 2.3f, playerSpeed, stuntTime);
         question = playerName + " is instructed to run on a moving conveyor belt and the rope is<b> " + ConveyorManager.angularVelocity + " degrees per second</b>, how fast should " + playerName + " run if " + pronoun + " is to grab the rope exactly after <b>" + stuntTime.ToString("f2") + " seconds</b>?";
         qc.SetQuestion(question);
     }

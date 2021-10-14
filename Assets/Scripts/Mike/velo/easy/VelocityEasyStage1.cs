@@ -60,7 +60,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         if (SimulationManager.isAnswered)
         {
             labels.distanceSpawnPnt = new Vector2(0, -2);
-            labels.timeSpawnPnt = new Vector2(0, -2.25f);
+            // labels.timeSpawnPnt = new Vector2(0, -2.25f);
             currentPos = answer * elapsed;
             myPlayer.moveSpeed = answer;
             questionController.timer = elapsed.ToString("f2") + "s";
@@ -78,7 +78,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 {
                     currentPos = distance;
                     rubbleBlocker.SetActive(true);
-                    errorMessage = PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
+                    errorMessage = $"{playerName} successfully performed the stunt and went to the safe spot!";//PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
                     answerIs = true;
                     myPlayer.transform.position = new Vector2(currentPos, myPlayer.transform.position.y);
                 }
@@ -101,19 +101,20 @@ public class VelocityEasyStage1 : MonoBehaviour
                     {
                         scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos - 0.2f, myPlayer.transform.position.y);
-                        errorMessage = PlayerPrefs.GetString("Name") + " ran too slow and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
+                        // errorMessage = PlayerPrefs.GetString("Name") + " ran too slow and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
                     else //if(answer > Speed)
                     {
                         scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos + 0.2f, myPlayer.transform.position.y);
-                        errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
+                        // errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
+                    errorMessage = $"{playerName} has unable to stop exactly at the safe spot. Stunt Failed!";
                     labels.ShowCorrectDistance(distance, true, new Vector2(0, 1.25f));
                 }
                 labels.AnswerIs(answerIs, true);
             }
-            labels.IsRunning(answer, currentPos, elapsed, currentPos);
+            labels.IsRunning(answer, currentPos);
         }
         SimulationManager.isAnswerCorrect = answerIs;
         labels.SetPlayerPosition(myPlayer.transform.position);
@@ -148,9 +149,9 @@ public class VelocityEasyStage1 : MonoBehaviour
         HeartManager.losslife = false;
         RumblingManager.shakeON = true;
 
-        labels.timeSpawnPnt = new Vector2(0, -2.25f);
+        // labels.timeSpawnPnt = new Vector2(0, -2.25f);
         labels.distanceSpawnPnt = new Vector2(0, -2);
-        labels.showLines(distance, distance, null, Speed, gameTime);
+        labels.showLines(distance, null, Speed, gameTime);
         labels.UnknownIs('v');
 
         theCeiling.createQuadtilemap(questionController.stage);
@@ -161,7 +162,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         rubblesStopper.SetActive(true);
         SimulationManager.isAnswered = false;
 
-        question = "The ceiling is crumbling and the safe area is <color=red>" + distance.ToString() + " meters</color> away from <b>" + playerName + "</b>. If " + pronoun + " has exactly <color=#006400>" + gameTime.ToString() + " seconds</color> to go to the safe spot, what should be " + pNoun + " <color=purple>velocity</color>?";
+        question = $"<b>{playerName}</b> is instucted to run and stop exactly at the safe spot <b>{distance.ToString("f2")} {questionController.Unit(UnitOf.distance)}</b> away before the ceiling crumbles down. If <b>{playerName}</b> runs for exactly <b>{gameTime.ToString("f2")} {questionController.Unit(UnitOf.time)}</b> before stopping, what should be {pNoun} velocity so {pronoun} will stop exactly at the safe spot?";
         questionController.SetQuestion(question);
         labels.SetPlayerPosition(myPlayer.transform.position);
     }
