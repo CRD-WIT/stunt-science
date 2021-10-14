@@ -235,6 +235,11 @@ public class Settings : MonoBehaviour
         }
     }
 
+    public void ResetLife()
+    {
+        PlayerPrefs.SetInt("Life", 3);
+    }
+
     public void ToggleIntroMusic()
     {
         if (musicIsOn)

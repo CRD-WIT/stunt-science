@@ -19,11 +19,14 @@ public class VelocityEasyStage1 : MonoBehaviour
     //public GraphQLCloud graphQLCloud;
     public QuestionControllerVThree questionController;
 
+    public Settings settings;
+
     public TMP_Text debugAnswer;
     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
 
     void Start()
     {
+        settings.ResetLife();
         RumblingManager.isCrumbling = false;
         sm.SetGameLevel(1);
         sm.SetDifficulty(1);
