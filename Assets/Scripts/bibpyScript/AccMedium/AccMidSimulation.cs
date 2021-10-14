@@ -53,7 +53,7 @@ public class AccMidSimulation : MonoBehaviour
     }
     public void TriggerSimulation()
     {
-        playButton.interactable = false;
+        
         if (stage == 1)
         {
             playerAnswer = theQuestion.GetPlayerAnswer();
