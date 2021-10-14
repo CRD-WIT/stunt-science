@@ -340,13 +340,13 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         // labelTxt[1].SetActive(showTime);
         labelTxt[1].SetActive(showHeight);
         labelTxt[2].SetActive(showCorrectDistance);
-        labelTxt[4].SetActive(showCorrectTime);
+        // labelTxt[4].SetActive(showCorrectTime);
 
         arrows[3].SetActive(showHeight);
         arrows[4].SetActive(showHeight);
         arrows[5].SetActive(showCorrectDistance);
         arrows[6].SetActive(showCorrectDistance);
-        arrows[8].SetActive(showCorrectTime);
+        // arrows[8].SetActive(showCorrectTime);
 
         dimensionTxtLength = labelTxt[0].GetComponent<TextMeshPro>().text.Length;
         // timeTxtLength = labelTxt[1].GetComponent<TextMeshPro>().text.Length;
