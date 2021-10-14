@@ -139,7 +139,7 @@ public class ProjHardSimulation : MonoBehaviour
     public void next()
     {
         playerAnswer = 0;
-         trail.GetComponent<TrailRenderer>().time = 0.05f;
+        trail.GetComponent<TrailRenderer>().time = 0.05f;
         if (stage == 1)
         {
             theManagerOne.gameObject.SetActive(false);
