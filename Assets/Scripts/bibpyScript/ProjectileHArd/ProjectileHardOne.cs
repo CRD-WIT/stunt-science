@@ -7,7 +7,7 @@ public class ProjectileHardOne : MonoBehaviour
 {
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
-    public QuestionControllerC theQuestion;
+    public QuestionContProJHard theQuestion;
     //public IndicatorManager theIndicator;
     public golem theGolem;
     public CircularAnnotation[] theCircular;
@@ -187,6 +187,7 @@ public class ProjectileHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        theHeart.losslife = false;
         //theIndicator.showReady = true;
         indicatorReady = true;
         generateAngle = Random.Range(50, 60);
@@ -290,22 +291,19 @@ public class ProjectileHardOne : MonoBehaviour
     IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(projectileTime + 2);
-        if ( ProjHardSimulation.playerAnswer != correctAnswer)
-        {
-            //TODO: reduceLife
-        }
         if ( ProjHardSimulation.playerAnswer == correctAnswer)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " pulled the trigger at the exact timed. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds."),true, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"),true, false);
         }
-         if ( ProjHardSimulation.playerAnswer < correctAnswer)
+         if ( ProjHardSimulation.playerAnswer != correctAnswer)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " pulled the trigger after <b>" +  ProjHardSimulation.playerAnswer.ToString("F2") + "</b> seconds and too late to hit the target. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds."),false, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit the target."),false, false);
+            theHeart.ReduceLife();
         }
-         if ( ProjHardSimulation.playerAnswer > correctAnswer)
+         /*if ( ProjHardSimulation.playerAnswer > correctAnswer)
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " pulled the trigger after <b>" +  ProjHardSimulation.playerAnswer.ToString("F2") + "</b> seconds and too soon to hit the target. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds."),false, false);
-        }
+        }*/
         //trail.GetComponent<TrailRenderer>().time = 3;
         
         StartCoroutine(theSimulate.DirectorsCall());

@@ -163,7 +163,7 @@ public class SimulationManager : MonoBehaviour
         PrefabDestroyer.destroyPrefab = true;
         thePlayer.moveSpeed = 5;
         yield return new WaitForSeconds(0.5f);
-        StartCoroutine(theHeart.endBGgone());
+       // StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(2.8f);
         theHeart.startbgentrance();
         thePlayer.transform.position = new Vector2(0f, thePlayer.transform.position.y);

@@ -16,7 +16,7 @@ public class ProjHardSimulation : MonoBehaviour
     public static float playerAnswer;
     public static bool simulate;
     public int stage;
-    public QuestionControllerC theQuestion;
+    public QuestionContProJHard theQuestion;
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     public string take;
@@ -139,7 +139,7 @@ public class ProjHardSimulation : MonoBehaviour
     public void next()
     {
         playerAnswer = 0;
-         trail.GetComponent<TrailRenderer>().time = 0.05f;
+        trail.GetComponent<TrailRenderer>().time = 0.05f;
         if (stage == 1)
         {
             theManagerOne.gameObject.SetActive(false);
