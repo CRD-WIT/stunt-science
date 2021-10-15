@@ -5025,6 +5025,74 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1001 &62032959
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4316510481556323993, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_Name
+      value: FirebaseManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_RootOrder
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.43317437
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.35497957
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 32.61623
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+--- !u!114 &62032960 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1704367510610660259, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+  m_PrefabInstance: {fileID: 62032959}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8367fe95cba0f10abac920f2b9b4fc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &95964904
 GameObject:
   m_ObjectHideFlags: 0
@@ -10103,17 +10171,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &370019823 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6383626194839860344, guid: f118fb8c67897b9029fa9fc1447e122e, type: 3}
-  m_PrefabInstance: {fileID: 1029284162}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb0632f1761c95ac18a77d9662889351, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &416957694
 GameObject:
   m_ObjectHideFlags: 0
@@ -98574,6 +98631,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3372021342389604806, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3659776861585761947, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -98581,11 +98642,15 @@ PrefabInstance:
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: graphQLCloud
       value: 
-      objectReference: {fileID: 370019823}
+      objectReference: {fileID: 0}
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: backgroundAudio
       value: 
       objectReference: {fileID: 9144894995704655662}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: firebaseManager
+      value: 
+      objectReference: {fileID: 62032960}
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: sfxAudios.Array.data[0]
       value: 
@@ -115912,12 +115977,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 5630888110567035193}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!224 &5630888110567035195
 RectTransform:
   m_ObjectHideFlags: 0
@@ -117111,12 +117176,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 5630888111820703852}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!224 &5630888111820703854
 RectTransform:
   m_ObjectHideFlags: 0
@@ -117282,12 +117347,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 5630888111828779372}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!224 &5630888111828779374
 RectTransform:
   m_ObjectHideFlags: 0
@@ -117843,12 +117908,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 5630888112002748642}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!224 &5630888112002748700
 RectTransform:
   m_ObjectHideFlags: 0
@@ -124282,7 +124347,7 @@ PrefabInstance:
     - target: {fileID: 147414894747876121, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: graphQLCloud
       value: 
-      objectReference: {fileID: 370019823}
+      objectReference: {fileID: 0}
     - target: {fileID: 147414894747876121, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: heartManager
       value: 
@@ -126428,12 +126493,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 9144894994066784677}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &9144894994066784677
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -139756,8 +139821,8 @@ MonoBehaviour:
   elapsed: 0
   currentPos: 0
   scream: {fileID: 2038109088}
-  graphQLCloud: {fileID: 370019823}
   questionController: {fileID: 9144894994835719940}
+  settings: {fileID: 5281191066365309028}
   debugAnswer: {fileID: 1310073603}
   lightssfx: {fileID: 0}
   camerasfx: {fileID: 0}
@@ -140275,12 +140340,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 9144894994747529270}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!4 &9144894994767443908
 Transform:
   m_ObjectHideFlags: 0

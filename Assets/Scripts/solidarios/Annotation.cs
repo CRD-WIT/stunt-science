@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 public enum Mode : byte
@@ -12,7 +10,7 @@ public class Annotation : MonoBehaviour
     public Vector2 spawnPoint;
     public float distance;
     public Mode arrowMode;
-    public float fontSize = 4;
+    public float fontSize = 10;
     LineRenderer line1;
     LineRenderer line2;
     GameObject textDimension;
@@ -32,6 +30,10 @@ public class Annotation : MonoBehaviour
         transform.gameObject.SetActive(false);
     }
 
+    public void Show(){
+        transform.gameObject.SetActive(true);
+    }
+
     public Vector2 SpawnPointValue()
     {
         return spawnPoint;
@@ -41,6 +43,10 @@ public class Annotation : MonoBehaviour
     public void SetSpawningPoint(Vector2 point)
     {
         this.spawnPoint = point;
+    }
+
+    public Vector2 GetEndPoint(){
+        return new Vector2(line2.GetPosition(1).x, line2.GetPosition(1).y);
     }
 
     public void SetDistance(float value)
@@ -71,7 +77,6 @@ public class Annotation : MonoBehaviour
             line2.SetPosition(0, new Vector3(spawnPoint.x, ((distance / 2) + 0.4f) + spawnPoint.y, 0));
             line2.SetPosition(1, new Vector3(spawnPoint.x, (distance + spawnPoint.y), 0));
             textDimension.transform.position = new Vector3(spawnPoint.x, (distance / 2) + spawnPoint.y, 0);
-
         }
         else
         {

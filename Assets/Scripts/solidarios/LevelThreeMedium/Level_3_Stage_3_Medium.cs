@@ -1,201 +1,210 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Level_3_Stage_3_Medium : MonoBehaviour
 {
     // Start is called before the first frame update
-    string question;
-    public TMP_Text questionText, levelName, timerText;
-    public GameObject AfterStuntMessage;
-    Animator thePlayerAnimation;
-    public GameObject HookAttachmentCollider;
-    public GameObject hook;
+    string question, gender, pronoun, pronoun2;
+    public TMP_Text initalVelociyText, questionText, levelName, VoTxt, angleTxt, timerTxt;
     bool isSimulating = false;
-    public GameObject thePlayer;
-    Vector3 thePlayer_position;
-    public TMP_InputField playerAnswer;
-    Vector2 gravityGiven;
-    public GameObject hookLauncher;
-    public GameObject thePlayerRunning;
-    float distanceGiven;
-    float angleGiven;
-    float correctAnswer;
-    public GameObject movingToHookHand;
-    float velocityX = 0;
-    public GameObject thinRope;
-    bool doneFiring = false;
-    float velocityY = 0;
-    float velocityInitial = 0;
-    public GameObject hookLine;
-    public GameObject Rope2HookEnd;
-    bool isMovingToHook;
-    public float elapsed;
-    public GameObject dynamicPlatform;
-    public GameObject grappingPointIndicator;
-    public QuestionController questionController;
+    public GameObject hook, hookLauncher, thePlayerRunning, shootPosTriger, puller, angularAnotation, gun, dimensions, target;
+    public GameObject hookLine, trail, playButton, targetLock, targetWall;
+    public GameObject hookIndicator;
+    public playerProjectileMed thePlayer;
+    public float distanceX, distanceY;
+    public float angleGiven, anglePlayer, projectileTime, Vo, VoPlayer, timer, correctAnswer, projectileTimeCheck;
+
+    public bool collided, preSetUp, startTime, showResult;
+    public CircularAnnotation theCircular;
     public CameraScript cameraScript;
+    public Hook theHook;
+    public QuestionController questionController;
     void Start()
     {
-        // Given   
-        velocityInitial =  (float)System.Math.Round(UnityEngine.Random.Range(12f, 14f), 2);        
-        distanceGiven = 0;
-        angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(70f, 75f), 2);
-        gravityGiven = Physics2D.gravity;
-
-        Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
-
-        line.SetDistance(distanceGiven);
-
-        //Problem
-        levelName.SetText("Projectile Motion | Stage 2");
-        question = $"[name] is instructed to cross the last cliff. If [name] shoots the gripping projectile at an angle of [angle] degrees up at a velocity of [vo] meters per second, how far precisely should [name] be away horizontally from the target gripping point in order to hit it?";
-
-        if (questionText != null)
+        gender = PlayerPrefs.GetString("Gender");
+        if (gender == "Male")
         {
-            questionText.SetText(question);
+            pronoun = ("he");
+            pronoun2 = ("his");
         }
-        else
+        if (gender == "Female")
         {
-            Debug.Log("QuestionText object not loaded.");
+            pronoun = ("she");
+            pronoun2 = ("her");
         }
-
-        thePlayerAnimation = thePlayer.GetComponent<Animator>();
-        thePlayer_position = thePlayer.transform.position;
-
-        transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().SetAngle(angleGiven);
-
-        transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().SetAngle(angleGiven);
-
-        hook.GetComponent<Rigidbody2D>().Sleep();
-        hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
-
-        hookLauncher.transform.Rotate(new Vector3(0, 0, angleGiven));
+        questionController.SetQuestion("......");
     }
-
-    IEnumerator StuntResult()
-    {
-        //messageFlag = false;
-        yield return new WaitForSeconds(4f);
-        AfterStuntMessage.SetActive(true);
-    }
-
-    void RegenerateVelocities()
-    {
-        velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
-
-        velocityInitial = float.Parse(playerAnswer.text);
-        velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
-
-        correctAnswer = Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
-
-        Debug.Log($"VelocityX: {velocityX}");
-        Debug.Log($"VelocityY: {velocityY}");
-        Debug.Log($"Correct Answer: {correctAnswer}");
-    }
-
-    IEnumerator DropRope()
-    {
-        yield return new WaitForSeconds(1.5f);
-    }
-
-    IEnumerator PullRope()
-    {
-        yield return new WaitForSeconds(1.3f);
-    }
-
-
-    IEnumerator ShowAnnotations()
-    {
-        yield return new WaitForSeconds(0.5f);
-    }
-
     public void StartSimulation()
     {
-        isSimulating = true;
+        playButton.SetActive(false);
+        timerTxt.gameObject.SetActive(true);
+        cameraScript.directorIsCalling = true;
+        cameraScript.isStartOfStunt = true;
+        questionController.SetAnswer();
     }
-    void FixedUpdate()
+    public void showProblem()
     {
-        if (thePlayerRunning.GetComponent<RunningPlayer>().isCollided)
+        targetLock.SetActive(true);
+        showResult = true;
+        preSetUp = true;
+        angleGiven = (float)System.Math.Round(Random.Range(55f, 65f), 2);
+    }
+    public IEnumerator shoot()
+    {
+        hook.SetActive(true);
+        hook.transform.position = hookLauncher.transform.position;
+        if (questionController.GetPlayerAnswer() == correctAnswer)
         {
-            thePlayer.SetActive(true);
-            thePlayerRunning.SetActive(false);
-            transform.Find("Annotation").GetComponent<AnnotationVX>().Show();
-            transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Show();
-            transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Show();
+            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo);
+            targetWall.SetActive(false);
+        }
+        if (questionController.GetPlayerAnswer() > correctAnswer)
+        {
+            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (VoPlayer - .5f);
+        }
+        if (questionController.GetPlayerAnswer() < correctAnswer)
+        {
+            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (VoPlayer + .5f);
         }
 
-        Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
-        dynamicPlatform.transform.position = new Vector3(line.distance + 32.34f, -15.69f, 1);
-        grappingPointIndicator.transform.position = new Vector3(line.distance + 4.4f, 1, 1);
+        yield return new WaitForEndOfFrame();
+        theHook.isTrailing = true;
+        trail.GetComponent<TrailRenderer>().time = 3000;
 
-        if (isMovingToHook && !isSimulating)
+    }
+    IEnumerator StuntResult()
+    {
+        if (questionController.GetPlayerAnswer() == correctAnswer)
         {
-            hookLine.GetComponent<LineRenderer>().SetPosition(0, movingToHookHand.transform.position);
-            hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
+            yield return new WaitForSeconds(4);
+            questionController.answerIsCorrect = true;
+            questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{PlayerPrefs.GetString("Name")} safely grabbed the pole!", "Next");
+
+        }
+        if (questionController.GetPlayerAnswer() != correctAnswer)
+        {
+            yield return new WaitForSeconds(1);
+            questionController.answerIsCorrect = false;
+            questionController.ToggleModal($"<b>Stunt failed!!!</b>", $"{PlayerPrefs.GetString("Name")} missed the target!", "retry");
+
+        }
+
+    }
+    public void action()
+    {
+        if (questionController.GetPlayerAnswer() == correctAnswer)
+        {
+            SceneManager.LoadScene("");
         }
         else
         {
-            hookLine.GetComponent<LineRenderer>().SetPosition(0, hookLauncher.transform.position);
-            hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
+            SceneManager.LoadScene("LevelThreeStage3Medium");
         }
 
-        if (isSimulating)
+
+    }
+
+    void FixedUpdate()
+    {
+        hookLine.GetComponent<LineRenderer>().SetPosition(0, gun.transform.position);
+        hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
+
+        if (thePlayerRunning.GetComponent<RunningPlayer>().isCollided)
         {
-            if (playerAnswer.text.Length > 0)
+            if (!collided)
             {
-                transform.Find("Annotation").GetComponent<Annotation>().Hide();
-                transform.Find("CircularAnnotation").GetComponent<CircularAnnotation>().Hide();
-                transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Hide();
+                playButton.SetActive(true);
+                thePlayer.gameObject.SetActive(true);
+                thePlayerRunning.SetActive(false);
+                shootPosTriger.SetActive(false);
+                puller.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                thePlayer.aim = true;
+                dimensions.SetActive(true);
+                showProblem();
+                Debug.Log("collide");
+                collided = true;
+            }
 
-                elapsed += Time.fixedDeltaTime;
-                timerText.text = elapsed.ToString("f2") + "s";
-
-
-                RegenerateVelocities();
-
-                // Correct Answer
-                if (System.Math.Round(float.Parse(playerAnswer.text), 2) == System.Math.Round(correctAnswer, 2))
-                {
-                    if (!doneFiring)
-                    {
-                        hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                        hook.GetComponent<Rigidbody2D>().WakeUp();
-                        hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
-                        doneFiring = true;
-                    }
-
-                    if (hook.GetComponent<Hook>().isCollided)
-                    {
-                        thinRope.gameObject.SetActive(true);
-                        hookLine.SetActive(false);
-                        elapsed -= 0.01f;
-                        isSimulating = false;
-
-                        Rope2HookEnd.GetComponent<Rigidbody2D>().velocity = new Vector3(2, 0, 0);
-                        StartCoroutine(PullRope());
-                    }
-                }
-                else
-                {
-                    // Too long
-                    Debug.Log("Too long");
-                    HookAttachmentCollider.SetActive(false);
-
-                    if (!doneFiring)
-                    {
-                        hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                        hook.GetComponent<Rigidbody2D>().WakeUp();
-                        hook.GetComponent<Rigidbody2D>().velocity = new Vector3(float.Parse(playerAnswer.text), velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
-                        doneFiring = true;
-                    }
-
-                    if (hook.GetComponent<Hook>().isCollidedToFailCollider)
-                    {
-                        isSimulating = false;
-                    }
-                }
+        }
+        if (preSetUp)
+        {
+            angleTxt.text = "Θ = " + angleGiven.ToString("F2") + "°";
+            angleTxt.gameObject.transform.position = hookLauncher.transform.position;
+            angularAnotation.transform.position = gun.transform.position;
+            hookLauncher.transform.position = gun.transform.position;
+            trail.transform.position = hookLauncher.transform.position;
+            theCircular._origin = new Vector2(hookLauncher.transform.position.x + .3f, hookLauncher.transform.position.y - .1f);
+            theCircular._degrees = angleGiven;
+            theCircular.initialAngle = 45 - (angleGiven - 45);
+            distanceX = (float)System.Math.Round(target.transform.position.x - hookLauncher.transform.position.x, 2);
+            distanceY = (float)System.Math.Round(target.transform.position.y - hookLauncher.transform.position.y, 2);
+            //angleGiven = Mathf.Atan(((distanceY + ((9.81f / 2) * (projectileTime * projectileTime))) / distanceX)) * Mathf.Rad2Deg;
+            correctAnswer = (float)System.Math.Round(projectileTime, 2);
+            projectileTimeCheck = Mathf.Sqrt((((2 * distanceX) * (Mathf.Tan(angleGiven * Mathf.Deg2Rad))) - distanceY) / 9.81f);
+            Vo = ((Mathf.Sqrt((Mathf.Abs(Physics2D.gravity.y) / (2 * ((distanceX * (Mathf.Tan((angleGiven) * Mathf.Deg2Rad))) - distanceY))))) * distanceX) / (Mathf.Cos((angleGiven) * Mathf.Deg2Rad));
+            angularAnotation.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);
+            projectileTime = distanceX / (Vo * (Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+            theHook.correctAnswer = correctAnswer;
+            question = $"{PlayerPrefs.GetString("Name")} is now instructed to fire {pronoun2} climbing device and must hit the target to be able to cross on the other cliff. If the target horizontally <b>{distanceX}m</b> away and vertically <b>{distanceY}m</b> above from the barrel of the climbing device, What should be the projectile time needed of the climbing device if the target can only be hit with an angle aiming at <b>{angleGiven} degree</b> ? Initial velocity of the projectile will be inversely proportionate to your answer.";
+            questionController.SetQuestion(question);
+            //VoTxt.text = "Vo = "+ Vo.ToString("F2")+" m/s";
+        }
+        if (questionController.isSimulating)
+        {
+            //notes:limit !<2 & !>10;
+            if (questionController.GetPlayerAnswer() != correctAnswer)
+            {
+                VoPlayer = distanceX / ( questionController.GetPlayerAnswer() * (Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+                //anglePlayer = Mathf.Atan(((distanceY + ((9.81f / 2) * (questionController.GetPlayerAnswer() * questionController.GetPlayerAnswer()))) / distanceX)) * Mathf.Rad2Deg;
+                //VoPlayer = ((Mathf.Sqrt((Mathf.Abs(Physics2D.gravity.y) / (2 * ((distanceX * (Mathf.Tan((angleGiven) * Mathf.Deg2Rad))) - distanceY))))) * distanceX) / (Mathf.Cos((angleGiven) * Mathf.Deg2Rad));
+                angularAnotation.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);
+                hookLauncher.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);
+                //theCircular._degrees = anglePlayer;
+                angleTxt.text = "Θ = " + angleGiven.ToString("F2") + "°";
+                theCircular.initialAngle = 45 - (angleGiven - 45);
+                theCircular._degrees = angleGiven;
+                angleTxt.text = "Θ = " + angleGiven.ToString("F2") + "°";
+            }
+            if (questionController.GetPlayerAnswer() == correctAnswer)
+            {
+                angularAnotation.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);
+                hookLauncher.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);
+                angleTxt.text = "Θ = " + angleGiven.ToString("F2") + "°";
+                theCircular._degrees = angleGiven;
+                angleTxt.text = "Θ = " + angleGiven.ToString("F2") + "°";
+                theCircular.initialAngle = 45 - (angleGiven - 45);
+            }
+            targetLock.SetActive(false);
+            startTime = true;
+            preSetUp = false;
+            hook.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            hook.GetComponent<Rigidbody2D>().WakeUp();
+            hookLine.SetActive(true);
+            StartCoroutine(shoot());
+            questionController.isSimulating = false;
+        }
+        if (startTime)
+        {
+            timer += Time.fixedDeltaTime;
+            timerTxt.text = timer.ToString("F2") + "s";
+            if (timer >= projectileTime)
+            {
+                startTime = false;
+                timer = projectileTime;
+                timerTxt.text = timer.ToString("F2") + "s";
             }
         }
+        if (showResult)
+        {
+            if (theHook.isCollided)
+            {
+                StartCoroutine(StuntResult());
+                showResult = false;
+            }
+        }
+
+
     }
 }
