@@ -351,7 +351,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                 globalTime += Time.fixedTime;
 
                 // timerAnnotation.GetComponent<TMP_Text>().text = $"t={(globalTime / 1000).ToString("f2")}s";
-                timerAnnotation.GetComponent<TMP_Text>().text = $"- Grabbed here!";
+                //timerAnnotation.GetComponent<TMP_Text>().text = $"- Grabbed here!";
                 if (questionController.answerIsCorrect)
                 {
                     if (!accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)

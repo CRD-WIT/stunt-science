@@ -14,6 +14,10 @@ public class FirebaseManager : MonoBehaviour
 
     }
 
+    public void CheckIfKeyCodeValid(){
+        
+    }
+
     public void GameLogMutation(int? levelValue = 1, int? stageValue = 1, string? difficultyValue = "Easy", string actionValue = "Next", float? value = 0)
     {
         Debug.Log(SystemInfo.deviceType);
