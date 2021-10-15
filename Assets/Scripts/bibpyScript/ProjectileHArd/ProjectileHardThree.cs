@@ -7,7 +7,7 @@ public class ProjectileHardThree : MonoBehaviour
 {
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
-    public QuestionControllerC theQuestion;
+    public QuestionContProJHard theQuestion;
     public golem theGolem;
     public HeartManager theHeart;
     public CircularAnnotation theCircular;
@@ -174,6 +174,7 @@ public class ProjectileHardThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        theHeart.losslife = false;
         //theIndicator.showReady = true;
         angleTxt.text = "Θ = ?";
         angleDimension.SetActive(true);

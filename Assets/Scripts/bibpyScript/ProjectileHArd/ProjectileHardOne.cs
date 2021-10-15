@@ -7,7 +7,7 @@ public class ProjectileHardOne : MonoBehaviour
 {
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
-    public QuestionControllerC theQuestion;
+    public QuestionContProJHard theQuestion;
     //public IndicatorManager theIndicator;
     public golem theGolem;
     public CircularAnnotation[] theCircular;
@@ -187,6 +187,7 @@ public class ProjectileHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        theHeart.losslife = false;
         //theIndicator.showReady = true;
         indicatorReady = true;
         generateAngle = Random.Range(50, 60);

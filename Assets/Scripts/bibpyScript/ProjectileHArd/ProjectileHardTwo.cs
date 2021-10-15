@@ -7,7 +7,7 @@ public class ProjectileHardTwo : MonoBehaviour
 {
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
-    public QuestionControllerC theQuestion;
+    public QuestionContProJHard theQuestion;
     public golem theGolem;
     public HeartManager theHeart;
     public CircularAnnotation[] theCircular;
@@ -132,6 +132,7 @@ public class ProjectileHardTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        theHeart.losslife = false;
         //theIndicator.showReady = true;
         timer = 0;
         arrow.SetActive(false);
