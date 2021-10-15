@@ -1,5 +1,5 @@
-Free fall and projectile combined
+All missions complete feedback
 
-Free fall - Stage 3 Easy
+Level completed feedback and show unlock feedback.
 
-Projectile - Stage 3 Medium
+Add credits workflow and UI.

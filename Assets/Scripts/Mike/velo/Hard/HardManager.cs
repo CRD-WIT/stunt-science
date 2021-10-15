@@ -11,7 +11,7 @@ public class HardManager : MonoBehaviour
     BossScript boss;
     PlayerV2 myPlayer;
     QuestionControllerVThree qc;
-    public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling, ragdollSpawn, throwingPath, throwingPathTxt, gem, rock;
+    public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling, ragdollSpawn, throwingPath, throwingPathTxt, gem, rock, veloTime, stoneVeloLabel, bossVeloLabel;
     public GameObject[] bossParts;
     public HingeJoint2D[] joints;
     public TMP_Text directorsSpeech;
@@ -102,6 +102,7 @@ public class HardManager : MonoBehaviour
             StartCoroutine(Throw());
         if (isAnswered)
         {
+            bossVeloLabel.GetComponent<RectTransform>().position = new Vector2(bossHead.transform.position.x+1, bossHead.transform.position.y + 1);
             throwingPath.SetActive(false);
             throwingPathTxt.SetActive(false);
 
@@ -120,15 +121,12 @@ public class HardManager : MonoBehaviour
                     {
                         stonePosX = playerAnswer;
                         isAnswerCorrect = true;
-                        messageTxt = "Correct";
+                        messageTxt = $"{playerName} successfully performed the stunt and the rock hit the monster's mouth!";
                     }
                     else
                     {
                         isAnswerCorrect = false;
-                        if(playerAnswer > correctAnswer)
-                            messageTxt = "Throw too far from the monster. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
-                        else
-                            messageTxt = "Throw too near from the monster. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                        messageTxt = $"{playerName} has unable to hit exactly inside the mouth of the monster. Stunt Failed!";
                     }
                     break;
                 case 2:
@@ -140,15 +138,12 @@ public class HardManager : MonoBehaviour
                         if (playerAnswer == correctAnswer)
                         {
                             isAnswerCorrect = true;
-                            messageTxt = "Correct";
+                            messageTxt = $"{playerName} successfully performed the stunt and the rock hit the monster's mouth!";
                         }
                         else
                         {
                             isAnswerCorrect = false;
-                            if(playerAnswer > correctAnswer)
-                                messageTxt = "Throw too late. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
-                            else
-                                messageTxt = "Throw too soon. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                            messageTxt = $"{playerName} has unable to hit exactly inside the mouth of the monster. Stunt Failed!";
                         }
                     }
                     break;
@@ -162,15 +157,12 @@ public class HardManager : MonoBehaviour
                         {
                             isAnswerCorrect = true;
                             isEnd = true;
-                            messageTxt = "Correct";
+                            messageTxt = $"{playerName} successfully performed the stunt and the rock hit the monster's mouth!";
                         }
                         else
                         {
                             isAnswerCorrect = false;
-                            if(playerAnswer > correctAnswer)
-                                messageTxt = "Throw too strong. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
-                            else
-                                messageTxt = "Throw too weak. The correctAnswer is "+ correctAnswer.ToString("f2") + qc.Unit(UnitOf.distance);
+                            messageTxt = $"{playerName} has unable to hit exactly inside the mouth of the monster. Stunt Failed!";
                         }
                     }
                     break;
@@ -180,7 +172,7 @@ public class HardManager : MonoBehaviour
         }
         if (stoneIsPresent)
         {
-            indicators.SetPlayerPosition(stone.transform.position);
+            indicators.SetPlayerPosition(new Vector2(stone.transform.position.x, stone.transform.position.y - 1.5f));
             if (stage == 1)
                 distanceTraveled = stone.transform.position.x + playerAnswer;
             else
@@ -291,6 +283,7 @@ public class HardManager : MonoBehaviour
     }
     public void SetUp()
     {
+        bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x, bossHead.transform.position.y + 1);
         throwingPath.SetActive(true);
         throwingPathTxt.SetActive(true);
         rock.SetActive(true);
@@ -311,9 +304,12 @@ public class HardManager : MonoBehaviour
         myPlayer.standup = false;
         life.losslife = false;
         gem.SetActive(true);
+        stoneVeloLabel.SetActive(false);
+        
         switch (stage)
         {
             case 1:
+                indicators.SetPlayerPosition(new Vector2(100, 100));
                 bossHead.transform.position = bossStartPos - new Vector2(5.8f, -2);
                 y = -6;
                 x = 0;
@@ -330,10 +326,12 @@ public class HardManager : MonoBehaviour
                 }
                 qc.SetUnitTo(UnitOf.distance);
                 indicators.showLines(null, bossDistance, 0, 0);
-                indicators.UnknownIs('n');
+                indicators.UnknownIs('d');
                 indicators.heightSpawnPnt = new Vector2(1, 3);
                 indicators.ShowVelocityLabel(false);
                 indicators.ResizeEndLines(null, 6.5f, 0.25f, 0.25f);
+                indicators.distanceSpawnPnt = new Vector2(1 - distance, 3);
+                indicators.showLines(distance, bossDistance, stoneV, stuntTime);
 
                 myPlayer.transform.position = initialPlayerPos;
 
@@ -343,11 +341,11 @@ public class HardManager : MonoBehaviour
                 throwingPath.transform.localScale = new Vector2(40f / 5f, throwingPath.transform.localScale.y);
                 throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
                 throwingPathTxt.transform.position = throwingPath.transform.position + new Vector3(distance / 2f, 0);
+                
+                bossVeloLabel.transform.Find("Square").rotation = Quaternion.EulerAngles(0, 0,(-90 - angle) * Mathf.Deg2Rad);
+                bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x + 0.5f, bossHead.transform.position.y + 1);
 
-                question = playerName + " is istructed to throw a rock inside the monster's mouth that is guarding the exit. If " + playerName + " can throw the rock horizontally at "
-                    + stoneV.ToString("f2") + qc.Unit(UnitOf.velocity) + " and the monster is moving downward at " + bossV.ToString("f2") + qc.Unit(UnitOf.velocity)
-                    + " at 6m above the throwing path, how far horizontally should " + playerName + " be away from the monster's mouth when " + pronoun
-                    + " throws the rock so it will hit precisely the monster's mouth as it moves down? After 1 second the stone is released.";
+                question = $"{playerName} is instucted to throw a rock inside the monster's mouth that is guarding the exit. If the monster is <b>{bossDistance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> above {pPronoun} horizontal throwing line and the monster is moving <b>{bossV} {qc.Unit(UnitOf.velocity)}</b> downward, how far should {playerName} be away horizontally from the monster if {pronoun} throws the stone at exact and constant velocity of <b>{stoneV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>?";
                 break;
             case 2:
                 bossHead.transform.position = new Vector2(11, bossStartPos.y + 3);
@@ -377,7 +375,7 @@ public class HardManager : MonoBehaviour
                 indicators.showLines(distance, null, stoneV, stuntTime);
                 indicators.UnknownIs('t');
                 indicators.ResizeEndLines(0.5f, 0.25f, null, null);
-                indicators.SetPlayerPosition(myPlayer.transform.position);
+                indicators.SetPlayerPosition(new Vector2(myPlayer.transform.position.x, myPlayer.transform.position.y - 1.5f));
 
                 labels.startingAngle = 180;
                 labels.SetSpawnPnt(new Vector2(11, bossHead.transform.position.y));
@@ -386,15 +384,15 @@ public class HardManager : MonoBehaviour
                 labels.legB = bossDistance;
                 labels.HideValuesOf(false, true, true, false, true, true);
 
+                bossVeloLabel.transform.GetComponent<RectTransform>().localRotation = Quaternion.EulerAngles(0, 0,(-270-angle) * Mathf.Deg2Rad);
+                bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x -1.75f, bossHead.transform.position.y + 1);
+                Debug.Log(angle);
+
                 throwingPath.transform.localScale = new Vector2(40 / 5, throwingPath.transform.localScale.y);
                 throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
                 throwingPathTxt.transform.position = throwingPath.transform.position + new Vector3((distance + x) / 2f, 0);
 
-                question = "Now, the monster is moving at the angle of " + Mathf.Abs(angle).ToString("f2") + qc.Unit(UnitOf.angle) + " rightmost downward with the velocity of "
-                    + bossV.ToString("f2") + qc.Unit(UnitOf.velocity) + ". At after how many seconds should " + playerName +
-                    " throw the stone to hit exactly inside the mouth of the monster, if " + pronoun + " is standing " + distance.ToString("f2") + qc.Unit(UnitOf.distance) +
-                    " horizontally away from the monster, and the monster is 7m vertically above the throwing path? The stone is released after 1 second with the velocity of "
-                    + stoneV.ToString("f2") + qc.Unit(UnitOf.velocity) + ".";
+                question = $"{playerName} is again instucted to throw another rock into the mouth of the monster. The mouth of the monster this time is <b>{(-y).ToString("f2")} {qc.Unit(UnitOf.distance)}</b> above the horizontal throwing path and horizontally <b>{distance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away. If the monster is moving diagonally forward and downward at <b>{angle.ToString("f2")}{qc.Unit(UnitOf.angle)}</b> below horizon with a velocity of <b>{bossV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>, how many <b>seconds</b> should {playerName} wait after the monster has moved to hit its mouth with a stone thrown horizontally at a constant velocity of <b>{stoneV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>?";
                 break;
             case 3:
                 bossHead.transform.localEulerAngles = new Vector3(0,0,0);
@@ -410,9 +408,9 @@ public class HardManager : MonoBehaviour
                     x = Random.Range(-15f, 0f);
                     y = Random.Range(5f, 7f);
                     dT = Random.Range(12f, 14f);
-                    sideA = y - 1;
+                    // sideA = y - 1;
                     xS = dT - x;
-                    distance = Mathf.Sqrt((dT * dT) + (sideA * sideA));
+                    distance = Mathf.Sqrt((dT * dT) + (y * y));
                     bossDistance = Mathf.Sqrt((x * x) + (y * y));
                     stuntTime = bossDistance / bossV;
                     stoneV = distance / (stuntTime - 1);
@@ -420,14 +418,15 @@ public class HardManager : MonoBehaviour
                     if ((stoneV < qc.limit) && (Mathf.Abs(x) > 5)&&(stoneV>=14))
                         break;
                 }
-                bossHead.transform.position = new Vector2(-4 - x, bossStartPos.y - 5);
+                bossHead.transform.position = new Vector2(-4 - x, bossStartPos.y - 4);
                 myPlayer.transform.position = new Vector2(-xS - x - 4.5f, myPlayer.transform.position.y);
                 indicators.distanceSpawnPnt = new Vector2(-xS - 4 - x, 1f);
 
-                indicators.SetPlayerPosition(myPlayer.transform.position);
+                indicators.SetPlayerPosition(new Vector2(myPlayer.transform.position.x, myPlayer.transform.position.y - 1.5f));
                 indicators.showLines(xS, null, stoneV, stuntTime);
                 indicators.UnknownIs('v');
                 indicators.ResizeEndLines(0.5f, 0.25f, null, null);
+                indicators.ShowVelocityLabel(false);
 
                 correctAnswer = (float)System.Math.Round(stoneV, 2);
 
@@ -440,32 +439,38 @@ public class HardManager : MonoBehaviour
 
                 triangleAnnotaion.startingAngle = 180;
                 triangleAnnotaion.SetSpawnPnt(new Vector2(bossHead.transform.position.x + x, bossHead.transform.position.y + y));
-                triangleAnnotaion.legA = sideA;
-                triangleAnnotaion.legB = Mathf.Sqrt((dT * dT) + (sideA * sideA));
-                triangleAnnotaion.angleA = Mathf.Atan(dT / sideA) * Mathf.Rad2Deg;
+                triangleAnnotaion.legA = y;
+                triangleAnnotaion.legB = Mathf.Sqrt((dT * dT) + (y * y));
+                triangleAnnotaion.angleA = Mathf.Atan(dT / y) * Mathf.Rad2Deg;
                 triangleAnnotaion.HideValuesOf(true, false, true, true, true, false);
 
                 throwingPath.transform.localScale = new Vector2(40 / 5, throwingPath.transform.localScale.y);
-                throwingPath.transform.Rotate(0, 0, 90 - (Mathf.Atan(dT / sideA) * Mathf.Rad2Deg) - angleB);
+                throwingPath.transform.Rotate(0, 0, 90 - (Mathf.Atan(dT / y) * Mathf.Rad2Deg) - angleB);
                 throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
+                
+                veloTime.transform.Rotate(0, 0, 90 - (Mathf.Atan(dT / y) * Mathf.Rad2Deg) - angleB);
+                veloTime.SetActive(false);
+                veloTime.transform.Find("line1").GetComponent<LineRenderer>().enabled =false;
+
+                bossVeloLabel.transform.GetComponent<RectTransform>().localRotation = Quaternion.EulerAngles(0, 0,(-90 - angle) * Mathf.Deg2Rad);
+
                 angleB = throwingPath.transform.localEulerAngles.z;
+                stoneVeloLabel.SetActive(true);
+                stoneVeloLabel.GetComponent<TMP_Text>().text = $"v = ?{qc.Unit(UnitOf.velocity)}";
+                stoneVeloLabel.transform.position = new Vector2(myPlayer.transform.position.x, myPlayer.transform.position.y + 1.5f);
+                stoneVeloLabel.transform.GetComponent<RectTransform>().localRotation= Quaternion.EulerAngles(0, 0, 90 - (Mathf.Atan(dT / y)) - (angleB*Mathf.Deg2Rad));
 
                 // throwingPathTxt[2].SetActive(true);
-                throwingPathTxt.transform.position = throwingPath.transform.position + new Vector3(dT / 2, (y - 1) / 2);
-
-                string direction;
-                if (x / Mathf.Abs(x) == 1)
-                    direction = " away from ";
-                else
-                    direction = " towards ";
-                question = "Finally, the worm is moving " + y.ToString("f2") + qc.Unit(UnitOf.distance) + " upward at "
-                    + Mathf.Abs(angle).ToString("f2") + qc.Unit(UnitOf.angle) + direction + playerName + " with the velocity of "
-                    + bossV.ToString("f2") + qc.Unit(UnitOf.velocity) +
-                    ". At what velocity should " + pronoun +
-                    " throw the stone to hit exactly inside the mouth of the worm? The stone is released after 1 second.";
+                throwingPathTxt.transform.position = throwingPath.transform.position + new Vector3(dT / 2, (y) / 2);
+                throwingPathTxt.transform.GetComponent<RectTransform>().localRotation= Quaternion.EulerAngles(0, 0, 90 - (Mathf.Atan(dT / y)) - (angleB*Mathf.Deg2Rad));
+                
+                bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x, bossHead.transform.position.y + 1);
+                
+                question = $"{playerName} is finally instucted to throw one more rock into the monster's mouth for the last time. If the exact location of the monster's mouth is exactly <b>{xS.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away horizontally for the starting point of the throwing path and the monster is moving diagonally up and forward at <b>{bossV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b> at <b>{(90+angle).ToString("f2")}{qc.Unit(UnitOf.angle)}</b>, at what velocity should {playerName} throw the stone at <b>{angleB.ToString("f2")}{qc.Unit(UnitOf.angle)}</b> up to hit the monster's mouth? ";
                 break;
         }
 
+        bossVeloLabel.GetComponent<TMP_Text>().text = $"v = {bossV.ToString("f2")}{qc.Unit(UnitOf.velocity)}";
         boss.SetVelocityOfTheHead(stuntTime, x, y);
         sX = x;
         qc.question = question;
@@ -623,13 +628,17 @@ public class HardManager : MonoBehaviour
         stone.GetComponent<Rigidbody2D>().gravityScale = 0;
         if (stage == 2)
             stoneScript.SetVelocity(throwTime, distance + x, sY);
-        else if (stage == 1)
+        else if (stage == 1){
             stoneScript.SetVelocity(throwTime, distance, sY);
-        else{
-            stoneScript.SetVelocity(throwTime, dT, y - 1);
-            stone.transform.Rotate(0,0,angleB);
+            indicators.ShowVelocityLabel(true);
         }
-        indicators.ShowVelocityLabel(true);
+        else{
+            indicators.ShowVelocityLabel(false);
+            stoneScript.SetVelocity(throwTime, dT, y);
+            stone.transform.Rotate(0,0,angleB);
+            veloTime.SetActive(true);
+            stoneVeloLabel.SetActive(false);
+        }
         rock.SetActive(false);
         stoneIsPresent = true;
     }
