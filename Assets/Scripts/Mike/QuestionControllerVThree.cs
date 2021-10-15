@@ -49,7 +49,7 @@ public class QuestionControllerVThree : MonoBehaviour
         stageName = problemBox.Find("StageBar2").Find("StageName");
         difficultyName = problemBox.Find("StageBar3").Find("DifficultyName");
 
-        givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
+        givenColor = new Color32(113, 0, 185, 255);
         correctAnswerColor = new Color32(150, 217, 72, 255);
         wrongAnswerColor = Color.red;
 
