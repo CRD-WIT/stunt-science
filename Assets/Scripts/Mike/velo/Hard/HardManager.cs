@@ -130,7 +130,7 @@ public class HardManager : MonoBehaviour
                     }
                     break;
                 case 2:
-                    if (elapsed >= playerAnswer)
+                    if (elapsed >= (playerAnswer - 1))
                     {
                         elapsed = playerAnswer;
                         isThrown = true;
@@ -306,6 +306,7 @@ public class HardManager : MonoBehaviour
         gem.SetActive(true);
         stoneVeloLabel.SetActive(false);
         
+        bossVeloLabel.transform.Find("Square").rotation = Quaternion.EulerAngles(0, 0,(0) * Mathf.Deg2Rad);
         switch (stage)
         {
             case 1:
@@ -320,7 +321,7 @@ public class HardManager : MonoBehaviour
                     distance = (float)System.Math.Round(Random.Range(16.5f, 20.5f), 2);
                     bossV = (float)System.Math.Round(Random.Range(4f, 5f), 2);
                     stuntTime = (bossDistance / bossV);
-                    stoneV = distance / (stuntTime - 1);
+                    stoneV = distance / stuntTime;
                     if ((stoneV < 40f))
                         break;
                 }
@@ -367,7 +368,7 @@ public class HardManager : MonoBehaviour
                     if ((stuntTime < qc.limit) && (Mathf.Abs(angle) > 45) && (stuntTime > (allowanceTime + 2)&&(stoneV >= 14)))
                         break;
                 }
-                correctAnswer = (float)System.Math.Round(stuntTime - allowanceTime - 1, 2);
+                correctAnswer = (float)System.Math.Round(stuntTime - allowanceTime, 2);
 
                 myPlayer.transform.position = new Vector2(-distance + 0.5f + 10, myPlayer.transform.position.y);
                 indicators.distanceSpawnPnt = new Vector2(-distance + 11, 2.5f);
@@ -407,15 +408,15 @@ public class HardManager : MonoBehaviour
                     bossV = (float)System.Math.Round(Random.Range(4f, 5f), 2);
                     x = Random.Range(-15f, 0f);
                     y = Random.Range(5f, 7f);
-                    dT = Random.Range(12f, 14f);
+                    dT = Random.Range(15f, 18f);
                     // sideA = y - 1;
                     xS = dT - x;
                     distance = Mathf.Sqrt((dT * dT) + (y * y));
                     bossDistance = Mathf.Sqrt((x * x) + (y * y));
                     stuntTime = bossDistance / bossV;
-                    stoneV = distance / (stuntTime - 1);
+                    stoneV = distance / stuntTime;
                     angle = Mathf.Atan(x / y) * Mathf.Rad2Deg;
-                    if ((stoneV < qc.limit) && (Mathf.Abs(x) > 5)&&(stoneV>=14))
+                    if ((stoneV < qc.limit) && (Mathf.Abs(x) > 5))//&&(stoneV>=14))
                         break;
                 }
                 bossHead.transform.position = new Vector2(-4 - x, bossStartPos.y - 4);
@@ -452,7 +453,7 @@ public class HardManager : MonoBehaviour
                 veloTime.SetActive(false);
                 veloTime.transform.Find("line1").GetComponent<LineRenderer>().enabled =false;
 
-                bossVeloLabel.transform.GetComponent<RectTransform>().localRotation = Quaternion.EulerAngles(0, 0,(-90 - angle) * Mathf.Deg2Rad);
+                bossVeloLabel.transform.GetComponent<RectTransform>().localRotation = Quaternion.EulerAngles(0, 0,(-90 - angle ) * Mathf.Deg2Rad);
 
                 angleB = throwingPath.transform.localEulerAngles.z;
                 stoneVeloLabel.SetActive(true);
@@ -485,22 +486,22 @@ public class HardManager : MonoBehaviour
             case 1:
                 stage1Flag = true;
                 if (playerAnswer > correctAnswer)
-                    throwTime = (playerAnswer / stoneV) + 0.1f;
+                    throwTime = stuntTime + 0.1f;//(playerAnswer / stoneV) + 0.1f;
                 else if (playerAnswer < correctAnswer)
-                    throwTime = (playerAnswer / stoneV) - 0.1f;
+                    throwTime = stuntTime - 0.1f;//(playerAnswer / stoneV) - 0.1f;
                 else
-                    throwTime = correctAnswer / stoneV;
+                    throwTime = stuntTime;//correctAnswer / stoneV;
                 break;
             case 2:
                 isStartOfStunt = true;
                 directorIsCalling = true;
 
                 if (playerAnswer > correctAnswer)
-                    throwTime = (stuntTime - 1 - playerAnswer) + 0.1f;
+                    throwTime = (stuntTime - playerAnswer) + 0.1f;
                 else if (playerAnswer < correctAnswer)
-                    throwTime = (stuntTime - 1 - playerAnswer) - 0.1f;
+                    throwTime = (stuntTime - playerAnswer) - 0.1f;
                 else
-                    throwTime = (stuntTime - 1 - correctAnswer);
+                    throwTime = (stuntTime - correctAnswer);
                 break;
             case 3:
                 // indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x + 0.5f, myPlayer.transform.position.y - 1);
@@ -556,12 +557,13 @@ public class HardManager : MonoBehaviour
             directorsSpeech.text = "Lights!";
             yield return new WaitForSeconds(0.75f);
             directorsSpeech.text = "Camera!";
-            yield return new WaitForSeconds(0.75f);
-            directorsSpeech.text = "Action!";
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(0.50f);
             if (stage == 2)
                 isThrown = false;
             else isThrown = true;
+            yield return new WaitForSeconds(0.25f);
+            directorsSpeech.text = "Action!";
+            yield return new WaitForSeconds(0.75f);
             directorsSpeech.text = "";
             directorsBubble.SetActive(false);
             isAnswered = true;
