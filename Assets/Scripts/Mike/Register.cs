@@ -10,10 +10,6 @@ public class Register : MonoBehaviour
     public Text popUp;
     public WarningErrorUI warningErrorUI;
 
-    public void CheckKeyCode(){
-        
-    }
-
     public void StoreProfile()
     {
         // Error checkup

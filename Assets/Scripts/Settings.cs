@@ -301,7 +301,6 @@ public class Settings : MonoBehaviour
         string difficulty = PlayerPrefs.GetString("DifficultyName");
         int stage = int.Parse(PlayerPrefs.GetString("Stage"));
         firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.ExitedGame, 0);
-        Debug.Log("Closing game.");
         Application.Quit();
     }
 
