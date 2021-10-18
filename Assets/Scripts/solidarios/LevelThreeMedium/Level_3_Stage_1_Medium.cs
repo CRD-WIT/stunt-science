@@ -56,6 +56,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(22f, 25f), 2);
         angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(40f, 45f), 2);
         gravityGiven = Physics2D.gravity;
+        questionController.isModalOpen = false;
 
 
         //Problem
