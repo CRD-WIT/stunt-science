@@ -3,6 +3,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Level_3_Stage_1_Medium : MonoBehaviour
 {
@@ -12,8 +13,8 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     public Hook theHook;
     public GameObject AfterStuntMessage;
     Animator thePlayerAnimation;
-    public GameObject HookAttachmentCollider,shootPosTriger,puller;
-    public GameObject hook,trail;
+    public GameObject HookAttachmentCollider, shootPosTriger, puller;
+    public GameObject hook, trail;
     bool isSimulating = false;
     public GameObject thePlayer;
     Vector3 thePlayer_position;
@@ -37,16 +38,25 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     public GameObject grapplingPointIndicator;
     string playerName;
     string pronoun = "he";
-    public QuestionController questionController;
-    public CameraScript cameraScript;
+    public QuestionContProjMed questionController;
+    //public CameraScript cameraScript;
     public playerProjectileMed thePlayerProjMed;
+    public GameObject directorBubble;
+    bool directorIsCalling;
+    public TMP_Text diretorsSpeech;
+    public TMP_InputField answerField;
+    static float playerAnswer;
+    public Button playButton;
+    public HeartManager theHeart;
+
     void Start()
     {
-        // Given            
+        // Given 
+        theHeart.startbgentrance();           
         distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(22f, 25f), 2);
         angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(40f, 45f), 2);
         gravityGiven = Physics2D.gravity;
-        
+
 
         //Problem
         question = $"{PlayerPrefs.GetString("Name")} is instructed to cross another diff using this climbing device. If {PlayerPrefs.GetString("Name")} shoot its gripping projectile at an angle of {angleGiven} degrees up to precisely get the corner of the cliff {distanceGiven} meters away horizontally from the shooting device, at what velocity should the projectile be shot to hit the gripping part?";
@@ -71,11 +81,52 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
         GenerateInitialVelocity();
     }
-    IEnumerator StuntResult(Action callback)
+    public IEnumerator DirectorsCall()
+    {
+        if (directorIsCalling)
+        {
+            directorBubble.SetActive(true);
+            //diretorsSpeech.text = "Take " + take + ("!");
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Lights!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Camera!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Action!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "";
+            directorBubble.SetActive(false);
+            questionController.isSimulating = true;
+            directorIsCalling = false;
+        }
+        else
+        {
+            directorBubble.SetActive(true);
+            diretorsSpeech.text = "Cut!";
+            yield return new WaitForSeconds(1);
+            directorBubble.SetActive(false);
+            diretorsSpeech.text = "";
+        }
+    }
+    public IEnumerator errorMesage()
+    {
+        questionController.popupVisible = true;
+        yield return new WaitForSeconds(3);
+        questionController.popupVisible = false;
+    }
+    IEnumerator StuntResult()
     {
         //messageFlag = false;
         yield return new WaitForSeconds(2f);
-        callback();
+        if(playerAnswer == correctAnswer)
+        {
+            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
+        } 
+         if(playerAnswer != correctAnswer)
+        {
+            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
+            theHeart.ReduceLife();
+        }        
     }
     // void GenerateInitialVelocities()
     // {
@@ -94,12 +145,12 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     void GenerateInitialVelocity()
     {
         velocityX = Mathf.Sqrt(Mathf.Abs((distanceGiven * gravityGiven.y) / (2 * Mathf.Tan(angleGiven * Mathf.Deg2Rad))));
-        correctAnswer = (float)System.Math.Round(Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad))),2);
+        correctAnswer = (float)System.Math.Round(Mathf.Abs((velocityX / Mathf.Cos(angleGiven * Mathf.Deg2Rad))), 2);
         Debug.Log($"Correct Answer: {correctAnswer}");
         trail.GetComponent<TrailRenderer>().time = 3000;
         theHook.isTrailing = true;
         thePlayerProjMed.aim = true;
-       
+
     }
 
     void RegenerateVelocities()
@@ -129,24 +180,39 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
     public void StartSimulation()
     {
-        cameraScript.directorIsCalling = true;
-        cameraScript.isStartOfStunt = true;
-        questionController.SetAnswer();
+
+        playerAnswer = questionController.GetPlayerAnswer();
+        if (answerField.text == "" || playerAnswer > 30 || playerAnswer < 1)
+        {
+
+            questionController.errorText = ("answer is not valid");
+            StartCoroutine(errorMesage());
+        }
+        else
+        {
+            directorIsCalling = true;
+            StartCoroutine(DirectorsCall());
+            playButton.interactable = false;
+            {
+                answerField.text = playerAnswer.ToString() + "s";
+            }
+
+        }
     }
     public void action()
     {
-        if(questionController.GetPlayerAnswer() == correctAnswer)
+        if (questionController.GetPlayerAnswer() == correctAnswer)
         {
             SceneManager.LoadScene("LevelThreeStage2Medium");
         }
         else
         {
-            SceneManager.LoadScene("LevelThreeStage1Medium");            
+            SceneManager.LoadScene("LevelThreeStage1Medium");
         }
 
-        
+
     }
-    
+
 
     void FixedUpdate()
     {
@@ -161,7 +227,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
             transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Show();
             shootPosTriger.SetActive(false);
             puller.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            
+
 
         }
 
@@ -213,9 +279,9 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         //hookLine.SetActive(false);
                         elapsed -= 0.01f;
                         isSimulating = false;
-                        cameraScript.isStartOfStunt = false;
+                        //cameraScript.isStartOfStunt = false;
                         questionController.answerIsCorrect = true;
-                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{PlayerPrefs.GetString("Name")} safely grabbed the pole!", "Next")));
+                        StartCoroutine(StuntResult());
                         questionController.isSimulating = false;
                     }
                 }
@@ -232,24 +298,24 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         hook.GetComponent<Rigidbody2D>().WakeUp();
                         hookLine.SetActive(true);
                         //hook.GetComponent<Rigidbody2D>().velocity = new Vector3(questionController.GetPlayerAnswer(), velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
-                        if(questionController.GetPlayerAnswer()< correctAnswer)
+                        if (questionController.GetPlayerAnswer() < correctAnswer)
                         {
                             hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer() - .5f);
                         }
-                        if(questionController.GetPlayerAnswer()> correctAnswer)
+                        if (questionController.GetPlayerAnswer() > correctAnswer)
                         {
-                            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer() + .5f);   
+                            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer() + .5f);
                         }
-                        
+
                         doneFiring = true;
                     }
 
                     if (theHook.isCollided)
                     {
-                        cameraScript.isStartOfStunt = false;
+                        //cameraScript.isStartOfStunt = false;
                         questionController.answerIsCorrect = false;
                         // todo 
-                        StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt failed!!!</b>", $"{PlayerPrefs.GetString("Name")} missed the target!", "retry")));
+                        StartCoroutine(StuntResult());
                         questionController.isSimulating = false;
                     }
                 }
