@@ -118,7 +118,8 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
             pronoun = "she";
             pPronoun = "her";
         }
-        question = $"{playerName} is hanging from a rope and {pronoun} is instructed to let go of it, drop down, and hang again to the horizontal pole below. If {playerName} will let go ang grab the pole after exactly <b><color=#006d00>{timeGiven} sec</color></b>, at what <b><color=#006d00>distance</color></b> should {pronoun} hands above the pole before letting go?";
+        //question = $"{playerName} is hanging from a rope and {pronoun} is instructed to let go of it, drop down, and hang again to the horizontal pole below. If {playerName} will let go ang grab the pole after exactly <b><color=#006d00>{timeGiven} sec</color></b>, at what <b><color=#006d00>distance</color></b> should {pronoun} hands above the pole before letting go?";
+        question = $"<b>{playerName}</b> is instructed to hand from a rope, let go of it, and grab the branch below as she falls. If {pronoun} will let go of the rope and will grab the branch at exactly <b>{timeGiven}</b> sec after with the hands in the same position while falling, at what distance should her hands above rhe branch before letting go?";
 
         // if (questionText != null)
         // {
