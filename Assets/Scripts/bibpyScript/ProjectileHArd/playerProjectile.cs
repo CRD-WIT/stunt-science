@@ -11,7 +11,7 @@ public class playerProjectile : MonoBehaviour
     public ProjectileHardTwo theManagerTwo;
     public ProjectileHardThree theManagerThree;
     public bool grounded;
-    public ProjHardSimulation theSimulate;
+    public ProjSimulationManager theSimulate;
     public LayerMask whatIsGround;
     public Transform groundCheck;
     public float groundedRadius;

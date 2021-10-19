@@ -301,7 +301,7 @@ public class AccHardThree : MonoBehaviour
         {
             targetWheel.SetActive(false);
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the last target!",true, true);
-            //Time.timeScale = 0;
+            Time.timeScale = 0;
         }
         if (playerAnswer > answer)
         {

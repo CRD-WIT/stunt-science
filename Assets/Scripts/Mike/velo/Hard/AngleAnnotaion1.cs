@@ -116,8 +116,6 @@ public class AngleAnnotaion1 : MonoBehaviour
             if (Mathf.Abs(angleA) == 90)
                 lines[0].SetPosition(1, new Vector2(x + Mathf.Sin(startingAngle * Mathf.Deg2Rad),
                     y + Mathf.Cos(startingAngle * Mathf.Deg2Rad)));
-            else
-                lines[0].SetPosition(i, new Vector2(lines[1].GetPosition(1).x + (x*2.5f), lines[1].GetPosition(1).y + (y*2.5f)));
             angle += angleA / arcPntsA;
         }
     }
@@ -145,8 +143,6 @@ public class AngleAnnotaion1 : MonoBehaviour
             if (Mathf.Abs(angleB) == 90)
                 lines[2].SetPosition(1, new Vector2(lines[1].GetPosition(2).x + x1 + Mathf.Sin((startingAngle - 180 + angleA) * Mathf.Deg2Rad),
                     lines[1].GetPosition(2).y + y1 + Mathf.Cos((startingAngle - 180 + angleA) * Mathf.Deg2Rad)));
-            else 
-                lines[2].SetPosition(i, new Vector2(lines[1].GetPosition(2).x + (x1*2.5f), lines[1].GetPosition(2).y + (y1*2.5f)));
 
             angle1 += angleB / arcPntsB;
         }
@@ -175,8 +171,6 @@ public class AngleAnnotaion1 : MonoBehaviour
             if (Mathf.Abs(angleC) == 90)
                 lines[3].SetPosition(1, new Vector2(lines[1].GetPosition(0).x + x2 + Mathf.Sin((startingAngle + 180 - angleC) * Mathf.Deg2Rad),
                     lines[1].GetPosition(0).y + y2 + Mathf.Cos((startingAngle - 180 - angleC) * Mathf.Deg2Rad)));
-            else
-                lines[3].SetPosition(i, new Vector2(lines[1].GetPosition(0).x + (x2*2.5f), lines[1].GetPosition(0).y + (y2*2.5f)));
             angle2 += angleC / arcPntsC;
         }
     }

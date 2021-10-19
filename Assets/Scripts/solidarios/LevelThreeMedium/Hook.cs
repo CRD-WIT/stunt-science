@@ -10,7 +10,7 @@ public class Hook : MonoBehaviour
     public float RopePullAngle, ropePullVelocity;
     public GameObject[] rope;
     public playerProjectileMed thePlayer;
-    public QuestionController theQuestion;
+    public QuestionContProjMed theQuestion;
     public GameObject puller, hookLauncher,hit, missed ,indicator;
     public float correctAnswer;
     Quaternion lastRot;

@@ -6,8 +6,8 @@ public class Arrow2 : MonoBehaviour
 {
    public ProjectileHardOne theManagerOne;
 
-    public ProjHardSimulation theSimulate;
-    public QuestionContProJHard theQuestion;
+    public ProjSimulationManager theSimulate;
+    public QuestionControllerC theQuestion;
 
     public Rigidbody2D rb;
 
