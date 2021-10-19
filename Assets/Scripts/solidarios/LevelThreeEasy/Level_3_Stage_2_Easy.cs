@@ -83,7 +83,8 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
             pronoun = "she";
             pPronoun = "her";
         }
-        question = $"{playerName} is hanging on a horizontal pole and {pronoun} is instructed to let go of it, drop down, and hang again to another pole below. If the hands of {playerName} is exactly <color=#006A11>{distanceGiven}</color> meters above the second pole, how long should [name] fall down before {pronoun} grabs the second pole?";
+        //question = $"{playerName} is hanging on a horizontal pole and {pronoun} is instructed to let go of it, drop down, and hang again to another pole below. If the hands of {playerName} is exactly <color=#006A11>{distanceGiven}</color> meters above the second pole, how long should [name] fall down before {pronoun} grabs the second pole?";
+        question = $"<b>{playerName}</b> now is instructed to let go of the first branch and grab the second branch below as she falls. If the distance between two branches is exactly <b>{distanceGiven}</b> meters vertically, how long should {pronoun} fall down before grabbing the second branch?";
 
         // if (questionText != null)
         // {
