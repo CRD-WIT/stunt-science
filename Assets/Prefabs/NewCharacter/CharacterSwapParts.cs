@@ -8,7 +8,7 @@ public class CharacterSwapParts : MonoBehaviour
     public bool isMale;  
     void Start()
     {
-        //gender = PlayerPrefs.GetString("Gender"); //::Actual value of gender
+        gender = PlayerPrefs.GetString("Gender"); //::Actual value of gender
     }
     void Update()
     {
