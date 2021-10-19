@@ -49,6 +49,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     public Button playButton;
     public HeartManager theHeart;
 
+
     void Start()
     {
         // Given 
@@ -60,7 +61,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
 
         //Problem
-        question = $"{PlayerPrefs.GetString("Name")} is instructed to cross another diff using this climbing device. If {PlayerPrefs.GetString("Name")} shoot its gripping projectile at an angle of {angleGiven} degrees up to precisely get the corner of the cliff {distanceGiven} meters away horizontally from the shooting device, at what velocity should the projectile be shot to hit the gripping part?";
+        question = $"{PlayerPrefs.GetString("Name")} is instructed to cross another diff using this climbing device. If {PlayerPrefs.GetString("Name")} shoot its gripping projectile at an angle of <b>{angleGiven}</b> degrees up to precisely get the corner of the cliff <b>{distanceGiven}</b> meters away horizontally from the shooting device, at what <b>velocity</b> should the projectile be shot to hit the gripping part?";
 
         questionController.SetQuestion(question);
 
@@ -151,6 +152,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         trail.GetComponent<TrailRenderer>().time = 3000;
         theHook.isTrailing = true;
         thePlayerProjMed.aim = true;
+        grapplingPointIndicator.SetActive(true);
 
     }
 
@@ -181,7 +183,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
     public void StartSimulation()
     {
-
+        grapplingPointIndicator.SetActive(false);
         playerAnswer = questionController.GetPlayerAnswer();
         if (answerField.text == "" || playerAnswer > 30 || playerAnswer < 1)
         {
@@ -234,7 +236,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
         Annotation line = transform.Find("Annotation").GetComponent<Annotation>();
         dynamicPlatform.transform.position = new Vector3(line.distance + 32.34f, -15.69f, 1);
-        grapplingPointIndicator.transform.position = new Vector3(line.distance + 4.4f, 1, 1);
+        //grapplingPointIndicator.transform.position = new Vector3(line.distance + 4.4f, 1, 1);
 
         /*if (isMovingToHook && !isSimulating)
         {
