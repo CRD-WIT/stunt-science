@@ -95,6 +95,7 @@ public class QuestionControllerB : MonoBehaviour
             }
             else
             {
+            
                 // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
                 StartCoroutine(Retry());
             }
@@ -160,6 +161,8 @@ public class QuestionControllerB : MonoBehaviour
         }
         else
         {
+            //TODO: Check current life points. If life == 0, hide the action button.
+            
             actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
             modalTitle = "Stunt Failed!";
             modalText = message;
