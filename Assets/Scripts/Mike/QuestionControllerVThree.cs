@@ -147,6 +147,8 @@ public class QuestionControllerVThree : MonoBehaviour
         }
         else
         {
+            //TODO: Check current life points. If life == 0, hide the action button.
+            
             actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
             modalTitle = "Wrong Answer!";
             modalText = message;

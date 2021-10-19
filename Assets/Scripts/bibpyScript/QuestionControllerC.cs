@@ -148,6 +148,8 @@ public class QuestionControllerC : MonoBehaviour
             }
             else
             {
+                //TODO: Check current life points. If life == 0, hide the action button.
+                
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
                 modalTitle = "Stunt Success!";
                 modalText = message;
