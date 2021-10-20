@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using GameConfig;
+// Test
 
 public class HardManager : MonoBehaviour
 {
