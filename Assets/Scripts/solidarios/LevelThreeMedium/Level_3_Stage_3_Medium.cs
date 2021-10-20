@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Level_3_Stage_3_Medium : MonoBehaviour
 {
@@ -9,8 +10,8 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     string question, gender, pronoun, pronoun2;
     public TMP_Text initalVelociyText, questionText, levelName, VoTxt, angleTxt, timerTxt;
     bool isSimulating = false;
-    public GameObject hook, hookLauncher, thePlayerRunning, shootPosTriger, puller, angularAnotation, gun, dimensions, target;
-    public GameObject hookLine, trail, playButton, targetLock, targetWall;
+    public GameObject hook, hookLauncher, thePlayerRunning, shootPosTriger, puller, angularAnotation, gun, dimensions, target,targetHere;
+    public GameObject hookLine, trail, targetLock, targetWall;
     public GameObject hookIndicator;
     public playerProjectileMed thePlayer;
     public float distanceX, distanceY;
@@ -20,9 +21,19 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     public CircularAnnotation theCircular;
     public CameraScript cameraScript;
     public Hook theHook;
-    public QuestionController questionController;
+    public QuestionContProjMed questionController;
+     public GameObject directorBubble;
+    bool directorIsCalling;
+    public TMP_Text diretorsSpeech;
+    public TMP_InputField answerField;
+    public Button playButton;
+
+    static float playerAnswer;
+    public HeartManager theHeart;
     void Start()
     {
+         theHeart.startbgentrance(); 
+        targetHere.SetActive(true); 
         gender = PlayerPrefs.GetString("Gender");
         if (gender == "Male")
         {
@@ -36,13 +47,59 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
         }
         questionController.SetQuestion("......");
     }
+     public IEnumerator DirectorsCall()
+    {
+        if (directorIsCalling)
+        {
+            directorBubble.SetActive(true);
+            //diretorsSpeech.text = "Take " + take + ("!");
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Lights!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Camera!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "Action!";
+            yield return new WaitForSeconds(0.75f);
+            diretorsSpeech.text = "";
+            directorBubble.SetActive(false);
+            questionController.isSimulating = true;
+            directorIsCalling = false;
+        }
+        else
+        {
+            directorBubble.SetActive(true);
+            diretorsSpeech.text = "Cut!";
+            yield return new WaitForSeconds(1);
+            directorBubble.SetActive(false);
+            diretorsSpeech.text = "";
+        }
+    }
     public void StartSimulation()
     {
-        playButton.SetActive(false);
-        timerTxt.gameObject.SetActive(true);
-        cameraScript.directorIsCalling = true;
-        cameraScript.isStartOfStunt = true;
-        questionController.SetAnswer();
+       targetHere.SetActive(false);
+        playerAnswer = questionController.GetPlayerAnswer();
+        if (answerField.text == "" || playerAnswer > 5 || playerAnswer < 1)
+        {
+
+            questionController.errorText = ("Obviuosly its wrong");
+            StartCoroutine(errorMesage());
+        }
+        else
+        {
+            directorIsCalling = true;
+            StartCoroutine(DirectorsCall());
+            playButton.interactable = false;
+            {
+                answerField.text = playerAnswer.ToString() + "s";
+            }
+
+        }
+    }
+     public IEnumerator errorMesage()
+    {
+        questionController.popupVisible = true;
+        yield return new WaitForSeconds(3);
+        questionController.popupVisible = false;
     }
     public void showProblem()
     {
@@ -76,21 +133,16 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-        if (questionController.GetPlayerAnswer() == correctAnswer)
+       yield return new WaitForSeconds(2f);
+        if(playerAnswer == correctAnswer)
         {
-            yield return new WaitForSeconds(4);
-            questionController.answerIsCorrect = true;
-            questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{PlayerPrefs.GetString("Name")} safely grabbed the pole!", "Next");
-
-        }
-        if (questionController.GetPlayerAnswer() != correctAnswer)
+            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
+        } 
+         if(playerAnswer != correctAnswer)
         {
-            yield return new WaitForSeconds(1);
-            questionController.answerIsCorrect = false;
-            questionController.ToggleModal($"<b>Stunt failed!!!</b>", $"{PlayerPrefs.GetString("Name")} missed the target!", "retry");
-
-        }
-
+            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
+            theHeart.ReduceLife();
+        }       
     }
     public void action()
     {
@@ -115,7 +167,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
         {
             if (!collided)
             {
-                playButton.SetActive(true);
+                playButton.gameObject.SetActive(true);
                 thePlayer.gameObject.SetActive(true);
                 thePlayerRunning.SetActive(false);
                 shootPosTriger.SetActive(false);
