@@ -1,25 +1,20 @@
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
-public class CharacterSwapParts : MonoBehaviour
+public class CharacterSwapPartsForRegistration : MonoBehaviour
 {
     [SerializeField] SpriteResolver[] swappableParts;
     string gender;
     public bool isMale;  
     void Start()
     {
-        gender = PlayerPrefs.GetString("Gender"); //::Actual value of gender
-    }
-    private void OnEnable() {
-        gender = PlayerPrefs.GetString("Gender");
+        if (isMale)
+            gender = "Male";
+        else
+            gender = "Female";
     }
     void Update()
     {
-        // if (isMale)
-        //     gender = "Male";
-        // else
-        //     gender = "Female";
-
         swappableParts[0].SetCategoryAndLabel("Head", gender);
         swappableParts[4].SetCategoryAndLabel("LowerBody", gender);
 

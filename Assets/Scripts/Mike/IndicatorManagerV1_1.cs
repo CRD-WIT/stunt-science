@@ -305,7 +305,7 @@ public class IndicatorManagerV1_1 : MonoBehaviour
 
     public void ShowVelocityLabel(bool show)
     {
-        labelTxt[4].SetActive(show);
+        // labelTxt[4].SetActive(show);
         if (!show)
             arrows[6].transform.SetParent(transform.Find("UnusedArrows"));
         else arrows[6].transform.SetParent(transform.Find("Velocity"));
