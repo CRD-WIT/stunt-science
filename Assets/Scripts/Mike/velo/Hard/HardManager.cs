@@ -422,7 +422,7 @@ public class HardManager : MonoBehaviour
                 }
                 bossHead.transform.position = new Vector2(-4 - x, bossStartPos.y - 5);
                 myPlayer.transform.position = new Vector2(-xS - x - 4.5f, myPlayer.transform.position.y);
-                indicators.distanceSpawnPnt = new Vector2(-xS - 4 - x, 1f);
+                indicators.distanceSpawnPnt = new Vector2(-xS - 4 - x, 2.5f);
 
                 indicators.SetPlayerPosition(myPlayer.transform.position);
                 indicators.showLines(xS, null, stoneV, stuntTime);

@@ -7,6 +7,7 @@ using GameConfig;
 public class VelocityMediumManager : MonoBehaviour
 {
     QuestionControllerVThree qc;
+    TextColorMode colors;
     UnitOf whatIsAsk;
     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
     public GameObject actionBtn;
@@ -34,6 +35,7 @@ public class VelocityMediumManager : MonoBehaviour
     float correctD, timingD;
     GameObject b2Shadow, b1Shadow, pShadow;
     Vector2 spawnPoint;
+    [SerializeField] TMP_Text[] boulderName = new TMP_Text[2];
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +52,7 @@ public class VelocityMediumManager : MonoBehaviour
 
         RagdollV2.myPlayer = myPlayer;
 
-        //playerName = PlayerPrefs.GetString("Name");
+        playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         sm.SetGameLevel(1);
         playerPos = myPlayer.gameObject.transform.position.x;
@@ -70,11 +72,16 @@ public class VelocityMediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        velocityDirectionArrow1.GetComponent<SpriteRenderer>().color = qc.getHexColor(colors);
+        velocityDirectionArrow2.GetComponent<SpriteRenderer>().color = qc.getHexColor(colors);
+        qc.SetColor(boulder2Speed, colors);
+        qc.SetColor(boulder1Speed, colors);
         debugAnswer.SetText($"Answer: {correctAnswer}");
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)
         {
+            // JDIndicator.SetActive(false);
             indicators.distanceSpawnPnt = spawnPoint;
             playerAnswer = qc.GetPlayerAnswer();
             qc.timer = elapsed.ToString("f2") + "s";
@@ -84,6 +91,7 @@ public class VelocityMediumManager : MonoBehaviour
             switch (stage)
             {
                 case 1:
+                    JDIndicator.SetActive(false);
                     currentPlayerPos = myPlayer.transform.position.x;
                     currentBoulderPos = boulderA.transform.position.x;
                     FallingBoulders.dropPoint = currentPlayerPos - 0.7f;
@@ -167,6 +175,8 @@ public class VelocityMediumManager : MonoBehaviour
                     indicators.IsRunning(playerAnswer, distanceTraveled);
                     break;
                 case 3:
+                    foreach(var item in boulderName)
+                        item.gameObject.SetActive(false);
                     JDIndicator.SetActive(false);
                     Vector2 timeSpawn = boulder.transform.position;
                     FallingBoulders.dropPoint = (boulder.transform.position.x - 0.7f);
@@ -237,6 +247,8 @@ public class VelocityMediumManager : MonoBehaviour
     }
     void VeloMediumSetUp()
     {
+        foreach(var item in boulderName)
+            item.gameObject.SetActive(false);
         JDIndicator.SetActive(false);
         currentBoulderPos = 0;
         onShadow = false;
@@ -274,6 +286,7 @@ public class VelocityMediumManager : MonoBehaviour
         switch (stage)
         {
             case 1:
+                JDIndicator.SetActive(true);
                 boulderVelocity = 0;
                 boulderA.SetActive(true);
                 velocityDirectionArrow1.SetActive(true);
@@ -312,12 +325,16 @@ public class VelocityMediumManager : MonoBehaviour
                 indicators.SetPlayerPosition(myPlayer.transform.position);
                 indicators.showLines(distance, null, playerVelocity, stuntTime);
                 indicators.UnknownIs('t');
+                
+                jmpDistFromBoulder.spawnPoint = new Vector2(boulderA.transform.position.x, 0.3f);
+                jmpDistFromBoulder.distance = -jumpDistance;
 
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming boulder at the front <color=red>" + distance + " meters</color> away is rolling at the velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=#006400>seconds</color> will " + playerName + " jump if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 2:
                 boulder.SetActive(true);
                 velocityDirectionArrow2.SetActive(true);
+                JDIndicator.SetActive(true);
 
                 qc.limit = 10;
                 while (true)
@@ -351,10 +368,15 @@ public class VelocityMediumManager : MonoBehaviour
                 indicators.SetPlayerPosition(myPlayer.transform.position);
                 indicators.showLines(distance, null, playerVelocity, stuntTime);
                 indicators.UnknownIs('N');
+                
+                jmpDistFromBoulder.spawnPoint = new Vector2(boulder.transform.position.x  + jumpDistance, 0.3f);
+                jmpDistFromBoulder.distance = -jumpDistance;
 
                 question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulder2Velocity + "meters per second</color>, at after how many <color=red>meters</color> should " + playerName + " be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 3:
+                foreach(var item in boulderName)
+                    item.gameObject.SetActive(true);
                 whatIsAsk = UnitOf.velocity;
                 boulder.SetActive(true);
                 boulderA.SetActive(true);
@@ -399,23 +421,20 @@ public class VelocityMediumManager : MonoBehaviour
                 indicators.showLines(distance, null, playerVelocity, stuntTime);
                 indicators.UnknownIs('v');
 
-                question = playerName + " is instructed to vertically jump over between two incoming boulders at precisely <color=#006400>0.5 seconds</color> before they collide. If the boulder in front is <color=red>" + Dac + " meters</color> away from " + playerName + " is approaching at <color=purple>" + boulder2Velocity + " meters per second</color>, and the boulder behind " + pPronoun + " is <color=red>" + distance + " meters</color> away from the first boulder and is approaching at <color=purple>" + boulderVelocity + "meters per second</color>, at what <color=purple>velocity</color> should " + pronoun + " run forward for <color=#006400>" + stuntTime + " seconds</color> before doing the vertical jump?";
+                question = playerName + " is instructed to vertically jump over between two incoming boulders at precisely <color=#006400>0.5 seconds</color> before they collide. If the 1st boulder is <color=red>" + Dac + " meters</color> away from " + playerName + " is approaching at <color=purple>" + boulder2Velocity + " meters per second</color>, and the 2nd boulder is <color=red>" + distance + " meters</color> away from the 1st boulder and is approaching at <color=purple>" + boulderVelocity + "meters per second</color>, at what <color=purple>velocity</color> should " + pronoun + " run forward for <color=#006400>" + stuntTime + " seconds</color> before doing the vertical jump?";
                 break;
         }
         qc.SetUnitTo(whatIsAsk);
+        colors = TextColorMode.Given;
         playerSpeed.text = playerVelocity.ToString("f2") + "m/s";
         playerSpeed.fontSize = 6;
         qc.SetColor(playerSpeed, TextColorMode.Given);
-        boulder1Speed.text = boulderVelocity.ToString("f2") + "m/s";
+        boulder1Speed.text = "v = " + boulderVelocity.ToString("f2") + "m/s";
         boulder1Speed.fontSize = 6;
-        qc.SetColor(boulder1Speed, TextColorMode.Given);
-        boulder2Speed.text = boulder2Velocity.ToString("f2") + "m/s";
+        boulder2Speed.text = "v = " + boulder2Velocity.ToString("f2") + "m/s";
         boulder2Speed.fontSize = 6;
-        qc.SetColor(boulder2Speed, TextColorMode.Given);
         qc.SetQuestion(question);
         myPlayer.jumpforce = jumpForce;
-        velocityDirectionArrow1.GetComponent<SpriteRenderer>().color = qc.getHexColor(TextColorMode.Given);
-        velocityDirectionArrow2.GetComponent<SpriteRenderer>().color = qc.getHexColor(TextColorMode.Given);
 
         myPlayer.moveSpeed = 0;
         boulderRB.velocity = new Vector2(0, 0);
@@ -588,6 +607,6 @@ public class VelocityMediumManager : MonoBehaviour
             b1Shadow.transform.position = new Vector2((float)b1Pos + 0.5f, boulderA.transform.position.y);
         }
         pShadow = Instantiate(playerShadow);
-        pShadow.transform.position = new Vector2(playerPos, myPlayer.transform.position.y);
+        pShadow.transform.position = new Vector2(playerPos, myPlayer.transform.position.y -0.2f);
     }
 }

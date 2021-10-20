@@ -8,14 +8,17 @@ public class CharacterSwapParts : MonoBehaviour
     public bool isMale;  
     void Start()
     {
-        //gender = PlayerPrefs.GetString("Gender"); //::Actual value of gender
+        gender = PlayerPrefs.GetString("Gender"); //::Actual value of gender
+    }
+    private void OnEnable() {
+        gender = PlayerPrefs.GetString("Gender");
     }
     void Update()
     {
-        if (isMale)
-            gender = "Male";
-        else
-            gender = "Female";
+        // if (isMale)
+        //     gender = "Male";
+        // else
+        //     gender = "Female";
 
         swappableParts[0].SetCategoryAndLabel("Head", gender);
         swappableParts[4].SetCategoryAndLabel("LowerBody", gender);
