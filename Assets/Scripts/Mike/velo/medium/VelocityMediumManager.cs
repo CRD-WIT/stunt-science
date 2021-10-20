@@ -607,6 +607,6 @@ public class VelocityMediumManager : MonoBehaviour
             b1Shadow.transform.position = new Vector2((float)b1Pos + 0.5f, boulderA.transform.position.y);
         }
         pShadow = Instantiate(playerShadow);
-        pShadow.transform.position = new Vector2(playerPos, myPlayer.transform.position.y);
+        pShadow.transform.position = new Vector2(playerPos, myPlayer.transform.position.y -0.2f);
     }
 }
