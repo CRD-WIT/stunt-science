@@ -48,7 +48,7 @@ public class VelocityEasyStage3 : MonoBehaviour
             initialDistance = totalDistance - answer;
             dimensionLine.GetComponent<IndicatorManagerV1_1>().distanceSpawnPnt.x = initialDistance;
             // dimensionLine.GetComponent<IndicatorManagerV1_1>().timeSpawnPnt.x = initialDistance;
-            dimensionLine.GetComponent<IndicatorManagerV1_1>().showLines(answer, null, Speed, elapsed);
+            dimensionLine.GetComponent<IndicatorManagerV1_1>().showLines(answer, null, Speed, gameTime);
         }
         if (SimulationManager.isAnswered)
         {

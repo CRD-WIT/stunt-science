@@ -320,7 +320,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9177045416498017902}
   - component: {fileID: 9177045416498017897}
-  - component: {fileID: 2776972960528500015}
   m_Layer: 0
   m_Name: torso
   m_TagString: Untagged
@@ -394,23 +393,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2776972960528500015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9177045416498017901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f922fbb5300be74096625e210c8ed54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeedforward: 6
-  moveSpeedbackward: -6
-  moveSpeedupward: 6
-  stick: {fileID: 9177045417221605601}
-  stickloc: {fileID: 8176916108145994556}
 --- !u!1 &9177045416501747219
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,7 +894,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 524b91a987b8198478fc4b70b075ae1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swappableParts: []
+  swappableParts:
+  - {fileID: 9177045416501747209}
+  - {fileID: 9177045417486065087}
   isMale: 0
 --- !u!1 &9177045417486065089
 GameObject:
@@ -988,7 +972,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -479236782097018826, guid: 1c34f76532c15d24ba08e756a699e643, type: 3}
+  m_Sprite: {fileID: -2499558952833973110, guid: 1c34f76532c15d24ba08e756a699e643, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.50980395}
   m_FlipX: 0
   m_FlipY: 0
