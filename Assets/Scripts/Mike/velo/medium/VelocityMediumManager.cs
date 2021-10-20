@@ -52,7 +52,7 @@ public class VelocityMediumManager : MonoBehaviour
 
         RagdollV2.myPlayer = myPlayer;
 
-        //playerName = PlayerPrefs.GetString("Name");
+        playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         sm.SetGameLevel(1);
         playerPos = myPlayer.gameObject.transform.position.x;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
-public class CharacterSwapParts : MonoBehaviour
+public class RagdollSwapParts : MonoBehaviour
 {
     [SerializeField] SpriteResolver[] swappableParts;
     string gender;
@@ -9,19 +9,12 @@ public class CharacterSwapParts : MonoBehaviour
     void Start()
     {
         gender = PlayerPrefs.GetString("Gender"); //::Actual value of gender
-    }
-    private void OnEnable() {
-        gender = PlayerPrefs.GetString("Gender");
+        
+        swappableParts[0].SetCategoryAndLabel("Head", gender);
+        swappableParts[1].SetCategoryAndLabel("LowerBody", gender);
     }
     void Update()
     {
-        // if (isMale)
-        //     gender = "Male";
-        // else
-        //     gender = "Female";
-
-        swappableParts[0].SetCategoryAndLabel("Head", gender);
-        swappableParts[4].SetCategoryAndLabel("LowerBody", gender);
 
         /*
             For Skins:
