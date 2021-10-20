@@ -35,7 +35,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     void Start()
     {
          theHeart.startbgentrance(); 
-          targetHere.SetActive(true); 
+        targetHere.SetActive(true); 
         gender = PlayerPrefs.GetString("Gender");
         if (gender == "Male")
         {
