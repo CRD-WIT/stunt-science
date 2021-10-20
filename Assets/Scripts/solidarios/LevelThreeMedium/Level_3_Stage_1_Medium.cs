@@ -183,7 +183,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
     public void StartSimulation()
     {
-        grapplingPointIndicator.SetActive(false);
+        
         playerAnswer = questionController.GetPlayerAnswer();
         if (answerField.text == "" || playerAnswer > 30 || playerAnswer < 1)
         {
@@ -193,6 +193,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         }
         else
         {
+            grapplingPointIndicator.SetActive(false);
             directorIsCalling = true;
             StartCoroutine(DirectorsCall());
             playButton.interactable = false;

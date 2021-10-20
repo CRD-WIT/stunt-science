@@ -136,7 +136,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
        yield return new WaitForSeconds(2f);
         if(playerAnswer == correctAnswer)
         {
-            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
+            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, true);
         } 
          if(playerAnswer != correctAnswer)
         {
@@ -182,7 +182,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
         }
         if (preSetUp)
         {
-            angleTxt.text = "Θ = " + angleGiven.ToString("F2") + "°";
+            angleTxt.text = "Angle = " + angleGiven.ToString("F2") + "°";
             angleTxt.gameObject.transform.position = hookLauncher.transform.position;
             angularAnotation.transform.position = gun.transform.position;
             hookLauncher.transform.position = gun.transform.position;
