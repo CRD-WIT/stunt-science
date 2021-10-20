@@ -48,6 +48,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     static float playerAnswer;
     public Button playButton;
     public HeartManager theHeart;
+    public TMP_Text debugAnswer;
 
     void Start()
     {
@@ -88,7 +89,6 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         {
             directorBubble.SetActive(true);
             //diretorsSpeech.text = "Take " + take + ("!");
-            yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Lights!";
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
@@ -217,6 +217,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
         hookLine.GetComponent<LineRenderer>().SetPosition(0, movingToHookHand.transform.position);
         hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
         if (thePlayerRunning.GetComponent<RunningPlayer>().isCollided)
@@ -258,7 +259,8 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                 transform.Find("AngularAnnotation").GetComponent<AngularAnnotation>().Hide();
 
                 elapsed += Time.fixedDeltaTime;
-                timerText.text = elapsed.ToString("f2") + "s";
+                questionController.timer = elapsed.ToString("f2") + "s";
+                //timerText.text = elapsed.ToString("f2") + "s";
 
                 // Correct Answer
                 if (System.Math.Round(questionController.GetPlayerAnswer(), 2) == System.Math.Round(correctAnswer, 2))
