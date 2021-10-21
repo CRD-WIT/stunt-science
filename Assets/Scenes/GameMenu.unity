@@ -4609,11 +4609,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a258d9f5ea6ada14b90f76731ad615b9, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 7a89b8bd8624d5561bf071d6f8e1ad2c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -5086,6 +5086,7 @@ MonoBehaviour:
   settingsPanel: {fileID: 546504070}
   levelFinishedPanel: {fileID: 0}
   stuntGuidePanel: {fileID: 0}
+  flashCard: {fileID: 0}
   soundLevel: 1
   musicLevel: 1
   soundSlider: {fileID: 1835612366}
@@ -5104,10 +5105,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 26ca560e5c49d9153a648d5a1c6c8f13, type: 3}
   soundButtonImage: {fileID: 318365663}
   backgroundAudio: {fileID: 1888050586}
+  muteIntroSoundOnStart: 0
   isFirstStart: 1
   sfxAudios:
   - {fileID: 1810577552}
-  graphQLCloud: {fileID: 1823774030}
+  firebaseManager: {fileID: 0}
 --- !u!114 &2076624135
 MonoBehaviour:
   m_ObjectHideFlags: 0
