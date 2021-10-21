@@ -9,9 +9,11 @@ public class Register : MonoBehaviour
     public InputField pCode;
     public Text popUp;
     public WarningErrorUI warningErrorUI;
+     public FirebaseManager firebaseManager;
 
     public void StoreProfile()
     {
+        firebaseManager.SetKeyCode(pCode.text);
         // Error checkup
         bool error = false;
         string errorMessages = "";
@@ -32,6 +34,8 @@ public class Register : MonoBehaviour
             error = true;
             errorMessages += "Invalid code. Please check or ask your teacher.\n";
         }
+
+        firebaseManager.CheckIfKeyCodeValid();
         
         if(error){            
             warningErrorUI.message = errorMessages;

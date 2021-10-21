@@ -8,14 +8,40 @@ using Firebase.Extensions;
 public class FirebaseManager : MonoBehaviour
 {
     public FirebaseApp app;
+    string keyCode = "";
 
     void Start()
     {
 
     }
 
-    public void CheckIfKeyCodeValid(){
-        
+    public void SetKeyCode(string value)
+    {
+        keyCode = value;
+    }
+
+    public void CheckIfKeyCodeValid()
+    {
+        if (SystemInfo.deviceType == DeviceType.Desktop)
+        {
+            app = Firebase.FirebaseApp.DefaultInstance;
+            FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
+            DocumentReference docRef;
+            docRef = db.Collection("game_keys").Document(keyCode);
+
+            docRef.GetSnapshotAsync().ContinueWith((task) =>
+            {
+                var snapshot = task.Result;
+                if (snapshot.Exists)
+                {
+                    Debug.Log("Key is valid");
+                }
+                else
+                {
+                    Debug.Log("Key is not valid");
+                }
+            });
+        }
     }
 
     public void GameLogMutation(int? levelValue = 1, int? stageValue = 1, string? difficultyValue = "Easy", string actionValue = "Next", float? value = 0)
