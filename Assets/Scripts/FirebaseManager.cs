@@ -20,8 +20,9 @@ public class FirebaseManager : MonoBehaviour
         keyCode = value;
     }
 
-    public void CheckIfKeyCodeValid()
+    public async void CheckIfKeyCodeValid()
     {
+        bool isValid;
         if (SystemInfo.deviceType == DeviceType.Desktop)
         {
             app = Firebase.FirebaseApp.DefaultInstance;
@@ -29,18 +30,22 @@ public class FirebaseManager : MonoBehaviour
             DocumentReference docRef;
             docRef = db.Collection("game_keys").Document(keyCode);
 
-            docRef.GetSnapshotAsync().ContinueWith((task) =>
+            await docRef.GetSnapshotAsync().ContinueWith((task) =>
             {
                 var snapshot = task.Result;
                 if (snapshot.Exists)
                 {
+                    isValid = true;
                     Debug.Log("Key is valid");
                 }
                 else
                 {
+                    isValid = true;
                     Debug.Log("Key is not valid");
                 }
             });
+        }else{
+            Debug.Log("On mobile");
         }
     }
 

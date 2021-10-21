@@ -9,9 +9,9 @@ public class Register : MonoBehaviour
     public InputField pCode;
     public Text popUp;
     public WarningErrorUI warningErrorUI;
-     public FirebaseManager firebaseManager;
+    public FirebaseManager firebaseManager;
 
-    public void StoreProfile()
+    public async void StoreProfile()
     {
         firebaseManager.SetKeyCode(pCode.text);
         // Error checkup
@@ -36,13 +36,15 @@ public class Register : MonoBehaviour
         }
 
         firebaseManager.CheckIfKeyCodeValid();
-        
-        if(error){            
+
+        if (error)
+        {
             warningErrorUI.message = errorMessages;
             warningErrorUI.togglePanel();
         }
         else
-        {   PlayerPrefs.SetInt("Life", 3);        
+        {
+            PlayerPrefs.SetInt("Life", 3);
             RegistrationManager.playerName = pName.GetComponent<Text>().text;
             RegistrationManager.playerCode = pCode.GetComponent<InputField>().text;
             PlayerPrefs.SetString("Name", RegistrationManager.playerName);
