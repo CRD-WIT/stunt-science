@@ -10,7 +10,7 @@ public class HubManagerThree : MonoBehaviour
     public TruckManager theTruck;
     public float moveSpeed;
     bool hit;
-    public GameObject hinge;
+    //public GameObject hinge;
     public AccHardSimulation theSimulate;
 
 
@@ -40,7 +40,7 @@ public class HubManagerThree : MonoBehaviour
                 GameObject explosion = Instantiate(blastprefab);
                 explosion.transform.position = transform.position;
                
-                hinge.SetActive(false);
+                //hinge.SetActive(false);
                 //hit = true;
                 StartCoroutine(bounce());
                 theTruck.accelerating = false;

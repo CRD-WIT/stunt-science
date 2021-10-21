@@ -5,6 +5,8 @@ using UnityEngine;
 public class WeakSpotManager : MonoBehaviour
 {
     public GameObject smallBlast;
+    public golem theGolem;
+    public ProjHardSimulation theSimulate;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +24,10 @@ public class WeakSpotManager : MonoBehaviour
 
         if (other.gameObject.tag == ("weapon"))
         {  
-            GetComponent<SpriteRenderer>().color = new Color32(0, 241, 10, 255);
             smallBlast.SetActive(true);
+            theGolem.damage = true;
+            StartCoroutine(theGolem.takeDamaged());
+            GetComponent<SpriteRenderer>().color = new Color32(0, 241, 10, 255);
         }
     }
 }

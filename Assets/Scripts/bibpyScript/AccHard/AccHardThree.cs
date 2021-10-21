@@ -9,7 +9,7 @@ public class AccHardThree : MonoBehaviour
     //public Quaternion angleB;
     public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions, cam, directorPlatform;
     public GameObject verticalOne, horizontal;
-    public GameObject bulletPos, wheelPos, bulletHere, targetHere, truckInitials, chopperInitials;
+    public GameObject bulletPos, wheelPos, bulletHere, targetHere, truckInitials, chopperInitials,container;
     public TruckManager theTruck;
     public MulticabManager theMulticab;
     public Hellicopter theChopper;
@@ -289,6 +289,7 @@ public class AccHardThree : MonoBehaviour
         theMulticab.moveSpeed = 0;
         theTruck.moveSpeed = 0;
         generateProblem();
+        container.SetActive(false);
 
 
     }
@@ -301,7 +302,9 @@ public class AccHardThree : MonoBehaviour
         {
             targetWheel.SetActive(false);
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the last target!",true, true);
-            Time.timeScale = 0;
+            yield return new WaitForSeconds(1f);
+            theTruck.moveSpeed = 0;
+            //Time.timeScale = 0;
         }
         if (playerAnswer > answer)
         {

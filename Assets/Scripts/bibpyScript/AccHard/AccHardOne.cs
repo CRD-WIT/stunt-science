@@ -226,7 +226,7 @@ public class AccHardOne : MonoBehaviour
         {
             targetWheel.SetActive(false);
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the target!",true, false);
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
         }
         if (playerAnswer > answer)
         {

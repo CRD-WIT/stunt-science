@@ -7,11 +7,11 @@ public class ProjectileHardThree : MonoBehaviour
 {
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
-    public QuestionControllerB theQuestion;
+    public QuestionControllerC theQuestion;
     public golem theGolem;
     public HeartManager theHeart;
     public CircularAnnotation theCircular;
-    public Arrow[] theArrow;
+    public Arrow2[] theArrow;
     public IndicatorManager theIndicator;
     public DistanceMeter[] theMeter;
     public GameObject Mgear, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer, boulder, angleArrow;
@@ -98,36 +98,36 @@ public class ProjectileHardThree : MonoBehaviour
             transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (angle));
             
         }
-        if (ProjSimulationManager.simulate == true)
+        if (theQuestion.isSimulating == true)
         {
-            playerProjectileTime = finalDistance / (Mathf.Cos(((( ((angle - ProjSimulationManager.playerAnswer)/2)+ ProjSimulationManager.playerAnswer)) * Mathf.Deg2Rad)) * Vo);
-            theCircular._degrees =ProjSimulationManager.playerAnswer;
-            theCircular.initialAngle = 85 - ProjSimulationManager.playerAnswer;
-            angleTxt.text = "Θ = " + ProjSimulationManager.playerAnswer.ToString("F2") + "°";
+            playerProjectileTime = finalDistance / (Mathf.Cos(((( ((angle - ProjHardSimulation.playerAnswer)/2)+ ProjHardSimulation.playerAnswer)) * Mathf.Deg2Rad)) * Vo);
+            theCircular._degrees =ProjHardSimulation.playerAnswer;
+            theCircular.initialAngle = 85 - ProjHardSimulation.playerAnswer;
+            angleTxt.text = "Θ = " + ProjHardSimulation.playerAnswer.ToString("F2") + "°";
             trail.SetActive(true);
             timeStart = true;
             running = true;
-            if (ProjSimulationManager.playerAnswer > correctAnswer)
+            if (ProjHardSimulation.playerAnswer > correctAnswer)
             {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (ProjSimulationManager.playerAnswer));
+                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (ProjHardSimulation.playerAnswer));
                 actionTxt.text = "retry";
-                Vo -= .2f;
+                Vo -= .3f;
 
             }
-            if (ProjSimulationManager.playerAnswer < correctAnswer)
+            if (ProjHardSimulation.playerAnswer < correctAnswer)
             {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (ProjSimulationManager.playerAnswer));
+                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (ProjHardSimulation.playerAnswer));
                 actionTxt.text = "retry";
-                Vo += .2f;
+                Vo += .3f;
             }
-            if (ProjSimulationManager.playerAnswer == correctAnswer)
+            if (ProjHardSimulation.playerAnswer == correctAnswer)
             {
                 deflector.GetComponent<Collider2D>().isTrigger = true;
                 theQuestion.answerIsCorrect = true;
                 actionTxt.text = "done";
 
             }
-            ProjSimulationManager.simulate = false;
+            theQuestion.isSimulating = false;
 
         }
         if (timeStart)
@@ -153,7 +153,7 @@ public class ProjectileHardThree : MonoBehaviour
                 {
                     ShootArrow();
                     thePlayer.backward = false;
-                    vP = 0;
+                   playerSpeed = 0;
                     shootReady = false;
 
                 }
@@ -208,7 +208,7 @@ public class ProjectileHardThree : MonoBehaviour
         theArrow[0].generateLine = true;
         trail.GetComponent<TrailRenderer>().time = 3000;
         arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo + .17f);
-        if (ProjSimulationManager.playerAnswer == correctAnswer)
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             StartCoroutine(ropePull());
         }
@@ -272,12 +272,16 @@ public class ProjectileHardThree : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-         if(ProjSimulationManager.playerAnswer != correctAnswer)
+          yield return new WaitForSeconds(projectileTime + 4);
+        if ( ProjHardSimulation.playerAnswer == correctAnswer)
         {
-           //TODO: reduceLife
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"),true, true);
+        }
+         if ( ProjHardSimulation.playerAnswer != correctAnswer)
+        {
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit the target"),false, false);
         }
         running = false;
-        yield return new WaitForSeconds(playerProjectileTime + 4);
         StartCoroutine(theSimulate.DirectorsCall());
         //theQuestion.ToggleModal();
         theArrow[0].generateLine = false;

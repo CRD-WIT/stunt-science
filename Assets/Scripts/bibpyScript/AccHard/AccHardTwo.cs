@@ -299,7 +299,7 @@ public class AccHardTwo : MonoBehaviour
         {
             targetWheel.SetActive(false);
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the 2nd target!",true, false);
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
         }
         if (playerAnswer > answer)
         {
