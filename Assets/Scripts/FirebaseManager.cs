@@ -3,6 +3,7 @@ using UnityEngine;
 using Firebase;
 using Firebase.Firestore;
 using Firebase.Extensions;
+using System;
 
 
 public class FirebaseManager : MonoBehaviour
@@ -20,7 +21,7 @@ public class FirebaseManager : MonoBehaviour
         keyCode = value;
     }
 
-    public async void CheckIfKeyCodeValid()
+    public async void CheckIfKeyCodeValid(Action callback)
     {
         bool isValid;
         if (SystemInfo.deviceType == DeviceType.Desktop)
@@ -37,11 +38,15 @@ public class FirebaseManager : MonoBehaviour
                 {
                     isValid = true;
                     Debug.Log("Key is valid");
+                    //TODO: Add action
+                    callback();
                 }
                 else
                 {
                     isValid = true;
                     Debug.Log("Key is not valid");
+                    //TODO: Add action
+                    callback();
                 }
             });
         }else{

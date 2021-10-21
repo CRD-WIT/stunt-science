@@ -11,6 +11,10 @@ public class Register : MonoBehaviour
     public WarningErrorUI warningErrorUI;
     public FirebaseManager firebaseManager;
 
+    void test(){
+        Debug.Log("Called test");
+    }
+
     public async void StoreProfile()
     {
         firebaseManager.SetKeyCode(pCode.text);
@@ -35,7 +39,7 @@ public class Register : MonoBehaviour
             errorMessages += "Invalid code. Please check or ask your teacher.\n";
         }
 
-        firebaseManager.CheckIfKeyCodeValid();
+        firebaseManager.CheckIfKeyCodeValid(test);
 
         if (error)
         {
