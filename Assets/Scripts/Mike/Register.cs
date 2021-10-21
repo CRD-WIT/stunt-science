@@ -9,9 +9,15 @@ public class Register : MonoBehaviour
     public InputField pCode;
     public Text popUp;
     public WarningErrorUI warningErrorUI;
+    public FirebaseManager firebaseManager;
 
-    public void StoreProfile()
+    void test(){
+        Debug.Log("Called test");
+    }
+
+    public async void StoreProfile()
     {
+        firebaseManager.SetKeyCode(pCode.text);
         // Error checkup
         bool error = false;
         string errorMessages = "";
@@ -32,13 +38,17 @@ public class Register : MonoBehaviour
             error = true;
             errorMessages += "Invalid code. Please check or ask your teacher.\n";
         }
-        
-        if(error){            
+
+        firebaseManager.CheckIfKeyCodeValid(test);
+
+        if (error)
+        {
             warningErrorUI.message = errorMessages;
             warningErrorUI.togglePanel();
         }
         else
-        {   PlayerPrefs.SetInt("Life", 3);        
+        {
+            PlayerPrefs.SetInt("Life", 3);
             RegistrationManager.playerName = pName.GetComponent<Text>().text;
             RegistrationManager.playerCode = pCode.GetComponent<InputField>().text;
             PlayerPrefs.SetString("Name", RegistrationManager.playerName);

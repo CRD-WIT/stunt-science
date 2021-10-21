@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using GameConfig;
+// Test
 
 public class HardManager : MonoBehaviour
 {
@@ -102,7 +103,6 @@ public class HardManager : MonoBehaviour
             StartCoroutine(Throw());
         if (isAnswered)
         {
-            bossVeloLabel.GetComponent<RectTransform>().position = new Vector2(bossHead.transform.position.x+1, bossHead.transform.position.y + 1);
             throwingPath.SetActive(false);
             throwingPathTxt.SetActive(false);
 
@@ -170,11 +170,18 @@ public class HardManager : MonoBehaviour
             qc.timer = elapsed.ToString("f2") + "s";
             currentBossPos = bossHead.transform.position;
         }
+        if(stage == 1)
+            bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x + 0.5f, bossHead.transform.position.y + 2);
+        else if (stage == 2)
+            bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x -1.75f, bossHead.transform.position.y + 1);
+        else
+            bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x, bossHead.transform.position.y + 1);
         if (stoneIsPresent)
         {
             indicators.SetPlayerPosition(new Vector2(stone.transform.position.x, stone.transform.position.y - 1.5f));
-            if (stage == 1)
+            if (stage == 1){
                 distanceTraveled = stone.transform.position.x + playerAnswer;
+                }
             else
                 distanceTraveled = stone.transform.position.x - myPlayer.transform.position.x - 0.5f;
             if (stoneScript.hit != null)
@@ -306,7 +313,6 @@ public class HardManager : MonoBehaviour
         gem.SetActive(true);
         stoneVeloLabel.SetActive(false);
         
-        bossVeloLabel.transform.Find("Square").rotation = Quaternion.EulerAngles(0, 0,(0) * Mathf.Deg2Rad);
         switch (stage)
         {
             case 1:
@@ -385,6 +391,7 @@ public class HardManager : MonoBehaviour
                 labels.legB = bossDistance;
                 labels.HideValuesOf(false, true, true, false, true, true);
 
+                bossVeloLabel.transform.Find("Square").rotation = Quaternion.EulerAngles(0, 0, 0);
                 bossVeloLabel.transform.GetComponent<RectTransform>().localRotation = Quaternion.EulerAngles(0, 0,(-270-angle) * Mathf.Deg2Rad);
                 bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x -1.75f, bossHead.transform.position.y + 1);
                 Debug.Log(angle);
@@ -421,7 +428,7 @@ public class HardManager : MonoBehaviour
                 }
                 bossHead.transform.position = new Vector2(-4 - x, bossStartPos.y - 4);
                 myPlayer.transform.position = new Vector2(-xS - x - 4.5f, myPlayer.transform.position.y);
-                indicators.distanceSpawnPnt = new Vector2(-xS - 4 - x, 2.5f);
+                indicators.distanceSpawnPnt = new Vector2(-xS - 4 - x, 1f);
 
                 indicators.SetPlayerPosition(new Vector2(myPlayer.transform.position.x, myPlayer.transform.position.y - 1.5f));
                 indicators.showLines(xS, null, stoneV, stuntTime);
