@@ -111,6 +111,7 @@ public class SimulationManager : MonoBehaviour
             }
             else
             {
+                thePlayer.lost = false;
                 thePlayer.standup = true;
             }
         }
