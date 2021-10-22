@@ -195,7 +195,6 @@ public class ProjHardSimulation : MonoBehaviour
     public void action()
     {
         //theQuestion.ToggleModal();
-        theHeart.startbgentrance();
         playButton.interactable = true;
         if (theQuestion.answerIsCorrect == false)
         {

@@ -11,6 +11,7 @@ public class HubManagerTwo : MonoBehaviour
     public float moveSpeed;
     bool hit;
     public AccHardSimulation theSimulate;
+    public GameObject containerHinge;
 
 
     // Start is called before the first frame update
@@ -38,7 +39,7 @@ public class HubManagerTwo : MonoBehaviour
                 myHinge.enabled = false;
                 GameObject explosion = Instantiate(blastprefab);
                 explosion.transform.position = transform.position;
-               
+                containerHinge.SetActive(false);
                 //hit = true;
                StartCoroutine(bounce());
                 theTruck.accelerating = false;

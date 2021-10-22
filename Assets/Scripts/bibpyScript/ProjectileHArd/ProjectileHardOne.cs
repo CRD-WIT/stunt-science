@@ -296,16 +296,16 @@ public class ProjectileHardOne : MonoBehaviour
         }
         if ( ProjHardSimulation.playerAnswer == correctAnswer)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " pulled the trigger at the exact timed. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds."),true, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"),true, false);
         }
-         if ( ProjHardSimulation.playerAnswer < correctAnswer)
+         if ( ProjHardSimulation.playerAnswer != correctAnswer)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " pulled the trigger after <b>" +  ProjHardSimulation.playerAnswer.ToString("F2") + "</b> seconds and too late to hit the target. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds."),false, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit the target"),false, false);
         }
-         if ( ProjHardSimulation.playerAnswer > correctAnswer)
+         /*if ( ProjHardSimulation.playerAnswer > correctAnswer)
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " pulled the trigger after <b>" +  ProjHardSimulation.playerAnswer.ToString("F2") + "</b> seconds and too soon to hit the target. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds."),false, false);
-        }
+        }*/
         //trail.GetComponent<TrailRenderer>().time = 3;
         
         StartCoroutine(theSimulate.DirectorsCall());
