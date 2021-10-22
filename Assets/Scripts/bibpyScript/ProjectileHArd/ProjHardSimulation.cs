@@ -16,7 +16,7 @@ public class ProjHardSimulation : MonoBehaviour
     public static float playerAnswer;
     public static bool simulate;
     public int stage;
-    public QuestionControllerC theQuestion;
+    public QuestionContProJHard theQuestion;
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     public string take;
@@ -81,7 +81,6 @@ public class ProjHardSimulation : MonoBehaviour
             }
             else
             {
-                theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
@@ -102,7 +101,6 @@ public class ProjHardSimulation : MonoBehaviour
             }
             else
             {
-                theQuestion.isSimulating = true;
                 directorIsCalling = true;
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;

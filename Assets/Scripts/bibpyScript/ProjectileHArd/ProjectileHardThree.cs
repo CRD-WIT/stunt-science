@@ -7,7 +7,7 @@ public class ProjectileHardThree : MonoBehaviour
 {
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
-    public QuestionControllerC theQuestion;
+    public QuestionContProJHard  theQuestion;
     public golem theGolem;
     public HeartManager theHeart;
     public CircularAnnotation theCircular;
@@ -111,7 +111,7 @@ public class ProjectileHardThree : MonoBehaviour
             {
                 transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (ProjHardSimulation.playerAnswer));
                 actionTxt.text = "retry";
-                Vo -= .3f;
+                Vo -= .5f;
 
             }
             if (ProjHardSimulation.playerAnswer < correctAnswer)
@@ -174,6 +174,7 @@ public class ProjectileHardThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        theHeart.losslife = false;
         //theIndicator.showReady = true;
         angleTxt.text = "Θ = ?";
         angleDimension.SetActive(true);
@@ -207,7 +208,7 @@ public class ProjectileHardThree : MonoBehaviour
         lineRenderer.GetComponent<LineRenderer>().enabled = true;
         theArrow[0].generateLine = true;
         trail.GetComponent<TrailRenderer>().time = 3000;
-        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo + .17f);
+        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo-.1f);
         if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             StartCoroutine(ropePull());
@@ -279,6 +280,7 @@ public class ProjectileHardThree : MonoBehaviour
         }
          if ( ProjHardSimulation.playerAnswer != correctAnswer)
         {
+             theHeart.ReduceLife();
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit the target"),false, false);
         }
         running = false;

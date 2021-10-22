@@ -239,7 +239,7 @@ public class AccMediumThree : MonoBehaviour
         aHtxt.text = ("a = ") + accH.ToString("F2") + ("m/s²");
         aVtxt.text = ("a = ?");
         aVtxt.color = new Color32(188, 10, 0, 255);
-        theQuestion.SetQuestion(("<b>") + PlayerPrefs.GetString("Name") + ("</b> is instructed to drive the van off the ledge and hang on into the rope of the helicopter just before it drops, If the helicopter is flying at <b>") + velocity.ToString("F2") + ("</b> m/s while accelarating at  <b>") + accH.ToString("F2") + ("</b> m/s², what should be the accelaration of the van running at  <b>") + velocity.ToString("F2") + ("</b> m/s, so <b>") + PlayerPrefs.GetString("Name") + ("</b> can grab the rope at exactly at the edge of the ledge <b>") + dv.ToString("F2") + ("</b> meters in front of ") + pronoun + (" ?"));
+        theQuestion.SetQuestion(("<b>") + PlayerPrefs.GetString("Name") + ("</b> is instructed to drive the van off the ledge and hang on into the rope of the helicopter just before it drops, If the helicopter is flying at <b>") + velocity.ToString("F2") + ("</b> m/s while accelarating at  <b>") + accH.ToString("F2") + ("</b> m/s², for ") + PlayerPrefs.GetString("Name") +(" to be able to grab the rope at exactly at the edge of the ledge <b>") + dv.ToString("F2") + ("</b> meters in front of ") + pronoun + (", what should be the accelaration of the van running at  <b>") + velocity.ToString("F2") + ("</b> m/s, so ") + PlayerPrefs.GetString("Name") + (" can successfully performed the stunt?"));
 
 
 
@@ -272,16 +272,16 @@ public class AccMediumThree : MonoBehaviour
         yield return new WaitForSeconds(1);
         if (accV == correctAnswer)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " grabbed the rope before the van fell on the water"),true, true);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has successfully performed the stunt and able to grabbed the rope before the van fell on the water"),true, true);
         }
-         if (accV < correctAnswer)
+         if (accV != correctAnswer)
+        {
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to grab the rope and fell on the water"),false, false);
+        }
+         /*if (accV > correctAnswer)
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s²."),false, false);
-        }
-         if (accV > correctAnswer)
-        {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s²."),false, false);
-        }
+        }*/
         
         //theQuestion.ToggleModal();
         /*if (accV == correctAnswer)
