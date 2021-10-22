@@ -15,6 +15,7 @@ public class ProjectileHardOne : MonoBehaviour
     public DistanceMeter[] theMeter;
     public HeartManager theHeart;
     public Arrow2[] theArrow;
+    public TMP_Text debugAnswer;
     public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineAngle, lineDistance, boulder, angleArrow;
     public GameObject lineVertical, lineHorizontal, dimension, golemInitial;
     public float vi, generateVG, vG;
@@ -48,6 +49,7 @@ public class ProjectileHardOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         golemInitial.transform.position = theGolem.transform.position;
         lineAngle.transform.position = stone.transform.position;
         lineDistance.transform.position = new Vector2(stone.transform.position.x, this.transform.position.y);

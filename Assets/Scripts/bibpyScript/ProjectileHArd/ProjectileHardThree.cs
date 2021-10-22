@@ -8,6 +8,7 @@ public class ProjectileHardThree : MonoBehaviour
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
     public QuestionContProJHard  theQuestion;
+    public TMP_Text debugAnswer;
     public golem theGolem;
     public HeartManager theHeart;
     public CircularAnnotation theCircular;
@@ -46,6 +47,7 @@ public class ProjectileHardThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+         debugAnswer.SetText($"Answer: {correctAnswer}");
         angleLine.transform.position = this.transform.position;
         theCircular._origin = new Vector2(this.transform.position.x + .5f, this.transform.position.y);
         angleArrow.transform.rotation = this.transform.rotation;
