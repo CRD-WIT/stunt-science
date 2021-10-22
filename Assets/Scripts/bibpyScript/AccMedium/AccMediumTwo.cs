@@ -257,7 +257,7 @@ public class AccMediumTwo : MonoBehaviour
         theVan.transform.position = new Vector2(20 + (distance / 2 + 30), theVan.transform.position.y);
         theSubChopper.transform.position = new Vector2(chopperAccPos, theSubChopper.transform.position.y);
         theSubSuv.transform.position = new Vector2(vanAccPos, theSubSuv.transform.position.y);
-        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now hanging from a helicopter and is instructed to take over an incoming van moving fast without a driver. To get in the van, <b>") + PlayerPrefs.GetString("Name") + ("</b> must break its windshield by kicking it the exact moment  <b>") + pronoun + ("</b> feet touches it, If the initial velocity of helicopter is <b>") + Vih.ToString("F2") + ("</b> m/s and accelerating at <b>") + accH.ToString("F2") + ("</b> m/s², at what distance from the initial positon should  <b>") + PlayerPrefs.GetString("Name") + ("</b>  do the kicking if the initial velocity of the incoming Van <b>") + distance.ToString("F2") + ("</b> meters away is <b>") + Viv.ToString("F2") + ("</b> m/s and acelerating at ")));
+        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + (" is now instructed to hang from a helicopter and must need to take over an incoming van moving fast without a driver. To get in the van, ") + PlayerPrefs.GetString("Name") + (" must break its windshield by kicking it the exact moment ") + pronoun + (" feet touches it, If the initial velocity of helicopter is <b>") + Vih.ToString("F2") + ("</b> m/s and accelerating at <b>") + accH.ToString("F2") + ("</b> m/s², at what distance from the initial positon should ") + PlayerPrefs.GetString("Name") + (" do the kicking to successfully performed the stunts if the initial velocity of the incoming Van <b>") + Viv.ToString("F2") + ("</b> m/s and acelerating at <b>")+accV.ToString("F2")+("</b> m/s² when the van is <b>")+distance.ToString("F2")+("</b> meters away from ")+PlayerPrefs.GetString("Name")+("?")));
         hangingRagdoll2.transform.position = ropeTip2.transform.position;
         carInitial.transform.position = theSubSuv.transform.position;
         chopperInitial.transform.position = theSubChopper.transform.position;
@@ -318,16 +318,16 @@ public class AccMediumTwo : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         if (playerKickDistance == kickDistance)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" has successfully jumped into the van")),true, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" has successfully performed the stunt and able to jumped into the van")),true, false);
         }
         if (playerKickDistance < kickDistance)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" kick before touching  the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>.")),false, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" has failed to jump into the van ")),false, false);
         }
-        if (playerKickDistance > kickDistance)
+        /*if (playerKickDistance > kickDistance)
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" got hit by the van before he could kick the windshield and was unable to enter the van! The correct answer is <b>") + correctAnswer.ToString("F2") + (" meters</b>.")),false, false);
-        }
+        }*/
         
         //theQuestion.ToggleModal();
         yield return new WaitForSeconds(2);

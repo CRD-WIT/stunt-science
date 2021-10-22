@@ -9,7 +9,7 @@ public class AccHardOne : MonoBehaviour
     //public Quaternion angleB;
     public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions, truckInitials;
     public GameObject verticalOne, horizontal;
-    public GameObject bulletPos, wheelPos, bulletHere, targetHere, cam;
+    public GameObject bulletPos, wheelPos, bulletHere, targetHere, cam, targetSignAge;
     public TruckManager theTruck;
     public Hellicopter theChopper;
     public ShootManager theShoot;
@@ -42,6 +42,7 @@ public class AccHardOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        targetSignAge.transform.position = new Vector3(targetWheel.transform.position.x-2, targetWheel.transform.position.y, -5);
         debugAnswer.SetText($"Answer: {correctAnswer}");
         truckInitials.transform.position = theTruck.transform.position;
         cam.transform.position = new Vector3(theChopper.transform.position.x + camPos, cam.transform.position.y, cam.transform.position.z);
@@ -225,6 +226,7 @@ public class AccHardOne : MonoBehaviour
         if (playerAnswer == answer)
         {
             targetWheel.SetActive(false);
+            targetSignAge.SetActive(false);
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the target!",true, false);
             //Time.timeScale = 0;
         }

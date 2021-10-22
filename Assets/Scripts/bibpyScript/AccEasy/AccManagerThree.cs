@@ -24,7 +24,7 @@ public class AccManagerThree : MonoBehaviour
     float playerVf;
     float currentPos;
     public float correctDistance;
-    string pronoun2;
+    string pronoun2,pronoun;
     string gender;
     public GameObject walls, stopper, bikeInitials, actionButton, cam, directionArrow;
 
@@ -61,14 +61,14 @@ public class AccManagerThree : MonoBehaviour
         bikeInitialStartPos = bikeInitials.transform.position;
         theSimulation.stage = 3;
         truckStartRot = theTruck.transform.rotation;
-        if (gender == "Male")
+       if (gender == "Male")
         {
-
+            pronoun = ("he");
             pronoun2 = ("his");
         }
         if (gender == "Female")
         {
-
+            pronoun = ("she");
             pronoun2 = ("her");
         }
         generateProblem();
@@ -208,7 +208,7 @@ public class AccManagerThree : MonoBehaviour
         generateAns = 60 / time;
         generateAcceleration = generateAns / time;
         deacceleration = (float)System.Math.Round(generateAcceleration, 2);
-        theQuestion.SetQuestion(PlayerPrefs.GetString("Name") + (" is instructed to park ") + pronoun2 + (" motorcycle perfectly at the back of truck. If braking the motorcycle deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s², what should be its initial velocity(Vi) so it will come into complete stop after braking it for exactly <b>") + time.ToString("F2") + ("</b> seconds?"));
+        theQuestion.SetQuestion(PlayerPrefs.GetString("Name") + (" is instructed to park ") + pronoun2 + (" motorcycle perfectly at the back of truck. If braking the motorcycle constantly deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s², what should be the velocity(Vi) of the motorcycle prioe braking it if ")+ pronoun +(" has to apply brakes to the motorcycle for exactly <b>") + time.ToString("F2") + ("</b> seconds only to stop it for the stunt?"));
         vitxt.text = ("vi = ?");
         theHeart.losslife = false;
         velocitytxt.text = ("v = 0 m/s");

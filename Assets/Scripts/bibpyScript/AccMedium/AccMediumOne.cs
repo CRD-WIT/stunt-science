@@ -217,7 +217,7 @@ public class AccMediumOne : MonoBehaviour
         carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2f, theTruck.transform.position.y);
         chopperInitials.transform.position = new Vector2(theSubChopper.transform.position.x + 2.2f, theSubChopper.transform.position.y);
         viTtxt.text = ("vi = 0m/s ");
-        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is standing in top of a non moving truck, waiting for the hellicopter to pass by, chase it with the truck, and grab the rope hanging from it, If the hellicopter flies forward at a constant speed of <b>") + velocity.ToString("F2") + ("</b> m/s and the truck follows to catch up with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s² the moment the rope passes by <b>") + PlayerPrefs.GetString("Name") + ("</b>, after how many seconds should <b>") + PlayerPrefs.GetString("Name") + ("</b> precisely grab the rope the moment the truck starts moving?")));
+        theQuestion.SetQuestion(( PlayerPrefs.GetString("Name") + (" is instructed to stand in the top of a non moving truck, waiting for the hellicopter to pass by, chase it with the truck, and grab the rope hanging from it, If the hellicopter flies forward at a constant speed of <b>") + velocity.ToString("F2") + ("</b> m/s and the truck follows to catch up with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s² the moment the rope passes by ") + PlayerPrefs.GetString("Name") + (", after how many seconds should ") + PlayerPrefs.GetString("Name") + (" precisely grab the rope the moment the truck starts moving to succesfully perform the stunt?")));
     }
     IEnumerator StuntResult()
     {
@@ -234,14 +234,14 @@ public class AccMediumOne : MonoBehaviour
         //theQuestion.ToggleModal();
         if (answer == correctAnswer)
         {
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" has grabbed the rope and is now succesfully hanging from a hellicopter</color>"),true, false);
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" has succesfully performed the stunt and able to grab the rope</color>"),true, false);
         }
-        if (answer < correctAnswer)
+        if (answer != correctAnswer)
         {
              theHeart.ReduceLife();
-             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " grab the rope too soon. The correct answer is </color>" + correctAnswer.ToString("F2") +" seconds.",false, false);
+             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " unable to grab the rope!",false, false);
         }
-        if (answer > correctAnswer)
+        /*if (answer > correctAnswer)
         {
              theHeart.ReduceLife();
             if (playerGrabLineDistance < 56)
@@ -253,7 +253,7 @@ public class AccMediumOne : MonoBehaviour
                  theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" didnt get the chance to grab the rope. The correct answer is </color>" + correctAnswer.ToString("F2") + "seconds."),false, false);
              }
              
-        }
+        }*/
     
         
         AccMidSimulation.simulate = false;
