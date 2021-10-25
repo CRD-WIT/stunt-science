@@ -8,7 +8,7 @@ public class ProjHardSimulation : MonoBehaviour
 {
     public Button playButton;
     public TMP_InputField answerField;
-    public GameObject directorBubble, trail, projectTrail;
+    public GameObject directorBubble, trail, projectTrail,exitBg;
     public ProjectileHardOne theManagerOne;
     public ProjectileHardTwo theManagerTwo;
     public ProjectileHardThree theManagerThree;
@@ -209,5 +209,11 @@ public class ProjHardSimulation : MonoBehaviour
         string[] num;
         num = answerField.text.Split('.');
         answerField.characterLimit = num[0].Length + 3;
+    }
+    public IEnumerator ExitTrans()
+    {
+        exitBg.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        exitBg.SetActive(false);
     }
 }

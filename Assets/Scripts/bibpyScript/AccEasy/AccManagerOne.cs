@@ -36,6 +36,7 @@ public class AccManagerOne : MonoBehaviour
 
     void Start()
     {
+        //Vitxt.text = ("v = ") + thePlayer.moveSpeed.ToString("F2") + ("m/s");
         theQuestion.SetGameLevel(2);
         bikeInitialsPos = bikeInitials.transform.position;
         theBike = FindObjectOfType<BikeManager>();
