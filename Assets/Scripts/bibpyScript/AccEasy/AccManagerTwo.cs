@@ -205,7 +205,7 @@ public class AccManagerTwo : MonoBehaviour
         correctAns = (float)System.Math.Round(generateAns, 2);
         deacceleration = -(10 - Vi) / correctAns;
         //time = (float)System.Math.Round(generateTime, 2);
-        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + (" is instructed to initially speed ") + pronoun2 + (" motorcycle at <b>") + Vi.ToString("F1") + ("</b> m/s and must deacelerate to a final velocity of 10 m/s right before dropping the ledge so it could safely enter the tunnel across it. How long should ") + pronoun + (" apply brake if braking deaccelerates the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²?")));
+        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + (" is instructed to drive ") + pronoun2 + (" motorcycle into another tunnel across the platform. In order to do this,") + pronoun2 +(" motorcycle must have an exact velocity of <b>10.00</b> m/s before it jumps off the edge. If ") +PlayerPrefs.GetString("Name")+(" is currently cruising at constant velocity of <b>") +Vi.ToString("F1") + ("</b> m/s and apply the brakes will constantly deaccelerate the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²,how long should ")+PlayerPrefs.GetString("Name")+(" apply the brakes before jumping off to successfully perform the stunt?")));
         theBike.transform.position = new Vector2(-17, .2f);
         theHeart.losslife = false;
         walls.SetActive(false);

@@ -8,7 +8,7 @@ using System;
 
 public class FirebaseManager : MonoBehaviour
 {
-    public FirebaseApp app;
+    FirebaseApp app;
     string keyCode = "";
 
     void Start()
@@ -24,36 +24,10 @@ public class FirebaseManager : MonoBehaviour
     public async void CheckIfKeyCodeValid(Action callback)
     {
         bool isValid;
-        if (SystemInfo.deviceType == DeviceType.Desktop)
-        {
-            app = Firebase.FirebaseApp.DefaultInstance;
-            FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
-            DocumentReference docRef;
-            docRef = db.Collection("game_keys").Document(keyCode);
-
-            await docRef.GetSnapshotAsync().ContinueWith((task) =>
-            {
-                var snapshot = task.Result;
-                if (snapshot.Exists)
-                {
-                    isValid = true;
-                    Debug.Log("Key is valid");
-                    //TODO: Add action
-                    callback();
-                }
-                else
-                {
-                    isValid = true;
-                    Debug.Log("Key is not valid");
-                    //TODO: Add action
-                    callback();
-                }
-            });
-        }else{
-            Debug.Log("On mobile");
-        }
+        
     }
 
+    #nullable enable
     public void GameLogMutation(int? levelValue = 1, int? stageValue = 1, string? difficultyValue = "Easy", string actionValue = "Next", float? value = 0)
     {
         Debug.Log(SystemInfo.deviceType);

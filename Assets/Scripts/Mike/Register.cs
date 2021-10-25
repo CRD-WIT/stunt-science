@@ -2,6 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Firebase;
+using Firebase.Firestore;
+using Firebase.Extensions;
+using System.Collections.Generic;
 
 public class Register : MonoBehaviour
 {
@@ -10,51 +14,139 @@ public class Register : MonoBehaviour
     public Text popUp;
     public WarningErrorUI warningErrorUI;
     public FirebaseManager firebaseManager;
+    FirebaseApp app;
 
-    void test(){
+    void test()
+    {
         Debug.Log("Called test");
+    }
+
+    void ToggleError(string errorMessages)
+    {
+        warningErrorUI.message = errorMessages;
+        warningErrorUI.togglePanel();
+    }
+
+    async void RegisterPlayer()
+    {
+        app = Firebase.FirebaseApp.DefaultInstance;
+        FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
+        DocumentReference docRef;
+        docRef = db.Collection("game_keys").Document(pCode.text);
+        Dictionary<string, object> log = new Dictionary<string, object>{
+                            {"binded_device", SystemInfo.deviceUniqueIdentifier},
+                            {"activated", true}
+                        };
+
+        Debug.Log("Registering player");
+        PlayerPrefs.SetInt("Life", 3);
+        RegistrationManager.playerName = pName.GetComponent<Text>().text;
+        RegistrationManager.playerCode = pCode.GetComponent<InputField>().text;
+        PlayerPrefs.SetString("Name", RegistrationManager.playerName);
+        PlayerPrefs.SetString("IDCode", RegistrationManager.playerCode);
+        PlayerPrefs.SetString("Gender", RegistrationManager.playerGender);
+
+        await docRef.SetAsync(log, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
+                                    {
+                                        Debug.Log("Data updated to the log.");
+                                        SceneManager.LoadScene("LevelSelectV2");
+                                    });
+
     }
 
     public async void StoreProfile()
     {
-        firebaseManager.SetKeyCode(pCode.text);
         // Error checkup
         bool error = false;
         string errorMessages = "";
-        if (pName.GetComponent<Text>().text.Length < 2)
-        {
-            error = true;
-            errorMessages += "Invalid name. Please review your name.\n";
-        }
 
-        if (RegistrationManager.playerGender == null)
-        {
-            error = true;
-            errorMessages += "Missing gender selection.\n";
-        }
 
-        if (pCode.text.Length < 3)
+        if (SystemInfo.deviceType == DeviceType.Desktop)
         {
-            error = true;
-            errorMessages += "Invalid code. Please check or ask your teacher.\n";
-        }
+            app = Firebase.FirebaseApp.DefaultInstance;
+            FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
+            DocumentReference docRef;
 
-        firebaseManager.CheckIfKeyCodeValid(test);
+            if (pCode.text.Length > 0)
+            {
+                docRef = db.Collection("game_keys").Document(pCode.text);
 
-        if (error)
-        {
-            warningErrorUI.message = errorMessages;
-            warningErrorUI.togglePanel();
+                await docRef.GetSnapshotAsync().ContinueWith((task) =>
+                {
+                    var snapshot = task.Result;
+                    if (snapshot.Exists)
+                    {
+                        Debug.Log($"Key exists");
+
+                        Dictionary<string, object> gkey = snapshot.ToDictionary();
+
+                        Debug.Log($"Activated Status: {gkey["activated"]}");
+
+                        if (bool.Parse(gkey["activated"].ToString()) == true)
+                        {
+                            error = true;
+                            errorMessages += "Your keycode already taken.\n";
+                        }
+                    }
+                    else
+                    {
+                        error = true;
+                        errorMessages += "Your keycode is invalid. Please review your entry.\n";
+
+                    }
+                });
+
+                if (pName.GetComponent<Text>().text.Length < 2)
+                {
+                    error = true;
+                    errorMessages += "Invalid name. Please review your name.\n";
+                }
+
+                if (RegistrationManager.playerGender == null)
+                {
+                    error = true;
+                    errorMessages += "Missing gender selection.\n";
+                }
+
+                if (pCode.text.Length < 3)
+                {
+                    error = true;
+                    errorMessages += "Invalid code. Please check or ask your teacher.\n";
+                }
+
+                if (error)
+                {
+                    Debug.Log(errorMessages);
+                    ToggleError(errorMessages);
+                }
+                else
+                {
+                    RegisterPlayer();
+                }
+            }
+            else
+            {
+                error = true;
+                errorMessages += "Empty code. Please check or ask your teacher.\n";
+                ToggleError(errorMessages);
+            }
         }
         else
         {
-            PlayerPrefs.SetInt("Life", 3);
-            RegistrationManager.playerName = pName.GetComponent<Text>().text;
-            RegistrationManager.playerCode = pCode.GetComponent<InputField>().text;
-            PlayerPrefs.SetString("Name", RegistrationManager.playerName);
-            PlayerPrefs.SetString("IDCode", RegistrationManager.playerCode);
-            PlayerPrefs.SetString("Gender", RegistrationManager.playerGender);
-            SceneManager.LoadScene("LevelSelectV2");
+            await Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+                {
+                    var dependencyStatus = task.Result;
+                    if (dependencyStatus == Firebase.DependencyStatus.Available)
+                    {
+
+                    }
+                    else
+                    {
+                        error = true;
+                        errorMessages += "Unable to detect Google play dependencies.\n";
+                        ToggleError(errorMessages);
+                    }
+                });
         }
     }
     IEnumerator LateCall()

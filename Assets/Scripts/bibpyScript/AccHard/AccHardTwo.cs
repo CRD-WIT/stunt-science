@@ -9,7 +9,7 @@ public class AccHardTwo : MonoBehaviour
     //public Quaternion angleB;
     public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions, cam, directorPlatform;
     public GameObject verticalOne, horizontal;
-    public GameObject bulletPos, wheelPos, bulletHere, targetHere, truckInitials, chopperInitials;
+    public GameObject bulletPos, wheelPos, bulletHere, targetHere, truckInitials, chopperInitials,targetSignAge;
     public TruckManager theTruck;
     public MulticabManager theMulticab;
     public Hellicopter theChopper;
@@ -32,6 +32,7 @@ public class AccHardTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        targetSignAge.SetActive(true);
         //theQuestion.stageNumber = 2;
         theSimulate.stage = 2;
         StartCoroutine(positioning());
@@ -44,6 +45,7 @@ public class AccHardTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        targetSignAge.transform.position = new Vector3(targetWheel.transform.position.x-2, targetWheel.transform.position.y, -5);
         debugAnswer.SetText($"Answer: {correctAnswer}");
         truckInitials.transform.position = theTruck.transform.position;
         accHtxt.text = ("a = 0 m/s²");
@@ -298,6 +300,7 @@ public class AccHardTwo : MonoBehaviour
         if (playerAnswer == answer)
         {
             targetWheel.SetActive(false);
+            targetSignAge.SetActive(false);
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the 2nd target!",true, false);
             //Time.timeScale = 0;
         }

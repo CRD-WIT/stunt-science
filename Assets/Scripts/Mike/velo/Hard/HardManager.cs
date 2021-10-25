@@ -31,6 +31,7 @@ public class HardManager : MonoBehaviour
     public Animator bossAnim;
     StageManager sm = new StageManager();
     public HeartManager life;
+    public TMP_Text debugAnswer;
     float? timeL;
     void Start()
     {
@@ -63,6 +64,7 @@ public class HardManager : MonoBehaviour
     }
     void Update()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         if (reset)
         {
             if (stage == 3)

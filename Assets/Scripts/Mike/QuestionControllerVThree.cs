@@ -35,7 +35,6 @@ public class QuestionControllerVThree : MonoBehaviour
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
     HeartManager life;
-    // public GraphQLCloud graphQLCloud;
 
     // Start is called before the first frame update
     void Start()
