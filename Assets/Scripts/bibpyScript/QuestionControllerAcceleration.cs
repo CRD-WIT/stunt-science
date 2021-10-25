@@ -104,6 +104,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
 
     public void EvaluatePlayerScore()
     {
+        
         string playerPrefsName = "";
         switch (levelDifficulty)
         {
@@ -117,7 +118,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
                 playerPrefsName = ($"level{levelName}Hard");
                 break;
         }
-
+        Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
         settingUI.ToggleLevelFinished();
         //SceneManager.LoadScene("LevelSelectV2");

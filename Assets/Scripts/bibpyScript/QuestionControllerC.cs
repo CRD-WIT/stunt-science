@@ -120,7 +120,7 @@ public class QuestionControllerC : MonoBehaviour
                 playerPrefsName = ($"level{levelName}Hard");
                 break;
         }
-
+        Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
         settingUI.ToggleLevelFinished();
         //SceneManager.LoadScene("LevelSelectV2");

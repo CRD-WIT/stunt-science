@@ -27,6 +27,7 @@ public class QuestionControllerVThree : MonoBehaviour
     [SerializeField] Transform difficultyName, stageName;
     [SerializeField] string modalText, errorText;
     [SerializeField] bool popupVisible, extraOn;
+    public FirebaseManager firebaseManager;
 
     [SerializeField]
     GameObject modalComponentHorizontal, popupComponentHorizontal, playButtonHorizontal, timerComponentHorizontal, problemBoxHorizontal,
@@ -113,6 +114,7 @@ public class QuestionControllerVThree : MonoBehaviour
                 break;
         }
 
+        Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
         settingUI.ToggleLevelFinished();
         //SceneManager.LoadScene("LevelSelectV2");
@@ -128,6 +130,7 @@ public class QuestionControllerVThree : MonoBehaviour
             // NOTE: Use this template when ending levels.
             if (isComplete)
             {
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);                                
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
                 actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
 

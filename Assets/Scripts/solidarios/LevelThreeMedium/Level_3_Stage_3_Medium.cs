@@ -54,7 +54,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
         {
             directorBubble.SetActive(true);
             //diretorsSpeech.text = "Take " + take + ("!");
-            yield return new WaitForSeconds(0.75f);
+            // yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Lights!";
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";

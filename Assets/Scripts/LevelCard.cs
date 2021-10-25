@@ -32,6 +32,7 @@ public class LevelCard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        this.gameObject.GetComponent<Button>().interactable = !locked;
         levelNumberObject.SetText(levelNumberText.ToString());
         levelStars[0].ToggleStar(starActiveCount >= 1);
         levelStars[1].ToggleStar(starActiveCount >= 2);

@@ -46,7 +46,7 @@ public class AccHardTwo : MonoBehaviour
     void FixedUpdate()
     {
         targetSignAge.transform.position = new Vector3(targetWheel.transform.position.x-2, targetWheel.transform.position.y, -5);
-        debugAnswer.SetText($"Answer: {correctAnswer}");
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer,2)}");
         truckInitials.transform.position = theTruck.transform.position;
         accHtxt.text = ("a = 0 m/s²");
         chopperInitials.transform.position = theChopper.transform.position;
@@ -304,14 +304,15 @@ public class AccHardTwo : MonoBehaviour
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the 2nd target!",true, false);
             //Time.timeScale = 0;
         }
-        if (playerAnswer > answer)
+       if (playerAnswer != answer)
         {
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " flies the helicopter too fast. The correct answer is </color>" + answer.ToString("F2") + "m/s.",false, false);
+            theHeart.ReduceLife();
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " unable to performed the stunt and missed the target",false, false);
         }
-        if (playerAnswer < answer)
+        /*if (playerAnswer < answer)
         {
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " flies the helicopter too slow. The correct answer is </color>" + answer.ToString("F2") + "m/s.",false, false);
-        }
+        }*/
     }
     public IEnumerator positioningTwo()
     {

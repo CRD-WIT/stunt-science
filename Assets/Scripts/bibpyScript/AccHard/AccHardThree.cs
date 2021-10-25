@@ -309,15 +309,15 @@ public class AccHardThree : MonoBehaviour
             theTruck.moveSpeed = 0;
             //Time.timeScale = 0;
         }
-        if (playerAnswer > answer)
+       if (playerAnswer != answer)
         {
-            yield return new WaitForSeconds(playerAnswer - 16);
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " accelerated the helicopter too fast. The correct answer is </color>" + answer.ToString("F2") + "m/s².",false, false);
+            theHeart.ReduceLife();
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " unable to performed the stunt and missed the target",false, false);
         }
-        if (playerAnswer < answer)
+        /*if (playerAnswer < answer)
         {
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " accelerated the helicopter too slow. The correct answer is </color>" + answer.ToString("F2") + "m/s².",false, false);
-        }
+        }*/
 
 
     }

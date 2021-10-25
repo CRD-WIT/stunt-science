@@ -49,7 +49,7 @@ public class Register : MonoBehaviour
         await docRef.SetAsync(log, SetOptions.MergeAll).ContinueWithOnMainThread(task =>
                                     {
                                         Debug.Log("Data updated to the log.");
-                                        SceneManager.LoadScene("LevelSelectV2");
+                                        SceneManager.LoadScene("Onboarding");
                                     });
 
     }

@@ -43,7 +43,7 @@ public class AccHardOne : MonoBehaviour
     void FixedUpdate()
     {
         targetSignAge.transform.position = new Vector3(targetWheel.transform.position.x-2, targetWheel.transform.position.y, -5);
-        debugAnswer.SetText($"Answer: {correctAnswer}");
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
         truckInitials.transform.position = theTruck.transform.position;
         cam.transform.position = new Vector3(theChopper.transform.position.x + camPos, cam.transform.position.y, cam.transform.position.z);
         truckCurrentPos = theTruck.transform.position.x;
@@ -230,14 +230,15 @@ public class AccHardOne : MonoBehaviour
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the target!",true, false);
             //Time.timeScale = 0;
         }
-        if (playerAnswer > answer)
+        if (playerAnswer != answer)
         {
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " shot too late. The correct answer is </color>" + answer.ToString("F2") + "seconds.",false, false);
+            theHeart.ReduceLife();
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " unable to performed the stunt and missed the target",false, false);
         }
-        if (playerAnswer < answer)
+        /*if (playerAnswer < answer)
         {
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " shot too soon. The correct answer is </color>" + answer.ToString("F2") + "seconds.",false, false);
-        }
+        }*/
 
 
     }

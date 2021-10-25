@@ -126,6 +126,8 @@ public class QuestionControllerB : MonoBehaviour
                 break;
         }
 
+        Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
+
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
         settingUI.ToggleLevelFinished();
 
