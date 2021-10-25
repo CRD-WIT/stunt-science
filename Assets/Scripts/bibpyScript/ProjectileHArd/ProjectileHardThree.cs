@@ -7,7 +7,7 @@ public class ProjectileHardThree : MonoBehaviour
 {
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
-    public QuestionContProJHard  theQuestion;
+    public QuestionContProJHard theQuestion;
     public TMP_Text debugAnswer;
     public golem theGolem;
     public HeartManager theHeart;
@@ -16,7 +16,7 @@ public class ProjectileHardThree : MonoBehaviour
     public IndicatorManager theIndicator;
     public DistanceMeter[] theMeter;
     public GameObject Mgear, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer, boulder, angleArrow;
-    public GameObject dimension, cam, golemInitial, playerInitial, angleDimension,angleLine;
+    public GameObject dimension, cam, golemInitial, playerInitial, angleDimension, angleLine;
     public float Vo, generateVG, vG, generateVP, vP, accG;
     public float angle, HRange, timer, generateTime, time, projectileTime, playerProjectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
@@ -32,7 +32,7 @@ public class ProjectileHardThree : MonoBehaviour
         camDistance = thePlayer.transform.position.x - cam.transform.position.x;
         golemAcc.gameObject.SetActive(true);
         gender = PlayerPrefs.GetString("Gender");
-         if (gender == "Male")
+        if (gender == "Male")
         {
             pronoun = ("he");
             pronoun2 = ("him");
@@ -47,11 +47,11 @@ public class ProjectileHardThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-         debugAnswer.SetText($"Answer: {correctAnswer}");
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         angleLine.transform.position = this.transform.position;
         theCircular._origin = new Vector2(this.transform.position.x + .5f, this.transform.position.y);
         angleArrow.transform.rotation = this.transform.rotation;
-        angleArrow.transform.position = new Vector2(transform.position.x +.1f, transform.position.y);
+        angleArrow.transform.position = new Vector2(transform.position.x + .1f, transform.position.y);
         golemInitial.transform.position = theGolem.transform.position;
         playerInitial.transform.position = thePlayer.transform.position;
         if (running)
@@ -94,16 +94,16 @@ public class ProjectileHardThree : MonoBehaviour
             theMeter[1].distance = this.transform.position.y + 0.25f;
             theMeter[2].positionX = this.transform.position.x;
             theMeter[2].positionY = this.transform.position.y - 2.5f;
-            theMeter[2].distance = target.transform.position.x-this.transform.position.x;
+            theMeter[2].distance = target.transform.position.x - this.transform.position.x;
             theCircular._degrees = angle;
             theCircular.initialAngle = 85 - angle;
             transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (angle));
-            
+
         }
         if (theQuestion.isSimulating == true)
         {
-            playerProjectileTime = finalDistance / (Mathf.Cos(((( ((angle - ProjHardSimulation.playerAnswer)/2)+ ProjHardSimulation.playerAnswer)) * Mathf.Deg2Rad)) * Vo);
-            theCircular._degrees =ProjHardSimulation.playerAnswer;
+            playerProjectileTime = finalDistance / (Mathf.Cos((((((angle - ProjHardSimulation.playerAnswer) / 2) + ProjHardSimulation.playerAnswer)) * Mathf.Deg2Rad)) * Vo);
+            theCircular._degrees = ProjHardSimulation.playerAnswer;
             theCircular.initialAngle = 85 - ProjHardSimulation.playerAnswer;
             angleTxt.text = "Θ = " + ProjHardSimulation.playerAnswer.ToString("F2") + "°";
             trail.SetActive(true);
@@ -134,7 +134,7 @@ public class ProjectileHardThree : MonoBehaviour
         }
         if (timeStart)
         {
-           
+
             if (timer == 0)
             {
                 dimension.SetActive(false);
@@ -155,7 +155,7 @@ public class ProjectileHardThree : MonoBehaviour
                 {
                     ShootArrow();
                     thePlayer.backward = false;
-                   playerSpeed = 0;
+                    playerSpeed = 0;
                     shootReady = false;
 
                 }
@@ -165,9 +165,9 @@ public class ProjectileHardThree : MonoBehaviour
                 theGolem.accelarating = false;
                 theGolem.moveSpeed = 0;
             }
-             if (timer >= playerProjectileTime + time)
+            if (timer >= playerProjectileTime + time)
             {
-               //StartCoroutine(theIndicator.showIndicator());
+                //StartCoroutine(theIndicator.showIndicator());
             }
 
         }
@@ -197,8 +197,8 @@ public class ProjectileHardThree : MonoBehaviour
         vP = (float)System.Math.Round(Random.Range(1f, 1.7f), 2);
         angle = (float)System.Math.Round(Random.Range(50f, 58f), 2);
         trail.SetActive(false);
-        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to fire his gun after moving upward in an inclined plane with a velocity of <b>") + vP.ToString("F2") + ("</b> m/s for <b>") 
-        + time.ToString("F2") + ("</b> seconds and must hit the weakest spot of the Golem which is initially <b>") + initialDistance.ToString("F2") + ("</b>  meters away from ")+ pronoun2 + (" and moves forward at the velocity of <b>") + vG.ToString("F2") + ("</b> m/s and accelerates at <b>") + accG.ToString("F2") + ("</b> m/s². If the bullet shall hit the target with a projectile time of <b>") + projectileTime.ToString("F2") + ("</b> seconds. What should be the angle of the projectile in order for ") + PlayerPrefs.GetString("Name") + (" to perfect the stunt?"))); 
+        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to fire his gun after moving upward in an inclined plane with a velocity of <b>") + vP.ToString("F2") + ("</b> m/s for <b>")
+        + time.ToString("F2") + ("</b> seconds and must hit the weakest spot of the Golem which is initially <b>") + initialDistance.ToString("F2") + ("</b>  meters away from ") + pronoun2 + (" and moves forward at the velocity of <b>") + vG.ToString("F2") + ("</b> m/s and accelerates at <b>") + accG.ToString("F2") + ("</b> m/s². If the bullet shall hit the target with a projectile time of <b>") + projectileTime.ToString("F2") + ("</b> seconds. What should be the angle of the projectile in order for ") + PlayerPrefs.GetString("Name") + (" to perfect the stunt?")));
         //Vo = (float)System.Math.Round((Random.Range(50f, 57f)), 2);
     }
     public void ShootArrow()
@@ -210,7 +210,7 @@ public class ProjectileHardThree : MonoBehaviour
         lineRenderer.GetComponent<LineRenderer>().enabled = true;
         theArrow[0].generateLine = true;
         trail.GetComponent<TrailRenderer>().time = 3000;
-        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo-.1f);
+        arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo - .1f);
         if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             StartCoroutine(ropePull());
@@ -275,15 +275,15 @@ public class ProjectileHardThree : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-          yield return new WaitForSeconds(projectileTime + 4);
-        if ( ProjHardSimulation.playerAnswer == correctAnswer)
+        yield return new WaitForSeconds(projectileTime + 4);
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"),true, true);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, true);
         }
-         if ( ProjHardSimulation.playerAnswer != correctAnswer)
+        if (ProjHardSimulation.playerAnswer != correctAnswer)
         {
-             theHeart.ReduceLife();
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit the target"),false, false);
+            theHeart.ReduceLife();
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit the target"), false, false);
         }
         running = false;
         StartCoroutine(theSimulate.DirectorsCall());
