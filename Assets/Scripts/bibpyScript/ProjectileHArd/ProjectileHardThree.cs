@@ -251,7 +251,7 @@ public class ProjectileHardThree : MonoBehaviour
         thePlayer.running = true;
         yield return new WaitForSeconds(2);
         theGolem.standUp = true;
-        StartCoroutine(theHeart.endBGgone());
+        StartCoroutine(theSimulate.ExitTrans());
         yield return new WaitForSeconds(2);
         arrow.GetComponent<Collider2D>().isTrigger = false;
         theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;

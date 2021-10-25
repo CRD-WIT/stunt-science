@@ -314,5 +314,13 @@ public class Settings : MonoBehaviour
         fm.GameLogMutation(levelNumber, stage, difficulty.Length > 1 ? difficulty : null, Actions.NewGame, 0);
         PlayerPrefs.DeleteAll();
     }
+     public void ProjEasyReloadScene()
+    {
+        SceneManager.LoadScene("LevelThreeStage1");
+    }
+    public void ProjMedReloadScene()
+    {
+        SceneManager.LoadScene("LevelThreeStage1Medium");
+    }
 
 }
