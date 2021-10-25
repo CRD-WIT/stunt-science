@@ -10,7 +10,6 @@ public class QuestionControllerC : MonoBehaviour
     
     float playerAnswer;
     public float limit = 0;
-    //public GraphQLCloud graphQLCloud;
     public Transform baseComponent, problemBox, extraComponent, levelBadge;
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
@@ -29,6 +28,7 @@ public class QuestionControllerC : MonoBehaviour
     [SerializeField] TMP_InputField answerFieldHorizontal;
     public Transform difficultyName;
     public TMP_Text stageName;
+    public FirebaseManager firebaseManager;
     public string modalText, errorText;
     public bool popupVisible, extraOn;
     public TMP_Text levelNumberText;
@@ -91,7 +91,7 @@ public class QuestionControllerC : MonoBehaviour
             else
             {
                 StartCoroutine(Retry());
-                ////graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);                                
             }
                 
             isModalOpen = false;
@@ -144,7 +144,7 @@ public class QuestionControllerC : MonoBehaviour
                 modalTitle = "Stunts Completed!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
-                //graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);                                
             }
             else
             {
@@ -154,7 +154,7 @@ public class QuestionControllerC : MonoBehaviour
                 modalTitle = "Stunt Success!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
-                //graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);                                
             }
         }
         else
@@ -163,7 +163,7 @@ public class QuestionControllerC : MonoBehaviour
             modalTitle = "Stunt Failed!";
             modalText = message;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
-            //graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);                            
         }
         actionBtn.interactable = true;
         isSimulating = false;
@@ -187,8 +187,8 @@ public class QuestionControllerC : MonoBehaviour
         answerFieldHorizontal.characterLimit = splitted[0].Length + 3;
     }
     public void SetAnswer()
-    {
-        ////graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
+    {        
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);                
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
@@ -213,7 +213,7 @@ public class QuestionControllerC : MonoBehaviour
             stage = 3;
             nextStage = true;
         }
-        //graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);                        
     }
     IEnumerator Retry()
     {
