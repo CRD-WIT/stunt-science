@@ -3,12 +3,9 @@ using UnityEngine;
 public class StageManager
 {
     string[] levelDifficulties = { "", "easy", "medium", "hard" };
-    public static Settings settingsLink;
-
-    string[] gameLevel = settingsLink.gameLevelNames;
     string currentLevelDifficulty, currentGameLevel;
 
-    public Settings settingUI;
+    public Settings settingUI = new Settings();
     public int GetStageFromPlayerPrefs()
     {
         return PlayerPrefs.GetInt("stageNumber");
@@ -34,7 +31,7 @@ public class StageManager
     public int GetLevelNum(string n)
     {
         int i = 0;
-        while (gameLevel[i] != n)
+        while (settingUI.GetLevelNames()[i] != n)
         {
             i++;
         }

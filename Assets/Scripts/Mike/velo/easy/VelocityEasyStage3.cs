@@ -19,6 +19,7 @@ public class VelocityEasyStage3 : MonoBehaviour
     public QuestionControllerVThree qc;
     public TMP_Text debugAnswer;
     public AudioSource scream;
+    public FirebaseManager firebaseManager;
 
     // Start is cdimensionLineled before the first frame update
 
@@ -34,6 +35,8 @@ public class VelocityEasyStage3 : MonoBehaviour
             pronoun = "she";
         }
         playerName = PlayerPrefs.GetString("Name");
+
+        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0);        
 
         Stage3SetUp();
 

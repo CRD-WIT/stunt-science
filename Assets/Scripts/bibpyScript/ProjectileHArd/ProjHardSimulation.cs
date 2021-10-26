@@ -160,8 +160,8 @@ public class ProjHardSimulation : MonoBehaviour
         if (directorIsCalling)
         {
             directorBubble.SetActive(true);
-            diretorsSpeech.text = "Take " + take + ("!");
-            yield return new WaitForSeconds(0.75f);
+            // diretorsSpeech.text = "Take " + take + ("!");
+            // yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Lights!";
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";

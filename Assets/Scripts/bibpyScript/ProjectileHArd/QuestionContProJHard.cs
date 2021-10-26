@@ -43,6 +43,7 @@ public class QuestionContProJHard : MonoBehaviour
     // Start is called before the first frame update
     public void SetGameLevel(int level)
     {
+        Debug.Log($"Level #: {level}");
         PlayerPrefs.SetString("Level", settingUI.GetLevelNames()[level]);
     }
     void Start()
@@ -118,7 +119,7 @@ public class QuestionContProJHard : MonoBehaviour
                 playerPrefsName = ($"level{levelName}Hard");
                 break;
         }
-
+        Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
         settingUI.ToggleLevelFinished();
         //SceneManager.LoadScene("LevelSelectV2");
@@ -166,7 +167,7 @@ public class QuestionContProJHard : MonoBehaviour
     }
     public void SetQuestion(string qstn)
     {
-        Debug.Log($"Setting question...{qstn}");
+       // Debug.Log($"Setting question...{qstn}");
         question = qstn;
     }
 
@@ -358,7 +359,7 @@ public class QuestionContProJHard : MonoBehaviour
         popupTextHorizontal.SetText(errorText);
         modalComponentHorizontal.gameObject.SetActive(isModalOpen);
         modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
-        Debug.Log(question);
+        //Debug.Log(question);
         problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
         modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
         problemTextHorizontal.SetActive(!isModalOpen);
