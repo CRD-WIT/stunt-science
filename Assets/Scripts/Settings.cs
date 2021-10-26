@@ -316,10 +316,12 @@ public class Settings : MonoBehaviour
     }
      public void ProjEasyReloadScene()
     {
+        PlayerPrefs.SetInt("Life", 3);
         SceneManager.LoadScene("LevelThreeStage1");
     }
     public void ProjMedReloadScene()
     {
+        PlayerPrefs.SetInt("Life", 3);
         SceneManager.LoadScene("LevelThreeStage1Medium");
     }
 

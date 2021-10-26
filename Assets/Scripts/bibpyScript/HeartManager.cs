@@ -60,21 +60,21 @@ public class HeartManager : MonoBehaviour
             if (life == 0)
             {
 
-                Time.timeScale = 0.4f;
+                //Time.timeScale = 0.4f;
                 Debug.Log("Gameover triggered!");
-                StartCoroutine(actionreset());
+                //StartCoroutine(actionreset());
                 StartCoroutine(gameover());
             }
         }
 
     }
-    public IEnumerator actionreset()
-    {
-        yield return new WaitForEndOfFrame();
-        // TODO: Get data from playerprefs
-        life = 3;
-        PlayerPrefs.SetInt("Life", life);
-    }
+    // public IEnumerator actionreset()
+    // {
+    //     yield return new WaitForEndOfFrame();
+    //     // TODO: Get data from playerprefs
+    //     life = 3;
+    //     PlayerPrefs.SetInt("Life", life);
+    // }
     IEnumerator gameover()
     {
         bgm.Stop();
@@ -84,7 +84,7 @@ public class HeartManager : MonoBehaviour
         StartCoroutine(endBGgone());
         //yield return new WaitForSeconds(2);
         // SceneManager.LoadScene("LevelOne");
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
     }
     public IEnumerator endBGgone()
     {
@@ -116,6 +116,8 @@ public class HeartManager : MonoBehaviour
     }
     public void reloadScene()
     {
+        life = 3;
+        PlayerPrefs.SetInt("Life", life);
         int scene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }

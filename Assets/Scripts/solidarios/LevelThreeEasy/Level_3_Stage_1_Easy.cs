@@ -78,6 +78,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     float globalTime, answer;
     public HeartManager life;
+    bool showResult;
 
     StageManager sm = new StageManager();
 
@@ -85,6 +86,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void Start()
     {
+        showResult = true;
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
         // Given
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(1f, 1.5f), 2);
@@ -383,13 +385,19 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         }
         if (isEndOfStunt)
         {
-            if (isAnswerCorrect == true)
+           if (showResult)
             {
-                StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able grab at the branch"), true, false)));
-            }
-            if (isAnswerCorrect == false)
-            {
-                StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able grab at the branch"), false, false)));
+                if (isAnswerCorrect == true)
+                {
+                    StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able grab at the branch"), true, false)));
+                    showResult = false;
+                }
+                if (isAnswerCorrect == false)
+                {
+                    StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able grab at the branch"), false, false)));
+                    showResult = false;
+                }
+                
             }
         }
         if (questionController.isSimulating)
