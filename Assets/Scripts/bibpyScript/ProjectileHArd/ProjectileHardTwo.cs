@@ -5,9 +5,10 @@ using TMPro;
 
 public class ProjectileHardTwo : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
-    public QuestionControllerC theQuestion;
+    public QuestionContProJHard  theQuestion;
     public golem theGolem;
     public HeartManager theHeart;
     public CircularAnnotation[] theCircular;
@@ -44,6 +45,7 @@ public class ProjectileHardTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+         debugAnswer.SetText($"Answer: {correctAnswer}");
         golemInitial.transform.position = theGolem.transform.position;
         playerInitials.transform.position = thePlayer.transform.position;
         if (running)
@@ -132,6 +134,7 @@ public class ProjectileHardTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        theHeart.losslife = false;
         //theIndicator.showReady = true;
         timer = 0;
         arrow.SetActive(false);
@@ -217,7 +220,7 @@ public class ProjectileHardTwo : MonoBehaviour
         thePlayer.running = true;
         yield return new WaitForSeconds(2);
         theGolem.standUp = true;
-        StartCoroutine(theHeart.endBGgone());
+        StartCoroutine(theSimulate.ExitTrans());
         yield return new WaitForSeconds(2);
         arrow.GetComponent<Collider2D>().isTrigger = false;
         theArrow[0].rb.bodyType = RigidbodyType2D.Dynamic;
@@ -251,6 +254,7 @@ public class ProjectileHardTwo : MonoBehaviour
         }
          if ( ProjHardSimulation.playerAnswer != correctAnswer)
         {
+            theHeart.ReduceLife();
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit the target"),false, false);
         }
         StartCoroutine(theSimulate.DirectorsCall());

@@ -36,6 +36,7 @@ public class AccManagerOne : MonoBehaviour
 
     void Start()
     {
+        //Vitxt.text = ("v = ") + thePlayer.moveSpeed.ToString("F2") + ("m/s");
         theQuestion.SetGameLevel(2);
         bikeInitialsPos = bikeInitials.transform.position;
         theBike = FindObjectOfType<BikeManager>();
@@ -177,7 +178,7 @@ public class AccManagerOne : MonoBehaviour
         timertxt.text = ("0.00s");
         generateTime = Random.Range(3.0f, 3.5f);
         time = (float)System.Math.Round(generateTime, 2);
-        theQuestion.SetQuestion(PlayerPrefs.GetString("Name") + (" is instructed to enter the tunnel on the otherside of the platform where  ") + pronoun + (" is in, ") + pronoun + (" must drive his motorcycle from a complete stand still to a speed of <b>") + Vf.ToString("F2") + ("</b> m/s, after <b>") + time.ToString("F2") + ("</b> seconds. What should be ") + pronoun2 + (" acceleration in order to achieve the final velocity?"));
+        theQuestion.SetQuestion(PlayerPrefs.GetString("Name") + (" is instructed to drive  ") + pronoun2 + (" motorcycle into the tunnel accross the platform were ") + pronoun + (" is in, If ")+ pronoun +(" must achieve a velocity of <b>") + Vf.ToString("F2") + ("</b> m/s, after driving the motorcycle forward for <b>") + time.ToString("F2") + ("</b> seconds from a complete stand still to succesfully accomplish ") + pronoun2 + (" stunt, what should be ")+ pronoun2 +(" constant acceleration ?"));
         theHeart.losslife = false;
         theBike.moveSpeed = 0;
         Acctxt.text = ("a = ?");

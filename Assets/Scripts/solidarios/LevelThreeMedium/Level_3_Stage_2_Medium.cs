@@ -12,10 +12,10 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     public TMP_Text initalVelociyText, questionText, levelName, VoTxt, angleTxt, timerTxt;
     bool isSimulating = false;
     public GameObject hook, hookLauncher, thePlayerRunning, shootPosTriger, puller, angularAnotation, gun, dimensions, target;
-    public GameObject hookLine, trail,targetLock, targetHere;
+    public GameObject hookLine, trail, targetLock, targetHere;
     public GameObject hookIndicator;
     public playerProjectileMed thePlayer;
-    
+
     public float distanceX, distanceY;
     public float angleGiven, projectileTime, Vo, timer, correctAnswer;
 
@@ -24,7 +24,8 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     public CameraScript cameraScript;
     public Hook theHook;
     public QuestionContProjMed questionController;
-     public GameObject directorBubble;
+    public GameObject directorBubble;
+    public TMP_Text debugAnswer;
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     public TMP_InputField answerField;
@@ -34,8 +35,8 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     public HeartManager theHeart;
     void Start()
     {
-         theHeart.startbgentrance(); 
-        targetHere.SetActive(true); 
+        theHeart.startbgentrance();
+        targetHere.SetActive(true);
         gender = PlayerPrefs.GetString("Gender");
         if (gender == "Male")
         {
@@ -49,7 +50,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         }
         questionController.SetQuestion("......");
     }
-     public IEnumerator DirectorsCall()
+    public IEnumerator DirectorsCall()
     {
         if (directorIsCalling)
         {
@@ -97,7 +98,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
 
         }
     }
-     public IEnumerator errorMesage()
+    public IEnumerator errorMesage()
     {
         questionController.popupVisible = true;
         yield return new WaitForSeconds(3);
@@ -134,16 +135,16 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-       yield return new WaitForSeconds(2f);
-        if(playerAnswer == correctAnswer)
+        yield return new WaitForSeconds(2f);
+        if (playerAnswer == correctAnswer)
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
-        } 
-         if(playerAnswer != correctAnswer)
+        }
+        if (playerAnswer != correctAnswer)
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
             theHeart.ReduceLife();
-        }       
+        }
     }
     public void action()
     {
@@ -161,6 +162,8 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
 
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
+
         hookLine.GetComponent<LineRenderer>().SetPosition(0, gun.transform.position);
         hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
 
@@ -183,7 +186,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         }
         if (preSetUp)
         {
-           
+
             angleTxt.text = "Θ = ?";
             angleTxt.gameObject.transform.position = hookLauncher.transform.position;
             angularAnotation.transform.position = gun.transform.position;

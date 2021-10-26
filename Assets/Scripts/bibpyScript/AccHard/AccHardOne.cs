@@ -9,7 +9,7 @@ public class AccHardOne : MonoBehaviour
     //public Quaternion angleB;
     public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions, truckInitials;
     public GameObject verticalOne, horizontal;
-    public GameObject bulletPos, wheelPos, bulletHere, targetHere, cam;
+    public GameObject bulletPos, wheelPos, bulletHere, targetHere, cam, targetSignAge;
     public TruckManager theTruck;
     public Hellicopter theChopper;
     public ShootManager theShoot;
@@ -42,7 +42,8 @@ public class AccHardOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        debugAnswer.SetText($"Answer: {correctAnswer}");
+        targetSignAge.transform.position = new Vector3(targetWheel.transform.position.x-2, targetWheel.transform.position.y, -5);
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
         truckInitials.transform.position = theTruck.transform.position;
         cam.transform.position = new Vector3(theChopper.transform.position.x + camPos, cam.transform.position.y, cam.transform.position.z);
         truckCurrentPos = theTruck.transform.position.x;
@@ -225,17 +226,19 @@ public class AccHardOne : MonoBehaviour
         if (playerAnswer == answer)
         {
             targetWheel.SetActive(false);
+            targetSignAge.SetActive(false);
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the target!",true, false);
             //Time.timeScale = 0;
         }
-        if (playerAnswer > answer)
+        if (playerAnswer != answer)
         {
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " shot too late. The correct answer is </color>" + answer.ToString("F2") + "seconds.",false, false);
+            theHeart.ReduceLife();
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " unable to performed the stunt and missed the target",false, false);
         }
-        if (playerAnswer < answer)
+        /*if (playerAnswer < answer)
         {
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " shot too soon. The correct answer is </color>" + answer.ToString("F2") + "seconds.",false, false);
-        }
+        }*/
 
 
     }

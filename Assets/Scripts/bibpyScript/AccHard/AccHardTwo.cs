@@ -9,7 +9,7 @@ public class AccHardTwo : MonoBehaviour
     //public Quaternion angleB;
     public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions, cam, directorPlatform;
     public GameObject verticalOne, horizontal;
-    public GameObject bulletPos, wheelPos, bulletHere, targetHere, truckInitials, chopperInitials;
+    public GameObject bulletPos, wheelPos, bulletHere, targetHere, truckInitials, chopperInitials,targetSignAge;
     public TruckManager theTruck;
     public MulticabManager theMulticab;
     public Hellicopter theChopper;
@@ -32,6 +32,7 @@ public class AccHardTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        targetSignAge.SetActive(true);
         //theQuestion.stageNumber = 2;
         theSimulate.stage = 2;
         StartCoroutine(positioning());
@@ -44,7 +45,8 @@ public class AccHardTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        debugAnswer.SetText($"Answer: {correctAnswer}");
+        targetSignAge.transform.position = new Vector3(targetWheel.transform.position.x-2, targetWheel.transform.position.y, -5);
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer,2)}");
         truckInitials.transform.position = theTruck.transform.position;
         accHtxt.text = ("a = 0 m/s²");
         chopperInitials.transform.position = theChopper.transform.position;
@@ -298,17 +300,19 @@ public class AccHardTwo : MonoBehaviour
         if (playerAnswer == answer)
         {
             targetWheel.SetActive(false);
+            targetSignAge.SetActive(false);
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " successfully hit the 2nd target!",true, false);
             //Time.timeScale = 0;
         }
-        if (playerAnswer > answer)
+       if (playerAnswer != answer)
         {
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " flies the helicopter too fast. The correct answer is </color>" + answer.ToString("F2") + "m/s.",false, false);
+            theHeart.ReduceLife();
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " unable to performed the stunt and missed the target",false, false);
         }
-        if (playerAnswer < answer)
+        /*if (playerAnswer < answer)
         {
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " flies the helicopter too slow. The correct answer is </color>" + answer.ToString("F2") + "m/s.",false, false);
-        }
+        }*/
     }
     public IEnumerator positioningTwo()
     {

@@ -8,9 +8,10 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
 {
     // Start is called before the first frame update
     string question, gender, pronoun, pronoun2;
+    public TMP_Text debugAnswer;
     public TMP_Text initalVelociyText, questionText, levelName, VoTxt, angleTxt, timerTxt;
     bool isSimulating = false;
-    public GameObject hook, hookLauncher, thePlayerRunning, shootPosTriger, puller, angularAnotation, gun, dimensions, target,targetHere;
+    public GameObject hook, hookLauncher, thePlayerRunning, shootPosTriger, puller, angularAnotation, gun, dimensions, target, targetHere;
     public GameObject hookLine, trail, targetLock, targetWall;
     public GameObject hookIndicator;
     public playerProjectileMed thePlayer;
@@ -22,7 +23,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     public CameraScript cameraScript;
     public Hook theHook;
     public QuestionContProjMed questionController;
-     public GameObject directorBubble;
+    public GameObject directorBubble;
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     public TMP_InputField answerField;
@@ -32,8 +33,8 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     public HeartManager theHeart;
     void Start()
     {
-         theHeart.startbgentrance(); 
-        targetHere.SetActive(true); 
+        theHeart.startbgentrance();
+        targetHere.SetActive(true);
         gender = PlayerPrefs.GetString("Gender");
         if (gender == "Male")
         {
@@ -47,13 +48,13 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
         }
         questionController.SetQuestion("......");
     }
-     public IEnumerator DirectorsCall()
+    public IEnumerator DirectorsCall()
     {
         if (directorIsCalling)
         {
             directorBubble.SetActive(true);
             //diretorsSpeech.text = "Take " + take + ("!");
-            yield return new WaitForSeconds(0.75f);
+            // yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Lights!";
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
@@ -76,7 +77,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     }
     public void StartSimulation()
     {
-       targetHere.SetActive(false);
+        targetHere.SetActive(false);
         playerAnswer = questionController.GetPlayerAnswer();
         if (answerField.text == "" || playerAnswer > 5 || playerAnswer < 1)
         {
@@ -95,7 +96,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
 
         }
     }
-     public IEnumerator errorMesage()
+    public IEnumerator errorMesage()
     {
         questionController.popupVisible = true;
         yield return new WaitForSeconds(3);
@@ -133,16 +134,16 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-       yield return new WaitForSeconds(2f);
-        if(playerAnswer == correctAnswer)
+        yield return new WaitForSeconds(2f);
+        if (playerAnswer == correctAnswer)
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, true);
-        } 
-         if(playerAnswer != correctAnswer)
+        }
+        if (playerAnswer != correctAnswer)
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
             theHeart.ReduceLife();
-        }       
+        }
     }
     public void action()
     {
@@ -160,6 +161,8 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
 
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
+
         hookLine.GetComponent<LineRenderer>().SetPosition(0, gun.transform.position);
         hookLine.GetComponent<LineRenderer>().SetPosition(1, hook.transform.position);
 
@@ -208,7 +211,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
             //notes:limit !<2 & !>10;
             if (questionController.GetPlayerAnswer() != correctAnswer)
             {
-                VoPlayer = distanceX / ( questionController.GetPlayerAnswer() * (Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
+                VoPlayer = distanceX / (questionController.GetPlayerAnswer() * (Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
                 //anglePlayer = Mathf.Atan(((distanceY + ((9.81f / 2) * (questionController.GetPlayerAnswer() * questionController.GetPlayerAnswer()))) / distanceX)) * Mathf.Rad2Deg;
                 //VoPlayer = ((Mathf.Sqrt((Mathf.Abs(Physics2D.gravity.y) / (2 * ((distanceX * (Mathf.Tan((angleGiven) * Mathf.Deg2Rad))) - distanceY))))) * distanceX) / (Mathf.Cos((angleGiven) * Mathf.Deg2Rad));
                 angularAnotation.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);

@@ -3,7 +3,7 @@ using UnityEngine;
 public class StageManager
 {
     string[] levelDifficulties = { "", "easy", "medium", "hard" };
-    string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
+    string[] gameLevel = { "", "Velocity", "Acceleration", "FreeFallProjectile", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     string currentLevelDifficulty, currentGameLevel;
 
     // public void SetStage(int stageNumber)

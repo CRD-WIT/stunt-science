@@ -40,7 +40,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
     HeartManager life;
-    //public GraphQLCloud graphQLCloud;
+    public FirebaseManager firebaseManager;
 
     string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     // Start is called before the first frame update
@@ -104,6 +104,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
 
     public void EvaluatePlayerScore()
     {
+        
         string playerPrefsName = "";
         switch (levelDifficulty)
         {
@@ -117,7 +118,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
                 playerPrefsName = ($"level{levelName}Hard");
                 break;
         }
-
+        Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
         settingUI.ToggleLevelFinished();
         //SceneManager.LoadScene("LevelSelectV2");
@@ -139,8 +140,8 @@ public class QuestionControllerAcceleration : MonoBehaviour
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Finish";
                 modalTitle = "Stunts Completed!";
                 modalText = message;
-                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
-                //graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
+                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);                
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);                
             }
             else
             {
@@ -150,7 +151,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
                 modalTitle = "Stunt Success!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
-               // graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);                               
             }
         }
         else
@@ -160,7 +161,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
             modalText = message;
             retried = true;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
-            //graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);                
         }
         actionBtn.interactable = true;
         isSimulating = false;
@@ -184,7 +185,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
     }
     public void SetAnswer()
     {
-        //graphQLCloud.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Answered, 0);                        
         Debug.Log($"Player Answer: {answerFieldHorizontal.text}");
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
