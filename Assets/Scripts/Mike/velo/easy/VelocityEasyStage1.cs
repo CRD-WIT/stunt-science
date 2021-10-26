@@ -60,6 +60,9 @@ public class VelocityEasyStage1 : MonoBehaviour
     {
         debugAnswer.SetText($"Answer: {Speed}");
         float answer = questionController.GetPlayerAnswer();
+        if(answer >= questionController.limit){
+            answer = 0;
+            questionController.errorText = $"Your answer exceeds the world record of 10.44m/s. Please recompute!";}
         if (SimulationManager.isAnswered)
         {
             labels.distanceSpawnPnt = new Vector2(0, -2);
