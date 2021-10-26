@@ -62,6 +62,12 @@ public class Settings : MonoBehaviour
     public AudioSource[] sfxAudios;
 
     public FirebaseManager firebaseManager;
+
+    public string[] gameLevelNames = { "", "Velocity", "Acceleration", "FreeFallProjectile", "CircularMotion", "Forces", "Work", "Energy", "Power", "Momemtum" };
+
+    public string[] GetLevelNames(){
+        return gameLevelNames;
+    }
     void Start()
     {
         if (!muteIntroSoundOnStart)

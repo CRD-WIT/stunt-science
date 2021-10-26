@@ -39,12 +39,10 @@ public class QuestionControllerB : MonoBehaviour
     StageManager level = new StageManager();
     HeartManager life;
     public FirebaseManager firebaseManager;
-
-    string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     // Start is called before the first frame update
     public void SetGameLevel(int level)
     {
-        PlayerPrefs.SetString("Level", gameLevel[level]);
+        PlayerPrefs.SetString("Level", settingUI.GetLevelNames()[level]);
     }
     void Start()
     {
