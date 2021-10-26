@@ -4,6 +4,7 @@ using System;
 using TMPro;
 using UnityEngine.SceneManagement;
 using GameConfig;
+using UnityEngine.UI;
 public class Level_3_Stage_2_Easy : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -22,6 +23,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     public GameObject playerHangingFixed;
     Vector3 thePlayer_position;
     public GameObject accurateCollider;
+    public Button play;
 
     public GameObject platformBarBottom;
     public GameObject platformBarTop, callout;
@@ -42,9 +44,11 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     public Annotation annotation;
     public HeartManager life;
     public TMP_Text debugAnswer;
+    bool ShowResult;
     void Start()
     {
-        // Given        
+        // Given 
+        ShowResult = true;
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(1f, 1.5f), 2);
         distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(5.0f, 12.5f), 2);
         gravityGiven = Physics2D.gravity;
@@ -52,11 +56,11 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         // Formula
         correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
 
-        questionController.limit = correctAnswer +1;
+        questionController.limit = correctAnswer + 1;
 
         annotation.SetDistance(distanceGiven);
         annotation.revealValue = true;
-        annotation.SetSpawningPoint(new Vector2(15, playerHingeJoint.transform.position.y -distanceGiven));
+        annotation.SetSpawningPoint(new Vector2(15, playerHingeJoint.transform.position.y - distanceGiven));
         // annotation.SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
         // transform.Find("Annotation1").GetComponent<Annotation>().SetDistance(distanceGiven);
         //transform.Find("Annotation1").GetComponent<Annotation>().SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
@@ -88,7 +92,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
 
         // if (questionText != null)
         // {
-            questionController.SetQuestion(question);
+        questionController.SetQuestion(question);
         // }
         // else
         // {
@@ -125,6 +129,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
 
     void ResetLevel()
     {
+        play.interactable = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -136,9 +141,9 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     IEnumerator StuntResult(Action callback)
     {
         //messageFlag = false;
-        isEndOfStunt =false;
+        isEndOfStunt = false;
         yield return new WaitForSeconds(1f);
-        isStartOfStunt =false;
+        isStartOfStunt = false;
         directorIsCalling = true;
         yield return new WaitForSeconds(1f);
         callback();
@@ -150,18 +155,20 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         // cameraScript.isStartOfStunt = true;
         // questionController.SetAnswer();
         answer = questionController.GetPlayerAnswer();
-        questionController.isSimulating =false;
+        questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;
     }
     void FixedUpdate()
     {
+        questionController.errorText = "answer is not valid for simulation";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isSimulating)
-        {                // float answer = questionController.GetPlayerAnswer();//float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
+        {
+            play.interactable = false;         // float answer = questionController.GetPlayerAnswer();//float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
             annotation.Hide();
             elapsed += Time.fixedDeltaTime;
             questionController.timer = elapsed.ToString("f2");
@@ -194,7 +201,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
             }
             else
             {
-                answerIsCorrect =false;
+                answerIsCorrect = false;
                 if (answer < System.Math.Round(correctAnswer, 2))
                 {
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
@@ -230,9 +237,23 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
             isSimulating = false;
             questionController.timer = $"{(elapsed).ToString("f2")}s";
         }
-        if(isEndOfStunt)
-            StartCoroutine(StuntResult(() => questionController.ActivateResult(messageTxt, answerIsCorrect, false)));
-        if(questionController.isSimulating)
+        if (isEndOfStunt)
+        {
+            if (ShowResult)
+            {
+                if (answerIsCorrect == true)
+                {
+                    StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able grab at the branch"), true, false)));
+                }
+                if (answerIsCorrect == false)
+                {
+                    StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able grab at the branch"), false, false)));
+                }
+                ShowResult = false;
+            }
+
+        }
+        if (questionController.isSimulating)
             StartSimulation();
         else if (questionController.nextStage)
             GotoNextScene();

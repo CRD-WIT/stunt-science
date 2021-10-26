@@ -70,7 +70,7 @@ public class HeartManager : MonoBehaviour
     }
     public IEnumerator actionreset()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForEndOfFrame();
         // TODO: Get data from playerprefs
         life = 3;
         PlayerPrefs.SetInt("Life", life);
