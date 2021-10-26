@@ -25,7 +25,7 @@ public class QuestionControllerVThree : MonoBehaviour
     [SerializeField] bool timerOn = false, loaded = false;
     [SerializeField] TMP_InputField answerFieldHorizontal;
     [SerializeField] Transform difficultyName, stageName;
-    [SerializeField] string modalText, errorText;
+    public string modalText, errorText;
     [SerializeField] bool popupVisible, extraOn;
     public FirebaseManager firebaseManager;
 
@@ -41,7 +41,7 @@ public class QuestionControllerVThree : MonoBehaviour
     void Start()
     {
         baseComponent = transform.Find("Base");
-        extraComponent = transform.Find("Base").Find("Extra");
+        extraComponent = transform.Find("extraCanvas").Find("Extra");
         levelBadge = baseComponent.Find("LevelBadge");
 
         Transform[] components = { baseComponent, modalComponentHorizontal.transform, extraComponent };
@@ -177,16 +177,18 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     public void SetAnswer()
     {
-        playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
+            errorText = "Please enter your answer!";
             StartCoroutine(IsEmpty());
         }
         else
         {        
+            playerAnswer = float.Parse(answerFieldHorizontal.text);
             answerFieldHorizontal.text = playerAnswer + answerUnit;
             if (limit <= playerAnswer)
             {
+                errorText = "Invalid Answer! Please answer within human capabilities.";
                 StartCoroutine(IsEmpty());
             }
             else
@@ -229,10 +231,11 @@ public class QuestionControllerVThree : MonoBehaviour
     IEnumerator IsEmpty()
     {
         popupVisible = true;
-        errorText = "Please enter your answer!";
+        //errorText = "Please enter your answer!";
         yield return new WaitForSeconds(3);
         popupVisible = false;
-        errorText = "";
+        answerFieldHorizontal.text = "";
+        //errorText = "";
     }
 
     public string Unit(UnitOf unitOf)

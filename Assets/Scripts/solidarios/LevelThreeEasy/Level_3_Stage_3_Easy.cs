@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using UnityEngine.SceneManagement;
 using GameConfig;
+using UnityEngine.UI;
 
 public class Level_3_Stage_3_Easy : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     string playerName = "Junjun";
     string pronoun = "he", messageTxt, pPronoun;
     public GameObject playerHangingBottom;
+    public Button play;
     float timeGiven;
     Vector2 gravityGiven;
     float correctAnswer;
@@ -38,10 +40,12 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     public Annotation annotation;
     public HeartManager life;
     public TMP_Text debugAnswer;
+    bool ShowResult;
 
     void Start()
     {
-        // Given        
+        // Given 
+        ShowResult = true;       
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
         distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(25f, 28.0f), 2);
         gravityGiven = Physics2D.gravity;
@@ -100,11 +104,16 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     {
         //messageFlag = false;
         yield return new WaitForSeconds(2f);
+         if (answerIsCorrect == false)
+            {
+                life.ReduceLife();
+            }
         callback();
     }
 
     public void ResetLevel()
     {
+        play.interactable = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -134,11 +143,13 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
 
     void FixedUpdate()
     {
+        questionController.errorText = "answer is not valid for simulation";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
         if(directorIsCalling)
             StartCoroutine(DirectorsCall());
             if (isSimulating)
             {
+                play.interactable = false;
                 // float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
                 annotation.Hide();
                 elapsed += Time.fixedDeltaTime;
@@ -197,7 +208,6 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
                     isSimulating = false;
                     isEndOfStunt =true;
                     isComplete = false;
-                    life.ReduceLife();
                 }
             }
             else
@@ -207,8 +217,23 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
 
                 questionController.timer = $"{(elapsed).ToString("f2")}s";
             }
-        if(isEndOfStunt)
-            StartCoroutine(StuntResult(() => questionController.ActivateResult(messageTxt, answerIsCorrect, isComplete)));
+         if (isEndOfStunt)
+        {
+             if (ShowResult)
+            {
+                if (answerIsCorrect == true)
+                {
+                    StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able grab at the branch"), true, true)));
+                     ShowResult = false;
+                }
+                if (answerIsCorrect == false)
+                {
+                    StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able grab at the branch"), false, false)));
+                     ShowResult = false;
+                }
+               
+            }
+        }
         if(questionController.isSimulating)
             StartSimulation();
         else if (questionController.retried)

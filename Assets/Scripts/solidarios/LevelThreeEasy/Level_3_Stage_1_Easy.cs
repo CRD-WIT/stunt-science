@@ -4,6 +4,7 @@ using GameConfig;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Level_3_Stage_1_Easy : MonoBehaviour
 {
@@ -63,6 +64,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     float accurateColliderInitialPointY;
 
     public GameObject timerAnnotation;
+     public Button play;
 
     public QuestionControllerVThree questionController;
 
@@ -85,14 +87,14 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     {
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
         // Given
-        timeGiven = (float) System.Math.Round(UnityEngine.Random.Range(1f, 1.5f), 2);
+        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(1f, 1.5f), 2);
         gravityGiven = Physics2D.gravity;
 
         // Formula
         correctAnswer = Mathf.Abs((gravityGiven.y / 2) * Mathf.Pow(timeGiven, 2));
         questionController.limit = correctAnswer + 1;
 
-        annotation.SetDistance (correctAnswer);
+        annotation.SetDistance(correctAnswer);
         annotation.revealValue = false;
         annotation.SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
 
@@ -146,7 +148,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
         accurateColliderInitialPointY = accurateCollider.transform.position.y;
 
-        playerOnRopeInitialY = (float) Math.Round(playerOnRope.transform.position.y, 2);
+        playerOnRopeInitialY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
         timeGivenContainer.SetText($"Time: {timeGiven}s");
         // questionController.timer = timeGiven.ToString("f2");
@@ -154,6 +156,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void ResetLevel()
     {
+        play.interactable = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -165,7 +168,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     void Play()
     {
         answer = questionController.GetPlayerAnswer();
-        questionController.isSimulating =false;
+        questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;
     }
@@ -186,9 +189,9 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     IEnumerator StuntResult(Action callback)
     {
         //messageFlag = false;
-        isEndOfStunt =false;
+        isEndOfStunt = false;
         yield return new WaitForSeconds(1f);
-        isStartOfStunt =false;
+        isStartOfStunt = false;
         directorIsCalling = true;
         yield return new WaitForSeconds(1f);
         callback();
@@ -217,17 +220,19 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void FixedUpdate()
     {
+         questionController.errorText = "answer is not valid for simulation";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
 
-        float correct = (float) Math.Round(correctAnswer, 2);
+        float correct = (float)Math.Round(correctAnswer, 2);
 
         if (isSimulating)
         {
-                elapsed += Time.fixedDeltaTime;
-            float playerOnRopeY = (float) Math.Round(playerOnRope.transform.position.y, 2);
+            play.interactable = false;
+            elapsed += Time.fixedDeltaTime;
+            float playerOnRopeY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
             if (answer != correct)
             {
@@ -376,9 +381,17 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
             // timerAnnotation.GetComponent<TMP_Text>().text = $"t={(timeGiven).ToString("f2")}s";
         }
-        if(isEndOfStunt)
-            StartCoroutine(StuntResult(() => questionController.ActivateResult(messageTxt, isAnswerCorrect, false)));
-
+        if (isEndOfStunt)
+        {
+            if (isAnswerCorrect == true)
+            {
+                StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able grab at the branch"), true, false)));
+            }
+            if (isAnswerCorrect == false)
+            {
+                StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able grab at the branch"), false, false)));
+            }
+        }
         if (questionController.isSimulating)
             Play();
         else if (questionController.nextStage)
