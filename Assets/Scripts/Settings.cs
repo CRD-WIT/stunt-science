@@ -12,7 +12,7 @@ public class Settings : MonoBehaviour
     bool settingsPanelIsOpen;
 
     public GameObject flashCard;
-    bool flashCardIsOpen;
+    public bool flashCardIsOpen = false;
 
     bool stuntGuidePanelIsOpen;
     public float soundLevel = 1f;
