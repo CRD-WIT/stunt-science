@@ -3,14 +3,9 @@ using UnityEngine;
 public class StageManager
 {
     string[] levelDifficulties = { "", "easy", "medium", "hard" };
-    string[] gameLevel = { "", "Velocity", "Acceleration", "FreeFallProjectile", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     string currentLevelDifficulty, currentGameLevel;
 
-    // public void SetStage(int stageNumber)
-    // {
-    //     PlayerPrefs.SetInt("stageNumber", stageNumber);
-    //     this.stage = stageNumber;
-    // }
+    public Settings settingUI = new Settings();
     public int GetStageFromPlayerPrefs()
     {
         return PlayerPrefs.GetInt("stageNumber");
@@ -31,13 +26,12 @@ public class StageManager
     // }
     public void SetGameLevel(int level)
     {
-        //this.currentGameLevel = gameLevel[level];
-        PlayerPrefs.SetString("Level", gameLevel[level]);
+        PlayerPrefs.SetString("Level", settingUI.GetLevelNames()[level]);
     }
     public int GetLevelNum(string n)
     {
         int i = 0;
-        while (gameLevel[i] != n)
+        while (settingUI.GetLevelNames()[i] != n)
         {
             i++;
         }

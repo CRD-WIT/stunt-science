@@ -23,11 +23,19 @@ public class SpotlightManagerV1 : MonoBehaviour
         //initialization of values
         rotation.z = 0;
         pos.z = 0;
-        target.position = new Vector2(target.position.x, target.position.y);
+
+        if (target)
+        {
+            target.position = new Vector2(target.position.x, target.position.y);
+        }
+
 
 
         pos = this.gameObject.transform.position;
-        targetPos = target.transform.position - pos;
+
+        if(target){
+            targetPos = target.transform.position - pos;
+        }        
 
         angle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg;
 

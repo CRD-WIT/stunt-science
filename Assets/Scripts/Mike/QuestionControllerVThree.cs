@@ -177,16 +177,18 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     public void SetAnswer()
     {
-        playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
+            errorText = "Please enter your answer!";
             StartCoroutine(IsEmpty());
         }
         else
         {        
+            playerAnswer = float.Parse(answerFieldHorizontal.text);
             answerFieldHorizontal.text = playerAnswer + answerUnit;
             if (limit <= playerAnswer)
             {
+                errorText = "Invalid Answer! Please answer within human capabilities.";
                 StartCoroutine(IsEmpty());
             }
             else
@@ -232,6 +234,7 @@ public class QuestionControllerVThree : MonoBehaviour
         //errorText = "Please enter your answer!";
         yield return new WaitForSeconds(3);
         popupVisible = false;
+        answerFieldHorizontal.text = "";
         //errorText = "";
     }
 

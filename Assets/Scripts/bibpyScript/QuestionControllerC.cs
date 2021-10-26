@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class QuestionControllerC : MonoBehaviour
 {
-    
+
     float playerAnswer;
     public float limit = 0;
     public Transform baseComponent, problemBox, extraComponent, levelBadge;
@@ -41,11 +41,10 @@ public class QuestionControllerC : MonoBehaviour
     StageManager level = new StageManager();
     HeartManager life;
 
-    string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     // Start is called before the first frame update
     public void SetGameLevel(int level)
     {
-        PlayerPrefs.SetString("Level", gameLevel[level]);
+        PlayerPrefs.SetString("Level", settingUI.GetLevelNames()[level]);
     }
     void Start()
     {
@@ -85,15 +84,15 @@ public class QuestionControllerC : MonoBehaviour
 
         }
         else
-        {            
+        {
             if (answerIsCorrect)
                 Next();
             else
             {
                 StartCoroutine(Retry());
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);                                
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
             }
-                
+
             isModalOpen = false;
             isSimulating = false;
         }
@@ -144,17 +143,17 @@ public class QuestionControllerC : MonoBehaviour
                 modalTitle = "Stunts Completed!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);                                
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
             }
             else
             {
                 //TODO: Check current life points. If life == 0, hide the action button.
-                
+
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
                 modalTitle = "Stunt Success!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);                                
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
             }
         }
         else
@@ -163,7 +162,7 @@ public class QuestionControllerC : MonoBehaviour
             modalTitle = "Stunt Failed!";
             modalText = message;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
-            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);                            
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);
         }
         actionBtn.interactable = true;
         isSimulating = false;
@@ -187,8 +186,8 @@ public class QuestionControllerC : MonoBehaviour
         answerFieldHorizontal.characterLimit = splitted[0].Length + 3;
     }
     public void SetAnswer()
-    {        
-        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);                
+    {
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
@@ -196,7 +195,7 @@ public class QuestionControllerC : MonoBehaviour
         }
         else
         {
-            answerFieldHorizontal.text = playerAnswer + answerUnit;        
+            answerFieldHorizontal.text = playerAnswer + answerUnit;
         }
         extraOn = true;
     }
@@ -213,7 +212,7 @@ public class QuestionControllerC : MonoBehaviour
             stage = 3;
             nextStage = true;
         }
-        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);                        
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
     }
     IEnumerator Retry()
     {

@@ -9,7 +9,7 @@ public class QuestionContProJHard : MonoBehaviour
 {
     public FirebaseManager firebaseManager;
     float playerAnswer;
-    public float limit = 0;   
+    public float limit = 0;
     public Transform baseComponent, problemBox, extraComponent, levelBadge;
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
@@ -40,11 +40,11 @@ public class QuestionContProJHard : MonoBehaviour
     StageManager level = new StageManager();
     HeartManager life;
 
-    string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     // Start is called before the first frame update
     public void SetGameLevel(int level)
     {
-        PlayerPrefs.SetString("Level", gameLevel[level]);
+        Debug.Log($"Level #: {level}");
+        PlayerPrefs.SetString("Level", settingUI.GetLevelNames()[level]);
     }
     void Start()
     {
@@ -84,15 +84,15 @@ public class QuestionContProJHard : MonoBehaviour
 
         }
         else
-        {            
+        {
             if (answerIsCorrect)
                 Next();
             else
             {
                 StartCoroutine(Retry());
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);                                
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
             }
-                
+
             isModalOpen = false;
             isSimulating = false;
         }
@@ -119,7 +119,7 @@ public class QuestionContProJHard : MonoBehaviour
                 playerPrefsName = ($"level{levelName}Hard");
                 break;
         }
-
+        Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
         settingUI.ToggleLevelFinished();
         //SceneManager.LoadScene("LevelSelectV2");
@@ -143,15 +143,15 @@ public class QuestionContProJHard : MonoBehaviour
                 modalTitle = "Stunts Completed!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);                                
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
             }
             else
             {
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
                 modalTitle = "Stunt Success!";
                 modalText = message;
-                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);                
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);                
+                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
             }
         }
         else
@@ -160,14 +160,14 @@ public class QuestionContProJHard : MonoBehaviour
             modalTitle = "Stunt Failed!";
             modalText = message;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
-            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);                            
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);
         }
         actionBtn.interactable = true;
         isSimulating = false;
     }
     public void SetQuestion(string qstn)
     {
-        Debug.Log($"Setting question...{qstn}");
+       // Debug.Log($"Setting question...{qstn}");
         question = qstn;
     }
 
@@ -184,7 +184,7 @@ public class QuestionContProJHard : MonoBehaviour
         answerFieldHorizontal.characterLimit = splitted[0].Length + 3;
     }
     public void SetAnswer()
-    {        
+    {
         firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Answered, 0);
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
@@ -193,7 +193,7 @@ public class QuestionContProJHard : MonoBehaviour
         }
         else
         {
-            answerFieldHorizontal.text = playerAnswer + answerUnit;        
+            answerFieldHorizontal.text = playerAnswer + answerUnit;
         }
         extraOn = true;
     }
@@ -210,7 +210,7 @@ public class QuestionContProJHard : MonoBehaviour
             stage = 3;
             nextStage = true;
         }
-        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);        
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
     }
     IEnumerator Retry()
     {
@@ -359,7 +359,7 @@ public class QuestionContProJHard : MonoBehaviour
         popupTextHorizontal.SetText(errorText);
         modalComponentHorizontal.gameObject.SetActive(isModalOpen);
         modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
-        Debug.Log(question);
+        //Debug.Log(question);
         problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
         modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
         problemTextHorizontal.SetActive(!isModalOpen);

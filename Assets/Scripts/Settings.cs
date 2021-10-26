@@ -12,7 +12,7 @@ public class Settings : MonoBehaviour
     bool settingsPanelIsOpen;
 
     public GameObject flashCard;
-    bool flashCardIsOpen;
+    public bool flashCardIsOpen = false;
 
     bool stuntGuidePanelIsOpen;
     public float soundLevel = 1f;
@@ -62,6 +62,12 @@ public class Settings : MonoBehaviour
     public AudioSource[] sfxAudios;
 
     public FirebaseManager firebaseManager;
+
+    public string[] gameLevelNames = { "", "Velocity", "Acceleration", "FreeFallProjectile", "CircularMotion", "Forces", "Work", "Energy", "Power", "Momemtum" };
+
+    public string[] GetLevelNames(){
+        return gameLevelNames;
+    }
     void Start()
     {
         if (!muteIntroSoundOnStart)

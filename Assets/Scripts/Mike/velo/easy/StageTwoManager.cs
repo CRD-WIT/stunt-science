@@ -20,6 +20,7 @@ public class StageTwoManager : MonoBehaviour
     public QuestionControllerVThree qc;
     public AudioSource scream;
     public TMP_Text debugAnswer;
+    public FirebaseManager firebaseManager;
     void Start()
     {
         theScorer = FindObjectOfType<ScoreManager>();
@@ -27,6 +28,7 @@ public class StageTwoManager : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         PlayerStartPoint = thePlayer.transform.position;
         whatIsAsk = UnitOf.time;
+        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0);        
         reset();
     }
     void FixedUpdate()
