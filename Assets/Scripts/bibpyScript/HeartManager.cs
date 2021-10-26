@@ -68,13 +68,13 @@ public class HeartManager : MonoBehaviour
         }
 
     }
-    // public IEnumerator actionreset()
-    // {
-    //     yield return new WaitForSeconds();
-    //     // // TODO: Get data from playerprefs
-    //     // life = 3;
-    //     // PlayerPrefs.SetInt("Life", life);
-    // }
+    public IEnumerator actionreset()
+    {
+        yield return new WaitForEndOfFrame();
+        // TODO: Get data from playerprefs
+        life = 3;
+        PlayerPrefs.SetInt("Life", life);
+    }
     IEnumerator gameover()
     {
         bgm.Stop();
