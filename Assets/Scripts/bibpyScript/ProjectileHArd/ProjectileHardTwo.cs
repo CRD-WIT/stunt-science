@@ -254,7 +254,9 @@ public class ProjectileHardTwo : MonoBehaviour
         }
          if ( ProjHardSimulation.playerAnswer != correctAnswer)
         {
+           
             theHeart.ReduceLife();
+            yield return new WaitForSeconds(2);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit the target"),false, false);
         }
         StartCoroutine(theSimulate.DirectorsCall());

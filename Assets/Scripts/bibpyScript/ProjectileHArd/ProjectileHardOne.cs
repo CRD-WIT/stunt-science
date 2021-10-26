@@ -25,10 +25,12 @@ public class ProjectileHardOne : MonoBehaviour
     public bool timeStart, answerIsCorrect, shootReady, showProjectile, indicatorReady;
     public TMP_Text golemVelo, VoTxt, timerTxt, actiontxt;
     string pronoun, pronoun2, gender;
+    StageManager sm = new StageManager();
 
     // Start is called before the first frame update
     void Start()
     {
+        sm.SetGameLevel(3);
         gender = PlayerPrefs.GetString("Gender");
         thePlayer.aim = true;
         generateProblem();
@@ -110,11 +112,15 @@ public class ProjectileHardOne : MonoBehaviour
             timer += Time.fixedDeltaTime;
             if (timer <  ProjHardSimulation.playerAnswer)
             {
-                timerTxt.text = timer.ToString("F2");
+                if(timerTxt){
+                    timerTxt.text = timer.ToString("F2");
+                }                
             }
             if (timer >=  ProjHardSimulation.playerAnswer)
             {
-                timerTxt.text =  ProjHardSimulation.playerAnswer.ToString("F2");
+                if(timerTxt){
+                    timerTxt.text =  ProjHardSimulation.playerAnswer.ToString("F2");
+                }                
             }
             if (timer >= projectileTime +  ProjHardSimulation.playerAnswer)
             {
@@ -143,7 +149,10 @@ public class ProjectileHardOne : MonoBehaviour
                     {
                         vi += .08f;
                         theQuestion.answerIsCorrect = true;
-                        actiontxt.text = ("next");
+                        if(actiontxt){
+                            actiontxt.text = ("next");
+                        }
+                        
                         StartCoroutine(ropePull());
                         answerIsCorrect = true;
                         deflector.GetComponent<Collider2D>().isTrigger = true;
@@ -304,7 +313,9 @@ public class ProjectileHardOne : MonoBehaviour
          if ( ProjHardSimulation.playerAnswer != correctAnswer)
         {
             theHeart.ReduceLife();
+            yield return new WaitForSeconds(2);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit the target"),false, false);
+
         }
          /*if ( ProjHardSimulation.playerAnswer > correctAnswer)
         {

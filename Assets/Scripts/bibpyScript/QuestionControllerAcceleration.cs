@@ -42,11 +42,10 @@ public class QuestionControllerAcceleration : MonoBehaviour
     HeartManager life;
     public FirebaseManager firebaseManager;
 
-    string[] gameLevel = { "", "Velocity", "Acceleration", "Free Fall", "Projectile Motion", "Circular Motion", "Forces", "Work", "Energy", "Power", "Momemtum" };
     // Start is called before the first frame update
     public void SetGameLevel(int level)
     {
-        PlayerPrefs.SetString("Level", gameLevel[level]);
+        PlayerPrefs.SetString("Level", settingUI.GetLevelNames()[level]);
     }
     void Start()
     {
@@ -104,7 +103,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
 
     public void EvaluatePlayerScore()
     {
-        
+
         string playerPrefsName = "";
         switch (levelDifficulty)
         {
@@ -140,18 +139,18 @@ public class QuestionControllerAcceleration : MonoBehaviour
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Finish";
                 modalTitle = "Stunts Completed!";
                 modalText = message;
-                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);                
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);                
+                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
             }
             else
             {
                 //TODO: Check current life points. If life == 0, hide the action button.
-                
+
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
                 modalTitle = "Stunt Success!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);                               
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
             }
         }
         else
@@ -161,7 +160,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
             modalText = message;
             retried = true;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
-            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);                
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);
         }
         actionBtn.interactable = true;
         isSimulating = false;
@@ -185,7 +184,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
     }
     public void SetAnswer()
     {
-        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Answered, 0);                        
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Answered, 0);
         Debug.Log($"Player Answer: {answerFieldHorizontal.text}");
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
