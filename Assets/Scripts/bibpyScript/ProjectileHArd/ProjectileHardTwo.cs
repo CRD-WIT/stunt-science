@@ -26,6 +26,7 @@ public class ProjectileHardTwo : MonoBehaviour
     public TMP_Text golemVelo, VoTxt, playerVelo, actionTxt, vPtxt;
     void Start()
     {
+        theQuestion.stage = 2;
         theSimulate.stage = 2;
         gender = PlayerPrefs.GetString("Gender");
         camDistance = thePlayer.transform.position.x - cam.transform.position.x;

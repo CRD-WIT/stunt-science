@@ -28,6 +28,7 @@ public class ProjectileHardThree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+         theQuestion.stage = 3;
         theSimulate.stage = 3;
         camDistance = thePlayer.transform.position.x - cam.transform.position.x;
         golemAcc.gameObject.SetActive(true);
