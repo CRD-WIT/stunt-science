@@ -12,7 +12,10 @@ public class Settings : MonoBehaviour
     bool settingsPanelIsOpen;
 
     public GameObject flashCard;
+    public GameObject flashCardEnd;
+
     public bool flashCardIsOpen = false;
+    public bool flashCardEndIsOpen;
 
     bool stuntGuidePanelIsOpen;
     public float soundLevel = 1f;
@@ -51,6 +54,7 @@ public class Settings : MonoBehaviour
     int level5HardPoints;
     bool level5Locked;
     public AudioSource backgroundAudio;
+
     bool soundOn = true;
 
     bool musicIsOn = true;
@@ -65,7 +69,8 @@ public class Settings : MonoBehaviour
 
     public string[] gameLevelNames = { "", "Velocity", "Acceleration", "FreeFallProjectile", "CircularMotion", "Forces", "Work", "Energy", "Power", "Momemtum" };
 
-    public string[] GetLevelNames(){
+    public string[] GetLevelNames()
+    {
         return gameLevelNames;
     }
     void Start()
@@ -132,6 +137,15 @@ public class Settings : MonoBehaviour
         flashCardIsOpen = !flashCardIsOpen;
     }
 
+    public void ToggleFlashCardEnd()
+    {
+        flashCardEndIsOpen = !flashCardEndIsOpen;
+        if (!flashCardEndIsOpen == true)
+        {
+            ToggleLevelFinished();
+        }
+    }
+
     public void ReloadLevel()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -184,6 +198,10 @@ public class Settings : MonoBehaviour
         if (flashCard)
         {
             flashCard.SetActive(flashCardIsOpen);
+        }
+        if (flashCardEnd)
+        {
+            flashCardEnd.SetActive(flashCardEndIsOpen);
         }
         AudioListener.volume = soundLevel;
         if (AudioListener.volume == 0)
@@ -320,7 +338,7 @@ public class Settings : MonoBehaviour
         fm.GameLogMutation(levelNumber, stage, difficulty.Length > 1 ? difficulty : null, Actions.NewGame, 0);
         PlayerPrefs.DeleteAll();
     }
-     public void ProjEasyReloadScene()
+    public void ProjEasyReloadScene()
     {
         PlayerPrefs.SetInt("Life", 3);
         SceneManager.LoadScene("LevelThreeStage1");

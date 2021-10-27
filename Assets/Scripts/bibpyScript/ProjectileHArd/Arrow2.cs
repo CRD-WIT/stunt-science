@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Arrow2 : MonoBehaviour
 {
-   public ProjectileHardOne theManagerOne;
+    public ProjectileHardOne theManagerOne;
 
     public ProjHardSimulation theSimulate;
-    public QuestionContProJHard  theQuestion;
+    public QuestionContProJHard theQuestion;
 
     public Rigidbody2D rb;
+    public bool showIndicator,showIndicatorReady;
 
     float
 
@@ -68,6 +69,12 @@ public class Arrow2 : MonoBehaviour
             getAngle = true;
             rb.bodyType = RigidbodyType2D.Static;
             transform.rotation = lastRot;
+            if(showIndicatorReady)
+            {
+                showIndicator = true;
+                showIndicatorReady = false;
+            }
+            
         }
     }
 
@@ -81,6 +88,11 @@ public class Arrow2 : MonoBehaviour
             generateLine = false;
             getAngle = true;
             line.SetActive(false);
+             if(showIndicatorReady)
+            {
+                showIndicator = true;
+                showIndicatorReady = false;
+            }
         }
     }
 }

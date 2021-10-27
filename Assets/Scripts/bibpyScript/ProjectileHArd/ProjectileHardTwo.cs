@@ -16,12 +16,12 @@ public class ProjectileHardTwo : MonoBehaviour
     public Arrow2[] theArrow;
     public DistanceMeter[] theMeter;
     public GameObject Mgear, stone, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer, boulder, angleArrow;
-    public GameObject dimension, cam, golemInitial, playerInitials;
+    public GameObject dimension, cam, golemInitial, playerInitials,hit,miss,indicator;
     public float Vo, generateVG, vG, generateVP, vP;
     public float angle, HRange, timer, generateTime, time, projectileTime, playerProjectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer,projectileDiff;
     public float initialDistance, finalDistance, golemDistanceToTravel, playerDistanceToTravel, camDistance, playerSpeed;
-    public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow;
+    public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow,indicatorReady;
     string pronoun, pronoun2, gender;
     public TMP_Text golemVelo, VoTxt, playerVelo, actionTxt, vPtxt;
     void Start()
@@ -49,6 +49,10 @@ public class ProjectileHardTwo : MonoBehaviour
          debugAnswer.SetText($"Answer: {correctAnswer}");
         golemInitial.transform.position = theGolem.transform.position;
         playerInitials.transform.position = thePlayer.transform.position;
+         if(theArrow[0].showIndicator & indicatorReady)
+        {
+            StartCoroutine(showHitMiss());
+        }
         if (running)
         {
             trail.transform.position = this.transform.position;
@@ -135,8 +139,9 @@ public class ProjectileHardTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        theArrow[0].showIndicatorReady = true;
         theHeart.losslife = false;
-        //theIndicator.showReady = true;
+        indicatorReady = true;
         timer = 0;
         arrow.SetActive(false);
         timeStart = false;
@@ -155,6 +160,28 @@ public class ProjectileHardTwo : MonoBehaviour
         vP = (float)System.Math.Round(generateVP, 2);
         trail.SetActive(false);
         theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to fire a gun hitting a Golem in its weakest spot. ") + PlayerPrefs.GetString("Name") + (" and the Golem is <b>") + initialDistance.ToString("F2") + ("</b> meters apart when the Golem starts to chase ") + PlayerPrefs.GetString("Name") + (" at the velocity of <b>") + vG.ToString("F2") + ("</b> m/s while ") + PlayerPrefs.GetString("Name") + (" is moving away at the velocity of <b>") + vP.ToString("F2") + ("</b> m/s. After <b>") + time.ToString("F2") + ("</b> seconds, ") + PlayerPrefs.GetString("Name") + (" stops running and fire its gun at a certain angle. What should be the initial velocity of the bullet if its hits the weakspot at exactly <b>") + projectileTime.ToString("F2") + ("</b> seconds projectile time?")));
+
+    }
+    IEnumerator showHitMiss()
+    {
+        theArrow[0].showIndicator = false;
+        indicatorReady = false;
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
+        {
+            hit.SetActive(true);
+            indicator.transform.position = arrow.transform.position;
+             yield return new WaitForSeconds(1.5f);
+             hit.SetActive(false);
+
+        }
+        if (ProjHardSimulation.playerAnswer != correctAnswer)
+        {
+            miss.SetActive(true);
+            indicator.transform.position = arrow.transform.position;
+             yield return new WaitForSeconds(1.5f);
+             miss.SetActive(false);
+        }
+       
 
     }
     IEnumerator ropePull()

@@ -119,7 +119,8 @@ public class QuestionControllerAcceleration : MonoBehaviour
         }
         Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
-        settingUI.ToggleLevelFinished();
+
+        settingUI.ToggleFlashCardEnd();
         //SceneManager.LoadScene("LevelSelectV2");
 
     }

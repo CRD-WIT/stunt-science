@@ -67,7 +67,7 @@ public class QuestionControllerVThree : MonoBehaviour
                 break;
         }
         difficultyName.GetComponent<TMP_Text>().text = difficulty;
-        
+
         levelNumber = level.GetLevelNum(levelName);
         if (level.GetLevelNum(levelName) > 3)
             levelNumber--;
@@ -116,7 +116,7 @@ public class QuestionControllerVThree : MonoBehaviour
 
         Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
-        settingUI.ToggleLevelFinished();
+        settingUI.ToggleFlashCardEnd();
         //SceneManager.LoadScene("LevelSelectV2");
 
     }
@@ -130,7 +130,7 @@ public class QuestionControllerVThree : MonoBehaviour
             // NOTE: Use this template when ending levels.
             if (isComplete)
             {
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);                                
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
                 actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
 
@@ -150,7 +150,7 @@ public class QuestionControllerVThree : MonoBehaviour
         else
         {
             //TODO: Check current life points. If life == 0, hide the action button.
-            
+
             actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
             modalTitle = "Wrong Answer!";
             modalText = message;
@@ -173,7 +173,7 @@ public class QuestionControllerVThree : MonoBehaviour
         string value = answerFieldHorizontal.text;
         // Bug when using whole number
         string[] splitted = value.Split('.');
-        answerFieldHorizontal.characterLimit = splitted[0].Length + 3;        
+        answerFieldHorizontal.characterLimit = splitted[0].Length + 3;
     }
     public void SetAnswer()
     {
@@ -183,7 +183,7 @@ public class QuestionControllerVThree : MonoBehaviour
             StartCoroutine(IsEmpty());
         }
         else
-        {        
+        {
             playerAnswer = float.Parse(answerFieldHorizontal.text);
             answerFieldHorizontal.text = playerAnswer + answerUnit;
             if (limit <= playerAnswer)
