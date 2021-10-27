@@ -16,13 +16,13 @@ public class ProjectileHardThree : MonoBehaviour
     public IndicatorManager theIndicator;
     public DistanceMeter[] theMeter;
     public GameObject Mgear, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer, boulder, angleArrow;
-    public GameObject dimension, cam, golemInitial, playerInitial, angleDimension, angleLine;
+    public GameObject dimension, cam, golemInitial, playerInitial, angleDimension, angleLine,hit,miss,indicator;
     public float Vo, generateVG, vG, generateVP, vP, accG;
     public float angle, HRange, timer, generateTime, time, projectileTime, playerProjectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
     public float hypSide, oppSide, adjSide, oppSide2, angleGround, finalHeight;
     public float initialDistance, finalDistance, golemDistanceToTravel, playerDistanceToTravel, camDistance, playerSpeed;
-    public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow;
+    public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow,indicatorReady;
     string pronoun, pronoun2, gender;
     public TMP_Text golemVelo, golemAcc, VoTxt, playerVelo, actionTxt, angleTxt;
     // Start is called before the first frame update
@@ -55,6 +55,10 @@ public class ProjectileHardThree : MonoBehaviour
         angleArrow.transform.position = new Vector2(transform.position.x + .1f, transform.position.y);
         golemInitial.transform.position = theGolem.transform.position;
         playerInitial.transform.position = thePlayer.transform.position;
+        if(theArrow[0].showIndicator & indicatorReady)
+        {
+            StartCoroutine(showHitMiss());
+        }
         if (running)
         {
             trail.transform.position = this.transform.position;
@@ -177,8 +181,9 @@ public class ProjectileHardThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        theArrow[0].showIndicatorReady = true;
         theHeart.losslife = false;
-        //theIndicator.showReady = true;
+        indicatorReady = true;
         angleTxt.text = "Θ = ?";
         angleDimension.SetActive(true);
         dimension.SetActive(true);
@@ -201,6 +206,28 @@ public class ProjectileHardThree : MonoBehaviour
         theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to fire his gun after moving upward in an inclined plane with a velocity of <b>") + vP.ToString("F2") + ("</b> m/s for <b>")
         + time.ToString("F2") + ("</b> seconds and must hit the weakest spot of the Golem which is initially <b>") + initialDistance.ToString("F2") + ("</b>  meters away from ") + pronoun2 + (" and moves forward at the velocity of <b>") + vG.ToString("F2") + ("</b> m/s and accelerates at <b>") + accG.ToString("F2") + ("</b> m/s². If the bullet shall hit the target with a projectile time of <b>") + projectileTime.ToString("F2") + ("</b> seconds. What should be the angle of the projectile in order for ") + PlayerPrefs.GetString("Name") + (" to perfect the stunt?")));
         //Vo = (float)System.Math.Round((Random.Range(50f, 57f)), 2);
+    }
+    IEnumerator showHitMiss()
+    {
+        theArrow[0].showIndicator = false;
+        indicatorReady = false;
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
+        {
+            hit.SetActive(true);
+            indicator.transform.position = arrow.transform.position;
+             yield return new WaitForSeconds(1.5f);
+             hit.SetActive(false);
+
+        }
+        if (ProjHardSimulation.playerAnswer != correctAnswer)
+        {
+            miss.SetActive(true);
+            indicator.transform.position = arrow.transform.position;
+             yield return new WaitForSeconds(1.5f);
+             miss.SetActive(false);
+        }
+       
+
     }
     public void ShootArrow()
     {
