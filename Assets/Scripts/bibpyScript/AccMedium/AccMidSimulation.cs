@@ -33,6 +33,7 @@ public class AccMidSimulation : MonoBehaviour
 
     private Quaternion TruckStartRot;
     private HeartManager theHeart;
+    public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
     //string accelaration;
     // Start is called before the first frame update
     void Start()
@@ -185,10 +186,13 @@ public class AccMidSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Lights!";
+            lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
+            cameraSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Action!";
+            actionSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
@@ -199,6 +203,7 @@ public class AccMidSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
+            cutSfx.Play();
             yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";

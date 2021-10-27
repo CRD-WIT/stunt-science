@@ -40,6 +40,7 @@ public class HeartManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log($"life {life}");
         if (transform.childCount < life)
         {
             for (int i = 0; i < 1; i++)
@@ -78,7 +79,7 @@ public class HeartManager : MonoBehaviour
     IEnumerator gameover()
     {
         bgm.Stop();
-        Gameoversfx.Play();
+        //Gameoversfx.Play();
         Debug.Log($"Game over triggered!");
         yield return new WaitForSeconds(1);
         StartCoroutine(endBGgone());

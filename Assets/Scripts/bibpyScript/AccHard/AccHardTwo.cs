@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class AccHardTwo : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class AccHardTwo : MonoBehaviour
     float camPos, distanceCheck;
     int tries, attemp;
     public TMP_Text debugAnswer;
+    public Button play;
     // Start is called before the first frame update
     void Start()
     {
@@ -81,6 +83,7 @@ public class AccHardTwo : MonoBehaviour
         }
         if (AccHardSimulation.simulate == true)
         {
+            play.interactable = false;
             viHtxt.text = ("v = " + viH.ToString("F2")) + ("m/s");
             camFollow = true;
             startTime = true;
@@ -201,6 +204,8 @@ public class AccHardTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        StartCoroutine(theHeart.startBGgone());
+         play.interactable = true;
         theQuestion.isSimulating = false;
         startTime = false;
         theTruck.accelerating = false;
@@ -278,7 +283,7 @@ public class AccHardTwo : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         theMulticab.moveSpeed = 20;
         yield return new WaitForSeconds(1.5f);
-        StartCoroutine(theHeart.endBGgone());
+        //StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1f);
         camFollow = false;
         theTruck.moveSpeed = 0;
@@ -329,7 +334,7 @@ public class AccHardTwo : MonoBehaviour
         theTruck.transform.position = new Vector2(theTruck.transform.position.x - 1, theTruck.transform.position.y);
         theTruck.moveSpeed = -10;
         yield return new WaitForSeconds(3);
-        StartCoroutine(theHeart.endBGgone());
+        //StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1f);
         theChopper.flySpeed = 0;
         theMulticab.moveSpeed = 0;
