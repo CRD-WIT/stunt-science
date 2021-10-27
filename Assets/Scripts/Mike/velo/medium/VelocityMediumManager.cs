@@ -10,7 +10,7 @@ public class VelocityMediumManager : MonoBehaviour
     TextColorMode colors;
     UnitOf whatIsAsk;
     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
-    public GameObject actionBtn;
+    public GameObject rolingSound;
     IndicatorManagerV1_1 indicators;
     IndicatorManager jmpDistFromBoulder;
     public GameObject transitionCanvas;
