@@ -75,10 +75,11 @@ public class Settings : MonoBehaviour
     }
     void Start()
     {
-        if (!muteIntroSoundOnStart)
-        {
-            ToggleIntroMusic();
-        }
+        ToggleFlashCard();
+        // if (!muteIntroSoundOnStart)
+        // {
+        //     ToggleIntroMusic();
+        // }
 
         // Sound
         LoadVolumes();
@@ -276,7 +277,7 @@ public class Settings : MonoBehaviour
 
         }
         musicIsOn = !musicIsOn;
-        ToggleFlashCard();
+        
     }
 
     public void ToggleVolume()

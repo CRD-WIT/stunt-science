@@ -83,6 +83,8 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     StageManager sm = new StageManager();
 
     public TMP_Text debugAnswer;
+    public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
+
 
     void Start()
     {
@@ -433,10 +435,13 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
             // isStartOfStunt = false;
             callout.SetActive(true);
             calloutText.SetText("Lights!");
+            lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             calloutText.SetText("Camera!");
+            cameraSfx.Play();
             yield return new WaitForSeconds(0.75f);
             calloutText.SetText("Action!");
+            actionSfx.Play();
             yield return new WaitForSeconds(0.75f);
             calloutText.SetText("");
             callout.SetActive(false);
@@ -445,6 +450,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         else
         {
             calloutText.SetText("Cut!");
+            cutSfx.Play();
             callout.SetActive(true);
             yield return new WaitForSeconds(0.75f);
             callout.SetActive(false);
