@@ -61,6 +61,7 @@ public class HardManager : MonoBehaviour
         bossStartPos = bossHead.transform.position;
         qc.stage = stage;
         SetUp();
+
     }
     void Update()
     {
@@ -241,9 +242,10 @@ public class HardManager : MonoBehaviour
         }
         if (isEndOfStunt)
         {
-            if (stage == 3)
-                StartCoroutine(EndOfHard());
-            StartCoroutine(StuntResult());
+            if (stage == 3){                
+                StartCoroutine(EndOfHard());                
+            }
+            StartCoroutine(StuntResult());                         
         }
         if (qc.isSimulating)
             Play();
@@ -268,6 +270,7 @@ public class HardManager : MonoBehaviour
             ragdoll = true;
             y = 0;
             stage1Flag = false;
+            Debug.Log("Disabled ragdoll called");
             isEndOfStunt = true;
         }
     }
@@ -292,6 +295,7 @@ public class HardManager : MonoBehaviour
     }
     public void SetUp()
     {
+        isEndOfStunt = false;
         bossVeloLabel.SetActive(true);
         bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x, bossHead.transform.position.y + 1);
         throwingPath.SetActive(true);

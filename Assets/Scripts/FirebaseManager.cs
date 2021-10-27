@@ -57,6 +57,7 @@ public class FirebaseManager : MonoBehaviour
                 };
             docRef.SetAsync(log).ContinueWithOnMainThread(task =>
             {
+                
                 Debug.Log("Added data to the log.");
             });
         }
