@@ -261,7 +261,7 @@ public class ProjectileHardOne : MonoBehaviour
 
     public void reShoot()
     {
-        puller.GetComponent<Rigidbody2D>().velocity = transform.right * 10;
+        puller.GetComponent<Rigidbody2D>().velocity = transform.right * 11;
     }
     public void ShootArrow()
     {

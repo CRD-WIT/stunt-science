@@ -244,12 +244,14 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                 if (answerIsCorrect == true)
                 {
                     StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able grab at the branch"), true, false)));
+                    ShowResult = false;
                 }
                 if (answerIsCorrect == false)
                 {
                     StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able grab at the branch"), false, false)));
+                    ShowResult = false;
                 }
-                ShowResult = false;
+                
             }
 
         }

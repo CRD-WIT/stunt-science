@@ -118,6 +118,10 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
+        if(playerAnswer != correctAnswer)
+        {
+            theHeart.ReduceLife();
+        }
         //messageFlag = false;
         yield return new WaitForSeconds(2f);
         if(playerAnswer == correctAnswer)
@@ -127,7 +131,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
          if(playerAnswer != correctAnswer)
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
-            theHeart.ReduceLife();
+            
         }        
     }
     // void GenerateInitialVelocities()

@@ -45,7 +45,7 @@ public class playerProjectile : MonoBehaviour
             slash = true;
             if (theSimulate.stage == 1)
             {
-                theManagerOne.generateAngle += 5;
+                //theManagerOne.generateAngle += 3;
                 theManagerOne.reShoot();
             }
             if (theSimulate.stage == 2)

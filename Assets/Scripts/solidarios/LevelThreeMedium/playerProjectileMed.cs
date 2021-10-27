@@ -47,9 +47,9 @@ public class playerProjectileMed : MonoBehaviour
     }
     IEnumerator slowMo()
     {
-        Time.timeScale = .4f;
+        //Time.timeScale = .4f;
         yield return new WaitForSeconds(.7f);
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         running = true;
         
     }
