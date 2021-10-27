@@ -10,7 +10,7 @@ public class VelocityMediumManager : MonoBehaviour
     TextColorMode colors;
     UnitOf whatIsAsk;
     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
-    public GameObject actionBtn;
+    public GameObject rolingSound;
     IndicatorManagerV1_1 indicators;
     IndicatorManager jmpDistFromBoulder;
     public GameObject transitionCanvas;
@@ -30,7 +30,7 @@ public class VelocityMediumManager : MonoBehaviour
     float playerPos, playerAnswer, elapsed, distanceTraveled, currentPlayerPos, jumpTime, jumpForce, playerDistance;
     string question, playerGender, pronoun, pPronoun, messageTxt;
     string playerName = "Juan";
-    bool isStartOfStunt, directorIsCalling, isAnswered, isAnswerCorrect, isEndOfStunt, onShadow;
+    bool isStartOfStunt, directorIsCalling, isAnswered, isAnswerCorrect, isEndOfStunt, onShadow, isEnd;
     [SerializeField] TMP_Text playerSpeed, boulder1Speed, boulder2Speed;
     float correctD, timingD;
     GameObject b2Shadow, b1Shadow, pShadow;
@@ -198,6 +198,9 @@ public class VelocityMediumManager : MonoBehaviour
                         boulder2RB.velocity = new Vector2(boulder2RB.velocity.x, boulder2RB.velocity.y);
                         if (playerAnswer == correctAnswer)
                         {
+                            isEnd = true;
+                            boulder.GetComponent<CircleCollider2D>().enabled = false;
+                            boulderA.GetComponent<CircleCollider2D>().enabled = false;
                             isAnswerCorrect = true;
                             elapsed = stuntTime;
                             messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
@@ -247,6 +250,8 @@ public class VelocityMediumManager : MonoBehaviour
     }
     void VeloMediumSetUp()
     {
+        isEnd = false;
+        isEndOfStunt = false;
         foreach(var item in boulderName)
             item.gameObject.SetActive(false);
         JDIndicator.SetActive(false);
@@ -382,6 +387,8 @@ public class VelocityMediumManager : MonoBehaviour
                 boulderA.SetActive(true);
                 velocityDirectionArrow1.SetActive(true);
                 velocityDirectionArrow2.SetActive(true);
+                boulder.GetComponent<CircleCollider2D>().enabled = false;
+                boulderA.GetComponent<CircleCollider2D>().enabled = false;
 
                 float Vp, Dp, Tp, Dac = (float)System.Math.Round(Random.Range(19f, 22f), 2);
                 Va = Random.Range(7f, 8f);
@@ -454,7 +461,7 @@ public class VelocityMediumManager : MonoBehaviour
         FallingBoulders.isRumbling = false;
         qc.retried = false;
         PrefabDestroyer.end = true;
-        StartCoroutine(life.endBGgone());
+        // StartCoroutine(life.endBGgone());
         yield return new WaitForSeconds(1);
         myPlayer.ToggleTrigger();
         myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
@@ -475,9 +482,8 @@ public class VelocityMediumManager : MonoBehaviour
         qc.nextStage = false;
         myPlayer.happy = false;
         PrefabDestroyer.end = true;
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(life.endBGgone());
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(2.3f);
+        // StartCoroutine(life.endBGgone());
         myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
@@ -535,15 +541,7 @@ public class VelocityMediumManager : MonoBehaviour
         RumblingManager.shakeON = false;
         RumblingManager.isCrumbling = true;
         yield return new WaitForSeconds(3);
-        if (stage == 3)
-        {
-            qc.ActivateResult(messageTxt, isAnswerCorrect, true);
-        }
-        else
-        {
-            qc.ActivateResult(messageTxt, isAnswerCorrect);
-        }
-
+        qc.ActivateResult(messageTxt, isAnswerCorrect, isEnd);
     }
     IEnumerator Jump()
     {
@@ -589,8 +587,9 @@ public class VelocityMediumManager : MonoBehaviour
         myPlayer.jump();
         yield return new WaitForSeconds(jumpTime / 2);
         isAnswered = false;
-        yield return new WaitForEndOfFrame();
         isEndOfStunt = true;
+        // yield return new WaitForEndOfFrame();
+        // isEndOfStunt = false;
     }
     IEnumerator InstantiateShadows(float playerPos, float? b1Pos, float? b2Pos)
     {
