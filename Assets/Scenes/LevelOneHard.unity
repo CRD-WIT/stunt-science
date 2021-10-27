@@ -17206,10 +17206,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 25023b0c7bb87b96d86fc6682725e916, type: 3}
     - target: {fileID: 4806879561189983693, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: flashCardEnd
+      value: 
+      objectReference: {fileID: 687189573}
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: backgroundAudio
       value: 
@@ -17242,6 +17250,18 @@ PrefabInstance:
       propertyPath: sfxAudios.Array.data[5]
       value: 
       objectReference: {fileID: 734763194}
+    - target: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 25023b0c7bb87b96d86fc6682725e916, type: 3}
+    - target: {fileID: 7092696490254070600, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1054949790}
+    - target: {fileID: 7092696490254070600, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleFlashCardEnd
+      objectReference: {fileID: 0}
     - target: {fileID: 7406948940001348903, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -17267,6 +17287,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &687189573 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1935453957895722258, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 687189571}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &688621948 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2940775506347903211, guid: 7c14233002c66ea45a3e21794a3fa55c, type: 3}
@@ -40977,7 +41002,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6674744110899667597, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}

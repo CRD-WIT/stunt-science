@@ -127,7 +127,8 @@ public class QuestionControllerB : MonoBehaviour
         Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
 
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
-        settingUI.ToggleLevelFinished();
+
+        settingUI.ToggleFlashCardEnd();
 
     }
     public void ActivateResult(string message, bool isCorrect, bool isComplete = false)
@@ -140,7 +141,7 @@ public class QuestionControllerB : MonoBehaviour
             // NOTE: Use this template when ending levels.
             if (isComplete)
             {
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);                                
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
                 actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
 
@@ -151,7 +152,7 @@ public class QuestionControllerB : MonoBehaviour
             }
             else
             {
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);                                
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
                 modalTitle = "Stunt Success!";
                 modalText = message;
@@ -190,7 +191,7 @@ public class QuestionControllerB : MonoBehaviour
     }
     public void SetAnswer()
     {
-        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);                        
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
         Debug.Log($"Player Answer: {answerFieldHorizontal.text}");
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")

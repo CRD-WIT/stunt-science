@@ -121,7 +121,7 @@ public class QuestionContProjMed : MonoBehaviour
         }
 
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
-        settingUI.ToggleLevelFinished();
+        settingUI.ToggleFlashCardEnd();
         //SceneManager.LoadScene("LevelSelectV2");
 
     }

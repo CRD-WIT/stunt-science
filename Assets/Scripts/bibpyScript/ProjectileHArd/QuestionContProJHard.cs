@@ -121,7 +121,7 @@ public class QuestionContProJHard : MonoBehaviour
         }
         Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
-        settingUI.ToggleLevelFinished();
+        settingUI.ToggleFlashCardEnd();
         //SceneManager.LoadScene("LevelSelectV2");
 
     }
@@ -167,7 +167,7 @@ public class QuestionContProJHard : MonoBehaviour
     }
     public void SetQuestion(string qstn)
     {
-       // Debug.Log($"Setting question...{qstn}");
+        // Debug.Log($"Setting question...{qstn}");
         question = qstn;
     }
 
