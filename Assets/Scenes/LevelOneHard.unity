@@ -397,12 +397,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 136673205}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 136673205}
+  m_maskType: 0
 --- !u!23 &136673205
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16815,6 +16815,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 812
       objectReference: {fileID: 0}
+    - target: {fileID: 3784431851144105581, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -385.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3784431851326747181, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.19
@@ -17206,10 +17210,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 25023b0c7bb87b96d86fc6682725e916, type: 3}
     - target: {fileID: 4806879561189983693, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: flashCardEnd
+      value: 
+      objectReference: {fileID: 687189573}
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: backgroundAudio
       value: 
@@ -17242,6 +17254,18 @@ PrefabInstance:
       propertyPath: sfxAudios.Array.data[5]
       value: 
       objectReference: {fileID: 734763194}
+    - target: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 25023b0c7bb87b96d86fc6682725e916, type: 3}
+    - target: {fileID: 7092696490254070600, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1054949790}
+    - target: {fileID: 7092696490254070600, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleFlashCardEnd
+      objectReference: {fileID: 0}
     - target: {fileID: 7406948940001348903, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -17265,6 +17289,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &687189573 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3372021342389604807, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 687189571}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac3b4a8314690639b1fba13ee061eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &688621948 stripped
@@ -23288,12 +23323,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 1023177932}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 1023177932}
+  m_maskType: 0
 --- !u!23 &1023177932
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39753,12 +39788,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 1367796931}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 1367796931}
+  m_maskType: 0
 --- !u!23 &1367796931
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40958,7 +40993,7 @@ PrefabInstance:
     - target: {fileID: 4941996719352643998, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 201181971}
     - target: {fileID: 4941996719352643998, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: reloadScene
@@ -40966,7 +41001,7 @@ PrefabInstance:
     - target: {fileID: 4941996720597328092, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 687189573}
     - target: {fileID: 4941996720597328092, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: GotoScene
@@ -40977,7 +41012,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6674744110899667597, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}

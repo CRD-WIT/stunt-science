@@ -292,6 +292,7 @@ public class HardManager : MonoBehaviour
     }
     public void SetUp()
     {
+        bossVeloLabel.SetActive(true);
         bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x, bossHead.transform.position.y + 1);
         throwingPath.SetActive(true);
         throwingPathTxt.SetActive(true);
@@ -537,6 +538,7 @@ public class HardManager : MonoBehaviour
     IEnumerator Retry()
     {
         qc.retried = false;
+        bossVeloLabel.SetActive(false);
         yield return new WaitForSeconds(1);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
@@ -549,6 +551,7 @@ public class HardManager : MonoBehaviour
     IEnumerator Next()
     {
         qc.nextStage = false;
+        bossVeloLabel.SetActive(false);
         myPlayer.happy = false;
         yield return new WaitForSeconds(1f);
         myPlayer.moveSpeed = 0;
@@ -607,6 +610,7 @@ public class HardManager : MonoBehaviour
     }
     IEnumerator BossCrumble()
     {
+        bossVeloLabel.SetActive(false);
         yield return new WaitForSeconds(0.15f);
         foreach (var item in bossParts)
             item.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;

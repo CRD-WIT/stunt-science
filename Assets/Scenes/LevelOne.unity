@@ -24600,7 +24600,7 @@ PrefabInstance:
     - target: {fileID: 4941996719352643998, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2824508964078675404}
     - target: {fileID: 4941996719352643998, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: reloadScene
@@ -24608,7 +24608,7 @@ PrefabInstance:
     - target: {fileID: 4941996720597328092, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 917724249}
     - target: {fileID: 4941996720597328092, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: GotoScene
@@ -24619,7 +24619,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6674744110899667597, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 697ca27b95cbc98489fcfc281ad5d2f3, type: 3}
@@ -24633,6 +24633,17 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 5130315100547890512, guid: 810db60d7c99a6e45a74358a750a9f81, type: 3}
   m_PrefabInstance: {fileID: 5130315101400892552}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &917724249 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3372021342389604807, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 119744736231727172}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac3b4a8314690639b1fba13ee061eed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &929285393
 GameObject:
   m_ObjectHideFlags: 0
@@ -98170,6 +98181,10 @@ PrefabInstance:
       value: v0.0.9
       objectReference: {fileID: 0}
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: flashCardEnd
+      value: 
+      objectReference: {fileID: 119744736231727173}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: graphQLCloud
       value: 
       objectReference: {fileID: 0}
@@ -98217,6 +98232,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7092696490254070600, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5281191066365309028}
+    - target: {fileID: 7092696490254070600, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleFlashCardEnd
+      objectReference: {fileID: 0}
     - target: {fileID: 7260994308601903190, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -98247,6 +98270,11 @@ PrefabInstance:
       objectReference: {fileID: 9144894994247455969}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+--- !u!1 &119744736231727173 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1935453957895722258, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 119744736231727172}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &170634616754353842
 Transform:
   m_ObjectHideFlags: 0
@@ -115535,12 +115563,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 5630888110567035193}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 5630888110567035193}
+  m_maskType: 0
 --- !u!224 &5630888110567035195
 RectTransform:
   m_ObjectHideFlags: 0
@@ -116734,12 +116762,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 5630888111820703852}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 5630888111820703852}
+  m_maskType: 0
 --- !u!224 &5630888111820703854
 RectTransform:
   m_ObjectHideFlags: 0
@@ -116905,12 +116933,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 5630888111828779372}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 5630888111828779372}
+  m_maskType: 0
 --- !u!224 &5630888111828779374
 RectTransform:
   m_ObjectHideFlags: 0
@@ -117466,12 +117494,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 5630888112002748642}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 5630888112002748642}
+  m_maskType: 0
 --- !u!224 &5630888112002748700
 RectTransform:
   m_ObjectHideFlags: 0
@@ -126082,12 +126110,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 9144894994066784677}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 9144894994066784677}
+  m_maskType: 0
 --- !u!23 &9144894994066784677
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -139929,12 +139957,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 9144894994747529270}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 9144894994747529270}
+  m_maskType: 0
 --- !u!4 &9144894994767443908
 Transform:
   m_ObjectHideFlags: 0
