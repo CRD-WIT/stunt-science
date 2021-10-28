@@ -41,18 +41,19 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     public HeartManager life;
     public TMP_Text debugAnswer;
     bool ShowResult;
+    public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
 
     void Start()
     {
         // Given 
-        ShowResult = true;       
+        ShowResult = true;
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
         distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(25f, 28.0f), 2);
         gravityGiven = Physics2D.gravity;
 
         // Formula
         correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
-        questionController.limit = correctAnswer +1;
+        questionController.limit = correctAnswer + 1;
 
         annotation.SetDistance(distanceGiven);
 
@@ -79,7 +80,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
 
         // if (questionText != null)
         // {
-            questionController.SetQuestion(question);
+        questionController.SetQuestion(question);
         // }
         // else
         // {
@@ -104,10 +105,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     {
         //messageFlag = false;
         yield return new WaitForSeconds(2f);
-         if (answerIsCorrect == false)
-            {
-                life.ReduceLife();
-            }
+        
         callback();
     }
 
@@ -136,7 +134,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
         // cameraScript.isStartOfStunt = true;
         // questionController.SetAnswer();
         answer = questionController.GetPlayerAnswer();
-        questionController.isSimulating =false;
+        questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;
     }
@@ -145,96 +143,95 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     {
         questionController.errorText = "answer is not valid for simulation";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
-        if(directorIsCalling)
+        if (directorIsCalling)
             StartCoroutine(DirectorsCall());
-            if (isSimulating)
+        if (isSimulating)
+        {
+            play.interactable = false;
+            // float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
+            annotation.Hide();
+            elapsed += Time.fixedDeltaTime;
+            questionController.timer = elapsed.ToString("f2") + "s";
+
+            playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
+            thePlayerAnimation.SetBool("isFalling", true);
+
+            // Correct Answer
+            if (System.Math.Round(answer, 2) == System.Math.Round(correctAnswer, 2))
             {
-                play.interactable = false;
-                // float answer = float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
-                annotation.Hide();
-                elapsed += Time.fixedDeltaTime;
-                questionController.timer = elapsed.ToString("f2") + "s";
-
-                playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
-                thePlayerAnimation.SetBool("isFalling", true);
-
-                // Correct Answer
-                if (System.Math.Round(answer, 2) == System.Math.Round(correctAnswer, 2))
-                {answerIsCorrect = true;
-                    Debug.Log("Time is correct!");
-                    if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
-                    {
-                        platformCollider.SetActive(false);
-                        playerHangingBottom.SetActive(true);
-                        thePlayer.SetActive(false);
-                        playerHangingFixed.SetActive(true);
-                        playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
-                        elapsed -= 0.02f;
-
-                        cameraScript.isStartOfStunt = false;
-                        questionController.answerIsCorrect = true;
-                        messageTxt = $"{playerName} safely grabbed the pole!";
-                        isEndOfStunt =true;
-                        isSimulating =false;
-                        isComplete =true;
-                        // StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
-                    }
-                }
-                else
+                answerIsCorrect = true;
+                Debug.Log("Time is correct!");
+                if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                 {
-                    answerIsCorrect = false;
-                    if (answer < System.Math.Round(correctAnswer, 2))
-                    {
-                        if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
-                        {
-                            Debug.Log("Distance is too short!");
-                            questionController.answerIsCorrect = false;
-                            cameraScript.directorIsCalling = true;
-                            messageTxt = $"{playerName} grabbed the pole too soon!";
-                            // StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon!", "Retry")));
-                        }
-                    }
-                    else
-                    {
-                        if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
-                        {
-                            Debug.Log("Distance is too long!");
-                            questionController.answerIsCorrect = false;
-                            cameraScript.directorIsCalling = true;
-                            messageTxt = $"{playerName} grabbed the pole too late!";
-                            // StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late!", "Retry")));
-                        }
-                    }
+                    platformCollider.SetActive(false);
+                    playerHangingBottom.SetActive(true);
+                    thePlayer.SetActive(false);
+                    playerHangingFixed.SetActive(true);
+                    playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
+                    elapsed -= 0.02f;
+
+                    cameraScript.isStartOfStunt = false;
+                    questionController.answerIsCorrect = true;
+                    messageTxt = $"{playerName} safely grabbed the pole!";
+                    isEndOfStunt = true;
                     isSimulating = false;
-                    isEndOfStunt =true;
-                    isComplete = false;
+                    isComplete = true;
+                    // StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Success!!!</b>", $"{playerName} safely grabbed the pole!", "Next")));
                 }
             }
             else
             {
-                //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
-                // isSimulating = false;
-
-                questionController.timer = $"{(elapsed).ToString("f2")}s";
+                answerIsCorrect = false;
+                if (answer < System.Math.Round(correctAnswer, 2))
+                {
+                    if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
+                    {
+                        Debug.Log("Distance is too short!");
+                        questionController.answerIsCorrect = false;
+                        cameraScript.directorIsCalling = true;
+                        messageTxt = $"{playerName} grabbed the pole too soon!";
+                        // StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon!", "Retry")));
+                    }
+                }
+                else
+                {
+                    if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
+                    {
+                        Debug.Log("Distance is too long!");
+                        questionController.answerIsCorrect = false;
+                        cameraScript.directorIsCalling = true;
+                        messageTxt = $"{playerName} grabbed the pole too late!";
+                        // StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late!", "Retry")));
+                    }
+                }
+                StartCoroutine(ShowModal());
             }
-         if (isEndOfStunt)
+        }
+        else
         {
-             if (ShowResult)
+            //platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - distance, 1);            
+            // isSimulating = false;
+
+            questionController.timer = $"{(elapsed).ToString("f2")}s";
+        }
+        if (isEndOfStunt)
+        {
+            if (ShowResult)
             {
                 if (answerIsCorrect == true)
                 {
                     StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able grab at the branch"), true, true)));
-                     ShowResult = false;
+                    ShowResult = false;
                 }
                 if (answerIsCorrect == false)
                 {
                     StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able grab at the branch"), false, false)));
-                     ShowResult = false;
+                    ShowResult = false;
                 }
-               
+
             }
         }
-        if(questionController.isSimulating)
+        if (questionController.isSimulating)
             StartSimulation();
         else if (questionController.retried)
             ResetLevel();
@@ -244,6 +241,20 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
             questionController.retried = false;
         }
     }
+    public IEnumerator ShowModal()
+    {
+        yield return new WaitForSeconds(2);
+        isSimulating = false;
+        if (answerIsCorrect == false)
+        {
+            life.ReduceLife();
+        }
+         isComplete = false;
+        yield return new WaitForSeconds(.2f);
+        isEndOfStunt = true;
+       
+
+    }
     public IEnumerator DirectorsCall()
     {
         directorIsCalling = false;
@@ -252,10 +263,13 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
             // isStartOfStunt = false;
             callout.SetActive(true);
             calloutText.SetText("Lights!");
+            lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             calloutText.SetText("Camera!");
+            cameraSfx.Play();
             yield return new WaitForSeconds(0.75f);
             calloutText.SetText("Action!");
+            actionSfx.Play();
             yield return new WaitForSeconds(0.75f);
             calloutText.SetText("");
             callout.SetActive(false);
@@ -264,6 +278,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
         else
         {
             calloutText.SetText("Cut!");
+            cutSfx.Play();
             callout.SetActive(true);
             yield return new WaitForSeconds(0.75f);
             callout.SetActive(false);

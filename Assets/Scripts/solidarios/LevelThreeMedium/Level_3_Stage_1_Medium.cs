@@ -49,6 +49,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     public Button playButton;
     public HeartManager theHeart;
     public TMP_Text debugAnswer;
+     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
 
 
     void Start()
@@ -91,10 +92,13 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
             directorBubble.SetActive(true);
             //diretorsSpeech.text = "Take " + take + ("!");
             diretorsSpeech.text = "Lights!";
+            lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
+            cameraSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Action!";
+            actionSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
@@ -105,6 +109,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
+            cutSfx.Play();
             yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";

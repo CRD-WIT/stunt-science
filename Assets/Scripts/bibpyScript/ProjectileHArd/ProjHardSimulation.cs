@@ -23,6 +23,7 @@ public class ProjHardSimulation : MonoBehaviour
     public int takeNumber;
     public bool answerIsCorrect;
     public GameObject  hit, miss;
+    public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
     // Start is called before the first frame update
     void Start()
     {
@@ -162,11 +163,14 @@ public class ProjHardSimulation : MonoBehaviour
             directorBubble.SetActive(true);
             // diretorsSpeech.text = "Take " + take + ("!");
             // yield return new WaitForSeconds(0.75f);
-            diretorsSpeech.text = "Lights!";
+             diretorsSpeech.text = "Lights!";
+            lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
+            cameraSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Action!";
+            actionSfx.Play();
             projectTrail.GetComponent<TrailRenderer>().time = 0;
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
@@ -179,6 +183,7 @@ public class ProjHardSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
+            cutSfx.Play();
             yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";
