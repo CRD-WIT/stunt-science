@@ -50,7 +50,7 @@ public class playerProjectile : MonoBehaviour
             }
             if (theSimulate.stage == 2)
             {
-                theManagerTwo.gameObject.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 155);
+                theManagerTwo.gameObject.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 160);
                 theManagerTwo.reShoot();
             }
             if (theSimulate.stage == 3)
