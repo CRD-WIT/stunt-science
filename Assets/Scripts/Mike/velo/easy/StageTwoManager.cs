@@ -28,7 +28,7 @@ public class StageTwoManager : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         PlayerStartPoint = thePlayer.transform.position;
         whatIsAsk = UnitOf.time;
-        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0);        
+        firebaseManager.GameLogMutation(1, 2, "Easy", Actions.Started, 0);        
         reset();
     }
     void FixedUpdate()

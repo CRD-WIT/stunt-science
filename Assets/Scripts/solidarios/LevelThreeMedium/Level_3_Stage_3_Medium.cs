@@ -32,9 +32,12 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     static float playerAnswer;
     public HeartManager theHeart;
     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
+    public FirebaseManager firebaseManager;
 
     void Start()
     {
+        firebaseManager.GameLogMutation(3, 3, "Medium", Actions.Started, 0); 
+
         theHeart.startbgentrance();
         targetHere.SetActive(true);
         gender = PlayerPrefs.GetString("Gender");

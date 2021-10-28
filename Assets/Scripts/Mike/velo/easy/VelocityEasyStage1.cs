@@ -26,6 +26,7 @@ public class VelocityEasyStage1 : MonoBehaviour
 
     void Start()
     {
+        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0); 
         settings.ResetLife();
         RumblingManager.isCrumbling = false;
         sm.SetGameLevel(1);
@@ -53,8 +54,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         }
 
         PlayerPrefs.SetString("LevelNumber", questionController.levelNumber.ToString());
-
-        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0);        
+      
     }
     void FixedUpdate()
     {

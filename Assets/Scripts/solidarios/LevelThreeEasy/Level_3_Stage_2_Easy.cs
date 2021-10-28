@@ -46,8 +46,11 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     public TMP_Text debugAnswer;
     bool ShowResult;
     public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
+    public FirebaseManager firebaseManager;
     void Start()
     {
+        firebaseManager.GameLogMutation(3, 2, "Easy", Actions.Started, 0); 
+
         // Given 
         ShowResult = true;
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(1f, 1.5f), 2);
