@@ -30,7 +30,7 @@ public class VelocityMediumManager : MonoBehaviour
     float playerPos, playerAnswer, elapsed, distanceTraveled, currentPlayerPos, jumpTime, jumpForce, playerDistance;
     string question, playerGender, pronoun, pPronoun, messageTxt;
     string playerName = "Juan";
-    bool isStartOfStunt, directorIsCalling, isAnswered, isAnswerCorrect, isEndOfStunt, onShadow, isEnd;
+    bool isStartOfStunt, directorIsCalling, isAnswered, isAnswerCorrect, isEndOfStunt, onShadow;
     [SerializeField] TMP_Text playerSpeed, boulder1Speed, boulder2Speed;
     float correctD, timingD;
     GameObject b2Shadow, b1Shadow, pShadow;
@@ -39,6 +39,7 @@ public class VelocityMediumManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        isEndOfStunt = false;
         qc = FindObjectOfType<QuestionControllerVThree>();
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
         jmpDistFromBoulder = FindObjectOfType<IndicatorManager>();       
@@ -198,7 +199,6 @@ public class VelocityMediumManager : MonoBehaviour
                         boulder2RB.velocity = new Vector2(boulder2RB.velocity.x, boulder2RB.velocity.y);
                         if (playerAnswer == correctAnswer)
                         {
-                            isEnd = true;
                             boulder.GetComponent<CircleCollider2D>().enabled = false;
                             boulderA.GetComponent<CircleCollider2D>().enabled = false;
                             isAnswerCorrect = true;
@@ -250,7 +250,6 @@ public class VelocityMediumManager : MonoBehaviour
     }
     void VeloMediumSetUp()
     {
-        isEnd = false;
         isEndOfStunt = false;
         foreach(var item in boulderName)
             item.gameObject.SetActive(false);
@@ -531,6 +530,7 @@ public class VelocityMediumManager : MonoBehaviour
     IEnumerator StuntResult()
     {
         isEndOfStunt = false;
+        RagdollV2.disableRagdoll = false;
         yield return new WaitForSeconds(1f);
         directorIsCalling = true;
         isStartOfStunt = false;
@@ -541,7 +541,7 @@ public class VelocityMediumManager : MonoBehaviour
         RumblingManager.shakeON = false;
         RumblingManager.isCrumbling = true;
         yield return new WaitForSeconds(3);
-        qc.ActivateResult(messageTxt, isAnswerCorrect, isEnd);
+        qc.ActivateResult(messageTxt, isAnswerCorrect, stage==3?true:false);
     }
     IEnumerator Jump()
     {

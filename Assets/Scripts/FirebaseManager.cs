@@ -24,10 +24,10 @@ public class FirebaseManager : MonoBehaviour
     public async void CheckIfKeyCodeValid(Action callback)
     {
         bool isValid;
-        
+
     }
 
-    #nullable enable
+#nullable enable
     public void GameLogMutation(int? levelValue = 1, int? stageValue = 1, string? difficultyValue = "Easy", string actionValue = "Next", float? value = 0)
     {
         Debug.Log(SystemInfo.deviceType);
@@ -57,6 +57,7 @@ public class FirebaseManager : MonoBehaviour
                 };
             docRef.SetAsync(log).ContinueWithOnMainThread(task =>
             {
+                
                 Debug.Log("Added data to the log.");
             });
         }
@@ -98,6 +99,5 @@ public class FirebaseManager : MonoBehaviour
                     }
                 });
         }
-
     }
 }

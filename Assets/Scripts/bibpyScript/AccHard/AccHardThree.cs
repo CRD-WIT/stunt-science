@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class AccHardThree : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class AccHardThree : MonoBehaviour
     float camPosChopper,camPosTruck, distanceCheck;
     int tries, attemp;
     public TMP_Text debugAnswer;
+    public Button play;
     // Start is called before the first frame update
     void Start()
     {
@@ -90,6 +92,7 @@ public class AccHardThree : MonoBehaviour
         }
         if (AccHardSimulation.simulate == true)
         {
+            play.interactable = false;
             accHtxt.text = ("a = ") + aH.ToString("F2") + ("m/s²");
             viHtxt.text = ("v = ")+ theChopper.flySpeed.ToString("F2");
             camFollowChopper = true;
@@ -207,6 +210,8 @@ public class AccHardThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        StartCoroutine(theHeart.startBGgone());
+        play.interactable = true;
         theQuestion.isSimulating = false;
         projectileLine.SetActive(true);
         theChopper.transform.position = new Vector2(cam.transform.position.x - 20, theChopper.transform.position.y);
@@ -282,7 +287,7 @@ public class AccHardThree : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         theChopper.moving = true;
         theChopper.flySpeed = 7;
-        StartCoroutine(theHeart.endBGgone());
+        //StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1f);
         camFollowTruck = false;
         theTruck.moveSpeed= 0;
@@ -336,7 +341,7 @@ public class AccHardThree : MonoBehaviour
         theTruck.transform.position = new Vector2(theTruck.transform.position.x - 1, theTruck.transform.position.y);
         theTruck.moveSpeed = -10;
         yield return new WaitForSeconds(1.5f);
-        StartCoroutine(theHeart.endBGgone());
+        //StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(1f);
         theChopper.flySpeed = 0;
         theMulticab.moveSpeed = 0;

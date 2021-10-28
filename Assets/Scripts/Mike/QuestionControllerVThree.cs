@@ -130,6 +130,7 @@ public class QuestionControllerVThree : MonoBehaviour
             // NOTE: Use this template when ending levels.
             if (isComplete)
             {
+                Debug.Log($"QCV3: isComplete {isComplete}");
                 firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
                 actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);

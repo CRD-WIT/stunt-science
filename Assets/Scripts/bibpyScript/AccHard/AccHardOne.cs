@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class AccHardOne : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class AccHardOne : MonoBehaviour
     bool shoot, shootReady, gas, startTime;
     public TMP_Text timertxt, timertxtTruck, actiontxt, viTtxt, aTtxt;
     int tries, stopTruckPos, attemp;
+    public Button play;
 
     public TMP_Text debugAnswer;
     // Start is called before the first frame update
@@ -67,6 +69,7 @@ public class AccHardOne : MonoBehaviour
 
         if (AccHardSimulation.simulate == true)
         {
+            play.interactable = false;
             startTime = true;
             target.transform.position = targetWheel.transform.position;
             dimensions.SetActive(false);
@@ -167,7 +170,8 @@ public class AccHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
-         theQuestion.isSimulating = false;
+        play.interactable = true;
+        theQuestion.isSimulating = false;
         StartCoroutine(theHeart.startBGgone());
         truckInitials.SetActive(true);
         target.SetActive(true);
@@ -257,7 +261,7 @@ public class AccHardOne : MonoBehaviour
         yield return new WaitForSeconds(1);
         theMulticab.moveSpeed = 20;
         yield return new WaitForSeconds(4);
-        theHeart.startBGgone();
+        //theHeart.startBGgone();
         theTruck.moveSpeed = 0;
         theChopper.flySpeed = 0;
         theMulticab.moveSpeed = 0;
@@ -281,7 +285,7 @@ public class AccHardOne : MonoBehaviour
         theTruck.transform.position = new Vector2(theTruck.transform.position.x - 1, theTruck.transform.position.y);
         theTruck.moveSpeed = -13;
         yield return new WaitForSeconds(4);
-        StartCoroutine(theHeart.endBGgone());
+        //theHeart.startbgentrance();
         yield return new WaitForSeconds(1f);
         theTruck.moveSpeed = 0;
         yield return new WaitForSeconds(1.8f);

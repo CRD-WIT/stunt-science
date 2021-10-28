@@ -24,6 +24,7 @@ public class AccHardSimulation : MonoBehaviour
     public bool posCheck;
     public string take;
     public int takeNumber;
+    public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
 
 
 
@@ -171,11 +172,14 @@ public class AccHardSimulation : MonoBehaviour
             directorBubble.SetActive(true);
             // diretorsSpeech.text = "Take " + take + ("!");
             // yield return new WaitForSeconds(0.75f);
-            diretorsSpeech.text = "Lights!";
+           diretorsSpeech.text = "Lights!";
+            lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
+            cameraSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Action!";
+            actionSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);

@@ -127,7 +127,10 @@ public class PlayerV2 : MonoBehaviour
     }
     public void ToggleTrigger()
     {
-        ragDollTrigger.enabled = true;
+        if(ragDollTrigger){
+            ragDollTrigger.enabled = true;
+        }
+        
     }
     public void jump()
     {
