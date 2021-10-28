@@ -292,6 +292,8 @@ public class HardManager : MonoBehaviour
     }
     public void SetUp()
     {
+        directorIsCalling = false;
+        isStartOfStunt = true;
         bossVeloLabel.SetActive(true);
         bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x, bossHead.transform.position.y + 1);
         throwingPath.SetActive(true);
