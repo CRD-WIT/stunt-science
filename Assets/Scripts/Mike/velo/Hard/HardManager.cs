@@ -79,6 +79,16 @@ public class HardManager : MonoBehaviour
         }
         if (stage1Flag)
         {
+            if (!RagdollV2.disableRagdoll)
+            {
+                RagdollV2.disableRagdoll = true;
+                ragdoll = true;
+                y = 0;
+                stage1Flag = false;
+                Debug.Log("Disabled ragdoll called");
+                messageTxt = $"{playerName} has unable to throw the stone. Stunt Failed!";
+                isEndOfStunt = true;
+            }
             if (myPlayer.transform.position.x < (-playerAnswer + 0.5f))
             {
                 initialDistance = 1 - playerAnswer;
@@ -264,15 +274,6 @@ public class HardManager : MonoBehaviour
                 qc.retried = false;
             }
         }
-        if (RagdollV2.disableRagdoll)
-        {
-            RagdollV2.disableRagdoll = false;
-            ragdoll = true;
-            y = 0;
-            stage1Flag = false;
-            Debug.Log("Disabled ragdoll called");
-            isEndOfStunt = true;
-        }
     }
     IEnumerator EndOfHard()
     {
@@ -321,6 +322,7 @@ public class HardManager : MonoBehaviour
         life.losslife = false;
         gem.SetActive(true);
         stoneVeloLabel.SetActive(false);
+        RagdollV2.disableRagdoll = true;
         
         switch (stage)
         {
@@ -629,6 +631,7 @@ public class HardManager : MonoBehaviour
     IEnumerator StuntResult()
     {
         isEndOfStunt = false;
+        RagdollV2.disableRagdoll =false;
         yield return new WaitForSeconds(1f);
         directorIsCalling = true;
         isStartOfStunt = false;
