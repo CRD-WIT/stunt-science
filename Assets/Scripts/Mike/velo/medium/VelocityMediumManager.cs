@@ -36,6 +36,7 @@ public class VelocityMediumManager : MonoBehaviour
     GameObject b2Shadow, b1Shadow, pShadow;
     Vector2 spawnPoint;
     [SerializeField] TMP_Text[] boulderName = new TMP_Text[2];
+    public FirebaseManager firebaseManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,6 +70,8 @@ public class VelocityMediumManager : MonoBehaviour
         }
         qc.levelDifficulty = Difficulty.Medium;
         VeloMediumSetUp();
+
+        
     }
     // Update is called once per frame
     void Update()
