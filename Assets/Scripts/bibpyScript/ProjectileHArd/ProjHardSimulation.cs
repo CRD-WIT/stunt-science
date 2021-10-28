@@ -8,7 +8,7 @@ public class ProjHardSimulation : MonoBehaviour
 {
     public Button playButton;
     public TMP_InputField answerField;
-    public GameObject directorBubble, trail, projectTrail,exitBg;
+    public GameObject directorBubble, trail, projectTrail,exitBg, arrowShadow;
     public ProjectileHardOne theManagerOne;
     public ProjectileHardTwo theManagerTwo;
     public ProjectileHardThree theManagerThree;
@@ -198,6 +198,7 @@ public class ProjHardSimulation : MonoBehaviour
     public void action()
     {
         //theQuestion.ToggleModal();
+        arrowShadow.SetActive(true);
         playButton.interactable = true;
         if (theQuestion.answerIsCorrect == false)
         {
