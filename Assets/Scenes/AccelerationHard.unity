@@ -3669,6 +3669,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56c2cac362e0257429613bbef778645a, type: 3}
+--- !u!82 &366385444 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2530501136593869796, guid: 56c2cac362e0257429613bbef778645a, type: 3}
+  m_PrefabInstance: {fileID: 366385443}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &366385445 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2530501134957327089, guid: 56c2cac362e0257429613bbef778645a, type: 3}
+  m_PrefabInstance: {fileID: 366385443}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &368512584
 GameObject:
   m_ObjectHideFlags: 0
@@ -11317,7 +11327,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 119744737471976684, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 119744737471976685, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -815
       objectReference: {fileID: 0}
     - target: {fileID: 119744737471976685, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -11419,6 +11433,30 @@ PrefabInstance:
       propertyPath: firebaseManager
       value: 
       objectReference: {fileID: 449533034}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: sfxAudios.Array.data[0]
+      value: 
+      objectReference: {fileID: 366385445}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: sfxAudios.Array.data[1]
+      value: 
+      objectReference: {fileID: 1411287485}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: sfxAudios.Array.data[2]
+      value: 
+      objectReference: {fileID: 1680659860}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: sfxAudios.Array.data[3]
+      value: 
+      objectReference: {fileID: 2039742721}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: sfxAudios.Array.data[4]
+      value: 
+      objectReference: {fileID: 366385444}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: sfxAudios.Array.data[5]
+      value: 
+      objectReference: {fileID: 802693255}
     - target: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -20148,8 +20186,8 @@ MonoBehaviour:
   wrongAnswerColor: {r: 0, g: 0, b: 0, a: 0}
   levelDifficulty: 2
   simulationManager: {fileID: 0}
-  levelNumber: 0
-  stage: 0
+  levelNumber: 2
+  stage: 1
   modalTitle: 
   question: 
   timer: 

@@ -361,7 +361,7 @@ public class QuestionControllerC : MonoBehaviour
         popupTextHorizontal.SetText(errorText);
         modalComponentHorizontal.gameObject.SetActive(isModalOpen);
         modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
-        Debug.Log(question);
+        //Debug.Log(question);
         problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
         modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
         problemTextHorizontal.SetActive(!isModalOpen);

@@ -24,6 +24,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     public Hook theHook;
     public QuestionContProjMed questionController;
     public GameObject directorBubble;
+    public Settings settings;
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     public TMP_InputField answerField;
@@ -161,14 +162,13 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     {
         if (questionController.GetPlayerAnswer() == correctAnswer)
         {
-            SceneManager.LoadScene("");
+            settings.ToggleFlashCardEnd();
+            // SceneManager.LoadScene("LevelSelectV2");
         }
         else
         {
             SceneManager.LoadScene("LevelThreeStage3Medium");
         }
-
-
     }
 
     void FixedUpdate()

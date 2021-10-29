@@ -40,7 +40,7 @@ public class HeartManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"life {life}");
+        //Debug.Log($"life {life}");
         if (transform.childCount < life)
         {
             for (int i = 0; i < 1; i++)
