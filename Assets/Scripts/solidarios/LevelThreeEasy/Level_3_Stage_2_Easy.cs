@@ -45,6 +45,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     public HeartManager life;
     public TMP_Text debugAnswer;
     bool ShowResult;
+    public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
     void Start()
     {
         // Given 
@@ -275,10 +276,13 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
             // isStartOfStunt = false;
             callout.SetActive(true);
             calloutText.SetText("Lights!");
+            lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             calloutText.SetText("Camera!");
+            cameraSfx.Play();
             yield return new WaitForSeconds(0.75f);
             calloutText.SetText("Action!");
+            actionSfx.Play();
             yield return new WaitForSeconds(0.75f);
             calloutText.SetText("");
             callout.SetActive(false);
@@ -287,6 +291,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         else
         {
             calloutText.SetText("Cut!");
+            cutSfx.Play();
             callout.SetActive(true);
             yield return new WaitForSeconds(0.75f);
             callout.SetActive(false);

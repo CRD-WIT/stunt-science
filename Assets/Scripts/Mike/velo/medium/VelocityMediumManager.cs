@@ -36,6 +36,7 @@ public class VelocityMediumManager : MonoBehaviour
     GameObject b2Shadow, b1Shadow, pShadow;
     Vector2 spawnPoint;
     [SerializeField] TMP_Text[] boulderName = new TMP_Text[2];
+    public FirebaseManager firebaseManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,6 +70,8 @@ public class VelocityMediumManager : MonoBehaviour
         }
         qc.levelDifficulty = Difficulty.Medium;
         VeloMediumSetUp();
+
+        
     }
     // Update is called once per frame
     void Update()
@@ -121,7 +124,7 @@ public class VelocityMediumManager : MonoBehaviour
                             else
                                 messageTxt = playerName + " jumped too late and hit the boulder.\nThe correct answer is <color=green>" + stuntTime + " seconds</color>.";
 
-                            indicators.ShowCorrectDistance(jumpDistance, true, new Vector2(stuntTime * playerVelocity, 1.5f));
+                            // indicators.ShowCorrectDistance(jumpDistance, true, new Vector2(stuntTime * playerVelocity, 1.5f));
                             // indicators.ShowCorrectTime(stuntTime, stuntTime * playerVelocity, true);
                         }
                         StartCoroutine(Jump());
@@ -199,11 +202,11 @@ public class VelocityMediumManager : MonoBehaviour
                         boulder2RB.velocity = new Vector2(boulder2RB.velocity.x, boulder2RB.velocity.y);
                         if (playerAnswer == correctAnswer)
                         {
-                            boulder.GetComponent<CircleCollider2D>().enabled = false;
-                            boulderA.GetComponent<CircleCollider2D>().enabled = false;
                             isAnswerCorrect = true;
                             elapsed = stuntTime;
                             messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
+                            boulder.GetComponent<CircleCollider2D>().enabled = false;
+                            boulderA.GetComponent<CircleCollider2D>().enabled = false;
                         }
                         else
                         {
@@ -386,8 +389,8 @@ public class VelocityMediumManager : MonoBehaviour
                 boulderA.SetActive(true);
                 velocityDirectionArrow1.SetActive(true);
                 velocityDirectionArrow2.SetActive(true);
-                boulder.GetComponent<CircleCollider2D>().enabled = false;
-                boulderA.GetComponent<CircleCollider2D>().enabled = false;
+                // boulder.GetComponent<CircleCollider2D>().enabled = false;
+                // boulderA.GetComponent<CircleCollider2D>().enabled = false;
 
                 float Vp, Dp, Tp, Dac = (float)System.Math.Round(Random.Range(19f, 22f), 2);
                 Va = Random.Range(7f, 8f);
@@ -530,7 +533,7 @@ public class VelocityMediumManager : MonoBehaviour
     IEnumerator StuntResult()
     {
         isEndOfStunt = false;
-        RagdollV2.disableRagdoll = false;
+        // RagdollV2.disableRagdoll = false;
         yield return new WaitForSeconds(1f);
         directorIsCalling = true;
         isStartOfStunt = false;
@@ -549,19 +552,19 @@ public class VelocityMediumManager : MonoBehaviour
         {
             if (stage == 3)
             {
-                myPlayer.jumpforce = jumpForce - 0.1f;
+                myPlayer.jumpforce = jumpForce * 0.75f;
                 jumpTime -= 0.04f;
             }
             else if (stage == 1)
             {
                 if (playerAnswer > correctAnswer)
                 {
-                    myPlayer.jumpforce = jumpForce - 0.04f;
+                    myPlayer.jumpforce = jumpForce * 0.9f;
                     jumpTime -= 0.08f;
                 }
                 else
                 {
-                    myPlayer.jumpforce = jumpForce - 0.03f;
+                    myPlayer.jumpforce = jumpForce * 0.9f;
                     jumpTime -= 0.04f;
                 }
             }

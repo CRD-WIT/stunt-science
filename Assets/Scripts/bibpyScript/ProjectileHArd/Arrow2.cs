@@ -11,6 +11,7 @@ public class Arrow2 : MonoBehaviour
 
     public Rigidbody2D rb;
     public bool showIndicator,showIndicatorReady;
+    public GameObject arrowShadow;
 
     float
 
@@ -74,7 +75,7 @@ public class Arrow2 : MonoBehaviour
                 showIndicator = true;
                 showIndicatorReady = false;
             }
-            
+            arrowShadow.SetActive(false);
         }
     }
 
@@ -93,6 +94,7 @@ public class Arrow2 : MonoBehaviour
                 showIndicator = true;
                 showIndicatorReady = false;
             }
+            arrowShadow.SetActive(false);
         }
     }
 }

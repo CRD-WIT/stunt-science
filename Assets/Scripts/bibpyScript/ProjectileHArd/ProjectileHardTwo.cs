@@ -271,7 +271,7 @@ public class ProjectileHardTwo : MonoBehaviour
     }
     public void reShoot()
     {
-        puller.GetComponent<Rigidbody2D>().velocity = transform.right * 12;
+        puller.GetComponent<Rigidbody2D>().velocity = transform.right * 10;
     }
     IEnumerator StuntResult()
     {
