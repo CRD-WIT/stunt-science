@@ -84,10 +84,13 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     public TMP_Text debugAnswer;
     public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
+    public FirebaseManager firebaseManager;
 
 
     void Start()
     {
+        firebaseManager.GameLogMutation(3, 1, "Easy", Actions.Started, 0); 
+
         showResult = true;
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
         // Given

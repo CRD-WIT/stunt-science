@@ -33,6 +33,8 @@ public class HardManager : MonoBehaviour
     public HeartManager life;
     public TMP_Text debugAnswer;
     float? timeL;
+
+    public FirebaseManager firebaseManager;
     void Start()
     {
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
@@ -61,6 +63,8 @@ public class HardManager : MonoBehaviour
         bossStartPos = bossHead.transform.position;
         qc.stage = stage;
         SetUp();
+
+        firebaseManager.GameLogMutation(1, 1, "Hard", Actions.Started, 0); 
 
     }
     void Update()
@@ -296,6 +300,9 @@ public class HardManager : MonoBehaviour
     }
     public void SetUp()
     {
+        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0); 
+
+
         directorIsCalling = false;
         isStartOfStunt = true;
         isEndOfStunt = false;

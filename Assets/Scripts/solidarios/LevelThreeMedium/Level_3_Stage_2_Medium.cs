@@ -34,6 +34,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     static float playerAnswer;
     public HeartManager theHeart;
     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
+    public FirebaseManager firebaseManager;
     void Start()
     {
         theHeart.startbgentrance();
