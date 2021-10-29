@@ -5,7 +5,7 @@ using TMPro;
 
 public class DirectorManagerV2 : MonoBehaviour
 {
-    public Transform target;
+    public Transform target, secondaryTarget;
     Transform initTarget, tempTarget;
     public ToThe directorIsFacingTo, platformIsOn;
     float platformScale;
@@ -25,6 +25,9 @@ public class DirectorManagerV2 : MonoBehaviour
         {
             Debug.Log("active");
             tempTarget = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        }
+        else if(secondaryTarget.parent.gameObject.activeSelf == true){
+            tempTarget = secondaryTarget;
         }
         else
             tempTarget = initTarget;
