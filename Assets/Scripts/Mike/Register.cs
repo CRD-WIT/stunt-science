@@ -133,12 +133,78 @@ public class Register : MonoBehaviour
         }
         else
         {
-            await Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+            await Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(async (task) =>
                 {
                     var dependencyStatus = task.Result;
                     if (dependencyStatus == Firebase.DependencyStatus.Available)
                     {
+                        app = Firebase.FirebaseApp.DefaultInstance;
+                        FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
+                        DocumentReference docRef;
 
+                        if (pCode.text.Length > 0)
+                        {
+                            docRef = db.Collection("game_keys").Document(pCode.text);
+
+                            await docRef.GetSnapshotAsync().ContinueWith((task) =>
+                            {
+                                var snapshot = task.Result;
+                                if (snapshot.Exists)
+                                {
+                                    Debug.Log($"Key exists");
+
+                                    Dictionary<string, object> gkey = snapshot.ToDictionary();
+
+                                    Debug.Log($"Activated Status: {gkey["activated"]}");
+
+                                    if (bool.Parse(gkey["activated"].ToString()) == true)
+                                    {
+                                        error = true;
+                                        errorMessages += "Your keycode already taken.\n";
+                                    }
+                                }
+                                else
+                                {
+                                    error = true;
+                                    errorMessages += "Your keycode is invalid. Please review your entry.\n";
+
+                                }
+                            });
+
+                            if (pName.GetComponent<Text>().text.Length < 2)
+                            {
+                                error = true;
+                                errorMessages += "Invalid name. Please review your name.\n";
+                            }
+
+                            if (RegistrationManager.playerGender == null)
+                            {
+                                error = true;
+                                errorMessages += "Missing gender selection.\n";
+                            }
+
+                            if (pCode.text.Length < 3)
+                            {
+                                error = true;
+                                errorMessages += "Invalid code. Please check or ask your teacher.\n";
+                            }
+
+                            if (error)
+                            {
+                                Debug.Log(errorMessages);
+                                ToggleError(errorMessages);
+                            }
+                            else
+                            {
+                                RegisterPlayer();
+                            }
+                        }
+                        else
+                        {
+                            error = true;
+                            errorMessages += "Empty code. Please check or ask your teacher.\n";
+                            ToggleError(errorMessages);
+                        }
                     }
                     else
                     {
