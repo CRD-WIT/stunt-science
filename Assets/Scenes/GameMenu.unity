@@ -1035,6 +1035,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500735635}
   m_CullTransparentMesh: 1
+--- !u!1001 &519864183
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4316510481556323993, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_Name
+      value: FirebaseManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.43317437
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.35497957
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 32.61623
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812970402176193665, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+--- !u!114 &519864184 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1704367510610660259, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
+  m_PrefabInstance: {fileID: 519864183}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8367fe95cba0f10abac920f2b9b4fc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &546504070
 GameObject:
   m_ObjectHideFlags: 0
@@ -4462,49 +4530,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1823774029
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1823774031}
-  - component: {fileID: 1823774030}
-  m_Layer: 0
-  m_Name: GraphQLCloud
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1823774030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1823774029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb0632f1761c95ac18a77d9662889351, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1823774031
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1823774029}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.305832, y: -0.3761558, z: -12.948931}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1835612364
 GameObject:
   m_ObjectHideFlags: 0
@@ -4634,9 +4659,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 7a89b8bd8624d5561bf071d6f8e1ad2c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1054960343d79a334968946da28276cf, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5112,6 +5137,9 @@ MonoBehaviour:
   levelFinishedPanel: {fileID: 0}
   stuntGuidePanel: {fileID: 0}
   flashCard: {fileID: 0}
+  flashCardEnd: {fileID: 0}
+  flashCardIsOpen: 0
+  flashCardEndIsOpen: 0
   soundLevel: 1
   musicLevel: 1
   soundSlider: {fileID: 1835612366}
@@ -5134,7 +5162,18 @@ MonoBehaviour:
   isFirstStart: 1
   sfxAudios:
   - {fileID: 1810577552}
-  firebaseManager: {fileID: 0}
+  firebaseManager: {fileID: 519864184}
+  gameLevelNames:
+  - 
+  - Velocity
+  - Acceleration
+  - FreeFallProjectile
+  - CircularMotion
+  - Forces
+  - Work
+  - Energy
+  - Power
+  - Momemtum
 --- !u!114 &2076624135
 MonoBehaviour:
   m_ObjectHideFlags: 0
