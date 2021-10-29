@@ -5,6 +5,7 @@ using TMPro;
 
 public class Settings : MonoBehaviour
 {
+    public GameObject debugPanel;
     public GameObject settingsPanel;
     public GameObject levelFinishedPanel;
     public GameObject stuntGuidePanel;
@@ -69,6 +70,8 @@ public class Settings : MonoBehaviour
 
     public string[] gameLevelNames = { "", "Velocity", "Acceleration", "FreeFallProjectile", "CircularMotion", "Forces", "Work", "Energy", "Power", "Momemtum" };
 
+    public string id_code;    
+
     public string[] GetLevelNames()
     {
         return gameLevelNames;
@@ -80,6 +83,8 @@ public class Settings : MonoBehaviour
         // {
         //     ToggleIntroMusic();
         // }
+
+        id_code = PlayerPrefs.GetString("IDCode");
 
         // Sound
         LoadVolumes();
@@ -156,6 +161,9 @@ public class Settings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(debugPanel){
+            debugPanel.SetActive(id_code=="05ada8"?true:false);
+        }
         if (fps)
         {
             fps.text = $"Frame Rate: {(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()}f/s";

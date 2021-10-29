@@ -5013,6 +5013,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ae6fdea529b6a34ac8843e3c86d0fc2f, type: 3}
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: debugPanel
+      value: 
+      objectReference: {fileID: 44540294}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: flashCardEnd
       value: 
       objectReference: {fileID: 44540293}
@@ -5077,6 +5081,11 @@ PrefabInstance:
 --- !u!1 &44540293 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1935453957895722258, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 44540292}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &44540294 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 119744737471976684, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
   m_PrefabInstance: {fileID: 44540292}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &117415613
@@ -5268,6 +5277,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2530501136071062744, guid: 56c2cac362e0257429613bbef778645a, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9492fad07c0fab6469b49856eb6a5336, type: 3}
     - target: {fileID: 2530501136526767065, guid: 56c2cac362e0257429613bbef778645a, type: 3}
       propertyPath: m_Name
       value: ssfx
@@ -42466,6 +42479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugPanel: {fileID: 0}
   settingsPanel: {fileID: 0}
   levelFinishedPanel: {fileID: 0}
   stuntGuidePanel: {fileID: 0}
@@ -42512,3 +42526,4 @@ MonoBehaviour:
   - Energy
   - Power
   - Momemtum
+  id_code: 
