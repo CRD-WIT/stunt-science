@@ -228,9 +228,9 @@ public class Settings : MonoBehaviour
     public void ToggleAssistance()
     {
         // Set global gameplay stats for data logging.
-        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber"));
-        string difficulty = PlayerPrefs.GetString("DifficultyName");
-        int stage = int.Parse(PlayerPrefs.GetString("Stage"));
+        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber","1"));
+        string difficulty = PlayerPrefs.GetString("DifficultyName","Easy");
+        int stage = int.Parse(PlayerPrefs.GetString("Stage","1"));
 
         stuntGuidePanelIsOpen = !stuntGuidePanelIsOpen;
         if (stuntGuidePanelIsOpen)
