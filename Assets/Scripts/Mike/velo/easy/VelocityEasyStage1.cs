@@ -40,7 +40,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         whatIsAsk = UnitOf.velocity;
         VelocityEasyStage1SetUp();
 
-        PlayerPrefs.SetString("LevelNumber", questionController.levelNumber.ToString());
+        
         
         switch (questionController.levelDifficulty)
         {
@@ -53,7 +53,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 break;
         }
 
-        PlayerPrefs.SetString("LevelNumber", questionController.levelNumber.ToString());
+        PlayerPrefs.SetString("LevelNumber", "1");
       
     }
     void FixedUpdate()
