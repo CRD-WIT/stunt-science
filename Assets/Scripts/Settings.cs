@@ -347,6 +347,13 @@ public class Settings : MonoBehaviour
         fm.GameLogMutation(levelNumber, stage, difficulty.Length > 1 ? difficulty : null, Actions.NewGame, 0);
         PlayerPrefs.DeleteAll();
     }
+
+
+    public void ClearPlayerPrefs()
+    {        
+        PlayerPrefs.DeleteAll();
+    }
+
     public void ProjEasyReloadScene()
     {
         PlayerPrefs.SetInt("Life", 3);
