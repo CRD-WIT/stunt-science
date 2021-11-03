@@ -201,6 +201,7 @@ public class AccManagerOne : MonoBehaviour
     IEnumerator StuntResult(string message, bool isCorrect)
     {        
         yield return new WaitForSeconds(5);
+        engineRunning.Stop();
         StartCoroutine(theSimulation.DirectorsCall());
         walls.SetActive(false);
         theQuestion.isSimulating = false;

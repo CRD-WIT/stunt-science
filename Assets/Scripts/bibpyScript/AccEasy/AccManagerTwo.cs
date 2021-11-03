@@ -222,6 +222,7 @@ public class AccManagerTwo : MonoBehaviour
         yield return new WaitForSeconds(2);
         StartCoroutine(theSimulation.DirectorsCall());
         yield return new WaitForSeconds(2);
+        engineRunning.Stop();
         theQuestion.ActivateResult(message, isCorrect);
         walls.SetActive(false);
         theBike.moveSpeed = 0;

@@ -23,7 +23,7 @@ public class BikeManager : MonoBehaviour
     public bool brake;
     private HeartManager theHeart;
     public QuestionControllerB theQuestion;
-    public AudioSource crashed, engineRunning;
+    public AudioSource crashed, engineRunning, engineIdle;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +70,7 @@ public class BikeManager : MonoBehaviour
                 driverspawn();
                 thePlayer.standup = true;
                 engineRunning.Stop();
+                engineIdle.Stop();
                 crashed.Play();
                 //accSimulation.playerDead = true;
                 collided = true;

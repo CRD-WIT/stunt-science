@@ -42,7 +42,7 @@ public class AccManagerThree : MonoBehaviour
     public TMP_Text debugAnswer;
     public QuestionControllerAcceleration theQuestion;
     Quaternion truckStartRot;
-    public AudioSource engineIdle, engineRunning;
+    public AudioSource engineIdle, engineRunning,truckEngine;
 
 
     // Start is called before the first frame update
@@ -228,6 +228,7 @@ public class AccManagerThree : MonoBehaviour
         yield return new WaitForSeconds(2);
         if (Vi == correctAns)
         {
+             truckEngine.Stop();
             theQuestion.ActivateResult(message, isCorrect, true);
 
             // theScorer.finalstar();
@@ -255,7 +256,8 @@ public class AccManagerThree : MonoBehaviour
     }
     IEnumerator truckWillGo()
     {
-        yield return new WaitForSeconds(1);
+        truckEngine.Play();
+        yield return new WaitForSeconds(2);
         StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
         theTruck.moveSpeed = 10;
         if (Vi == correctAns)
