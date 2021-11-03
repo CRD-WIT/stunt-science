@@ -33,6 +33,7 @@ public class AccManagerOne : MonoBehaviour
     bool tooSlow, follow;
     private Vector2 bikeInitialsPos;
     public QuestionControllerAcceleration theQuestion;
+    public AudioSource engineIdle, engineRunning;
 
     void Start()
     {
@@ -97,6 +98,7 @@ public class AccManagerOne : MonoBehaviour
         }
         if (theQuestion.isSimulating)
         {
+            engineIdle.Stop();
             directionArrow.SetActive(false);
             theQuestion.timer = timer.ToString("F2") + ("s");
             accelaration = accSimulation.playerAnswer;
@@ -135,7 +137,7 @@ public class AccManagerOne : MonoBehaviour
             timer += Time.fixedDeltaTime;
             if (timer >= time)
             {
-                theQuestion.isSimulating = false;
+                
                 timertxt.text = time.ToString("F2") + ("s");
                 if (accelaration == correctAns)
                 {
@@ -166,12 +168,22 @@ public class AccManagerOne : MonoBehaviour
                     StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                     playerVf = 0;
                 }
+                if (accelaration > correctAns)
+                {
+                    StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
+                }
                 Vitxt.text = ("v = ") + playerVf.ToString("F2") + ("m/s");
+                theQuestion.isSimulating = false;
             }
+        }
+        else
+        {
+           
         }
     }
     public void generateProblem()
     {
+        engineIdle.Play();
         follow = true;
         bikeInitials.transform.position = bikeInitialsPos;
         timer = 0;

@@ -42,10 +42,13 @@ public class AccManagerThree : MonoBehaviour
     public TMP_Text debugAnswer;
     public QuestionControllerAcceleration theQuestion;
     Quaternion truckStartRot;
+    public AudioSource engineIdle, engineRunning;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        engineRunning.Stop();
         timer = 0;
         //theQuestion.stageNumber = 3;
         cam.transform.position = new Vector3(18f, cam.transform.position.y, cam.transform.position.z);
@@ -179,6 +182,7 @@ public class AccManagerThree : MonoBehaviour
                 if (theBike.moveSpeed <= 0)
                 {
                     theBike.moveSpeed = 0;
+                    engineRunning.Stop();
                     if (Vi == correctAns)
                     {
                         velocitytxt.text = ("vf = 0.00 m/s");
@@ -195,6 +199,7 @@ public class AccManagerThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        engineIdle.Play();
         walls.SetActive(false);
         theTruck.transform.rotation = truckStartRot;
         bikeInitials.transform.position = bikeInitialStartPos;

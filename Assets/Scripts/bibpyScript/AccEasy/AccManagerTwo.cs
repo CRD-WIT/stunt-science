@@ -32,10 +32,12 @@ public class AccManagerTwo : MonoBehaviour
     private Vector2 bikeInitialStartPos;
     public QuestionControllerAcceleration theQuestion;
     public TMP_Text debugAnswer;
+    public AudioSource engineIdle, engineRunning;
 
     // Start is called before the first frame update
     void Start()
     {
+        engineRunning.Stop();
         cam.transform.position = new Vector3(17.5f, cam.transform.position.y, cam.transform.position.z);
         thePlayer = FindObjectOfType<PlayerB>();
         theBike = FindObjectOfType<BikeManager>();
@@ -199,6 +201,7 @@ public class AccManagerTwo : MonoBehaviour
     }
     public void generateProblem()
     {
+        engineIdle.Play();
         bikeInitials.transform.position = bikeInitialStartPos;
         Vi = Random.Range(15, 20);
         generateAns = 60 / (Vi + 10);
