@@ -146,7 +146,7 @@ public class AccManagerThree : MonoBehaviour
                     if (currentPos >= 30)
                     {
                         theBike.moveSpeed = 0;
-                        StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
+                        //StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                         theQuestion.isSimulating = false;
                         vitxt.color = new Color32(10, 103, 0, 255);
                         StartCoroutine(truckWillGo());
@@ -199,7 +199,7 @@ public class AccManagerThree : MonoBehaviour
     }
     public void generateProblem()
     {
-        engineIdle.Play();
+        truckEngine.Stop();        engineIdle.Play();
         walls.SetActive(false);
         theTruck.transform.rotation = truckStartRot;
         bikeInitials.transform.position = bikeInitialStartPos;

@@ -25,6 +25,7 @@ public class AccMediumTwo : MonoBehaviour
     string gender, pronoun;
     public TMP_Text vivTxt, vihTxt, accvTxt, acchTxt, actiontxt,timertxt;
     public TMP_Text debugAnswer;
+    public AudioSource glassBreak;
     // Start is called before the first frame update
     void Start()
     {
@@ -293,6 +294,7 @@ public class AccMediumTwo : MonoBehaviour
         StartCoroutine(StuntResult());
         if (playerKickDistance == kickDistance)
         {
+            glassBreak.Play();
             theMeter[0].distance = kickDistance - chopperAccPos;
             glassSpawn();
         }

@@ -25,6 +25,7 @@ public class AccMediumOne : MonoBehaviour
     public TMP_Text timertxt, vHtxt, viTtxt, aTtxt, actiontxt, playTimertxt;
     float grabLineDistance, playerGrabLineDistance;
     private Vector2 subChopperStartPos, chopperStartPos;
+    public AudioSource truckIdle,truckRunning,ChopperFlying;
     // Start is called before the first frame update
     void Start()
     {
@@ -183,6 +184,7 @@ public class AccMediumOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        truckIdle.Play();
         theChopper.flySpeed = 0;
         theHeart.losslife = false;
         timeOn = false;
