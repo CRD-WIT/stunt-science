@@ -213,7 +213,12 @@ public class Settings : MonoBehaviour
         {
             flashCardEnd.SetActive(flashCardEndIsOpen);
         }
-        AudioListener.volume = soundLevel;
+
+        // AudioListener.volume = soundLevel; // Soundfx
+
+        // backgroundAudio.volume = musicLevel; // Music
+
+
         if (AudioListener.volume == 0)
         {
             if (soundButtonImage)
@@ -273,14 +278,13 @@ public class Settings : MonoBehaviour
     public void UpdateSoundValue()
     {
         soundLevel = soundSlider.value;
+        AudioListener.volume = soundLevel;
     }
     public void UpdateMusicValue()
     {
         musicLevel = musicSlider.value;
-        for (int i = 0; i < sfxAudios.Length; i++)
-        {
-            sfxAudios[i].volume = musicLevel;
-        }
+        backgroundAudio.volume = musicLevel;
+
     }
 
     public void ResetLife()
