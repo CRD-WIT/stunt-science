@@ -35,6 +35,7 @@ public class AccHardThree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        theQuestion.stage = 3;
         targetSignAge.SetActive(true);
         //theQuestion.stageNumber = 3;
         theSimulate.stage = 3;

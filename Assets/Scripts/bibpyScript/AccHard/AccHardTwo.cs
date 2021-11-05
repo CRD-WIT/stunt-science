@@ -35,6 +35,7 @@ public class AccHardTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        theQuestion.stage = 2;
         targetSignAge.SetActive(true);
         //theQuestion.stageNumber = 2;
         theSimulate.stage = 2;

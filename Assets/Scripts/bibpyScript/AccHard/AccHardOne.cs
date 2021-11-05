@@ -189,9 +189,9 @@ public class AccHardOne : MonoBehaviour
         dY = Random.Range(10, 12);
         generateAngleB = Random.Range(20f, 30f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
-        generateViT = Random.Range(2f, 3.5f);
+        generateViT = Random.Range(2f, 3f);
         viT = (float)System.Math.Round(generateViT, 2);
-        generateAT = Random.Range(3f, 5f);
+        generateAT = Random.Range(2f, 4f);
         aT = (float)System.Math.Round(generateAT, 2);
         generateVB = Random.Range(30f, 40f);
         vB = (float)System.Math.Round(generateVB, 2);
