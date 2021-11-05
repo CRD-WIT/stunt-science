@@ -34,6 +34,7 @@ public class AccMidSimulation : MonoBehaviour
     private Quaternion TruckStartRot;
     private HeartManager theHeart;
     public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
+    public AudioSource truckIdle,truckRunning,ChopperFlying;
     //string accelaration;
     // Start is called before the first frame update
     void Start()
@@ -123,6 +124,8 @@ public class AccMidSimulation : MonoBehaviour
         playButton.interactable = true;
         playerAnswer = 0;
         simulate = false;
+        truckRunning.Stop();
+        ChopperFlying.Stop();
 
 
         if (stage == 1)
@@ -159,6 +162,8 @@ public class AccMidSimulation : MonoBehaviour
     }
     public void next()
     {
+        truckRunning.Stop();
+        ChopperFlying.Stop();
         playButton.interactable = true;
         if (stage == 1)
         {
@@ -197,6 +202,9 @@ public class AccMidSimulation : MonoBehaviour
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
             theQuestion.isSimulating = true;
+            truckIdle.Stop();
+            truckRunning.Play();
+            ChopperFlying.Play();
             directorIsCalling = false;
         }
         else

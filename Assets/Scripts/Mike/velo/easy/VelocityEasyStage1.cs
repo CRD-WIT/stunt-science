@@ -81,7 +81,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 {
                     currentPos = distance;
                     rubbleBlocker.SetActive(true);
-                    errorMessage = $"{playerName} successfully performed the stunt and went to the safe spot!";//PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
+                    errorMessage = $"<b>{playerName}</b> successfully performed the stunt and went to the safe spot!";//PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
                     answerIs = true;
                     myPlayer.transform.position = new Vector2(currentPos, myPlayer.transform.position.y);
                 }
@@ -112,7 +112,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                         myPlayer.transform.position = new Vector2(currentPos + 0.2f, myPlayer.transform.position.y);
                         // errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
-                    errorMessage = $"{playerName} has unable to stop exactly at the safe spot. Stunt Failed!";
+                    errorMessage = $"<b>{playerName}</b> has unable to stop exactly at the safe spot. Stunt Failed!";
                     labels.ShowCorrectDistance(distance, true, new Vector2(0, 1.25f));
                 }
                 labels.AnswerIs(answerIs, true);

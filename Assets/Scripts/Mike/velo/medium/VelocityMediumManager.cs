@@ -112,17 +112,17 @@ public class VelocityMediumManager : MonoBehaviour
                         if (playerAnswer == stuntTime)
                         {
                             isAnswerCorrect = true;
-                            messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
+                            messageTxt = "<b>" + playerName + "</b> has jumped over the boulder <color=green>safely</color>!";
                         }
                         else
                         {
                             isAnswerCorrect = false;
                             if (playerAnswer < stuntTime)
                             {
-                                messageTxt = playerName + " jumped too soon and hit the boulder.\nThe correct answer is <color=green>" + stuntTime + " seconds</color>.";
+                                messageTxt = "<b>" + playerName + "</b> jumped too soon and hit the boulder.\nThe correct answer is <color=green>" + stuntTime + " seconds</color>.";
                             }
                             else
-                                messageTxt = playerName + " jumped too late and hit the boulder.\nThe correct answer is <color=green>" + stuntTime + " seconds</color>.";
+                                messageTxt = "<b>" + playerName + "</b> jumped too late and hit the boulder.\nThe correct answer is <color=green>" + stuntTime + " seconds</color>.";
 
                             // indicators.ShowCorrectDistance(jumpDistance, true, new Vector2(stuntTime * playerVelocity, 1.5f));
                             // indicators.ShowCorrectTime(stuntTime, stuntTime * playerVelocity, true);
@@ -153,17 +153,17 @@ public class VelocityMediumManager : MonoBehaviour
                         {
                             isAnswerCorrect = true;
                             elapsed = stuntTime;
-                            messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
+                            messageTxt = "<b>" + playerName + "</b> has jumped over the boulder <color=green>safely</color>!";
                         }
                         else
                         {
                             isAnswerCorrect = false;
                             if (playerAnswer < correctAnswer)
                             {
-                                messageTxt = playerName + " jumped too near from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " meters</color>.";
+                                messageTxt = "<b>" + playerName + "</b> jumped too near from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " meters</color>.";
                             }
                             else
-                                messageTxt = playerName + " jumped too far from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " meters</color>.";
+                                messageTxt = "<b>" + playerName + "</b> jumped too far from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " meters</color>.";
 
                             indicators.ShowCorrectDistance(correctAnswer, true, new Vector2(distance, 1.5f));
                         }
@@ -204,7 +204,7 @@ public class VelocityMediumManager : MonoBehaviour
                         {
                             isAnswerCorrect = true;
                             elapsed = stuntTime;
-                            messageTxt = playerName + " has jumped over the boulder <color=green>safely</color>!";
+                            messageTxt = "<b>" + playerName + "</b> has jumped over the boulder <color=green>safely</color>!";
                             boulder.GetComponent<CircleCollider2D>().enabled = false;
                             boulderA.GetComponent<CircleCollider2D>().enabled = false;
                         }
@@ -213,11 +213,11 @@ public class VelocityMediumManager : MonoBehaviour
                             isAnswerCorrect = false;
                             if (playerAnswer < correctAnswer)
                             {
-                                messageTxt = playerName + " jumped too far from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " seconds</color>.";
+                                messageTxt = "<b>" + playerName + "</b> jumped too far from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " seconds</color>.";
                             }
 
                             else
-                                messageTxt = playerName + " jumped too near from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " seconds</color>.";
+                                messageTxt = "<b>" + playerName + "</b> jumped too near from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " seconds</color>.";
 
                             indicators.ShowCorrectDistance(correctD, true, new Vector2(spawnPoint.x, 1.5f));
                         }
@@ -336,7 +336,7 @@ public class VelocityMediumManager : MonoBehaviour
                 jmpDistFromBoulder.spawnPoint = new Vector2(boulderA.transform.position.x, 0.3f);
                 jmpDistFromBoulder.distance = -jumpDistance;
 
-                question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming boulder at the front <color=red>" + distance + " meters</color> away is rolling at the velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=#006400>seconds</color> will " + playerName + " jump if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
+                question = "<b>" + playerName + "</b> is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming boulder at the front <color=red>" + distance + " meters</color> away is rolling at the velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=#006400>seconds</color> will " + "<b>" + playerName + "</b> jump if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 2:
                 boulder.SetActive(true);
@@ -379,7 +379,7 @@ public class VelocityMediumManager : MonoBehaviour
                 jmpDistFromBoulder.spawnPoint = new Vector2(boulder.transform.position.x  + jumpDistance, 0.3f);
                 jmpDistFromBoulder.distance = -jumpDistance;
 
-                question = playerName + " is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulder2Velocity + "meters per second</color>, at after how many <color=red>meters</color> should " + playerName + " be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
+                question = "<b>" + playerName + "</b> is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulder2Velocity + "meters per second</color>, at after how many <color=red>meters</color> should " + "<b>" + playerName + "</b> be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 3:
                 foreach(var item in boulderName)
@@ -430,7 +430,7 @@ public class VelocityMediumManager : MonoBehaviour
                 indicators.showLines(distance, null, playerVelocity, stuntTime);
                 indicators.UnknownIs('v');
 
-                question = playerName + " is instructed to vertically jump over between two incoming boulders at precisely <color=#006400>0.5 seconds</color> before they collide. If the 1st boulder is <color=red>" + Dac + " meters</color> away from " + playerName + " is approaching at <color=purple>" + boulder2Velocity + " meters per second</color>, and the 2nd boulder is <color=red>" + distance + " meters</color> away from the 1st boulder and is approaching at <color=purple>" + boulderVelocity + "meters per second</color>, at what <color=purple>velocity</color> should " + pronoun + " run forward for <color=#006400>" + stuntTime + " seconds</color> before doing the vertical jump?";
+                question = "<b>" + playerName + "</b> is instructed to vertically jump over between two incoming boulders at precisely <color=#006400>0.5 seconds</color> before they collide. If the 1st boulder is <color=red>" + Dac + " meters</color> away from " + "<b>" + playerName + "</b> is approaching at <color=purple>" + boulder2Velocity + " meters per second</color>, and the 2nd boulder is <color=red>" + distance + " meters</color> away from the 1st boulder and is approaching at <color=purple>" + boulderVelocity + "meters per second</color>, at what <color=purple>velocity</color> should " + pronoun + " run forward for <color=#006400>" + stuntTime + " seconds</color> before doing the vertical jump?";
                 break;
         }
         qc.SetUnitTo(whatIsAsk);

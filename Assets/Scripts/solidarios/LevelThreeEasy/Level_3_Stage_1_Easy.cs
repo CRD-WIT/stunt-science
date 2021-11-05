@@ -305,7 +305,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                         platformBar.GetComponent<Animator>().SetBool("collided", true);
                         playerHangingFixed.GetComponent<Animator>().SetBool("isHangingInBar", true);
                         questionController.answerIsCorrect = true;
-                        messageTxt = $"{playerName} safely grabbed the pole!";
+                        messageTxt = $"<b>{playerName}</b> safely grabbed the pole!";
                         isAnswerCorrect = true;
                         isEndOfStunt = true;
                         isSimulating = false;
@@ -325,7 +325,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                         {
                             Debug.Log("Distance is too short!");
                             questionController.answerIsCorrect = false;
-                            messageTxt = $"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
+                            messageTxt = $"<b>{playerName}</b> hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
                             // StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", false, false)));
                             //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                         }
@@ -336,7 +336,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                         {
                             Debug.Log("Distance is too long!");
                             questionController.answerIsCorrect = false;
-                            messageTxt = $"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
+                            messageTxt = $"<b>{playerName}</b> hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
                             // StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", false, false)));
                             //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} hand distance to the pole is longer! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                         }
