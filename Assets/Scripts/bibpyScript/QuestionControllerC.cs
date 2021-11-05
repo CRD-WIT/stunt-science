@@ -21,7 +21,7 @@ public class QuestionControllerC : MonoBehaviour
     public TextColorMode colorMode;
     public Settings settingUI;
     public UnitOf unit;
-    string answerUnit, difficulty;
+    public string answerUnit, difficulty;
     public HeartManager heartManager;
     int passedLevel;
     [SerializeField] bool timerOn = false, loaded = false;
@@ -55,16 +55,17 @@ public class QuestionControllerC : MonoBehaviour
         wrongAnswerColor = Color.red;
 
         levelName = level.GetGameLevel();
+    
         switch (levelDifficulty)
         {
             case Difficulty.Easy:
-                difficulty = level.GetDifficulty();
+                difficulty = "easy";
                 break;
             case Difficulty.Medium:
-                difficulty = level.GetDifficulty();
+                difficulty = "medium";
                 break;
             case Difficulty.Hard:
-                difficulty = level.GetDifficulty();
+                difficulty = "hard";
                 break;
         }
         difficultyName.GetComponent<TMP_Text>().text = difficulty;
