@@ -21,10 +21,12 @@ public class AccHardSimulation : MonoBehaviour
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     private Vector2 truckStartPoint;
-    public bool posCheck;
+    public bool posCheck, answerIsCorrect;
     public string take;
     public int takeNumber;
     public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
+    public AudioSource chopperEngine, truckIdle,truckRunning,GunShot;
+    public GameObject indicator, hit, missed;
 
 
 
@@ -51,6 +53,16 @@ public class AccHardSimulation : MonoBehaviour
         {
             take = "three";
         }
+        if(answerIsCorrect)
+        {
+            hit.SetActive(true);
+            missed.SetActive(false);
+        }
+        else
+        {
+            hit.SetActive(false);
+            missed.SetActive(true);
+        }
     }
     public void PlayButton()
     {
@@ -60,7 +72,7 @@ public class AccHardSimulation : MonoBehaviour
         if (stage == 1)
         {
             playerAnswer = theQuestion.GetPlayerAnswer();
-            if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
+            if (answerField.text == "" || playerAnswer > 4 || playerAnswer < 1)
             {
 
                 theQuestion.errorText = ("believe me! its too long!");
@@ -125,6 +137,7 @@ public class AccHardSimulation : MonoBehaviour
     public void retry()
     {
 
+        answerIsCorrect = false;
         playerAnswer = 0;
         simulate = false;
         answerField.text = ("");
@@ -149,6 +162,7 @@ public class AccHardSimulation : MonoBehaviour
     }
     public void next()
     {
+        answerIsCorrect = false;
         playerAnswer = 0;
         if (stage == 1)
         {
@@ -184,6 +198,8 @@ public class AccHardSimulation : MonoBehaviour
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
             simulate = true;
+            truckIdle.Stop();
+            truckRunning.Play();
             directorIsCalling = false;
         }
         else
@@ -203,6 +219,7 @@ public class AccHardSimulation : MonoBehaviour
     }
     public void action()
     {
+        indicator.SetActive(false);
         //theQuestion.ToggleModal();
         theQuestion.isModalOpen = false;
         if (theQuestion.answerIsCorrect == false)
