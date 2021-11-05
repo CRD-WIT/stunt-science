@@ -90,7 +90,7 @@ public class HardManager : MonoBehaviour
                 y = 0;
                 stage1Flag = false;
                 Debug.Log("Disabled ragdoll called");
-                messageTxt = $"{playerName} has unable to throw the stone. Stunt Failed!";
+                messageTxt = $"<b>{playerName}</b> has unable to throw the stone. Stunt Failed!";
                 isEndOfStunt = true;
             }
             if (myPlayer.transform.position.x < (-playerAnswer + 0.5f))
@@ -138,12 +138,12 @@ public class HardManager : MonoBehaviour
                     {
                         stonePosX = playerAnswer;
                         isAnswerCorrect = true;
-                        messageTxt = $"{playerName} successfully performed the stunt and the rock hit the monster's mouth!";
+                        messageTxt = $"<b>{playerName}</b> successfully performed the stunt and the rock hit the monster's mouth!";
                     }
                     else
                     {
                         isAnswerCorrect = false;
-                        messageTxt = $"{playerName} has unable to hit exactly inside the mouth of the monster. Stunt Failed!";
+                        messageTxt = $"<b>{playerName}</b> has unable to hit exactly inside the mouth of the monster. Stunt Failed!";
                     }
                     break;
                 case 2:
@@ -155,12 +155,12 @@ public class HardManager : MonoBehaviour
                         if (playerAnswer == correctAnswer)
                         {
                             isAnswerCorrect = true;
-                            messageTxt = $"{playerName} successfully performed the stunt and the rock hit the monster's mouth!";
+                            messageTxt = $"<b>{playerName}</b> successfully performed the stunt and the rock hit the monster's mouth!";
                         }
                         else
                         {
                             isAnswerCorrect = false;
-                            messageTxt = $"{playerName} has unable to hit exactly inside the mouth of the monster. Stunt Failed!";
+                            messageTxt = $"<b>{playerName}</b> has unable to hit exactly inside the mouth of the monster. Stunt Failed!";
                         }
                     }
                     break;
@@ -174,12 +174,12 @@ public class HardManager : MonoBehaviour
                         {
                             isAnswerCorrect = true;
                             isEnd = true;
-                            messageTxt = $"{playerName} successfully performed the stunt and the rock hit the monster's mouth!";
+                            messageTxt = $"<b>{playerName}</b> successfully performed the stunt and the rock hit the monster's mouth!";
                         }
                         else
                         {
                             isAnswerCorrect = false;
-                            messageTxt = $"{playerName} has unable to hit exactly inside the mouth of the monster. Stunt Failed!";
+                            messageTxt = $"<b>{playerName}</b> has unable to hit exactly inside the mouth of the monster. Stunt Failed!";
                         }
                     }
                     break;
@@ -370,7 +370,7 @@ public class HardManager : MonoBehaviour
                 bossVeloLabel.transform.Find("Square").rotation = Quaternion.EulerAngles(0, 0,(-90 - angle) * Mathf.Deg2Rad);
                 bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x + 0.5f, bossHead.transform.position.y + 1);
 
-                question = $"{playerName} is instucted to throw a rock inside the monster's mouth that is guarding the exit. If the monster is <b>{bossDistance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> above {pPronoun} horizontal throwing line and the monster is moving <b>{bossV} {qc.Unit(UnitOf.velocity)}</b> downward, how far should {playerName} be away horizontally from the monster if {pronoun} throws the stone at exact and constant velocity of <b>{stoneV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>?";
+                question = $"<b>{playerName}</b> is instucted to throw a rock inside the monster's mouth that is guarding the exit. If the monster is <b>{bossDistance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> above {pPronoun} horizontal throwing line and the monster is moving <b>{bossV} {qc.Unit(UnitOf.velocity)}</b> downward, how far should <b>{playerName}</b> be away horizontally from the monster if {pronoun} throws the stone at exact and constant velocity of <b>{stoneV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>?";
                 break;
             case 2:
                 bossHead.transform.position = new Vector2(11, bossStartPos.y + 3);
@@ -418,7 +418,7 @@ public class HardManager : MonoBehaviour
                 throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
                 throwingPathTxt.transform.position = throwingPath.transform.position + new Vector3((distance + x) / 2f, 0);
 
-                question = $"{playerName} is again instucted to throw another rock into the mouth of the monster. The mouth of the monster this time is <b>{(-y).ToString("f2")} {qc.Unit(UnitOf.distance)}</b> above the horizontal throwing path and horizontally <b>{distance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away. If the monster is moving diagonally forward and downward at <b>{angle.ToString("f2")}{qc.Unit(UnitOf.angle)}</b> below horizon with a velocity of <b>{bossV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>, how many <b>seconds</b> should {playerName} wait after the monster has moved to hit its mouth with a stone thrown horizontally at a constant velocity of <b>{stoneV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>?";
+                question = $"<b>{playerName}</b> is again instucted to throw another rock into the mouth of the monster. The mouth of the monster this time is <b>{(-y).ToString("f2")} {qc.Unit(UnitOf.distance)}</b> above the horizontal throwing path and horizontally <b>{distance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away. If the monster is moving diagonally forward and downward at <b>{angle.ToString("f2")}{qc.Unit(UnitOf.angle)}</b> below horizon with a velocity of <b>{bossV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>, how many <b>seconds</b> should <b>{playerName}</b> wait after the monster has moved to hit its mouth with a stone thrown horizontally at a constant velocity of <b>{stoneV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>?";
                 break;
             case 3:
                 bossHead.transform.localEulerAngles = new Vector3(0,0,0);
@@ -492,7 +492,7 @@ public class HardManager : MonoBehaviour
                 
                 bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x, bossHead.transform.position.y + 1);
                 
-                question = $"{playerName} is finally instucted to throw one more rock into the monster's mouth for the last time. If the exact location of the monster's mouth is exactly <b>{xS.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away horizontally for the starting point of the throwing path and the monster is moving diagonally up and forward at <b>{bossV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b> at <b>{(90+angle).ToString("f2")}{qc.Unit(UnitOf.angle)}</b>, at what velocity should {playerName} throw the stone at <b>{angleB.ToString("f2")}{qc.Unit(UnitOf.angle)}</b> up to hit the monster's mouth? ";
+                question = $"<b>{playerName}</b> is finally instucted to throw one more rock into the monster's mouth for the last time. If the exact location of the monster's mouth is exactly <b>{xS.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away horizontally for the starting point of the throwing path and the monster is moving diagonally up and forward at <b>{bossV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b> at <b>{(90+angle).ToString("f2")}{qc.Unit(UnitOf.angle)}</b>, at what velocity should <b>{playerName}</b> throw the stone at <b>{angleB.ToString("f2")}{qc.Unit(UnitOf.angle)}</b> up to hit the monster's mouth? ";
                 break;
         }
 

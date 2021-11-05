@@ -70,7 +70,7 @@ public class Settings : MonoBehaviour
 
     public string[] gameLevelNames = { "", "Velocity", "Acceleration", "FreeFallProjectile", "CircularMotion", "Forces", "Work", "Energy", "Power", "Momemtum" };
 
-    public string id_code;    
+    public string id_code;
 
     public string[] GetLevelNames()
     {
@@ -161,8 +161,9 @@ public class Settings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(debugPanel){
-            debugPanel.SetActive(id_code=="05ada8"?true:false);
+        if (debugPanel)
+        {
+            debugPanel.SetActive(id_code == "05ada8" ? true : false);
         }
         if (fps)
         {
@@ -233,12 +234,26 @@ public class Settings : MonoBehaviour
         settingsPanelIsOpen = !settingsPanelIsOpen;
     }
 
+
+    public void QuitStage()
+    {
+        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber", "1"));
+        string difficulty = PlayerPrefs.GetString("DifficultyName", "Easy");
+        int stage = int.Parse(PlayerPrefs.GetString("Stage", "1"));
+
+        PlayerPrefs.SetInt("Life", 3);
+        SceneManager.LoadScene("LevelSelectV2");
+
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Cancelled, 0);
+
+    }
+
     public void ToggleAssistance()
     {
         // Set global gameplay stats for data logging.
-        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber","1"));
-        string difficulty = PlayerPrefs.GetString("DifficultyName","Easy");
-        int stage = int.Parse(PlayerPrefs.GetString("Stage","1"));
+        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber", "1"));
+        string difficulty = PlayerPrefs.GetString("DifficultyName", "Easy");
+        int stage = int.Parse(PlayerPrefs.GetString("Stage", "1"));
 
         stuntGuidePanelIsOpen = !stuntGuidePanelIsOpen;
         if (stuntGuidePanelIsOpen)
@@ -285,7 +300,7 @@ public class Settings : MonoBehaviour
 
         }
         musicIsOn = !musicIsOn;
-        
+
     }
 
     public void ToggleVolume()
@@ -350,7 +365,7 @@ public class Settings : MonoBehaviour
 
 
     public void ClearPlayerPrefs()
-    {        
+    {
         PlayerPrefs.DeleteAll();
     }
 
