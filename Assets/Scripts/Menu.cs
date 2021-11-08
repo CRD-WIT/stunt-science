@@ -20,10 +20,12 @@ public class Menu : MonoBehaviour
         if (playerName.Length > 0)
         {
             continueButton.SetActive(true);
+            newGameButton.SetActive(false);
         }
         else
         {
             continueButton.SetActive(false);
+            newGameButton.SetActive(true);
         }
 
     }

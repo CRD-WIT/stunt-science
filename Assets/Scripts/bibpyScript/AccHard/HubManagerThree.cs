@@ -12,6 +12,7 @@ public class HubManagerThree : MonoBehaviour
     bool hit;
     //public GameObject hinge;
     public AccHardSimulation theSimulate;
+    public AudioSource explosionSfx;
 
 
     // Start is called before the first frame update
@@ -36,6 +37,7 @@ public class HubManagerThree : MonoBehaviour
         {
             if (other.gameObject.tag == ("bullet"))
             {
+                explosionSfx.Play();
                 myHinge.enabled = false;
                 GameObject explosion = Instantiate(blastprefab);
                 explosion.transform.position = transform.position;

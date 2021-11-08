@@ -5,6 +5,7 @@ using TMPro;
 
 public class Settings : MonoBehaviour
 {
+    public GameObject debugPanel;
     public GameObject settingsPanel;
     public GameObject levelFinishedPanel;
     public GameObject stuntGuidePanel;
@@ -69,6 +70,8 @@ public class Settings : MonoBehaviour
 
     public string[] gameLevelNames = { "", "Velocity", "Acceleration", "FreeFallProjectile", "CircularMotion", "Forces", "Work", "Energy", "Power", "Momemtum" };
 
+    public string id_code;
+
     public string[] GetLevelNames()
     {
         return gameLevelNames;
@@ -80,6 +83,8 @@ public class Settings : MonoBehaviour
         // {
         //     ToggleIntroMusic();
         // }
+
+        id_code = PlayerPrefs.GetString("IDCode");
 
         // Sound
         LoadVolumes();
@@ -156,6 +161,10 @@ public class Settings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (debugPanel)
+        {
+            debugPanel.SetActive(id_code == "05ada8" ? true : false);
+        }
         if (fps)
         {
             fps.text = $"Frame Rate: {(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()}f/s";
@@ -204,7 +213,12 @@ public class Settings : MonoBehaviour
         {
             flashCardEnd.SetActive(flashCardEndIsOpen);
         }
-        AudioListener.volume = soundLevel;
+
+        // AudioListener.volume = soundLevel; // Soundfx
+
+        // backgroundAudio.volume = musicLevel; // Music
+
+
         if (AudioListener.volume == 0)
         {
             if (soundButtonImage)
@@ -225,12 +239,26 @@ public class Settings : MonoBehaviour
         settingsPanelIsOpen = !settingsPanelIsOpen;
     }
 
+
+    public void QuitStage()
+    {
+        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber", "1"));
+        string difficulty = PlayerPrefs.GetString("DifficultyName", "Easy");
+        int stage = int.Parse(PlayerPrefs.GetString("Stage", "1"));
+
+        PlayerPrefs.SetInt("Life", 3);
+        SceneManager.LoadScene("LevelSelectV2");
+
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Cancelled, 0);
+
+    }
+
     public void ToggleAssistance()
     {
         // Set global gameplay stats for data logging.
-        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber"));
-        string difficulty = PlayerPrefs.GetString("DifficultyName");
-        int stage = int.Parse(PlayerPrefs.GetString("Stage"));
+        int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber", "1"));
+        string difficulty = PlayerPrefs.GetString("DifficultyName", "Easy");
+        int stage = int.Parse(PlayerPrefs.GetString("Stage", "1"));
 
         stuntGuidePanelIsOpen = !stuntGuidePanelIsOpen;
         if (stuntGuidePanelIsOpen)
@@ -250,14 +278,13 @@ public class Settings : MonoBehaviour
     public void UpdateSoundValue()
     {
         soundLevel = soundSlider.value;
+        AudioListener.volume = soundLevel;
     }
     public void UpdateMusicValue()
     {
         musicLevel = musicSlider.value;
-        for (int i = 0; i < sfxAudios.Length; i++)
-        {
-            sfxAudios[i].volume = musicLevel;
-        }
+        backgroundAudio.volume = musicLevel;
+
     }
 
     public void ResetLife()
@@ -277,7 +304,7 @@ public class Settings : MonoBehaviour
 
         }
         musicIsOn = !musicIsOn;
-        
+
     }
 
     public void ToggleVolume()
@@ -339,6 +366,13 @@ public class Settings : MonoBehaviour
         fm.GameLogMutation(levelNumber, stage, difficulty.Length > 1 ? difficulty : null, Actions.NewGame, 0);
         PlayerPrefs.DeleteAll();
     }
+
+
+    public void ClearPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
     public void ProjEasyReloadScene()
     {
         PlayerPrefs.SetInt("Life", 3);

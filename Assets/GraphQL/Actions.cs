@@ -3,7 +3,7 @@ public static class Actions
     public static string Retried = "Retried";
     public static string Completed = "Completed";
     public static string Failed = "Failed";
-    public static string Cancelled = "Cancelled";
+    public static string Cancelled = "Cancelled"; // Exited stage
     public static string Started = "Started";
     public static string Answered = "Answered";
     public static string OpenedStuntGuide = "OpenedStuntGuide";

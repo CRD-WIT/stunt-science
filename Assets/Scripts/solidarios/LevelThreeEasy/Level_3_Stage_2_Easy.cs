@@ -46,8 +46,11 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     public TMP_Text debugAnswer;
     bool ShowResult;
     public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
+    public FirebaseManager firebaseManager;
     void Start()
     {
+        firebaseManager.GameLogMutation(3, 2, "Easy", Actions.Started, 0); 
+
         // Given 
         ShowResult = true;
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(1f, 1.5f), 2);
@@ -211,7 +214,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                         cameraScript.isStartOfStunt = false;
                         questionController.answerIsCorrect = false;
                         cameraScript.directorIsCalling = true;
-                        messageTxt = $"{playerName} grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
+                        messageTxt = $"<b>{playerName}</b> grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
                         // StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", false, false)));
                         //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                     }
@@ -223,7 +226,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                         cameraScript.isStartOfStunt = false;
                         questionController.answerIsCorrect = false;
                         cameraScript.directorIsCalling = true;
-                        messageTxt = $"{playerName} grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
+                        messageTxt = $"<b>{playerName}</b> grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
                         // StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.",false,false)));
                         //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                     }

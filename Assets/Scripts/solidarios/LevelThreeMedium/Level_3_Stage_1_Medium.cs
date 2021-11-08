@@ -49,13 +49,16 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     public Button playButton;
     public HeartManager theHeart;
     public TMP_Text debugAnswer;
-     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
+    public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
+
+    public FirebaseManager firebaseManager;
 
 
     void Start()
     {
+        firebaseManager.GameLogMutation(3, 1, "Medium", Actions.Started, 0);
         // Given 
-        theHeart.startbgentrance();           
+        theHeart.startbgentrance();
         distanceGiven = (float)System.Math.Round(UnityEngine.Random.Range(22f, 25f), 2);
         angleGiven = (float)System.Math.Round(UnityEngine.Random.Range(40f, 45f), 2);
         gravityGiven = Physics2D.gravity;
@@ -123,21 +126,21 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-        if(playerAnswer != correctAnswer)
+        if (playerAnswer != correctAnswer)
         {
             theHeart.ReduceLife();
         }
         //messageFlag = false;
         yield return new WaitForSeconds(2f);
-        if(playerAnswer == correctAnswer)
+        if (playerAnswer == correctAnswer)
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
-        } 
-         if(playerAnswer != correctAnswer)
+        }
+        if (playerAnswer != correctAnswer)
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
-            
-        }        
+
+        }
     }
     // void GenerateInitialVelocities()
     // {
@@ -192,7 +195,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
     public void StartSimulation()
     {
-        
+
         playerAnswer = questionController.GetPlayerAnswer();
         if (answerField.text == "" || playerAnswer > 30 || playerAnswer < 1)
         {

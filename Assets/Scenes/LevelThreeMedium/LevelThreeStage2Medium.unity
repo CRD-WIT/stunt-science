@@ -6619,12 +6619,12 @@ MonoBehaviour:
   m_margin: {x: 8.990824, y: 1.5603101, z: 4.7723722, w: 1.6011231}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 117415616}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &117415616
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7407,6 +7407,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2530501136071062744, guid: 56c2cac362e0257429613bbef778645a, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9492fad07c0fab6469b49856eb6a5336, type: 3}
     - target: {fileID: 2530501136526767065, guid: 56c2cac362e0257429613bbef778645a, type: 3}
       propertyPath: m_Name
       value: ssfx
@@ -7457,6 +7461,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56c2cac362e0257429613bbef778645a, type: 3}
+--- !u!82 &212266921 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 8658384568676676640, guid: 56c2cac362e0257429613bbef778645a, type: 3}
+  m_PrefabInstance: {fileID: 212266920}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &213446947
 GameObject:
   m_ObjectHideFlags: 0
@@ -14285,6 +14294,7 @@ MonoBehaviour:
   cameraSfx: {fileID: 1152584729}
   actionSfx: {fileID: 2007030804}
   cutSfx: {fileID: 402128041}
+  firebaseManager: {fileID: 913974359}
 --- !u!4 &732250310
 Transform:
   m_ObjectHideFlags: 0
@@ -16991,12 +17001,12 @@ MonoBehaviour:
   m_margin: {x: 23.104752, y: 0.5982847, z: 10.090965, w: 2.5631485}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 1
   m_renderer: {fileID: 1160667972}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &1160667972
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18752,12 +18762,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: -15.704083, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 1
   m_renderer: {fileID: 1320331824}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &1320331824
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29716,12 +29726,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: -0.3399887, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1986885449}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &1986885449
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29806,6 +29816,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1785233753}
+    - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 212266921}
+    - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuitStage
+      objectReference: {fileID: 0}
+    - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.AudioSource, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1863123741734456667, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 2.7404785
@@ -29879,6 +29909,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: debugPanel
+      value: 
+      objectReference: {fileID: 1995254052}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: flashCardEnd
       value: 
       objectReference: {fileID: 0}
@@ -29946,6 +29980,10 @@ PrefabInstance:
       propertyPath: sfxAudios.Array.data[12]
       value: 
       objectReference: {fileID: 243809516}
+    - target: {fileID: 6177614913665680811, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -86.79999
+      objectReference: {fileID: 0}
     - target: {fileID: 9153037458832093479, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -29978,6 +30016,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac3b4a8314690639b1fba13ee061eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1995254052 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 119744737471976684, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 1995254049}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1995776708
 GameObject:
   m_ObjectHideFlags: 0
@@ -40623,7 +40666,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 1
   m_TranslationAtRest: {x: -466, y: -582, z: 0}
-  m_TranslationOffset: {x: 17174.287, y: 20778.494, z: 1620.7354}
+  m_TranslationOffset: {x: 15218.814, y: 18414.223, z: 1440.654}
   m_AffectTranslationX: 0
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 0

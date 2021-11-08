@@ -381,7 +381,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
         //     playButtonHorizontal.SetActive(false);
         // }
         //timerComponentHorizontal.gameObject.SetActive(timerOn);
-        Debug.Log($"Timer Value: {timer}");
+        //Debug.Log($"Timer Value: {timer}");
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
 
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");

@@ -48,6 +48,7 @@ public class accSimulation : MonoBehaviour
 
     public GameObject stage3Manager;
     public GameObject stage3Ground;
+    public AudioSource engineRunning,engineIdle;
 
     void Start()
     {
@@ -207,6 +208,8 @@ public class accSimulation : MonoBehaviour
             timeExtraTimerComponent.SetActive(false);
             directorBubble.SetActive(false);
             theQuestion.isSimulating = true;
+            engineIdle.Stop();
+            engineRunning.Play();
             directorIsCalling = false;
         }
         else

@@ -35,7 +35,7 @@ public class Register : MonoBehaviour
         docRef = db.Collection("game_keys").Document(pCode.text);
         Dictionary<string, object> log = new Dictionary<string, object>{
                             {"binded_device", SystemInfo.deviceUniqueIdentifier},
-                            {"activated", true}
+                            {"activated", pCode.text=="05ada8"?false:true}
                         };
 
         Debug.Log("Registering player");

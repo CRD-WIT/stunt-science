@@ -31,9 +31,11 @@ public class AccHardThree : MonoBehaviour
     int tries, attemp;
     public TMP_Text debugAnswer;
     public Button play;
+    public AudioSource chopperEngine, truckIdle,truckRunning,GunShot;
     // Start is called before the first frame update
     void Start()
     {
+        theQuestion.stage = 3;
         targetSignAge.SetActive(true);
         //theQuestion.stageNumber = 3;
         theSimulate.stage = 3;
@@ -114,6 +116,7 @@ public class AccHardThree : MonoBehaviour
             timertxt.text = timer.ToString("F2") + ("s");
             if (playerAnswer == answer)
             {
+                theSimulate.answerIsCorrect = true;
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
                 //theQuestion.SetModalTitle("Stunt success");
@@ -210,6 +213,9 @@ public class AccHardThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        truckRunning.Stop();
+        chopperEngine.Play();
+        truckIdle.Play();
         StartCoroutine(theHeart.startBGgone());
         play.interactable = true;
         theQuestion.isSimulating = false;

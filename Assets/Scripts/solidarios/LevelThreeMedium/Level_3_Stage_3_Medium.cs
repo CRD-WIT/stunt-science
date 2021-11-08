@@ -24,6 +24,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     public Hook theHook;
     public QuestionContProjMed questionController;
     public GameObject directorBubble;
+    public Settings settings;
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     public TMP_InputField answerField;
@@ -32,9 +33,12 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     static float playerAnswer;
     public HeartManager theHeart;
     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
+    public FirebaseManager firebaseManager;
 
     void Start()
     {
+        firebaseManager.GameLogMutation(3, 3, "Medium", Actions.Started, 0); 
+
         theHeart.startbgentrance();
         targetHere.SetActive(true);
         gender = PlayerPrefs.GetString("Gender");
@@ -158,14 +162,13 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     {
         if (questionController.GetPlayerAnswer() == correctAnswer)
         {
-            SceneManager.LoadScene("");
+            settings.ToggleFlashCardEnd();
+            // SceneManager.LoadScene("LevelSelectV2");
         }
         else
         {
             SceneManager.LoadScene("LevelThreeStage3Medium");
         }
-
-
     }
 
     void FixedUpdate()

@@ -42,10 +42,13 @@ public class AccManagerThree : MonoBehaviour
     public TMP_Text debugAnswer;
     public QuestionControllerAcceleration theQuestion;
     Quaternion truckStartRot;
+    public AudioSource engineIdle, engineRunning,truckEngine;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        engineRunning.Stop();
         timer = 0;
         //theQuestion.stageNumber = 3;
         cam.transform.position = new Vector3(18f, cam.transform.position.y, cam.transform.position.z);
@@ -143,7 +146,7 @@ public class AccManagerThree : MonoBehaviour
                     if (currentPos >= 30)
                     {
                         theBike.moveSpeed = 0;
-                        StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
+                        //StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                         theQuestion.isSimulating = false;
                         vitxt.color = new Color32(10, 103, 0, 255);
                         StartCoroutine(truckWillGo());
@@ -179,6 +182,7 @@ public class AccManagerThree : MonoBehaviour
                 if (theBike.moveSpeed <= 0)
                 {
                     theBike.moveSpeed = 0;
+                    engineRunning.Stop();
                     if (Vi == correctAns)
                     {
                         velocitytxt.text = ("vf = 0.00 m/s");
@@ -195,6 +199,7 @@ public class AccManagerThree : MonoBehaviour
     }
     public void generateProblem()
     {
+        truckEngine.Stop();        engineIdle.Play();
         walls.SetActive(false);
         theTruck.transform.rotation = truckStartRot;
         bikeInitials.transform.position = bikeInitialStartPos;
@@ -223,6 +228,7 @@ public class AccManagerThree : MonoBehaviour
         yield return new WaitForSeconds(2);
         if (Vi == correctAns)
         {
+             truckEngine.Stop();
             theQuestion.ActivateResult(message, isCorrect, true);
 
             // theScorer.finalstar();
@@ -250,7 +256,8 @@ public class AccManagerThree : MonoBehaviour
     }
     IEnumerator truckWillGo()
     {
-        yield return new WaitForSeconds(1);
+        truckEngine.Play();
+        yield return new WaitForSeconds(2);
         StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
         theTruck.moveSpeed = 10;
         if (Vi == correctAns)

@@ -4940,6 +4940,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1661304816}
+    - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 880990920}
+    - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuitStage
+      objectReference: {fileID: 0}
+    - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.AudioSource, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1863123741734456667, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 2.7404785
@@ -5013,6 +5033,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ae6fdea529b6a34ac8843e3c86d0fc2f, type: 3}
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: debugPanel
+      value: 
+      objectReference: {fileID: 44540294}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: flashCardEnd
       value: 
       objectReference: {fileID: 44540293}
@@ -5052,6 +5076,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: ae6fdea529b6a34ac8843e3c86d0fc2f, type: 3}
+    - target: {fileID: 6177614913665680811, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -86.79999
+      objectReference: {fileID: 0}
     - target: {fileID: 7092696490254070600, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -5077,6 +5105,11 @@ PrefabInstance:
 --- !u!1 &44540293 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1935453957895722258, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 44540292}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &44540294 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 119744737471976684, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
   m_PrefabInstance: {fileID: 44540292}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &117415613
@@ -5268,6 +5301,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2530501136071062744, guid: 56c2cac362e0257429613bbef778645a, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9492fad07c0fab6469b49856eb6a5336, type: 3}
     - target: {fileID: 2530501136526767065, guid: 56c2cac362e0257429613bbef778645a, type: 3}
       propertyPath: m_Name
       value: ssfx
@@ -7369,8 +7406,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 697756261}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.03, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: 16.0617, y: 0, z: 0}
+  m_LocalScale: {x: 2.1766, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 716292300}
   m_RootOrder: 8
@@ -7545,6 +7582,7 @@ MonoBehaviour:
   cameraSfx: {fileID: 763291688}
   actionSfx: {fileID: 386226907}
   cutSfx: {fileID: 1101903674}
+  firebaseManager: {fileID: 1009387768}
 --- !u!82 &763291688 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 2530501135548116059, guid: 56c2cac362e0257429613bbef778645a, type: 3}
@@ -8026,8 +8064,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921525159}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.9658, y: 2.2513, z: 173.6}
-  m_LocalScale: {x: 18.947153, y: 25.122196, z: 1}
+  m_LocalPosition: {x: -2.1306, y: 2.2513, z: 173.6}
+  m_LocalScale: {x: 27.139902, y: 25.122196, z: 1}
   m_Children: []
   m_Father: {fileID: 1800742033}
   m_RootOrder: 0
@@ -8233,8 +8271,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047446546}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.66, y: 0.14, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: 13.9402, y: 0.14, z: 0}
+  m_LocalScale: {x: 2.2852, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 716292300}
   m_RootOrder: 7
@@ -9095,7 +9133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3784431850307788529, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -444.99994
+      value: -445
       objectReference: {fileID: 0}
     - target: {fileID: 3784431850458277048, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: m_IsActive
@@ -9267,7 +9305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3784431851644116864, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -444.99994
+      value: -445
       objectReference: {fileID: 0}
     - target: {fileID: 3784431851894080272, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: m_IsActive
@@ -42465,6 +42503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugPanel: {fileID: 0}
   settingsPanel: {fileID: 0}
   levelFinishedPanel: {fileID: 0}
   stuntGuidePanel: {fileID: 0}
@@ -42511,3 +42550,4 @@ MonoBehaviour:
   - Energy
   - Power
   - Momemtum
+  id_code: 

@@ -28,7 +28,7 @@ public class StageTwoManager : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         PlayerStartPoint = thePlayer.transform.position;
         whatIsAsk = UnitOf.time;
-        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0);        
+        firebaseManager.GameLogMutation(1, 2, "Easy", Actions.Started, 0);        
         reset();
     }
     void FixedUpdate()
@@ -66,7 +66,7 @@ public class StageTwoManager : MonoBehaviour
                     elapsed = answerRO;
                     rubbleBlocker.SetActive(true);
                     answerIs = true;
-                    errorMessage = $"{playerName} successfully performed the stunt and went to the safe spot!";//PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
+                    errorMessage = $"<b>{playerName}</b> successfully performed the stunt and went to the safe spot!";//PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
                     thePlayer.transform.position = new Vector2(currentPos, thePlayer.transform.position.y);
                 }
                 else//if (playerAnswer != answerRO)
@@ -106,7 +106,7 @@ public class StageTwoManager : MonoBehaviour
                         labels.ShowCorrectDistance(distance, true, new Vector2(0, 2));
                         // labels.ShowCorrectTime(answer, answer * speed, true);
                     }                    
-                    errorMessage = $"{playerName} has unable to stop exactly at safe spot. Stunt Failed!";
+                    errorMessage = $"<b>{playerName}</b> has unable to stop exactly at safe spot. Stunt Failed!";
                 }
                 labels.AnswerIs(answerIs, true);
             }
@@ -142,7 +142,7 @@ public class StageTwoManager : MonoBehaviour
         qc.timer = "0.00s";
 
         qc.limit = 5f;
-        question = $"{playerName} is instucted to run and stop exactly at the safe spot <b>{distance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away before the ceiling crumbles down. If {playerName} runs at a constant velocity of <b>{speed.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>, how long should {pronoun} run before stopping so {pronoun} will stop exactly at the safe spot?";
+        question = $"<b>{playerName}</b> is instucted to run and stop exactly at the safe spot <b>{distance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away before the ceiling crumbles down. If <b>{playerName}</b> runs at a constant velocity of <b>{speed.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>, how long should {pronoun} run before stopping so {pronoun} will stop exactly at the safe spot?";
         qc.SetQuestion(question);
         answerRO = (float)System.Math.Round(answer, 2);
         safePoint.transform.position = new Vector2(distance, -2);

@@ -8,6 +8,7 @@ public class BulletManager : MonoBehaviour
     public GameObject blastprefab;
     public bool posCheck;
     private AccHardSimulation theSimulate;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,8 @@ public class BulletManager : MonoBehaviour
         {
             if (theSimulate.stage == 1)
             {
+                theSimulate.indicator.SetActive(true);
+                theSimulate.indicator.transform.position = transform.position;
                 theSimulate.posCheck = true;
                 Destroy(gameObject);
             }
@@ -47,6 +50,8 @@ public class BulletManager : MonoBehaviour
         {
             if (theSimulate.stage == 2)
             {
+                theSimulate.indicator.SetActive(true);
+                theSimulate.indicator.transform.position = transform.position;
                 theSimulate.posCheck = true;
                 Destroy(gameObject);
             }
@@ -56,6 +61,8 @@ public class BulletManager : MonoBehaviour
         {
             if (theSimulate.stage == 3)
             {
+                theSimulate.indicator.SetActive(true);
+                theSimulate.indicator.transform.position = transform.position;
                 theSimulate.posCheck = true;
                 Destroy(gameObject);
             }
@@ -66,6 +73,8 @@ public class BulletManager : MonoBehaviour
 
         if (other.gameObject.tag == ("ground"))
         {
+            theSimulate.indicator.SetActive(true);
+            theSimulate.indicator.transform.position = transform.position;
             theSimulate.posCheck = true;
             GameObject explosion = Instantiate(blastprefab);
             explosion.transform.position = transform.position;

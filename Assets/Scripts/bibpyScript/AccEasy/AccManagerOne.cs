@@ -33,6 +33,7 @@ public class AccManagerOne : MonoBehaviour
     bool tooSlow, follow;
     private Vector2 bikeInitialsPos;
     public QuestionControllerAcceleration theQuestion;
+    public AudioSource engineIdle, engineRunning;
 
     void Start()
     {
@@ -97,6 +98,7 @@ public class AccManagerOne : MonoBehaviour
         }
         if (theQuestion.isSimulating)
         {
+            engineIdle.Stop();
             directionArrow.SetActive(false);
             theQuestion.timer = timer.ToString("F2") + ("s");
             accelaration = accSimulation.playerAnswer;
@@ -135,7 +137,7 @@ public class AccManagerOne : MonoBehaviour
             timer += Time.fixedDeltaTime;
             if (timer >= time)
             {
-                theQuestion.isSimulating = false;
+                
                 timertxt.text = time.ToString("F2") + ("s");
                 if (accelaration == correctAns)
                 {
@@ -166,19 +168,29 @@ public class AccManagerOne : MonoBehaviour
                     StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                     playerVf = 0;
                 }
+                if (accelaration > correctAns)
+                {
+                    StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
+                }
                 Vitxt.text = ("v = ") + playerVf.ToString("F2") + ("m/s");
+                theQuestion.isSimulating = false;
             }
+        }
+        else
+        {
+           
         }
     }
     public void generateProblem()
     {
+        engineIdle.Play();
         follow = true;
         bikeInitials.transform.position = bikeInitialsPos;
         timer = 0;
         timertxt.text = ("0.00s");
         generateTime = Random.Range(3.0f, 3.5f);
         time = (float)System.Math.Round(generateTime, 2);
-        theQuestion.SetQuestion(PlayerPrefs.GetString("Name") + (" is instructed to drive  ") + pronoun2 + (" motorcycle into the tunnel accross the platform were ") + pronoun + (" is in, If ")+ pronoun +(" must achieve a velocity of <b>") + Vf.ToString("F2") + ("</b> m/s, after driving the motorcycle forward for <b>") + time.ToString("F2") + ("</b> seconds from a complete stand still to succesfully accomplish ") + pronoun2 + (" stunt, what should be ")+ pronoun2 +(" constant acceleration ?"));
+        theQuestion.SetQuestion(PlayerPrefs.GetString("Name") + (" is instructed to drive ") + pronoun2 + (" motorcycle into the tunnel accross the platform were ") + pronoun + (" is in, If ")+ pronoun +(" must achieve a velocity of <b>") + Vf.ToString("F2") + ("</b> m/s, after driving the motorcycle forward for <b>") + time.ToString("F2") + ("</b> seconds from a complete stand still to succesfully accomplish ") + pronoun2 + (" stunt, what should be ")+ pronoun2 +(" constant acceleration ?"));
         theHeart.losslife = false;
         theBike.moveSpeed = 0;
         Acctxt.text = ("a = ?");
@@ -189,6 +201,7 @@ public class AccManagerOne : MonoBehaviour
     IEnumerator StuntResult(string message, bool isCorrect)
     {        
         yield return new WaitForSeconds(5);
+        engineRunning.Stop();
         StartCoroutine(theSimulation.DirectorsCall());
         walls.SetActive(false);
         theQuestion.isSimulating = false;

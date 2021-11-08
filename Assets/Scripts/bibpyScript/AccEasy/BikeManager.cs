@@ -6,6 +6,7 @@ public class BikeManager : MonoBehaviour
 {
     private PlayerB thePlayer;
     private AccManagerTwo theManagerTwo;
+    public AccManagerOne theManagerOne;
     private accSimulation theSimulate;
     private Animator myAnimator;
     public bool collided;
@@ -22,6 +23,7 @@ public class BikeManager : MonoBehaviour
     public bool brake;
     private HeartManager theHeart;
     public QuestionControllerB theQuestion;
+    public AudioSource crashed, engineRunning, engineIdle;
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +69,9 @@ public class BikeManager : MonoBehaviour
                 }
                 driverspawn();
                 thePlayer.standup = true;
+                engineRunning.Stop();
+                engineIdle.Stop();
+                crashed.Play();
                 //accSimulation.playerDead = true;
                 collided = true;
                 thePlayer.standup = true;
@@ -99,9 +104,16 @@ public class BikeManager : MonoBehaviour
     {
         theHeart.losinglife();
         yield return new WaitForSeconds(2);
-        StartCoroutine(theSimulate.DirectorsCall());
-        yield return new WaitForSeconds(2);
-       //theQuestion.ActivateResult(message, isCorrect);
+        //StartCoroutine(theSimulate.DirectorsCall());
+        // if(theSimulate.stage == 1)
+        // {
+        //     theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" has failed to enter and overshot the tunnel</color>"),false, false);
+        // }
+        //  if(theSimulate.stage == 2)
+        // {
+        //     theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" has failed to enter and undershot the tunnel</color>"),false, false);
+        // }
+        
     }
     IEnumerator disablecol()
     {

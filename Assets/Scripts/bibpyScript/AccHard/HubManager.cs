@@ -11,6 +11,7 @@ public class HubManager : MonoBehaviour
     public float moveSpeed;
     bool hit;
      public AccHardSimulation theSimulate;
+     public AudioSource explosionSfx;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,7 @@ public class HubManager : MonoBehaviour
         {
             if (other.gameObject.tag == ("bullet"))
             {
+                explosionSfx.Play();
                 myHinge.enabled = false;
                 GameObject explosion = Instantiate(blastprefab);
                 explosion.transform.position = transform.position;

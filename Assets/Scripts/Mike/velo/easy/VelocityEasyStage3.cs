@@ -75,7 +75,7 @@ public class VelocityEasyStage3 : MonoBehaviour
                     myPlayer.slide = true;
                     elapsed = gameTime;
                     // answerMessage = PlayerPrefs.GetString("Name") + " is finaly <b><color=green>safe</color></b>.";
-                    answerMessage = $"{playerName} successfully performed the stunt and went in the manhole!";
+                    answerMessage = $"<b>{playerName}</b> successfully performed the stunt and went in the manhole!";
                     answerIs = true;
                     myPlayer.transform.position = new Vector2(40, myPlayer.transform.position.y);
                 }
@@ -106,7 +106,7 @@ public class VelocityEasyStage3 : MonoBehaviour
                         myPlayer.transform.position = new Vector2(currentPos - 0.4f, myPlayer.transform.position.y);
                         // answerMessage = PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
-                    answerMessage = $"{playerName} has unable to stop exactly at the center of the manhole and enter it. Stunt Failed!";
+                    answerMessage = $"<b>{playerName}</b> has unable to stop exactly at the center of the manhole and enter it. Stunt Failed!";
                 }
                 dimensionLine.GetComponent<IndicatorManagerV1_1>().AnswerIs(answerIs, true);
             }

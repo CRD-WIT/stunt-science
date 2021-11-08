@@ -30,6 +30,7 @@ public class AccHardOne : MonoBehaviour
     public Button play;
 
     public TMP_Text debugAnswer;
+    public AudioSource chopperEngine, truckIdle,truckRunning,GunShot;
     // Start is called before the first frame update
     void Start()
     {
@@ -84,6 +85,7 @@ public class AccHardOne : MonoBehaviour
             timertxt.text = timer.ToString("F2") + ("s");
             if (playerAnswer == answer)
             {
+                theSimulate.answerIsCorrect = true;
                 theQuestion.answerIsCorrect = true;
                 actiontxt.text = ("next");
                 //theQuestion.SetModalTitle("Stunt success");
@@ -170,6 +172,9 @@ public class AccHardOne : MonoBehaviour
     }
     public void generateProblem()
     {
+        truckRunning.Stop();
+        chopperEngine.Play();
+        truckIdle.Play();
         play.interactable = true;
         theQuestion.isSimulating = false;
         StartCoroutine(theHeart.startBGgone());
@@ -184,9 +189,9 @@ public class AccHardOne : MonoBehaviour
         dY = Random.Range(10, 12);
         generateAngleB = Random.Range(20f, 30f);
         angleB = (float)System.Math.Round(generateAngleB, 2);
-        generateViT = Random.Range(3f, 5f);
+        generateViT = Random.Range(2f, 3f);
         viT = (float)System.Math.Round(generateViT, 2);
-        generateAT = Random.Range(3f, 5f);
+        generateAT = Random.Range(2f, 4f);
         aT = (float)System.Math.Round(generateAT, 2);
         generateVB = Random.Range(30f, 40f);
         vB = (float)System.Math.Round(generateVB, 2);

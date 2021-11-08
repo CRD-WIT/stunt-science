@@ -16255,10 +16255,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugPanel: {fileID: 0}
   settingsPanel: {fileID: 1368763604}
   levelFinishedPanel: {fileID: 0}
   stuntGuidePanel: {fileID: 0}
   flashCard: {fileID: 0}
+  flashCardEnd: {fileID: 0}
+  flashCardIsOpen: 0
+  flashCardEndIsOpen: 0
   soundLevel: 1
   musicLevel: 1
   soundSlider: {fileID: 522057552}
@@ -16283,6 +16287,18 @@ MonoBehaviour:
   - {fileID: 228638624}
   - {fileID: 1179180585}
   firebaseManager: {fileID: 1419514206}
+  gameLevelNames:
+  - 
+  - Velocity
+  - Acceleration
+  - FreeFallProjectile
+  - CircularMotion
+  - Forces
+  - Work
+  - Energy
+  - Power
+  - Momemtum
+  id_code: 
 --- !u!114 &591826448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42586,7 +42602,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 7a89b8bd8624d5561bf071d6f8e1ad2c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: bbfd503034f81a5d3870f466a42d647e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

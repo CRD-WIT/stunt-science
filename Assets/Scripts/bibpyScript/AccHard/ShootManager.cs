@@ -6,6 +6,7 @@ public class ShootManager : MonoBehaviour
 {
     public GameObject bullet, blastprefab, bulletPos;
     public float speed, arrowMass;
+    public AudioSource gunShot;
     
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,7 @@ public class ShootManager : MonoBehaviour
     }
     public void Shoot()
     {
+        gunShot.Play();
         GameObject ArrowIns = Instantiate(bullet, transform.position, transform.rotation);
         ArrowIns.GetComponent<Rigidbody2D>().mass = arrowMass;
         ArrowIns.GetComponent<Rigidbody2D>().velocity = transform.right * (speed/arrowMass);
