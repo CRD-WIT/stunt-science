@@ -57,13 +57,13 @@ public class QuestionControllerVThree : MonoBehaviour
         switch (levelDifficulty)
         {
             case Difficulty.Easy:
-                difficulty = "easy";
+                difficulty = "Easy";
                 break;
             case Difficulty.Medium:
-                difficulty = "medium";
+                difficulty = "Medium";
                 break;
             case Difficulty.Hard:
-                difficulty = "hard";
+                difficulty = "Hard";
                 break;
         }
         difficultyName.GetComponent<TMP_Text>().text = difficulty;
