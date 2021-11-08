@@ -56,13 +56,13 @@ public class QuestionControllerB : MonoBehaviour
         switch (levelDifficulty)
         {
             case Difficulty.Easy:
-                difficulty = level.GetDifficulty();
+                difficulty = "easy";
                 break;
             case Difficulty.Medium:
-                difficulty = level.GetDifficulty();
+                difficulty = "medium";
                 break;
             case Difficulty.Hard:
-                difficulty = level.GetDifficulty();
+                difficulty = "hard";
                 break;
         }
 
