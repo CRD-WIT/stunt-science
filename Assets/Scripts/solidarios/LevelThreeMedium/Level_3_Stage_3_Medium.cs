@@ -34,6 +34,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     public HeartManager theHeart;
     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
     public FirebaseManager firebaseManager;
+    public AudioSource gunFire, maneuverGearSfx;
 
     void Start()
     {
@@ -114,6 +115,8 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     }
     public void showProblem()
     {
+        question = $"{PlayerPrefs.GetString("Name")} is now instructed to fire {pronoun2} climbing device and must hit the target to be able to cross on the other cliff. If the target horizontally <b>{distanceX}m</b> away and vertically <b>{distanceY}m</b> above from the barrel of the climbing device, What should be the projectile time needed of the climbing device if the target can only be hit with an angle aiming at <b>{angleGiven} degree</b> ? Initial velocity of the projectile will be inversely proportionate to your answer.";
+        questionController.SetQuestion(question);
         targetLock.SetActive(true);
         showResult = true;
         preSetUp = true;
@@ -123,6 +126,8 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     {
         hook.SetActive(true);
         hook.transform.position = hookLauncher.transform.position;
+        gunFire.Play();
+        maneuverGearSfx.Play();
         if (questionController.GetPlayerAnswer() == correctAnswer)
         {
             hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo);
@@ -214,8 +219,6 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
             angularAnotation.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);
             projectileTime = distanceX / (Vo * (Mathf.Cos(angleGiven * Mathf.Deg2Rad)));
             theHook.correctAnswer = correctAnswer;
-            question = $"{PlayerPrefs.GetString("Name")} is now instructed to fire {pronoun2} climbing device and must hit the target to be able to cross on the other cliff. If the target horizontally <b>{distanceX}m</b> away and vertically <b>{distanceY}m</b> above from the barrel of the climbing device, What should be the projectile time needed of the climbing device if the target can only be hit with an angle aiming at <b>{angleGiven} degree</b> ? Initial velocity of the projectile will be inversely proportionate to your answer.";
-            questionController.SetQuestion(question);
             //VoTxt.text = "Vo = "+ Vo.ToString("F2")+" m/s";
         }
         if (questionController.isSimulating)

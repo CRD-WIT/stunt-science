@@ -35,7 +35,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     bool isMovingToHook;
     public float elapsed;
     public GameObject dynamicPlatform;
-    public GameObject grapplingPointIndicator;
+    public GameObject grapplingPointIndicator, blast;
     string playerName;
     string pronoun = "he";
     public QuestionContProjMed questionController;
@@ -52,6 +52,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
 
     public FirebaseManager firebaseManager;
+    public AudioSource gunFire, maneuverGearSfx;
 
 
     void Start()
@@ -288,6 +289,9 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         hookLine.SetActive(true);
                         //hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
                         hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer());
+                        gunFire.Play();
+                        maneuverGearSfx.Play();
+                        blast.SetActive(true);
                         doneFiring = true;
                     }
 
@@ -319,10 +323,16 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         if (questionController.GetPlayerAnswer() < correctAnswer)
                         {
                             hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer() - .5f);
+                            maneuverGearSfx.Play();
+                            gunFire.Play();
+                            blast.SetActive(true);
                         }
                         if (questionController.GetPlayerAnswer() > correctAnswer)
                         {
                             hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer() + .5f);
+                            maneuverGearSfx.Play();
+                            gunFire.Play();
+                            blast.SetActive(true);
                         }
 
                         doneFiring = true;
