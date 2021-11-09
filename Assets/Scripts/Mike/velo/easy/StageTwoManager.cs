@@ -23,6 +23,7 @@ public class StageTwoManager : MonoBehaviour
     public FirebaseManager firebaseManager;
     void Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
         theScorer = FindObjectOfType<ScoreManager>();
         gender = PlayerPrefs.GetString("Gender");
         playerName = PlayerPrefs.GetString("Name");
