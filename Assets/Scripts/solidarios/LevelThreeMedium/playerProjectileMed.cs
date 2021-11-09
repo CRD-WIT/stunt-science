@@ -11,6 +11,7 @@ public class playerProjectileMed : MonoBehaviour
     public Transform groundCheck;
     public float groundedRadius;
     public GameObject  puller,hookline;
+    public AudioSource maneuverGearSfx;
     // Start is called before the first frame update
    void Start()
     {
@@ -39,6 +40,7 @@ public class playerProjectileMed : MonoBehaviour
 
         if (other.gameObject.tag == ("wall2"))
         {
+            maneuverGearSfx.Stop();
             jump = true;
             puller.GetComponent<Rigidbody2D>().velocity = transform.right * (9);
             hookline.SetActive(false);
