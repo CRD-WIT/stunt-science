@@ -15,6 +15,7 @@ public class playerProjectile : MonoBehaviour
     public LayerMask whatIsGround;
     public Transform groundCheck;
     public float groundedRadius;
+    public AudioSource maneuverGear, swordSlash;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +41,7 @@ public class playerProjectile : MonoBehaviour
 
         if (other.gameObject.tag == ("wall2"))
         {
+            maneuverGear.Stop();
             StartCoroutine(slowMo());
             sword.SetActive(true);
             slash = true;

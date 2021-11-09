@@ -7,6 +7,7 @@ public class WeakSpotManager : MonoBehaviour
     public GameObject smallBlast;
     public golem theGolem;
     public ProjHardSimulation theSimulate;
+    public AudioSource swordSlash;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +25,7 @@ public class WeakSpotManager : MonoBehaviour
 
         if (other.gameObject.tag == ("weapon"))
         {  
+            swordSlash.Play();
             smallBlast.SetActive(true);
             theGolem.damage = true;
             StartCoroutine(theGolem.takeDamaged());
