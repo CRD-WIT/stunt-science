@@ -40,6 +40,7 @@ public class VelocityMediumManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
         isEndOfStunt = false;
         qc = FindObjectOfType<QuestionControllerVThree>();
         indicators = FindObjectOfType<IndicatorManagerV1_1>();

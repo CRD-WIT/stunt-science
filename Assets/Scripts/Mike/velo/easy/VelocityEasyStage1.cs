@@ -26,6 +26,7 @@ public class VelocityEasyStage1 : MonoBehaviour
 
     void Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
         firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0); 
         settings.ResetLife();
         RumblingManager.isCrumbling = false;
