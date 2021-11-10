@@ -25,6 +25,7 @@ public class VelocityEasyStage3 : MonoBehaviour
 
     public void Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
         playerGender = PlayerPrefs.GetString("Gender");
         if (playerGender == "Male")
         {

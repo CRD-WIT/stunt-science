@@ -25,6 +25,7 @@ public class ProjectileHardThree : MonoBehaviour
     public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow,indicatorReady;
     string pronoun, pronoun2, gender;
     public TMP_Text golemVelo, golemAcc, VoTxt, playerVelo, actionTxt, angleTxt;
+    public AudioSource gunShot, maneuverGear, oxygenSfx;
     // Start is called before the first frame update
     void Start()
     {
@@ -238,6 +239,8 @@ public class ProjectileHardThree : MonoBehaviour
         lineRenderer.GetComponent<LineRenderer>().enabled = true;
         theArrow[0].generateLine = true;
         trail.GetComponent<TrailRenderer>().time = 3000;
+        gunShot.Play();
+        maneuverGear.Play();
         arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo - .1f);
         if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
@@ -259,6 +262,8 @@ public class ProjectileHardThree : MonoBehaviour
         boulder.SetActive(false);
         //theGolem.throwing = false;
         //theBoulder.boulderThrow();
+        oxygenSfx.Play();
+        maneuverGear.Play();
         puller.GetComponent<Rigidbody2D>().velocity = transform.right * 30;
         thePlayer.airdive = true;
         thePlayer.aim = false;

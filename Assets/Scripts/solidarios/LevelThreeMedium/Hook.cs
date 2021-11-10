@@ -19,6 +19,7 @@ public class Hook : MonoBehaviour
            angle,
            newAngle, time;
     int ropeNum;
+    public AudioSource hitImpact,maneuverGearSfx,gearOxygenSfx;
 
 
     public GameObject target, hookLine, trail, wall,playerShadow;
@@ -53,6 +54,8 @@ public class Hook : MonoBehaviour
         {
             if (!isCollided)
             {
+                maneuverGearSfx.Stop();
+                hitImpact.Play();
                 time = 0;
                 transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                 transform.GetComponent<Rigidbody2D>().Sleep();
@@ -69,6 +72,8 @@ public class Hook : MonoBehaviour
         {
             if (!isCollided)
             {
+                maneuverGearSfx.Stop();
+                hitImpact.Play();
                 time = 3000;
                 transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                 transform.GetComponent<Rigidbody2D>().Sleep();
@@ -87,6 +92,8 @@ public class Hook : MonoBehaviour
         {
             if (isCollidedToFailCollider == false)
             {
+                maneuverGearSfx.Stop();
+                hitImpact.Play();
                 wall.SetActive(false);
                 time = 0;
                 target.GetComponent<Collider2D>().enabled = false;
@@ -105,6 +112,8 @@ public class Hook : MonoBehaviour
         {
             if (isCollidedToFailCollider == false)
             {
+                maneuverGearSfx.Stop();
+                hitImpact.Play();
                 time = .7f;
                 wall.SetActive(false);
                 target.GetComponent<Collider2D>().enabled = false;
@@ -148,11 +157,13 @@ public class Hook : MonoBehaviour
     public IEnumerator ropePull()
     {
         yield return new WaitForSeconds(2f);
+        gearOxygenSfx.Play();
         hookLauncher.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, RopePullAngle);
         puller.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (ropePullVelocity);
         playerShadow.SetActive(true);
         thePlayer.aim = false;
         thePlayer.airdive = true;
+        maneuverGearSfx.Play();
 
 
     }

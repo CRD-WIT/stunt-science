@@ -26,6 +26,7 @@ public class ProjectileHardOne : MonoBehaviour
     public TMP_Text golemVelo, VoTxt, timerTxt, actiontxt;
     string pronoun, pronoun2, gender;
     StageManager sm = new StageManager();
+    public AudioSource gunShot, maneuverGear, oxygenSfx;
 
     // Start is called before the first frame update
     void Start()
@@ -275,6 +276,8 @@ public class ProjectileHardOne : MonoBehaviour
         //theGolem.throwing = false;
         //theBoulder.boulderThrow();
         puller.GetComponent<Rigidbody2D>().velocity = transform.right * 32;
+        oxygenSfx.Play();
+        maneuverGear.Play();
         thePlayer.airdive = true;
         thePlayer.aim = false;
         StartCoroutine(StuntResult());
@@ -299,6 +302,8 @@ public class ProjectileHardOne : MonoBehaviour
         arrow.SetActive(true);
         trail.GetComponent<TrailRenderer>().time = 3000;
         arrow.transform.position = transform.position;
+        gunShot.Play();
+        maneuverGear.Play();
         if (ProjHardSimulation.playerAnswer < correctAnswer)
         {
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);

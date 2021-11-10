@@ -37,6 +37,7 @@ public class HardManager : MonoBehaviour
     public FirebaseManager firebaseManager;
     void Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
         labels = FindObjectOfType<AngleAnnotaion>();
         triangleAnnotaion = triangle.GetComponent<AngleAnnotaion1>();

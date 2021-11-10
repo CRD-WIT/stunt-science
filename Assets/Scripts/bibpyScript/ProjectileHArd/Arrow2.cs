@@ -12,6 +12,7 @@ public class Arrow2 : MonoBehaviour
     public Rigidbody2D rb;
     public bool showIndicator,showIndicatorReady;
     public GameObject arrowShadow;
+    public AudioSource hitImpact, maneuverGear;
 
     float
 
@@ -93,6 +94,8 @@ public class Arrow2 : MonoBehaviour
             {
                 showIndicator = true;
                 showIndicatorReady = false;
+                hitImpact.Play();
+                maneuverGear.Stop();
             }
             arrowShadow.SetActive(false);
         }
