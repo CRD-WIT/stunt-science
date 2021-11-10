@@ -137,6 +137,7 @@ public class accSimulation : MonoBehaviour
             if (answerField.text == "" || playerAnswer > 100)
             {
                 theQuestion.errorText = ("Please enter a valid answer!");
+                StartCoroutine(errorMesage());
             }
             else
             {
@@ -156,6 +157,7 @@ public class accSimulation : MonoBehaviour
             if (answerField.text == "" || playerAnswer > 70)
             {
                 theQuestion.errorText = ("Please enter a valid answer!");
+                StartCoroutine(errorMesage());
             }
             else
             {

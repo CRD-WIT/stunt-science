@@ -53,7 +53,7 @@ public class ProjHardSimulation : MonoBehaviour
         if (stage == 1)
         {
            playerAnswer = theQuestion.GetPlayerAnswer();
-            if (answerField.text == "" || playerAnswer > 50 || playerAnswer < 1)
+            if (answerField.text == "" || playerAnswer > 7 || playerAnswer < 1)
             {
                
                 theQuestion.errorText = ("believe me! its too long!");
@@ -74,10 +74,10 @@ public class ProjHardSimulation : MonoBehaviour
         {
             playerAnswer = float.Parse(answerField.text);
 
-            if (answerField.text == "" || playerAnswer > 111.67)
+            if (answerField.text == "" || playerAnswer > 30)
             {
                 
-                theQuestion.errorText = ("fastest helicopter flies at 111.67 m/s only");
+                theQuestion.errorText = ("answer is not valid for simulation");
                  StartCoroutine(errorMesage());
             }
             else
@@ -97,7 +97,7 @@ public class ProjHardSimulation : MonoBehaviour
             if (answerField.text == "" || playerAnswer > 70)
             {
                 //StartCoroutine(theManagerThree.errorMesage());
-                theQuestion.errorText = ("exceeds the helicopter's fastest acceleration");
+                theQuestion.errorText = ("answer is not valid for simulation");
                 
             }
             else
