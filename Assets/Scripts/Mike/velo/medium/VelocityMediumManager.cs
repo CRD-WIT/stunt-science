@@ -365,7 +365,7 @@ public class VelocityMediumManager : MonoBehaviour
                 whatIsAsk = UnitOf.distance;
 
                 boulder.transform.position = new Vector2(playerPos, 0);
-                myPlayer.transform.position = new Vector2(distance, boulder.transform.position.y);
+                myPlayer.transform.position = new Vector2(d, boulder.transform.position.y);
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
@@ -374,7 +374,7 @@ public class VelocityMediumManager : MonoBehaviour
 
                 indicators.distanceSpawnPnt = new Vector2(spawnPoint.x, 1);
                 indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(distance, null, playerVelocity, stuntTime);
+                indicators.showLines(distance, null, playerVelocity, null);
                 indicators.UnknownIs('N');
                 
                 jmpDistFromBoulder.spawnPoint = new Vector2(boulder.transform.position.x  + jumpDistance, 0.3f);
