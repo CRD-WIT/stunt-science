@@ -36,7 +36,7 @@ public class IndicatorManagerV1_1 : MonoBehaviour
     GameObject[] arrows = new GameObject[8];
     [SerializeField] GameObject[] labelTxt;
     public bool showCorrectTime = false, showCorrectDistance = false;
-    bool arrowPresent = false, answered, revealTime, revealDistance, revealVelocity, revealHeight;
+    bool arrowPresent = false, answered, revealTime, revealDistance, revealVelocity, revealHeight, hideTime;
     char requiredAnswer;
     QuestionControllerVThree qc;
     private void Start()
@@ -83,7 +83,7 @@ public class IndicatorManagerV1_1 : MonoBehaviour
 
     // IEnumerator 
 
-    public void showLines(float? dLength, float? hLength, float v, float t)
+    public void showLines(float? dLength, float? hLength, float v, float? t)
     {
         if (arrowPresent)
             foreach (var item in arrows)
@@ -122,7 +122,12 @@ public class IndicatorManagerV1_1 : MonoBehaviour
             // {
             //     this.showTime = false;
             // }
-            timer = t;
+            if(t != null){
+                hideTime =false;
+                timer = (float)t;
+                }
+            else
+                hideTime =true;
             if (hLength != null)
             {
                 height = (float)hLength;
@@ -399,7 +404,12 @@ public class IndicatorManagerV1_1 : MonoBehaviour
         if (!revealTime && !revealVelocity)
             labelTxt[3].GetComponent<TextMeshPro>().SetText($"?{qc.Unit(UnitOf.velocity)} at t = ?{qc.Unit(UnitOf.time)}");
         else if(revealTime && revealVelocity)
-            labelTxt[3].GetComponent<TextMeshPro>().SetText($"{velocity.ToString("f2")}{qc.Unit(UnitOf.velocity)} at {System.Math.Round(timer, 2)}{qc.Unit(UnitOf.time)}");
+            {
+                if(hideTime)
+                    labelTxt[3].GetComponent<TextMeshPro>().SetText($"{velocity.ToString("f2")}{qc.Unit(UnitOf.velocity)}");
+                else
+                    labelTxt[3].GetComponent<TextMeshPro>().SetText($"{velocity.ToString("f2")}{qc.Unit(UnitOf.velocity)} at {System.Math.Round(timer, 2)}{qc.Unit(UnitOf.time)}");
+            }
         else if (revealTime && !revealVelocity)
             labelTxt[3].GetComponent<TextMeshPro>().SetText($"v = ?{qc.Unit(UnitOf.velocity)} at {timer.ToString("f2")}{qc.Unit(UnitOf.time)}");
         else
