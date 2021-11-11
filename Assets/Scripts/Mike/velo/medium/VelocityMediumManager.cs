@@ -16,7 +16,7 @@ public class VelocityMediumManager : MonoBehaviour
     public GameObject transitionCanvas;
     StageManager sm = new StageManager();
     [SerializeField]
-    GameObject boulder, directorsBubble, boulderA, velocityDirectionArrow1,
+    GameObject boulder2, directorsBubble, boulder1, velocityDirectionArrow1,
                 velocityDirectionArrow2, boulderShadow, playerShadow, JDIndicator;
     PlayerV2 myPlayer;
     public TMP_Text debugAnswer;
@@ -48,8 +48,8 @@ public class VelocityMediumManager : MonoBehaviour
 
         myPlayer = FindObjectOfType<PlayerV2>();
         createCeilling = FindObjectOfType<CeillingGenerator>();
-        boulderRB = boulder.GetComponent<Rigidbody2D>();
-        boulder2RB = boulderA.GetComponent<Rigidbody2D>();
+        boulderRB = boulder2.GetComponent<Rigidbody2D>();
+        boulder2RB = boulder1.GetComponent<Rigidbody2D>();
         life = FindObjectOfType<HeartManager>();
         score = FindObjectOfType<ScoreManager>();
 
@@ -98,7 +98,7 @@ public class VelocityMediumManager : MonoBehaviour
                 case 1:
                     JDIndicator.SetActive(false);
                     currentPlayerPos = myPlayer.transform.position.x;
-                    currentBoulderPos = boulderA.transform.position.x;
+                    currentBoulderPos = boulder1.transform.position.x;
                     FallingBoulders.dropPoint = currentPlayerPos - 0.7f;
                     spawnPoint = new Vector2(currentBoulderPos - jumpDistance, 1);
                     boulder2RB.velocity = new Vector2(-boulderVelocity, 0);
@@ -139,9 +139,9 @@ public class VelocityMediumManager : MonoBehaviour
                     break;
                 case 2:
                     JDIndicator.SetActive(true);
-                    FallingBoulders.dropPoint = boulder.transform.position.x - 0.7f;
+                    FallingBoulders.dropPoint = boulder2.transform.position.x - 0.7f;
                     currentPlayerPos = myPlayer.transform.position.x;
-                    currentBoulderPos = boulder.transform.position.x + jumpDistance;
+                    currentBoulderPos = boulder2.transform.position.x + jumpDistance;
                     spawnPoint = new Vector2(distance, 1);
                     distanceTraveled = currentPlayerPos - distance;
                     boulderRB.velocity = new Vector2(boulder2Velocity, 0);
@@ -174,7 +174,7 @@ public class VelocityMediumManager : MonoBehaviour
                             StartCoroutine(InstantiateShadows(distance + playerAnswer, null, boulder2Velocity * stuntTime));
                         indicators.AnswerIs(isAnswerCorrect, false);
                     }
-                    jmpDistFromBoulder.spawnPoint = new Vector2(currentBoulderPos, boulder.transform.position.y);
+                    jmpDistFromBoulder.spawnPoint = new Vector2(currentBoulderPos, boulder2.transform.position.y);
                     jmpDistFromBoulder.distance = -jumpDistance;
 
                     indicators.IsRunning(playerAnswer, distanceTraveled);
@@ -183,15 +183,15 @@ public class VelocityMediumManager : MonoBehaviour
                     foreach(var item in boulderName)
                         item.gameObject.SetActive(false);
                     JDIndicator.SetActive(false);
-                    Vector2 timeSpawn = boulder.transform.position;
-                    FallingBoulders.dropPoint = (boulder.transform.position.x - 0.7f);
-                    FallingBoulders.moreDropPoint = (boulderA.transform.position.x + 0.7f);
+                    Vector2 timeSpawn = boulder2.transform.position;
+                    FallingBoulders.dropPoint = (boulder2.transform.position.x - 0.7f);
+                    FallingBoulders.moreDropPoint = (boulder1.transform.position.x + 0.7f);
                     currentPlayerPos = myPlayer.transform.position.x - playerDistance;
                     spawnPoint = new Vector2(distance + jmpDistFromBoulder.distance, spawnPoint.y);
                     distanceTraveled = currentPlayerPos;
                     myPlayer.moveSpeed = playerAnswer;
-                    boulderRB.velocity = new Vector2(boulderVelocity, 0);
-                    boulder2RB.velocity = new Vector2(-boulder2Velocity, 0);
+                    boulderRB.velocity = new Vector2(boulder2Velocity, 0);
+                    boulder2RB.velocity = new Vector2(-boulderVelocity, 0);
                     if (stuntTime <= elapsed)
                     {
                         timeSpawn = new Vector2(stuntTime * boulderVelocity, timeSpawn.y);
@@ -206,8 +206,8 @@ public class VelocityMediumManager : MonoBehaviour
                             isAnswerCorrect = true;
                             elapsed = stuntTime;
                             messageTxt = "<b>" + playerName + "</b> has jumped over the boulder <color=green>safely</color>!";
-                            boulder.GetComponent<CircleCollider2D>().enabled = false;
-                            boulderA.GetComponent<CircleCollider2D>().enabled = false;
+                            boulder2.GetComponent<CircleCollider2D>().enabled = false;
+                            boulder1.GetComponent<CircleCollider2D>().enabled = false;
                         }
                         else
                         {
@@ -266,8 +266,8 @@ public class VelocityMediumManager : MonoBehaviour
         boulder2RB.sharedMaterial.friction = 0;
         boulderRB.rotation = 0;
         boulderRB.freezeRotation = true;
-        boulder.SetActive(false);
-        boulderA.SetActive(false);
+        boulder2.SetActive(false);
+        boulder1.SetActive(false);
         velocityDirectionArrow1.SetActive(false);
         velocityDirectionArrow2.SetActive(false);
 
@@ -296,7 +296,7 @@ public class VelocityMediumManager : MonoBehaviour
             case 1:
                 JDIndicator.SetActive(true);
                 boulderVelocity = 0;
-                boulderA.SetActive(true);
+                boulder1.SetActive(true);
                 velocityDirectionArrow1.SetActive(true);
 
                 qc.limit = 30 / 8;
@@ -320,9 +320,9 @@ public class VelocityMediumManager : MonoBehaviour
                 }
                 whatIsAsk = UnitOf.time;
 
-                myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
+                myPlayer.transform.position = new Vector2(0, boulder2.transform.position.y);
                 myPlayer.gameObject.SetActive(true);
-                boulderA.transform.position = new Vector2(distance, boulder.transform.position.y);
+                boulder1.transform.position = new Vector2(distance, boulder2.transform.position.y);
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
@@ -334,13 +334,13 @@ public class VelocityMediumManager : MonoBehaviour
                 indicators.showLines(distance, null, playerVelocity, stuntTime);
                 indicators.UnknownIs('t');
                 
-                jmpDistFromBoulder.spawnPoint = new Vector2(boulderA.transform.position.x, 0.3f);
+                jmpDistFromBoulder.spawnPoint = new Vector2(boulder1.transform.position.x, 0.3f);
                 jmpDistFromBoulder.distance = -jumpDistance;
 
                 question = "<b>" + playerName + "</b> is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming boulder at the front <color=red>" + distance + " meters</color> away is rolling at the velocity of <color=purple>" + boulderVelocity + "meters per second</color>, at after how many <color=#006400>seconds</color> will " + "<b>" + playerName + "</b> jump if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
                 break;
             case 2:
-                boulder.SetActive(true);
+                boulder2.SetActive(true);
                 velocityDirectionArrow2.SetActive(true);
                 JDIndicator.SetActive(true);
 
@@ -360,12 +360,18 @@ public class VelocityMediumManager : MonoBehaviour
                     Db = Vb * t;
                     correctAnswer = (float)System.Math.Round(Da, 2);
                     if (correctAnswer < qc.limit && (stuntTime > 1f || stuntTime < 5f)) break;
+                    /* formula need for aproval
+                    (Va*t)+d = (Vb*t) + dj
+                    (Va*t) - (Vb*t) = dj - d
+                    (Va - Vb) * t = dj-d
+                    t = (dj - d)/ (Va - Vb)
+                    */
                 }
 
                 whatIsAsk = UnitOf.distance;
 
-                boulder.transform.position = new Vector2(playerPos, 0);
-                myPlayer.transform.position = new Vector2(d, boulder.transform.position.y);
+                boulder2.transform.position = new Vector2(playerPos, 0);
+                myPlayer.transform.position = new Vector2(d, boulder2.transform.position.y);
 
                 jumpDistance = (float)System.Math.Round(Dj, 2);
                 jumpTime = Dj / Va;
@@ -377,7 +383,7 @@ public class VelocityMediumManager : MonoBehaviour
                 indicators.showLines(distance, null, playerVelocity, null);
                 indicators.UnknownIs('N');
                 
-                jmpDistFromBoulder.spawnPoint = new Vector2(boulder.transform.position.x  + jumpDistance, 0.3f);
+                jmpDistFromBoulder.spawnPoint = new Vector2(boulder2.transform.position.x  + jumpDistance, 0.3f);
                 jmpDistFromBoulder.distance = -jumpDistance;
 
                 question = "<b>" + playerName + "</b> is instructed to run until the end of the scene while jumping over the rolling boulder. If " + pronoun + " is running at a velocity of <color=purple>" + playerVelocity + " meters per second</color> while an incoming fast moving boulder <color=red>" + distance + " meters</color> away is catchind up from behind with a velocity of <color=purple>" + boulder2Velocity + "meters per second</color>, at after how many <color=red>meters</color> should " + "<b>" + playerName + "</b> be jumping if " + pronoun + " has to jump at exactly <color=red>" + jumpDistance + " meters</color> away from the boulder in order to jump over it safely?";
@@ -386,20 +392,20 @@ public class VelocityMediumManager : MonoBehaviour
                 foreach(var item in boulderName)
                     item.gameObject.SetActive(true);
                 whatIsAsk = UnitOf.velocity;
-                boulder.SetActive(true);
-                boulderA.SetActive(true);
+                boulder2.SetActive(true);
+                boulder1.SetActive(true);
                 velocityDirectionArrow1.SetActive(true);
                 velocityDirectionArrow2.SetActive(true);
-                // boulder.GetComponent<CircleCollider2D>().enabled = false;
-                // boulderA.GetComponent<CircleCollider2D>().enabled = false;
+                // boulder2.GetComponent<CircleCollider2D>().enabled = false;
+                // boulder1.GetComponent<CircleCollider2D>().enabled = false;
 
                 float Vp, Dp, Tp, Dac = (float)System.Math.Round(Random.Range(19f, 22f), 2);
                 Va = Random.Range(7f, 8f);
                 Vb = Random.Range(3f, 4f);
                 d = Random.Range(29f, 30f);
 
-                boulderVelocity = (float)System.Math.Round(Va, 2);
-                boulder2Velocity = (float)System.Math.Round(Vb, 2);
+                boulderVelocity = (float)System.Math.Round(Vb, 2);
+                boulder2Velocity = (float)System.Math.Round(Va, 2);
                 distance = (float)System.Math.Round(d, 2);
 
                 t = d / (Va + Vb);
@@ -416,14 +422,14 @@ public class VelocityMediumManager : MonoBehaviour
                 correctD = Dp;
                 qc.limit = 10;
 
-                boulder.transform.position = new Vector2(0, 0);
-                boulderA.transform.position = new Vector2(boulder.transform.position.x + d, 0);
-                myPlayer.transform.position = new Vector2(boulderA.transform.position.x - Dac, 0);
+                boulder2.transform.position = new Vector2(0, 0);
+                boulder1.transform.position = new Vector2(boulder2.transform.position.x + d, 0);
+                myPlayer.transform.position = new Vector2(boulder1.transform.position.x - Dac, 0);
                 jumpTime = 0.5f;
                 jumpForce = 1.5f / jumpTime;
 
                 JDIndicator.SetActive(true);
-                jmpDistFromBoulder.spawnPoint = new Vector2(boulderA.transform.position.x, 1.5f);
+                jmpDistFromBoulder.spawnPoint = new Vector2(boulder1.transform.position.x, 1.5f);
                 jmpDistFromBoulder.distance = -Dac;
                 // indicators.timeSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
                 indicators.distanceSpawnPnt = new Vector2(spawnPoint.x, 1);
@@ -431,7 +437,7 @@ public class VelocityMediumManager : MonoBehaviour
                 indicators.showLines(distance, null, playerVelocity, stuntTime);
                 indicators.UnknownIs('v');
 
-                question = "<b>" + playerName + "</b> is instructed to vertically jump over between two incoming boulders at precisely <color=#006400>0.5 seconds</color> before they collide. If the 1st boulder is <color=red>" + Dac + " meters</color> away from " + "<b>" + playerName + "</b> is approaching at <color=purple>" + boulder2Velocity + " meters per second</color>, and the 2nd boulder is <color=red>" + distance + " meters</color> away from the 1st boulder and is approaching at <color=purple>" + boulderVelocity + "meters per second</color>, at what <color=purple>velocity</color> should " + pronoun + " run forward for <color=#006400>" + stuntTime + " seconds</color> before doing the vertical jump?";
+                question = "<b>" + playerName + "</b> is instructed to vertically jump over between two incoming boulders at precisely <color=#006400>0.5 seconds</color> before they collide. If the 1st boulder is <color=red>" + Dac + " meters</color> away from " + "<b>" + playerName + "</b> is approaching at <color=purple>" + boulderVelocity + " meters per second</color>, and the 2nd boulder is <color=red>" + distance + " meters</color> away from the 1st boulder and is approaching at <color=purple>" + boulder2Velocity + "meters per second</color>, at what <color=purple>velocity</color> should " + pronoun + " run forward for <color=#006400>" + stuntTime + " seconds</color> before doing the vertical jump?";
                 break;
         }
         qc.SetUnitTo(whatIsAsk);
@@ -467,7 +473,7 @@ public class VelocityMediumManager : MonoBehaviour
         // StartCoroutine(life.endBGgone());
         yield return new WaitForSeconds(1);
         myPlayer.ToggleTrigger();
-        myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
+        myPlayer.transform.position = new Vector2(0, boulder2.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
         RumblingManager.isCrumbling = false;
@@ -487,7 +493,7 @@ public class VelocityMediumManager : MonoBehaviour
         PrefabDestroyer.end = true;
         yield return new WaitForSeconds(2.3f);
         // StartCoroutine(life.endBGgone());
-        myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
+        myPlayer.transform.position = new Vector2(0, boulder2.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
         RumblingManager.isCrumbling = false;
@@ -573,12 +579,12 @@ public class VelocityMediumManager : MonoBehaviour
             {
                 if (playerAnswer > correctAnswer)
                 {
-                    myPlayer.jumpforce = jumpForce - 0.04f;
+                    myPlayer.jumpforce = jumpForce * 0.9f;
                     jumpTime -= 0.08f;
                 }
                 else
                 {
-                    myPlayer.jumpforce = jumpForce - 0.03f;
+                    myPlayer.jumpforce = jumpForce * 0.9f;
                     jumpTime -= 0.16f;
                 }
 
@@ -602,12 +608,12 @@ public class VelocityMediumManager : MonoBehaviour
         if (b2Pos != null)
         {
             b2Shadow = Instantiate(boulderShadow);
-            b2Shadow.transform.position = new Vector2((float)b2Pos - 0.5f, boulder.transform.position.y);
+            b2Shadow.transform.position = new Vector2((float)b2Pos - 0.5f, boulder2.transform.position.y);
         }
         if (b1Pos != null)
         {
             b1Shadow = Instantiate(boulderShadow);
-            b1Shadow.transform.position = new Vector2((float)b1Pos + 0.5f, boulderA.transform.position.y);
+            b1Shadow.transform.position = new Vector2((float)b1Pos + 0.5f, boulder1.transform.position.y);
         }
         pShadow = Instantiate(playerShadow);
         pShadow.transform.position = new Vector2(playerPos, myPlayer.transform.position.y -0.2f);
