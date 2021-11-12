@@ -1425,12 +1425,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 89822532}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &89822532
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9403,12 +9403,12 @@ MonoBehaviour:
   m_margin: {x: 10.046023, y: 0, z: -0.9536476, w: 3.5564072}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 590026316}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &590026316
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9555,12 +9555,12 @@ MonoBehaviour:
   m_margin: {x: -2.0836258, y: -4.980648, z: 11.1039715, w: 7.8254414}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 603930417}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &603930417
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15295,7 +15295,7 @@ PrefabInstance:
       objectReference: {fileID: 366385446}
     - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: QuitStage
+      value: ToggleExitStagePanel
       objectReference: {fileID: 0}
     - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -15308,6 +15308,10 @@ PrefabInstance:
     - target: {fileID: 1043274360006592572, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1790873542321802381, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1863123741734456667, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -15363,7 +15367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2579799108236662967, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2782029143380870536, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: bgm
@@ -15384,6 +15388,34 @@ PrefabInstance:
     - target: {fileID: 3372021342389604806, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Name
       value: gameUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706459705810385086, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706459705810385086, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706459705810385086, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 366385446}
+    - target: {fileID: 3706459705810385086, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706459705810385086, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706459705810385086, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.AudioSource, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706459705810385086, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Sprite
@@ -15437,6 +15469,34 @@ PrefabInstance:
       propertyPath: sfxAudios.Array.data[7]
       value: 
       objectReference: {fileID: 980883182}
+    - target: {fileID: 5286241686891851848, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286241686891851848, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286241686891851848, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 366385446}
+    - target: {fileID: 5286241686891851848, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286241686891851848, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286241686891851848, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.AudioSource, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286241686891851848, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -16942,12 +17002,12 @@ MonoBehaviour:
   m_margin: {x: 10.046023, y: 0, z: -0.9536476, w: 3.5564072}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1104416476}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &1104416476
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17196,12 +17256,12 @@ MonoBehaviour:
   m_margin: {x: 10.046023, y: 0, z: -0.9536476, w: 3.5564072}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1109200952}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &1109200952
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21135,12 +21195,12 @@ MonoBehaviour:
   m_margin: {x: 10.046023, y: 0, z: -0.9536476, w: 3.5564072}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1301638548}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &1301638548
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22504,12 +22564,12 @@ MonoBehaviour:
   m_margin: {x: -1.1504021, y: -2.6826096, z: 10.972868, w: 5.8686066}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1394830582}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &1394830582
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33101,12 +33161,12 @@ MonoBehaviour:
   m_margin: {x: 10.046023, y: 0, z: -0.9536476, w: 3.5564072}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 2055453971}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &2055453971
 MeshRenderer:
   m_ObjectHideFlags: 0

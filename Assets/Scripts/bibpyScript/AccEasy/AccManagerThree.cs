@@ -150,6 +150,7 @@ public class AccManagerThree : MonoBehaviour
                         theQuestion.isSimulating = false;
                         vitxt.color = new Color32(10, 103, 0, 255);
                         StartCoroutine(truckWillGo());
+                        PlayerPrefs.SetInt("levelAccelerationEasy",theHeart.life);
                     }
 
                 }

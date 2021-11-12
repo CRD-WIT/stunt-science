@@ -9,6 +9,7 @@ public class Settings : MonoBehaviour
     public GameObject settingsPanel;
     public GameObject levelFinishedPanel;
     public GameObject stuntGuidePanel;
+    public GameObject exitStagePanel;
     bool leveFinishedIsOpen;
     bool settingsPanelIsOpen;
 
@@ -17,6 +18,8 @@ public class Settings : MonoBehaviour
 
     public bool flashCardIsOpen = false;
     public bool flashCardEndIsOpen;
+
+    public bool exitStagePanelIsOpen = false;
 
     bool stuntGuidePanelIsOpen;
     public float soundLevel = 1f;
@@ -143,6 +146,12 @@ public class Settings : MonoBehaviour
         flashCardIsOpen = !flashCardIsOpen;
     }
 
+    public void ToggleExitStagePanel()
+    {
+        exitStagePanelIsOpen = !exitStagePanelIsOpen;    
+    }
+
+
     public void ToggleFlashCardEnd()
     {
         flashCardEndIsOpen = !flashCardEndIsOpen;
@@ -180,6 +189,9 @@ public class Settings : MonoBehaviour
         if (stuntGuidePanel)
         {
             stuntGuidePanel.SetActive(stuntGuidePanelIsOpen);
+        }
+        if(exitStagePanel){
+            exitStagePanel.SetActive(exitStagePanelIsOpen);            
         }
         if (soundValue)
         {
