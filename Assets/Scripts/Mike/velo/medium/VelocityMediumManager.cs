@@ -600,6 +600,8 @@ public class VelocityMediumManager : MonoBehaviour
         isEndOfStunt = true;
         // yield return new WaitForEndOfFrame();
         // isEndOfStunt = false;
+        velocityDirectionArrow1.SetActive(false);
+        velocityDirectionArrow2.SetActive(false);
     }
     IEnumerator InstantiateShadows(float playerPos, float? b1Pos, float? b2Pos)
     {
