@@ -53,10 +53,10 @@ public class ProjHardSimulation : MonoBehaviour
         if (stage == 1)
         {
            playerAnswer = theQuestion.GetPlayerAnswer();
-            if (answerField.text == "" || playerAnswer > 7 || playerAnswer < 1)
+            if (answerField.text == "" || playerAnswer > 7)
             {
                
-                theQuestion.errorText = ("believe me! its too long!");
+                theQuestion.errorText = ("answer must not exceed 7 seconds");
                 StartCoroutine(theManagerOne.errorMesage());
             }
             else
@@ -77,7 +77,7 @@ public class ProjHardSimulation : MonoBehaviour
             if (answerField.text == "" || playerAnswer > 30)
             {
                 
-                theQuestion.errorText = ("answer is not valid for simulation");
+                theQuestion.errorText = ("answer must not exceed 30 m/s");
                  StartCoroutine(errorMesage());
             }
             else
@@ -97,7 +97,8 @@ public class ProjHardSimulation : MonoBehaviour
             if (answerField.text == "" || playerAnswer > 70)
             {
                 //StartCoroutine(theManagerThree.errorMesage());
-                theQuestion.errorText = ("answer is not valid for simulation");
+                theQuestion.errorText = ("answer must not exceed 70°");
+                StartCoroutine(errorMesage());
                 
             }
             else
@@ -106,7 +107,7 @@ public class ProjHardSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m/s²";
+                    answerField.text = playerAnswer.ToString() + "°";
                 }
 
             }
