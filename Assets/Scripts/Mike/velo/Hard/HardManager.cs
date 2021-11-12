@@ -402,7 +402,7 @@ public class HardManager : MonoBehaviour
                 indicators.showLines(distance, null, stoneV, stuntTime);
                 indicators.UnknownIs('t');
                 indicators.ResizeEndLines(0.5f, 0.25f, null, null);
-                indicators.SetPlayerPosition(new Vector2(myPlayer.transform.position.x, myPlayer.transform.position.y - 1.5f));
+                indicators.SetPlayerPosition(new Vector2(myPlayer.transform.position.x, myPlayer.transform.position.y - 0.5f));
 
                 labels.startingAngle = 180;
                 labels.SetSpawnPnt(new Vector2(11, bossHead.transform.position.y));
