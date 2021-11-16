@@ -9491,6 +9491,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1244884273333369193, guid: 970b34223efb24943b42d37ce893cd90, type: 3}
   m_PrefabInstance: {fileID: 1228067633777999023}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &379725074 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9090480200318301317, guid: 9f21269307939574e9e6a0d6a089cc6f, type: 3}
+  m_PrefabInstance: {fileID: 9090480200219764163}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &393405689 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1982444264597920958, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
@@ -11064,6 +11069,8 @@ MonoBehaviour:
   startBG: {fileID: 1490969734}
   losslife: 0
   heartItem: {fileID: 5539719138855858559, guid: 220ae2a7f8f9d0522b1b2d002e19321c, type: 3}
+  retry: {fileID: 379725074}
+  endGame: {fileID: 574685476}
 --- !u!1 &532674781
 GameObject:
   m_ObjectHideFlags: 0
@@ -11672,6 +11679,11 @@ MonoBehaviour:
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
+--- !u!1 &574685476 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1806748035146760681, guid: 9f21269307939574e9e6a0d6a089cc6f, type: 3}
+  m_PrefabInstance: {fileID: 9090480200219764163}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &587556399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33270,7 +33282,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 263ffb9397bf74d7aa269e654ac02307, type: 3}
   - {fileID: 21300000, guid: 26ca560e5c49d9153a648d5a1c6c8f13, type: 3}
   soundButtonImage: {fileID: 467814797}
-  backgroundAudio: {fileID: 0}
+  backgroundAudio: {fileID: 2530501136513402939}
   muteIntroSoundOnStart: 1
   isFirstStart: 0
   sfxAudios:
@@ -44656,10 +44668,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 163413361988993152, guid: 9f21269307939574e9e6a0d6a089cc6f, type: 3}
+      propertyPath: m_text
+      value: 'End Game
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 4455013020415500780, guid: 9f21269307939574e9e6a0d6a089cc6f, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4561429042593977272, guid: 9f21269307939574e9e6a0d6a089cc6f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 523694479}
     - target: {fileID: 7942133897253111907, guid: 9f21269307939574e9e6a0d6a089cc6f, type: 3}
       propertyPath: m_IsActive
       value: 0

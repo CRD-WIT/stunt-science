@@ -60,7 +60,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         // Formula
         correctAnswer = Mathf.Sqrt(Mathf.Abs((2 * distanceGiven) / gravityGiven.y));
 
-        questionController.limit = correctAnswer + 1;
+        questionController.limit = 4;
 
         annotation.SetDistance(distanceGiven);
         annotation.revealValue = true;
@@ -115,6 +115,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         // playerHingeJoint.transform.position = new Vector3(spawnPointValue.x - 1, distanceGiven, 0);
         playerHingeJoint.transform.position = new Vector3(spawnPointValue.x - 1, platformBarTop.transform.position.y, 0);
         platformBarBottom.transform.position = new Vector3(spawnPointValue.x - 9, spawnPointValue.y, 0);
+        questionController.answerUnit = "s";
         // platformBarTop.transform.position = new Vector3(spawnPointValue.x - 9, distanceGiven, 0);
     }
 
@@ -165,7 +166,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     }
     void FixedUpdate()
     {
-        questionController.errorText = "answer is not valid for simulation";
+        questionController.errorText = "answer must not exceed 4 seconds";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
         if (directorIsCalling)

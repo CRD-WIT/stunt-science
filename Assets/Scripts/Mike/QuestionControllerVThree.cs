@@ -19,7 +19,7 @@ public class QuestionControllerVThree : MonoBehaviour
     public TextColorMode colorMode;
     public Settings settingUI;
     public UnitOf unit;
-    string answerUnit, difficulty;
+    public string answerUnit, difficulty;
     public HeartManager heartManager;
     int passedLevel;
     [SerializeField] bool timerOn = false, loaded = false;
@@ -187,7 +187,7 @@ public class QuestionControllerVThree : MonoBehaviour
         {
             playerAnswer = float.Parse(answerFieldHorizontal.text);
             answerFieldHorizontal.text = playerAnswer + answerUnit;
-            if (limit <= playerAnswer)
+            if (limit < playerAnswer)
             {
                 errorText = $"Invalid answer! Answer must not exeed {limit}{answerUnit}.";
                 StartCoroutine(IsEmpty());

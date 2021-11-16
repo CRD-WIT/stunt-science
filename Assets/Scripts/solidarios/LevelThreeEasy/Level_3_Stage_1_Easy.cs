@@ -99,11 +99,12 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
         // Formula
         correctAnswer = Mathf.Abs((gravityGiven.y / 2) * Mathf.Pow(timeGiven, 2));
-        questionController.limit = correctAnswer + 1;
+        
 
         annotation.SetDistance(correctAnswer);
         annotation.revealValue = false;
         annotation.SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
+        
 
         // Debug.Log($"Distance: {correctAnswer}");
         // Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
@@ -158,6 +159,8 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         playerOnRopeInitialY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
         timeGivenContainer.SetText($"Time: {timeGiven}s");
+        questionController.limit = playerHingeJoint.transform.position.y - platformBar.transform.position.y;
+        questionController.answerUnit = "m";
         // questionController.timer = timeGiven.ToString("f2");
     }
 
@@ -227,7 +230,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void FixedUpdate()
     {
-         questionController.errorText = "answer is not valid for simulation";
+         questionController.errorText = "answer must not exceed your current distance from the branch";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
         if (directorIsCalling)

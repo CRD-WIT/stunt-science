@@ -61,10 +61,10 @@ public class AccMidSimulation : MonoBehaviour
             playerAnswer = theQuestion.GetPlayerAnswer();
             //subChopper[0].SetActive(false);
             dimension[0].SetActive(false);
-            if (playerAnswer > 60 || playerAnswer < 1)
+            if (playerAnswer > 10 || playerAnswer < 1)
             {
                 StartCoroutine(theManagerOne.errorMesage());
-                theQuestion.errorText = ("answer must be in between 1 seconds and 60 seconds");
+                theQuestion.errorText = ("answer must be in between 1 seconds and 10 seconds");
             }
             else
             {              
