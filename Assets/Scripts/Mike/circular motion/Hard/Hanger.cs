@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LvlFiveHardManager : MonoBehaviour
+public class Hanger : MonoBehaviour
 {
-    public HingeJoint2D grabJoint;
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +16,6 @@ public class LvlFiveHardManager : MonoBehaviour
         
     }
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.name == "pipe")
-            grabJoint.enabled =true;
+        
     }
 }

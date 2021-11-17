@@ -15,7 +15,7 @@ public class MediumManager : MonoBehaviour
     StageManager sm = new StageManager();
     [SerializeField]
     GameObject directorsBubble, rope, AVelocityIndicator, ragdoll, stage1Layout, stage2Layout, UI1, UI2, UI3, conveyor1, conveyor2,
-         aVelocityArrow;
+        aVelocityArrow, jumperChar;
     Animator playerAnim;
     Animation walk;
     [SerializeField] TMP_Text directorsSpeech;
@@ -114,6 +114,8 @@ public class MediumManager : MonoBehaviour
                 case 2:
                     if (myPlayer.transform.position.x >= distance)
                     {
+                        //Put new character. to jump to the pipe
+                        // StartCoroutine(ActivateJump());
                         elapsed = stuntTime;
                         myPlayer.running = false;
                         myPlayer.moveSpeed = 0;
@@ -183,7 +185,9 @@ public class MediumManager : MonoBehaviour
     }
     void SetUp()
     {
+        this.gameObject.GetComponent<EdgeCollider2D>().enabled = false;
         // onShadow = false;
+        jumperChar.SetActive(false);
         ragdollActive = false;
         indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
         spawnPoint = indicators.distanceSpawnPnt;
@@ -254,6 +258,7 @@ public class MediumManager : MonoBehaviour
                     + pPronoun + " at exactly after <b>" + stuntTime.ToString("f2") + qc.Unit(UnitOf.time) + "</b> ?";
                 break;
             case 2:
+                this.gameObject.GetComponent<Collider2D>().enabled = true;
                 stage2Layout.SetActive(true);
                 aVelocityArrow.transform.SetPositionAndRotation(new Vector2(aVelocityArrow.transform.position.x - 0.05f, aVelocityArrow.transform.position.y - 1.133f), Quaternion.Euler(new Vector3(0, 0, 52)));
                 AVelocityIndicator.transform.position = new Vector2(-13, AVelocityIndicator.transform.position.y);
@@ -412,6 +417,19 @@ public class MediumManager : MonoBehaviour
         ragdoll.transform.position = myPlayer.transform.position;
         ragdoll.SetActive(true);
         ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
+    }
+    IEnumerator ActivateJump(){
+        jumperChar.SetActive(true);
+        myPlayer.gameObject.SetActive(false);
+        jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(10,0);
+        jumperChar.GetComponent<Animator>().SetBool("dive", true);
+        yield return new WaitForSeconds(1.25f);
+        jumperChar.GetComponent<Animator>().SetBool("dive", false);
+    }
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.tag == "Player"){
+            StartCoroutine(ActivateJump());
+        }
     }
     // IEnumerator InstantiateShadows(float playerPos, float? b1Pos, float? b2Pos)
     // {
