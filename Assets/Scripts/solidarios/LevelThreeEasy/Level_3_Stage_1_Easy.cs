@@ -160,7 +160,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
         timeGivenContainer.SetText($"Time: {timeGiven}s");
         questionController.limit = playerHingeJoint.transform.position.y - platformBar.transform.position.y;
-        questionController.answerUnit = "m";
+        questionController.answerUnit = " m";
         // questionController.timer = timeGiven.ToString("f2");
     }
 

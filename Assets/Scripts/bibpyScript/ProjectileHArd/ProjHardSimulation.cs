@@ -65,7 +65,7 @@ public class ProjHardSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "s";
+                    answerField.text = playerAnswer.ToString() + " s";
                 }
 
             }
@@ -86,7 +86,7 @@ public class ProjHardSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m/s";
+                    answerField.text = playerAnswer.ToString() + " m/s";
                 }
 
             }

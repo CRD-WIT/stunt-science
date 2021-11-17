@@ -101,7 +101,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
         playerHingeJoint.transform.position = new Vector3(spawnPointValue.x - 2, distanceGiven - (spawnPointValue.y * -1), 0);
 
         platformBarTop.transform.position = new Vector3(spawnPointValue.x - 8, distanceGiven - (spawnPointValue.y * -1), 0);
-        questionController.answerUnit = "s";
+        questionController.answerUnit = " sec";
     }
 
     IEnumerator StuntResult(Action callback)

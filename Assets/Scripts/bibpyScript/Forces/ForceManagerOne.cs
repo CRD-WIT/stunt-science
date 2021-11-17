@@ -9,7 +9,7 @@ public class ForceManagerOne : MonoBehaviour
     public BombScript theBombScript;
     private ForceSimulation theSimulate;
     private ColliderManager theCollider;
-    public QuestionControllerB theQuestion;
+    public QuestionContForces theQuestion;
     float generateAccelaration, accelaration, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
     public float correctAnswer,playerAnswer;
     public GameObject glassHolder, stickPrefab, stickmanpoint, glassDebri, playerInitials,triggerDevour;
@@ -170,13 +170,16 @@ public class ForceManagerOne : MonoBehaviour
          if(playerAnswer == correctAnswer)
        {
             yield return new WaitForSeconds(4);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, false);
        }
         StartCoroutine(theSimulate.DirectorsCall());
        if(playerAnswer != correctAnswer)
        {
             theSimulate.zombieChase = false;
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), false, false);
             yield return new WaitForSeconds(3);
        }
+       
        //theQuestion.ToggleModal();
         
     }

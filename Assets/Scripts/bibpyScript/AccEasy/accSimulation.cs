@@ -115,7 +115,7 @@ public class accSimulation : MonoBehaviour
 
             if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
             {
-                theQuestion.errorText = ("answer must between 1 m/s² and 10 m/s²");
+                theQuestion.errorText = ("answer must not exceed between 1 m/s² to 10 m/s²");
                 StartCoroutine(errorMesage());
             }
             else
@@ -126,7 +126,7 @@ public class accSimulation : MonoBehaviour
 
                 // playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m/s²";
+                    answerField.text = playerAnswer.ToString() + " m/s²";
                 }
 
             }
@@ -146,7 +146,7 @@ public class accSimulation : MonoBehaviour
                 //playButton.gameObject.SetActive(false);
                 // playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "sec";
+                    answerField.text = playerAnswer.ToString() + " sec";
                 }
 
             }
@@ -167,7 +167,7 @@ public class accSimulation : MonoBehaviour
                 //playButton.gameObject.SetActive(false);
                 // playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m/s²";
+                    answerField.text = playerAnswer.ToString() + " m/s²";
                 }
 
             }

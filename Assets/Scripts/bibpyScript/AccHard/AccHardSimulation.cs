@@ -85,7 +85,7 @@ public class AccHardSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "s";
+                    answerField.text = playerAnswer.ToString() + " s";
                 }
 
             }
@@ -107,7 +107,7 @@ public class AccHardSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m/s";
+                    answerField.text = playerAnswer.ToString() + " m/s";
                 }
 
             }
@@ -128,7 +128,7 @@ public class AccHardSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m/s²";
+                    answerField.text = playerAnswer.ToString() + " m/s²";
                 }
 
             }

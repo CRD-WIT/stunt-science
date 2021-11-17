@@ -51,6 +51,8 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
             pronoun = ("she");
             pronoun2 = ("her");
         }
+        preSetUp = true;
+        projectileTime = (float)System.Math.Round(Random.Range(2.7f, 3.2f), 2);
         questionController.SetQuestion("......");
     }
     public IEnumerator DirectorsCall()
@@ -91,7 +93,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         if (answerField.text == "" || playerAnswer > 89 || playerAnswer < 45)
         {
 
-            questionController.errorText = ("answer must be in between 45 degree and 89 degree");
+            questionController.errorText = ("answer must not exceed between 45° to 89°");
             StartCoroutine(errorMesage());
         }
         else
@@ -100,7 +102,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
             StartCoroutine(DirectorsCall());
             playButton.interactable = false;
             {
-                answerField.text = playerAnswer.ToString() + "";
+                answerField.text = playerAnswer.ToString() + "°";
             }
 
         }
@@ -117,8 +119,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         questionController.SetQuestion(question);
         targetLock.SetActive(true);
         showResult = true;
-        preSetUp = true;
-        projectileTime = (float)System.Math.Round(Random.Range(2.7f, 3.2f), 2);
+        
     }
     public IEnumerator shoot()
     {
@@ -200,7 +201,6 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         }
         if (preSetUp)
         {
-
             angleTxt.text = "Θ = ?";
             angleTxt.gameObject.transform.position = hookLauncher.transform.position;
             angularAnotation.transform.position = gun.transform.position;

@@ -137,6 +137,7 @@ public class Hook : MonoBehaviour
             time = 0;
             hookLine.SetActive(false);
             rope[ropeNum].SetActive(true);
+            isCollided = true;
 
             //StartCoroutine(ropeFail());
         }

@@ -198,10 +198,10 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     {
 
         playerAnswer = questionController.GetPlayerAnswer();
-        if (answerField.text == "" || playerAnswer > 30 ||  playerAnswer <1 )
+        if (answerField.text == "" || playerAnswer > 20 ||  playerAnswer <1 )
         {
 
-            questionController.errorText = ("answer must be in between 1 m/s and 30 m/s");
+            questionController.errorText = ("answer must be in between 1 m/s and 20 m/s");
             StartCoroutine(errorMesage());
         }
         else
@@ -211,7 +211,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
             StartCoroutine(DirectorsCall());
             playButton.interactable = false;
             {
-                answerField.text = playerAnswer.ToString() + "°";
+                answerField.text = playerAnswer.ToString() + " m/s";
             }
 
         }

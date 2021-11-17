@@ -64,7 +64,7 @@ public class AccMidSimulation : MonoBehaviour
             if (playerAnswer > 10 || playerAnswer < 1)
             {
                 StartCoroutine(theManagerOne.errorMesage());
-                theQuestion.errorText = ("answer must be in between 1 seconds and 10 seconds");
+                theQuestion.errorText = ("answer must not exceed between 1s to 10s");
             }
             else
             {              
@@ -72,7 +72,7 @@ public class AccMidSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField[0].text = playerAnswer.ToString() + "s";
+                    answerField[0].text = playerAnswer.ToString() + " s";
                 }
 
             }
@@ -92,7 +92,7 @@ public class AccMidSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField[1].text = playerAnswer.ToString() + "m";
+                    answerField[1].text = playerAnswer.ToString() + " m";
                 }
 
             }
@@ -111,7 +111,7 @@ public class AccMidSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField[2].text = playerAnswer.ToString() + "m/s²";
+                    answerField[2].text = playerAnswer.ToString() + " m/s²";
                 }
 
             }

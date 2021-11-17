@@ -1,32 +1,34 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 using GameConfig;
 using UnityEngine.UI;
 
-public class QuestionControllerB : MonoBehaviour
+public class QuestionContForces : MonoBehaviour
 {
-    float playerAnswer;
+    // Start is called before the first frame update
+   float playerAnswer;
     public float limit = 0;
     public Transform baseComponent, problemBox, extraComponent, levelBadge;
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
     public Difficulty levelDifficulty;
-    public accSimulation simulationManager;
+    public ForceSimulation simulationManager;
     public int levelNumber, stage;
     public string modalTitle, question, timer;
     public string levelName;
     public TextColorMode colorMode;
     public Settings settingUI;
     public UnitOf unit;
-    string answerUnit, difficulty;
+    public string answerUnit, difficulty;
     public HeartManager heartManager;
     int passedLevel;
     [SerializeField] bool timerOn = false, loaded = false;
     [SerializeField] TMP_InputField answerFieldHorizontal;
     public Transform difficultyName;
     public TMP_Text stageName;
+    public FirebaseManager firebaseManager;
     public string modalText, errorText;
     public bool popupVisible, extraOn;
     public TMP_Text levelNumberText;
@@ -38,7 +40,7 @@ public class QuestionControllerB : MonoBehaviour
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
     HeartManager life;
-    public FirebaseManager firebaseManager;
+
     // Start is called before the first frame update
     public void SetGameLevel(int level)
     {
@@ -53,6 +55,7 @@ public class QuestionControllerB : MonoBehaviour
         wrongAnswerColor = Color.red;
 
         levelName = level.GetGameLevel();
+    
         switch (levelDifficulty)
         {
             case Difficulty.Easy:
@@ -65,11 +68,7 @@ public class QuestionControllerB : MonoBehaviour
                 difficulty = "Hard";
                 break;
         }
-
-        if (difficultyName)
-        {
-            difficultyName.GetComponent<TMP_Text>().text = difficulty;
-        }
+        difficultyName.GetComponent<TMP_Text>().text = difficulty;
 
         life = FindObjectOfType<HeartManager>();
 
@@ -77,6 +76,7 @@ public class QuestionControllerB : MonoBehaviour
         PlayerPrefs.SetString("LevelNumber", levelNumber.ToString());
         PlayerPrefs.SetString("DifficultyName", difficulty);
         PlayerPrefs.SetString("Stage", stage.ToString());
+
     }
     public void ActionBtn(bool endLevel)
     {
@@ -86,15 +86,12 @@ public class QuestionControllerB : MonoBehaviour
         }
         else
         {
-            answerFieldHorizontal.text = "";
             if (answerIsCorrect)
-            {
                 Next();
-            }
             else
             {
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
                 StartCoroutine(Retry());
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Retried, 0);
             }
 
             isModalOpen = false;
@@ -123,17 +120,16 @@ public class QuestionControllerB : MonoBehaviour
                 playerPrefsName = ($"level{levelName}Hard");
                 break;
         }
-
         Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
-
         PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
-
         settingUI.ToggleFlashCardEnd();
+        //SceneManager.LoadScene("LevelSelectV2");
 
     }
     public void ActivateResult(string message, bool isCorrect, bool isComplete = false)
     {
         Debug.Log("ActivateResult Triggered");
+        answerFieldHorizontal.text = "";
         answerIsCorrect = isCorrect;
         isModalOpen = true;
         if (isCorrect)
@@ -141,7 +137,6 @@ public class QuestionControllerB : MonoBehaviour
             // NOTE: Use this template when ending levels.
             if (isComplete)
             {
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
                 actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
 
@@ -149,31 +144,33 @@ public class QuestionControllerB : MonoBehaviour
                 modalTitle = "Stunts Completed!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
             }
             else
             {
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
+                //TODO: Check current life points. If life == 0, hide the action button.
+
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
                 modalTitle = "Stunt Success!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
             }
         }
         else
         {
-            //TODO: Check current life points. If life == 0, hide the action button.
-
             actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
             modalTitle = "Stunt Failed!";
             modalText = message;
-            retried = true;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Failed, 0);
         }
         actionBtn.interactable = true;
         isSimulating = false;
     }
     public void SetQuestion(string qstn)
     {
+        Debug.Log($"Setting question...{qstn}");
         question = qstn;
     }
 
@@ -192,7 +189,6 @@ public class QuestionControllerB : MonoBehaviour
     public void SetAnswer()
     {
         firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Started, 0);
-        Debug.Log($"Player Answer: {answerFieldHorizontal.text}");
         playerAnswer = float.Parse(answerFieldHorizontal.text);
         if (answerFieldHorizontal.text == "")
         {
@@ -200,8 +196,7 @@ public class QuestionControllerB : MonoBehaviour
         }
         else
         {
-            answerFieldHorizontal.text = playerAnswer.ToString() + answerUnit;
-
+            answerFieldHorizontal.text = playerAnswer + answerUnit;
         }
         extraOn = true;
     }
@@ -218,9 +213,11 @@ public class QuestionControllerB : MonoBehaviour
             stage = 3;
             nextStage = true;
         }
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.NextStage, 0);
     }
     IEnumerator Retry()
     {
+
         // TODO: Fix delay for background intro.
         extraOn = false;
         answerFieldHorizontal.text = "";
@@ -365,6 +362,7 @@ public class QuestionControllerB : MonoBehaviour
         popupTextHorizontal.SetText(errorText);
         modalComponentHorizontal.gameObject.SetActive(isModalOpen);
         modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
+        //Debug.Log(question);
         problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
         modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
         problemTextHorizontal.SetActive(!isModalOpen);
@@ -372,34 +370,14 @@ public class QuestionControllerB : MonoBehaviour
         answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
 
         extraComponent.gameObject.SetActive(isSimulating || popupVisible);
-        playButtonHorizontal.SetActive(!isSimulating && !popupVisible);
+        playButtonHorizontal.SetActive(!isSimulating);
         //timerComponentHorizontal.gameObject.SetActive(timerOn);
-        //Debug.Log($"Timer Value: {timer}");
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
-        if (problemBox)
-        {
-            problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
-        }
-        if (levelNumberText)
-        {
-            levelNumberText.SetText($"{levelNumber}");
-        }
-        if (stageName)
-        {
-            stageName.SetText($"Stage {stage}");
-        }
-        if (difficultyName.GetComponent<TMP_Text>())
-        {
-            difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
-        }
+
+        problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
+        levelNumberText.SetText($"{levelNumber}");
+        stageName.SetText($"Stage {stage}");
+        difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
     }
 }
-/*That means that Bolt's speed during his world-record run was 10.44 meters per second.
-Since many people are more familiar with automobiles and speed limits, it might be more
-useful to think of this in terms of kilometers per hour or miles per hour: 37.58 or 23.35, respectively
-Usain Bolt of Jamaica, set at the 2009 World Athletics Championships final in Berlin, Germany on 16 August 2009,
 
-Average human speed is 1.4m/s.*/
-
-
-// TODO: Implement limiter

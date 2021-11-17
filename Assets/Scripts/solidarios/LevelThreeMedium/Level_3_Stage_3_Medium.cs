@@ -53,6 +53,8 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
             pronoun = ("she");
             pronoun2 = ("her");
         }
+        preSetUp = true;
+        angleGiven = (float)System.Math.Round(Random.Range(55f, 65f), 2);
         questionController.SetQuestion("......");
     }
     public IEnumerator DirectorsCall()
@@ -102,7 +104,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
             StartCoroutine(DirectorsCall());
             playButton.interactable = false;
             {
-                answerField.text = playerAnswer.ToString() + "s";
+                answerField.text = playerAnswer.ToString() + " s";
             }
 
         }
@@ -119,8 +121,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
         questionController.SetQuestion(question);
         targetLock.SetActive(true);
         showResult = true;
-        preSetUp = true;
-        angleGiven = (float)System.Math.Round(Random.Range(55f, 65f), 2);
+        
     }
     public IEnumerator shoot()
     {

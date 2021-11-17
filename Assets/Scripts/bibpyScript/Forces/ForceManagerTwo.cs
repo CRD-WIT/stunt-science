@@ -6,7 +6,7 @@ using TMPro;
 public class ForceManagerTwo : MonoBehaviour
 {
     public PlayerB thePlayer;
-    public QuestionControllerB theQuestion;
+    public QuestionContForces theQuestion;
     private ForceSimulation theSimulate;
     //private BombManager theBomb;
     //public BombScript theBombScript;
