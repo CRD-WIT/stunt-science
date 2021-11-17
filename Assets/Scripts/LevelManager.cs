@@ -51,7 +51,8 @@ public class LevelManager : MonoBehaviour
         levelAccelerationMedium = PlayerPrefs.GetInt("levelAccelerationMedium", 0);
         levelAccelerationHard = PlayerPrefs.GetInt("levelAccelerationHard", 0);
 
-        levelCards[3].locked = PlayerPrefs.GetInt("level2EasyLocked", 1) == 1 ? true : false;
+        //levelCards[3].locked = PlayerPrefs.GetInt("level2EasyLocked", 1) == 1 ? true : false;
+        levelCards[3].locked = false;
         levelCards[4].locked = PlayerPrefs.GetInt("level2MediumLocked", 1) == 1 ? true : false;
         levelCards[5].locked = PlayerPrefs.GetInt("level2HardLocked", 1) == 1 ? true : false;
 
@@ -59,7 +60,8 @@ public class LevelManager : MonoBehaviour
         levelFreeFallProjectileMedium = PlayerPrefs.GetInt("levelFreeFallProjectileMedium", 0);
         levelFreeFallProjectileHard = PlayerPrefs.GetInt("levelFreeFallProjectileHard", 0);
 
-        levelCards[6].locked = PlayerPrefs.GetInt("level3EasyLocked", 1) == 1 ? true : false;
+        //levelCards[6].locked = PlayerPrefs.GetInt("level3EasyLocked", 1) == 1 ? true : false;
+        levelCards[6].locked = false;
         levelCards[7].locked = PlayerPrefs.GetInt("level3MediumLocked", 1) == 1 ? true : false;
         levelCards[8].locked = PlayerPrefs.GetInt("level3HardLocked", 1) == 1 ? true : false;
 
@@ -67,7 +69,7 @@ public class LevelManager : MonoBehaviour
         levelCircularMotionMedium = PlayerPrefs.GetInt("levelCircularMotionMedium", 0);
         levelCircularMotionHard = PlayerPrefs.GetInt("levelCircularMotionHard", 0);
 
-        levelCards[9].locked = PlayerPrefs.GetInt("level4EasyLocked", 1) == 1 ? true : false;
+        levelCards[9].locked = PlayerPrefs.GetInt("level4EasyLocked", 1) == 1 ? true : false;        
         levelCards[10].locked = PlayerPrefs.GetInt("level4MediumLocked", 1) == 1 ? true : false;
         levelCards[11].locked = PlayerPrefs.GetInt("level4HardLocked", 1) == 1 ? true : false;
 

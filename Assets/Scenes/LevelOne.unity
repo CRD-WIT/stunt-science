@@ -14857,6 +14857,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &406220449 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5165896894340686461, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
+  m_PrefabInstance: {fileID: 8998905205267512349}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &416957694
 GameObject:
   m_ObjectHideFlags: 0
@@ -58378,6 +58383,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &1202436451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3784431851587832121, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
+  m_PrefabInstance: {fileID: 8998905205267512349}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1203183674
 GameObject:
   m_ObjectHideFlags: 0
@@ -117523,6 +117533,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9144894995704655662}
     - target: {fileID: 2782029143380870536, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: retry
+      value: 
+      objectReference: {fileID: 1202436451}
+    - target: {fileID: 2782029143380870536, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: endGame
+      value: 
+      objectReference: {fileID: 406220449}
+    - target: {fileID: 2782029143380870536, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: startBG
       value: 
       objectReference: {fileID: 9144894995441910130}
@@ -143425,6 +143443,18 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 392077459
       objectReference: {fileID: 0}
+    - target: {fileID: 3178200532766518010, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2824508964078675404}
+    - target: {fileID: 3178200532766518010, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: gameover
+      objectReference: {fileID: 0}
+    - target: {fileID: 3178200532766518010, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HeartManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 3784431850307788529, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -445
@@ -143511,7 +143541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3784431851644116867, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3784431852059667025, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -143528,6 +143558,16 @@ PrefabInstance:
     - target: {fileID: 3784431852059667030, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: m_SortingLayerID
       value: 392077459
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165896894340686461, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8366154626852271167, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
+      propertyPath: m_text
+      value: 'End Game
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 8998905204801615814, guid: 9c7ae38537fab5c4d8f4918aa0a3f82b, type: 3}
       propertyPath: m_SortingLayer
