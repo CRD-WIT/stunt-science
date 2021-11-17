@@ -191,7 +191,7 @@ public class HardManager : MonoBehaviour
             currentBossPos = bossHead.transform.position;
         }
         if(startTimer&&(timer>0))
-            timeIndicator.text = $"{(timer-=Time.deltaTime).ToString("0.00")}s";
+            timeIndicator.text = $"{((timer-=Time.deltaTime)+0.01f).ToString("0.00")}s";
         if(stage == 1)
             bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x + 0.5f, bossHead.transform.position.y + 2);
         else if (stage == 2)
