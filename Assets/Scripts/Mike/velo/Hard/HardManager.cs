@@ -15,10 +15,10 @@ public class HardManager : MonoBehaviour
     public GameObject directorsBubble, bossHead, stonePrefab, triangle, rumbling, ragdollSpawn, throwingPath, throwingPathTxt, gem, rock, veloTime, stoneVeloLabel, bossVeloLabel;
     public GameObject[] bossParts;
     public HingeJoint2D[] joints;
-    public TMP_Text directorsSpeech;
+    public TMP_Text directorsSpeech, timeIndicator;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
-        sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f, distanceTraveled, angleB = 0;
-    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset, ragdoll = false, isEnd =false;
+        sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f, distanceTraveled, angleB = 0, timer;
+    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset, ragdoll = false, isEnd =false, startTimer;
     public bool readyToCheck;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
     public int stage;
@@ -149,6 +149,7 @@ public class HardManager : MonoBehaviour
                     }
                     break;
                 case 2:
+                    startTimer = true;
                     if (elapsed >= (playerAnswer - 1))
                     {
                         elapsed = playerAnswer;
@@ -189,6 +190,8 @@ public class HardManager : MonoBehaviour
             qc.timer = elapsed.ToString("f2") + "s";
             currentBossPos = bossHead.transform.position;
         }
+        if(startTimer&&(timer>0))
+            timeIndicator.text = $"{((timer-=Time.deltaTime)+0.01f).ToString("0.00")}s";
         if(stage == 1)
             bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x + 0.5f, bossHead.transform.position.y + 2);
         else if (stage == 2)
@@ -304,7 +307,7 @@ public class HardManager : MonoBehaviour
     {
         firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0); 
 
-
+        timeIndicator.enabled = false;
         directorIsCalling = false;
         isStartOfStunt = true;
         isEndOfStunt = false;
@@ -313,6 +316,7 @@ public class HardManager : MonoBehaviour
         throwingPath.SetActive(true);
         throwingPathTxt.SetActive(true);
         rock.SetActive(true);
+        startTimer = false;
 
         readyToCheck = false;
         bossAnim.SetBool("hit", false);
@@ -332,6 +336,7 @@ public class HardManager : MonoBehaviour
         gem.SetActive(true);
         stoneVeloLabel.SetActive(false);
         RagdollV2.disableRagdoll = true;
+        qc.timer = "0s";
         
         switch (stage)
         {
@@ -520,6 +525,10 @@ public class HardManager : MonoBehaviour
                     throwTime = stuntTime;//correctAnswer / stoneV;
                 break;
             case 2:
+                timeIndicator.enabled = true;
+                timer = playerAnswer;
+                timeIndicator.text = $"{(timer).ToString("f2")}s";
+                Debug.Log("time " + timer);
                 isStartOfStunt = true;
                 directorIsCalling = true;
 
@@ -656,6 +665,7 @@ public class HardManager : MonoBehaviour
         isThrown = false;
         myPlayer.thrown = true;
         yield return new WaitForSeconds(1);
+        startTimer = false;
         myPlayer.thrown = false;
         stone = Instantiate(stonePrefab);
         stoneScript = FindObjectOfType<Rock>();
