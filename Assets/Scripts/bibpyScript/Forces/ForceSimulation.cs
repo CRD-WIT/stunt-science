@@ -7,7 +7,7 @@ public class ForceSimulation : MonoBehaviour
 {
     public Button playButton;
     public PlayerB thePlayer;
-    public QuestionControllerB theQuestion;
+    public QuestionContForces theQuestion;
     public ForceManagerOne theManagerOne;
     public ForceManagerTwo theManagerTwo;
     public ForceManagerThree theManagerThree;
@@ -43,7 +43,7 @@ public class ForceSimulation : MonoBehaviour
     void FixedUpdate()
     {
         theRagdoll = FindObjectOfType<ragdollScript>();
-        playerAnswer = float.Parse(answerField.text);
+
         if(playerAnswer >= 10 & playerAnswer < 100)
         {
             answerField.characterLimit = 5;
@@ -66,6 +66,7 @@ public class ForceSimulation : MonoBehaviour
        
         if (stage == 1)
         {
+            playerAnswer = float.Parse(answerField.text);
             if (answerField.text == "" || playerAnswer < 10 || playerAnswer > 1000)
             {
                 StartCoroutine(errorMesage());
@@ -84,6 +85,7 @@ public class ForceSimulation : MonoBehaviour
         }
         if (stage == 2)
         {
+            playerAnswer = float.Parse(answerField.text);
             if (answerField.text == "" || playerAnswer > 12.42)
             {
                 StartCoroutine(errorMesage());
@@ -102,6 +104,7 @@ public class ForceSimulation : MonoBehaviour
         }
         if (stage == 3)
         {
+            playerAnswer = float.Parse(answerField.text);
             if (answerField.text == "" || playerAnswer > 100)
             {
                 StartCoroutine(errorMesage());
