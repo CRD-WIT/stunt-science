@@ -91,7 +91,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         if (answerField.text == "" || playerAnswer > 89 || playerAnswer < 45)
         {
 
-            questionController.errorText = ("Obviuosly its wrong");
+            questionController.errorText = ("answer must be in between 45 degree and 89 degree");
             StartCoroutine(errorMesage());
         }
         else
@@ -100,7 +100,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
             StartCoroutine(DirectorsCall());
             playButton.interactable = false;
             {
-                answerField.text = playerAnswer.ToString() + "s";
+                answerField.text = playerAnswer.ToString() + "";
             }
 
         }

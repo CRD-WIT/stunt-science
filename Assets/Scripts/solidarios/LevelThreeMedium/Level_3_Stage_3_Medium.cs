@@ -93,7 +93,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
         if (answerField.text == "" || playerAnswer > 5 || playerAnswer < 2)
         {
 
-            questionController.errorText = ("answer is not valid for simulation");
+            questionController.errorText = ("answer must not exceed 5 seconds or shorter than 2 seconds");
             StartCoroutine(errorMesage());
         }
         else

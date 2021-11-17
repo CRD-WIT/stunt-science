@@ -35,6 +35,7 @@ public class HardManager : MonoBehaviour
     float? timeL;
 
     public FirebaseManager firebaseManager;
+    public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
@@ -592,14 +593,17 @@ public class HardManager : MonoBehaviour
             isStartOfStunt = false;
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Lights!";
+            lightssfx.Play();
             yield return new WaitForSeconds(0.75f);
             directorsSpeech.text = "Camera!";
+            camerasfx.Play();
             yield return new WaitForSeconds(0.50f);
             if (stage == 2)
                 isThrown = false;
             else isThrown = true;
             yield return new WaitForSeconds(0.25f);
             directorsSpeech.text = "Action!";
+            actionsfx.Play();
             yield return new WaitForSeconds(0.75f);
             directorsSpeech.text = "";
             directorsBubble.SetActive(false);
@@ -628,6 +632,7 @@ public class HardManager : MonoBehaviour
             }
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
+            cutsfx.Play();
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
             directorsSpeech.text = "";

@@ -115,7 +115,7 @@ public class accSimulation : MonoBehaviour
 
             if (answerField.text == "" || playerAnswer > 10 || playerAnswer < 1)
             {
-                theQuestion.errorText = ("exceed the maximum accelaration of motorcycles");
+                theQuestion.errorText = ("answer must between 1 m/s² and 10 m/s²");
                 StartCoroutine(errorMesage());
             }
             else
@@ -134,9 +134,9 @@ public class accSimulation : MonoBehaviour
         if (stage == 2)
         {
 
-            if (answerField.text == "" || playerAnswer > 100)
+            if (answerField.text == "" || playerAnswer > 60)
             {
-                theQuestion.errorText = ("Please enter a valid answer!");
+                theQuestion.errorText = ("answer must not longer than 60 seconds");
                 StartCoroutine(errorMesage());
             }
             else
@@ -156,7 +156,7 @@ public class accSimulation : MonoBehaviour
 
             if (answerField.text == "" || playerAnswer > 70)
             {
-                theQuestion.errorText = ("Please enter a valid answer!");
+                theQuestion.errorText = ("answer must not exceed 60 m/s");
                 StartCoroutine(errorMesage());
             }
             else

@@ -61,10 +61,10 @@ public class AccMidSimulation : MonoBehaviour
             playerAnswer = theQuestion.GetPlayerAnswer();
             //subChopper[0].SetActive(false);
             dimension[0].SetActive(false);
-            if (playerAnswer > 100 || playerAnswer < 1)
+            if (playerAnswer > 10 || playerAnswer < 1)
             {
                 StartCoroutine(theManagerOne.errorMesage());
-                theQuestion.errorText = ("Answer is out of range.");
+                theQuestion.errorText = ("answer must be in between 1 seconds and 10 seconds");
             }
             else
             {              
@@ -84,7 +84,7 @@ public class AccMidSimulation : MonoBehaviour
             if (playerAnswer > 40)
             {
                 StartCoroutine(theManagerTwo.errorMesage());
-                theQuestion.errorText = ("invalid or ecxeeded to given distance");
+                theQuestion.errorText = ("answer must not exceed 40 meter");
             }
             else
             {
@@ -103,7 +103,7 @@ public class AccMidSimulation : MonoBehaviour
             if (answerField[2].text == "" || playerAnswer > 16)
             {
                 StartCoroutine(theManagerThree.errorMesage());
-                theQuestion.errorText = ("exceed the average car acceleratoin");
+                theQuestion.errorText = ("answers must not exceed 16 m/s²");
             }
             else
             {              

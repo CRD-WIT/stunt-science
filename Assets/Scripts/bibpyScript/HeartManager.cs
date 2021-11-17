@@ -14,6 +14,7 @@ public class HeartManager : MonoBehaviour
     public GameObject gameOverBG, startBG;
     public bool losslife;
     public GameObject heartItem;
+    public GameObject retry,endGame;
 
     // Start is called before the first frame update
     void Start()
@@ -64,7 +65,9 @@ public class HeartManager : MonoBehaviour
                 //Time.timeScale = 0.4f;
                 Debug.Log("Gameover triggered!");
                 //StartCoroutine(actionreset());
-                StartCoroutine(gameover());
+                //StartCoroutine(gameover());
+                retry.SetActive(false);
+                endGame.SetActive(true);
             }
         }
 
@@ -76,12 +79,12 @@ public class HeartManager : MonoBehaviour
     //     life = 3;
     //     PlayerPrefs.SetInt("Life", life);
     // }
-    IEnumerator gameover()
+    public void gameover()
     {
         bgm.Stop();
         //Gameoversfx.Play();
         Debug.Log($"Game over triggered!");
-        yield return new WaitForSeconds(1);
+        
         StartCoroutine(endBGgone());
         //yield return new WaitForSeconds(2);
         // SceneManager.LoadScene("LevelOne");

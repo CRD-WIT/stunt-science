@@ -154,16 +154,16 @@ public class QuestionControllerVX : MonoBehaviour
         switch (unitOf)
         {
             case UnitOf.distance:
-                answerUnit = "m";
+                answerUnit = " m";
                 break;
             case UnitOf.time:
-                answerUnit = "s";
+                answerUnit = " s";
                 break;
             case UnitOf.velocity:
-                answerUnit = "m/s";
+                answerUnit = " m/s";
                 break;
             case UnitOf.acceleration:
-                answerUnit = "m/s²";
+                answerUnit = " m/s²";
                 break;
             case UnitOf.angle:
                 answerUnit = "°";
@@ -172,22 +172,22 @@ public class QuestionControllerVX : MonoBehaviour
                 answerUnit = "°/s";
                 break;
             case UnitOf.force:
-                answerUnit = "N";
+                answerUnit = " N";
                 break;
             case UnitOf.mass:
-                answerUnit = "kg";
+                answerUnit = " kg";
                 break;
             case UnitOf.work:
-                answerUnit = "J";
+                answerUnit = " J";
                 break;
             case UnitOf.energy:
-                answerUnit = "kW";
+                answerUnit = " kW";
                 break;
             case UnitOf.power:
-                answerUnit = "kWh";
+                answerUnit = " kWh";
                 break;
             case UnitOf.momuntum:
-                answerUnit = "kg•m/s";
+                answerUnit = " kg•m/s";
                 break;
         }
         return answerUnit;
@@ -208,16 +208,16 @@ public class QuestionControllerVX : MonoBehaviour
         switch (unitOf)
         {
             case UnitOf.distance:
-                answerUnit = "m";
+                answerUnit = " m";
                 break;
             case UnitOf.time:
-                answerUnit = "s";
+                answerUnit = " s";
                 break;
             case UnitOf.velocity:
-                answerUnit = "m/s";
+                answerUnit = " m/s";
                 break;
             case UnitOf.acceleration:
-                answerUnit = "m/s²";
+                answerUnit = " m/s²";
                 break;
             case UnitOf.angle:
                 answerUnit = "°";
@@ -226,22 +226,22 @@ public class QuestionControllerVX : MonoBehaviour
                 answerUnit = "°/s";
                 break;
             case UnitOf.force:
-                answerUnit = "N";
+                answerUnit = " N";
                 break;
             case UnitOf.mass:
-                answerUnit = "kg";
+                answerUnit = " kg";
                 break;
             case UnitOf.work:
-                answerUnit = "J";
+                answerUnit = " J";
                 break;
             case UnitOf.energy:
-                answerUnit = "kW";
+                answerUnit = " kW";
                 break;
             case UnitOf.power:
-                answerUnit = "kWh";
+                answerUnit = " kWh";
                 break;
             case UnitOf.momuntum:
-                answerUnit = "kg•m/s";
+                answerUnit = " kg•m/s";
                 break;
         }
         return answerUnit;
