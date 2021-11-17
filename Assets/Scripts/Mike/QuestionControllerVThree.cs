@@ -189,7 +189,11 @@ public class QuestionControllerVThree : MonoBehaviour
             answerFieldHorizontal.text = playerAnswer + answerUnit;
             if (limit < playerAnswer)
             {
-                errorText = $"Invalid answer! Answer must not exeed {limit}{answerUnit}.";
+                errorText = $"Invalid answer! Answer must not exceed {limit}{answerUnit}.";
+                StartCoroutine(IsEmpty());
+            }
+            else if(playerAnswer <= 0){
+                errorText = $"Invalid answer! Answer must be a greater than 0.";
                 StartCoroutine(IsEmpty());
             }
             else
