@@ -63,7 +63,7 @@ public class Level5EasyManager : MonoBehaviour
                     }
                     else //(elapsed >= gameTime)
                     {
-                        isHanging = false;
+                        GearHangers.isHanging = false;
                         if (playerAnswer == aVelocity)
                         {
                             isAnswerCorect = true;
@@ -99,7 +99,7 @@ public class Level5EasyManager : MonoBehaviour
                     }
                     else //(elapsed >= gameTime)
                     {
-                        isHanging = false;
+                        GearHangers.isHanging = false;
                         if (playerAnswer == gameTime)
                         {
                             isAnswerCorect = true;
@@ -137,7 +137,7 @@ public class Level5EasyManager : MonoBehaviour
                     else //(elapsed >= gameTime)
                     {
                         qc.timer = gameTime.ToString("f2") + "s";
-                        isHanging = false;
+                        GearHangers.isHanging = false;
                         if (playerAnswer == angle)
                         {
                             slider.enabled = false;

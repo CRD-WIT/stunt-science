@@ -91,14 +91,14 @@ public class PlayerCM2 : MonoBehaviour
         {
             jump();
         }
-        if (other.gameObject.tag == ("stickmanspawn"))
+        else if (other.gameObject.tag == ("stickmanspawn"))
         {
             ragdollspawn();
             RagdollV2.disableRagdoll = true;
             lost = false;
             standup = true;
         }
-        if (other.gameObject.name == "jumper")
+        else if (other.gameObject.name == "jumper")
         {
             Debug.Log("etenr");
 

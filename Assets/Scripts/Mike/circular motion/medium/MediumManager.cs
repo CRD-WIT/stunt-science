@@ -23,7 +23,7 @@ public class MediumManager : MonoBehaviour
     public static int stage;
     float playerAnswer, playerSpeed, conveyorSpeed, animSpeed, correctD, timingD, playerPos, currentPlayerPos, acceleration;
     string question, playerName, playerGender, pronoun, pPronoun, messageTxt;
-    bool isAnswered, directorIsCalling, isStartOfStunt, isAnswerCorrect, ropeGrab, isEndOfStunt, ragdollActive;
+    bool isAnswered, directorIsCalling, isStartOfStunt, isAnswerCorrect, ropeGrab, isEndOfStunt, ragdollActive, isJumping;
     // GameObject b2Shadow, b1Shadow, pShadow;
     Vector2 spawnPoint;
     void Start()
@@ -137,6 +137,7 @@ public class MediumManager : MonoBehaviour
                                 messageTxt = "Answer is less than correct";
                             }
                         }
+                        isAnswered = false;
                     }
                     else
                     {
@@ -160,6 +161,9 @@ public class MediumManager : MonoBehaviour
                 case 3:
                     break;
             }
+        }
+        if(Hanger.isHanging){
+            jumperChar.GetComponent<Animator>().SetBool("dive", false);
         }
         indicators.SetPlayerPosition(myPlayer.transform.position);
         if (isEndOfStunt)
