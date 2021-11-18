@@ -44,22 +44,6 @@ public class ForceSimulation : MonoBehaviour
     {
         theRagdoll = FindObjectOfType<ragdollScript>();
 
-        if(playerAnswer >= 10 & playerAnswer < 100)
-        {
-            answerField.characterLimit = 5;
-        }
-        if(playerAnswer < 10)
-        {
-            answerField.characterLimit = 4;
-        }
-        if(playerAnswer >= 100 & playerAnswer <1000)
-        {
-            answerField.characterLimit = 6;
-        }
-        if(playerAnswer >= 1000)
-        {
-            answerField.characterLimit = 7;
-        }
     }
     public void PlayButton()
     {
@@ -125,14 +109,14 @@ public class ForceSimulation : MonoBehaviour
     public void next()
     {
 
-        StartCoroutine(theHeart.endBGgone());
+       StartCoroutine(theHeart.startBGgone());
         StartCoroutine(nextStage());
         
        
     }
     public void retry()
     {
-        
+         destroyZombies = true;
         StartCoroutine(theHeart.startBGgone());
         thePlayer.standup = false;
         simulate = false;
@@ -195,7 +179,9 @@ public class ForceSimulation : MonoBehaviour
     }
     IEnumerator nextStage()
     {
-        yield return new WaitForSeconds(2.5f);
+        zombieChase = false;
+        destroyZombies = true;
+        yield return new WaitForSeconds(.1f);
         playButton.interactable = true;
         answerField.text = ("");
         if(stage == 2)
@@ -229,7 +215,7 @@ public class ForceSimulation : MonoBehaviour
     }
     public void action()
     {
-        //theQuestion.ToggleModal();
+        theQuestion.isModalOpen = false;
         if(theQuestion.answerIsCorrect == false)
         {
             destroyZombies = true;

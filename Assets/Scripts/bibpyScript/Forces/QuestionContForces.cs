@@ -217,7 +217,7 @@ public class QuestionContForces : MonoBehaviour
     }
     IEnumerator Retry()
     {
-
+        simulationManager.retry();
         // TODO: Fix delay for background intro.
         extraOn = false;
         answerFieldHorizontal.text = "";
@@ -374,7 +374,7 @@ public class QuestionContForces : MonoBehaviour
         //timerComponentHorizontal.gameObject.SetActive(timerOn);
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
 
-        problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
+        problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"Forces");
         levelNumberText.SetText($"{levelNumber}");
         stageName.SetText($"Stage {stage}");
         difficultyName.GetComponent<TMP_Text>().SetText($"{levelDifficulty}");
