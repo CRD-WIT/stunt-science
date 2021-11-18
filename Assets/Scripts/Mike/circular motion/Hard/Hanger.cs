@@ -28,6 +28,7 @@ public class Hanger : MonoBehaviour
             // {
             //     hangTime = Time.realtimeSinceStartup - startTime;
                 this.playerHanger.enabled = true;
+                isHanging =false;
             // }
             // else
             // {

@@ -137,7 +137,6 @@ public class MediumManager : MonoBehaviour
                                 messageTxt = "Answer is less than correct";
                             }
                         }
-                        isAnswered = false;
                     }
                     else
                     {
@@ -163,7 +162,9 @@ public class MediumManager : MonoBehaviour
             }
         }
         if(Hanger.isHanging){
+            isAnswered = false;
             jumperChar.GetComponent<Animator>().SetBool("dive", false);
+            isEndOfStunt = true;    
         }
         indicators.SetPlayerPosition(myPlayer.transform.position);
         if (isEndOfStunt)
@@ -413,6 +414,7 @@ public class MediumManager : MonoBehaviour
             myPlayer.ropeGrab = false;
         }
         // myPlayer.ropeGrab = false;
+        yield return new WaitForSeconds(0.5f);
         isEndOfStunt = true;
     }
     void RagdollSpawn()
@@ -428,6 +430,8 @@ public class MediumManager : MonoBehaviour
         jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(10,0);
         jumperChar.GetComponent<Animator>().SetBool("dive", true);
         yield return new WaitForSeconds(1.25f);
+        isAnswered = false;
+        isEndOfStunt = true;
         jumperChar.GetComponent<Animator>().SetBool("dive", false);
     }
     private void OnTriggerEnter2D(Collider2D other) {
