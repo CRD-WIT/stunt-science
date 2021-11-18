@@ -169,6 +169,7 @@ public class ForceManagerOne : MonoBehaviour
         ForceSimulation.simulate = false;
          if(playerAnswer == correctAnswer)
        {
+           theQuestion.answerIsCorrect = true;
             yield return new WaitForSeconds(4);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, false);
        }

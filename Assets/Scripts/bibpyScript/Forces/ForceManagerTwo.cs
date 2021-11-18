@@ -198,15 +198,18 @@ public class ForceManagerTwo : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         ForceSimulation.simulate = false;
-         if(playerAnswer == correctAnswer)
+        if(playerAnswer == correctAnswer)
        {
             yield return new WaitForSeconds(4);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, false);
        }
         StartCoroutine(theSimulate.DirectorsCall());
        if(playerAnswer != correctAnswer)
        {
             theSimulate.zombieChase = false;
             yield return new WaitForSeconds(3);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), false, false);
+            
        }
        //theQuestion.ToggleModal();
     }
