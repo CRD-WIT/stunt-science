@@ -171,14 +171,15 @@ public class ForceManagerOne : MonoBehaviour
        {
            theQuestion.answerIsCorrect = true;
             yield return new WaitForSeconds(4);
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely escaped from zombies"), true, false);
        }
         StartCoroutine(theSimulate.DirectorsCall());
        if(playerAnswer != correctAnswer)
        {
+            yield return new WaitForSeconds(2);
             theSimulate.zombieChase = false;
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), false, false);
-            yield return new WaitForSeconds(3);
+           
        }
        
        //theQuestion.ToggleModal();
