@@ -2067,7 +2067,7 @@ MonoBehaviour:
   stickPrefab: {fileID: 3466479453583936867, guid: 9e5ae037cdcb33b409946047da20539b, type: 3}
   stickmanpoint: {fileID: 6643490681853782197}
   glassDebri: {fileID: 7122511211373966619, guid: a1f6c49431da4484fbc2ae0646f6dd1f, type: 3}
-  cameraman: {fileID: 0}
+  cameraman: {fileID: 586262512}
   playerSpeech: {fileID: 0}
   napsack: {fileID: 1252568483}
   speechBubble: {fileID: 836427798}
@@ -2094,7 +2094,7 @@ MonoBehaviour:
   acctxt: {fileID: 1266495578}
   breakingforcetxt: {fileID: 222327102}
   forcetxt: {fileID: 755316665}
-  actiontxt: {fileID: 0}
+  actiontxt: {fileID: 2479412136782624011}
 --- !u!4 &442195461
 Transform:
   m_ObjectHideFlags: 0
@@ -6592,6 +6592,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1935453957895722258, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2782029143380870536, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: bgm
       value: 
@@ -6680,6 +6684,18 @@ PrefabInstance:
       propertyPath: sfxAudios.Array.data[9]
       value: 
       objectReference: {fileID: 1103184543}
+    - target: {fileID: 7092696490254070600, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1983229046}
+    - target: {fileID: 7092696490254070600, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleFlashCardEnd
+      objectReference: {fileID: 0}
+    - target: {fileID: 8935466187699366254, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.1999512
+      objectReference: {fileID: 0}
     - target: {fileID: 9169428621506615270, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Camera
       value: 

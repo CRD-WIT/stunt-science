@@ -159,7 +159,7 @@ public class ForceManagerTwo : MonoBehaviour
         //theBomb.bomb.SetActive(true);
         theSimulate.glassHolder[1].SetActive(true);
         theSimulate.otherGlassHolder[1].SetActive(true);
-        thePlayer.transform.position = new Vector2(31,-0.58f);
+        thePlayer.transform.position = new Vector2(31,-1f);
         //theBomb.bomb.transform.position = thePlayer.transform.position;
         theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> must break another glass wall to escape from the chasing hungry zombies. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and the glass wall has an impact force breaking point of <b>") + Force.ToString("F2") + ("</b> Newtons, how fast should ") + pronoun + (" accelerate towards the glass wall just enough to break it and not go through it?")));
         masstxt.text = ("m = ")+mass.ToString("F2") + ("kg");
@@ -201,14 +201,14 @@ public class ForceManagerTwo : MonoBehaviour
         if(playerAnswer == correctAnswer)
        {
             yield return new WaitForSeconds(4);
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely escaped from zombies"), true, false);
        }
         StartCoroutine(theSimulate.DirectorsCall());
        if(playerAnswer != correctAnswer)
        {
             theSimulate.zombieChase = false;
             yield return new WaitForSeconds(3);
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), false, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has not able to performed the stunt and failed to escape from zombies"), false, false);
             
        }
        //theQuestion.ToggleModal();

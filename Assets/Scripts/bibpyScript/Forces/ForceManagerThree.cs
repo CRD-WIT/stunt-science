@@ -130,7 +130,7 @@ public class ForceManagerThree : MonoBehaviour
                 if (playerAnswer == correctAnswer)
                 {
                     theQuestion.answerIsCorrect = true;
-                    action.SetActive(false);
+                    //action.SetActive(false);
                     //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully escaped from the explosion </color>");
                     glassHolder.SetActive(false);
                     //StartCoroutine(thiswaySpeech());
@@ -257,20 +257,22 @@ public class ForceManagerThree : MonoBehaviour
         if(playerAnswer != correctAnswer)
        {
             theSimulate.zombieChase = false;
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has not able performed the stunt and failed to escape from zombies"), false, false);
        }
         yield return new WaitForSeconds(3);
         //theQuestion.ToggleModal();
         if(playerAnswer == correctAnswer)
         {
-            theScorer.finalstar();
-            if(theHeart.life > currentStar)
-            {
-                PlayerPrefs.SetInt("FrstarE", theHeart.life);
-            }
-            if (currentLevel < 16)
-            {
-                PlayerPrefs.SetInt("level", currentLevel + 1);
-            }
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely from zombies"), true, true);
+            // theScorer.finalstar();
+            // if(theHeart.life > currentStar)
+            // {
+            //     PlayerPrefs.SetInt("FrstarE", theHeart.life);
+            // }
+            // if (currentLevel < 16)
+            // {
+            //     PlayerPrefs.SetInt("level", currentLevel + 1);
+            // }
             //afterStuntMessage.SetActive(false);
         }
 
