@@ -7,19 +7,22 @@ public class HeartManager : MonoBehaviour
 {
     //public GameObject[] hearts;
     public AudioSource bgm;
+
+
     public AudioSource Gameoversfx;
     public int life;
     public GameObject gameOverBG, startBG;
     public bool losslife;
     public GameObject heartItem;
+    public GameObject retry,endGame;
 
     // Start is called before the first frame update
     void Start()
     {
-        startbgentrance();
-
+        //startbgentrance();
+        life = PlayerPrefs.GetInt("Life");
+        PlayerPrefs.SetInt("Life", life);
     }
-
     public void DestroyHearts()
     {
         foreach (Transform item in transform)
@@ -38,6 +41,7 @@ public class HeartManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log($"life {life}");
         if (transform.childCount < life)
         {
             for (int i = 0; i < 1; i++)
@@ -57,34 +61,40 @@ public class HeartManager : MonoBehaviour
 
             if (life == 0)
             {
-                Time.timeScale = 0.4f;
 
-                StartCoroutine(actionreset());
-                StartCoroutine(gameover());
+                //Time.timeScale = 0.4f;
+                Debug.Log("Gameover triggered!");
+                //StartCoroutine(actionreset());
+                //StartCoroutine(gameover());
+                retry.SetActive(false);
+                endGame.SetActive(true);
             }
         }
 
     }
-    IEnumerator actionreset()
-    {
-        yield return new WaitForSeconds(3);
-        // TODO: Get data from playerprefs
-        life = 3;
-    }
-    IEnumerator gameover()
+    // public IEnumerator actionreset()
+    // {
+    //     yield return new WaitForEndOfFrame();
+    //     // TODO: Get data from playerprefs
+    //     life = 3;
+    //     PlayerPrefs.SetInt("Life", life);
+    // }
+    public void gameover()
     {
         bgm.Stop();
-        Gameoversfx.Play();
+        //Gameoversfx.Play();
+        Debug.Log($"Game over triggered!");
+        
         StartCoroutine(endBGgone());
-        yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("LevelOne");
-        Time.timeScale = 1f;
+        //yield return new WaitForSeconds(2);
+        // SceneManager.LoadScene("LevelOne");
+        //Time.timeScale = 1f;
     }
     public IEnumerator endBGgone()
     {
         gameOverBG.SetActive(true);
-        yield return new WaitForSeconds(3);
-        gameOverBG.SetActive(false);
+        yield return new WaitForSeconds(3f);
+        //gameOverBG.SetActive(false);
     }
 
 
@@ -93,7 +103,6 @@ public class HeartManager : MonoBehaviour
         startBG.SetActive(true);
         yield return new WaitForSeconds(1);
         startBG.SetActive(false);
-
     }
     public void startbgentrance()
     {
@@ -103,13 +112,25 @@ public class HeartManager : MonoBehaviour
     {
         if (losslife == false)
         {
+            life = PlayerPrefs.GetInt("Life");
             life -= 1;
+            PlayerPrefs.SetInt("Life", life);
             losslife = true;
         }
     }
     public void reloadScene()
     {
+        life = 3;
+        PlayerPrefs.SetInt("Life", life);
         int scene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
+
+    public void LoadLevelsMenu()
+    {
+        SceneManager.LoadScene("LevelSelectV2");
+    }
+    
+   
+
 }

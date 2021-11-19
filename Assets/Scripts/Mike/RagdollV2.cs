@@ -25,7 +25,7 @@ public class RagdollV2 : MonoBehaviour
         }
         if (this.gameObject.activeSelf)
         {
-            // disableRagdoll = true;
+            disableRagdoll = true;
         }
         if (disableRagdoll)
         {

@@ -6,7 +6,7 @@ public class GearHangers : MonoBehaviour
 {
     private CapsuleCollider2D hangers;
     [SerializeField] private HingeJoint2D playerHanger;
-    Player myPlayer;
+    PlayerCM2 myPlayer;
     bool isHangerOn, isHangerNumerator;
     string hangerName;
     public static float hangTime;
@@ -14,7 +14,7 @@ public class GearHangers : MonoBehaviour
     public static bool isHanging;
     void Start()
     {
-        myPlayer = FindObjectOfType<Player>();
+        myPlayer = FindObjectOfType<PlayerCM2>();
         hangers = GetComponent<CapsuleCollider2D>();
         playerHanger = GetComponent<HingeJoint2D>();
     }

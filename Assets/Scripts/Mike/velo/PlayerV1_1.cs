@@ -22,16 +22,16 @@ public class PlayerV1_1 : MonoBehaviour
     public LayerMask whatIsGround;
     public Transform groundCheck;
     public float groundedRadius;
-    private Collider2D myCollider;
+    private PolygonCollider2D myCollider;
     public EdgeCollider2D slideCollider;
     public float jumpforce;
     public bool standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang, isLanded;
     // Start is called before the first frame update
     void Start()
     {
-        myAnimator = this.gameObject.GetComponent<Animator>();
+        myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
-        myCollider = GetComponent<Collider2D>();
+        myCollider = GetComponent<PolygonCollider2D>();
     }
 
     // Update is called once per frame

@@ -15,12 +15,18 @@ public class SimulationManager : MonoBehaviour
     public static bool isAnswered, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
     private HeartManager theHeart;
     QuestionControllerVThree qc;
+    IndicatorManagerV1_1 dimLine;
+     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
+    
     // Start is called before the first frame update
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
         thePlayer = FindObjectOfType<PlayerV1_1>();
         theHeart = FindObjectOfType<HeartManager>();
+        dimLine = FindObjectOfType<IndicatorManagerV1_1>();
+        //destroyBoulders = FindObjectOfType<PrefabDestroyer>();
+        //theHeart.life = PlayerPrefs.GetInt("life");=
         qc.stage = 1;
     }
     // Update is called once per frame
@@ -50,6 +56,9 @@ public class SimulationManager : MonoBehaviour
                 directorIsCalling = true;
             }
         }
+        //levelText.text = sm.GetGameLevel();
+        //questionTextBox.SetText(question);
+
         if (directorIsCalling)
         {
             StartCoroutine(DirectorsCall());
@@ -70,10 +79,13 @@ public class SimulationManager : MonoBehaviour
         if (isStartOfStunt)
         {
             directorsBubble.SetActive(true);
+            lightssfx.Play();
             diretorsSpeech.text = "Lights!";
             yield return new WaitForSeconds(0.75f);
+            camerasfx.Play();
             diretorsSpeech.text = "Camera!";
             yield return new WaitForSeconds(0.75f);
+            actionsfx.Play();
             diretorsSpeech.text = "Action!";
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
@@ -85,6 +97,7 @@ public class SimulationManager : MonoBehaviour
             RumblingManager.shakeON = false;
             yield return new WaitForSeconds(1.75f);
             directorsBubble.SetActive(true);
+            cutsfx.Play();
             diretorsSpeech.text = "Cut!";
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
@@ -98,12 +111,14 @@ public class SimulationManager : MonoBehaviour
             }
             else
             {
+                thePlayer.lost = false;
                 thePlayer.standup = true;
             }
         }
     }
     IEnumerator ReloadStage()
     {
+        // dimLine.showLines(null,null,null,0,0);
         qc.limit = 0;
         qc.retried = false;
         thePlayer.SetEmotion("");
@@ -139,6 +154,7 @@ public class SimulationManager : MonoBehaviour
     }
     IEnumerator ExitStage()
     {
+        // dimLine.showLines(null,null,null,0,0);
         qc.limit = 0;
         qc.nextStage = false;
         VelocityEasyStage1.gameObject.SetActive(false);
@@ -148,7 +164,7 @@ public class SimulationManager : MonoBehaviour
         PrefabDestroyer.destroyPrefab = true;
         thePlayer.moveSpeed = 5;
         yield return new WaitForSeconds(0.5f);
-        StartCoroutine(theHeart.endBGgone());
+       // StartCoroutine(theHeart.endBGgone());
         yield return new WaitForSeconds(2.8f);
         theHeart.startbgentrance();
         thePlayer.transform.position = new Vector2(0f, thePlayer.transform.position.y);
@@ -165,5 +181,11 @@ public class SimulationManager : MonoBehaviour
             StageThreeManager.gameObject.SetActive(true);
             StageThreeManager.Stage3SetUp();
         }
+    }
+    IEnumerator resetPrefab()
+    {
+        PrefabDestroyer.end = true;
+        yield return new WaitForEndOfFrame();
+        PrefabDestroyer.end = false;
     }
 }

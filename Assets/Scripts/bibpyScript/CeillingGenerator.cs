@@ -26,31 +26,31 @@ public class CeillingGenerator : MonoBehaviour
                 mapWitdh = 30;
                 break;
             default:
-                mapWitdh = 43;
+                mapWitdh = 39;
                 break;
         }
         for (float x = 0f; x < mapWitdh + 3f; x++)
         {
             int i = 1;
-            while (i < 3)
+            while (i < 2)
             {
                 GameObject TempGo2 = Instantiate(rubble[Random.Range(0, 2)]);
                 TempGo2.transform.localScale = new Vector2(TempGo2.transform.localScale.x * (Random.Range(0.75f, 1f)), TempGo2.transform.localScale.y * (Random.Range(0.75f, 1f)));
-                TempGo2.transform.position = new Vector3(x - 3 * tileoffset, (9 * tileoffset)+i, 1);
+                TempGo2.transform.position = new Vector3(x - 3 * tileoffset, (9 * tileoffset) + i, 1);
                 i++;
             }
         }
         ceillingPresent = true;
     }
-    public void createQuadtilemap2()
-    {
-        for (float x = startPoint; x < endpoint + 3; x++)
-        {
-            GameObject TempGo2 = Instantiate(rubble[Random.Range(0, 2)]);
-            TempGo2.transform.position = new Vector3(x - 3 * tileoffset, mapheight * tileoffset, 1);
-            ceillingPresent = true;
-        }
-    }
+    // public void createQuadtilemap2()
+    // {
+    //     for (float x = startPoint; x < endpoint + 3; x++)
+    //     {
+    //         GameObject TempGo2 = Instantiate(rubble[Random.Range(0, 2)]);
+    //         TempGo2.transform.position = new Vector3(x - 3 * tileoffset, mapheight * tileoffset, 1);
+    //         ceillingPresent = true;
+    //     }
+    // }
     /*void SetTileInfo(GameObject GO, int x, int y)
     {
         GO.transform.parent = transform;

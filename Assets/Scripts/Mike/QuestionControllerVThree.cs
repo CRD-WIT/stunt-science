@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class QuestionControllerVThree : MonoBehaviour
 {
     float playerAnswer;
+    public accSimulation simulationManager;
     public float limit = 0;
     private Transform baseComponent, problemBox, extraComponent, levelBadge;
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
@@ -16,14 +17,17 @@ public class QuestionControllerVThree : MonoBehaviour
     public int levelNumber, stage;
     public string levelName, modalTitle, question, timer;
     public TextColorMode colorMode;
+    public Settings settingUI;
     public UnitOf unit;
-    string answerUnit, difficulty;
+    public string answerUnit, difficulty;
+    public HeartManager heartManager;
     int passedLevel;
     [SerializeField] bool timerOn = false, loaded = false;
     [SerializeField] TMP_InputField answerFieldHorizontal;
     [SerializeField] Transform difficultyName, stageName;
-    [SerializeField] string modalText, errorText;
+    public string modalText, errorText;
     [SerializeField] bool popupVisible, extraOn;
+    public FirebaseManager firebaseManager;
 
     [SerializeField]
     GameObject modalComponentHorizontal, popupComponentHorizontal, playButtonHorizontal, timerComponentHorizontal, problemBoxHorizontal,
@@ -31,14 +35,13 @@ public class QuestionControllerVThree : MonoBehaviour
     [SerializeField] TMP_Text popupTextHorizontal;
     [SerializeField] Button actionBtn;
     StageManager level = new StageManager();
-    ScoreManager scorer;
     HeartManager life;
 
     // Start is called before the first frame update
     void Start()
     {
         baseComponent = transform.Find("Base");
-        extraComponent = transform.Find("Base").Find("Extra");
+        extraComponent = transform.Find("extraCanvas").Find("Extra");
         levelBadge = baseComponent.Find("LevelBadge");
 
         Transform[] components = { baseComponent, modalComponentHorizontal.transform, extraComponent };
@@ -54,53 +57,103 @@ public class QuestionControllerVThree : MonoBehaviour
         switch (levelDifficulty)
         {
             case Difficulty.Easy:
-                difficulty = level.GetDifficulty();
+                difficulty = "Easy";
                 break;
             case Difficulty.Medium:
-                difficulty = level.GetDifficulty();
+                difficulty = "Medium";
                 break;
             case Difficulty.Hard:
-                difficulty = level.GetDifficulty();
+                difficulty = "Hard";
                 break;
         }
         difficultyName.GetComponent<TMP_Text>().text = difficulty;
+
         levelNumber = level.GetLevelNum(levelName);
         if (level.GetLevelNum(levelName) > 3)
             levelNumber--;
 
         life = FindObjectOfType<HeartManager>();
-        scorer = FindObjectOfType<ScoreManager>();
     }
-    public void ActionBtn()
+    public void ActionBtn(bool endLevel)
     {
-        answerFieldHorizontal.text = "";
-        if (answerIsCorrect)
-            Next();
+        if (endLevel)
+        {
+
+        }
         else
-            StartCoroutine(Retry());
-        isModalOpen = false;
-        timerOn = false;
+        {
+            answerFieldHorizontal.text = "";
+            if (answerIsCorrect)
+                Next();
+            else
+                StartCoroutine(Retry());
+            isModalOpen = false;
+            timerOn = false;
+        }
+
     }
-    public void ActivateResult(string message, bool isCorrect)
+
+    public void EndLevel()
     {
+
+    }
+
+    public void EvaluatePlayerScore()
+    {
+        string playerPrefsName = "";
+        switch (levelDifficulty)
+        {
+            case Difficulty.Easy:
+                playerPrefsName = ($"level{levelName}Easy");
+                break;
+            case Difficulty.Medium:
+                playerPrefsName = ($"level{levelName}Medium");
+                break;
+            case Difficulty.Hard:
+                playerPrefsName = ($"level{levelName}Hard");
+                break;
+        }
+
+        Debug.Log($"Player Score: {playerPrefsName}:{heartManager.life}");
+        PlayerPrefs.SetInt(playerPrefsName, heartManager.life);
+        settingUI.ToggleFlashCardEnd();
+        //SceneManager.LoadScene("LevelSelectV2");
+
+    }
+    public void ActivateResult(string message, bool isCorrect, bool isComplete = false)
+    {
+        Debug.Log("ActivateResult Triggered");
         answerIsCorrect = isCorrect;
         isModalOpen = true;
         if (isCorrect)
         {
-            if (stage == 3)
-                actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Done";
+            // NOTE: Use this template when ending levels.
+            if (isComplete)
+            {
+                Debug.Log($"QCV3: isComplete {isComplete}");
+                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
+                actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+                actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
+
+                actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Finish";
+                modalTitle = "Stunts Completed!";
+                modalText = message;
+                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
+            }
             else
             {
-                actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
+                actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
+                modalTitle = "Correct Answer!";
+                modalText = message;
+                SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
             }
-            modalTitle = "Stunt Success!";
-            modalText = message;
-            SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
         }
         else
         {
-            actionBtn.gameObject.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
-            modalTitle = "Stunt Failed!";
+            //TODO: Check current life points. If life == 0, hide the action button.
+
+            actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
+            modalTitle = "Wrong Answer!";
             modalText = message;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
         }
@@ -115,18 +168,32 @@ public class QuestionControllerVThree : MonoBehaviour
     {
         return this.playerAnswer;
     }
+
+    public void AnswerLimiter()
+    {
+        string value = answerFieldHorizontal.text;
+        // Bug when using whole number
+        string[] splitted = value.Split('.');
+        answerFieldHorizontal.characterLimit = splitted[0].Length + 3;
+    }
     public void SetAnswer()
     {
         if (answerFieldHorizontal.text == "")
         {
+            errorText = "Please enter your answer!";
             StartCoroutine(IsEmpty());
         }
         else
         {
             playerAnswer = float.Parse(answerFieldHorizontal.text);
             answerFieldHorizontal.text = playerAnswer + answerUnit;
-            if (limit <= playerAnswer)
+            if (limit < playerAnswer)
             {
+                errorText = $"Invalid answer! Answer must not exceed {limit}{answerUnit}.";
+                StartCoroutine(IsEmpty());
+            }
+            else if(playerAnswer <= 0){
+                errorText = $"Invalid answer! Answer must be a greater than 0.";
                 StartCoroutine(IsEmpty());
             }
             else
@@ -136,11 +203,6 @@ public class QuestionControllerVThree : MonoBehaviour
             }
         }
         extraOn = true;
-    }
-    public void answerLimitter()
-    {
-        string[] num = answerFieldHorizontal.text.Split('.');
-        answerFieldHorizontal.characterLimit = num[0].Length + 3;
     }
     public void Next()
     {
@@ -154,64 +216,10 @@ public class QuestionControllerVThree : MonoBehaviour
             stage = 3;
             nextStage = true;
         }
-        else
-        {
-            // string difficulty = level.GetDifficulty();
-            // if (difficulty == "easy")
-            // {
-            //     stage = 1;
-            //     level.SetDifficulty(2);
-            // }
-            // else if (difficulty == "medium")
-            // {
-            //     stage = 1;
-            //     level.SetDifficulty(3);
-            // }
-            // else
-            // {
-            //     passedLevel++;
-            //     level.SetDifficulty(1);
-            //     stage = 1;
-            //     switch (level.GetGameLevel())
-            //     {
-            //         case "Velocity":
-            //             level.SetGameLevel(2);
-            //             break;
-            //         case "Acceleration":
-            //             level.SetGameLevel(3);
-            //             break;
-            //         case "Free Fall":
-            //             level.SetGameLevel(4);
-            //             break;
-            //         case "Projectile Motion":
-            //             level.SetGameLevel(5);
-            //             break;
-            //         case "Circular Motion":
-            //             level.SetGameLevel(6);
-            //             break;
-            //         case "Forces":
-            //             level.SetGameLevel(7);
-            //             break;
-            //         case "Work":
-            //             level.SetGameLevel(8);
-            //             break;
-            //         case "Energy":
-            //             level.SetGameLevel(9);
-            //             break;
-            //         case "Power":
-            //             level.SetGameLevel(10);
-            //             break;
-            //         case "Momentum":
-            //             //Done
-            //             break;
-            //     }
-            // }
-            // SceneManager.LoadScene("LevelSelection");
-            scorer.finalstar();
-        }
     }
     IEnumerator Retry()
     {
+        // TODO: Fix delay for background intro.
         extraOn = false;
         answerFieldHorizontal.text = "";
         retried = true;
@@ -228,10 +236,11 @@ public class QuestionControllerVThree : MonoBehaviour
     IEnumerator IsEmpty()
     {
         popupVisible = true;
-        errorText = "Please enter your answer!";
+        //errorText = "Please enter your answer!";
         yield return new WaitForSeconds(3);
         popupVisible = false;
-        errorText = "";
+        answerFieldHorizontal.text = "";
+        //errorText = "";
     }
 
     public string Unit(UnitOf unitOf)
@@ -240,40 +249,40 @@ public class QuestionControllerVThree : MonoBehaviour
         switch (unitOf)
         {
             case UnitOf.distance:
-                unit = "m";
+                unit = " m";
                 break;
             case UnitOf.time:
-                unit = "s";
+                unit = " s";
                 break;
             case UnitOf.velocity:
-                unit = "m/s";
+                unit = " m/s";
                 break;
             case UnitOf.acceleration:
-                unit = "m/s²";
+                unit = " m/s²";
                 break;
             case UnitOf.angle:
-                unit = "°";
+                unit = " °";
                 break;
             case UnitOf.angularVelocity:
-                unit = "°/s";
+                unit = " °/s";
                 break;
             case UnitOf.force:
-                unit = "N";
+                unit = " N";
                 break;
             case UnitOf.mass:
-                unit = "kg";
+                unit = " kg";
                 break;
             case UnitOf.work:
-                unit = "J";
+                unit = " J";
                 break;
             case UnitOf.energy:
-                unit = "kW";
+                unit = " kW";
                 break;
             case UnitOf.power:
-                unit = "kWh";
+                unit = " kWh";
                 break;
             case UnitOf.momuntum:
-                unit = "kg•m/s";
+                unit = " kg•m/s";
                 break;
         }
         return unit;
@@ -283,16 +292,16 @@ public class QuestionControllerVThree : MonoBehaviour
         switch (unitOf)
         {
             case UnitOf.distance:
-                answerUnit = "m";
+                answerUnit = " m";
                 break;
             case UnitOf.time:
-                answerUnit = "s";
+                answerUnit = " s";
                 break;
             case UnitOf.velocity:
-                answerUnit = "m/s";
+                answerUnit = " m/s";
                 break;
             case UnitOf.acceleration:
-                answerUnit = "m/s²";
+                answerUnit = " m/s²";
                 break;
             case UnitOf.angle:
                 answerUnit = "°";
@@ -301,22 +310,22 @@ public class QuestionControllerVThree : MonoBehaviour
                 answerUnit = "°/s";
                 break;
             case UnitOf.force:
-                answerUnit = "N";
+                answerUnit = " N";
                 break;
             case UnitOf.mass:
-                answerUnit = "kg";
+                answerUnit = " kg";
                 break;
             case UnitOf.work:
-                answerUnit = "J";
+                answerUnit = " J";
                 break;
             case UnitOf.energy:
-                answerUnit = "kW";
+                answerUnit = " kW";
                 break;
             case UnitOf.power:
-                answerUnit = "kWh";
+                answerUnit =  "kWh";
                 break;
             case UnitOf.momuntum:
-                answerUnit = "kg•m/s";
+                answerUnit = " kg•m/s";
                 break;
         }
     }
@@ -349,6 +358,7 @@ public class QuestionControllerVThree : MonoBehaviour
     }
     void Update()
     {
+        //levelNumber = level.GetLevelNum(levelName);
         correctIconHorizontal.SetActive(answerIsCorrect);
         wrongIconHorizontal.SetActive(!answerIsCorrect);
         popupComponentHorizontal.SetActive(popupVisible);
@@ -358,10 +368,12 @@ public class QuestionControllerVThree : MonoBehaviour
         problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
         modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
         problemTextHorizontal.SetActive(!isModalOpen);
+        // playButtonHorizontal.SetActive(!isModalOpen);
         answerFieldHorizontal.gameObject.SetActive(!isModalOpen);
 
         extraComponent.gameObject.SetActive(timerOn || popupVisible);
         playButtonHorizontal.SetActive(!timerOn);
+        // timerComponentHorizontal.gameObject.SetActive(timerOn);
         timerComponentHorizontal.GetComponent<TMP_Text>().SetText(timer);
 
         problemBox.Find("StageBar1").Find("LevelName").GetComponent<TMP_Text>().SetText($"{levelName}");
@@ -376,3 +388,6 @@ useful to think of this in terms of kilometers per hour or miles per hour: 37.58
 Usain Bolt of Jamaica, set at the 2009 World Athletics Championships final in Berlin, Germany on 16 August 2009,
 
 Average human speed is 1.4m/s.*/
+
+
+// TODO: Implement limiter

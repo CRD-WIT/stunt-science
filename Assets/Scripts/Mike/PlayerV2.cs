@@ -16,12 +16,14 @@ public class PlayerV2 : MonoBehaviour
     private Collider2D myCollider, ragDollTrigger;
     HeartManager life;
 
+    public bool isMale;
+
     // public EdgeCollider2D slideCollider;
     void Start()
     {
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
-        myCollider = GetComponent<Collider2D>(); 
+        myCollider = GetComponent<Collider2D>();
         life = FindObjectOfType<HeartManager>();
         // if(PlayerPrefs.GetString("Gender") == "Female"){
         //     hair.SetActive(true);
@@ -29,13 +31,24 @@ public class PlayerV2 : MonoBehaviour
         // }else{
         //     hair.SetActive(false);
         //     skirt.SetActive(false);
-
         // }
     }
 
     // Update is called once per frame
     void Update()
     {
+        // if (!isMale)
+        // {
+        //     hair.SetActive(true);
+        //     skirt.SetActive(true);
+        // }
+        // else
+        // {
+        //     hair.SetActive(false);
+        //     skirt.SetActive(false);
+        // }
+
+
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundedRadius, whatIsGround);
         currentpos = player.transform.position.x;
         myRigidbody.velocity = new Vector2(moveSpeed, myRigidbody.velocity.y);
@@ -45,9 +58,9 @@ public class PlayerV2 : MonoBehaviour
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("standup", standup);
         myAnimator.SetBool("slide", slide);
-        myAnimator.SetBool("cranking",Level5EasyManager.cranked);
-        myAnimator.SetBool("brake",brake);
-        myAnimator.SetBool("isHanging",isHanging);
+        myAnimator.SetBool("cranking", Level5EasyManager.cranked);
+        myAnimator.SetBool("brake", brake);
+        myAnimator.SetBool("isHanging", isHanging);
         myAnimator.SetBool("grab", isGrabbing);
         myAnimator.SetBool("hangWalk", hangWalk);
         myAnimator.SetBool("isFalling", isFalling);
@@ -81,7 +94,7 @@ public class PlayerV2 : MonoBehaviour
         }
     }
     public void ragdollspawn()
-    { 
+    {
         player.SetActive(false);
         GameObject stick = Instantiate(stickprefab);
         stick.transform.position = stickmanpoint.transform.position;
@@ -90,13 +103,16 @@ public class PlayerV2 : MonoBehaviour
     public void playfootstep()
     {
         // TODO: Fix sound
-        footstep.Play(0);
+        if(footstep){
+            footstep.Play(0);
+        }
+        
     }
     void OnTriggerEnter2D(Collider2D other)
     {
         life.ReduceLife();
         ragDollTrigger = other;
-        other.enabled=false;
+        other.enabled = false;
         if (other.gameObject.tag == ("jumper"))
         {
             jump();
@@ -109,8 +125,12 @@ public class PlayerV2 : MonoBehaviour
             standup = true;
         }
     }
-    public void ToggleTrigger(){
-        ragDollTrigger.enabled = true;
+    public void ToggleTrigger()
+    {
+        if(ragDollTrigger){
+            ragDollTrigger.enabled = true;
+        }
+        
     }
     public void jump()
     {

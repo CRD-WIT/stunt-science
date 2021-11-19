@@ -15,10 +15,10 @@ public class RockDestroyer : MonoBehaviour
     void Update()
     {
         if(!isDestroyed){
-            StartCoroutine(DestroyObj());
+            StartCoroutine(DesstroyObj());
         }
     }
-    public IEnumerator DestroyObj(){
+    public IEnumerator DesstroyObj(){
         yield return new WaitForSeconds(2);
         Destroy(this.gameObject);
         isDestroyed = true;    
