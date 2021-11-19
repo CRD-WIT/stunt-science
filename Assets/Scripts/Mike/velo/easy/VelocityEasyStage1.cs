@@ -166,7 +166,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         rubblesStopper.SetActive(true);
         SimulationManager.isAnswered = false;
 
-        question = $"<b>{playerName}</b> is instucted to run and stop exactly at the safe spot <b>{distance.ToString("f2")} {questionController.Unit(UnitOf.distance)}</b> away before the ceiling crumbles down. If <b>{playerName}</b> runs for exactly <b>{gameTime.ToString("f2")} {questionController.Unit(UnitOf.time)}</b> before stopping, what should be {pNoun} velocity so {pronoun} will stop exactly at the safe spot?";
+        question = $"<b>{playerName}</b> is instructed to run and stop exactly at the safe spot <b>{distance.ToString("f2")}{questionController.Unit(UnitOf.distance)}</b> away before the ceiling crumbles down. If <b>{playerName}</b> runs for exactly <b>{gameTime.ToString("f2")}{questionController.Unit(UnitOf.time)}</b> before stopping, what should be {pNoun} velocity so {pronoun} will stop exactly at the safe spot?";
         questionController.SetQuestion(question);
         labels.SetPlayerPosition(myPlayer.transform.position);
     }
