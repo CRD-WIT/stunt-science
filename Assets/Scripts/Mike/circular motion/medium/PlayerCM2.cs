@@ -8,7 +8,8 @@ public class PlayerCM2 : MonoBehaviour
     private Rigidbody2D myRigidbody;
     public Animator myAnimator;
     public GameObject player, stickprefab, stickmanpoint;
-    public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang, isLanded;
+    public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing,
+        climb, hangWalk, isFalling, toJump, jumpHang, isLanded, running, walking, ropeGrab, successGrab, grab;
     // public AudioSource footstep;
     float currentpos;
     public LayerMask whatIsGround;
@@ -20,7 +21,7 @@ public class PlayerCM2 : MonoBehaviour
     {
         myAnimator = this.GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
-        myCollider = GetComponent<Collider2D>(); 
+        myCollider = GetComponent<Collider2D>();
         life = FindObjectOfType<HeartManager>();
     }
     void Update()
@@ -34,40 +35,45 @@ public class PlayerCM2 : MonoBehaviour
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("standup", standup);
         myAnimator.SetBool("slide", slide);
-        myAnimator.SetBool("cranking",Level5EasyManager.cranked);
-        myAnimator.SetBool("brake",brake);
-        myAnimator.SetBool("isHanging",isHanging);
+        myAnimator.SetBool("cranking", Level5EasyManager.cranked);
+        myAnimator.SetBool("brake", brake);
+        myAnimator.SetBool("isHanging", isHanging);
         myAnimator.SetBool("grab", isGrabbing);
         myAnimator.SetBool("hangWalk", hangWalk);
         myAnimator.SetBool("isFalling", isFalling);
         myAnimator.SetBool("toJump", toJump);
         myAnimator.SetBool("jumpHang", jumpHang);
         myAnimator.SetBool("landed", isLanded);
+        myAnimator.SetBool("climb", climb);
+        myAnimator.SetBool("running", running);
+        myAnimator.SetBool("walking", walking);
+        myAnimator.SetBool("ropeGrab", ropeGrab);
+        myAnimator.SetBool("successGrab", successGrab);
+        // myAnimator.SetBool("grab", grab);
+
+        if (climb)
+            myRigidbody.velocity = new Vector2(0, 1);
         if (posready == true)
-        {
             if (currentpos >= 0)
             {
                 moveSpeed = 0;
                 player.transform.position = new Vector3(0f, player.transform.position.y, player.transform.position.z);
                 posready = false;
             }
-        }
         if (happy == true)
-        {
             StartCoroutine(happyOn());
-        }
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == ("stickmanspawn"))
-        {
             ragdollblow = true;
-        }
     }
     public void ragdollspawn()
-    { 
+    {
         player.SetActive(false);
-        GameObject stick = Instantiate(stickprefab);
+        stickprefab.SetActive(true);
+        GameObject stick = stickprefab;
         stick.transform.position = stickmanpoint.transform.position;
         ragdollblow = false;
     }
@@ -80,20 +86,44 @@ public class PlayerCM2 : MonoBehaviour
     {
         life.ReduceLife();
         ragDollTrigger = other;
-        other.enabled=false;
+        other.enabled = false;
         if (other.gameObject.tag == ("jumper"))
         {
             jump();
         }
-        if (other.gameObject.tag == ("stickmanspawn"))
+        else if (other.gameObject.tag == ("stickmanspawn"))
         {
             ragdollspawn();
             RagdollV2.disableRagdoll = true;
             lost = false;
             standup = true;
         }
+        else if (other.gameObject.name == "jumper")
+        {
+            Debug.Log("etenr");
+
+            moveSpeed = 0;
+            running = false;
+            ropeGrab = true;
+            StartCoroutine(RopeGrab());
+        }
     }
-    public void ToggleTrigger(){
+    IEnumerator RopeGrab()
+    {
+        yield return new WaitForSeconds(8 / 5);
+        successGrab = true;
+        yield return new WaitForSeconds(.5f);
+        successGrab = false;
+        grab = true;
+        ropeGrab = false;
+        yield return new WaitForEndOfFrame();
+        grab = false;
+        hangWalk = true;
+        yield return new WaitForSeconds(1.01f);
+        hangWalk = false;
+    }
+    public void ToggleTrigger()
+    {
         ragDollTrigger.enabled = true;
     }
     public void jump()

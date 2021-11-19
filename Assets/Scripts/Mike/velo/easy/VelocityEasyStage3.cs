@@ -15,19 +15,22 @@ public class VelocityEasyStage3 : MonoBehaviour
     public GameObject slidePlatform, lowerGround, safeZone, rubblesStopper, ragdollSpawn, manholeCover, templeBeam;
     bool answerIs;
     float answer, initialDistance;
-    public GameObject dimensionLine;
-    public QuestionControllerVThree qc;
-    public TMP_Text debugAnswer;
-    public AudioSource scream;
-    public FirebaseManager firebaseManager;
+    IndicatorManagerV1_1 dimensionLine;
+    QuestionControllerVThree qc;
 
     // Start is cdimensionLineled before the first frame update
 
     public void Start()
     {
-        Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
+        qc = FindObjectOfType<QuestionControllerVThree>();
+        theCeiling = FindObjectOfType<CeillingGenerator>();
+        myPlayer = FindObjectOfType<PlayerV1_1>();
+        HeartManager = FindObjectOfType<HeartManager>();
+        playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
-        if (playerGender == "Male")
+        Scorer = FindObjectOfType<ScoreManager>();
+        dimensionLine = FindObjectOfType<IndicatorManagerV1_1>();
+        if (playerGender == "MdimensionLinee")
         {
             pronoun = "he";
         }
@@ -35,29 +38,23 @@ public class VelocityEasyStage3 : MonoBehaviour
         {
             pronoun = "she";
         }
-        playerName = PlayerPrefs.GetString("Name");
-
-        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0);        
-
         Stage3SetUp();
-
     }
     void FixedUpdate()
     {
         answer = qc.GetPlayerAnswer();
-        debugAnswer.SetText($"Answer: {distance}");
         if (SimulationManager.stage3Flag)
         {
             float totalDistance = 40f;
             initialDistance = totalDistance - answer;
-            dimensionLine.GetComponent<IndicatorManagerV1_1>().distanceSpawnPnt.x = initialDistance;
-            // dimensionLine.GetComponent<IndicatorManagerV1_1>().timeSpawnPnt.x = initialDistance;
-            dimensionLine.GetComponent<IndicatorManagerV1_1>().showLines(answer, null, Speed, gameTime);
+            dimensionLine.distanceSpawnPnt.x = initialDistance;
+            dimensionLine.timeSpawnPnt.x = initialDistance;
+            dimensionLine.showLines(answer, answer, null, Speed, gameTime);
         }
         if (SimulationManager.isAnswered)
         {
-            dimensionLine.GetComponent<IndicatorManagerV1_1>().ShowVelocityLabel(true);
-            dimensionLine.GetComponent<IndicatorManagerV1_1>().SetPlayerPosition(myPlayer.transform.position);
+            dimensionLine.ShowVelocityLabel(true);
+            dimensionLine.SetPlayerPosition(myPlayer.transform.position);
             myPlayer.moveSpeed = Speed;
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.fixedDeltaTime;
@@ -75,8 +72,7 @@ public class VelocityEasyStage3 : MonoBehaviour
                 {
                     myPlayer.slide = true;
                     elapsed = gameTime;
-                    // answerMessage = PlayerPrefs.GetString("Name") + " is finaly <b><color=green>safe</color></b>.";
-                    answerMessage = $"<b>{playerName}</b> successfully performed the stunt and went in the manhole!";
+                    answerMessage = PlayerPrefs.GetString("Name") + " is finaly <b><color=green>safe</color></b>.";
                     answerIs = true;
                     myPlayer.transform.position = new Vector2(40, myPlayer.transform.position.y);
                 }
@@ -97,29 +93,25 @@ public class VelocityEasyStage3 : MonoBehaviour
                     currentPos = (40 - answer) + (Speed * gameTime);
                     if (answer < distance)
                     {
-                        scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos + 0.4f, myPlayer.transform.position.y);
-                        // answerMessage = PlayerPrefs.GetString("Name") + " ran too near from the manhole and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
+                        answerMessage = PlayerPrefs.GetString("Name") + " ran too near from the manhole and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                     else
                     {
-                        scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos - 0.4f, myPlayer.transform.position.y);
-                        // answerMessage = PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
+                        answerMessage = PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
-                    answerMessage = $"<b>{playerName}</b> has unable to stop exactly at the center of the manhole and enter it. Stunt Failed!";
                 }
-                dimensionLine.GetComponent<IndicatorManagerV1_1>().AnswerIs(answerIs, true);
+                dimensionLine.AnswerIs(answerIs, true);
             }
-            dimensionLine.GetComponent<IndicatorManagerV1_1>().IsRunning(answer, myPlayer.transform.position.x - (40 - answer));
+            dimensionLine.IsRunning(answer, myPlayer.transform.position.x - (40 - answer), elapsed, myPlayer.transform.position.x - (40 - answer));
         }
-        dimensionLine.GetComponent<IndicatorManagerV1_1>().SetPlayerPosition(myPlayer.transform.position);
     }
     public void Stage3SetUp()
     {
-        Debug.Log("Setup launched");
+        dimensionLine.showLines(null, null, null, 0, 0);
+        dimensionLine.ShowVelocityLabel(false);
         string question;
-        
         qc.SetUnitTo(UnitOf.distance);
         templeBeam.SetActive(false);
         distance = 0;
@@ -127,6 +119,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         slidePlatform.SetActive(true);
         lowerGround.SetActive(false);
         manholeCover.SetActive(true);
+        
         float v = Random.Range(9f, 10f);
         Speed = (float)System.Math.Round(v, 2);
         float t = Random.Range(3f, 3.5f);
@@ -141,19 +134,13 @@ public class VelocityEasyStage3 : MonoBehaviour
         safeZone.transform.position = new Vector2(40, -3);
         safeZone.GetComponent<BoxCollider2D>().enabled = false;
         ragdollSpawn.SetActive(true);
-        ragdollSpawn.transform.position = new Vector2(41.2f, -3);
+        ragdollSpawn.transform.position = new Vector2(43.65f, -3);
         qc.timer = "0.00s";
         myPlayer.transform.position = new Vector2(0f, -3);
         elapsed = 0;
         SimulationManager.isAnswered = false;
-        question = $"<b>{playerName}</b> is instucted to run and stop exactly on the center of the manhole and enter it before the entire ceiling crumbles down. If <b>{pronoun}</b> runs at a constant velocity of <b>{Speed.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b> for exactly <b>{gameTime} {qc.Unit(UnitOf.time)}</b>, how far should <b>{playerName}</b> be from the manhole before she starts running?";
+        question = "The entire ceiling is now crumbling and the only safe way out is for " + playerName + " to jump and slide down the manhole. If " + pronoun + " runs at constant velocity of <color=purple>" + Speed.ToString() + " meters per second</color> for exactly <color=#006400>" + gameTime.ToString() + " seconds</color>, how  <color=red>far</color> from the center of the manhole should " + playerName + " start running so that " + pronoun + " will fdimensionLinel down in it when " + pronoun + " stops?";
         qc.SetQuestion(question);
-
-        dimensionLine.GetComponent<IndicatorManagerV1_1>().UnknownIs('d');
-        dimensionLine.GetComponent<IndicatorManagerV1_1>().showLines(distance, null, Speed, gameTime);
-        dimensionLine.GetComponent<IndicatorManagerV1_1>().distanceSpawnPnt = new Vector2(40-distance,-2);
-        // dimensionLine.GetComponent<IndicatorManagerV1_1>().timeSpawnPnt = new Vector2(40-distance,-2.25f);
-        dimensionLine.GetComponent<IndicatorManagerV1_1>().ShowVelocityLabel(true);
     }
     IEnumerator StuntResult()
     {
@@ -161,8 +148,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         SimulationManager.directorIsCalling = true;
         SimulationManager.isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
-        // True means the level is complete.
-        qc.ActivateResult(answerMessage, answerIs, true);
+        qc.ActivateResult(answerMessage, answerIs);
     }
     IEnumerator RagdollCollider()
     {
@@ -176,4 +162,3 @@ public class VelocityEasyStage3 : MonoBehaviour
         manholeCover.SetActive(true);
     }
 }
-
