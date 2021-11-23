@@ -82,7 +82,7 @@ public class QuestionController : MonoBehaviour
     {
         actionButtonText = text;
     }
-    public void ToggleModal(string? title="", string? text="", string? actionButtonName="")
+    public void ToggleModal(string? title = "", string? text = "", string? actionButtonName = "")
     {
         isModalOpen = !isModalOpen;
         SetModalTitle(title);
@@ -139,7 +139,14 @@ public class QuestionController : MonoBehaviour
         else
         {
             if (answerFieldVertical.text == "")
+            {
                 StartCoroutine(IsEmpty());
+            }
+            else if (playerAnswer <= 0)
+            {
+                errorText = $"Invalid answer! Answer must be a greater than 0.";
+                StartCoroutine(IsEmpty());
+            }
             else
             {
                 playerAnswer = float.Parse(answerFieldVertical.text.Split(new string[] { answerUnit }, System.StringSplitOptions.None)[0]);

@@ -192,6 +192,11 @@ public class QuestionControllerAcceleration : MonoBehaviour
         {
             StartCoroutine(IsEmpty());
         }
+        else if (playerAnswer <= 0)
+        {
+            errorText = $"Invalid answer! Answer must be a greater than 0.";
+            StartCoroutine(IsEmpty());
+        }
         else
         {
             answerFieldHorizontal.text = playerAnswer.ToString() + answerUnit;
@@ -238,7 +243,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
     IEnumerator IsEmpty()
     {
         popupVisible = true;
-        errorText = "Answer box is empty!";
+        // errorText = "Answer box is empty!";
         yield return new WaitForSeconds(3);
         popupVisible = false;
         errorText = "";
