@@ -25,7 +25,7 @@ public class MediumManager : MonoBehaviour
     string question, playerName, playerGender, pronoun, pPronoun, messageTxt;
     bool isAnswered, directorIsCalling, isStartOfStunt, isAnswerCorrect, ropeGrab, isEndOfStunt, ragdollActive, isJumping;
     // GameObject b2Shadow, b1Shadow, pShadow;
-    Vector2 spawnPoint;
+    Vector2 spawnPoint, jmpCharInitPos;
     void Start()
     {
         qc = FindObjectOfType<QuestionControllerVThree>();
@@ -41,6 +41,7 @@ public class MediumManager : MonoBehaviour
         string playerGender = PlayerPrefs.GetString("Gender");
         sm.SetGameLevel(5);
         playerPos = myPlayer.gameObject.transform.position.x;
+        jmpCharInitPos = jumperChar.gameObject.transform.position;
         if (playerGender == "Male")
         {
             pronoun = "he";
@@ -119,24 +120,7 @@ public class MediumManager : MonoBehaviour
                         elapsed = stuntTime;
                         myPlayer.running = false;
                         myPlayer.moveSpeed = 0;
-                        if (playerAnswer == acceleration)
-                        {
-                            // myPlayer.moveSpeed = 15;
-                            isAnswerCorrect = true;
-                            messageTxt = "Answer is correct";
-                        }
-                        else
-                        {
-                            isAnswerCorrect = false;
-                            if (playerAnswer > acceleration)
-                            {
-                                messageTxt = "Answer is more than correct";
-                            }
-                            else
-                            {
-                                messageTxt = "Answer is less than correct";
-                            }
-                        }
+                        
                     }
                     else
                     {
@@ -156,6 +140,24 @@ public class MediumManager : MonoBehaviour
                             myPlayer.running = false;
                         }
                     }
+                    if (playerAnswer == acceleration)
+                        {
+                            // myPlayer.moveSpeed = 15;
+                            isAnswerCorrect = true;
+                            messageTxt = "Answer is correct";
+                        }
+                        else
+                        {
+                            isAnswerCorrect = false;
+                            if (playerAnswer > acceleration)
+                            {
+                                messageTxt = "Answer is more than correct";
+                            }
+                            else
+                            {
+                                messageTxt = "Answer is less than correct";
+                            }
+                        }
                     break;
                 case 3:
                     break;
@@ -193,6 +195,7 @@ public class MediumManager : MonoBehaviour
         this.gameObject.GetComponent<EdgeCollider2D>().enabled = false;
         // onShadow = false;
         jumperChar.SetActive(false);
+        ragdoll.SetActive(false);
         ragdollActive = false;
         indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
         spawnPoint = indicators.distanceSpawnPnt;
@@ -263,6 +266,7 @@ public class MediumManager : MonoBehaviour
                     + pPronoun + " at exactly after <b>" + stuntTime.ToString("f2") + qc.Unit(UnitOf.time) + "</b> ?";
                 break;
             case 2:
+                jumperChar.transform.position = jmpCharInitPos;
                 this.gameObject.GetComponent<Collider2D>().enabled = true;
                 stage2Layout.SetActive(true);
                 aVelocityArrow.transform.SetPositionAndRotation(new Vector2(aVelocityArrow.transform.position.x - 0.05f, aVelocityArrow.transform.position.y - 1.133f), Quaternion.Euler(new Vector3(0, 0, 52)));
@@ -289,6 +293,7 @@ public class MediumManager : MonoBehaviour
                 whatIsAsk = UnitOf.acceleration;
                 rope.transform.position = new Vector2(6 - distance, 4);
                 myPlayer.transform.position = rope.transform.position;
+                myPlayer.gameObject.SetActive(true);
 
                 // float Vfp = playerSpeed;
 
@@ -427,7 +432,10 @@ public class MediumManager : MonoBehaviour
     IEnumerator ActivateJump(){
         jumperChar.SetActive(true);
         myPlayer.gameObject.SetActive(false);
-        jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(10,0);
+        if(isAnswerCorrect)
+            jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(10,0);
+        else
+            jumperChar.GetComponent<Rigidbody2D>().velocity =new Vector2(myPlayer.moveSpeed,0);
         jumperChar.GetComponent<Animator>().SetBool("dive", true);
         yield return new WaitForSeconds(1.25f);
         isAnswered = false;
