@@ -21,7 +21,7 @@ public class MediumManager : MonoBehaviour
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField] float distance, stuntTime, elapsed, correctAnswer;
     public static int stage;
-    float playerAnswer, playerSpeed, conveyorSpeed, animSpeed, correctD, timingD, playerPos, currentPlayerPos, acceleration;
+    float playerAnswer, playerSpeed, conveyorSpeed, animSpeed, correctD, timingD, playerPos, currentPlayerPos, acceleration, speedOffset;
     string question, playerName, playerGender, pronoun, pPronoun, messageTxt;
     bool isAnswered, directorIsCalling, isStartOfStunt, isAnswerCorrect, ropeGrab, isEndOfStunt, ragdollActive, isJumping;
     // GameObject b2Shadow, b1Shadow, pShadow;
@@ -151,10 +151,12 @@ public class MediumManager : MonoBehaviour
                             isAnswerCorrect = false;
                             if (playerAnswer > acceleration)
                             {
+                                speedOffset = 1.15f;
                                 messageTxt = "Answer is more than correct";
                             }
                             else
                             {
+                                speedOffset = 0.85f;
                                 messageTxt = "Answer is less than correct";
                             }
                         }
@@ -435,7 +437,7 @@ public class MediumManager : MonoBehaviour
         if(isAnswerCorrect)
             jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(10,0);
         else
-            jumperChar.GetComponent<Rigidbody2D>().velocity =new Vector2(myPlayer.moveSpeed,0);
+            jumperChar.GetComponent<Rigidbody2D>().velocity =new Vector2((myPlayer.moveSpeed+10)*speedOffset/2,0);
         jumperChar.GetComponent<Animator>().SetBool("dive", true);
         yield return new WaitForSeconds(1.25f);
         isAnswered = false;

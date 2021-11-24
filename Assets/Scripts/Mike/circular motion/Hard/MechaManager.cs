@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LvlFiveHardManager : MonoBehaviour
+public class MechaManager : MonoBehaviour
 {
-    
+    float velocity;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +14,6 @@ public class LvlFiveHardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        this.Rigidbody2D.velocity = velocity;
     }
 }
