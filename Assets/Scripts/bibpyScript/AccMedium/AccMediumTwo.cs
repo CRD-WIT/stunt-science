@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -258,7 +257,7 @@ public class AccMediumTwo : MonoBehaviour
         theVan.transform.position = new Vector2(20 + (distance / 2 + 30), theVan.transform.position.y);
         theSubChopper.transform.position = new Vector2(chopperAccPos, theSubChopper.transform.position.y);
         theSubSuv.transform.position = new Vector2(vanAccPos, theSubSuv.transform.position.y);
-        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + (" is now instructed to hang from a helicopter and must need to take over an incoming van moving fast without a driver. To get in the van, ") + PlayerPrefs.GetString("Name") + (" must break its windshield by kicking it the exact moment ") + pronoun + (" feet touches it, If the initial velocity of helicopter is <b>") + Vih.ToString("F2") + ("</b> m/s and accelerating at <b>") + accH.ToString("F2") + ("</b> m/s², at what distance from the initial positon should ") + PlayerPrefs.GetString("Name") + (" do the kicking to successfully performed the stunts if the initial velocity of the incoming Van <b>") + Viv.ToString("F2") + ("</b> m/s and acelerating at <b>")+accV.ToString("F2")+("</b> m/s² when the van is <b>")+distance.ToString("F2")+("</b> meters away from ")+PlayerPrefs.GetString("Name")+("?")));
+        theQuestion.SetQuestion("<b>"+(PlayerPrefs.GetString("Name") + ("</b> is now instructed to hang from a helicopter and must need to take over an incoming van moving fast without a driver. To get in the van, ") + PlayerPrefs.GetString("Name") + (" must break its windshield by kicking it the exact moment ") + pronoun + (" feet touches it, If the initial velocity of helicopter is <b>") + Vih.ToString("F2") + ("</b> m/s and accelerating at <b>") + accH.ToString("F2") + ("</b> m/s², at what distance from the initial positon should ") + PlayerPrefs.GetString("Name") + (" do the kicking to successfully performed the stunts if the initial velocity of the incoming Van <b>") + Viv.ToString("F2") + ("</b> m/s and acelerating at <b>")+accV.ToString("F2")+("</b> m/s² when the van is <b>")+distance.ToString("F2")+("</b> meters away from ")+PlayerPrefs.GetString("Name")+("?")));
         hangingRagdoll2.transform.position = ropeTip2.transform.position;
         carInitial.transform.position = theSubSuv.transform.position;
         chopperInitial.transform.position = theSubChopper.transform.position;

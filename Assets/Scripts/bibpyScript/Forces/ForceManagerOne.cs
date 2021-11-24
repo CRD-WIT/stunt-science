@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -128,7 +127,7 @@ public class ForceManagerOne : MonoBehaviour
         //theBomb.bomb.transform.position = thePlayer.transform.position;
         //bombHinge.transform.position = thePlayer.transform.position;
         glassRespawn();
-        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> is instructed to break the glass wall by running into it using his own body mass. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and runs with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s², what should impact force breaking point of the glass wall? If the glass is too tough , it will not break. If the glass is too weak, ") + PlayerPrefs.GetString("Name") + (" will overshoot beyond the glass after breaking.")));
+        theQuestion.SetQuestion(("<b>"+PlayerPrefs.GetString("Name") + ("</b> is instructed to break the glass wall by running into it using his own body mass. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and runs with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s², what should impact force breaking point of the glass wall? If the glass is too tough , it will not break. If the glass is too weak, ") + PlayerPrefs.GetString("Name") + (" will overshoot beyond the glass after breaking.")));
         masstxt.text = ("m = ")+mass.ToString("F2") + ("kg");
         acctxt.text = ("a = ") + accelaration.ToString("F2") + ("m/s²");
         breakingforcetxt.text = "Breaking Impact Force = ?";
