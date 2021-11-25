@@ -22,7 +22,7 @@ public class AccManagerThree : MonoBehaviour
     float playerVf;
     float currentPos;
     public float correctDistance;
-    string pronoun2,pronoun;
+    string pronoun2, pronoun;
     string gender;
     public GameObject walls, stopper, bikeInitials, actionButton, cam, directionArrow;
 
@@ -40,7 +40,7 @@ public class AccManagerThree : MonoBehaviour
     public TMP_Text debugAnswer;
     public QuestionControllerAcceleration theQuestion;
     Quaternion truckStartRot;
-    public AudioSource engineIdle, engineRunning,truckEngine;
+    public AudioSource engineIdle, engineRunning, truckEngine;
 
 
     // Start is called before the first frame update
@@ -62,7 +62,7 @@ public class AccManagerThree : MonoBehaviour
         bikeInitialStartPos = bikeInitials.transform.position;
         theSimulation.stage = 3;
         truckStartRot = theTruck.transform.rotation;
-       if (gender == "Male")
+        if (gender == "Male")
         {
             pronoun = ("he");
             pronoun2 = ("his");
@@ -132,7 +132,7 @@ public class AccManagerThree : MonoBehaviour
                 }
 
             }
-            if (Vi == correctAns)
+            if ((Vi - 0.01 == correctAns) || (Vi + 0.01 == correctAns) || (Vi == correctAns))
             {
                 //theQuestion.SetModalTitle("Stunt Success");
                 if (timer >= time)
@@ -148,7 +148,7 @@ public class AccManagerThree : MonoBehaviour
                         theQuestion.isSimulating = false;
                         vitxt.color = new Color32(10, 103, 0, 255);
                         StartCoroutine(truckWillGo());
-                        PlayerPrefs.SetInt("levelAccelerationEasy",theHeart.life);
+                        PlayerPrefs.SetInt("levelAccelerationEasy", theHeart.life);
                     }
 
                 }
@@ -182,7 +182,7 @@ public class AccManagerThree : MonoBehaviour
                 {
                     theBike.moveSpeed = 0;
                     engineRunning.Stop();
-                    if (Vi == correctAns)
+                    if ((Vi - 0.01 == correctAns) || (Vi + 0.01 == correctAns) || (Vi == correctAns))
                     {
                         velocitytxt.text = ("vf = 0.00 m/s");
                     }
@@ -198,7 +198,7 @@ public class AccManagerThree : MonoBehaviour
     }
     public void generateProblem()
     {
-        truckEngine.Stop();        engineIdle.Play();
+        truckEngine.Stop(); engineIdle.Play();
         walls.SetActive(false);
         theTruck.transform.rotation = truckStartRot;
         bikeInitials.transform.position = bikeInitialStartPos;
@@ -212,7 +212,7 @@ public class AccManagerThree : MonoBehaviour
         generateAns = 60 / time;
         generateAcceleration = generateAns / time;
         deacceleration = (float)System.Math.Round(generateAcceleration, 2);
-        theQuestion.SetQuestion("<b>"+PlayerPrefs.GetString("Name") + ("</b> is instructed to park ") + pronoun2 + (" motorcycle perfectly at the back of truck. If braking the motorcycle constantly deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s², what should be the velocity(Vi) of the motorcycle prioe braking it if ")+ pronoun +(" has to apply brakes to the motorcycle for exactly <b>") + time.ToString("F2") + ("</b> seconds only to stop it for the stunt?"));
+        theQuestion.SetQuestion("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to park ") + pronoun2 + (" motorcycle perfectly at the back of truck. If braking the motorcycle constantly deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s², what should be the velocity(Vi) of the motorcycle prioe braking it if ") + pronoun + (" has to apply brakes to the motorcycle for exactly <b>") + time.ToString("F2") + ("</b> seconds only to stop it for the stunt?"));
         vitxt.text = ("vi = ?");
         theHeart.losslife = false;
         velocitytxt.text = ("v = 0 m/s");
@@ -225,9 +225,9 @@ public class AccManagerThree : MonoBehaviour
     IEnumerator StuntResult(string message, bool isCorrect)
     {
         yield return new WaitForSeconds(2);
-        if (Vi == correctAns)
+        if ((Vi - 0.01 == correctAns) || (Vi + 0.01 == correctAns) || (Vi == correctAns))
         {
-             truckEngine.Stop();
+            truckEngine.Stop();
             theQuestion.ActivateResult(message, isCorrect, true);
 
             // theScorer.finalstar();
@@ -259,7 +259,7 @@ public class AccManagerThree : MonoBehaviour
         yield return new WaitForSeconds(2);
         StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
         theTruck.moveSpeed = 10;
-        if (Vi == correctAns)
+        if ((Vi - 0.01 == correctAns) || (Vi + 0.01 == correctAns) || (Vi == correctAns))
         {
             theBike.moveSpeed = 10f;
         }

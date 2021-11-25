@@ -1,4 +1,4 @@
-using System.Collections; 
+using System.Collections;
 using UnityEngine;
 using TMPro;
 
@@ -23,7 +23,7 @@ public class AccMediumOne : MonoBehaviour
     public TMP_Text timertxt, vHtxt, viTtxt, aTtxt, actiontxt, playTimertxt;
     float grabLineDistance, playerGrabLineDistance;
     private Vector2 subChopperStartPos, chopperStartPos;
-    public AudioSource truckIdle,truckRunning,ChopperFlying;
+    public AudioSource truckIdle, truckRunning, ChopperFlying;
     // Start is called before the first frame update
     void Start()
     {
@@ -80,7 +80,7 @@ public class AccMediumOne : MonoBehaviour
                 theTruck.accelerating = true;
                 theTruck.accelaration = accelaration;
 
-                if (answer == correctAnswer)
+                if ((answer - 0.01 == correctAnswer) || (answer + 0.01 == correctAnswer) || (answer == correctAnswer))
                 {
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
@@ -173,7 +173,7 @@ public class AccMediumOne : MonoBehaviour
             {
                 chopperInitials.transform.position = new Vector2(theChopper.transform.position.x + 2.1f, theChopper.transform.position.y);
                 carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2.1f, theTruck.transform.position.y);
-                if (answer == correctAnswer)
+                if ((answer - 0.01 == correctAnswer) || (answer + 0.01 == correctAnswer) || (answer == correctAnswer))
                 {
                     timertxt.gameObject.transform.position = new Vector2(theChopper.transform.position.x, timertxt.gameObject.transform.position.y);
                 }
@@ -232,14 +232,14 @@ public class AccMediumOne : MonoBehaviour
         velocity = 0;
         StartCoroutine(theSimulate.DirectorsCall());
         //theQuestion.ToggleModal();
-        if (answer == correctAnswer)
+        if ((answer - 0.01 == correctAnswer) || (answer + 0.01 == correctAnswer) || (answer == correctAnswer))
         {
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" has succesfully performed the stunt and able to grab the rope</color>"),true, false);
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" has succesfully performed the stunt and able to grab the rope</color>"), true, false);
         }
         if (answer != correctAnswer)
         {
-             theHeart.ReduceLife();
-             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " unable to grab the rope!",false, false);
+            theHeart.ReduceLife();
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " unable to grab the rope!", false, false);
         }
         /*if (answer > correctAnswer)
         {
@@ -254,8 +254,8 @@ public class AccMediumOne : MonoBehaviour
              }
              
         }*/
-    
-        
+
+
         AccMidSimulation.simulate = false;
         timertxt.gameObject.SetActive(false);
 
@@ -283,7 +283,7 @@ public class AccMediumOne : MonoBehaviour
             thePlayer.gameObject.SetActive(false);
             timeOn = false;
 
-            if (answer == correctAnswer)
+            if ((answer - 0.01 == correctAnswer) || (answer + 0.01 == correctAnswer) || (answer == correctAnswer))
             {
                 timertxt.color = new Color32(3, 63, 0, 255);
                 hangingRagdoll.SetActive(true);
@@ -304,7 +304,7 @@ public class AccMediumOne : MonoBehaviour
                 ragdollPause.SetActive(true);
                 ragdollPause.transform.position = new Vector2(playerGrabLineDistance + 2.67f, ragdollPrefab.transform.position.y);
                 theSubChopper.gameObject.SetActive(true);
-                theSubChopper.transform.position = new Vector2(distanceH+1, theSubChopper.transform.position.y);
+                theSubChopper.transform.position = new Vector2(distanceH + 1, theSubChopper.transform.position.y);
                 ragdollSpawn();
                 yield return new WaitForSeconds(1.5f);
                 theHeart.losinglife();
@@ -336,7 +336,7 @@ public class AccMediumOne : MonoBehaviour
         if (theQuestion.answerIsCorrect == false)
         {
             theSimulate.retry();
-            
+
         }
         else
         {
