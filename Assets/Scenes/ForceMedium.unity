@@ -695,7 +695,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 516876274}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 77d60c3cd587e7940a40e04988f1fd32, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1373,7 +1373,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 974453156}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 77d60c3cd587e7940a40e04988f1fd32, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1862,7 +1862,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1982444265118731911, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.22
+      value: -7.24
       objectReference: {fileID: 0}
     - target: {fileID: 1982444265118731911, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2134,7 +2134,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: c865ce6de00707d4081180620cfb4a33, type: 2}
     - target: {fileID: 1982444266066455914, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.1
+      value: -24
       objectReference: {fileID: 0}
     - target: {fileID: 1982444266066455914, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2158,7 +2158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6839280912594462156, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
       propertyPath: m_Mass
-      value: 70
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 548471533779071696, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
@@ -10298,14 +10298,21 @@ MonoBehaviour:
   accelerationFinal: 0
   time: 5
   timer: 0
-  totalDistance: 10
-  playerDistance: 0
+  totalDistance: 9
+  playerDistance: 8
   massBox: 1000
   force: 0
-  massPlayer: 70
+  massPlayer: 10
   momentum: 0
   weightBox: 0
   finalForce: 0
   timeInitial: 0
+  accelerationBox: 0
+  boxVf: 0
+  boxTime: 0
+  timeMomentum: 0
+  momentumNeeded: 0
+  forceNeeded: 0
+  VfPlayer: 0
   preset: 1
   startRunning: 0

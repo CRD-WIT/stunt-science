@@ -65,8 +65,8 @@ public class AccMediumTwo : MonoBehaviour
             carInitial.transform.position = theVan.transform.position;
             chopperInitial.transform.position = theChopper.transform.position;
             vihTxt.text = ("vi = ") + theChopper.flySpeed.ToString("F2") + (" m/s");
-            accvTxt.text = ("a = ") + accV.ToString("F2") + (" m/s");
-            vivTxt.text = ("vi = ") + (-theVan.moveSpeed).ToString("F2") + (" m/s²");
+            accvTxt.text = ("a = ") + accV.ToString("F2") + (" m/s²");
+            vivTxt.text = ("vi = ") + (-theVan.moveSpeed).ToString("F2") + (" m/s");
             acchTxt.text = ("a = ") + accH.ToString("F2") + (" m/s²");
         }
 
@@ -91,7 +91,7 @@ public class AccMediumTwo : MonoBehaviour
                 carInitial.transform.position = theVan.transform.position;
                 chopperInitial.transform.position = theChopper.transform.position;
                 vihTxt.text = ("v = ") + Vih.ToString("F2") + (" m/s");
-                accvTxt.text = ("a = ") + ("0 m/s");
+                accvTxt.text = ("a = ") + ("0 m/s²");
                 vivTxt.text = ("v = ") + Viv.ToString("F2") + (" m/s²");
                 acchTxt.text = ("a = ") + ("0 m/s²");
                 theChopper.flySpeed = Vih;
@@ -262,8 +262,8 @@ public class AccMediumTwo : MonoBehaviour
         carInitial.transform.position = theSubSuv.transform.position;
         chopperInitial.transform.position = theSubChopper.transform.position;
         vihTxt.text = ("vi = ") + Vih.ToString("F2") + (" m/s");
-        accvTxt.text = ("a = ") + accV.ToString("F2") + (" m/s");
-        vivTxt.text = ("vi = ") + Viv.ToString("F2") + (" m/s²");
+        accvTxt.text = ("a = ") + accV.ToString("F2") + (" m/s²");
+        vivTxt.text = ("vi = ") + Viv.ToString("F2") + (" m/s");
         acchTxt.text = ("a = ") + accH.ToString("F2") + (" m/s²");
         theMeter[0].positionX = chopperAccPos;
         theMeter[0].distance = 0f;
