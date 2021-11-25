@@ -18,7 +18,7 @@ public class HardManager : MonoBehaviour
     public TMP_Text directorsSpeech, timeIndicator;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
         sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f, distanceTraveled, angleB = 0, timer;
-    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset, ragdoll = false, isEnd =false, startTimer;
+    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset, ragdoll = false, isEnd = false, startTimer;
     public bool readyToCheck;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
     public int stage;
@@ -66,7 +66,7 @@ public class HardManager : MonoBehaviour
         qc.stage = stage;
         SetUp();
 
-        firebaseManager.GameLogMutation(1, 1, "Hard", Actions.Started, 0); 
+        firebaseManager.GameLogMutation(1, 1, "Hard", Actions.Started, 0);
 
     }
     void Update()
@@ -136,7 +136,7 @@ public class HardManager : MonoBehaviour
                         bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
                         isEndOfStunt = true;
                     }
-                    if (playerAnswer == correctAnswer)
+                    if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
                     {
                         stonePosX = playerAnswer;
                         isAnswerCorrect = true;
@@ -155,7 +155,7 @@ public class HardManager : MonoBehaviour
                         elapsed = playerAnswer;
                         isThrown = true;
                         isAnswered = false;
-                        if (playerAnswer == correctAnswer)
+                        if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
                         {
                             isAnswerCorrect = true;
                             messageTxt = $"<b>{playerName}</b> successfully performed the stunt and the rock hit the monster's mouth!";
@@ -173,7 +173,7 @@ public class HardManager : MonoBehaviour
                     {
                         isAnswered = false;
                         elapsed = stuntTime;
-                        if (playerAnswer == correctAnswer)
+                        if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
                         {
                             isAnswerCorrect = true;
                             isEnd = true;
@@ -190,20 +190,21 @@ public class HardManager : MonoBehaviour
             qc.timer = elapsed.ToString("f2") + "s";
             currentBossPos = bossHead.transform.position;
         }
-        if(startTimer&&(timer>0))
-            timeIndicator.text = $"{((timer-=Time.deltaTime)+0.01f).ToString("0.00")}s";
-        if(stage == 1)
+        if (startTimer && (timer > 0))
+            timeIndicator.text = $"{((timer -= Time.deltaTime) + 0.01f).ToString("0.00")}s";
+        if (stage == 1)
             bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x + 0.5f, bossHead.transform.position.y + 2);
         else if (stage == 2)
-            bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x -1.75f, bossHead.transform.position.y + 1);
+            bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x - 1.75f, bossHead.transform.position.y + 1);
         else
             bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x, bossHead.transform.position.y + 1);
         if (stoneIsPresent)
         {
             indicators.SetPlayerPosition(new Vector2(stone.transform.position.x, stone.transform.position.y - 1.5f));
-            if (stage == 1){
+            if (stage == 1)
+            {
                 distanceTraveled = stone.transform.position.x + playerAnswer;
-                }
+            }
             else
                 distanceTraveled = stone.transform.position.x - myPlayer.transform.position.x - 0.5f;
             if (stoneScript.hit != null)
@@ -261,10 +262,11 @@ public class HardManager : MonoBehaviour
         }
         if (isEndOfStunt)
         {
-            if (stage == 3){                
-                StartCoroutine(EndOfHard());                
+            if (stage == 3)
+            {
+                StartCoroutine(EndOfHard());
             }
-            StartCoroutine(StuntResult());                         
+            StartCoroutine(StuntResult());
         }
         if (qc.isSimulating)
             Play();
@@ -286,17 +288,20 @@ public class HardManager : MonoBehaviour
     }
     IEnumerator EndOfHard()
     {
-        if(isAnswerCorrect){
+        if (isAnswerCorrect)
+        {
             myPlayer.happy = true;
             yield return new WaitForSeconds(2.5f);
             myPlayer.happy = false;
             myPlayer.moveSpeed = 5;
-        }else{
+        }
+        else
+        {
             myPlayer.lost = true;
             yield return new WaitForSeconds(2.5f);
-            myPlayer.lost =false;
+            myPlayer.lost = false;
             myPlayer.standup = true;
-            myPlayer.moveSpeed =0;
+            myPlayer.moveSpeed = 0;
         }
     }
     void OnEnable()
@@ -305,7 +310,7 @@ public class HardManager : MonoBehaviour
     }
     public void SetUp()
     {
-        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0); 
+        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0);
 
         timeIndicator.enabled = false;
         directorIsCalling = false;
@@ -337,7 +342,7 @@ public class HardManager : MonoBehaviour
         stoneVeloLabel.SetActive(false);
         RagdollV2.disableRagdoll = true;
         qc.timer = "0s";
-        
+
         switch (stage)
         {
             case 1:
@@ -373,8 +378,8 @@ public class HardManager : MonoBehaviour
                 throwingPath.transform.localScale = new Vector2(40f / 5f, throwingPath.transform.localScale.y);
                 throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
                 throwingPathTxt.transform.position = throwingPath.transform.position + new Vector3(distance / 2f, 0);
-                
-                bossVeloLabel.transform.Find("Square").rotation = Quaternion.EulerAngles(0, 0,(-90 - angle) * Mathf.Deg2Rad);
+
+                bossVeloLabel.transform.Find("Square").rotation = Quaternion.EulerAngles(0, 0, (-90 - angle) * Mathf.Deg2Rad);
                 bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x + 0.5f, bossHead.transform.position.y + 1);
 
                 question = $"<b>{playerName}</b> is instucted to throw a rock inside the monster's mouth that is guarding the exit. If the monster is <b>{bossDistance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> above {pPronoun} horizontal throwing line and the monster is moving <b>{bossV} {qc.Unit(UnitOf.velocity)}</b> downward, how far should <b>{playerName}</b> be away horizontally from the monster if {pronoun} throws the stone at exact and constant velocity of <b>{stoneV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>?";
@@ -396,7 +401,7 @@ public class HardManager : MonoBehaviour
                     angle = Mathf.Atan(x / y) * Mathf.Rad2Deg;
                     allowanceTime = Random.Range(0.75f, 1.5f);
                     stoneV = (distance + x) / (allowanceTime);
-                    if ((stuntTime < qc.limit) && (Mathf.Abs(angle) > 45) && (stuntTime > (allowanceTime + 2)&&(stoneV >= 14)))
+                    if ((stuntTime < qc.limit) && (Mathf.Abs(angle) > 45) && (stuntTime > (allowanceTime + 2) && (stoneV >= 14)))
                         break;
                 }
                 correctAnswer = (float)System.Math.Round(stuntTime - allowanceTime, 2);
@@ -417,8 +422,8 @@ public class HardManager : MonoBehaviour
                 labels.HideValuesOf(false, true, true, false, true, true);
 
                 bossVeloLabel.transform.Find("Square").rotation = Quaternion.EulerAngles(0, 0, 0);
-                bossVeloLabel.transform.GetComponent<RectTransform>().localRotation = Quaternion.EulerAngles(0, 0,(-270-angle) * Mathf.Deg2Rad);
-                bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x -1.75f, bossHead.transform.position.y + 1);
+                bossVeloLabel.transform.GetComponent<RectTransform>().localRotation = Quaternion.EulerAngles(0, 0, (-270 - angle) * Mathf.Deg2Rad);
+                bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x - 1.75f, bossHead.transform.position.y + 1);
                 Debug.Log(angle);
 
                 throwingPath.transform.localScale = new Vector2(40 / 5, throwingPath.transform.localScale.y);
@@ -428,7 +433,7 @@ public class HardManager : MonoBehaviour
                 question = $"<b>{playerName}</b> is again instucted to throw another rock into the mouth of the monster. The mouth of the monster this time is <b>{(-y).ToString("f2")} {qc.Unit(UnitOf.distance)}</b> above the horizontal throwing path and horizontally <b>{distance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away. If the monster is moving diagonally forward and downward at <b>{angle.ToString("f2")}{qc.Unit(UnitOf.angle)}</b> below horizon with a velocity of <b>{bossV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>, how many <b>seconds</b> should <b>{playerName}</b> wait after the monster has moved to hit its mouth with a stone thrown horizontally at a constant velocity of <b>{stoneV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>?";
                 break;
             case 3:
-                bossHead.transform.localEulerAngles = new Vector3(0,0,0);
+                bossHead.transform.localEulerAngles = new Vector3(0, 0, 0);
                 float sideA = 0;
                 qc.SetUnitTo(UnitOf.velocity);
                 ragdollSpawn.SetActive(false);
@@ -480,26 +485,26 @@ public class HardManager : MonoBehaviour
                 throwingPath.transform.localScale = new Vector2(40 / 5, throwingPath.transform.localScale.y);
                 throwingPath.transform.Rotate(0, 0, 90 - (Mathf.Atan(dT / y) * Mathf.Rad2Deg) - angleB);
                 throwingPath.transform.position = new Vector2(myPlayer.transform.position.x + 0.5f, 3);
-                
+
                 veloTime.transform.Rotate(0, 0, 90 - (Mathf.Atan(dT / y) * Mathf.Rad2Deg) - angleB);
                 veloTime.SetActive(false);
-                veloTime.transform.Find("line1").GetComponent<LineRenderer>().enabled =false;
+                veloTime.transform.Find("line1").GetComponent<LineRenderer>().enabled = false;
 
-                bossVeloLabel.transform.GetComponent<RectTransform>().localRotation = Quaternion.EulerAngles(0, 0,(-90 - angle ) * Mathf.Deg2Rad);
+                bossVeloLabel.transform.GetComponent<RectTransform>().localRotation = Quaternion.EulerAngles(0, 0, (-90 - angle) * Mathf.Deg2Rad);
 
                 angleB = throwingPath.transform.localEulerAngles.z;
                 stoneVeloLabel.SetActive(true);
                 stoneVeloLabel.GetComponent<TMP_Text>().text = $"v = ?{qc.Unit(UnitOf.velocity)}";
                 stoneVeloLabel.transform.position = new Vector2(myPlayer.transform.position.x, myPlayer.transform.position.y + 1.5f);
-                stoneVeloLabel.transform.GetComponent<RectTransform>().localRotation= Quaternion.EulerAngles(0, 0, 90 - (Mathf.Atan(dT / y)) - (angleB*Mathf.Deg2Rad));
+                stoneVeloLabel.transform.GetComponent<RectTransform>().localRotation = Quaternion.EulerAngles(0, 0, 90 - (Mathf.Atan(dT / y)) - (angleB * Mathf.Deg2Rad));
 
                 // throwingPathTxt[2].SetActive(true);
                 throwingPathTxt.transform.position = throwingPath.transform.position + new Vector3(dT / 2, (y) / 2);
-                throwingPathTxt.transform.GetComponent<RectTransform>().localRotation= Quaternion.EulerAngles(0, 0, 90 - (Mathf.Atan(dT / y)) - (angleB*Mathf.Deg2Rad));
-                
+                throwingPathTxt.transform.GetComponent<RectTransform>().localRotation = Quaternion.EulerAngles(0, 0, 90 - (Mathf.Atan(dT / y)) - (angleB * Mathf.Deg2Rad));
+
                 bossVeloLabel.GetComponent<RectTransform>().localPosition = new Vector2(bossHead.transform.position.x, bossHead.transform.position.y + 1);
-                
-                question = $"<b>{playerName}</b> is finally instucted to throw one more rock into the monster's mouth for the last time. If the exact location of the monster's mouth is exactly <b>{xS.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away horizontally for the starting point of the throwing path and the monster is moving diagonally up and forward at <b>{bossV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b> at <b>{(90+angle).ToString("f2")}{qc.Unit(UnitOf.angle)}</b>, at what velocity should <b>{playerName}</b> throw the stone at <b>{angleB.ToString("f2")}{qc.Unit(UnitOf.angle)}</b> up to hit the monster's mouth? ";
+
+                question = $"<b>{playerName}</b> is finally instucted to throw one more rock into the monster's mouth for the last time. If the exact location of the monster's mouth is exactly <b>{xS.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away horizontally for the starting point of the throwing path and the monster is moving diagonally up and forward at <b>{bossV.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b> at <b>{(90 + angle).ToString("f2")}{qc.Unit(UnitOf.angle)}</b>, at what velocity should <b>{playerName}</b> throw the stone at <b>{angleB.ToString("f2")}{qc.Unit(UnitOf.angle)}</b> up to hit the monster's mouth? ";
                 break;
         }
 
@@ -653,7 +658,7 @@ public class HardManager : MonoBehaviour
     IEnumerator StuntResult()
     {
         isEndOfStunt = false;
-        RagdollV2.disableRagdoll =false;
+        RagdollV2.disableRagdoll = false;
         yield return new WaitForSeconds(1f);
         directorIsCalling = true;
         isStartOfStunt = false;
@@ -675,14 +680,16 @@ public class HardManager : MonoBehaviour
         stone.GetComponent<Rigidbody2D>().gravityScale = 0;
         if (stage == 2)
             stoneScript.SetVelocity(throwTime, distance + x, sY);
-        else if (stage == 1){
+        else if (stage == 1)
+        {
             stoneScript.SetVelocity(throwTime, distance, sY);
             indicators.ShowVelocityLabel(true);
         }
-        else{
+        else
+        {
             indicators.ShowVelocityLabel(false);
             stoneScript.SetVelocity(throwTime, dT, y);
-            stone.transform.Rotate(0,0,angleB);
+            stone.transform.Rotate(0, 0, angleB);
             veloTime.SetActive(true);
             stoneVeloLabel.SetActive(false);
         }

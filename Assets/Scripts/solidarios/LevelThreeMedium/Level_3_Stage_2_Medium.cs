@@ -118,7 +118,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         questionController.SetQuestion(question);
         targetLock.SetActive(true);
         showResult = true;
-        
+
     }
     public IEnumerator shoot()
     {
@@ -126,18 +126,22 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         hook.transform.position = hookLauncher.transform.position;
         gunFire.Play();
         maneuverGearSfx.Play();
-        if (questionController.GetPlayerAnswer() == correctAnswer)
+        if ((questionController.GetPlayerAnswer() - 0.01 == correctAnswer) || (questionController.GetPlayerAnswer() + 0.01 == correctAnswer) || (questionController.GetPlayerAnswer() == correctAnswer))
         {
             hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo);
         }
-        if (questionController.GetPlayerAnswer() > correctAnswer)
+        else
         {
-            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo - .5f);
+            if (questionController.GetPlayerAnswer() > correctAnswer)
+            {
+                hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo - .5f);
+            }
+            if (questionController.GetPlayerAnswer() < correctAnswer)
+            {
+                hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo + .5f);
+            }
         }
-        if (questionController.GetPlayerAnswer() < correctAnswer)
-        {
-            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo + .5f);
-        }
+
 
         yield return new WaitForEndOfFrame();
         theHook.isTrailing = true;
@@ -146,23 +150,20 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-         if(playerAnswer != correctAnswer)
-        {
-            theHeart.ReduceLife();
-        }
         yield return new WaitForSeconds(2f);
-        if (playerAnswer == correctAnswer)
+        if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
         }
-        if (playerAnswer != correctAnswer)
+        else
         {
+            theHeart.ReduceLife();
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
         }
     }
     public void action()
     {
-        if (questionController.GetPlayerAnswer() == correctAnswer)
+        if ((questionController.GetPlayerAnswer() - 0.01 == correctAnswer) || (questionController.GetPlayerAnswer() + 0.01 == correctAnswer) || (questionController.GetPlayerAnswer() == correctAnswer))
         {
             SceneManager.LoadScene("LevelThreeStage3Medium");
         }
@@ -215,7 +216,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
             Vo = distanceX / (Mathf.Cos((angleGiven * Mathf.Deg2Rad)) * projectileTime);
             angularAnotation.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);
             theHook.correctAnswer = correctAnswer;
-            
+
             //VoTxt.text = "Vo = "+ Vo.ToString("F2")+" m/s";
         }
         if (questionController.isSimulating)
