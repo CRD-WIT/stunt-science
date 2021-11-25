@@ -24,6 +24,7 @@ public class AccMediumOne : MonoBehaviour
     float grabLineDistance, playerGrabLineDistance;
     private Vector2 subChopperStartPos, chopperStartPos;
     public AudioSource truckIdle, truckRunning, ChopperFlying;
+    AnswerGuards answerGuards = new AnswerGuards();
     // Start is called before the first frame update
     void Start()
     {
@@ -80,7 +81,7 @@ public class AccMediumOne : MonoBehaviour
                 theTruck.accelerating = true;
                 theTruck.accelaration = accelaration;
 
-                if ((answer - 0.01 == correctAnswer) || (answer + 0.01 == correctAnswer) || (answer == correctAnswer))
+                if (answerGuards.AnswerIsInRange(correctAnswer, answer, 0.01f))
                 {
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;

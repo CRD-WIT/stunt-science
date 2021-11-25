@@ -21,6 +21,7 @@ public class StageTwoManager : MonoBehaviour
     public AudioSource scream;
     public TMP_Text debugAnswer;
     public FirebaseManager firebaseManager;
+    AnswerGuards answerGuards = new AnswerGuards();
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
@@ -29,7 +30,7 @@ public class StageTwoManager : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         PlayerStartPoint = thePlayer.transform.position;
         whatIsAsk = UnitOf.time;
-        firebaseManager.GameLogMutation(1, 2, "Easy", Actions.Started, 0);        
+        firebaseManager.GameLogMutation(1, 2, "Easy", Actions.Started, 0);
         reset();
     }
     void FixedUpdate()
@@ -61,7 +62,8 @@ public class StageTwoManager : MonoBehaviour
                 SimulationManager.isAnswered = false;
                 theRumbling.collapse();
                 StartCoroutine(StuntResult());
-                if (playerAnswer == answerRO)
+
+                if (answerGuards.AnswerIsInRange(answerRO, playerAnswer, 0.01f))
                 {
                     currentPos = distance;
                     elapsed = answerRO;
@@ -106,7 +108,7 @@ public class StageTwoManager : MonoBehaviour
 
                         labels.ShowCorrectDistance(distance, true, new Vector2(0, 2));
                         // labels.ShowCorrectTime(answer, answer * speed, true);
-                    }                    
+                    }
                     errorMessage = $"<b>{playerName}</b> has unable to stop exactly at safe spot. Stunt Failed!";
                 }
                 labels.AnswerIs(answerIs, true);
