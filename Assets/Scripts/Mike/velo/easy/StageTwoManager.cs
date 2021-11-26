@@ -4,6 +4,7 @@ using GameConfig;
 using TMPro;
 public class StageTwoManager : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public PlayerV1_1 thePlayer;
     UnitOf whatIsAsk;
     public CeillingGenerator theCeiling;
@@ -20,8 +21,7 @@ public class StageTwoManager : MonoBehaviour
     public QuestionControllerVThree qc;
     public AudioSource scream;
     public TMP_Text debugAnswer;
-    public FirebaseManager firebaseManager;
-    AnswerGuards answerGuards = new AnswerGuards();
+    public FirebaseManager firebaseManager;    
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
@@ -45,6 +45,7 @@ public class StageTwoManager : MonoBehaviour
             elapsed += Time.fixedDeltaTime;
             currentPos = thePlayer.transform.position.x;
             qc.timer = elapsed.ToString("f2") + "s";
+            
             if ((elapsed >= playerAnswer) || (currentPos > 30))
             {
                 if (currentPos > 30)
