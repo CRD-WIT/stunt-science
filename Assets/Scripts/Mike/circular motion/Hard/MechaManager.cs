@@ -24,9 +24,9 @@ public class MechaManager : MonoBehaviour
     {
         bodyRB.velocity = velocity;
         if(velocity.x != 0) {
-        gearsRB[0].angularVelocity = GearSpeed(-0.575f);
-        gearsRB[1].angularVelocity = GearSpeed(-1.05f);
-        gearsRB[2].angularVelocity = GearSpeed(-0.775f);}
+        gearsRB[0].angularVelocity = GearSpeed(0.575f);
+        gearsRB[1].angularVelocity = GearSpeed(1.05f);
+        gearsRB[2].angularVelocity = GearSpeed(0.775f);}
     }
     public void SetMechaVelocity(float angularVelocity, float time){
         float circumferenceOfWheel = 2*(float)(Mathf.PI * (1.05f)),
@@ -35,6 +35,6 @@ public class MechaManager : MonoBehaviour
         velocity = new Vector2 (d/time,0);
     }
     float GearSpeed(float radius){
-        return (360*velocity.x/(2*(float)(Mathf.PI*radius)));
+        return -(360*velocity.x/(2*(float)(Mathf.PI*radius)));
     }
 }
