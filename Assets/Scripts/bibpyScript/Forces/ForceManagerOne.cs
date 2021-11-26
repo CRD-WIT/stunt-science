@@ -4,6 +4,7 @@ using TMPro;
 
 public class ForceManagerOne : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public PlayerB thePlayer;
     public BombScript theBombScript;
     private ForceSimulation theSimulate;
@@ -50,7 +51,7 @@ public class ForceManagerOne : MonoBehaviour
             theSimulate.zombieChase = true;
             if (theCollider.collide == true)
             {
-                if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+                if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
                 {
 
                     actiontxt.text = "Next";
@@ -166,7 +167,8 @@ public class ForceManagerOne : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         ForceSimulation.simulate = false;
-        if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+
+        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
         {
             theQuestion.answerIsCorrect = true;
             yield return new WaitForSeconds(4);

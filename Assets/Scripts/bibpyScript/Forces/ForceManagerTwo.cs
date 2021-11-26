@@ -4,6 +4,7 @@ using TMPro;
 
 public class ForceManagerTwo : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public PlayerB thePlayer;
     public QuestionContForces theQuestion;
     private ForceSimulation theSimulate;
@@ -64,7 +65,7 @@ public class ForceManagerTwo : MonoBehaviour
         if (ForceSimulation.simulate == true)
         {
             theSimulate.zombieChase = true;
-            if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+            if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
             {
                 forcetxt.text = ("f = ") + Force.ToString("F2") + ("N");
                 forcetxt.color = new Color32(107, 0, 176, 255);
@@ -80,7 +81,7 @@ public class ForceManagerTwo : MonoBehaviour
             thePlayer.moveSpeed -= playerAnswer * Time.fixedDeltaTime;
             if (theCollider.collide == true)
             {
-                if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+                if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
                 {
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
@@ -201,7 +202,7 @@ public class ForceManagerTwo : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         ForceSimulation.simulate = false;
-        if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.0f))
         {
             yield return new WaitForSeconds(4);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely escaped from zombies"), true, false);

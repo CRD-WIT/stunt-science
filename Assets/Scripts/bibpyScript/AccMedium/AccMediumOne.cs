@@ -4,6 +4,7 @@ using TMPro;
 
 public class AccMediumOne : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, playerGrabline, carInitials, chopperInitials;
     public GameObject ragdollPause, ropePoint, carArrow, chopperArrow;
     public PlayerB thePlayer;
@@ -23,8 +24,7 @@ public class AccMediumOne : MonoBehaviour
     public TMP_Text timertxt, vHtxt, viTtxt, aTtxt, actiontxt, playTimertxt;
     float grabLineDistance, playerGrabLineDistance;
     private Vector2 subChopperStartPos, chopperStartPos;
-    public AudioSource truckIdle, truckRunning, ChopperFlying;
-    AnswerGuards answerGuards = new AnswerGuards();
+    public AudioSource truckIdle, truckRunning, ChopperFlying;    
     // Start is called before the first frame update
     void Start()
     {
@@ -174,7 +174,7 @@ public class AccMediumOne : MonoBehaviour
             {
                 chopperInitials.transform.position = new Vector2(theChopper.transform.position.x + 2.1f, theChopper.transform.position.y);
                 carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2.1f, theTruck.transform.position.y);
-                if ((answer - 0.01 == correctAnswer) || (answer + 0.01 == correctAnswer) || (answer == correctAnswer))
+                if (answerGuards.AnswerIsInRange(correctAnswer, answer, 0.01f))
                 {
                     timertxt.gameObject.transform.position = new Vector2(theChopper.transform.position.x, timertxt.gameObject.transform.position.y);
                 }
@@ -233,7 +233,7 @@ public class AccMediumOne : MonoBehaviour
         velocity = 0;
         StartCoroutine(theSimulate.DirectorsCall());
         //theQuestion.ToggleModal();
-        if ((answer - 0.01 == correctAnswer) || (answer + 0.01 == correctAnswer) || (answer == correctAnswer))
+        if (answerGuards.AnswerIsInRange(correctAnswer, answer, 0.01f))
         {
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" has succesfully performed the stunt and able to grab the rope</color>"), true, false);
         }
@@ -284,7 +284,7 @@ public class AccMediumOne : MonoBehaviour
             thePlayer.gameObject.SetActive(false);
             timeOn = false;
 
-            if ((answer - 0.01 == correctAnswer) || (answer + 0.01 == correctAnswer) || (answer == correctAnswer))
+            if (answerGuards.AnswerIsInRange(correctAnswer, answer, 0.01f))
             {
                 timertxt.color = new Color32(3, 63, 0, 255);
                 hangingRagdoll.SetActive(true);

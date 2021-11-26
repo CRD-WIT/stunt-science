@@ -4,6 +4,7 @@ using TMPro;
 
 public class ProjectileHardOne : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
     public QuestionContProJHard theQuestion;
@@ -152,7 +153,8 @@ public class ProjectileHardOne : MonoBehaviour
                 {
 
                     theQuestion.isSimulating = false;
-                    if ((ProjHardSimulation.playerAnswer - 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer + 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer == correctAnswer))
+
+                    if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
                     {
                         vi += .08f;
                         theQuestion.answerIsCorrect = true;
@@ -248,7 +250,8 @@ public class ProjectileHardOne : MonoBehaviour
     {
         theArrow[0].showIndicator = false;
         indicatorReady = false;
-        if ((ProjHardSimulation.playerAnswer - 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer + 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer == correctAnswer))
+        
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             hit.SetActive(true);
             indicator.transform.position = arrow.transform.position;
@@ -306,8 +309,8 @@ public class ProjectileHardOne : MonoBehaviour
         arrow.transform.position = transform.position;
         gunShot.Play();
         maneuverGear.Play();
-
-        if ((ProjHardSimulation.playerAnswer - 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer + 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer == correctAnswer))
+        
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
         }
@@ -348,7 +351,8 @@ public class ProjectileHardOne : MonoBehaviour
         {
             //TODO: reduceLife
         }
-        if ((ProjHardSimulation.playerAnswer - 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer + 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer == correctAnswer))
+        
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, false);
         }

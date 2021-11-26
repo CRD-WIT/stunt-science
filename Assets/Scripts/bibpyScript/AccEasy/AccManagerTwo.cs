@@ -4,6 +4,7 @@ using TMPro;
 
 public class AccManagerTwo : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     string stuntResultMessage;
     public float Vi;
     public float Vf;
@@ -123,7 +124,8 @@ public class AccManagerTwo : MonoBehaviour
                     stuntResultMessage = $"{PlayerPrefs.GetString("Name")} deccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F2")} seconds.";
                 }
             }
-            if ((time - 0.01 == correctAns) || (time + 0.01 == correctAns) || (time == correctAns))
+            
+            if (answerGuards.AnswerIsInRange(correctAns, time, 0.01f))
             {
                 actiontxt.text = "Next";
                 stuntResultMessage = $"The correct answer is <b> {correctAns.ToString("F2")} </b> seconds. {PlayerPrefs.GetString("Name")} was able to enter tunnel succesfully!</color>";
@@ -182,7 +184,7 @@ public class AccManagerTwo : MonoBehaviour
                 theBike.moveSpeed = theBike.myRigidbody.velocity.x;
                 theQuestion.isSimulating = false;
                 //theBike.moveSpeed = theBike.myRigidbody.velocity.x;
-                if ((time - 0.01 == correctAns) || (time + 0.01 == correctAns) || (time == correctAns))
+                if (answerGuards.AnswerIsInRange(correctAns, time, 0.01f))
                 {
                     StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                 }

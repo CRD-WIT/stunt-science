@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Level_3_Stage_3_Medium : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     // Start is called before the first frame update
     string question, gender, pronoun, pronoun2;
     public TMP_Text debugAnswer;
@@ -129,7 +130,8 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
         hook.transform.position = hookLauncher.transform.position;
         gunFire.Play();
         maneuverGearSfx.Play();
-        if ((questionController.GetPlayerAnswer() - 0.01 == correctAnswer) || (questionController.GetPlayerAnswer() + 0.01 == correctAnswer) || (questionController.GetPlayerAnswer() == correctAnswer))
+
+        if (answerGuards.AnswerIsInRange(correctAnswer, questionController.GetPlayerAnswer(), 0.01f))
         {
             hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo);
             targetWall.SetActive(false);
@@ -155,7 +157,8 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(2f);
-        if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+        
+        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, true);
         }
@@ -167,7 +170,8 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
     }
     public void action()
     {
-        if ((questionController.GetPlayerAnswer() - 0.01 == correctAnswer) || (questionController.GetPlayerAnswer() + 0.01 == correctAnswer) || (questionController.GetPlayerAnswer() == correctAnswer))
+        
+        if (answerGuards.AnswerIsInRange(correctAnswer, questionController.GetPlayerAnswer(), 0.01f))
         {
             settings.ToggleFlashCardEnd();
             // SceneManager.LoadScene("LevelSelectV2");
@@ -239,7 +243,8 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
                 theCircular._degrees = angleGiven;
                 angleTxt.text = "Θ = " + angleGiven.ToString("F2") + "°";
             }
-            if ((questionController.GetPlayerAnswer() - 0.01 == correctAnswer) || (questionController.GetPlayerAnswer() + 0.01 == correctAnswer) || (questionController.GetPlayerAnswer() == correctAnswer))
+            
+            if (answerGuards.AnswerIsInRange(correctAnswer, questionController.GetPlayerAnswer(), 0.01f))
             {
                 angularAnotation.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);
                 hookLauncher.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);

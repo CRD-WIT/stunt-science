@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Level_3_Stage_1_Medium : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     // Start is called before the first frame update
     string question;
     public TMP_Text questionText, levelName, timerText;
@@ -128,7 +129,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     {
         //messageFlag = false;
         yield return new WaitForSeconds(2f);
-        if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
         }
