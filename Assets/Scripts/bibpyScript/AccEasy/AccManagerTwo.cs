@@ -1,11 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class AccManagerTwo : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     string stuntResultMessage;
     public float Vi;
     public float Vf;
@@ -72,7 +71,7 @@ public class AccManagerTwo : MonoBehaviour
             theQuestion.timer = timer.ToString("F2") + ("s");
             // if (float.Parse(theQuestion.timer) <= theQuestion.GetPlayerAnswer())
             // {
-                
+
             //     // timertxt.text = timer.ToString("F2") + ("s");
             // }
             // if (timer >= theQuestion.GetPlayerAnswer())
@@ -125,7 +124,8 @@ public class AccManagerTwo : MonoBehaviour
                     stuntResultMessage = $"{PlayerPrefs.GetString("Name")} deccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F2")} seconds.";
                 }
             }
-            if (time == correctAns)
+            
+            if (answerGuards.AnswerIsInRange(correctAns, time, 0.01f))
             {
                 actiontxt.text = "Next";
                 stuntResultMessage = $"The correct answer is <b> {correctAns.ToString("F2")} </b> seconds. {PlayerPrefs.GetString("Name")} was able to enter tunnel succesfully!</color>";
@@ -184,7 +184,7 @@ public class AccManagerTwo : MonoBehaviour
                 theBike.moveSpeed = theBike.myRigidbody.velocity.x;
                 theQuestion.isSimulating = false;
                 //theBike.moveSpeed = theBike.myRigidbody.velocity.x;
-                if (time == correctAns)
+                if (answerGuards.AnswerIsInRange(correctAns, time, 0.01f))
                 {
                     StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                 }
@@ -194,8 +194,10 @@ public class AccManagerTwo : MonoBehaviour
                 }
             }
             //Debug.Log($"Current Pos: {currentPos}");
-            
-        }else{
+
+        }
+        else
+        {
             theQuestion.timer = "0.00s";
         }
     }
@@ -208,7 +210,7 @@ public class AccManagerTwo : MonoBehaviour
         correctAns = (float)System.Math.Round(generateAns, 2);
         deacceleration = -(10 - Vi) / correctAns;
         //time = (float)System.Math.Round(generateTime, 2);
-        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + (" is instructed to drive ") + pronoun2 + (" motorcycle into another tunnel across the platform. In order to do this,") + pronoun2 +(" motorcycle must have an exact velocity of <b>10.00</b> m/s before it jumps off the edge. If ") +PlayerPrefs.GetString("Name")+(" is currently cruising at constant velocity of <b>") +Vi.ToString("F1") + ("</b> m/s and apply the brakes will constantly deaccelerate the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²,how long should ")+PlayerPrefs.GetString("Name")+(" apply the brakes before jumping off to successfully perform the stunt?")));
+        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to drive ") + pronoun2 + (" motorcycle into another tunnel across the platform. In order to do this,") + pronoun2 + (" motorcycle must have an exact velocity of <b>10.00</b> m/s before it jumps off the edge. If ") + PlayerPrefs.GetString("Name") + (" is currently cruising at constant velocity of <b>") + Vi.ToString("F1") + ("</b> m/s and apply the brakes will constantly deaccelerate the motorcycle by <b>") + deacceleration.ToString("F1") + ("</b> m/s²,how long should ") + PlayerPrefs.GetString("Name") + (" apply the brakes before jumping off to successfully perform the stunt?")));
         theBike.transform.position = new Vector2(-17, .2f);
         theHeart.losslife = false;
         walls.SetActive(false);

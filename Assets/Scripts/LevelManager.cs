@@ -1,5 +1,4 @@
 using UnityEngine;
-using GameConfig;
 using System.Linq;
 
 public class LevelManager : MonoBehaviour

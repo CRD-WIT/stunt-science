@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 using GameConfig;
 using UnityEngine.UI;
@@ -191,6 +190,11 @@ public class QuestionContProjMed : MonoBehaviour
         {
             StartCoroutine(IsEmpty());
         }
+        else if (playerAnswer <= 0)
+        {
+            errorText = $"Invalid answer! Answer must be a greater than 0.";
+            StartCoroutine(IsEmpty());
+        }
         else
         {
             answerFieldHorizontal.text = playerAnswer + answerUnit;
@@ -231,7 +235,7 @@ public class QuestionContProjMed : MonoBehaviour
     IEnumerator IsEmpty()
     {
         popupVisible = true;
-        errorText = "Answer box is empty!";
+        // errorText = "Answer box is empty!";
         yield return new WaitForSeconds(3);
         popupVisible = false;
         errorText = "";
@@ -358,7 +362,7 @@ public class QuestionContProjMed : MonoBehaviour
         popupTextHorizontal.SetText(errorText);
         modalComponentHorizontal.gameObject.SetActive(isModalOpen);
         modalTitleHorizontal.GetComponent<TMP_Text>().SetText(modalTitle);
-//        Debug.Log(question);
+        //        Debug.Log(question);
         problemTextHorizontal.GetComponent<TMP_Text>().SetText(question);
         modalTextHorizontal.GetComponent<TMP_Text>().SetText(modalText);
         problemTextHorizontal.SetActive(!isModalOpen);

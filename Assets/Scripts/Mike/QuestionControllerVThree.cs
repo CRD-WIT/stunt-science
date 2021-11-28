@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 using GameConfig;
 using UnityEngine.UI;
@@ -192,6 +191,7 @@ public class QuestionControllerVThree : MonoBehaviour
                 errorText = $"Invalid answer! Answer must not exceed {limit}{answerUnit}.";
                 StartCoroutine(IsEmpty());
             }
+            // TODO: Replicate to all question controllers
             else if(playerAnswer <= 0){
                 errorText = $"Invalid answer! Answer must be a greater than 0.";
                 StartCoroutine(IsEmpty());

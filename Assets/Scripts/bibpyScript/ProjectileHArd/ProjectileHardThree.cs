@@ -1,10 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class ProjectileHardThree : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
     public QuestionContProJHard theQuestion;
@@ -16,20 +16,20 @@ public class ProjectileHardThree : MonoBehaviour
     public IndicatorManager theIndicator;
     public DistanceMeter[] theMeter;
     public GameObject Mgear, target, puller, arrow, projectArrow, projectArrowTrail, blastPrefab, deflector, trail, lineRenderer, boulder, angleArrow;
-    public GameObject dimension, cam, golemInitial, playerInitial, angleDimension, angleLine,hit,miss,indicator;
+    public GameObject dimension, cam, golemInitial, playerInitial, angleDimension, angleLine, hit, miss, indicator;
     public float Vo, generateVG, vG, generateVP, vP, accG;
     public float angle, HRange, timer, generateTime, time, projectileTime, playerProjectileTime, golemTravelTime;
     public float stoneDY, correctAnswer, stoneDyR, generateAnswer;
     public float hypSide, oppSide, adjSide, oppSide2, angleGround, finalHeight;
     public float initialDistance, finalDistance, golemDistanceToTravel, playerDistanceToTravel, camDistance, playerSpeed;
-    public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow,indicatorReady;
+    public bool timeStart, answerIsCorrect, shootReady, showProjectile, running, camFollow, indicatorReady;
     string pronoun, pronoun2, gender;
     public TMP_Text golemVelo, golemAcc, VoTxt, playerVelo, actionTxt, angleTxt;
     public AudioSource gunShot, maneuverGear, oxygenSfx;
     // Start is called before the first frame update
     void Start()
     {
-         theQuestion.stage = 3;
+        theQuestion.stage = 3;
         theSimulate.stage = 3;
         camDistance = thePlayer.transform.position.x - cam.transform.position.x;
         golemAcc.gameObject.SetActive(true);
@@ -56,7 +56,7 @@ public class ProjectileHardThree : MonoBehaviour
         angleArrow.transform.position = new Vector2(transform.position.x + .1f, transform.position.y);
         golemInitial.transform.position = theGolem.transform.position;
         playerInitial.transform.position = thePlayer.transform.position;
-        if(theArrow[0].showIndicator & indicatorReady)
+        if (theArrow[0].showIndicator & indicatorReady)
         {
             StartCoroutine(showHitMiss());
         }
@@ -115,25 +115,28 @@ public class ProjectileHardThree : MonoBehaviour
             trail.SetActive(true);
             timeStart = true;
             running = true;
-            if (ProjHardSimulation.playerAnswer > correctAnswer)
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (ProjHardSimulation.playerAnswer));
-                actionTxt.text = "retry";
-                Vo -= .5f;
-
-            }
-            if (ProjHardSimulation.playerAnswer < correctAnswer)
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (ProjHardSimulation.playerAnswer));
-                actionTxt.text = "retry";
-                Vo += .3f;
-            }
-            if (ProjHardSimulation.playerAnswer == correctAnswer)
+            
+            if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
             {
                 deflector.GetComponent<Collider2D>().isTrigger = true;
                 theQuestion.answerIsCorrect = true;
                 actionTxt.text = "done";
+            }
+            else
+            {
+                if (ProjHardSimulation.playerAnswer > correctAnswer)
+                {
+                    transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (ProjHardSimulation.playerAnswer));
+                    actionTxt.text = "retry";
+                    Vo -= .5f;
 
+                }
+                if (ProjHardSimulation.playerAnswer < correctAnswer)
+                {
+                    transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (ProjHardSimulation.playerAnswer));
+                    actionTxt.text = "retry";
+                    Vo += .3f;
+                }
             }
             theQuestion.isSimulating = false;
 
@@ -212,22 +215,22 @@ public class ProjectileHardThree : MonoBehaviour
     {
         theArrow[0].showIndicator = false;
         indicatorReady = false;
-        if (ProjHardSimulation.playerAnswer == correctAnswer)
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             hit.SetActive(true);
             indicator.transform.position = arrow.transform.position;
-             yield return new WaitForSeconds(1.5f);
-             hit.SetActive(false);
+            yield return new WaitForSeconds(1.5f);
+            hit.SetActive(false);
 
         }
-        if (ProjHardSimulation.playerAnswer != correctAnswer)
+        else
         {
             miss.SetActive(true);
             indicator.transform.position = arrow.transform.position;
-             yield return new WaitForSeconds(1.5f);
-             miss.SetActive(false);
+            yield return new WaitForSeconds(1.5f);
+            miss.SetActive(false);
         }
-       
+
 
     }
     public void ShootArrow()
@@ -242,7 +245,7 @@ public class ProjectileHardThree : MonoBehaviour
         gunShot.Play();
         maneuverGear.Play();
         arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo - .1f);
-        if (ProjHardSimulation.playerAnswer == correctAnswer)
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             StartCoroutine(ropePull());
         }
@@ -309,13 +312,12 @@ public class ProjectileHardThree : MonoBehaviour
     IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(projectileTime + 4);
-        if (ProjHardSimulation.playerAnswer == correctAnswer)
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, true);
         }
-        if (ProjHardSimulation.playerAnswer != correctAnswer)
+        else
         {
-            
             theHeart.ReduceLife();
             yield return new WaitForSeconds(2);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit the target"), false, false);

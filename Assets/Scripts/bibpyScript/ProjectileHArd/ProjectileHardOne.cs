@@ -1,10 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class ProjectileHardOne : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
     public QuestionContProJHard theQuestion;
@@ -153,7 +153,8 @@ public class ProjectileHardOne : MonoBehaviour
                 {
 
                     theQuestion.isSimulating = false;
-                    if (ProjHardSimulation.playerAnswer == correctAnswer)
+
+                    if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
                     {
                         vi += .08f;
                         theQuestion.answerIsCorrect = true;
@@ -169,20 +170,24 @@ public class ProjectileHardOne : MonoBehaviour
                         //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " pulled the trigger at the exact timed. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
 
                     }
-                    if (ProjHardSimulation.playerAnswer > correctAnswer)
+                    else
                     {
-                        //theQuestion.SetModalTitle("Stunt failed");
-                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " pulled the trigger after <b>" +  ProjHardSimulation.playerAnswer.ToString("F2") + "</b> seconds and too late to hit the target. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
-                        vi += .3f;
-                        StartCoroutine(StuntResult());
+                        if (ProjHardSimulation.playerAnswer > correctAnswer)
+                        {
+                            //theQuestion.SetModalTitle("Stunt failed");
+                            //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " pulled the trigger after <b>" +  ProjHardSimulation.playerAnswer.ToString("F2") + "</b> seconds and too late to hit the target. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
+                            vi += .3f;
+                            StartCoroutine(StuntResult());
+                        }
+                        if (ProjHardSimulation.playerAnswer < correctAnswer)
+                        {
+                            //theQuestion.SetModalTitle("Stunt failed");
+                            //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " pulled the trigger after <b>" +  ProjHardSimulation.playerAnswer.ToString("F2") + "</b> seconds and too soon to hit the target. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
+                            vi -= .3f;
+                            StartCoroutine(StuntResult());
+                        }
                     }
-                    if (ProjHardSimulation.playerAnswer < correctAnswer)
-                    {
-                        //theQuestion.SetModalTitle("Stunt failed");
-                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " pulled the trigger after <b>" +  ProjHardSimulation.playerAnswer.ToString("F2") + "</b> seconds and too soon to hit the target. The correct answer is  <b>" + correctAnswer.ToString("F2") + "</b> seconds.");
-                        vi -= .3f;
-                        StartCoroutine(StuntResult());
-                    }
+
                     ShootArrow();
 
                     shootReady = false;
@@ -245,22 +250,22 @@ public class ProjectileHardOne : MonoBehaviour
     {
         theArrow[0].showIndicator = false;
         indicatorReady = false;
-        if (ProjHardSimulation.playerAnswer == correctAnswer)
+        
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             hit.SetActive(true);
             indicator.transform.position = arrow.transform.position;
-             yield return new WaitForSeconds(1.5f);
-             hit.SetActive(false);
+            yield return new WaitForSeconds(1.5f);
+            hit.SetActive(false);
 
         }
-        if (ProjHardSimulation.playerAnswer != correctAnswer)
+        else
         {
             miss.SetActive(true);
             indicator.transform.position = arrow.transform.position;
-             yield return new WaitForSeconds(1.5f);
-             miss.SetActive(false);
+            yield return new WaitForSeconds(1.5f);
+            miss.SetActive(false);
         }
-       
 
     }
     IEnumerator ropePull()
@@ -304,17 +309,21 @@ public class ProjectileHardOne : MonoBehaviour
         arrow.transform.position = transform.position;
         gunShot.Play();
         maneuverGear.Play();
-        if (ProjHardSimulation.playerAnswer < correctAnswer)
+        
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
         }
-        if (ProjHardSimulation.playerAnswer > correctAnswer)
+        else
         {
-            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
-        }
-        if (ProjHardSimulation.playerAnswer == correctAnswer)
-        {
-            arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
+            if (ProjHardSimulation.playerAnswer < correctAnswer)
+            {
+                arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
+            }
+            if (ProjHardSimulation.playerAnswer > correctAnswer)
+            {
+                arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
+            }
         }
         GameObject explosion = Instantiate(blastPrefab);
         explosion.transform.position = transform.position;
@@ -342,11 +351,12 @@ public class ProjectileHardOne : MonoBehaviour
         {
             //TODO: reduceLife
         }
-        if (ProjHardSimulation.playerAnswer == correctAnswer)
+        
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, false);
         }
-        if (ProjHardSimulation.playerAnswer != correctAnswer)
+        else
         {
             theHeart.ReduceLife();
             yield return new WaitForSeconds(2);
