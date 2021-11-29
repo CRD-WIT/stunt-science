@@ -125,7 +125,7 @@ public class AccManagerOne : MonoBehaviour
                     stuntResultMessage = $"{PlayerPrefs.GetString("Name")} accelerated the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F1")} m/s².";
                 }
             }
-            if ((accelaration - 0.01 == correctAns) || (accelaration + 0.01 == accelaration) || (accelaration == correctAns))
+            if ((accelaration == correctAns) || (accelaration + 0.01 == accelaration) || (accelaration == correctAns))
             {
                 stuntResultMessage = $"The correct answer is <b> {correctAns.ToString("F2")}</b> m/s². {PlayerPrefs.GetString("Name")} was able to enter tunnel succesfully!</color>";
                 answerIsCorrect = true;
