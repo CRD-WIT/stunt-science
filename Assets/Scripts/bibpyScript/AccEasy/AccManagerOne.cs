@@ -73,9 +73,6 @@ public class AccManagerOne : MonoBehaviour
     }
     void FixedUpdate()
     {
-
-
-
         debugAnswer.SetText($"Answer: {correctAns}");
 
         playerDistance = (time * time) * accelaration / 2;
