@@ -61,7 +61,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     void FixedUpdate()
     {
         debugAnswer.SetText($"Answer: {Speed}");
-        float answer = questionController.GetPlayerAnswer();
+        float answer = questionController.GetPlayerAnswer();        
         if (SimulationManager.isAnswered)
         {
             labels.distanceSpawnPnt = new Vector2(0, -2);
@@ -79,7 +79,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 SimulationManager.isAnswered = false;
                 elapsed = gameTime;
                 questionController.timer = gameTime.ToString("f2") + "s";
-
+                Debug.Log($"answer: {Speed}:{answer}");
                 if (answerGuards.AnswerIsInRange(Speed, answer, 0.01f))
                 {
                     currentPos = distance;
@@ -87,6 +87,12 @@ public class VelocityEasyStage1 : MonoBehaviour
                     errorMessage = $"<b>{playerName}</b> successfully performed the stunt and went to the safe spot!";//PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
                     answerIs = true;
                     myPlayer.transform.position = new Vector2(currentPos, myPlayer.transform.position.y);
+                    
+                    Debug.Log($"prev answer: {answer}");
+                    // NOTE: Auto correct value
+                    // answer = answerGuards.AdjustAnswer(Speed, answer, 0.01f);
+
+                    Debug.Log($"auto correct: {answer}");
                 }
                 else
                 {
