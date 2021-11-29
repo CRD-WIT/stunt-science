@@ -150,7 +150,7 @@ public class VelocityMediumManager : MonoBehaviour
                         indicators.UnknownIs('d');
                         timingD = playerAnswer;
                         distanceTraveled = playerAnswer;
-                        if (((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+                        if (((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer)))
                         {
                             isAnswerCorrect = true;
                             elapsed = stuntTime;
@@ -201,7 +201,7 @@ public class VelocityMediumManager : MonoBehaviour
                         elapsed = stuntTime;
                         boulderRB.velocity = new Vector2(boulderRB.velocity.x, boulderRB.velocity.y);
                         boulder2RB.velocity = new Vector2(boulder2RB.velocity.x, boulder2RB.velocity.y);
-                        if (((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+                        if (((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer)))
                         {
                             isAnswerCorrect = true;
                             elapsed = stuntTime;
