@@ -4,6 +4,7 @@ using TMPro;
 
 public class AccManagerThree : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public float Vi;
     public float Vf;
     public float timer;
@@ -132,7 +133,7 @@ public class AccManagerThree : MonoBehaviour
                 }
 
             }
-            if ((Vi - 0.01 == correctAns) || (Vi + 0.01 == correctAns) || (Vi == correctAns))
+            if (answerGuards.AnswerIsInRange(correctAns, Vi, 0.01f))
             {
                 //theQuestion.SetModalTitle("Stunt Success");
                 if (timer >= time)
@@ -182,7 +183,7 @@ public class AccManagerThree : MonoBehaviour
                 {
                     theBike.moveSpeed = 0;
                     engineRunning.Stop();
-                    if ((Vi - 0.01 == correctAns) || (Vi + 0.01 == correctAns) || (Vi == correctAns))
+                    if (answerGuards.AnswerIsInRange(correctAns, Vi, 0.01f))
                     {
                         velocitytxt.text = ("vf = 0.00 m/s");
                     }
@@ -225,7 +226,7 @@ public class AccManagerThree : MonoBehaviour
     IEnumerator StuntResult(string message, bool isCorrect)
     {
         yield return new WaitForSeconds(2);
-        if ((Vi - 0.01 == correctAns) || (Vi + 0.01 == correctAns) || (Vi == correctAns))
+        if (answerGuards.AnswerIsInRange(correctAns, Vi, 0.01f))
         {
             truckEngine.Stop();
             theQuestion.ActivateResult(message, isCorrect, true);
@@ -259,7 +260,7 @@ public class AccManagerThree : MonoBehaviour
         yield return new WaitForSeconds(2);
         StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
         theTruck.moveSpeed = 10;
-        if ((Vi - 0.01 == correctAns) || (Vi + 0.01 == correctAns) || (Vi == correctAns))
+        if (answerGuards.AnswerIsInRange(correctAns, Vi, 0.01f))
         {
             theBike.moveSpeed = 10f;
         }

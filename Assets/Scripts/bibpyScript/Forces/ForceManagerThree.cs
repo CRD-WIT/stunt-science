@@ -4,6 +4,7 @@ using TMPro;
 
 public class ForceManagerThree : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public PlayerB thePlayer;
     public QuestionContForces theQuestion;
     public BombScript theBombScript;
@@ -109,7 +110,7 @@ public class ForceManagerThree : MonoBehaviour
         if (startRunning)
         {
             theSimulate.zombieChase = true;
-            if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+            if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
             {
                 forcetxt.text = ("f = ") + force.ToString("F2") + ("N");
                 forcetxt.color = new Color32(107, 0, 176, 255);
@@ -126,7 +127,7 @@ public class ForceManagerThree : MonoBehaviour
             thePlayer.moveSpeed += accelaration * Time.fixedDeltaTime;
             if (theCollider.collide == true)
             {
-                if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+                if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
                 {
                     theQuestion.answerIsCorrect = true;
                     //action.SetActive(false);
@@ -263,7 +264,7 @@ public class ForceManagerThree : MonoBehaviour
         }
         yield return new WaitForSeconds(3);
         //theQuestion.ToggleModal();
-        if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely from zombies"), true, true);
             // theScorer.finalstar();

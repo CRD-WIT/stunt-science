@@ -6,6 +6,7 @@ using GameConfig;
 
 public class HardManager : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     AngleAnnotaion labels;
     AngleAnnotaion1 triangleAnnotaion;
     IndicatorManagerV1_1 indicators;
@@ -136,7 +137,7 @@ public class HardManager : MonoBehaviour
                         bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
                         isEndOfStunt = true;
                     }
-                    if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+                    if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
                     {
                         stonePosX = playerAnswer;
                         isAnswerCorrect = true;
@@ -155,7 +156,7 @@ public class HardManager : MonoBehaviour
                         elapsed = playerAnswer;
                         isThrown = true;
                         isAnswered = false;
-                        if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+                        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
                         {
                             isAnswerCorrect = true;
                             messageTxt = $"<b>{playerName}</b> successfully performed the stunt and the rock hit the monster's mouth!";
@@ -173,7 +174,7 @@ public class HardManager : MonoBehaviour
                     {
                         isAnswered = false;
                         elapsed = stuntTime;
-                        if ((playerAnswer - 0.01 == correctAnswer) || (playerAnswer + 0.01 == correctAnswer) || (playerAnswer == correctAnswer))
+                        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
                         {
                             isAnswerCorrect = true;
                             isEnd = true;

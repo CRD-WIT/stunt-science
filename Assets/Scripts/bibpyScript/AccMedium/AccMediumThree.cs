@@ -4,6 +4,7 @@ using TMPro;
 
 public class AccMediumThree : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos, carInitials, chopperInitials, wordedBoard, edgeline, ropehere, carArrow, chopperArrow;
     public SubSuv theSubVan;
     public DistanceMeter theDistance;
@@ -124,8 +125,8 @@ public class AccMediumThree : MonoBehaviour
                 {
                     StartCoroutine(StuntResult());
                 }
-
-                if ((accV - 0.01 == correctAnswer) || (accV + 0.01 == correctAnswer) || (accV == correctAnswer))
+                
+                if (answerGuards.AnswerIsInRange(correctAnswer, accV, 0.01f))
                 {
                     aVtxt.color = new Color32(107, 0, 176, 255);
                     //actiontxt.text = "Next";
@@ -268,7 +269,7 @@ public class AccMediumThree : MonoBehaviour
         yield return new WaitForSeconds(4);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1);
-        if ((accV - 0.01 == correctAnswer) || (accV + 0.01 == correctAnswer) || (accV == correctAnswer))
+        if (answerGuards.AnswerIsInRange(correctAnswer, accV, 0.01f))
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has successfully performed the stunt and able to grabbed the rope before the van fell on the water"), true, true);
         }

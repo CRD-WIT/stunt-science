@@ -4,6 +4,7 @@ using TMPro;
 
 public class ProjectileHardThree : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
     public QuestionContProJHard theQuestion;
@@ -114,8 +115,8 @@ public class ProjectileHardThree : MonoBehaviour
             trail.SetActive(true);
             timeStart = true;
             running = true;
-
-            if ((ProjHardSimulation.playerAnswer - 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer + 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer == correctAnswer))
+            
+            if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
             {
                 deflector.GetComponent<Collider2D>().isTrigger = true;
                 theQuestion.answerIsCorrect = true;
@@ -214,7 +215,7 @@ public class ProjectileHardThree : MonoBehaviour
     {
         theArrow[0].showIndicator = false;
         indicatorReady = false;
-        if ((ProjHardSimulation.playerAnswer - 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer + 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer == correctAnswer))
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             hit.SetActive(true);
             indicator.transform.position = arrow.transform.position;
@@ -244,7 +245,7 @@ public class ProjectileHardThree : MonoBehaviour
         gunShot.Play();
         maneuverGear.Play();
         arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo - .1f);
-        if ((ProjHardSimulation.playerAnswer - 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer + 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer == correctAnswer))
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             StartCoroutine(ropePull());
         }
@@ -311,7 +312,7 @@ public class ProjectileHardThree : MonoBehaviour
     IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(projectileTime + 4);
-        if ((ProjHardSimulation.playerAnswer - 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer + 0.01 == correctAnswer) || (ProjHardSimulation.playerAnswer == correctAnswer))
+        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, true);
         }
