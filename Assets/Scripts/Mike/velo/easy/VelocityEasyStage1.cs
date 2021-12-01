@@ -64,12 +64,8 @@ public class VelocityEasyStage1 : MonoBehaviour
     {
         
         float answer = questionController.GetPlayerAnswer();
-        debugAnswer.SetText($"Answer: {Speed}");
-        
-        if (answerGuards.AnswerIsInRange(Speed, answer, 0.01f)){
-            answer = answerGuards.AdjustAnswer(Speed, answer, 0.01f);
-        }
-   
+        debugAnswer.SetText($"Answer: {Speed}");        
+        float adjustedAnswer = questionController.AnswerTolerance(Speed);
         if (SimulationManager.isAnswered)
         {
             labels.distanceSpawnPnt = new Vector2(0, -2);
@@ -87,8 +83,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 SimulationManager.isAnswered = false;
                 elapsed = gameTime;
                 questionController.timer = gameTime.ToString("f2") + "s";
-                Debug.Log($"answer: {Speed}:{answer}");
-                if (answerGuards.AnswerIsInRange(Speed, answer, 0.01f))
+                if (adjustedAnswer == Speed)//((answer == Speed))
                 {
                     currentPos = distance;
                     rubbleBlocker.SetActive(true);
@@ -116,7 +111,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                         myPlayer.lost = true;
                     }
                     answerIs = false;
-                    if (answer < Speed)
+                    if (adjustedAnswer<Speed)//(answer < Speed)
                     {
                         scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos - 0.2f, myPlayer.transform.position.y);

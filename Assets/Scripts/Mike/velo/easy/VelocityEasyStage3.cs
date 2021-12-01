@@ -72,8 +72,7 @@ public class VelocityEasyStage3 : MonoBehaviour
                 myPlayer.moveSpeed = 0;
                 qc.timer = gameTime.ToString("f2") + "s";
                 StartCoroutine(ManholeCover());
-
-                if (answerGuards.AnswerIsInRange(distance, answer, 0.01f))
+                if (SimulationManager.adjustedAnswer == distance)//((answer == distance))
                 {
                     myPlayer.slide = true;
                     elapsed = gameTime;
@@ -97,7 +96,7 @@ public class VelocityEasyStage3 : MonoBehaviour
                     }
                     SimulationManager.isAnswerCorrect = false;
                     currentPos = (40 - answer) + (Speed * gameTime);
-                    if (answer < distance)
+                    if (SimulationManager.adjustedAnswer<distance) //(answer < distance)
                     {
                         scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos + 0.4f, myPlayer.transform.position.y);
