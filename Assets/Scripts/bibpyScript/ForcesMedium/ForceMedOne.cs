@@ -6,8 +6,8 @@ public class ForceMedOne : MonoBehaviour
 {
     public ForceMedSimulation theSimulate;
     public PlayerContForcesMed thePlayer;
-    public float velocity,velocityFinal, accelerationPlayer,accelerationFinal,time, timer,totalDistance,playerDistance,massBox, force, massPlayer,momentum;
-    public float weightBox,finalForce,timeInitial,accelerationBox, boxVf,boxTime,timeMomentum,momentumNeeded,forceNeeded,VfPlayer;
+    public float velocity,velocityFinal, accelerationPlayer,time, timer,totalDistance,massBox, forcePlayer, massPlayer,momentum;
+    public float weightBox,timeInitial,accelerationBox;
     public bool preset,startRunning;
     // Start is called before the first frame update
     void Start()
@@ -21,26 +21,26 @@ public class ForceMedOne : MonoBehaviour
         if(preset)
         {
             // accelerationFinal = totalDistance / (time*time);
-            // force = massPlayer * accelerationPlayer;
-            // accelerationPlayer = force/massPlayer;
+            // forcePlayer = massPlayer * accelerationPlayer;
+            // accelerationPlayer = forcePlayer/massPlayer;
             // velocityFinal = Mathf.Sqrt((velocity*velocity) + 2*accelerationPlayer*playerDistance );
             // momentum = massPlayer * velocityFinal;
             // VfPlayer = Mathf.Sqrt( (2*accelerationPlayer)*playerDistance);
-            // momentum = force*timeInitial;
+            // momentum = forcePlayer*timeInitial;
             // weightBox = massBox * 9.81f;
             // timeInitial = (VfPlayer - velocity)/ accelerationPlayer;
-            // force = massPlayer * accelerationPlayer;
+            // forcePlayer = massPlayer * accelerationPlayer;
             // finalForce = momentum / timeInitial;
-            // accelerationBox = force / massBox;
+            // accelerationBox = forcePlayer / massBox;
             // boxVf = Mathf.Sqrt( (2*accelerationBox)*totalDistance);
             // boxTime = boxVf/accelerationBox;
             // momentumNeeded = massBox/accelerationPlayer;
-            // timeMomentum = momentumNeeded/force;
+            // timeMomentum = momentumNeeded/forcePlayer;
             // forceNeeded = massBox/accelerationFinal;
             weightBox = massBox * 9.81f;
             accelerationBox = ((2*totalDistance)/(timeInitial*timeInitial));
-            force = massBox * accelerationBox;
-            accelerationPlayer = force/massPlayer;
+            forcePlayer = massPlayer * accelerationBox;
+            accelerationPlayer = accelerationBox;
             
         }
         if(startRunning)
@@ -49,16 +49,16 @@ public class ForceMedOne : MonoBehaviour
         }
         if(theSimulate.simulate == true)
         {
-             momentum = force*timer;
+             momentum = forcePlayer*timer;
             preset = false;
             if(timer <= 0)
             {
                 thePlayer.moveSpeed = velocity;
             }
             timer += Time.fixedDeltaTime;
-            //  thePlayer.moveSpeed = (time*force) / massPlayer;
+            //  thePlayer.moveSpeed = (time*forcePlayer) / massPlayer;
             //  velocity = thePlayer.moveSpeed;
-            thePlayer.moveSpeed += accelerationPlayer * Time.fixedDeltaTime;
+            thePlayer.moveSpeed += accelerationBox * Time.fixedDeltaTime;
             if(timer >= timeInitial)
             {
                 Time.timeScale = 0;
