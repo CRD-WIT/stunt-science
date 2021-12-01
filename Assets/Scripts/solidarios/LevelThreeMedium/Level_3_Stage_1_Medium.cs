@@ -45,12 +45,12 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     bool directorIsCalling;
     public TMP_Text diretorsSpeech;
     public TMP_InputField answerField;
-    static float playerAnswer;
+    float playerAnswer;
+    float adjustedAnswer;
     public Button playButton;
     public HeartManager theHeart;
     public TMP_Text debugAnswer;
     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
-
     public FirebaseManager firebaseManager;
     public AudioSource gunFire, maneuverGearSfx;
 
@@ -129,7 +129,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     {
         //messageFlag = false;
         yield return new WaitForSeconds(2f);
-        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
+        if (answerGuards.AnswerIsInRange(correctAnswer, adjustedAnswer, 0.01f))
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
         }
@@ -169,7 +169,8 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     {
 
         velocityInitial = questionController.GetPlayerAnswer();
-        velocityY = Mathf.Abs(velocityInitial * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
+        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);     
+        velocityY = Mathf.Abs(adjustedAnswer * Mathf.Sin(angleGiven * Mathf.Deg2Rad));
         Debug.Log($"VelocityX: {velocityX}");
         Debug.Log($"VelocityY: {velocityY}");
         //hookLine.SetActive(true);
@@ -194,7 +195,9 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     {
 
         playerAnswer = questionController.GetPlayerAnswer();
-        if (answerField.text == "" || playerAnswer > 20 || playerAnswer < 1)
+        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);     
+
+        if (answerField.text == "" || adjustedAnswer > 20 || adjustedAnswer < 1)
         {
 
             questionController.errorText = ("answer must be in between 1 m/s and 20 m/s");
@@ -214,7 +217,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     }
     public void action()
     {
-        if (questionController.GetPlayerAnswer() == correctAnswer)
+        if (adjustedAnswer == correctAnswer)
         {
             SceneManager.LoadScene("LevelThreeStage2Medium");
         }
@@ -262,7 +265,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
         if (questionController.isSimulating)
         {
-            if (questionController.GetPlayerAnswer() > 0)
+            if (adjustedAnswer > 0)
             {
                 RegenerateVelocities();
                 theHook.correctAnswer = (float)System.Math.Round(correctAnswer, 2);
@@ -275,7 +278,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                 //timerText.text = elapsed.ToString("f2") + "s";
 
                 // Correct Answer
-                if (System.Math.Round(questionController.GetPlayerAnswer(), 2) == System.Math.Round(correctAnswer, 2))
+                if (System.Math.Round(adjustedAnswer, 2) == System.Math.Round(correctAnswer, 2))
                 {
                     if (!doneFiring)
                     {
@@ -284,7 +287,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         hook.GetComponent<Rigidbody2D>().WakeUp();
                         hookLine.SetActive(true);
                         //hook.GetComponent<Rigidbody2D>().velocity = new Vector3(velocityX, velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
-                        hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer());
+                        hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (adjustedAnswer);
                         gunFire.Play();
                         maneuverGearSfx.Play();
                         blast.SetActive(true);
@@ -318,14 +321,14 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
                         //hook.GetComponent<Rigidbody2D>().velocity = new Vector3(questionController.GetPlayerAnswer(), velocityY, 0) / (hook.GetComponent<Rigidbody2D>().mass);
                         if (questionController.GetPlayerAnswer() < correctAnswer)
                         {
-                            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer() - .5f);
+                            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (adjustedAnswer - .5f);
                             maneuverGearSfx.Play();
                             gunFire.Play();
                             blast.SetActive(true);
                         }
                         if (questionController.GetPlayerAnswer() > correctAnswer)
                         {
-                            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (questionController.GetPlayerAnswer() + .5f);
+                            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (adjustedAnswer + .5f);
                             maneuverGearSfx.Play();
                             gunFire.Play();
                             blast.SetActive(true);

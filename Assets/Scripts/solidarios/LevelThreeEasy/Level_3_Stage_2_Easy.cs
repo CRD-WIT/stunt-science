@@ -47,6 +47,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     bool ShowResult;
     public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
     public FirebaseManager firebaseManager;
+    float adjustedAnswer;
     void Start()
     {
         firebaseManager.GameLogMutation(3, 2, "Easy", Actions.Started, 0); 
@@ -160,6 +161,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         // cameraScript.isStartOfStunt = true;
         // questionController.SetAnswer();
         answer = questionController.GetPlayerAnswer();
+        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);     
         questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;
@@ -182,7 +184,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
             thePlayerAnimation.SetBool("isFalling", true);
 
             // Correct Answer
-            if (System.Math.Round(answer, 2) == System.Math.Round(correctAnswer, 2))
+            if (System.Math.Round(adjustedAnswer, 2) == System.Math.Round(correctAnswer, 2))
             {
                 answerIsCorrect = true;
                 Debug.Log("Time is correct!");
@@ -207,7 +209,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
             else
             {
                 answerIsCorrect = false;
-                if (answer < System.Math.Round(correctAnswer, 2))
+                if (adjustedAnswer < System.Math.Round(correctAnswer, 2))
                 {
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                     {
