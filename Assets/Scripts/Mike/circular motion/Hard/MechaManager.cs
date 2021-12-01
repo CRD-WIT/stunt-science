@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MechaManager : MonoBehaviour
 {
-    Vector2 velocity;
+    public Vector2 velocity;
     float time;
     Rigidbody2D[] gearsRB = new Rigidbody2D[3];
     Rigidbody2D bodyRB;

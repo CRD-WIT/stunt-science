@@ -22,22 +22,12 @@ public class ConveyorTooth : MonoBehaviour
         if (other.gameObject.name == "UpperToothReset")
         {
             GameObject parent = GameObject.Find("UpperTooth");
-            Destroy(this.gameObject);
-            GameObject tooth = Instantiate(this.gameObject);
-            tooth.transform.position = new Vector2(11.239f, 0.96f);
-            tooth.GetComponent<Collider2D>().enabled = true;
-            tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(-ConveyorManager.conveyorSpeed, 0);
-            tooth.transform.SetParent(parent.transform);
+            this.gameObject.transform.position = parent.transform.Find("UpperSpawnPoint").position;
         }
         else
         {
             GameObject parent = GameObject.Find("LowerTooth");
-            Destroy(this.gameObject);
-            GameObject tooth = Instantiate(this.gameObject);
-            tooth.transform.position = new Vector2(-11.1318f, -0.92f);
-            tooth.GetComponent<Collider2D>().enabled = true;
-            tooth.GetComponent<Rigidbody2D>().velocity = new Vector2(ConveyorManager.conveyorSpeed, 0);
-            tooth.transform.SetParent(parent.transform);
+            this.gameObject.transform.position = parent.transform.Find("LowerSpawnPoint").position;
         }
     }
 }
