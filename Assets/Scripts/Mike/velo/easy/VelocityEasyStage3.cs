@@ -20,6 +20,7 @@ public class VelocityEasyStage3 : MonoBehaviour
     public TMP_Text debugAnswer;
     public AudioSource scream;
     public FirebaseManager firebaseManager;
+    AnswerGuards answerGuards = new AnswerGuards();
 
     // Start is cdimensionLineled before the first frame update
 
@@ -37,7 +38,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         }
         playerName = PlayerPrefs.GetString("Name");
 
-        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0);        
+        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0);
 
         Stage3SetUp();
 
@@ -119,7 +120,7 @@ public class VelocityEasyStage3 : MonoBehaviour
     {
         Debug.Log("Setup launched");
         string question;
-        
+
         qc.SetUnitTo(UnitOf.distance);
         templeBeam.SetActive(false);
         distance = 0;
@@ -151,7 +152,7 @@ public class VelocityEasyStage3 : MonoBehaviour
 
         dimensionLine.GetComponent<IndicatorManagerV1_1>().UnknownIs('d');
         dimensionLine.GetComponent<IndicatorManagerV1_1>().showLines(distance, null, Speed, gameTime);
-        dimensionLine.GetComponent<IndicatorManagerV1_1>().distanceSpawnPnt = new Vector2(40-distance,-2);
+        dimensionLine.GetComponent<IndicatorManagerV1_1>().distanceSpawnPnt = new Vector2(40 - distance, -2);
         // dimensionLine.GetComponent<IndicatorManagerV1_1>().timeSpawnPnt = new Vector2(40-distance,-2.25f);
         dimensionLine.GetComponent<IndicatorManagerV1_1>().ShowVelocityLabel(true);
     }

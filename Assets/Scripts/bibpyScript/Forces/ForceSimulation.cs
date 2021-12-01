@@ -22,10 +22,10 @@ public class ForceSimulation : MonoBehaviour
     public Quaternion startRotation;
     public Vector2 startPosition;
 
-    public GameObject  fadeOut, fadeIn;
+    public GameObject fadeOut, fadeIn;
     public GameObject[] ground;
     bool directorIsCalling;
-    public GameObject directorBubble,zombiePrefab;
+    public GameObject directorBubble, zombiePrefab;
     private ragdollScript theRagdoll;
     public bool zombieChase, destroyZombies;
 
@@ -47,14 +47,14 @@ public class ForceSimulation : MonoBehaviour
     }
     public void PlayButton()
     {
-       
+
         if (stage == 1)
         {
             playerAnswer = float.Parse(answerField.text);
             if (answerField.text == "" || playerAnswer < 10 || playerAnswer > 1000)
             {
                 StartCoroutine(errorMesage());
-               theQuestion.errorText = ("Invalid strength of a glass");
+                theQuestion.errorText = ("Invalid strength of a glass");
             }
             else
             {
@@ -108,15 +108,15 @@ public class ForceSimulation : MonoBehaviour
     }
     public void next()
     {
-
-       StartCoroutine(theHeart.startBGgone());
+        theQuestion.isModalOpen = false;
+        StartCoroutine(theHeart.startBGgone());
         StartCoroutine(nextStage());
-        
-       
+
+
     }
     public void retry()
     {
-         destroyZombies = true;
+        destroyZombies = true;
         StartCoroutine(theHeart.startBGgone());
         thePlayer.standup = false;
         simulate = false;
@@ -141,14 +141,14 @@ public class ForceSimulation : MonoBehaviour
             theManagerTwo.GenerateProblem();
             theManagerTwo.tooStrong = false;
             theManagerTwo.tooWeak = false;
-            
+
         }
-         if (stage == 3)
+        if (stage == 3)
         {
             theManagerThree.GenerateProblem();
             theManagerThree.tooStrong = false;
             theManagerThree.tooWeak = false;
-            
+
         }
 
     }
@@ -184,7 +184,7 @@ public class ForceSimulation : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         playButton.interactable = true;
         answerField.text = ("");
-        if(stage == 2)
+        if (stage == 2)
         {
             stage = 3;
             ground[1].SetActive(false);
@@ -192,9 +192,9 @@ public class ForceSimulation : MonoBehaviour
             theManagerTwo.gameObject.SetActive(false);
             theManagerThree.gameObject.SetActive(true);
             //theManagerTwo.GenerateProblem();
-            
+
         }
-        if(stage == 1)
+        if (stage == 1)
         {
             stage = 2;
             ground[0].SetActive(false);
@@ -202,9 +202,9 @@ public class ForceSimulation : MonoBehaviour
             theManagerOne.gameObject.SetActive(false);
             theManagerTwo.gameObject.SetActive(true);
             //theManagerTwo.GenerateProblem();
-            
+
         }
-        
+
         StartCoroutine(theHeart.startBGgone());
     }
     public IEnumerator errorMesage()
@@ -216,11 +216,11 @@ public class ForceSimulation : MonoBehaviour
     public void action()
     {
         theQuestion.isModalOpen = false;
-        if(theQuestion.answerIsCorrect == false)
+        if (theQuestion.answerIsCorrect == false)
         {
             destroyZombies = true;
             retry();
-            
+
         }
         else
         {
@@ -229,5 +229,5 @@ public class ForceSimulation : MonoBehaviour
             next();
         }
     }
-    
+
 }

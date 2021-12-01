@@ -1,12 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
-using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Level_3_Stage_1_Medium : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     // Start is called before the first frame update
     string question;
     public TMP_Text questionText, levelName, timerText;
@@ -127,20 +127,16 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     }
     IEnumerator StuntResult()
     {
-        if (playerAnswer != correctAnswer)
-        {
-            theHeart.ReduceLife();
-        }
         //messageFlag = false;
         yield return new WaitForSeconds(2f);
-        if (playerAnswer == correctAnswer)
+        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
         {
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
         }
-        if (playerAnswer != correctAnswer)
+        else
         {
+            theHeart.ReduceLife();
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
-
         }
     }
     // void GenerateInitialVelocities()
@@ -198,7 +194,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     {
 
         playerAnswer = questionController.GetPlayerAnswer();
-        if (answerField.text == "" || playerAnswer > 20 ||  playerAnswer <1 )
+        if (answerField.text == "" || playerAnswer > 20 || playerAnswer < 1)
         {
 
             questionController.errorText = ("answer must be in between 1 m/s and 20 m/s");

@@ -4,6 +4,7 @@ using GameConfig;
 using TMPro;
 public class StageTwoManager : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public PlayerV1_1 thePlayer;
     UnitOf whatIsAsk;
     public CeillingGenerator theCeiling;
@@ -20,7 +21,7 @@ public class StageTwoManager : MonoBehaviour
     public QuestionControllerVThree qc;
     public AudioSource scream;
     public TMP_Text debugAnswer;
-    public FirebaseManager firebaseManager;
+    public FirebaseManager firebaseManager;    
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
@@ -29,7 +30,7 @@ public class StageTwoManager : MonoBehaviour
         playerName = PlayerPrefs.GetString("Name");
         PlayerStartPoint = thePlayer.transform.position;
         whatIsAsk = UnitOf.time;
-        firebaseManager.GameLogMutation(1, 2, "Easy", Actions.Started, 0);        
+        firebaseManager.GameLogMutation(1, 2, "Easy", Actions.Started, 0);
         reset();
     }
     void FixedUpdate()
@@ -45,6 +46,7 @@ public class StageTwoManager : MonoBehaviour
             elapsed += Time.fixedDeltaTime;
             currentPos = thePlayer.transform.position.x;
             qc.timer = elapsed.ToString("f2") + "s";
+            
             if ((elapsed >= playerAnswer) || (currentPos > 30))
             {
                 if (currentPos > 30)
@@ -107,7 +109,7 @@ public class StageTwoManager : MonoBehaviour
 
                         labels.ShowCorrectDistance(distance, true, new Vector2(0, 2));
                         // labels.ShowCorrectTime(answer, answer * speed, true);
-                    }                    
+                    }
                     errorMessage = $"<b>{playerName}</b> has unable to stop exactly at safe spot. Stunt Failed!";
                 }
                 labels.AnswerIs(answerIs, true);

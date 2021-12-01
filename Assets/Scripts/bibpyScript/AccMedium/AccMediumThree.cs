@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class AccMediumThree : MonoBehaviour
 {
-    public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos, carInitials, chopperInitials, wordedBoard, edgeline, ropehere,carArrow, chopperArrow;
+    AnswerGuards answerGuards = new AnswerGuards();
+    public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos, carInitials, chopperInitials, wordedBoard, edgeline, ropehere, carArrow, chopperArrow;
     public SubSuv theSubVan;
     public DistanceMeter theDistance;
     public SubHellicopter theSubChopper;
@@ -53,7 +52,7 @@ public class AccMediumThree : MonoBehaviour
         {
             pronoun = ("her");
         }
-         generateProblem();
+        generateProblem();
 
 
     }
@@ -122,12 +121,12 @@ public class AccMediumThree : MonoBehaviour
             {
                 viVtxt.text = ("v = 0m/s");
                 follow = false;
-                if(resultReady)
+                if (resultReady)
                 {
                     StartCoroutine(StuntResult());
                 }
                 
-                if (accV == correctAnswer)
+                if (answerGuards.AnswerIsInRange(correctAnswer, accV, 0.01f))
                 {
                     aVtxt.color = new Color32(107, 0, 176, 255);
                     //actiontxt.text = "Next";
@@ -178,11 +177,11 @@ public class AccMediumThree : MonoBehaviour
                     {
                         ropeDistance += .2f;
                     }
-                    if(accV > correctAnswer)
+                    if (accV > correctAnswer)
                     {
                         //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².");
                     }
-                     if(accV < correctAnswer)
+                    if (accV < correctAnswer)
                     {
                         //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " drove the van too slow and  was still behind when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s².");
                     }
@@ -228,7 +227,7 @@ public class AccMediumThree : MonoBehaviour
         theSubVan.transform.position = new Vector2(edge.transform.position.x + dv, theSubVan.transform.position.y);
         theSubChopper.transform.position = new Vector2(theSubVan.transform.position.x + dx, theSubChopper.transform.position.y);
         theChopper.transform.position = new Vector2(theSuv.transform.position.x + dx, theChopper.transform.position.y);
-        
+
         time = (-velocity + Mathf.Sqrt((velocity * velocity) - (4 * (accH / 2) * (-dh)))) / (2 * (accH / 2));
         generateCorrectAnswer = (2 * (dv - (velocity * time))) / (time * time);
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
@@ -239,7 +238,7 @@ public class AccMediumThree : MonoBehaviour
         aHtxt.text = ("a = ") + accH.ToString("F2") + ("m/s²");
         aVtxt.text = ("a = ?");
         aVtxt.color = new Color32(188, 10, 0, 255);
-        theQuestion.SetQuestion(("<b>") + PlayerPrefs.GetString("Name") + ("</b> is instructed to drive the van off the ledge and hang on into the rope of the helicopter just before it drops, If the helicopter is flying at <b>") + velocity.ToString("F2") + ("</b> m/s while accelarating at  <b>") + accH.ToString("F2") + ("</b> m/s², for ") + PlayerPrefs.GetString("Name") +(" to be able to grab the rope at exactly at the edge of the ledge <b>") + dv.ToString("F2") + ("</b> meters in front of ") + pronoun + (", what should be the accelaration of the van running at  <b>") + velocity.ToString("F2") + ("</b> m/s, so ") + PlayerPrefs.GetString("Name") + (" can successfully performed the stunt?"));
+        theQuestion.SetQuestion(("<b>") + PlayerPrefs.GetString("Name") + ("</b> is instructed to drive the van off the ledge and hang on into the rope of the helicopter just before it drops, If the helicopter is flying at <b>") + velocity.ToString("F2") + ("</b> m/s while accelarating at  <b>") + accH.ToString("F2") + ("</b> m/s², for ") + PlayerPrefs.GetString("Name") + (" to be able to grab the rope at exactly at the edge of the ledge <b>") + dv.ToString("F2") + ("</b> meters in front of ") + pronoun + (", what should be the accelaration of the van running at  <b>") + velocity.ToString("F2") + ("</b> m/s, so ") + PlayerPrefs.GetString("Name") + (" can successfully performed the stunt?"));
 
 
 
@@ -264,27 +263,27 @@ public class AccMediumThree : MonoBehaviour
         theSubChopper.transform.position = theChopper.transform.position;
         pausePos = false;
     }
-     IEnumerator StuntResult()
+    IEnumerator StuntResult()
     {
         resultReady = false;
         yield return new WaitForSeconds(4);
         StartCoroutine(theSimulate.DirectorsCall());
         yield return new WaitForSeconds(1);
-        if (accV == correctAnswer)
+        if (answerGuards.AnswerIsInRange(correctAnswer, accV, 0.01f))
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has successfully performed the stunt and able to grabbed the rope before the van fell on the water"),true, true);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has successfully performed the stunt and able to grabbed the rope before the van fell on the water"), true, true);
         }
-         if (accV != correctAnswer)
+        if (accV != correctAnswer)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to grab the rope and fell on the water"),false, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to grab the rope and fell on the water"), false, false);
         }
-         /*if (accV > correctAnswer)
-        {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s²."),false, false);
-        }*/
-        
+        /*if (accV > correctAnswer)
+       {
+           theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " drove the van too fast and was already ahead when the helicopter passed the edge. The correct answer is </color>" + correctAnswer.ToString("F2") +"m/s²."),false, false);
+       }*/
+
         //theQuestion.ToggleModal();
-        /*if (accV == correctAnswer)
+        /*if ((accV-0.01==correctAnswer)||(accV+0.01==correctAnswer)||(accV == correctAnswer))
         {
             theScorer.finalstar();
             if (theHeart.life > currentStar)
@@ -296,7 +295,7 @@ public class AccMediumThree : MonoBehaviour
                 PlayerPrefs.SetInt("level", currentLevel + 1);
             }
         }*/
-       
+
 
     }
     public IEnumerator errorMesage()
@@ -308,10 +307,10 @@ public class AccMediumThree : MonoBehaviour
     public void action()
     {
         //theQuestion.ToggleModal();
-        if(theQuestion.answerIsCorrect == false)
+        if (theQuestion.answerIsCorrect == false)
         {
             theSimulate.retry();
-            
+
         }
         else
         {

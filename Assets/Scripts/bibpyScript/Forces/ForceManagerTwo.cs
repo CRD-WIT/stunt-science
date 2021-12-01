@@ -1,10 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class ForceManagerTwo : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public PlayerB thePlayer;
     public QuestionContForces theQuestion;
     private ForceSimulation theSimulate;
@@ -13,12 +13,12 @@ public class ForceManagerTwo : MonoBehaviour
     private ColliderManager theCollider;
     private HeartManager theHeart;
     float generateForce, Force, playerAccelaration, generateMass, mass, generateCorrectAnswer, currentPos;
-    public float correctAnswer,playerAnswer,playerForce;
+    public float correctAnswer, playerAnswer, playerForce;
     public GameObject glassHolder, stickPrefab, stickmanpoint, bombHinge, glassDebri, bomb, director, speechBubble, playerInitials, navigator;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
-    public TMP_Text  masstxt, acctxt, breakingforcetxt, forcetxt, actiontxt;
+    public TMP_Text masstxt, acctxt, breakingforcetxt, forcetxt, actiontxt;
     string gender, pronoun;
 
 
@@ -56,93 +56,97 @@ public class ForceManagerTwo : MonoBehaviour
     {
         currentPos = thePlayer.transform.position.x;
         playerAnswer = ForceSimulation.playerAnswer;
-        generateCorrectAnswer = Force/mass;
+        generateCorrectAnswer = Force / mass;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         playerForce = playerAnswer * mass;
-        
 
-        
+
+
         if (ForceSimulation.simulate == true)
         {
             theSimulate.zombieChase = true;
-            if(playerAnswer == correctAnswer)
+            if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
             {
-                forcetxt.text = ("f = ")+ Force.ToString("F2")+("N");
+                forcetxt.text = ("f = ") + Force.ToString("F2") + ("N");
                 forcetxt.color = new Color32(107, 0, 176, 255);
             }
-            if(playerAnswer != correctAnswer) 
+            else
             {
-                forcetxt.text = ("f = ")+ playerForce.ToString("F2")+("N");
+                forcetxt.text = ("f = ") + playerForce.ToString("F2") + ("N");
                 forcetxt.color = new Color32(188, 10, 0, 255);
             }
-            forcetxt.gameObject.SetActive(true);    
-            forcetxt.gameObject.transform.position = new Vector2(thePlayer.transform.position.x + 4,thePlayer.transform.position.y);  
+            forcetxt.gameObject.SetActive(true);
+            forcetxt.gameObject.transform.position = new Vector2(thePlayer.transform.position.x + 4, thePlayer.transform.position.y);
             playerInitials.SetActive(false);
             thePlayer.moveSpeed -= playerAnswer * Time.fixedDeltaTime;
             if (theCollider.collide == true)
             {
-                if(playerAnswer == correctAnswer)
+                if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
                 {
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
                     glassHolder.SetActive(false);
                     //theQuestion.SetModalTitle("Stunt Success");
                     //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully thrown the bomb</color>");
-                    if(currentPos <= 5.7f)
+                    if (currentPos <= 5.7f)
                     {
                         braking();
-                        thePlayer.moveSpeed = 0; 
+                        thePlayer.moveSpeed = 0;
                         thePlayer.transform.position = new Vector2(5.8f, -0.63f);
                         ForceSimulation.simulate = false;
                         StartCoroutine(collision());
                         StartCoroutine(StuntResult());
-                        
-                        
+
+
                     }
                 }
-                if(playerAnswer < correctAnswer)
+                else
                 {
-                    actiontxt.text = "retry";
-                    theQuestion.answerIsCorrect = false;
-                     if(ragdollReady)
+                    if (playerAnswer < correctAnswer)
                     {
-                        ragdollSpawn();
-                        thePlayer.standup = true;
+                        actiontxt.text = "retry";
+                        theQuestion.answerIsCorrect = false;
+                        if (ragdollReady)
+                        {
+                            ragdollSpawn();
+                            thePlayer.standup = true;
+                        }
+                        //theBombScript.inPlayer = false;
+                        //theQuestion.SetModalTitle("Stunt Failed");
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated too slow and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².");
+                        tooWeak = true;
+                        thePlayer.gameObject.SetActive(false);
+
+                        thePlayer.moveSpeed = 0;
+                        StartCoroutine(collision());
+                        StartCoroutine(StuntResult());
+                        theSimulate.playerDead = true;
+                        theHeart.losinglife();
+                        ForceSimulation.simulate = false;
                     }
-                    //theBombScript.inPlayer = false;
-                    //theQuestion.SetModalTitle("Stunt Failed");
-                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated too slow and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².");
-                    tooWeak = true;
-                    thePlayer.gameObject.SetActive(false);
-                   
-                    thePlayer.moveSpeed = 0;
-                    StartCoroutine(collision());
-                    StartCoroutine(StuntResult());
-                    theSimulate.playerDead = true;
-                    theHeart.losinglife();
-                    ForceSimulation.simulate = false;
-                }
-                if(playerAnswer > correctAnswer)
-                {
-                    actiontxt.text = "retry";
-                    theQuestion.answerIsCorrect = false;
-                    if(ragdollReady)
+                    if (playerAnswer > correctAnswer)
                     {
-                        ragdollSpawn();
+                        actiontxt.text = "retry";
+                        theQuestion.answerIsCorrect = false;
+                        if (ragdollReady)
+                        {
+                            ragdollSpawn();
+                        }
+                        //theQuestion.SetModalTitle("Stunt Failed");
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated too fast and able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².");
+                        tooStrong = true;
+                        thePlayer.gameObject.SetActive(false);
+                        glassHolder.SetActive(false);
+                        throwBomb = true;
+
+                        StartCoroutine(collision());
+                        StartCoroutine(StuntResult());
+                        ForceSimulation.simulate = false;
+                        theHeart.losinglife();
+                        theSimulate.playerDead = true;
                     }
-                    //theQuestion.SetModalTitle("Stunt Failed");
-                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " accelerated too fast and able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F1") +"m/s².");
-                    tooStrong = true;
-                    thePlayer.gameObject.SetActive(false);
-                    glassHolder.SetActive(false);
-                    throwBomb = true;
-                    
-                   StartCoroutine(collision());
-                   StartCoroutine(StuntResult());
-                   ForceSimulation.simulate = false;
-                   theHeart.losinglife();
-                   theSimulate.playerDead = true;
                 }
+
             }
         }
     }
@@ -159,12 +163,12 @@ public class ForceManagerTwo : MonoBehaviour
         //theBomb.bomb.SetActive(true);
         theSimulate.glassHolder[1].SetActive(true);
         theSimulate.otherGlassHolder[1].SetActive(true);
-        thePlayer.transform.position = new Vector2(31,-0.58f);
+        thePlayer.transform.position = new Vector2(31, -1f);
         //theBomb.bomb.transform.position = thePlayer.transform.position;
-        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> must break another glass wall to escape from the chasing hungry zombies. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and the glass wall has an impact force breaking point of <b>") + Force.ToString("F2") + ("</b> Newtons, how fast should ") + pronoun + (" accelerate towards the glass wall just enough to break it and not go through it?")));
-        masstxt.text = ("m = ")+mass.ToString("F2") + ("kg");
+        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> must break another glass wall to escape from the chasing hungry zombies. If  <b>") + PlayerPrefs.GetString("Name") + ("</b> has a mass of  <b>") + mass.ToString("F2") + ("</b> kg and the glass wall has an impact force breaking point of <b>") + Force.ToString("F2") + ("</b> Newtons, how fast should ") + pronoun + (" accelerate towards the glass wall just enough to break it and not go through it?")));
+        masstxt.text = ("m = ") + mass.ToString("F2") + ("kg");
         acctxt.text = "a = ?";
-        breakingforcetxt.text = ("Breaking Impact Force = ")+ Force.ToString("F2") + ("N");
+        breakingforcetxt.text = ("Breaking Impact Force = ") + Force.ToString("F2") + ("N");
         playerInitials.SetActive(true);
         forcetxt.gameObject.SetActive(false);
 
@@ -179,14 +183,14 @@ public class ForceManagerTwo : MonoBehaviour
         stick.transform.rotation = Quaternion.Inverse(stick.transform.rotation);
         ragdollReady = false;
     }
-   void braking()
+    void braking()
     {
         thePlayer.brake = true;
         thePlayer.exitDown = true;
         thePlayer.myRigidbody.bodyType = RigidbodyType2D.Static;
         thePlayer.myCollider.isTrigger = true;
 
-       
+
     }
     IEnumerator collision()
     {
@@ -198,20 +202,20 @@ public class ForceManagerTwo : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         ForceSimulation.simulate = false;
-        if(playerAnswer == correctAnswer)
-       {
+        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.0f))
+        {
             yield return new WaitForSeconds(4);
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, false);
-       }
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely escaped from zombies"), true, false);
+        }
         StartCoroutine(theSimulate.DirectorsCall());
-       if(playerAnswer != correctAnswer)
-       {
+        if (playerAnswer != correctAnswer)
+        {
             theSimulate.zombieChase = false;
             yield return new WaitForSeconds(3);
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), false, false);
-            
-       }
-       //theQuestion.ToggleModal();
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has not able to performed the stunt and failed to escape from zombies"), false, false);
+
+        }
+        //theQuestion.ToggleModal();
     }
     public void glassRespawn()
     {
@@ -222,7 +226,7 @@ public class ForceManagerTwo : MonoBehaviour
         GameObject glass3 = Instantiate(glassDebri);
         glass3.transform.position = glassDebriLoc[2].transform.position;
 
-        
+
 
     }
     public IEnumerator createZombies()
@@ -230,7 +234,7 @@ public class ForceManagerTwo : MonoBehaviour
         yield return new WaitForEndOfFrame();
         theSimulate.destroyZombies = false;
         GameObject zombie1 = Instantiate(theSimulate.zombiePrefab);
-        zombie1.transform.position = new Vector2(40,-0.58f);
+        zombie1.transform.position = new Vector2(40, -0.58f);
         zombie1.transform.localScale = new Vector2(-zombie1.transform.localScale.x, zombie1.transform.localScale.y);
         GameObject zombie2 = Instantiate(theSimulate.zombiePrefab);
         zombie2.transform.position = new Vector2(33f, -0.58f);

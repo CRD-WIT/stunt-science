@@ -5,6 +5,7 @@ using TMPro;
 
 public class VelocityEasyStage1 : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public FirebaseManager firebaseManager;
     PlayerV1_1 myPlayer;
     UnitOf whatIsAsk;
@@ -27,7 +28,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
-        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0); 
+        firebaseManager.GameLogMutation(1, 1, "Easy", Actions.Started, 0);
         settings.ResetLife();
         RumblingManager.isCrumbling = false;
         sm.SetGameLevel(1);
@@ -41,8 +42,8 @@ public class VelocityEasyStage1 : MonoBehaviour
         whatIsAsk = UnitOf.velocity;
         VelocityEasyStage1SetUp();
 
-        
-        
+
+
         switch (questionController.levelDifficulty)
         {
             case Difficulty.Medium:
@@ -55,7 +56,7 @@ public class VelocityEasyStage1 : MonoBehaviour
         }
 
         PlayerPrefs.SetString("LevelNumber", "1");
-      
+
     }
     void FixedUpdate()
     {
@@ -86,6 +87,12 @@ public class VelocityEasyStage1 : MonoBehaviour
                     errorMessage = $"<b>{playerName}</b> successfully performed the stunt and went to the safe spot!";//PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
                     answerIs = true;
                     myPlayer.transform.position = new Vector2(currentPos, myPlayer.transform.position.y);
+                    
+                    Debug.Log($"prev answer: {answer}");
+                    // NOTE: Auto correct value
+                    // answer = answerGuards.AdjustAnswer(Speed, answer, 0.01f);
+
+                    Debug.Log($"auto correct: {answer}");
                 }
                 else
                 {

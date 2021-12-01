@@ -1,10 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class ForceManagerThree : MonoBehaviour
 {
+    AnswerGuards answerGuards = new AnswerGuards();
     public PlayerB thePlayer;
     public QuestionContForces theQuestion;
     public BombScript theBombScript;
@@ -14,8 +14,8 @@ public class ForceManagerThree : MonoBehaviour
     private HeartManager theHeart;
     private ScoreManager theScorer;
     float generateAccelaration, accelaration, playerAccelaration, generateForce, force, generateCorrectAnswer, currentPos, totalMass;
-    public float correctAnswer, playerAnswer,increaseMass, playerForce;
-    public GameObject glassHolder, stickPrefab, stickmanpoint, glassDebri, cameraman, playerSpeech, napsack, speechBubble, playerInitials, action, navigator,zombiePrefab;
+    public float correctAnswer, playerAnswer, increaseMass, playerForce;
+    public GameObject glassHolder, stickPrefab, stickmanpoint, glassDebri, cameraman, playerSpeech, napsack, speechBubble, playerInitials, action, navigator, zombiePrefab;
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady, startAddingMass, crowdExit;
     public bool throwBomb, addingWeight, startRunning, goExit;
@@ -38,7 +38,7 @@ public class ForceManagerThree : MonoBehaviour
         theScorer = FindObjectOfType<ScoreManager>();
         currentLevel = PlayerPrefs.GetInt("level");
         currentStar = PlayerPrefs.GetInt("FrstarE");
-        
+
         navigator.transform.position = new Vector2(14.44f, navigator.transform.position.y);
         cameraman.transform.position = new Vector2(35, 5.5f);
         cameraman.transform.localScale = new Vector2(-cameraman.transform.localScale.x, cameraman.transform.localScale.y);
@@ -50,7 +50,7 @@ public class ForceManagerThree : MonoBehaviour
         thePlayer.myRigidbody.bodyType = RigidbodyType2D.Dynamic;
         thePlayer.myCollider.isTrigger = false;
         gender = PlayerPrefs.GetString("Gender");
-         if (gender == "Male")
+        if (gender == "Male")
         {
             pronoun1 = ("he");
             pronoun2 = ("his");
@@ -73,12 +73,12 @@ public class ForceManagerThree : MonoBehaviour
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         playerForce = (playerAnswer + 70) * accelaration;
         totalMass = playerAnswer + 70f;
-        
+
         if (addingWeight)
         {
             StartCoroutine(addingMass());
             addingWeight = false;
-           
+
         }
 
         if (ForceSimulation.simulate == true)
@@ -87,19 +87,19 @@ public class ForceManagerThree : MonoBehaviour
         }
         if (startAddingMass)
         {
-            playerMass.text = ("m = ")+increaseMass.ToString("F2") + ("kg");
+            playerMass.text = ("m = ") + increaseMass.ToString("F2") + ("kg");
             increaseMass += 40 * Time.fixedDeltaTime;
-            if(increaseMass >= totalMass)
+            if (increaseMass >= totalMass)
             {
                 increaseMass = totalMass;
-                playerMass.text = ("m = ")+totalMass.ToString("F2") + ("kg");
+                playerMass.text = ("m = ") + totalMass.ToString("F2") + ("kg");
                 startAddingMass = false;
                 //playerMass.text = "<color=green>" + increaseMass.ToString("F2") + ("kg</color>");
             }
         }
         if (goExit)
         {
-            if(currentPos >= 22.8f)
+            if (currentPos >= 22.8f)
             {
                 thePlayer.moveSpeed = 0;
                 thePlayer.godown = true;
@@ -110,27 +110,27 @@ public class ForceManagerThree : MonoBehaviour
         if (startRunning)
         {
             theSimulate.zombieChase = true;
-             if(playerAnswer == correctAnswer)
+            if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
             {
-                forcetxt.text = ("f = ")+ force.ToString("F2")+("N");
+                forcetxt.text = ("f = ") + force.ToString("F2") + ("N");
                 forcetxt.color = new Color32(107, 0, 176, 255);
             }
-            if(playerAnswer != correctAnswer) 
+            else
             {
-                forcetxt.text = ("f = ")+ playerForce.ToString("F2")+("N");
+                forcetxt.text = ("f = ") + playerForce.ToString("F2") + ("N");
                 forcetxt.color = new Color32(188, 10, 0, 255);
             }
             forcetxt.gameObject.SetActive(true);
-            forcetxt.gameObject.transform.position = new Vector2(thePlayer.transform.position.x - 4,thePlayer.transform.position.y);  
+            forcetxt.gameObject.transform.position = new Vector2(thePlayer.transform.position.x - 4, thePlayer.transform.position.y);
             playerInitials.SetActive(false);
             ForceSimulation.simulate = false;
             thePlayer.moveSpeed += accelaration * Time.fixedDeltaTime;
             if (theCollider.collide == true)
             {
-                if (playerAnswer == correctAnswer)
+                if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
                 {
                     theQuestion.answerIsCorrect = true;
-                    action.SetActive(false);
+                    //action.SetActive(false);
                     //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully escaped from the explosion </color>");
                     glassHolder.SetActive(false);
                     //StartCoroutine(thiswaySpeech());
@@ -146,45 +146,48 @@ public class ForceManagerThree : MonoBehaviour
 
                     }
                 }
-                if (playerAnswer < correctAnswer)
+                else
                 {
-                    actiontxt.text = "retry";
-                    theQuestion.answerIsCorrect = false;
-                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");
-                    tooWeak = true;
-                    thePlayer.gameObject.SetActive(false);
-                    if (ragdollReady)
+                    if (playerAnswer < correctAnswer)
                     {
-                        ragdollSpawn();
+                        actiontxt.text = "retry";
+                        theQuestion.answerIsCorrect = false;
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");
+                        tooWeak = true;
+                        thePlayer.gameObject.SetActive(false);
+                        if (ragdollReady)
+                        {
+                            ragdollSpawn();
+                            thePlayer.standup = true;
+                        }
+                        thePlayer.moveSpeed = 0;
+                        StartCoroutine(collision());
+                        StartCoroutine(StuntResult());
+                        theSimulate.playerDead = true;
+                        startRunning = false;
+                        theHeart.losinglife();
+                    }
+                    if (playerAnswer > correctAnswer)
+                    {
+                        actiontxt.text = "retry";
+                        theQuestion.answerIsCorrect = false;
+                        //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");
+                        tooStrong = true;
+                        thePlayer.gameObject.SetActive(false);
+                        glassHolder.SetActive(false);
+                        throwBomb = true;
+                        thePlayer.moveSpeed = 0;
                         thePlayer.standup = true;
+                        if (ragdollReady)
+                        {
+                            ragdollSpawn();
+                        }
+                        StartCoroutine(collision());
+                        StartCoroutine(StuntResult());
+                        theSimulate.playerDead = true;
+                        startRunning = false;
+                        theHeart.losinglife();
                     }
-                    thePlayer.moveSpeed = 0;
-                    StartCoroutine(collision());
-                    StartCoroutine(StuntResult());
-                    theSimulate.playerDead = true;
-                    startRunning = false;
-                    theHeart.losinglife();
-                }
-                if (playerAnswer > correctAnswer)
-                {
-                    actiontxt.text = "retry";
-                    theQuestion.answerIsCorrect = false;
-                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");
-                    tooStrong = true;
-                    thePlayer.gameObject.SetActive(false);
-                    glassHolder.SetActive(false);
-                    throwBomb = true;
-                    thePlayer.moveSpeed = 0;
-                    thePlayer.standup = true;
-                    if (ragdollReady)
-                    {
-                        ragdollSpawn();
-                    }
-                    StartCoroutine(collision());
-                    StartCoroutine(StuntResult());
-                    theSimulate.playerDead = true;
-                    startRunning = false;
-                    theHeart.losinglife();
                 }
             }
         }
@@ -194,7 +197,7 @@ public class ForceManagerThree : MonoBehaviour
     {
         StartCoroutine(createZombies());
         increaseMass = 70;
-        playerMass.text = ("m = ")+increaseMass.ToString("F2") + ("kg");
+        playerMass.text = ("m = ") + increaseMass.ToString("F2") + ("kg");
         playerMass.gameObject.SetActive(true);
         theCollider.braker.SetActive(true);
         generateAccelaration = Random.Range(3f, 3.5f);
@@ -210,12 +213,12 @@ public class ForceManagerThree : MonoBehaviour
         thePlayer.transform.position = new Vector2(0, 2.59f);
         //theBombScript.gameObject.transform.position = new Vector2(7.8f, 1.5f);
         glassRespawn();
-        theQuestion.SetQuestion((PlayerPrefs.GetString("Name") + ("</b> still chased by these hungry zombies and need to break another glass wall to escape from them, If  <b>") + PlayerPrefs.GetString("Name") + ("</b> runs with the accelaration of  <b>") + accelaration.ToString("F2") + ("</b> m/s² and the glass breaks at an impact force of <b>") + force.ToString("F2") + ("</b> N, how much  mass ")+ pronoun1 + (" should add to ")+ pronoun2 + (" 70kg body in order to run into the glass and break it without overshooting?")));
-        acctxt.text = ("a = ")+ accelaration.ToString("F2")+ ("m/s²");
-        breakingforcetxt.text = ("Breaking Impact Force = ")+ force.ToString("F2");
+        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> still chased by these hungry zombies and need to break another glass wall to escape from them, If  <b>") + PlayerPrefs.GetString("Name") + ("</b> runs with the accelaration of  <b>") + accelaration.ToString("F2") + ("</b> m/s² and the glass breaks at an impact force of <b>") + force.ToString("F2") + ("</b> N, how much  mass ") + pronoun1 + (" should add to ") + pronoun2 + (" 70kg body in order to run into the glass and break it without overshooting?")));
+        acctxt.text = ("a = ") + accelaration.ToString("F2") + ("m/s²");
+        breakingforcetxt.text = ("Breaking Impact Force = ") + force.ToString("F2");
         playerInitials.SetActive(true);
         forcetxt.gameObject.SetActive(false);
-    
+
 
 
 
@@ -237,7 +240,7 @@ public class ForceManagerThree : MonoBehaviour
         //theBombScript.inPlayer = false;
         thePlayer.toJump = true;
         yield return new WaitForSeconds(.7f);
-        thePlayer.transform.position = new Vector2(23.2f, thePlayer.transform.position.y +1.3f);
+        thePlayer.transform.position = new Vector2(23.2f, thePlayer.transform.position.y + 1.3f);
         thePlayer.climb = true;
         //thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
         thePlayer.moveSpeedY = 1.5f;
@@ -254,23 +257,25 @@ public class ForceManagerThree : MonoBehaviour
         ForceSimulation.simulate = false;
         yield return new WaitForSeconds(1);
         StartCoroutine(theSimulate.DirectorsCall());
-        if(playerAnswer != correctAnswer)
-       {
+        if (playerAnswer != correctAnswer)
+        {
             theSimulate.zombieChase = false;
-       }
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has not able performed the stunt and failed to escape from zombies"), false, false);
+        }
         yield return new WaitForSeconds(3);
         //theQuestion.ToggleModal();
-        if(playerAnswer == correctAnswer)
+        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
         {
-            theScorer.finalstar();
-            if(theHeart.life > currentStar)
-            {
-                PlayerPrefs.SetInt("FrstarE", theHeart.life);
-            }
-            if (currentLevel < 16)
-            {
-                PlayerPrefs.SetInt("level", currentLevel + 1);
-            }
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely from zombies"), true, true);
+            // theScorer.finalstar();
+            // if(theHeart.life > currentStar)
+            // {
+            //     PlayerPrefs.SetInt("FrstarE", theHeart.life);
+            // }
+            // if (currentLevel < 16)
+            // {
+            //     PlayerPrefs.SetInt("level", currentLevel + 1);
+            // }
             //afterStuntMessage.SetActive(false);
         }
 

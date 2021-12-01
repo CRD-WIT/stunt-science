@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class QuestionContForces : MonoBehaviour
 {
     // Start is called before the first frame update
-   float playerAnswer;
+    float playerAnswer;
     public float limit = 0;
     public Transform baseComponent, problemBox, extraComponent, levelBadge;
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
@@ -55,7 +55,7 @@ public class QuestionContForces : MonoBehaviour
         wrongAnswerColor = Color.red;
 
         levelName = level.GetGameLevel();
-    
+
         switch (levelDifficulty)
         {
             case Difficulty.Easy:
@@ -194,6 +194,11 @@ public class QuestionContForces : MonoBehaviour
         {
             StartCoroutine(IsEmpty());
         }
+        else if (playerAnswer <= 0)
+        {
+            errorText = $"Invalid answer! Answer must be a greater than 0.";
+            StartCoroutine(IsEmpty());
+        }
         else
         {
             answerFieldHorizontal.text = playerAnswer + answerUnit;
@@ -235,7 +240,7 @@ public class QuestionContForces : MonoBehaviour
     IEnumerator IsEmpty()
     {
         popupVisible = true;
-        errorText = "Answer box is empty!";
+        // errorText = "Answer box is empty!";
         yield return new WaitForSeconds(3);
         popupVisible = false;
         errorText = "";
