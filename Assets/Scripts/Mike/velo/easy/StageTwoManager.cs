@@ -36,6 +36,7 @@ public class StageTwoManager : MonoBehaviour
     {
         debugAnswer.SetText($"Answer: {answerRO}");
         playerAnswer = qc.GetPlayerAnswer();
+        float adjustedAnswer = qc.AnswerTolerance(answerRO);
         if (SimulationManager.isAnswered)
         {
             labels.distanceSpawnPnt = new Vector2(0, -2);
@@ -61,7 +62,7 @@ public class StageTwoManager : MonoBehaviour
                 SimulationManager.isAnswered = false;
                 theRumbling.collapse();
                 StartCoroutine(StuntResult());
-                if (playerAnswer == answerRO)
+                if (adjustedAnswer == answerRO)//(playerAnswer == answerRO)
                 {
                     currentPos = distance;
                     elapsed = answerRO;
@@ -85,13 +86,13 @@ public class StageTwoManager : MonoBehaviour
                         thePlayer.lost = true;
                     }
                     playerDistance = playerAnswer * speed;
-                    if (playerAnswer < answerRO)
+                    if (adjustedAnswer < answerRO)//(playerAnswer < answerRO)
                     {
                         scream.Play();
                         thePlayer.transform.position = new Vector2(playerDistance - 0.2f, thePlayer.transform.position.y);
                         // errorMessage = PlayerPrefs.GetString("Name") + " stopped too early and " + pronoun + " stopped before the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
                     }
-                    else if (playerAnswer > answerRO)
+                    else //if (playerAnswer > answerRO)
                     {
                         if (currentPos > 30)
                         {

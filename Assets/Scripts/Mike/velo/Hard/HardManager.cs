@@ -17,7 +17,7 @@ public class HardManager : MonoBehaviour
     public HingeJoint2D[] joints;
     public TMP_Text directorsSpeech, timeIndicator;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
-        sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f, distanceTraveled, angleB = 0, timer;
+        sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f, distanceTraveled, angleB = 0, timer, adjustedAnswer;
     bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset, ragdoll = false, isEnd =false, startTimer;
     public bool readyToCheck;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
@@ -136,7 +136,7 @@ public class HardManager : MonoBehaviour
                         bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
                         isEndOfStunt = true;
                     }
-                    if (playerAnswer == correctAnswer)
+                    if(adjustedAnswer == correctAnswer) // if (playerAnswer == correctAnswer)
                     {
                         stonePosX = playerAnswer;
                         isAnswerCorrect = true;
@@ -155,7 +155,7 @@ public class HardManager : MonoBehaviour
                         elapsed = playerAnswer;
                         isThrown = true;
                         isAnswered = false;
-                        if (playerAnswer == correctAnswer)
+                        if(adjustedAnswer == correctAnswer) // if (playerAnswer == correctAnswer)
                         {
                             isAnswerCorrect = true;
                             messageTxt = $"<b>{playerName}</b> successfully performed the stunt and the rock hit the monster's mouth!";
@@ -173,7 +173,7 @@ public class HardManager : MonoBehaviour
                     {
                         isAnswered = false;
                         elapsed = stuntTime;
-                        if (playerAnswer == correctAnswer)
+                        if(adjustedAnswer == correctAnswer) // if (playerAnswer == correctAnswer)
                         {
                             isAnswerCorrect = true;
                             isEnd = true;
@@ -513,13 +513,14 @@ public class HardManager : MonoBehaviour
     {
         playerAnswer = qc.GetPlayerAnswer();
         qc.isSimulating = false;
+        adjustedAnswer = qc.AnswerTolerance(correctAnswer);
         switch (stage)
         {
             case 1:
                 stage1Flag = true;
-                if (playerAnswer > correctAnswer)
+                if(adjustedAnswer > correctAnswer)// if (playerAnswer > correctAnswer)
                     throwTime = stuntTime + 0.1f;//(playerAnswer / stoneV) + 0.1f;
-                else if (playerAnswer < correctAnswer)
+                else if (adjustedAnswer < correctAnswer)//playerAnswer < correctAnswer)
                     throwTime = stuntTime - 0.1f;//(playerAnswer / stoneV) - 0.1f;
                 else
                     throwTime = stuntTime;//correctAnswer / stoneV;
@@ -532,9 +533,9 @@ public class HardManager : MonoBehaviour
                 isStartOfStunt = true;
                 directorIsCalling = true;
 
-                if (playerAnswer > correctAnswer)
+                if (adjustedAnswer > correctAnswer)//(playerAnswer > correctAnswer)
                     throwTime = (stuntTime - playerAnswer) + 0.1f;
-                else if (playerAnswer < correctAnswer)
+                else if (adjustedAnswer < correctAnswer)//(playerAnswer < correctAnswer)
                     throwTime = (stuntTime - playerAnswer) - 0.1f;
                 else
                     throwTime = (stuntTime - correctAnswer);
@@ -545,9 +546,9 @@ public class HardManager : MonoBehaviour
                 indicators.showLines(null, null, stoneV, stuntTime);
                 isStartOfStunt = true;
                 directorIsCalling = true;
-                if (playerAnswer > correctAnswer)
+                if (adjustedAnswer > correctAnswer)//(playerAnswer > correctAnswer)
                     throwTime = (distance / playerAnswer) - 0.5f;
-                else if (playerAnswer < correctAnswer)
+                else if (adjustedAnswer < correctAnswer) //(playerAnswer < correctAnswer)
                     throwTime = (distance / playerAnswer) + 0.5f;
                 else
                     throwTime = (distance / correctAnswer);

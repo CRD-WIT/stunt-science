@@ -32,7 +32,7 @@ public class VelocityMediumManager : MonoBehaviour
     string playerName = "Juan";
     bool isStartOfStunt, directorIsCalling, isAnswered, isAnswerCorrect, isEndOfStunt, onShadow;
     [SerializeField] TMP_Text playerSpeed, boulder1Speed, boulder2Speed;
-    float correctD, timingD;
+    float correctD, timingD, adjustedAnswer;
     GameObject b2Shadow, b1Shadow, pShadow;
     Vector2 spawnPoint;
     [SerializeField] TMP_Text[] boulderName = new TMP_Text[2];
@@ -89,6 +89,7 @@ public class VelocityMediumManager : MonoBehaviour
             // JDIndicator.SetActive(false);
             indicators.distanceSpawnPnt = spawnPoint;
             playerAnswer = qc.GetPlayerAnswer();
+            adjustedAnswer = qc.AnswerTolerance(correctAnswer);
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.deltaTime;
             myPlayer.moveSpeed = playerVelocity;
@@ -110,7 +111,7 @@ public class VelocityMediumManager : MonoBehaviour
                         elapsed = playerAnswer;
 
                         qc.timer = playerAnswer.ToString("f2") + "s";
-                        if (playerAnswer == stuntTime)
+                        if (adjustedAnswer == stuntTime)//(playerAnswer == stuntTime)
                         {
                             isAnswerCorrect = true;
                             messageTxt = "<b>" + playerName + "</b> has jumped over the boulder <color=green>safely</color>!";
@@ -118,7 +119,7 @@ public class VelocityMediumManager : MonoBehaviour
                         else
                         {
                             isAnswerCorrect = false;
-                            if (playerAnswer < stuntTime)
+                            if (adjustedAnswer < stuntTime)//(playerAnswer < stuntTime)
                             {
                                 messageTxt = "<b>" + playerName + "</b> jumped too soon and hit the boulder.\nThe correct answer is <color=green>" + stuntTime + " seconds</color>.";
                             }
@@ -150,7 +151,7 @@ public class VelocityMediumManager : MonoBehaviour
                         indicators.UnknownIs('d');
                         timingD = playerAnswer;
                         distanceTraveled = playerAnswer;
-                        if (playerAnswer == correctAnswer)
+                        if (adjustedAnswer == correctAnswer)//(playerAnswer == correctAnswer)
                         {
                             isAnswerCorrect = true;
                             elapsed = stuntTime;
@@ -159,7 +160,7 @@ public class VelocityMediumManager : MonoBehaviour
                         else
                         {
                             isAnswerCorrect = false;
-                            if (playerAnswer < correctAnswer)
+                            if (adjustedAnswer < correctAnswer)//(playerAnswer < correctAnswer)
                             {
                                 messageTxt = "<b>" + playerName + "</b> jumped too near from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " meters</color>.";
                             }
@@ -201,7 +202,7 @@ public class VelocityMediumManager : MonoBehaviour
                         elapsed = stuntTime;
                         boulderRB.velocity = new Vector2(boulderRB.velocity.x, boulderRB.velocity.y);
                         boulder2RB.velocity = new Vector2(boulder2RB.velocity.x, boulder2RB.velocity.y);
-                        if (playerAnswer == correctAnswer)
+                        if (adjustedAnswer == correctAnswer)//(playerAnswer == correctAnswer)
                         {
                             isAnswerCorrect = true;
                             elapsed = stuntTime;
@@ -212,7 +213,7 @@ public class VelocityMediumManager : MonoBehaviour
                         else
                         {
                             isAnswerCorrect = false;
-                            if (playerAnswer < correctAnswer)
+                            if (adjustedAnswer < correctAnswer)//(playerAnswer < correctAnswer)
                             {
                                 messageTxt = "<b>" + playerName + "</b> jumped too far from the boulder, and hits it!\nThe correct answer is <color=red>" + correctAnswer + " seconds</color>.";
                             }
@@ -555,7 +556,7 @@ public class VelocityMediumManager : MonoBehaviour
     }
     IEnumerator Jump()
     {
-        if (playerAnswer != correctAnswer)
+        if (adjustedAnswer != correctAnswer)//(playerAnswer != correctAnswer)
         {
             if (stage == 3)
             {
@@ -564,7 +565,7 @@ public class VelocityMediumManager : MonoBehaviour
             }
             else if (stage == 1)
             {
-                if (playerAnswer > correctAnswer)
+                if (adjustedAnswer > correctAnswer)//(playerAnswer > correctAnswer)
                 {
                     myPlayer.jumpforce = jumpForce * 0.9f;
                     jumpTime -= 0.08f;
@@ -577,7 +578,7 @@ public class VelocityMediumManager : MonoBehaviour
             }
             else
             {
-                if (playerAnswer > correctAnswer)
+                if (adjustedAnswer > correctAnswer)//(playerAnswer > correctAnswer)
                 {
                     myPlayer.jumpforce = jumpForce * 0.9f;
                     jumpTime -= 0.08f;

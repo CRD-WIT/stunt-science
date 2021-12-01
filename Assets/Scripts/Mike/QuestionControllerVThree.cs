@@ -204,6 +204,21 @@ public class QuestionControllerVThree : MonoBehaviour
         }
         extraOn = true;
     }
+
+    public float AnswerTolerance(float correctAnswer){
+        float answer = 0, offset = 0;
+        offset = (float)System.Math.Round(Mathf.Abs(correctAnswer - GetPlayerAnswer()),2);
+        if(offset <= 0.01f){
+            answer = correctAnswer;
+        }
+        else
+        {
+            answer = GetPlayerAnswer(); 
+        }
+        Debug.Log(offset + "offset");
+        return answer;
+    }
+    
     public void Next()
     {
         if (stage == 1)
