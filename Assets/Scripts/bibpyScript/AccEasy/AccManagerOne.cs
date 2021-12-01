@@ -100,11 +100,22 @@ public class AccManagerOne : MonoBehaviour
         }
         if (theQuestion.isSimulating)
         {
-            accelaration = accSimulation.playerAnswer;
+            
+            if(accSimulation.playerAnswer < correctAns + 0.02f & accSimulation.playerAnswer > correctAns  -0.02f)
+            {
+                accelaration = correctAns;
+                Debug.Log("inRange");
+        
+            }
+            else
+            {
+                accelaration = accSimulation.playerAnswer;
+            }
             setAnswer = true;
         }
         if (setAnswer == true)
         {
+            setAnswer = true;
             theQuestion.isSimulating = false;
             engineIdle.Stop();
             directionArrow.SetActive(false);
@@ -113,12 +124,12 @@ public class AccManagerOne : MonoBehaviour
             Acctxt.text = ("a = ") + accelaration.ToString("F2") + ("m/s²");
             Vitxt.text = ("v = ") + theBike.moveSpeed.ToString("F2") + ("m/s");
 
-            if (answerGuards.AnswerIsInRange(accelaration, correctAns, 0.01f))
+            if (accelaration == correctAns)
             {
                 stuntResultMessage = $"The correct answer is <b> {correctAns.ToString("F2")}</b> m/s². {PlayerPrefs.GetString("Name")} was able to enter tunnel succesfully!</color>";
 
                 //NOTE: Auto adjust answer
-                accelaration = answerGuards.AdjustAnswer(accelaration, correctAns, 0.01f);
+                //accelaration = answerGuards.AdjustAnswer(accelaration, correctAns, 0.01f);
 
                 answerIsCorrect = true;
 
@@ -138,7 +149,7 @@ public class AccManagerOne : MonoBehaviour
                     accelaration += 1f;
                 }
 
-                if (accSimulation.playerAnswer > correctAns)
+                if (accelaration > correctAns)
                 {
                     stuntResultMessage = $"{PlayerPrefs.GetString("Name")} accelerated the motorcycle too fast and overshot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F1")} m/s².";
                 }
@@ -152,7 +163,7 @@ public class AccManagerOne : MonoBehaviour
             {
 
                 timertxt.text = time.ToString("F2") + ("s");
-                if (answerGuards.AnswerIsInRange(accelaration, correctAns, 0.01f))
+                if (accelaration == correctAns)
                 {
                     StartCoroutine(StuntResult(stuntResultMessage, answerIsCorrect));
                     playerVf = 15;

@@ -32,6 +32,7 @@ public class AccManagerTwo : MonoBehaviour
     public QuestionControllerAcceleration theQuestion;
     public TMP_Text debugAnswer;
     public AudioSource engineIdle, engineRunning;
+    bool  setAnswer;
 
     // Start is called before the first frame update
     void Start()
@@ -95,10 +96,25 @@ public class AccManagerTwo : MonoBehaviour
 
         if (theQuestion.isSimulating)
         {
+            if(accSimulation.playerAnswer < correctAns + 0.02f & accSimulation.playerAnswer > correctAns  -0.02f)
+            {
+                time = correctAns;
+                Debug.Log("inRange");
+        
+            }
+            else
+            {
+                time = theQuestion.GetPlayerAnswer();
+            }
+            setAnswer = true; 
+        }
+        if(setAnswer)
+        {
+            theQuestion.isSimulating = false;
             Debug.Log("Now simulating...");
             directionArrow.SetActive(false);
             gas = true;
-            time = theQuestion.GetPlayerAnswer();
+            
             if (time != correctAns)
             {
                 // actiontxt.text = "retry";
@@ -182,7 +198,7 @@ public class AccManagerTwo : MonoBehaviour
             if (currentPos > 32)
             {
                 theBike.moveSpeed = theBike.myRigidbody.velocity.x;
-                theQuestion.isSimulating = false;
+                setAnswer = false;
                 //theBike.moveSpeed = theBike.myRigidbody.velocity.x;
                 if (answerGuards.AnswerIsInRange(correctAns, time, 0.01f))
                 {
@@ -200,7 +216,7 @@ public class AccManagerTwo : MonoBehaviour
         {
             theQuestion.timer = "0.00s";
         }
-    }
+    }    
     public void generateProblem()
     {
         engineIdle.Play();
