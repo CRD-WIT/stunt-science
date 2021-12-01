@@ -20,15 +20,15 @@ public class ForceMedOne : MonoBehaviour
     {
         if(preset)
         {
-            accelerationFinal = totalDistance / (time*time);
-            force = massPlayer * accelerationPlayer;
-            // // accelerationPlayer = force/massPlayer;
+            // accelerationFinal = totalDistance / (time*time);
+            // force = massPlayer * accelerationPlayer;
+            // accelerationPlayer = force/massPlayer;
             // velocityFinal = Mathf.Sqrt((velocity*velocity) + 2*accelerationPlayer*playerDistance );
             // momentum = massPlayer * velocityFinal;
-            VfPlayer = Mathf.Sqrt( (2*accelerationPlayer)*playerDistance);
-            momentum = force*timeInitial;
+            // VfPlayer = Mathf.Sqrt( (2*accelerationPlayer)*playerDistance);
+            // momentum = force*timeInitial;
             // weightBox = massBox * 9.81f;
-            timeInitial = (VfPlayer - velocity)/ accelerationPlayer;
+            // timeInitial = (VfPlayer - velocity)/ accelerationPlayer;
             // force = massPlayer * accelerationPlayer;
             // finalForce = momentum / timeInitial;
             // accelerationBox = force / massBox;
@@ -36,12 +36,16 @@ public class ForceMedOne : MonoBehaviour
             // boxTime = boxVf/accelerationBox;
             // momentumNeeded = massBox/accelerationPlayer;
             // timeMomentum = momentumNeeded/force;
-            forceNeeded = massBox/accelerationFinal;
+            // forceNeeded = massBox/accelerationFinal;
+            weightBox = massBox * 9.81f;
+            accelerationBox = ((2*totalDistance)/(timeInitial*timeInitial));
+            force = massBox * accelerationBox;
+            accelerationPlayer = force/massPlayer;
             
         }
         if(startRunning)
         {
-            thePlayer.moveSpeed += accelerationPlayer * Time.fixedDeltaTime;
+            //thePlayer.moveSpeed += accelerationBox * Time.fixedDeltaTime;
         }
         if(theSimulate.simulate == true)
         {
@@ -55,9 +59,9 @@ public class ForceMedOne : MonoBehaviour
             //  thePlayer.moveSpeed = (time*force) / massPlayer;
             //  velocity = thePlayer.moveSpeed;
             thePlayer.moveSpeed += accelerationPlayer * Time.fixedDeltaTime;
-            if(timer >= time)
+            if(timer >= timeInitial)
             {
-                //Time.timeScale = 0;
+                Time.timeScale = 0;
             }
             
         }
