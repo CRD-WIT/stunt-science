@@ -230,7 +230,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void FixedUpdate()
     {
-         questionController.errorText = "answer must not exceed your current distance from the branch";
+        questionController.errorText = "answer must not exceed your current distance from the branch";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
         if (directorIsCalling)
