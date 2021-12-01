@@ -10,12 +10,12 @@ public class SimulationManager : MonoBehaviour
     public VelocityEasyStage3 StageThreeManager;
     public PlayerV1_1 thePlayer;
     public TMP_Text diretorsSpeech;
-    public static float playerAnswer;
+    public static float playerAnswer, adjustedAnswer;
     public static bool isAnswered, isAnswerCorrect, directorIsCalling, isStartOfStunt, playerDead, isRagdollActive, stage3Flag;
     private HeartManager theHeart;
     QuestionControllerVThree qc;
     IndicatorManagerV1_1 dimLine;
-     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
+    public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
     
     // Start is called before the first frame update
     void Start()
@@ -37,7 +37,8 @@ public class SimulationManager : MonoBehaviour
             {
                 stage3Flag = true;
                 playerAnswer = qc.GetPlayerAnswer();
-                if (thePlayer.transform.position.x < (40 - playerAnswer))
+                adjustedAnswer = qc.AnswerTolerance(StageThreeManager.distance);
+                if (thePlayer.transform.position.x < (40 - adjustedAnswer))
                 {
                     thePlayer.moveSpeed = 1.99f;
                 }
