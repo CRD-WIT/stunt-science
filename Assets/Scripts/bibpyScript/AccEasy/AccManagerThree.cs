@@ -94,7 +94,7 @@ public class AccManagerThree : MonoBehaviour
         if (theQuestion.isSimulating)
         {
            
-            if(accSimulation.playerAnswer < correctAns + 0.02f & accSimulation.playerAnswer > correctAns  -0.02f)
+            if(accSimulation.playerAnswer < correctAns + 0.01f & accSimulation.playerAnswer > correctAns  -0.01f)
             {
                 Vi = correctAns;
                 Debug.Log("inRange");

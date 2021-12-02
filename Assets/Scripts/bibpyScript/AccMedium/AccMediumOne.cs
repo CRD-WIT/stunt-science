@@ -24,7 +24,8 @@ public class AccMediumOne : MonoBehaviour
     public TMP_Text timertxt, vHtxt, viTtxt, aTtxt, actiontxt, playTimertxt;
     float grabLineDistance, playerGrabLineDistance;
     private Vector2 subChopperStartPos, chopperStartPos;
-    public AudioSource truckIdle, truckRunning, ChopperFlying;    
+    public AudioSource truckIdle, truckRunning, ChopperFlying;
+    bool setAnswer;    
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +55,22 @@ public class AccMediumOne : MonoBehaviour
 
         if (theQuestion.isSimulating)
         {
-            answer = theQuestion.GetPlayerAnswer();
+            
+            if(theQuestion.GetPlayerAnswer() < (correctAnswer + 0.01f) & theQuestion.GetPlayerAnswer() > (correctAnswer  -0.01f))
+            {
+                answer = correctAnswer;
+                Debug.Log("inRange");
+        
+            }
+            else
+            {
+                answer = theQuestion.GetPlayerAnswer();
+            }
+            setAnswer = true;
+           
+        }
+        if(setAnswer)
+        {
             distanceH = answer * velocity + 0.67f;
             timertxt.gameObject.SetActive(true);
 
@@ -81,7 +97,7 @@ public class AccMediumOne : MonoBehaviour
                 theTruck.accelerating = true;
                 theTruck.accelaration = accelaration;
 
-                if (answerGuards.AnswerIsInRange(correctAnswer, answer, 0.01f))
+                if (answer == correctAnswer)
                 {
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
@@ -233,7 +249,7 @@ public class AccMediumOne : MonoBehaviour
         velocity = 0;
         StartCoroutine(theSimulate.DirectorsCall());
         //theQuestion.ToggleModal();
-        if (answerGuards.AnswerIsInRange(correctAnswer, answer, 0.01f))
+        if (answer == correctAnswer)
         {
             theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" has succesfully performed the stunt and able to grab the rope</color>"), true, false);
         }
@@ -284,7 +300,7 @@ public class AccMediumOne : MonoBehaviour
             thePlayer.gameObject.SetActive(false);
             timeOn = false;
 
-            if (answerGuards.AnswerIsInRange(correctAnswer, answer, 0.01f))
+            if (answer == correctAnswer)
             {
                 timertxt.color = new Color32(3, 63, 0, 255);
                 hangingRagdoll.SetActive(true);
@@ -331,7 +347,7 @@ public class AccMediumOne : MonoBehaviour
     {
         theQuestion.isModalOpen = false;
         theHeart.startbgentrance();
-        theQuestion.isSimulating = false;
+        setAnswer = false;
 
         //theQuestion.ToggleModal();
         if (theQuestion.answerIsCorrect == false)
