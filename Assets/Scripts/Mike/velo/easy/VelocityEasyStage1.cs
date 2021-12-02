@@ -25,6 +25,8 @@ public class VelocityEasyStage1 : MonoBehaviour
     public TMP_Text debugAnswer;
     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
 
+    bool answerAdjusted;
+
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
@@ -60,8 +62,9 @@ public class VelocityEasyStage1 : MonoBehaviour
     }
     void FixedUpdate()
     {
-        debugAnswer.SetText($"Answer: {Speed}");
+        
         float answer = questionController.GetPlayerAnswer();
+        debugAnswer.SetText($"Answer: {Speed}");        
         float adjustedAnswer = questionController.AnswerTolerance(Speed);
         if (SimulationManager.isAnswered)
         {
@@ -87,12 +90,11 @@ public class VelocityEasyStage1 : MonoBehaviour
                     errorMessage = $"<b>{playerName}</b> successfully performed the stunt and went to the safe spot!";//PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
                     answerIs = true;
                     myPlayer.transform.position = new Vector2(currentPos, myPlayer.transform.position.y);
-                    
-                    Debug.Log($"prev answer: {answer}");
-                    // NOTE: Auto correct value
+                    // Debug.Log($"prev answer: {answer}");
+                    // // NOTE: Auto correct value
                     // answer = answerGuards.AdjustAnswer(Speed, answer, 0.01f);
-
-                    Debug.Log($"auto correct: {answer}");
+                    // answerAdjusted = true;
+                    // Debug.Log($"auto correct: {answer}");
                 }
                 else
                 {

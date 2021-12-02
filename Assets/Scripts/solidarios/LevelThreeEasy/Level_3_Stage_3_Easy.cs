@@ -43,6 +43,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     bool ShowResult;
     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
     public FirebaseManager firebaseManager;
+    float adjustedAnswer;
 
     void Start()
     {
@@ -78,7 +79,8 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
             pPronoun = "her";
         }
         //question = $"{playerName} is hanging on a horizontal pole and {pronoun} is instructed to let go of it, drop down, and grab the elastic cord below to slow down his fall and safely land him into the ground. If the hands of {playerName} is exactly <color=#006A11>{distanceGiven}</color> meters above the second pole, <color=red>how long</color> should {playerName} fall down before {pronoun} grabs the second pole?";
-        question = $"<b>{playerName}</b> is finally instructed to let go of the branch that {pronoun} is hanging from and grab the crossing vine below to soften {pronoun} landing into the ground. If the distance between the branch and the vine is exactly {distanceGiven} meters vertically, how long should {pronoun} fall down before grabbing the vine?";
+        question = $"<b>{playerName}</b> is finally instructed to let go of the branch that {pronoun} is hanging from and grab the crossing vine below to soften {pronoun} landing into the ground. If the distance between the branch and the vine is exactly {distanceGiven} meters vertically, how long should {pronoun} fall before grabbing the vine?";
+        Debug.Log(question);
 
         // if (questionText != null)
         // {
@@ -137,6 +139,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
         // cameraScript.isStartOfStunt = true;
         // questionController.SetAnswer();
         answer = questionController.GetPlayerAnswer();
+        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);     
         questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;
@@ -160,7 +163,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
             thePlayerAnimation.SetBool("isFalling", true);
 
             // Correct Answer
-            if (System.Math.Round(answer, 2) == System.Math.Round(correctAnswer, 2))
+            if (System.Math.Round(adjustedAnswer, 2) == System.Math.Round(correctAnswer, 2))
             {
                 answerIsCorrect = true;
                 Debug.Log("Time is correct!");
@@ -185,7 +188,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
             else
             {
                 answerIsCorrect = false;
-                if (answer < System.Math.Round(correctAnswer, 2))
+                if (adjustedAnswer < System.Math.Round(correctAnswer, 2))
                 {
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                     {

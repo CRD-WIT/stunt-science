@@ -45,6 +45,23 @@ public class QuestionContProjMed : MonoBehaviour
     {
         PlayerPrefs.SetString("Level", settingUI.GetLevelNames()[level]);
     }
+
+    public float AnswerTolerance(float correctAnswer)
+    {
+        float answer = 0, offset = 0;
+        offset = (float)System.Math.Round(Mathf.Abs(correctAnswer - GetPlayerAnswer()), 2);
+        if (offset <= 0.01f)
+        {
+            answer = correctAnswer;
+        }
+        else
+        {
+            answer = GetPlayerAnswer();
+        }
+        Debug.Log(offset + "offset");
+        return answer;
+    }
+
     void Start()
     {
         Transform[] components = { baseComponent, modalComponentHorizontal.transform, extraComponent };

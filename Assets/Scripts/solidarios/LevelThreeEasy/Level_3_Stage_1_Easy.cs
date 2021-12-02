@@ -86,6 +86,8 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
     public FirebaseManager firebaseManager;
 
+    float adjustedAnswer;
+
 
     void Start()
     {
@@ -177,7 +179,8 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void Play()
     {
-        answer = questionController.GetPlayerAnswer();
+        answer = questionController.GetPlayerAnswer();   
+        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);     
         questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;
@@ -230,7 +233,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void FixedUpdate()
     {
-         questionController.errorText = "answer must not exceed your current distance from the branch";
+        questionController.errorText = "answer must not exceed your current distance from the branch";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
         if (directorIsCalling)
@@ -244,11 +247,11 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
             elapsed += Time.fixedDeltaTime;
             float playerOnRopeY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
-            if (answer != correct)
+            if (adjustedAnswer != correct)
             {
-                if (answer > correct)
+                if (adjustedAnswer > correct)
                 {
-                    float diff = answer - correct;
+                    float diff = adjustedAnswer - correct;
                     float target = playerOnRopeInitialY + diff;
                     if (playerOnRopeY < target)
                     {
@@ -260,11 +263,11 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                         playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
                         RepositionRopeComplete();
                     }
-                    //Debug.Log($"rope: {playerOnRopeY} | correct: {correct} | answer: {answer}");
+                    //Debug.Log($"rope: {playerOnRopeY} | correct: {correct} | adjustedAnswer: {adjustedAnswer}");
                 }
                 else
                 {
-                    float diff = correct - answer;
+                    float diff = correct - adjustedAnswer;
                     float target = playerOnRopeInitialY - diff;
                     if (playerOnRopeY > target)
                     {
@@ -297,7 +300,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                 thePlayerAnimation.SetBool("isFalling", true);
 
                 // Correct Answer
-                if (System.Math.Round(answer, 2) == System.Math.Round(correctAnswer, 2))
+                if (System.Math.Round(adjustedAnswer, 2) == System.Math.Round(correctAnswer, 2))
                 {
                     Debug.Log("Distance is correct!");
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
@@ -322,7 +325,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                     isAnswerCorrect = false;
                     isEndOfStunt = true;
                     isSimulating = false;
-                    if (answer < System.Math.Round(correctAnswer, 2))
+                    if (adjustedAnswer < System.Math.Round(correctAnswer, 2))
                     {
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {

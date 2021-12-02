@@ -226,7 +226,9 @@ public class AccManagerThree : MonoBehaviour
         generateAns = 60 / time;
         generateAcceleration = generateAns / time;
         deacceleration = (float)System.Math.Round(generateAcceleration, 2);
-        theQuestion.SetQuestion("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to park ") + pronoun2 + (" motorcycle perfectly at the back of truck. If braking the motorcycle constantly deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s², what should be the velocity(Vi) of the motorcycle prior to braking if ") + pronoun + (" has to apply brakes to the motorcycle for exactly <b>") + time.ToString("F2") + ("</b> seconds only to stop it for the stunt?"));
+        string question = "<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to park ") + pronoun2 + (" motorcycle perfectly at the back of truck. If braking the motorcycle constantly deaccelerates it by <b>") + deacceleration.ToString("F2") + ("</b> m/s², what should be the velocity(Vi) of the motorcycle prior to braking if ") + pronoun + (" has to apply brakes to the motorcycle for exactly <b>") + time.ToString("F2") + ("</b> seconds only to stop it for the stunt?");
+        theQuestion.SetQuestion(question);
+        Debug.Log(question);
         vitxt.text = ("vi = ?");
         theHeart.losslife = false;
         velocitytxt.text = ("v = 0 m/s");

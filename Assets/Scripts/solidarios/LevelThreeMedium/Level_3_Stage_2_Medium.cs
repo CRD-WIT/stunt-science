@@ -30,7 +30,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     public TMP_Text diretorsSpeech;
     public TMP_InputField answerField;
     public Button playButton;
-
+    float adjustedAnswer;
     static float playerAnswer;
     public HeartManager theHeart;
     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
@@ -90,7 +90,9 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     {
         targetHere.SetActive(false);
         playerAnswer = questionController.GetPlayerAnswer();
-        if (answerField.text == "" || playerAnswer > 89 || playerAnswer < 45)
+        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);     
+
+        if (answerField.text == "" || adjustedAnswer > 89 || adjustedAnswer < 45)
         {
 
             questionController.errorText = ("answer must not exceed between 45° to 89°");
