@@ -5,9 +5,11 @@ using UnityEngine;
 public class MechaManager : MonoBehaviour
 {
     public Vector2 velocity;
+    public float armRotation;
     float time;
     Rigidbody2D[] gearsRB = new Rigidbody2D[3];
     Rigidbody2D bodyRB;
+    [SerializeField] Rigidbody2D armRB;
     [SerializeField] GameObject[] gears = new GameObject[3];
     // Start is called before the first frame update
     void Start()
@@ -24,9 +26,11 @@ public class MechaManager : MonoBehaviour
     {
         bodyRB.velocity = velocity;
         if(velocity.x != 0) {
-        gearsRB[0].angularVelocity = GearSpeed(0.575f);
-        gearsRB[1].angularVelocity = GearSpeed(1.05f);
-        gearsRB[2].angularVelocity = GearSpeed(0.775f);}
+            gearsRB[0].angularVelocity = GearSpeed(0.575f);
+            gearsRB[1].angularVelocity = GearSpeed(1.05f);
+            gearsRB[2].angularVelocity = GearSpeed(0.775f);
+        }
+        armRB.angularVelocity = armRotation;
     }
     public void SetMechaVelocity(float angularVelocity, float time){
         float circumferenceOfWheel = 2*(float)(Mathf.PI * (1.05f)),
