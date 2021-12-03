@@ -26,6 +26,7 @@ public class AccMediumOne : MonoBehaviour
     private Vector2 subChopperStartPos, chopperStartPos;
     public AudioSource truckIdle, truckRunning, ChopperFlying;
     bool setAnswer;    
+    float min, max;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +40,8 @@ public class AccMediumOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        min = correctAnswer - 0.01f;
+        max = correctAnswer + 0.01f;
         debugAnswer.SetText($"Answer: {correctAnswer}");
         vHtxt.text = ("v = ") + velocity.ToString("F2") + ("m/s");
         vf = accelaration * theQuestion.GetPlayerAnswer();
@@ -56,7 +59,7 @@ public class AccMediumOne : MonoBehaviour
         if (theQuestion.isSimulating)
         {
             
-            if(theQuestion.GetPlayerAnswer() < (correctAnswer + 0.01f) & theQuestion.GetPlayerAnswer() > (correctAnswer  -0.01f))
+            if(theQuestion.GetPlayerAnswer() <= max & theQuestion.GetPlayerAnswer() >= min)
             {
                 answer = correctAnswer;
                 Debug.Log("inRange");

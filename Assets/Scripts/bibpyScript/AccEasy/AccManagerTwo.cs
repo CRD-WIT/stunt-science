@@ -33,6 +33,7 @@ public class AccManagerTwo : MonoBehaviour
     public TMP_Text debugAnswer;
     public AudioSource engineIdle, engineRunning;
     bool  setAnswer;
+    float min, max;
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +63,8 @@ public class AccManagerTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        min = correctAns - 0.02f;
+        max = correctAns + 0.02f;
         debugAnswer.SetText($"Answer: {correctAns}");
         Vftxt.text = ("Vf = ") + Vf.ToString("F2") + ("m/s");
         playerVf = (-deacceleration * theQuestion.GetPlayerAnswer()) + Vi;
@@ -96,7 +99,7 @@ public class AccManagerTwo : MonoBehaviour
 
         if (theQuestion.isSimulating)
         {
-            if(accSimulation.playerAnswer < correctAns + 0.01f & accSimulation.playerAnswer > correctAns  -0.01f)
+            if(accSimulation.playerAnswer < max & accSimulation.playerAnswer > min)
             {
                 time = correctAns;
                 Debug.Log("inRange");

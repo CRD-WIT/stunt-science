@@ -35,6 +35,7 @@ public class AccManagerOne : MonoBehaviour
     public QuestionControllerAcceleration theQuestion;
     public AudioSource engineIdle, engineRunning;
     AnswerGuards answerGuards = new AnswerGuards();
+    float min,max;
 
     bool setAnswer;
 
@@ -79,6 +80,8 @@ public class AccManagerOne : MonoBehaviour
         correctDistance = (time * time) * correctAns / 2;
         playerVf = accSimulation.playerAnswer * time;
         currentPos = theBike.transform.position.x;
+        min = correctAns - 0.02f;
+        max = correctAns + 0.02f;
         if (follow)
         {
             bikeInitials.transform.position = theBike.transform.position;
@@ -101,7 +104,7 @@ public class AccManagerOne : MonoBehaviour
         if (theQuestion.isSimulating)
         {
             
-            if(accSimulation.playerAnswer < correctAns + 0.01f & accSimulation.playerAnswer > correctAns  -0.01f)
+            if(accSimulation.playerAnswer < max & accSimulation.playerAnswer > min)
             {
                 accelaration = correctAns;
                 Debug.Log("inRange");

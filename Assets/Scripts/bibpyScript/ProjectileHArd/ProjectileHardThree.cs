@@ -26,6 +26,8 @@ public class ProjectileHardThree : MonoBehaviour
     string pronoun, pronoun2, gender;
     public TMP_Text golemVelo, golemAcc, VoTxt, playerVelo, actionTxt, angleTxt;
     public AudioSource gunShot, maneuverGear, oxygenSfx;
+    public bool setAnswer;
+    float min, max;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +51,8 @@ public class ProjectileHardThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        min = correctAnswer - 0.01f;
+        max = correctAnswer + 0.01f; 
         debugAnswer.SetText($"Answer: {correctAnswer}");
         angleLine.transform.position = this.transform.position;
         theCircular._origin = new Vector2(this.transform.position.x + .5f, this.transform.position.y);
@@ -108,6 +112,23 @@ public class ProjectileHardThree : MonoBehaviour
         }
         if (theQuestion.isSimulating == true)
         {
+            
+             if(ProjHardSimulation.playerAnswer <= max  &  ProjHardSimulation.playerAnswer >= min)
+            {
+                ProjHardSimulation.playerAnswer = correctAnswer;
+                Debug.Log("inRange");
+                
+            }
+            else
+            {
+               Debug.Log("notInRange");
+            }
+            setAnswer = true; 
+
+        }
+        if(setAnswer)
+        {
+            theQuestion.isSimulating = false;
             playerProjectileTime = finalDistance / (Mathf.Cos((((((angle - ProjHardSimulation.playerAnswer) / 2) + ProjHardSimulation.playerAnswer)) * Mathf.Deg2Rad)) * Vo);
             theCircular._degrees = ProjHardSimulation.playerAnswer;
             theCircular.initialAngle = 85 - ProjHardSimulation.playerAnswer;
@@ -116,7 +137,7 @@ public class ProjectileHardThree : MonoBehaviour
             timeStart = true;
             running = true;
             
-            if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
+            if (ProjHardSimulation.playerAnswer == correctAnswer)
             {
                 deflector.GetComponent<Collider2D>().isTrigger = true;
                 theQuestion.answerIsCorrect = true;
@@ -138,8 +159,7 @@ public class ProjectileHardThree : MonoBehaviour
                     Vo += .3f;
                 }
             }
-            theQuestion.isSimulating = false;
-
+            setAnswer = false;
         }
         if (timeStart)
         {
@@ -215,7 +235,7 @@ public class ProjectileHardThree : MonoBehaviour
     {
         theArrow[0].showIndicator = false;
         indicatorReady = false;
-        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             hit.SetActive(true);
             indicator.transform.position = arrow.transform.position;
@@ -245,7 +265,7 @@ public class ProjectileHardThree : MonoBehaviour
         gunShot.Play();
         maneuverGear.Play();
         arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (Vo - .1f);
-        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             StartCoroutine(ropePull());
         }
@@ -312,7 +332,7 @@ public class ProjectileHardThree : MonoBehaviour
     IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(projectileTime + 4);
-        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, true);
         }

@@ -25,6 +25,8 @@ public class ProjectileHardTwo : MonoBehaviour
     string pronoun, pronoun2, gender;
     public TMP_Text golemVelo, VoTxt, playerVelo, actionTxt, vPtxt;
     public AudioSource gunShot, maneuverGear, oxygenSfx;
+    public bool setAnswer;
+    float min, max;
     void Start()
     {
         theQuestion.stage = 2;
@@ -47,6 +49,8 @@ public class ProjectileHardTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        min = correctAnswer - 0.01f;
+        max = correctAnswer + 0.01f; 
         debugAnswer.SetText($"Answer: {correctAnswer}");
         golemInitial.transform.position = theGolem.transform.position;
         playerInitials.transform.position = thePlayer.transform.position;
@@ -96,11 +100,26 @@ public class ProjectileHardTwo : MonoBehaviour
         }
         if (theQuestion.isSimulating == true)
         {
+             if(ProjHardSimulation.playerAnswer <= max  &  ProjHardSimulation.playerAnswer >= min)
+            {
+                ProjHardSimulation.playerAnswer = correctAnswer;
+                Debug.Log("inRange");
+                
+            }
+            else
+            {
+               Debug.Log("notInRange");
+            }
+            setAnswer = true; 
+        }
+        if(setAnswer)
+        {
+            theQuestion.isSimulating = false;
             playerProjectileTime = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) * ((Vo - ProjSimulationManager.playerAnswer) + Vo));
             trail.SetActive(true);
             timeStart = true;
             running = true;
-            theQuestion.isSimulating = false;
+            setAnswer = false;
         }
         if (timeStart)
         {
@@ -168,7 +187,7 @@ public class ProjectileHardTwo : MonoBehaviour
         theArrow[0].showIndicator = false;
         indicatorReady = false;
         
-        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer , 0.01f))
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             hit.SetActive(true);
             indicator.transform.position = arrow.transform.position;
@@ -214,7 +233,7 @@ public class ProjectileHardTwo : MonoBehaviour
         trail.GetComponent<TrailRenderer>().time = 3000;
         gunShot.Play();
         maneuverGear.Play();
-        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer , 0.01f))
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             deflector.GetComponent<Collider2D>().isTrigger = true;
             theQuestion.answerIsCorrect = true;
@@ -285,7 +304,7 @@ public class ProjectileHardTwo : MonoBehaviour
     IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(projectileTime + 2);
-        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer , 0.01f))
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, false);
         }

@@ -43,6 +43,7 @@ public class AccManagerThree : MonoBehaviour
     Quaternion truckStartRot;
     public AudioSource engineIdle, engineRunning, truckEngine;
     bool setAnswer;
+    float min, max;
 
     // Start is called before the first frame update
     void Start()
@@ -79,6 +80,8 @@ public class AccManagerThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        min = correctAns - 0.02f;
+        max = correctAns + 0.02f;
         correctAns = (float)System.Math.Round(generateAns, 2);
         debugAnswer.SetText($"Answer: {correctAns}");
         playerDistance = (time * time) * deacceleration / 2;
@@ -94,7 +97,7 @@ public class AccManagerThree : MonoBehaviour
         if (theQuestion.isSimulating)
         {
            
-            if(accSimulation.playerAnswer < correctAns + 0.01f & accSimulation.playerAnswer > correctAns  -0.01f)
+            if(accSimulation.playerAnswer < max & accSimulation.playerAnswer  > min)
             {
                 Vi = correctAns;
                 Debug.Log("inRange");
