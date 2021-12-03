@@ -27,6 +27,8 @@ public class ProjectileHardOne : MonoBehaviour
     string pronoun, pronoun2, gender;
     StageManager sm = new StageManager();
     public AudioSource gunShot, maneuverGear, oxygenSfx;
+    public bool setAnswer;
+    float min, max;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +54,8 @@ public class ProjectileHardOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        min = correctAnswer - 0.01f;
+        max = correctAnswer + 0.01f; 
         debugAnswer.SetText($"Answer: {correctAnswer}");
         golemInitial.transform.position = theGolem.transform.position;
         lineAngle.transform.position = stone.transform.position;
@@ -143,6 +147,22 @@ public class ProjectileHardOne : MonoBehaviour
 
         if (theQuestion.isSimulating == true)
         {
+             if(ProjHardSimulation.playerAnswer <= max  &  ProjHardSimulation.playerAnswer >= min)
+            {
+                ProjHardSimulation.playerAnswer = correctAnswer;
+                Debug.Log("inRange");
+                
+            }
+            else
+            {
+               Debug.Log("notInRange");
+            }
+            setAnswer = true; 
+
+        }
+        if(setAnswer)
+        {
+            theQuestion.isSimulating = false;
             timeStart = true;
             theGolem.moveSpeed = vG;
             trail.SetActive(true);
@@ -152,9 +172,9 @@ public class ProjectileHardOne : MonoBehaviour
                 if (timer >= ProjHardSimulation.playerAnswer)
                 {
 
-                    theQuestion.isSimulating = false;
+                    setAnswer = false;
 
-                    if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
+                    if (ProjHardSimulation.playerAnswer == correctAnswer)
                     {
                         vi += .08f;
                         theQuestion.answerIsCorrect = true;
@@ -203,9 +223,6 @@ public class ProjectileHardOne : MonoBehaviour
 
             }
 
-
-
-
         }
 
 
@@ -251,7 +268,7 @@ public class ProjectileHardOne : MonoBehaviour
         theArrow[0].showIndicator = false;
         indicatorReady = false;
         
-        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             hit.SetActive(true);
             indicator.transform.position = arrow.transform.position;
@@ -310,7 +327,7 @@ public class ProjectileHardOne : MonoBehaviour
         gunShot.Play();
         maneuverGear.Play();
         
-        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
         }
@@ -352,7 +369,7 @@ public class ProjectileHardOne : MonoBehaviour
             //TODO: reduceLife
         }
         
-        if (answerGuards.AnswerIsInRange(correctAnswer, ProjHardSimulation.playerAnswer, 0.01f))
+        if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, false);
         }

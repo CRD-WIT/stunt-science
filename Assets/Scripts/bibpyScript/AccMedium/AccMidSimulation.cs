@@ -152,7 +152,8 @@ public class AccMidSimulation : MonoBehaviour
         if (stage == 3)
         {
             answerField[2].text = ("");
-            theQuestion.isSimulating = false;
+            // theQuestion.isSimulating = false;
+            theManagerThree.setAnswer = false;
             theSubVan[1].fade = false;
             theSuv[1].myCollider.enabled = true;
             theSubVan[1].gameObject.SetActive(true);

@@ -27,6 +27,8 @@ public class AccMediumThree : MonoBehaviour
     int currentLevel;
     int currentStar;
     public TMP_Text debugAnswer;
+    public bool setAnswer;
+    float min, max;
 
     // Start is called before the first frame update
     void Start()
@@ -60,15 +62,33 @@ public class AccMediumThree : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        min = correctAnswer - 0.01f;
+        max = correctAnswer + 0.01f;
         debugAnswer.SetText($"Answer: {correctAnswer}");
         thePlayer.transform.position = playerPos.transform.position;
         thePlayer.myRigidbody.mass = 0;
         suvPos = theSuv.transform.position.x;
         chopperPos = theChopper.transform.position.x;
-        accV = AccMidSimulation.playerAnswer;
+        //accV = AccMidSimulation.playerAnswer;
         theDistance.distance = dv;
         if (theQuestion.isSimulating == true)
         {
+          if( AccMidSimulation.playerAnswer <= max  &  AccMidSimulation.playerAnswer >= min)
+            {
+                accV = correctAnswer;
+                Debug.Log("inRange");
+                theQuestion.isSimulating = false;
+            }
+            else
+            {
+               accV = AccMidSimulation.playerAnswer;
+               theQuestion.isSimulating = false;
+            }
+            setAnswer = true; 
+        }
+        if(setAnswer)
+        {
+            theQuestion.isSimulating = false;
             viHtxt.text = ("v = ") + (-theChopper.flySpeed).ToString("F2") + ("m/s");
             viVtxt.text = ("v = ") + (-theSuv.moveSpeed).ToString("F2") + ("m/s");
             aVtxt.text = ("a = ") + accV.ToString("F2") + ("m/s²");
@@ -126,7 +146,7 @@ public class AccMediumThree : MonoBehaviour
                     StartCoroutine(StuntResult());
                 }
                 
-                if (answerGuards.AnswerIsInRange(correctAnswer, accV, 0.01f))
+                if (accV == correctAnswer)
                 {
                     aVtxt.color = new Color32(107, 0, 176, 255);
                     //actiontxt.text = "Next";

@@ -25,6 +25,8 @@ public class AccMediumTwo : MonoBehaviour
     public TMP_Text vivTxt, vihTxt, accvTxt, acchTxt, actiontxt,timertxt;
     public TMP_Text debugAnswer;
     public AudioSource glassBreak;
+    bool setAnswer;
+    float max, min;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +50,7 @@ public class AccMediumTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
         debugAnswer.SetText($"Answer: {correctAnswer}");
         chopperCurrentPos = theChopper.transform.position.x;
         vanCurrentPos = theVan.transform.position.x;
@@ -57,9 +60,11 @@ public class AccMediumTwo : MonoBehaviour
         generatekickDistance = ((Vih * kickpointTimeA) + ((accH * (kickpointTimeA * kickpointTimeA)) / 2)) + chopperAccPos;
         correctAnswer = (float)System.Math.Round(generatekickDistance, 2) - chopperAccPos;
         kickDistance = (float)System.Math.Round(generatekickDistance, 2);
-        playerKickDistance = AccMidSimulation.playerAnswer + chopperAccPos;
+        //playerKickDistance = AccMidSimulation.playerAnswer + chopperAccPos;
         generateplayerVanDistance = ((Viv * playerTime) + ((accV * (playerTime * playerTime)) / 2));
         playerVanDistance = (vanAccPos - generateplayerVanDistance) + chopperAccPos;
+        min = correctAnswer - 0.01f;
+        max = correctAnswer + 0.01f;
         if (follow)
         {
             carInitial.transform.position = theVan.transform.position;
@@ -69,10 +74,26 @@ public class AccMediumTwo : MonoBehaviour
             vivTxt.text = ("vi = ") + (-theVan.moveSpeed).ToString("F2") + (" m/s");
             acchTxt.text = ("a = ") + accH.ToString("F2") + (" m/s²");
         }
-
-
         if (theQuestion.isSimulating)
         {
+            if( AccMidSimulation.playerAnswer <= max  &  AccMidSimulation.playerAnswer >= min)
+            {
+                playerKickDistance = correctAnswer + chopperAccPos;
+                Debug.Log("inRange");
+                theQuestion.isSimulating = false;
+            }
+            else
+            {
+               playerKickDistance = AccMidSimulation.playerAnswer + chopperAccPos;
+               theQuestion.isSimulating = false;
+            }
+            setAnswer = true; 
+            
+
+        }
+        if(setAnswer)
+        {
+            
             timertxt.text = timer.ToString("F2") + ("s");
 
             if (playerKickDistance == kickDistance)
@@ -138,7 +159,7 @@ public class AccMediumTwo : MonoBehaviour
                             
                             thePlayer.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                             StartCoroutine(kick());
-                            theQuestion.isSimulating = false;
+                            setAnswer = false;
 
                         }
                     }
@@ -166,7 +187,7 @@ public class AccMediumTwo : MonoBehaviour
                         {
                             theHeart.ReduceLife();
                             StartCoroutine(StuntResult());
-                            theQuestion.isSimulating = false;
+                            setAnswer = false;
 
                         }
                     }
@@ -203,7 +224,7 @@ public class AccMediumTwo : MonoBehaviour
                             thePlayer.ropeHang = false;
                             thePlayer.standup = true;
                             theHeart.ReduceLife();
-                           theQuestion.isSimulating = false;
+                           setAnswer = false;
                         }
                     }
                 }
@@ -321,7 +342,7 @@ public class AccMediumTwo : MonoBehaviour
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" has successfully performed the stunt and able to jumped into the van")),true, false);
         }
-        if (playerKickDistance < kickDistance)
+        if (playerKickDistance != kickDistance)
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" has failed to jump into the van ")),false, false);
         }
