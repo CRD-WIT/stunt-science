@@ -18,6 +18,10 @@ public class WheelTooth : MonoBehaviour
             distanceX = 1.429f;
             distanceY = 1.8f;
         }
+        else{
+            distanceX = 10;
+            distanceY = 0;
+        }
         distanceT = Mathf.Sqrt((distanceX*distanceX)+(distanceY*distanceY));
     }
 
@@ -30,7 +34,7 @@ public class WheelTooth : MonoBehaviour
         else if(this.transform.parent.name == "tooth2")
             this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2((distanceX/time) + mm.velocity.x, -distanceY/time);
         else
-            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2((distanceX/time) + mm.velocity.x,0);
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.transform.parent.name == "tooth"){

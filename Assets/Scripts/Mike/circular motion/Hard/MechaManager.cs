@@ -41,4 +41,10 @@ public class MechaManager : MonoBehaviour
     float GearSpeed(float radius){
         return -(360*velocity.x/(2*(float)(Mathf.PI*radius)));
     }
+    public float MechaVelocity(float av, float t){
+        float circumferenceOfWheel = 2*(float)(Mathf.PI * (1.05f)),
+        arc = av * t,
+        d = circumferenceOfWheel * (arc / 360);
+        return d/t;
+    }
 }
