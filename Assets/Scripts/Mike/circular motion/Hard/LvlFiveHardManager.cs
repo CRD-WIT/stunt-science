@@ -10,8 +10,8 @@ public class LvlFiveHardManager : MonoBehaviour
     [SerializeField]float distance, mechaVelocity, aVelocity, radius, stuntTime, playerVelocity, correctAnswer, elapsed;
     float initialPlayerPos, playerAnswer;
     int stage;
-    string playerName, playerGender, pronoun, pPronoun, question;
-    bool directorIsCalling, isStartOfStunt, isAnswered, isAnswerCorrect, ragdoll = false;
+    string playerName, playerGender, pronoun, pPronoun, question, message;
+    bool directorIsCalling, isStartOfStunt, isAnswered, isAnswerCorrect, ragdoll = false, playerLanded;
     MechaManager mm;
     QuestionControllerVThree qc;
     IndicatorManagerV1_1 indicators;
@@ -20,6 +20,8 @@ public class LvlFiveHardManager : MonoBehaviour
     [SerializeField] GameObject directorsBubble;
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField] AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
+    [SerializeField] HingeJoint2D playerStopper;
+    [SerializeField] Camera main;
     
     // Start is called before the first frame update
     void Start()
@@ -64,12 +66,26 @@ public class LvlFiveHardManager : MonoBehaviour
                 elapsed = stuntTime;
                 StartCoroutine(Jump());
             }
+            if(playerAnswer == correctAnswer){
+                isAnswerCorrect =true;
+                message = "correct";
+            }
+        }
+        if(playerLanded){
+            if(isAnswerCorrect){
+                playerStopper.enabled =true;
+                if(myPlayer.transform.position.x>main.transform.position.x)
+                    main.transform.position = new Vector3(main.transform.position.x + 0.1f, main.transform.position.y,-10);
+                else
+                    main.transform.position = new Vector3(myPlayer.transform.position.x, main.transform.position.y,-10);
+            }
         }
         if (qc.isSimulating)
             Play();
         
     }
     void SetUp(){
+        playerLanded = false;
         radius = 1.05f;
         float pV, mV, cT, jT, d, t, av, jd;
         switch(stage){
@@ -79,11 +95,11 @@ public class LvlFiveHardManager : MonoBehaviour
                     pV = (float)System.Math.Round(Random.Range(8f, 10.49f),2);
                     d = (float)System.Math.Round(Random.Range(30f, 33f), 2);
                     t = (float)System.Math.Round(Random.Range(2.5f, 4f),2);
-                    av = (float)System.Math.Round(Random.Range(-100f, -150f),2);
+                    av = (float)System.Math.Round(Random.Range(-100, -150f),2);
 
                     mV = (float)System.Math.Round(mm.MechaVelocity(av*(-1), t), 2);
                     cT = d/(pV+mV);
-                    jT = cT -1;
+                    jT = cT -0.5f;
                     jd = pV*jT;
                     if(jd<20)
                         break;
@@ -93,14 +109,14 @@ public class LvlFiveHardManager : MonoBehaviour
                 stuntTime = t;
                 aVelocity = av;
                 mechaVelocity = mV;
-                correctAnswer = jd;
+                correctAnswer = (float)System.Math.Round(jd,2);
 
                 myPlayer.transform.position = new Vector2(-distance+ 12, 0);
                 initialPlayerPos = distance -12;
                 Debug.Log(initialPlayerPos);
                 
                 whatIsAsk = UnitOf.distance;
-                question = $"{playerName} is intructed to run and jump on top of the robot's wheel. The robot is moving <b>{mechaVelocity}{qc.Unit(UnitOf.velocity)}</b> towards {pPronoun} and {pronoun} is moving <b>{playerVelocity}{qc.Unit(UnitOf.velocity)}</b> towards the robot. If {playerName} needs to jump 0.5s before the collision, How far does {pronoun} have to run before jumping?";
+                question = $"{playerName} is intructed to run and jump on top of the robot's wheel. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>1.05 m</b> is moving towards {pPronoun} and {pronoun} is moving <b>{playerVelocity}{qc.Unit(UnitOf.velocity)}</b> towards the robot. If {playerName} needs to jump 0.5s before the collision, How far does {pronoun} have to run before jumping?";
                 //player playerVelocity to jump exactly to the mecha
                 break;
             case 2:
@@ -170,9 +186,11 @@ public class LvlFiveHardManager : MonoBehaviour
     IEnumerator Jump(){
         myPlayer.jumpforce = 2;
         myPlayer.jump();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.4f);
         myPlayer.moveSpeed = 0;
         myPlayer.jumpforce = 0;
+        playerLanded = true;
         isAnswered = false;
+        myPlayer.walking = true;
     }
 }
