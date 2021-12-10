@@ -8,10 +8,10 @@ public class LvlFiveHardManager : MonoBehaviour
 {
     UnitOf whatIsAsk;
     [SerializeField]float distance, mechaVelocity, aVelocity, radius, stuntTime, playerVelocity, correctAnswer, elapsed;
-    float initialPlayerPos, playerAnswer;
+    float initialPlayerPos, playerAnswer, camStartPos, mechaPos;
     int stage;
-    string playerName, playerGender, pronoun, pPronoun, question, message;
-    bool directorIsCalling, isStartOfStunt, isAnswered, isAnswerCorrect, ragdoll = false, playerLanded;
+    string playerName, playerGender, pronoun, pPronoun, question, messageTxt;
+    bool directorIsCalling, isStartOfStunt, isAnswered, isAnswerCorrect, ragdoll = false, playerLanded, isEndOfStunt;
     MechaManager mm;
     QuestionControllerVThree qc;
     IndicatorManagerV1_1 indicators;
@@ -32,6 +32,7 @@ public class LvlFiveHardManager : MonoBehaviour
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
         myPlayer = FindObjectOfType<PlayerCM2>();
 
+        camStartPos = main.transform.position.x;
         sm.SetGameLevel(5);
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
@@ -57,31 +58,44 @@ public class LvlFiveHardManager : MonoBehaviour
             StartCoroutine(DirectorsCall());
         if(isAnswered){
             elapsed += Time.deltaTime;
-            mm.SetMechaVelocity(aVelocity, stuntTime);
-            myPlayer.moveSpeed = playerVelocity;
-            float playerPos = myPlayer.transform.position.x + initialPlayerPos;
-            if(playerPos >= playerAnswer){
-                Debug.Log(playerPos);
-                // myPlayer.moveSpeed = 0;
-                elapsed = stuntTime;
-                StartCoroutine(Jump());
-            }
-            if(playerAnswer == correctAnswer){
-                isAnswerCorrect =true;
-                message = "correct";
+            switch(stage){
+                case 1:
+                    mm.SetMechaVelocity(aVelocity, stuntTime);
+                    myPlayer.moveSpeed = playerVelocity;
+                    float playerPos = myPlayer.transform.position.x + initialPlayerPos;
+                    if(playerPos >= playerAnswer){
+                        Debug.Log(playerPos);
+                        // myPlayer.moveSpeed = 0;
+                        elapsed = stuntTime;
+                        StartCoroutine(Jump());
+                    }
+                    if(playerAnswer == correctAnswer){
+                        isAnswerCorrect =true;
+                        messageTxt = "correct";
+                    }
+                break;
             }
         }
         if(playerLanded){
+            float camDistanceFromRobot = mechaPos - camStartPos;
+            main.transform.position = new Vector3(mm.transform.position.x - camDistanceFromRobot, main.transform.position.y,-10);
             if(isAnswerCorrect){
                 playerStopper.enabled =true;
-                if(myPlayer.transform.position.x>main.transform.position.x)
-                    main.transform.position = new Vector3(main.transform.position.x + 0.1f, main.transform.position.y,-10);
-                else
-                    main.transform.position = new Vector3(myPlayer.transform.position.x, main.transform.position.y,-10);
             }
         }
+
         if (qc.isSimulating)
             Play();
+        else{
+            if(qc.nextStage)
+                Next();
+            else if(qc.retried)
+                Reset();
+            else{
+                qc.nextStage = false;
+                qc.retried = false;
+            }
+        }
         
     }
     void SetUp(){
@@ -132,6 +146,12 @@ public class LvlFiveHardManager : MonoBehaviour
         isStartOfStunt = true;
         directorIsCalling = true;
     }
+    void Reset(){
+
+    }
+    void Next(){
+
+    }
     
     public IEnumerator DirectorsCall()
     {
@@ -156,25 +176,25 @@ public class LvlFiveHardManager : MonoBehaviour
         }
         else
         {
-            if (stage != 3)
-            {
-                if (isAnswerCorrect)
-                    myPlayer.happy = true;
-                else
-                {
-                    if (ragdoll)
-                    {
-                        myPlayer.lost = false;
-                        myPlayer.standup = false;
-                        myPlayer.ToggleTrigger();
-                    }
-                    else
-                    {
-                        myPlayer.lost = true;
-                        myPlayer.standup = true;
-                    }
-                }
-            }
+            // if (stage != 3)
+            // {
+            //     if (isAnswerCorrect)
+            //         myPlayer.happy = true;
+            //     else
+            //     {
+            //         if (ragdoll)
+            //         {
+            //             myPlayer.lost = false;
+            //             myPlayer.standup = false;
+            //             myPlayer.ToggleTrigger();
+            //         }
+            //         else
+            //         {
+            //             myPlayer.lost = true;
+            //             myPlayer.standup = true;
+            //         }
+            //     }
+            // }
             directorsBubble.SetActive(true);
             directorsSpeech.text = "Cut!";
             // cutsfx.Play();
@@ -192,5 +212,24 @@ public class LvlFiveHardManager : MonoBehaviour
         playerLanded = true;
         isAnswered = false;
         myPlayer.walking = true;
+        mechaPos = mm.transform.position.x;
+        StartCoroutine(StuntResult());
+    }
+    IEnumerator StuntResult()
+    {
+        isEndOfStunt = false;
+        // yield return new WaitForSeconds(0.25f);
+        directorIsCalling = true;
+        isStartOfStunt = false;
+        yield return new WaitForSeconds(1f);
+        qc.ActivateResult(messageTxt, isAnswerCorrect);
     }
 }
+
+/*
+Required    |   stage
+----------------------
+distance    |   1
+velocity    |   2
+time        |   3
+*/
