@@ -1,9 +1,15 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.UI;
 public class AccMediumThree : MonoBehaviour
 {
+        // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     AnswerGuards answerGuards = new AnswerGuards();
     public GameObject edge, hangingRagdoll, ropeTip, ragdollPrefab, stickmanPoint, playerPos, carInitials, chopperInitials, wordedBoard, edgeline, ropehere, carArrow, chopperArrow;
     public SubSuv theSubVan;

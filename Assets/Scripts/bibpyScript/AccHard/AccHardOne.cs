@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class AccHardOne : MonoBehaviour
 {
+    // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     public float dX, dY, viT, aT, timer, vB, angleB, angleA, sideB, sideC, totalDistance, correctAnswer, answer, playerAnswer;
     //public Quaternion angleB;
     public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions, truckInitials;

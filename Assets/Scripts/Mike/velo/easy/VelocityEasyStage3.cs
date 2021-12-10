@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using GameConfig;
 
 public class VelocityEasyStage3 : MonoBehaviour
 {
+    // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     public ScoreManager Scorer;
     public PlayerV1_1 myPlayer;
     public CeillingGenerator theCeiling;

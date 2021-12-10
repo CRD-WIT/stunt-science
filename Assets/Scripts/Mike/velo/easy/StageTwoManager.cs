@@ -1,9 +1,16 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using GameConfig;
 using TMPro;
 public class StageTwoManager : MonoBehaviour
 {
+    // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     AnswerGuards answerGuards = new AnswerGuards();
     public PlayerV1_1 thePlayer;
     UnitOf whatIsAsk;
