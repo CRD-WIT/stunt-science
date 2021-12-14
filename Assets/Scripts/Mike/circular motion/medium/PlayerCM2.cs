@@ -8,7 +8,7 @@ public class PlayerCM2 : MonoBehaviour
     private Rigidbody2D myRigidbody;
     public Animator myAnimator;
     public GameObject player, stickprefab, stickmanpoint;
-    public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang, isLanded;
+    public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang, isLanded, walking;
     // public AudioSource footstep;
     float currentpos;
     public LayerMask whatIsGround;
@@ -43,6 +43,7 @@ public class PlayerCM2 : MonoBehaviour
         myAnimator.SetBool("toJump", toJump);
         myAnimator.SetBool("jumpHang", jumpHang);
         myAnimator.SetBool("landed", isLanded);
+        myAnimator.SetBool("walking", walking);
         if (posready == true)
         {
             if (currentpos >= 0)
