@@ -155,13 +155,15 @@ public class LvlFiveHardManager : MonoBehaviour
                     pV = d/t;
                     pVx = dx/t;
                     pVy = dy/t;
-                    av = (float)System.Math.Round(Random.Range(-150, -200), 2);
+                    av = (float)System.Math.Round(Random.Range(-150f, -200f), 2);
+                    
+                    mV = (float)System.Math.Round(mm.MechaVelocity(av*(-1), t, 0.775f), 2);
                     if(pV<10.5f)
                         break;
                 }
                 stuntTime = t;
                 aVelocity = av;
-                mechaVelocity = mv;
+                mechaVelocity = mV;
                 correctAnswer = (float)System.Math.Round(pV, 2);
                 break;
             case 3:
