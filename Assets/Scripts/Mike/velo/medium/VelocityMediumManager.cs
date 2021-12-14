@@ -6,6 +6,12 @@ using GameConfig;
 
 public class VelocityMediumManager : MonoBehaviour
 {
+    // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide    
     AnswerGuards answerGuards = new AnswerGuards();
     QuestionControllerVThree qc;
     TextColorMode colors;
@@ -78,6 +84,10 @@ public class VelocityMediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Stunt Guide
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+        stuntGuideTextObject.text = stuntGuideText;
+
         velocityDirectionArrow1.GetComponent<SpriteRenderer>().color = qc.getHexColor(colors);
         velocityDirectionArrow2.GetComponent<SpriteRenderer>().color = qc.getHexColor(colors);
         qc.SetColor(boulder2Speed, colors);

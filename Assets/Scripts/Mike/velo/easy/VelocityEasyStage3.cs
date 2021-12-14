@@ -52,6 +52,10 @@ public class VelocityEasyStage3 : MonoBehaviour
     }
     void FixedUpdate()
     {
+        //Stunt Guide
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+        stuntGuideTextObject.text = stuntGuideText;
+
         answer = qc.GetPlayerAnswer();
         debugAnswer.SetText($"Answer: {distance}");
         if (SimulationManager.stage3Flag)

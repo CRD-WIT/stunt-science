@@ -42,6 +42,10 @@ public class StageTwoManager : MonoBehaviour
     }
     void FixedUpdate()
     {
+        //Stunt Guide
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+        stuntGuideTextObject.text = stuntGuideText;
+
         debugAnswer.SetText($"Answer: {answerRO}");
         playerAnswer = qc.GetPlayerAnswer();
         float adjustedAnswer = qc.AnswerTolerance(answerRO);

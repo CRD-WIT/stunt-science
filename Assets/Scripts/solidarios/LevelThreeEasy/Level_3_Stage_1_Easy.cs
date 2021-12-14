@@ -8,7 +8,12 @@ using UnityEngine.UI;
 
 public class Level_3_Stage_1_Easy : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     string question;
 
     float lastHitYPosition;
@@ -64,7 +69,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     float accurateColliderInitialPointY;
 
     public GameObject timerAnnotation;
-     public Button play;
+    public Button play;
 
     public QuestionControllerVThree questionController;
 
@@ -83,7 +88,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     StageManager sm = new StageManager();
 
     public TMP_Text debugAnswer;
-    public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
+    public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
     public FirebaseManager firebaseManager;
 
     float adjustedAnswer;
@@ -91,7 +96,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void Start()
     {
-        firebaseManager.GameLogMutation(3, 1, "Easy", Actions.Started, 0); 
+        firebaseManager.GameLogMutation(3, 1, "Easy", Actions.Started, 0);
 
         showResult = true;
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
@@ -101,12 +106,12 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
         // Formula
         correctAnswer = Mathf.Abs((gravityGiven.y / 2) * Mathf.Pow(timeGiven, 2));
-        
+
 
         annotation.SetDistance(correctAnswer);
         annotation.revealValue = false;
         annotation.SetSpawningPoint(new Vector2(15, playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y - correctAnswer));
-        
+
 
         // Debug.Log($"Distance: {correctAnswer}");
         // Debug.Log($"Hinge: {playerOnRope.transform.Find("PlayerHingeJoint").transform.position.y}");
@@ -179,8 +184,8 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void Play()
     {
-        answer = questionController.GetPlayerAnswer();   
-        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);     
+        answer = questionController.GetPlayerAnswer();
+        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);
         questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;
@@ -233,6 +238,10 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void FixedUpdate()
     {
+        //Stunt Guide
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+        stuntGuideTextObject.text = stuntGuideText;
+        
         questionController.errorText = "answer must not exceed your current distance from the branch";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
@@ -396,7 +405,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         }
         if (isEndOfStunt)
         {
-           if (showResult)
+            if (showResult)
             {
                 if (isAnswerCorrect == true)
                 {
@@ -408,7 +417,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                     StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able grab at the branch"), false, false)));
                     showResult = false;
                 }
-                
+
             }
         }
         if (questionController.isSimulating)
