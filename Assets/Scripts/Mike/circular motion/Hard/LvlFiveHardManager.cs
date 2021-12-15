@@ -9,7 +9,7 @@ public class LvlFiveHardManager : MonoBehaviour
     UnitOf whatIsAsk;
     [SerializeField]float distance, mechaVelocity, aVelocity, radius, stuntTime, playerVelocity, correctAnswer, elapsed;
     float initialPlayerPos, playerAnswer, camStartPos, mechaPos, adjustedAnswer, velocityY;
-    int stage;
+    public static int stage;
     string playerName, playerGender, pronoun, pPronoun, question, messageTxt;
     bool directorIsCalling, isStartOfStunt, isAnswered, isAnswerCorrect, ragdoll = false, playerLanded, isEndOfStunt;
     MechaManager mm;
@@ -113,6 +113,7 @@ public class LvlFiveHardManager : MonoBehaviour
     void SetUp(){
         playerLanded = false;
         radius = 1.05f;
+        stage = qc.stage;
         float pV, mV, cT, jT, d, t, av, jd;
         switch(stage){
             case 1:
@@ -122,7 +123,7 @@ public class LvlFiveHardManager : MonoBehaviour
                     pV = (float)System.Math.Round(Random.Range(8f, 10.49f),2);
                     d = (float)System.Math.Round(Random.Range(30f, 33f), 2);
                     t = (float)System.Math.Round(Random.Range(2.5f, 4f),2);
-                    av = (float)System.Math.Round(Random.Range(-100, -150f),2);
+                    av = (float)System.Math.Round(Random.Range(-100f, -150f),2);
 
                     mV = (float)System.Math.Round(mm.MechaVelocity(av*(-1), t, 1.05f), 2);
                     cT = d/(pV+mV);
@@ -174,6 +175,10 @@ public class LvlFiveHardManager : MonoBehaviour
     void Play(){
         playerAnswer = qc.GetPlayerAnswer();
         adjustedAnswer = qc.AnswerTolerance(correctAnswer);
+        if(stage ==2){
+            myPlayer.moveSpeed = playerAnswer * 1.0351f;
+            player.velocity = new Vector2(myPlayer.moveSpeed, (playerAnswer * (float)3.8743));
+        }
         qc.isSimulating = false;
         isStartOfStunt = true;
         directorIsCalling = true;
@@ -182,6 +187,8 @@ public class LvlFiveHardManager : MonoBehaviour
         SetUp();
     }
     void Next(){
+        mm.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+        qc.nextStage =false;
         SetUp();
     }
     
