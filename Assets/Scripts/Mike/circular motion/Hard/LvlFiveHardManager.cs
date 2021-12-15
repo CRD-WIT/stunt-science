@@ -149,6 +149,7 @@ public class LvlFiveHardManager : MonoBehaviour
                 break;
             case 2:
                 float pVx, pVy, dx = 6.55f, dy = 1.75f;
+                main.transform.position = new Vector3(mm.transform.position.x + 5.5f, main.transform.position.y,-10);
                 d = 7.78f;
                 qc.limit = 10.49f;
                 while(true){
@@ -166,6 +167,7 @@ public class LvlFiveHardManager : MonoBehaviour
                 aVelocity = av;
                 mechaVelocity = mV;
                 correctAnswer = (float)System.Math.Round(pV, 2);
+                question = $"{playerName} is intructed to grab on the lower clamp of the robot's hand. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>0.775 m</b> is moving forward. If {playerName} needs to grab the clamp at exactly 300{qc.Unit(UnitOf.angle)} from the starting position of the clamp, what should be {playerName}'s velocity?";
                 break;
             case 3:
                 break;

@@ -36,7 +36,10 @@ public class WheelTooth : MonoBehaviour
         else if(this.transform.parent.name == "tooth2")
             this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2((distanceX/time) + mmV, -distanceY/time);
         else if(this.transform.parent.name == "tooth")
-            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2((distanceX/time) + mm.velocity.x,0);
+            if(LvlFiveHardManager.stage == 1)
+                this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2((distanceX/time) - mmV,0);
+            else
+                this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-(distanceX/time),0);
     }
     
     private void OnTriggerEnter2D(Collider2D other) {
