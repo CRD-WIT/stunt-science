@@ -81,6 +81,7 @@ public class LvlFiveHardManager : MonoBehaviour
                     }
                 break;
                 case 2:
+                    myPlayer.movspeed = playeranswer;
                 break;
             }
             qc.timer = elapsed.ToString("f2") + "s";
