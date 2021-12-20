@@ -20,8 +20,9 @@ public class LvlFiveHardManager : MonoBehaviour
     [SerializeField] GameObject directorsBubble;
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField] AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
-    [SerializeField] HingeJoint2D playerStopper;
+    [SerializeField] HingeJoint2D playerStopper1, playerStopper2;
     [SerializeField] Camera main;
+    [SerializeField] Animator playerAnim;
     Rigidbody2D player;
     
     // Start is called before the first frame update
@@ -73,7 +74,7 @@ public class LvlFiveHardManager : MonoBehaviour
                     }
                     if(adjustedAnswer == correctAnswer){
                         isAnswerCorrect =true;
-                        messageTxt = "correct";
+                        messageTxt = "correct"; 
                     }
                     else{
                         isAnswerCorrect =false;
@@ -81,7 +82,17 @@ public class LvlFiveHardManager : MonoBehaviour
                     }
                 break;
                 case 2:
-                    myPlayer.movspeed = playeranswer;
+                    playerStopper1.enabled = false;
+                    myPlayer.moveSpeed = playerAnswer;
+                    playerAnim.speed = playerAnswer / 5.6f;
+                    if(elapsed >= stuntTime){
+                        elapsed = stuntTime;
+                        StartCoroutine(Grab());
+                    }
+                    if(playerAnswer == correctAnswer){
+                        // playerStopper2.enabled = true;
+
+                    }
                 break;
             }
             qc.timer = elapsed.ToString("f2") + "s";
@@ -90,7 +101,7 @@ public class LvlFiveHardManager : MonoBehaviour
             float camDistanceFromRobot = mechaPos - camStartPos;
             main.transform.position = new Vector3(mm.transform.position.x - camDistanceFromRobot, main.transform.position.y,-10);
             if(isAnswerCorrect){
-                playerStopper.enabled =true;
+                playerStopper1.enabled =true;
             }
             else{
                 //ragdoll
@@ -167,7 +178,7 @@ public class LvlFiveHardManager : MonoBehaviour
                 stuntTime = t;
                 aVelocity = av;
                 mechaVelocity = mV;
-                correctAnswer = (float)System.Math.Round(pV, 2);
+                correctAnswer = (float)System.Math.Round(pV - mm.velocity.x, 2);
                 question = $"{playerName} is intructed to grab on the lower clamp of the robot's hand. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>0.775 m</b> is moving forward. If {playerName} needs to grab the clamp at exactly 300{qc.Unit(UnitOf.angle)} from the starting position of the clamp, what should be {playerName}'s velocity?";
                 break;
             case 3:
@@ -256,6 +267,16 @@ public class LvlFiveHardManager : MonoBehaviour
         myPlayer.walking = true;
         mechaPos = mm.transform.position.x;
         StartCoroutine(StuntResult());
+    }
+    IEnumerator Grab(){
+        myPlayer.moveSpeed = 0;
+        playerAnim.speed = 1;
+        myPlayer.walking = true;
+        myPlayer.jumpHang = true;
+        yield return new WaitForEndOfFrame();
+        myPlayer.isHanging = true;
+        playerStopper2.enabled =true;
+        isAnswered = false;
     }
     IEnumerator StuntResult()
     {
