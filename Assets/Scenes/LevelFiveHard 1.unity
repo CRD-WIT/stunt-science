@@ -4116,7 +4116,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -19.199999, y: 4.3}
+  m_Offset: {x: -19.2, y: 5.0380564}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 1, y: 0.5}
@@ -4127,7 +4127,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 38.35, y: 2.13}
+  m_Size: {x: 38.35, y: 0.6538882}
   m_EdgeRadius: 0
 --- !u!1 &757318444
 GameObject:
@@ -4753,6 +4753,10 @@ PrefabInstance:
     - target: {fileID: 1982444265118731930, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
       propertyPath: m_Name
       value: CHaracter
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982444266066455825, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1982444266066455830, guid: d91f9d1be1823cb41b067896181160ad, type: 3}
       propertyPath: m_Bounds.m_Center.y
@@ -5655,13 +5659,16 @@ MonoBehaviour:
   correctAnswer: 0
   elapsed: 0
   directorsBubble: {fileID: 1479632517}
+  mechaArm: {fileID: 150025225}
   directorsSpeech: {fileID: 1382300721}
   lightssfx: {fileID: 0}
   camerasfx: {fileID: 0}
   actionsfx: {fileID: 0}
   cutsfx: {fileID: 0}
-  playerStopper: {fileID: 118363163}
+  playerStopper1: {fileID: 118363163}
+  playerStopper2: {fileID: 1980844175}
   main: {fileID: 2001022447}
+  playerAnim: {fileID: 791555932}
 --- !u!4 &1108504979
 Transform:
   m_ObjectHideFlags: 0
@@ -10283,6 +10290,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1980844174}
+  - component: {fileID: 1980844176}
+  - component: {fileID: 1980844175}
   m_Layer: 0
   m_Name: CamTarget
   m_TagString: Untagged
@@ -10305,6 +10314,51 @@ Transform:
   m_Father: {fileID: 150025226}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!233 &1980844175
+HingeJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980844173}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 791555930}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 1.1519097, y: 6.6456738}
+  m_UseMotor: 0
+  m_Motor:
+    m_MotorSpeed: 0
+    m_MaximumMotorForce: 10000
+  m_UseLimits: 0
+  m_AngleLimits:
+    m_LowerAngle: 0
+    m_UpperAngle: 359
+--- !u!50 &1980844176
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980844173}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1982437170
 GameObject:
   m_ObjectHideFlags: 0
@@ -12013,7 +12067,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -19.199999, y: 4.3}
+  m_Offset: {x: -19.2, y: 5.0251083}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 1, y: 0.5}
@@ -12024,7 +12078,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 38.35, y: 2.13}
+  m_Size: {x: 38.35, y: 0.6797848}
   m_EdgeRadius: 0
 --- !u!1 &2102321216
 GameObject:

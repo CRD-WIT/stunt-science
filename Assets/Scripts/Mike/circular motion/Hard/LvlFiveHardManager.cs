@@ -8,7 +8,7 @@ public class LvlFiveHardManager : MonoBehaviour
 {
     UnitOf whatIsAsk;
     [SerializeField]float distance, mechaVelocity, aVelocity, radius, stuntTime, playerVelocity, correctAnswer, elapsed;
-    float initialPlayerPos, playerAnswer, camStartPos, mechaPos, adjustedAnswer, velocityY;
+    float initialPlayerPos, playerAnswer, camStartPos, mechaPos, adjustedAnswer, velocityY, armVelo;
     public static int stage;
     string playerName, playerGender, pronoun, pPronoun, question, messageTxt;
     bool directorIsCalling, isStartOfStunt, isAnswered, isAnswerCorrect, ragdoll = false, playerLanded, isEndOfStunt;
@@ -17,7 +17,7 @@ public class LvlFiveHardManager : MonoBehaviour
     IndicatorManagerV1_1 indicators;
     PlayerCM2 myPlayer;
     StageManager sm = new StageManager();
-    [SerializeField] GameObject directorsBubble;
+    [SerializeField] GameObject directorsBubble, mechaArm;
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField] AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
     [SerializeField] HingeJoint2D playerStopper1, playerStopper2;
@@ -82,10 +82,14 @@ public class LvlFiveHardManager : MonoBehaviour
                     }
                 break;
                 case 2:
+                myPlayer.walking = false;
+                    mm.armRotation = -armVelo;
                     playerStopper1.enabled = false;
-                    myPlayer.moveSpeed = playerAnswer;
-                    playerAnim.speed = playerAnswer / 5.6f;
-                    if(elapsed >= stuntTime){
+                    myPlayer.moveSpeed = playerAnswer + mm.velocity.x;
+                    playerAnim.speed = playerAnswer / 2.8f;
+                    if(elapsed >= stuntTime)//((myPlayer.transform.position.x - initialPlayerPos) >= 6.55f)
+                    {
+                        Debug.Log("Stage2");
                         elapsed = stuntTime;
                         StartCoroutine(Grab());
                     }
@@ -123,12 +127,13 @@ public class LvlFiveHardManager : MonoBehaviour
         
     }
     void SetUp(){
+        elapsed = 0;
         playerLanded = false;
-        radius = 1.05f;
         stage = qc.stage;
         float pV, mV, cT, jT, d, t, av, jd;
         switch(stage){
             case 1:
+                radius = 1.05f;
                 qc.stage = 1;
                 qc.limit=20;
                 while(true){
@@ -137,7 +142,7 @@ public class LvlFiveHardManager : MonoBehaviour
                     t = (float)System.Math.Round(Random.Range(2.5f, 4f),2);
                     av = (float)System.Math.Round(Random.Range(-100f, -150f),2);
 
-                    mV = (float)System.Math.Round(mm.MechaVelocity(av*(-1), t, 1.05f), 2);
+                    mV = (float)System.Math.Round(mm.MechaVelocity(av*(-1), t, radius), 2);
                     cT = d/(pV+mV);
                     jT = cT -0.5f;
                     jd = pV*jT;
@@ -160,26 +165,36 @@ public class LvlFiveHardManager : MonoBehaviour
                 //player playerVelocity to jump exactly to the mecha
                 break;
             case 2:
+                mm.armRotation = 0;
+                radius = 0.775f;
                 float pVx, pVy, dx = 6.55f, dy = 1.75f;
                 main.transform.position = new Vector3(mm.transform.position.x + 5.5f, main.transform.position.y,-10);
-                d = 7.78f;
+                d = 6.78f;
                 qc.limit = 10.49f;
                 while(true){
-                    t = (float)System.Math.Round(Random.Range(2.5f, 4f),2);
-                    pV = d/t;
+                    t = (float)System.Math.Round(Random.Range(2.5f, 4f),2); 
                     pVx = dx/t;
                     pVy = dy/t;
                     av = (float)System.Math.Round(Random.Range(-150f, -200f), 2);
                     
-                    mV = (float)System.Math.Round(mm.MechaVelocity(av*(-1), t, 0.775f), 2);
+                    armVelo = (float)System.Math.Round(312 / t, 2);
+                    mV = (float)System.Math.Round(mm.MechaVelocity(av*(-1), t, radius), 2);
+                    pV = d/t + mV;
                     if(pV<10.5f)
                         break;
                 }
                 stuntTime = t;
                 aVelocity = av;
                 mechaVelocity = mV;
-                correctAnswer = (float)System.Math.Round(pV - mm.velocity.x, 2);
+                correctAnswer = (float)System.Math.Round(pV, 2);
+                initialPlayerPos = myPlayer.transform.position.x;
                 question = $"{playerName} is intructed to grab on the lower clamp of the robot's hand. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>0.775 m</b> is moving forward. If {playerName} needs to grab the clamp at exactly 300{qc.Unit(UnitOf.angle)} from the starting position of the clamp, what should be {playerName}'s velocity?";
+                
+                while(mechaArm.transform.localEulerAngles.z != 0){
+                    mechaArm.transform.localEulerAngles = new Vector3(0, 0, 0);
+                    Debug.Log(mechaArm.transform.localEulerAngles.z);
+                }
+                mechaArm.transform.localEulerAngles = new Vector3(0, 0, mechaArm.transform.localEulerAngles.z+1.199f);
                 break;
             case 3:
                 break;
@@ -271,7 +286,7 @@ public class LvlFiveHardManager : MonoBehaviour
     IEnumerator Grab(){
         myPlayer.moveSpeed = 0;
         playerAnim.speed = 1;
-        myPlayer.walking = true;
+        myPlayer.walking = false;
         myPlayer.jumpHang = true;
         yield return new WaitForEndOfFrame();
         myPlayer.isHanging = true;
