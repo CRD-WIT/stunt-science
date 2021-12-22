@@ -5,6 +5,13 @@ using TMPro;
 
 public class accSimulation : MonoBehaviour
 {
+    // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
+
     public Button playButton;
     private BikeManager theBike;
     public AccManagerOne theManagerOne;
@@ -48,7 +55,7 @@ public class accSimulation : MonoBehaviour
 
     public GameObject stage3Manager;
     public GameObject stage3Ground;
-    public AudioSource engineRunning,engineIdle;
+    public AudioSource engineRunning, engineIdle;
 
     void Start()
     {
@@ -68,6 +75,10 @@ public class accSimulation : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //Stunt Guide
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+        stuntGuideTextObject.text = stuntGuideText;
+
         switch (stage)
         {
             case 1:
@@ -105,7 +116,7 @@ public class accSimulation : MonoBehaviour
 
     public void PlayButton()
     {
-        
+
         theQuestion.SetAnswer();
         playerAnswer = theQuestion.GetPlayerAnswer();
         if (stage == 1)
@@ -327,7 +338,7 @@ public class accSimulation : MonoBehaviour
 
     public void action()
     {
-        
+
         if (theQuestion.answerIsCorrect == false)
         {
             retry();

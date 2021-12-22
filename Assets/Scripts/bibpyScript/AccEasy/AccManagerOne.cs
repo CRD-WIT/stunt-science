@@ -5,7 +5,7 @@ using TMPro;
 
 public class AccManagerOne : MonoBehaviour
 {
-        // Stunt Guide
+    // Stunt Guide
     public Text stuntGuideTextObject;
     public string stuntGuideText;
     public Image stuntGuideImage;
@@ -41,7 +41,7 @@ public class AccManagerOne : MonoBehaviour
     public QuestionControllerAcceleration theQuestion;
     public AudioSource engineIdle, engineRunning;
     AnswerGuards answerGuards = new AnswerGuards();
-    float min,max;
+    float min, max;
 
     bool setAnswer;
 
@@ -109,12 +109,12 @@ public class AccManagerOne : MonoBehaviour
         }
         if (theQuestion.isSimulating)
         {
-            
-            if(accSimulation.playerAnswer < max & accSimulation.playerAnswer > min)
+
+            if (accSimulation.playerAnswer < max & accSimulation.playerAnswer > min)
             {
                 accelaration = correctAns;
                 Debug.Log("inRange");
-        
+
             }
             else
             {

@@ -1,9 +1,16 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class AccManagerThree : MonoBehaviour
 {
+    // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     AnswerGuards answerGuards = new AnswerGuards();
     public float Vi;
     public float Vf;
@@ -80,6 +87,10 @@ public class AccManagerThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //Stunt Guide
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+        stuntGuideTextObject.text = stuntGuideText;
+        
         min = correctAns - 0.02f;
         max = correctAns + 0.02f;
         correctAns = (float)System.Math.Round(generateAns, 2);
@@ -96,24 +107,24 @@ public class AccManagerThree : MonoBehaviour
 
         if (theQuestion.isSimulating)
         {
-           
-            if(accSimulation.playerAnswer < max & accSimulation.playerAnswer  > min)
+
+            if (accSimulation.playerAnswer < max & accSimulation.playerAnswer > min)
             {
                 Vi = correctAns;
                 Debug.Log("inRange");
-        
+
             }
             else
             {
                 Vi = theQuestion.GetPlayerAnswer();
             }
-            setAnswer = true; 
+            setAnswer = true;
 
         }
-        if(setAnswer)
+        if (setAnswer)
         {
             theQuestion.isSimulating = false;
-             gas = true;
+            gas = true;
 
             if (Vi != correctAns)
             {
