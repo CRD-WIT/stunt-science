@@ -24,7 +24,10 @@ public class MechaManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bodyRB.velocity = velocity;
+        if(LvlFiveHardManager.stage == 1)
+            bodyRB.velocity = velocity;
+        else
+            bodyRB.velocity = new Vector2(0, 0);
         if(velocity.x != 0) {
             gearsRB[0].angularVelocity = GearSpeed(0.575f);
             gearsRB[1].angularVelocity = GearSpeed(1.05f);

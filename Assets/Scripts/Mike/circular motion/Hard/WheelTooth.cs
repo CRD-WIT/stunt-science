@@ -6,6 +6,7 @@ public class WheelTooth : MonoBehaviour
 {
     // Start is called before the first frame update
     MechaManager mm;
+    float mmV;
     float time, distanceT, distanceX, distanceY;
     void Start()
     {
@@ -28,13 +29,17 @@ public class WheelTooth : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        mmV = mm.gameObject.GetComponent<Rigidbody2D>().velocity.x;
         time = distanceT/mm.velocity.x;
         if(this.transform.parent.name == "tooth1")
-            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2((distanceX/time) + mm.velocity.x, distanceY/time);
+            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2((distanceX/time) + mmV, distanceY/time);
         else if(this.transform.parent.name == "tooth2")
-            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2((distanceX/time) + mm.velocity.x, -distanceY/time);
-        else
-            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2((distanceX/time) + mm.velocity.x,0);
+            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2((distanceX/time) + mmV, -distanceY/time);
+        else if(this.transform.parent.name == "tooth")
+            if(LvlFiveHardManager.stage == 1)
+                this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2((distanceX/time) - mmV,0);
+            else
+                this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-(distanceX/time),0);
     }
     
     private void OnTriggerEnter2D(Collider2D other) {
