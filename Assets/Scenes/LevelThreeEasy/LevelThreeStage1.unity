@@ -5342,6 +5342,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 119744737471976684, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
   m_PrefabInstance: {fileID: 44540292}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &57694516 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 119744736922136134, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 44540292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &117415613
 GameObject:
   m_ObjectHideFlags: 0
@@ -5466,12 +5477,12 @@ MonoBehaviour:
   m_margin: {x: 0.7048836, y: 1.5603101, z: 0.713954, w: 1.6011231}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 117415616}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &117415616
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6153,12 +6164,12 @@ MonoBehaviour:
   m_margin: {x: 0.12334728, y: 0.1941731, z: 0.13241673, w: 0.15802073}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 400048293}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &400048293
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7820,6 +7831,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8dbe0c71d9ff640a84a0ad917697c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stuntGuideTextObject: {fileID: 1424289627}
+  stuntGuideText: "Free falling objects starts has an initial velocity (vi) = 0 ,
+    therefore the height of the fall (h) can be solved by using this equation: h=
+    \xBD gt2"
+  stuntGuideImage: {fileID: 57694516}
+  stuntGuideImageSprite: {fileID: 0}
   elapsed: 0
   timeGivenContainer: {fileID: 5291248140189298449}
   calloutText: {fileID: 2009603586090961081}
@@ -9728,6 +9745,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414640708}
   m_CullTransparentMesh: 1
+--- !u!114 &1424289627 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 119744737475025440, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 44540292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1436785856
 GameObject:
   m_ObjectHideFlags: 0
@@ -16395,7 +16423,7 @@ HingeJoint2D:
   m_BreakTorque: 2000
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.4087675, y: 0.008332703}
+  m_ConnectedAnchor: {x: 0.4087675, y: 0.0083326}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -25950,12 +25978,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 2009603586090961082}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &2009603586090961082
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34756,12 +34784,12 @@ MonoBehaviour:
   m_margin: {x: 8.990824, y: 1.5603101, z: 8.989957, w: 1.6011231}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 5291248140189298450}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!23 &5291248140189298450
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47557,6 +47585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugMode: 1
   debugPanel: {fileID: 0}
   settingsPanel: {fileID: 0}
   levelFinishedPanel: {fileID: 0}

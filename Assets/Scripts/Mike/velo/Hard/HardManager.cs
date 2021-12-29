@@ -1,11 +1,18 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using GameConfig;
 // Test
 
 public class HardManager : MonoBehaviour
 {
+    // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     AnswerGuards answerGuards = new AnswerGuards();
     AngleAnnotaion labels;
     AngleAnnotaion1 triangleAnnotaion;
@@ -19,7 +26,7 @@ public class HardManager : MonoBehaviour
     public TMP_Text directorsSpeech, timeIndicator;
     float x, y, bossV, playerAnswer, stuntTime, elapsed, bossDistance, stoneV, correctAnswer, angle, distance, throwTime, stonePosX, initialDistance,
         sX, sY, dT, xS, shakeDuration, decreaseFactor = 1.0f, shakeAmount = 0.08f, distanceTraveled, angleB = 0, timer, adjustedAnswer;
-    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset, ragdoll = false, isEnd =false, startTimer;
+    bool isAnswered, isEndOfStunt, isStartOfStunt, directorIsCalling, isAnswerCorrect, isThrown, stage1Flag, stoneIsPresent, reset, ragdoll = false, isEnd = false, startTimer;
     public bool readyToCheck;
     string messageTxt, question, playerName, playerGender, pronoun, pPronoun;
     public int stage;
@@ -39,6 +46,7 @@ public class HardManager : MonoBehaviour
     public AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
     void Start()
     {
+
         Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
         labels = FindObjectOfType<AngleAnnotaion>();
@@ -72,6 +80,10 @@ public class HardManager : MonoBehaviour
     }
     void Update()
     {
+        //Stunt Guide
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+        stuntGuideTextObject.text = stuntGuideText;
+
         debugAnswer.SetText($"Answer: {correctAnswer}");
         if (reset)
         {
@@ -137,7 +149,7 @@ public class HardManager : MonoBehaviour
                         bossRB.constraints = RigidbodyConstraints2D.FreezeAll;
                         isEndOfStunt = true;
                     }
-                    if(adjustedAnswer == correctAnswer) // if (playerAnswer == correctAnswer)
+                    if (adjustedAnswer == correctAnswer) // if (playerAnswer == correctAnswer)
                     {
                         stonePosX = playerAnswer;
                         isAnswerCorrect = true;
@@ -156,7 +168,7 @@ public class HardManager : MonoBehaviour
                         elapsed = playerAnswer;
                         isThrown = true;
                         isAnswered = false;
-                        if(adjustedAnswer == correctAnswer) // if (playerAnswer == correctAnswer)
+                        if (adjustedAnswer == correctAnswer) // if (playerAnswer == correctAnswer)
                         {
                             isAnswerCorrect = true;
                             messageTxt = $"<b>{playerName}</b> successfully performed the stunt and the rock hit the monster's mouth!";
@@ -174,7 +186,7 @@ public class HardManager : MonoBehaviour
                     {
                         isAnswered = false;
                         elapsed = stuntTime;
-                        if(adjustedAnswer == correctAnswer) // if (playerAnswer == correctAnswer)
+                        if (adjustedAnswer == correctAnswer) // if (playerAnswer == correctAnswer)
                         {
                             isAnswerCorrect = true;
                             isEnd = true;
@@ -524,7 +536,7 @@ public class HardManager : MonoBehaviour
         {
             case 1:
                 stage1Flag = true;
-                if(adjustedAnswer > correctAnswer)// if (playerAnswer > correctAnswer)
+                if (adjustedAnswer > correctAnswer)// if (playerAnswer > correctAnswer)
                     throwTime = stuntTime + 0.1f;//(playerAnswer / stoneV) + 0.1f;
                 else if (adjustedAnswer < correctAnswer)//playerAnswer < correctAnswer)
                     throwTime = stuntTime - 0.1f;//(playerAnswer / stoneV) - 0.1f;

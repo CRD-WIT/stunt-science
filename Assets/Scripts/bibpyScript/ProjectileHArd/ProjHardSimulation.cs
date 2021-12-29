@@ -5,9 +5,15 @@ using TMPro;
 
 public class ProjHardSimulation : MonoBehaviour
 {
+    // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     public Button playButton;
     public TMP_InputField answerField;
-    public GameObject directorBubble, trail, projectTrail,exitBg, arrowShadow;
+    public GameObject directorBubble, trail, projectTrail, exitBg, arrowShadow;
     public ProjectileHardOne theManagerOne;
     public ProjectileHardTwo theManagerTwo;
     public ProjectileHardThree theManagerThree;
@@ -21,7 +27,7 @@ public class ProjHardSimulation : MonoBehaviour
     public string take;
     public int takeNumber;
     public bool answerIsCorrect;
-    public GameObject  hit, miss;
+    public GameObject hit, miss;
     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
     // Start is called before the first frame update
     void Start()
@@ -32,29 +38,33 @@ public class ProjHardSimulation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(takeNumber == 1)
+        //Stunt Guide
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+        stuntGuideTextObject.text = stuntGuideText;
+
+        if (takeNumber == 1)
         {
             take = "One";
         }
-        if(takeNumber == 2)
+        if (takeNumber == 2)
         {
             take = "Two";
         }
-        if(takeNumber == 3)
+        if (takeNumber == 3)
         {
             take = "three";
         }
-        
+
     }
     public void PlayButton()
     {
-        
+
         if (stage == 1)
         {
-           playerAnswer = theQuestion.GetPlayerAnswer();
+            playerAnswer = theQuestion.GetPlayerAnswer();
             if (answerField.text == "" || playerAnswer > 7)
             {
-               
+
                 theQuestion.errorText = ("answer must not exceed 7 seconds");
                 StartCoroutine(theManagerOne.errorMesage());
             }
@@ -75,9 +85,9 @@ public class ProjHardSimulation : MonoBehaviour
 
             if (answerField.text == "" || playerAnswer > 30)
             {
-                
+
                 theQuestion.errorText = ("answer must not exceed 30 m/s");
-                 StartCoroutine(errorMesage());
+                StartCoroutine(errorMesage());
             }
             else
             {
@@ -98,7 +108,7 @@ public class ProjHardSimulation : MonoBehaviour
                 //StartCoroutine(theManagerThree.errorMesage());
                 theQuestion.errorText = ("answer must not exceed 70°");
                 StartCoroutine(errorMesage());
-                
+
             }
             else
             {
@@ -132,13 +142,13 @@ public class ProjHardSimulation : MonoBehaviour
         if (stage == 3)
         {
             theManagerThree.generateProblem();
-            
+
         }
     }
     public void next()
     {
         playerAnswer = 0;
-         trail.GetComponent<TrailRenderer>().time = 0.05f;
+        trail.GetComponent<TrailRenderer>().time = 0.05f;
         if (stage == 1)
         {
             theManagerOne.gameObject.SetActive(false);
@@ -163,7 +173,7 @@ public class ProjHardSimulation : MonoBehaviour
             directorBubble.SetActive(true);
             // diretorsSpeech.text = "Take " + take + ("!");
             // yield return new WaitForSeconds(0.75f);
-             diretorsSpeech.text = "Lights!";
+            diretorsSpeech.text = "Lights!";
             lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
