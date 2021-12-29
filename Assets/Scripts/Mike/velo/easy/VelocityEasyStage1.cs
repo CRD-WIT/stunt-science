@@ -1,10 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using GameConfig;
 using TMPro;
 
 public class VelocityEasyStage1 : MonoBehaviour
 {
+    // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public GameObject stuntGuideObjectPrefab;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
+    
     AnswerGuards answerGuards = new AnswerGuards();
     public FirebaseManager firebaseManager;
     PlayerV1_1 myPlayer;
@@ -62,6 +71,9 @@ public class VelocityEasyStage1 : MonoBehaviour
     }
     void FixedUpdate()
     {
+        //Stunt Guide
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+        stuntGuideTextObject.text = stuntGuideText;
         
         float answer = questionController.GetPlayerAnswer();
         debugAnswer.SetText($"Answer: {Speed}");        

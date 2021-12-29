@@ -7,8 +7,13 @@ using GameConfig;
 using UnityEngine.UI;
 public class Level_3_Stage_2_Easy : MonoBehaviour
 {
-    // Start is called before the first frame update
-
+    // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public GameObject stuntGuideObjectPrefab;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     float height = 5.0f;
     float targetTime = 0f;
     string question;
@@ -45,12 +50,12 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     public HeartManager life;
     public TMP_Text debugAnswer;
     bool ShowResult;
-    public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
+    public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
     public FirebaseManager firebaseManager;
     float adjustedAnswer;
     void Start()
     {
-        firebaseManager.GameLogMutation(3, 2, "Easy", Actions.Started, 0); 
+        firebaseManager.GameLogMutation(3, 2, "Easy", Actions.Started, 0);
 
         // Given 
         ShowResult = true;
@@ -161,13 +166,17 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         // cameraScript.isStartOfStunt = true;
         // questionController.SetAnswer();
         answer = questionController.GetPlayerAnswer();
-        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);     
+        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);
         questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;
     }
     void FixedUpdate()
     {
+        //Stunt Guide
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+        stuntGuideTextObject.text = stuntGuideText;
+        
         questionController.errorText = "answer must not exceed 4 seconds";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
@@ -258,7 +267,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                     StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able grab at the branch"), false, false)));
                     ShowResult = false;
                 }
-                
+
             }
 
         }

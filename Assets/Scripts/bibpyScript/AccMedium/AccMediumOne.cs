@@ -1,9 +1,17 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class AccMediumOne : MonoBehaviour
 {
+        // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public GameObject stuntGuideObjectPrefab;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     AnswerGuards answerGuards = new AnswerGuards();
     public GameObject hangingRagdoll, ropeTip, playerInTruck, ragdollPrefab, stickmanPoint, playerGrabline, carInitials, chopperInitials;
     public GameObject ragdollPause, ropePoint, carArrow, chopperArrow;
@@ -237,7 +245,7 @@ public class AccMediumOne : MonoBehaviour
         carInitials.transform.position = new Vector2(theTruck.transform.position.x + 2f, theTruck.transform.position.y);
         chopperInitials.transform.position = new Vector2(theSubChopper.transform.position.x + 2.2f, theSubChopper.transform.position.y);
         viTtxt.text = ("vi = 0m/s ");
-        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to stand in the top of a non moving truck, waiting for the hellicopter to pass by, chase it with the truck, and grab the rope hanging from it, If the hellicopter flies forward at a constant speed of <b>") + velocity.ToString("F2") + ("</b> m/s and the truck follows to catch up with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s² the moment the rope passes by ") + PlayerPrefs.GetString("Name") + (", after how many seconds should ") + PlayerPrefs.GetString("Name") + (" precisely grab the rope the moment the truck starts moving to succesfully perform the stunt?")));
+        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to stand in the top of a non-moving truck, waiting for the hellicopter to pass by, chase it with the truck, and grab the rope hanging from it, If the hellicopter flies forward at a constant speed of <b>") + velocity.ToString("F2") + ("</b> m/s and the truck follows to catch up with an accelaration of <b>") + accelaration.ToString("F2") + ("</b> m/s² the moment the rope passes by ") + PlayerPrefs.GetString("Name") + (", after how many seconds should ") + PlayerPrefs.GetString("Name") + (" precisely grab the rope the moment the truck starts moving to succesfully perform the stunt?")));
     }
     IEnumerator StuntResult()
     {
