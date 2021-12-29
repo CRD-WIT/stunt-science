@@ -24,6 +24,7 @@ public class LvlFiveHardManager : MonoBehaviour
     [SerializeField] Camera main;
     [SerializeField] Animator playerAnim;
     Rigidbody2D player;
+    Grenade grenade;
     
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,7 @@ public class LvlFiveHardManager : MonoBehaviour
         indicators = FindObjectOfType<IndicatorManagerV1_1>();
         myPlayer = FindObjectOfType<PlayerCM2>();
         player = myPlayer.GetComponent<Rigidbody2D>();
+        grenade = FindObjectOfType<Grenade>();
 
         camStartPos = main.transform.position.x;
         sm.SetGameLevel(4);
@@ -82,7 +84,7 @@ public class LvlFiveHardManager : MonoBehaviour
                     }
                 break;
                 case 2:
-                myPlayer.walking = false;
+                    myPlayer.walking = false;
                     mm.armRotation = -armVelo;
                     playerStopper1.enabled = false;
                     myPlayer.moveSpeed = playerAnswer + mm.velocity.x;
@@ -92,12 +94,27 @@ public class LvlFiveHardManager : MonoBehaviour
                         Debug.Log("Stage2");
                         elapsed = stuntTime;
                         StartCoroutine(Grab());
-                    }
-                    if(playerAnswer == correctAnswer){
-                        // playerStopper2.enabled = true;
-
+                        if(adjustedAnswer == correctAnswer){
+                            playerStopper2.enabled = true;
+                            isAnswerCorrect =true;
+                            messageTxt = "correct";
+                        }
+                        else{
+                            isAnswerCorrect =false;
+                            messageTxt = "wrong";
+                        }
                     }
                 break;
+                case 3:
+                    mm.armRotation = armVelo;
+                    if(elapsed >= stuntTime){
+                        grenade.isThrown = true;
+                    }
+                    else
+                    {
+                        grenade.isThrown = false;
+                    }
+                    break;
             }
             qc.timer = elapsed.ToString("f2") + "s";
         }
@@ -188,6 +205,7 @@ public class LvlFiveHardManager : MonoBehaviour
                 mechaVelocity = mV;
                 correctAnswer = (float)System.Math.Round(pV, 2);
                 initialPlayerPos = myPlayer.transform.position.x;
+                whatIsAsk = UnitOf.velocity;
                 question = $"{playerName} is intructed to grab on the lower clamp of the robot's hand. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>0.775 m</b> is moving forward. If {playerName} needs to grab the clamp at exactly 300{qc.Unit(UnitOf.angle)} from the starting position of the clamp, what should be {playerName}'s velocity?";
                 
                 while(mechaArm.transform.localEulerAngles.z != 0){
@@ -197,6 +215,28 @@ public class LvlFiveHardManager : MonoBehaviour
                 mechaArm.transform.localEulerAngles = new Vector3(0, 0, mechaArm.transform.localEulerAngles.z+1.199f);
                 break;
             case 3:
+                // t = 
+                if(mechaArm.transform.localEulerAngles.z != 0){
+                    mm.armRotation = 0;
+                    mechaArm.transform.localEulerAngles = new Vector3(0, 0, 0);
+                }
+                qc.limit = 3.5f;
+                float armAngularVelo, arc;
+                while(true){
+                    arc = (float)System.Math.Round(Random.Range(200f, 250f), 2);
+                    armAngularVelo = (float)System.Math.Round(Random.Range(50f, 70f), 2);
+                    t = (float)System.Math.Round((arc/ armAngularVelo),2);
+
+                    if(t<3.5f)
+                        break;
+                }
+                armVelo = -armAngularVelo;
+                Debug.Log(arc);
+                mechaArm.transform.localEulerAngles = new Vector3(0, 0, -250 + arc);
+                stuntTime = t;
+                correctAnswer = t;
+                whatIsAsk = UnitOf.time;
+                Debug.Log(stuntTime);
                 break;
         }
         qc.SetQuestion(question);
@@ -290,8 +330,11 @@ public class LvlFiveHardManager : MonoBehaviour
         myPlayer.jumpHang = true;
         yield return new WaitForEndOfFrame();
         myPlayer.isHanging = true;
-        playerStopper2.enabled =true;
+        // playerStopper2.enabled =true;
         isAnswered = false;
+        mm.armRotation = -20;
+        yield return new WaitForSeconds(1);
+        StartCoroutine(StuntResult());
     }
     IEnumerator StuntResult()
     {
