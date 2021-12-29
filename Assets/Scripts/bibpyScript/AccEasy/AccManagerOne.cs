@@ -8,6 +8,7 @@ public class AccManagerOne : MonoBehaviour
     // Stunt Guide
     public Text stuntGuideTextObject;
     public string stuntGuideText;
+    public GameObject stuntGuideObjectPrefab;
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide
