@@ -13,20 +13,24 @@ public class ForceMedSimulation : MonoBehaviour
     public ForceMedThree theManagerThree;
     public bool simulate;
     public float stage;
-    public static float playerAnswer;
+    public float playerAnswer;
     public TMP_InputField answerField;
     public TMP_Text diretorsSpeech;
     public QuestionContForcesMed theQuestion;
     bool directorIsCalling;
     public Button playButton;
     public GameObject directorBubble;
+    public Vector2 playerStartPoint, zombie1StartPoint, zombie2StartPoint, boxStartPoint;
+    public GameObject dimensionOne, dimensionTwo;
     // Start is called before the first frame update
-void Start()
+    void Start()
     {
         PlayerPrefs.SetString("CurrentString", ("Forces"));
         PlayerPrefs.SetInt("level", 4);
         theHeart = FindObjectOfType<HeartManager>();
-        
+        playerStartPoint = thePlayer.transform.position;
+
+
     }
 
     // Update is called once per frame
@@ -40,10 +44,10 @@ void Start()
         if (stage == 1)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" )
+            if (answerField.text == "" || playerAnswer > (theManagerOne.correctAnswer + 10) || playerAnswer < 150)
             {
                 StartCoroutine(errorMesage());
-                theQuestion.errorText = ("Invalid strength of a glass");
+                theQuestion.errorText = ("answer must not exceed ") + (theManagerOne.correctAnswer + 10).ToString("F2") + (" N and not less than 150 N");
             }
             else
             {
@@ -59,10 +63,10 @@ void Start()
         if (stage == 2)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" || playerAnswer > 12.42)
+            if (answerField.text == "" || playerAnswer > (theManagerTwo.correctAnswer + 6) || playerAnswer < 150)
             {
                 StartCoroutine(errorMesage());
-                theQuestion.errorText = ("exceed human capabilities!");
+                theQuestion.errorText = ("answer must not exceed ") + (theManagerTwo.correctAnswer +6).ToString("F2") + (" N and not less than 150 N");
             }
             else
             {
@@ -78,7 +82,7 @@ void Start()
         if (stage == 3)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" || playerAnswer > 100)
+            if (answerField.text == "")
             {
                 StartCoroutine(errorMesage());
                 theQuestion.errorText = ("too heavy for a human!");
@@ -115,15 +119,18 @@ void Start()
 
         if (stage == 1)
         {
-
+            theManagerOne.preset = true;
+            theManagerOne.showProblem();
         }
         if (stage == 2)
         {
-
+            theManagerTwo.preset = true;
+            theManagerTwo.showProblem();
         }
         if (stage == 3)
         {
-
+            theManagerThree.thePlayer.transform.position = theManagerThree.playerStartPoint;
+            theManagerThree.showProblem();
         }
 
     }
@@ -141,7 +148,20 @@ void Start()
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
             simulate = true;
-            //theManagerOne.startRunning = true;
+            if (stage == 1)
+            {
+                 theManagerOne.startRunning = true;
+            }
+            if (stage == 2)
+            {
+                theManagerTwo.startRunning = true;
+            }
+            if (stage == 3)
+            {
+                theManagerTwo.startRunning = true;
+            }
+           
+            
             directorIsCalling = false;
         }
         else
@@ -163,15 +183,22 @@ void Start()
             stage = 3;
             theManagerTwo.gameObject.SetActive(false);
             theManagerThree.gameObject.SetActive(true);
+            zombie1StartPoint = theManagerThree.theZombie[0].transform.position;
+            zombie2StartPoint = theManagerThree.theZombie[1].transform.position;
             //theManagerTwo.GenerateProblem();
 
         }
         if (stage == 1)
         {
+            zombie1StartPoint = theManagerTwo.theZombie[0].transform.position;
+            zombie2StartPoint = theManagerTwo.theZombie[1].transform.position;
+            boxStartPoint = theManagerTwo.box2.transform.position;
             stage = 2;
             theManagerOne.gameObject.SetActive(false);
             theManagerTwo.gameObject.SetActive(true);
-            //theManagerTwo.GenerateProblem();
+            theManagerTwo.showProblem();
+            dimensionOne.SetActive(false);
+            dimensionTwo.SetActive(true);
 
         }
 
@@ -186,6 +213,7 @@ void Start()
     public void action()
     {
         theQuestion.isModalOpen = false;
+        theHeart.startbgentrance();
         if (theQuestion.answerIsCorrect == false)
         {
             retry();

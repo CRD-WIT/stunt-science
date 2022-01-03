@@ -52,7 +52,7 @@ public class ProjSimulationManager : MonoBehaviour
             if (answerField.text == "" || playerAnswer > 50 || playerAnswer < 1)
             {
                
-                theQuestion.errorText = ("believe me! its too long!");
+                theQuestion.errorText = ("answer must not exceed 50s and not less than 1s");
                 StartCoroutine(theManagerOne.errorMesage());
             }
             else
