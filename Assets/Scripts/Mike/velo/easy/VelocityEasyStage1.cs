@@ -7,9 +7,7 @@ using TMPro;
 public class VelocityEasyStage1 : MonoBehaviour
 {
     // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
-    public GameObject stuntGuideObjectPrefab;
+    public GameObject[] stuntGuideObjectPrefabs;
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide
@@ -73,7 +71,6 @@ public class VelocityEasyStage1 : MonoBehaviour
     {
         //Stunt Guide
         stuntGuideImage.sprite = stuntGuideImageSprite;
-        stuntGuideTextObject.text = stuntGuideText;
         
         float answer = questionController.GetPlayerAnswer();
         debugAnswer.SetText($"Answer: {Speed}");        

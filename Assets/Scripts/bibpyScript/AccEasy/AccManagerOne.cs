@@ -80,7 +80,8 @@ public class AccManagerOne : MonoBehaviour
         theSimulation.retry();
     }
     void FixedUpdate()
-    {
+    {    
+
         debugAnswer.SetText($"Answer: {correctAns}");
 
         playerDistance = (time * time) * accelaration / 2;

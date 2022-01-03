@@ -8,9 +8,7 @@ using GameConfig;
 public class VelocityEasyStage3 : MonoBehaviour
 {
     // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
-    public GameObject stuntGuideObjectPrefab;
+    public GameObject[] stuntGuideObjectPrefabs;
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide
@@ -55,7 +53,6 @@ public class VelocityEasyStage3 : MonoBehaviour
     {
         //Stunt Guide
         stuntGuideImage.sprite = stuntGuideImageSprite;
-        stuntGuideTextObject.text = stuntGuideText;
 
         answer = qc.GetPlayerAnswer();
         debugAnswer.SetText($"Answer: {distance}");
