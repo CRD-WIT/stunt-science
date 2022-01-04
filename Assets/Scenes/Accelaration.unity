@@ -2736,7 +2736,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &367030255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2759,7 +2759,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 20.799988, y: -2.9799805}
+  m_AnchoredPosition: {x: 20.799927, y: -2.9799805}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &367030256
@@ -21709,6 +21709,7 @@ MonoBehaviour:
   stuntGuideText: 'Velocity (v) of an object in a constant acceleration situation
     always has an initial velocity (vi) and final velocity (vf) at a certain time
     (t). To solve for the velocity, the formula is: (vf-vi) = t*a'
+  stuntGuideObjectPrefab: {fileID: 0}
   stuntGuideImage: {fileID: 1706695567}
   stuntGuideImageSprite: {fileID: 0}
   Vi: 0
@@ -22837,7 +22838,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 453328091}
   m_HandleRect: {fileID: 453328090}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 1.0000004
   m_Size: 0.311998
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -29022,6 +29023,7 @@ MonoBehaviour:
   stuntGuideText: 'The time (t) of an object is the ratio between the change in its
     velocity (v) and the constant acceleration (a) of an object. To find the time,
     the formula is: t = (vf-vi)/a'
+  stuntGuideObjectPrefab: {fileID: 0}
   stuntGuideImage: {fileID: 1706695567}
   stuntGuideImageSprite: {fileID: 0}
   Vi: 0
@@ -30449,6 +30451,7 @@ MonoBehaviour:
     in its velocity (v) and the (t) at the moment the object starts its initial velocity
     (vi) and achieved its final velocity (vf). To find the acceleration, the formula
     is: a = (vf-vi)/t'
+  stuntGuideObjectPrefab: {fileID: 0}
   stuntGuideImage: {fileID: 1706695567}
   stuntGuideImageSprite: {fileID: 0}
   debugAnswer: {fileID: 463655198}
