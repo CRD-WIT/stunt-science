@@ -11,7 +11,7 @@ public class VelocityEasyStage1 : MonoBehaviour
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide
-    
+
     AnswerGuards answerGuards = new AnswerGuards();
     public FirebaseManager firebaseManager;
     PlayerV1_1 myPlayer;
@@ -70,10 +70,13 @@ public class VelocityEasyStage1 : MonoBehaviour
     void FixedUpdate()
     {
         //Stunt Guide
+        stuntGuideObjectPrefabs[0].SetActive(true);
+        stuntGuideObjectPrefabs[1].SetActive(false);
+        stuntGuideObjectPrefabs[2].SetActive(false);
         stuntGuideImage.sprite = stuntGuideImageSprite;
-        
+
         float answer = questionController.GetPlayerAnswer();
-        debugAnswer.SetText($"Answer: {Speed}");        
+        debugAnswer.SetText($"Answer: {Speed}");
         float adjustedAnswer = questionController.AnswerTolerance(Speed);
         if (SimulationManager.isAnswered)
         {
@@ -120,7 +123,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                         myPlayer.lost = true;
                     }
                     answerIs = false;
-                    if (adjustedAnswer<Speed)//(answer < Speed)
+                    if (adjustedAnswer < Speed)//(answer < Speed)
                     {
                         scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos - 0.2f, myPlayer.transform.position.y);

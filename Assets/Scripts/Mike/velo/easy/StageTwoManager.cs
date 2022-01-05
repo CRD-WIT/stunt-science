@@ -40,7 +40,10 @@ public class StageTwoManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-        //Stunt Guide
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(true);
+        stuntGuideObjectPrefabs[2].SetActive(false);
         stuntGuideImage.sprite = stuntGuideImageSprite;
 
         debugAnswer.SetText($"Answer: {answerRO}");

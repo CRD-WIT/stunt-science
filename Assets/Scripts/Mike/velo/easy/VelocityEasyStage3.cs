@@ -52,6 +52,9 @@ public class VelocityEasyStage3 : MonoBehaviour
     void FixedUpdate()
     {
         //Stunt Guide
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(false);
+        stuntGuideObjectPrefabs[2].SetActive(true);
         stuntGuideImage.sprite = stuntGuideImageSprite;
 
         answer = qc.GetPlayerAnswer();
