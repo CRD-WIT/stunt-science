@@ -5,13 +5,6 @@ using TMPro;
 
 public class accSimulation : MonoBehaviour
 {
-    // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
-    public Image stuntGuideImage;
-    public Sprite stuntGuideImageSprite;
-    // End of Stunt Guide
-
     public Button playButton;
     private BikeManager theBike;
     public AccManagerOne theManagerOne;
@@ -75,9 +68,6 @@ public class accSimulation : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Stunt Guide
-        stuntGuideImage.sprite = stuntGuideImageSprite;
-        stuntGuideTextObject.text = stuntGuideText;
 
         switch (stage)
         {

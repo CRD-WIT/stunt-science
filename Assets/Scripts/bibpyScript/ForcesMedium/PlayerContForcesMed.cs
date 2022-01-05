@@ -37,7 +37,7 @@ public class PlayerContForcesMed : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // if (!isMale)
         // {
@@ -55,21 +55,21 @@ public class PlayerContForcesMed : MonoBehaviour
         currentpos = player.transform.position.x;
         myRigidbody.velocity = new Vector2(moveSpeed, myRigidbody.velocity.y);
         myAnimator.SetFloat("speed", moveSpeed);
-        myAnimator.SetBool("lost", lost);
-        myAnimator.SetBool("happy", happy);
+        // myAnimator.SetBool("lost", lost);
+        // myAnimator.SetBool("happy", happy);
         myAnimator.SetBool("grounded", grounded);
-        myAnimator.SetBool("standup", standup);
-        myAnimator.SetBool("slide", slide);
-        myAnimator.SetBool("cranking", Level5EasyManager.cranked);
-        myAnimator.SetBool("brake", brake);
-        myAnimator.SetBool("isHanging", isHanging);
-        myAnimator.SetBool("grab", isGrabbing);
-        myAnimator.SetBool("hangWalk", hangWalk);
-        myAnimator.SetBool("isFalling", isFalling);
-        myAnimator.SetBool("toJump", toJump);
-        myAnimator.SetBool("jumpHang", jumpHang);
-        myAnimator.SetBool("landed", isLanded);
-        myAnimator.SetBool("throw", thrown);
+        // myAnimator.SetBool("standup", standup);
+        // myAnimator.SetBool("slide", slide);
+        // myAnimator.SetBool("cranking", Level5EasyManager.cranked);
+        // myAnimator.SetBool("brake", brake);
+        // myAnimator.SetBool("isHanging", isHanging);
+        // myAnimator.SetBool("grab", isGrabbing);
+        // myAnimator.SetBool("hangWalk", hangWalk);
+        // myAnimator.SetBool("isFalling", isFalling);
+        // myAnimator.SetBool("toJump", toJump);
+        // myAnimator.SetBool("jumpHang", jumpHang);
+        // myAnimator.SetBool("landed", isLanded);
+        // myAnimator.SetBool("throw", thrown);
          myAnimator.SetBool("push", push);
         if (posready == true)
         {
@@ -97,7 +97,7 @@ public class PlayerContForcesMed : MonoBehaviour
         }
          if (collision.gameObject.tag == ("box"))
          {
-             push = true;
+             //push = true;
              //theSimulate.simulate = true;
              //Time.timeScale = 0;
          }
@@ -154,14 +154,14 @@ public class PlayerContForcesMed : MonoBehaviour
     // {
     //     yield return new WaitForSeconds(1f);
     //     slideCollider.enabled = true;
-    //     myCollider.enabled =false;
+    //
     //     myRigidbody.mass = 0.00001f;
     //     myRigidbody.gravityScale = 90;
     //     yield return new WaitForSeconds(3.5f);
     //     myRigidbody.mass = 10;
     //     myRigidbody.gravityScale = 1;
     //     slideCollider.enabled =false;
-    //     myCollider.enabled =true;
+    // 
     //     slide = false;
     // }
 }

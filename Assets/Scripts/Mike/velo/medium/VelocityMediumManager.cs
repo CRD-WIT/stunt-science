@@ -7,10 +7,9 @@ using GameConfig;
 public class VelocityMediumManager : MonoBehaviour
 {
     // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
+    public GameObject[] stuntGuideObjectPrefabs;
     public Image stuntGuideImage;
-    public Sprite stuntGuideImageSprite;
+    public Sprite[] stuntGuideImageSprites;
     // End of Stunt Guide    
     AnswerGuards answerGuards = new AnswerGuards();
     QuestionControllerVThree qc;
@@ -84,14 +83,34 @@ public class VelocityMediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Stunt Guide
-        stuntGuideImage.sprite = stuntGuideImageSprite;
-        stuntGuideTextObject.text = stuntGuideText;
-
         velocityDirectionArrow1.GetComponent<SpriteRenderer>().color = qc.getHexColor(colors);
         velocityDirectionArrow2.GetComponent<SpriteRenderer>().color = qc.getHexColor(colors);
         qc.SetColor(boulder2Speed, colors);
         qc.SetColor(boulder1Speed, colors);
+
+        switch (stage)
+        {
+            case 1:
+                //Stunt Guide
+                stuntGuideImage.sprite = stuntGuideImageSprites[0];
+                stuntGuideObjectPrefabs[0].SetActive(true);
+                stuntGuideObjectPrefabs[1].SetActive(false);
+                stuntGuideObjectPrefabs[2].SetActive(false);
+                break;
+            case 2:
+                stuntGuideImage.sprite = stuntGuideImageSprites[1];
+                stuntGuideObjectPrefabs[0].SetActive(false);
+                stuntGuideObjectPrefabs[1].SetActive(true);
+                stuntGuideObjectPrefabs[2].SetActive(false);
+                break;
+            case 3:
+                stuntGuideImage.sprite = stuntGuideImageSprites[2];
+                stuntGuideObjectPrefabs[0].SetActive(false);
+                stuntGuideObjectPrefabs[1].SetActive(false);
+                stuntGuideObjectPrefabs[2].SetActive(true);
+                break;
+        }
+        
         debugAnswer.SetText($"Answer: {correctAnswer}");
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());

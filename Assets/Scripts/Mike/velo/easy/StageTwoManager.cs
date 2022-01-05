@@ -5,9 +5,7 @@ using GameConfig;
 using TMPro;
 public class StageTwoManager : MonoBehaviour
 {
-    // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
+    public GameObject[] stuntGuideObjectPrefabs;
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide
@@ -28,7 +26,7 @@ public class StageTwoManager : MonoBehaviour
     public QuestionControllerVThree qc;
     public AudioSource scream;
     public TMP_Text debugAnswer;
-    public FirebaseManager firebaseManager;    
+    public FirebaseManager firebaseManager;   
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
@@ -42,9 +40,11 @@ public class StageTwoManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-        //Stunt Guide
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(true);
+        stuntGuideObjectPrefabs[2].SetActive(false);
         stuntGuideImage.sprite = stuntGuideImageSprite;
-        stuntGuideTextObject.text = stuntGuideText;
 
         debugAnswer.SetText($"Answer: {answerRO}");
         playerAnswer = qc.GetPlayerAnswer();

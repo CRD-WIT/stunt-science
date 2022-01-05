@@ -11,6 +11,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     // Stunt Guide
     public Text stuntGuideTextObject;
     public string stuntGuideText;
+    public GameObject stuntGuideObjectPrefab;
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide

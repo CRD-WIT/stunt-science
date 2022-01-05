@@ -5,9 +5,8 @@ using TMPro;
 
 public class AccMediumOne : MonoBehaviour
 {
-        // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide
@@ -47,6 +46,12 @@ public class AccMediumOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(true);
+        stuntGuideObjectPrefabs[1].SetActive(false);
+        stuntGuideObjectPrefabs[2].SetActive(false);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+
         min = correctAnswer - 0.01f;
         max = correctAnswer + 0.01f;
         debugAnswer.SetText($"Answer: {correctAnswer}");
