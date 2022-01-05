@@ -6,9 +6,7 @@ using TMPro;
 public class AccManagerTwo : MonoBehaviour
 {
     // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
-    public GameObject stuntGuideObjectPrefab;
+    public GameObject[] stuntGuideObjectPrefabs;
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide
@@ -71,9 +69,12 @@ public class AccManagerTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Stunt Guide
+
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(true);
+        stuntGuideObjectPrefabs[2].SetActive(false);
         stuntGuideImage.sprite = stuntGuideImageSprite;
-        stuntGuideTextObject.text = stuntGuideText;
 
         min = correctAns - 0.02f;
         max = correctAns + 0.02f;

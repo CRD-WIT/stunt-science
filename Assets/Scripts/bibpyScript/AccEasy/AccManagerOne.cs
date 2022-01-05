@@ -6,9 +6,7 @@ using TMPro;
 public class AccManagerOne : MonoBehaviour
 {
     // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
-    public GameObject stuntGuideObjectPrefab;
+    public GameObject[] stuntGuideObjectPrefabs;
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide
@@ -81,6 +79,11 @@ public class AccManagerOne : MonoBehaviour
     }
     void FixedUpdate()
     {    
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(true);
+        stuntGuideObjectPrefabs[1].SetActive(false);
+        stuntGuideObjectPrefabs[2].SetActive(false);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
 
         debugAnswer.SetText($"Answer: {correctAns}");
 
