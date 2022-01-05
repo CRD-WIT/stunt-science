@@ -5,14 +5,19 @@ using UnityEngine;
 public class Grenade : MonoBehaviour
 {
     Rigidbody2D rb;
+    [SerializeField]Transform parent, playerHand;
     float flightTime = 0;
     Vector2 initState;
-    public bool isThrown = false;
+    public bool isThrown = false, explode = false;
+    bool willExplode = false;
     // Start is called before the first frame update
     void Start()
     {
+        this.gameObject.GetComponent<Transform>().SetParent(playerHand);
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         initState = rb.velocity;
+        rb.isKinematic = true;
+
     }
 
     // Update is called once per frame
@@ -21,18 +26,29 @@ public class Grenade : MonoBehaviour
         if(isThrown){
             rb.bodyType = RigidbodyType2D.Dynamic;
             flightTime += Time.deltaTime;
-            rb.velocity = new Vector2(-5.5f, (15f)*(1f-flightTime));
+            rb.velocity = new Vector2(-6f, (15f)*(1f-flightTime));
         }
         else
         {
             // rb.bodyType = RigidbodyType2D.Kenimatic;
-            rb.isKinematic = true;
+            // rb.isKinematic = true;
             flightTime = 0;
             rb.velocity = initState;
         }
+        if(willExplode){
+            StartCoroutine(Explode());
+        }
+    }
+    IEnumerator Explode(){
+        willExplode = false;
+        yield return new WaitForSeconds(0.5f);
+        explode = true;
     }
     private void OnCollisionEnter2D(Collision2D other) {
-        if(other.gameObject.tag == "head")
+        if(other.gameObject.name == "head"){
             isThrown = false;
+            this.gameObject.GetComponent<Transform>().SetParent(parent);
+            willExplode = true;
+        }
     }
 }

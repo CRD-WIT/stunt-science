@@ -7,25 +7,70 @@ using TMPro;
 public class LvlFiveHardManager : MonoBehaviour
 {
     UnitOf whatIsAsk;
-    [SerializeField]float distance, mechaVelocity, aVelocity, radius, stuntTime, playerVelocity, correctAnswer, elapsed;
-    float initialPlayerPos, playerAnswer, camStartPos, mechaPos, adjustedAnswer, velocityY, armVelo;
+
+    [SerializeField]
+    float distance,
+        mechaVelocity,
+        aVelocity,
+        radius,
+        stuntTime,
+        playerVelocity,
+        correctAnswer,
+        elapsed;
+    float initialPlayerPos,
+        playerAnswer,
+        camStartPos,
+        mechaPos,
+        adjustedAnswer,
+        velocityY,
+        armVelo;
     public static int stage;
-    string playerName, playerGender, pronoun, pPronoun, question, messageTxt;
-    bool directorIsCalling, isStartOfStunt, isAnswered, isAnswerCorrect, ragdoll = false, playerLanded, isEndOfStunt;
+    string playerName,
+        playerGender,
+        pronoun,
+        pPronoun,
+        question,
+        messageTxt;
+    bool directorIsCalling,
+        isStartOfStunt,
+        isAnswered,
+        isAnswerCorrect,
+        ragdoll = false,
+        playerLanded,
+        isEndOfStunt;
     MechaManager mm;
     QuestionControllerVThree qc;
     IndicatorManagerV1_1 indicators;
     PlayerCM2 myPlayer;
-    StageManager sm = new StageManager();
-    [SerializeField] GameObject directorsBubble, mechaArm;
-    [SerializeField] TMP_Text directorsSpeech;
-    [SerializeField] AudioSource lightssfx, camerasfx, actionsfx, cutsfx;
-    [SerializeField] HingeJoint2D playerStopper1, playerStopper2;
-    [SerializeField] Camera main;
-    [SerializeField] Animator playerAnim;
     Rigidbody2D player;
     Grenade grenade;
-    
+    GameObject grenadeObj;
+    StageManager sm = new StageManager();
+
+    [SerializeField]
+    GameObject directorsBubble,
+        grenadePrefab,
+        mechaArm;
+
+    [SerializeField]
+    TMP_Text directorsSpeech;
+
+    [SerializeField]
+    AudioSource lightssfx,
+        camerasfx,
+        actionsfx,
+        cutsfx;
+
+    [SerializeField]
+    HingeJoint2D playerStopper1,
+        playerStopper2;
+
+    [SerializeField]
+    Camera main;
+
+    [SerializeField]
+    Animator playerAnim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +81,7 @@ public class LvlFiveHardManager : MonoBehaviour
         myPlayer = FindObjectOfType<PlayerCM2>();
         player = myPlayer.GetComponent<Rigidbody2D>();
         grenade = FindObjectOfType<Grenade>();
+        grenadeObj = FindObjectOfType<Grenade>().gameObject;
 
         camStartPos = main.transform.position.x;
         sm.SetGameLevel(4);
@@ -61,109 +107,148 @@ public class LvlFiveHardManager : MonoBehaviour
     {
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
-        if(isAnswered){
+        if (isAnswered)
+        {
             elapsed += Time.deltaTime;
-            switch(stage){
+            switch (stage)
+            {
                 case 1:
                     mm.SetMechaVelocity(aVelocity, stuntTime, 1.05f);
                     myPlayer.moveSpeed = playerVelocity;
                     float playerPos = myPlayer.transform.position.x + initialPlayerPos;
-                    if(playerPos >= playerAnswer){
+                    if (playerPos >= playerAnswer)
+                    {
                         Debug.Log(playerPos);
                         // myPlayer.moveSpeed = 0;
                         elapsed = stuntTime;
                         StartCoroutine(Jump());
                     }
-                    if(adjustedAnswer == correctAnswer){
-                        isAnswerCorrect =true;
-                        messageTxt = "correct"; 
+                    if (adjustedAnswer == correctAnswer)
+                    {
+                        isAnswerCorrect = true;
+                        messageTxt = "correct";
                     }
-                    else{
-                        isAnswerCorrect =false;
+                    else
+                    {
+                        isAnswerCorrect = false;
                         messageTxt = "wrong";
                     }
-                break;
+                    break;
                 case 2:
                     myPlayer.walking = false;
                     mm.armRotation = -armVelo;
                     playerStopper1.enabled = false;
                     myPlayer.moveSpeed = playerAnswer + mm.velocity.x;
                     playerAnim.speed = playerAnswer / 2.8f;
-                    if(elapsed >= stuntTime)//((myPlayer.transform.position.x - initialPlayerPos) >= 6.55f)
+                    if (elapsed >= stuntTime) //((myPlayer.transform.position.x - initialPlayerPos) >= 6.55f)
                     {
                         Debug.Log("Stage2");
                         elapsed = stuntTime;
                         StartCoroutine(Grab());
-                        if(adjustedAnswer == correctAnswer){
+                        if (adjustedAnswer == correctAnswer)
+                        {
                             playerStopper2.enabled = true;
-                            isAnswerCorrect =true;
+                            isAnswerCorrect = true;
                             messageTxt = "correct";
                         }
-                        else{
-                            isAnswerCorrect =false;
+                        else
+                        {
+                            isAnswerCorrect = false;
                             messageTxt = "wrong";
                         }
                     }
-                break;
+                    break;
                 case 3:
                     mm.armRotation = armVelo;
-                    if(elapsed >= stuntTime){
+                    if (elapsed >= stuntTime)
+                    {
                         grenade.isThrown = true;
+                        // mm.armRotation = 0;
                     }
                     else
                     {
                         grenade.isThrown = false;
                     }
+                    if (grenade.explode)
+                    {
+                        if (playerAnswer == adjustedAnswer)
+                        {
+                            mm.armRotation = 0;
+                            mm.velocity = new Vector2(0, 0);
+                            Destroy(grenadeObj);
+                            mm.off =true;
+                            isAnswered = false;
+                        }
+                    }
                     break;
+                    qc.timer = elapsed.ToString("f2") + "s";
             }
-            qc.timer = elapsed.ToString("f2") + "s";
         }
-        if(playerLanded){
+        if (playerLanded)
+        {
             float camDistanceFromRobot = mechaPos - camStartPos;
-            main.transform.position = new Vector3(mm.transform.position.x - camDistanceFromRobot, main.transform.position.y,-10);
-            if(isAnswerCorrect){
-                playerStopper1.enabled =true;
+            main.transform.position = new Vector3(
+                mm.transform.position.x - camDistanceFromRobot,
+                main.transform.position.y,
+                -10
+            );
+            if (isAnswerCorrect)
+            {
+                playerStopper1.enabled = true;
             }
-            else{
+            else
+            {
                 //ragdoll
             }
         }
 
         if (qc.isSimulating)
             Play();
-        else{
-            if(qc.nextStage)
+        else
+        {
+            if (qc.nextStage)
                 Next();
-            else if(qc.retried)
+            else if (qc.retried)
                 Reset();
-            else{
+            else
+            {
                 qc.nextStage = false;
                 qc.retried = false;
             }
         }
-        
     }
-    void SetUp(){
+
+    void SetUp()
+    {
         elapsed = 0;
         playerLanded = false;
         stage = qc.stage;
-        float pV, mV, cT, jT, d, t, av, jd;
-        switch(stage){
+        float pV,
+            mV,
+            cT,
+            jT,
+            d,
+            t,
+            av,
+            jd;
+        switch (stage)
+        {
             case 1:
                 radius = 1.05f;
                 qc.stage = 1;
-                qc.limit=20;
-                while(true){
-                    pV = (float)System.Math.Round(Random.Range(8f, 10.49f),2);
+                qc.limit = 20;
+                while (true)
+                {
+                    pV = (float)System.Math.Round(Random.Range(8f, 10.49f), 2);
                     d = (float)System.Math.Round(Random.Range(30f, 33f), 2);
-                    t = (float)System.Math.Round(Random.Range(2.5f, 4f),2);
-                    av = (float)System.Math.Round(Random.Range(-100f, -150f),2);
+                    t = (float)System.Math.Round(Random.Range(2.5f, 4f), 2);
+                    av = (float)System.Math.Round(Random.Range(-100f, -150f), 2);
 
-                    mV = (float)System.Math.Round(mm.MechaVelocity(av*(-1), t, radius), 2);
-                    cT = d/(pV+mV);
-                    jT = cT -0.5f;
-                    jd = pV*jT;
-                    if(jd<20)
+                    mV = (float)System.Math.Round(mm.MechaVelocity(av * (-1), t, radius), 2);
+                    cT = d / (pV + mV);
+                    jT = cT - 0.5f;
+                    jd = pV * jT;
+                    if (jd < 20)
                         break;
                 }
                 playerVelocity = pV;
@@ -171,33 +256,42 @@ public class LvlFiveHardManager : MonoBehaviour
                 stuntTime = t;
                 aVelocity = av;
                 mechaVelocity = mV;
-                correctAnswer = (float)System.Math.Round(jd,2);
+                correctAnswer = (float)System.Math.Round(jd, 2);
 
-                myPlayer.transform.position = new Vector2(-distance+ 12, 0);
-                initialPlayerPos = distance -12;
+                myPlayer.transform.position = new Vector2(-distance + 12, 0);
+                initialPlayerPos = distance - 12;
                 Debug.Log(initialPlayerPos);
-                
+
                 whatIsAsk = UnitOf.distance;
-                question = $"{playerName} is intructed to run and jump on top of the robot's wheel. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>1.05 m</b> is moving towards {pPronoun} and {pronoun} is moving <b>{playerVelocity}{qc.Unit(UnitOf.velocity)}</b> towards the robot. If {playerName} needs to jump 0.5s before the collision, How far does {pronoun} have to run before jumping?";
+                question =
+                    $"{playerName} is intructed to run and jump on top of the robot's wheel. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>1.05 m</b> is moving towards {pPronoun} and {pronoun} is moving <b>{playerVelocity}{qc.Unit(UnitOf.velocity)}</b> towards the robot. If {playerName} needs to jump 0.5s before the collision, How far does {pronoun} have to run before jumping?";
                 //player playerVelocity to jump exactly to the mecha
                 break;
             case 2:
                 mm.armRotation = 0;
                 radius = 0.775f;
-                float pVx, pVy, dx = 6.55f, dy = 1.75f;
-                main.transform.position = new Vector3(mm.transform.position.x + 5.5f, main.transform.position.y,-10);
+                float pVx,
+                    pVy,
+                    dx = 6.55f,
+                    dy = 1.75f;
+                main.transform.position = new Vector3(
+                    mm.transform.position.x + 5.5f,
+                    main.transform.position.y,
+                    -10
+                );
                 d = 6.78f;
                 qc.limit = 10.49f;
-                while(true){
-                    t = (float)System.Math.Round(Random.Range(2.5f, 4f),2); 
-                    pVx = dx/t;
-                    pVy = dy/t;
+                while (true)
+                {
+                    t = (float)System.Math.Round(Random.Range(2.5f, 4f), 2);
+                    pVx = dx / t;
+                    pVy = dy / t;
                     av = (float)System.Math.Round(Random.Range(-150f, -200f), 2);
-                    
+
                     armVelo = (float)System.Math.Round(312 / t, 2);
-                    mV = (float)System.Math.Round(mm.MechaVelocity(av*(-1), t, radius), 2);
-                    pV = d/t + mV;
-                    if(pV<10.5f)
+                    mV = (float)System.Math.Round(mm.MechaVelocity(av * (-1), t, radius), 2);
+                    pV = d / t + mV;
+                    if (pV < 10.5f)
                         break;
                 }
                 stuntTime = t;
@@ -206,28 +300,37 @@ public class LvlFiveHardManager : MonoBehaviour
                 correctAnswer = (float)System.Math.Round(pV, 2);
                 initialPlayerPos = myPlayer.transform.position.x;
                 whatIsAsk = UnitOf.velocity;
-                question = $"{playerName} is intructed to grab on the lower clamp of the robot's hand. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>0.775 m</b> is moving forward. If {playerName} needs to grab the clamp at exactly 300{qc.Unit(UnitOf.angle)} from the starting position of the clamp, what should be {playerName}'s velocity?";
-                
-                while(mechaArm.transform.localEulerAngles.z != 0){
+                question =
+                    $"{playerName} is intructed to grab on the lower clamp of the robot's hand. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>0.775 m</b> is moving forward. If {playerName} needs to grab the clamp at exactly 300{qc.Unit(UnitOf.angle)} from the starting position of the clamp, what should be {playerName}'s velocity?";
+
+                while (mechaArm.transform.localEulerAngles.z != 0)
+                {
                     mechaArm.transform.localEulerAngles = new Vector3(0, 0, 0);
                     Debug.Log(mechaArm.transform.localEulerAngles.z);
                 }
-                mechaArm.transform.localEulerAngles = new Vector3(0, 0, mechaArm.transform.localEulerAngles.z+1.199f);
+                mechaArm.transform.localEulerAngles = new Vector3(
+                    0,
+                    0,
+                    mechaArm.transform.localEulerAngles.z + 1.199f
+                );
                 break;
             case 3:
-                // t = 
-                if(mechaArm.transform.localEulerAngles.z != 0){
+                // t =
+                if (mechaArm.transform.localEulerAngles.z != 0)
+                {
                     mm.armRotation = 0;
                     mechaArm.transform.localEulerAngles = new Vector3(0, 0, 0);
                 }
                 qc.limit = 3.5f;
-                float armAngularVelo, arc;
-                while(true){
+                float armAngularVelo,
+                    arc;
+                while (true)
+                {
                     arc = (float)System.Math.Round(Random.Range(200f, 250f), 2);
                     armAngularVelo = (float)System.Math.Round(Random.Range(50f, 70f), 2);
-                    t = (float)System.Math.Round((arc/ armAngularVelo),2);
+                    t = (float)System.Math.Round((arc / armAngularVelo), 2);
 
-                    if(t<3.5f)
+                    if (t < 3.5f)
                         break;
                 }
                 armVelo = -armAngularVelo;
@@ -241,10 +344,13 @@ public class LvlFiveHardManager : MonoBehaviour
         }
         qc.SetQuestion(question);
     }
-    void Play(){
+
+    void Play()
+    {
         playerAnswer = qc.GetPlayerAnswer();
         adjustedAnswer = qc.AnswerTolerance(correctAnswer);
-        if(stage ==2){
+        if (stage == 2)
+        {
             myPlayer.moveSpeed = playerAnswer * 1.0351f;
             player.velocity = new Vector2(myPlayer.moveSpeed, (playerAnswer * (float)3.8743));
         }
@@ -252,15 +358,23 @@ public class LvlFiveHardManager : MonoBehaviour
         isStartOfStunt = true;
         directorIsCalling = true;
     }
-    void Reset(){
+
+    void Reset()
+    {
+        if (stage == 3)
+        {
+            Instantiate(grenadeObj);
+        }
         SetUp();
     }
-    void Next(){
-        mm.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
-        qc.nextStage =false;
+
+    void Next()
+    {
+        mm.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        qc.nextStage = false;
         SetUp();
     }
-    
+
     public IEnumerator DirectorsCall()
     {
         directorIsCalling = false;
@@ -311,7 +425,9 @@ public class LvlFiveHardManager : MonoBehaviour
             directorsSpeech.text = "";
         }
     }
-    IEnumerator Jump(){
+
+    IEnumerator Jump()
+    {
         myPlayer.jumpforce = 2;
         myPlayer.jump();
         yield return new WaitForSeconds(0.4f);
@@ -323,7 +439,9 @@ public class LvlFiveHardManager : MonoBehaviour
         mechaPos = mm.transform.position.x;
         StartCoroutine(StuntResult());
     }
-    IEnumerator Grab(){
+
+    IEnumerator Grab()
+    {
         myPlayer.moveSpeed = 0;
         playerAnim.speed = 1;
         myPlayer.walking = false;
@@ -336,6 +454,7 @@ public class LvlFiveHardManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         StartCoroutine(StuntResult());
     }
+
     IEnumerator StuntResult()
     {
         isEndOfStunt = false;
