@@ -21,7 +21,7 @@ public class ForceMedSimulation : MonoBehaviour
     public Button playButton;
     public GameObject directorBubble;
     public Vector2 playerStartPoint, zombie1StartPoint, zombie2StartPoint, boxStartPoint;
-    public GameObject dimensionOne, dimensionTwo;
+    public GameObject dimensionOne, dimensionTwo,dimensionThree, groundOne,groundTwo;
     // Start is called before the first frame update
     void Start()
     {
@@ -74,7 +74,7 @@ public class ForceMedSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "m/s²";
+                    answerField.text = playerAnswer.ToString() + "N";
                 }
 
             }
@@ -82,10 +82,10 @@ public class ForceMedSimulation : MonoBehaviour
         if (stage == 3)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "")
+            if (answerField.text == "" || playerAnswer > theManagerThree.zombieFinalForce)
             {
                 StartCoroutine(errorMesage());
-                theQuestion.errorText = ("too heavy for a human!");
+                theQuestion.errorText = ("answer must not exceed ") + (theManagerThree.zombieFinalForce).ToString("F2") + (" N and not less than 150 N");
             }
             else
             {
@@ -93,7 +93,7 @@ public class ForceMedSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "kg";
+                    answerField.text = playerAnswer.ToString() + "N";
                 }
 
             }
@@ -129,7 +129,7 @@ public class ForceMedSimulation : MonoBehaviour
         }
         if (stage == 3)
         {
-            theManagerThree.thePlayer.transform.position = theManagerThree.playerStartPoint;
+            thePlayer.transform.position = new Vector2(1.1f, 0);
             theManagerThree.showProblem();
         }
 
@@ -158,7 +158,7 @@ public class ForceMedSimulation : MonoBehaviour
             }
             if (stage == 3)
             {
-                theManagerTwo.startRunning = true;
+                theManagerThree.startRunning = true;
             }
            
             
@@ -185,6 +185,11 @@ public class ForceMedSimulation : MonoBehaviour
             theManagerThree.gameObject.SetActive(true);
             zombie1StartPoint = theManagerThree.theZombie[0].transform.position;
             zombie2StartPoint = theManagerThree.theZombie[1].transform.position;
+            dimensionTwo.SetActive(false);
+            dimensionThree.SetActive(true);
+            groundOne.SetActive(false);
+            groundTwo.SetActive(true);
+
             //theManagerTwo.GenerateProblem();
 
         }

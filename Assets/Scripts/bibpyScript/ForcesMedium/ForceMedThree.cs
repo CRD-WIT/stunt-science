@@ -16,17 +16,19 @@ public class ForceMedThree : MonoBehaviour
     public QuestionContForcesMed theQuestion;
 
     public ZombieMedium[] theZombie;
-    public Vector2 playerStartPoint, boxStartPoint, zombie0StartPoint, zombie1StartPoint, zombie2StartPoint, zombie3StartPoint;
+    public Vector2 playerStartPoint, boxStartPoint, zombie0StartPoint, zombie1StartPoint, zombie2StartPoint, zombie3StartPoint,elevatorStartPoint;
     public TMP_Text boxMassTxt, frictionTxt, muTxt, zombieForceTxt;
     // Start is called before the first frame update
     void Start()
     {
+        elevatorStartPoint = elevator.transform.position;
         theSimulate.stage = 3;
         targetPos.transform.position = new Vector2(6.33f, 1.139412f);
         zombie0StartPoint = theZombie[0].transform.position;
         zombie1StartPoint = theZombie[1].transform.position;
+        box3.SetActive(true);
         boxStartPoint = box3.transform.position;
-        playerStartPoint = new Vector2(3.82f, 2.59f);
+        thePlayer.transform.position = new Vector2(1.1f,0);
         //theZombie[0].transform.localScale = new Vector2(-theZombie[0].transform.localScale.x,theZombie[0].transform.localScale.y);
         //theZombie[1].transform.localScale = new Vector2(-theZombie[1].transform.localScale.x,theZombie[1].transform.localScale.y);
         showProblem();
@@ -93,9 +95,15 @@ public class ForceMedThree : MonoBehaviour
                 StartCoroutine(StuntResult());
                 if (theSimulate.playerAnswer == correctAnswer)
                 {
-                    box3.transform.position = new Vector2(6.46f, 1.480934f);
+                    box3.transform.position = new Vector2(6.453878f, 1.480934f);
+                    theZombie[0].transform.position = new Vector2(theZombie[0].transform.position.x - .2f,theZombie[0].transform.position.y);
+                    elevatorSpeed = 1;
                 }
-                elevatorSpeed = 1;
+                if (theSimulate.playerAnswer > correctAnswer)
+                {
+                    elevatorSpeed = 1;
+                }
+               
                 theSimulate.simulate = false;
             }
 
@@ -105,6 +113,8 @@ public class ForceMedThree : MonoBehaviour
     }
     public void showProblem()
     {
+        elevatorSpeed = 0;
+        elevator.transform.position = elevatorStartPoint;
         dimensions.SetActive(true);
         //thePlayer.transform.position = playerStartPoint;
         theZombie[0].transform.position = zombie0StartPoint;
@@ -121,7 +131,7 @@ public class ForceMedThree : MonoBehaviour
         boxMassTxt.text = "m = " + massBox.ToString("F2") + "kg";
         muTxt.text = "μ = " + mu.ToString("F2");
         zombieForceTxt.text = "F = " + zombieForce.ToString("F2") + "N";
-        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to push the box(B) starting at rest using constant Force for <b>") + time + ("</b> seconds. If the target location is <b>") + totalDistance.ToString("F2") + ("</b> meter from the box starting position, How much Force should the box 'A' needed to reach the target location with the given time,if the surface coefficient of friction(μ) is <b>") + mu.ToString("F2") + ("</b> and has an oppossing friction force of <b>") + friction.ToString("F2") + ("N</b>. After the given time, ") + PlayerPrefs.GetString("Name") + (" will stop pushing and the box will stop moving. Fail to perform the task and zombies will eat your brain.")));
+        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to push the box(B) starting at rest using constant Force for <b>") + time + ("</b> seconds. If the target location is <b>") + totalDistance.ToString("F2") + ("</b> meter from the box starting position, How much Force should the box 'C' needed to reach the target location with the given time,if the surface coefficient of friction(μ) is <b>") + mu.ToString("F2") + ("</b> and has an oppossing friction force of <b>") + friction.ToString("F2") + ("N</b>. After the given time, ") + PlayerPrefs.GetString("Name") + (" will stop pushing and the box will stop moving. Fail to perform the task and zombies will eat your brain.")));
     }
     public void zombieChase()
     {
@@ -141,7 +151,7 @@ public class ForceMedThree : MonoBehaviour
         {
             theQuestion.answerIsCorrect = true;
             yield return new WaitForSeconds(1);
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely escaped from zombies"), true, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely escaped from zombies"), true, true);
         }
         StartCoroutine(theSimulate.DirectorsCall());
         if (theSimulate.playerAnswer != correctAnswer)

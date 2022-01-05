@@ -11,7 +11,7 @@ public class ForceMedTwo : MonoBehaviour
     public float weightBox, accelerationBox, correctAnswer, friction, Fn,mu;
     public bool preset, startRunning;
     public BoxManager theBox;
-    public GameObject  stopper2, dimensions;
+    public GameObject  stopper2, dimensions,elevator;
     public GameObject box2,targetPos;
     public QuestionContForcesMed theQuestion;
 
@@ -21,6 +21,7 @@ public class ForceMedTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
         theSimulate.stage = 2;
         thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
         targetPos.transform.position = new Vector2(-16.22f,1.139412f);
@@ -82,7 +83,7 @@ public class ForceMedTwo : MonoBehaviour
                 StartCoroutine(StuntResult());
                 if(theSimulate.playerAnswer == correctAnswer)
                 {
-                    box2.transform.position = new Vector2(-16.05f,1.480934f);
+                    box2.transform.position = new Vector2(-16.0f,1.480934f);
                 }
             }
 
@@ -92,6 +93,7 @@ public class ForceMedTwo : MonoBehaviour
     }
     public void showProblem()
     {
+
         dimensions.SetActive(true);
         thePlayer.transform.position = theSimulate.playerStartPoint;
         theZombie[0].transform.position = theSimulate.zombie1StartPoint;
