@@ -130,7 +130,7 @@ public class QuestionControllerVThree : MonoBehaviour
             if (isComplete)
             {
                 Debug.Log($"QCV3: isComplete {isComplete}");
-                firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
+                // firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Completed, 0);
                 actionBtn.GetComponent<Button>().onClick.RemoveAllListeners();
                 actionBtn.GetComponent<Button>().onClick.AddListener(EvaluatePlayerScore);
 

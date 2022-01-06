@@ -37,7 +37,8 @@ public class LvlFiveHardManager : MonoBehaviour
         isAnswerCorrect,
         ragdoll = false,
         playerLanded,
-        isEndOfStunt;
+        isEndOfStunt,
+        isEnd = false;
     MechaManager mm;
     QuestionControllerVThree qc;
     IndicatorManagerV1_1 indicators;
@@ -74,6 +75,7 @@ public class LvlFiveHardManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // PlayerPrefs.SetInt("Life", 3);
         stage = 1;
         qc = FindObjectOfType<QuestionControllerVThree>();
         mm = FindObjectOfType<MechaManager>();
@@ -97,7 +99,7 @@ public class LvlFiveHardManager : MonoBehaviour
             pronoun = "she";
             pPronoun = "her";
         }
-        qc.levelDifficulty = Difficulty.Medium;
+        qc.levelDifficulty = Difficulty.Hard;
 
         SetUp();
     }
@@ -171,14 +173,19 @@ public class LvlFiveHardManager : MonoBehaviour
                     }
                     if (grenade.explode)
                     {
-                        if (playerAnswer == adjustedAnswer)
+                        Destroy(grenadeObj);
+                        if (correctAnswer == adjustedAnswer)
                         {
                             mm.armRotation = 0;
                             mm.velocity = new Vector2(0, 0);
-                            Destroy(grenadeObj);
                             mm.off =true;
-                            isAnswered = false;
+                            isEnd = true;
+                            messageTxt = "correct";
+                        }else{
+                            messageTxt = "wrong";
                         }
+                        isAnswered = false;
+                        StartCoroutine(StuntResult());
                     }
                     break;
                     qc.timer = elapsed.ToString("f2") + "s";
@@ -187,11 +194,7 @@ public class LvlFiveHardManager : MonoBehaviour
         if (playerLanded)
         {
             float camDistanceFromRobot = mechaPos - camStartPos;
-            main.transform.position = new Vector3(
-                mm.transform.position.x - camDistanceFromRobot,
-                main.transform.position.y,
-                -10
-            );
+            main.transform.position = new Vector3(mm.transform.position.x - camDistanceFromRobot, main.transform.position.y, -10);
             if (isAnswerCorrect)
             {
                 playerStopper1.enabled = true;
@@ -462,7 +465,7 @@ public class LvlFiveHardManager : MonoBehaviour
         directorIsCalling = true;
         isStartOfStunt = false;
         yield return new WaitForSeconds(1f);
-        qc.ActivateResult(messageTxt, isAnswerCorrect);
+        qc.ActivateResult(messageTxt, isAnswerCorrect, isEnd);
     }
 }
 

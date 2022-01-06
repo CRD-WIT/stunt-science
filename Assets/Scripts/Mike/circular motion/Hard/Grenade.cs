@@ -41,7 +41,7 @@ public class Grenade : MonoBehaviour
     }
     IEnumerator Explode(){
         willExplode = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         explode = true;
     }
     private void OnCollisionEnter2D(Collision2D other) {

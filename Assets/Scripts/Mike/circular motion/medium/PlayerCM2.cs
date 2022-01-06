@@ -4,25 +4,47 @@ using UnityEngine;
 
 public class PlayerCM2 : MonoBehaviour
 {
-    public float moveSpeed, groundedRadius, jumpforce;
+    public float moveSpeed,
+        groundedRadius,
+        jumpforce;
     private Rigidbody2D myRigidbody;
     public Animator myAnimator;
-    public GameObject player, stickprefab, stickmanpoint;
-    public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang, isLanded, walking;
+    public GameObject player,
+        stickprefab,
+        stickmanpoint;
+    public bool lost,
+        happy,
+        ragdollblow,
+        posready,
+        grounded,
+        standup,
+        slide,
+        isHanging,
+        brake,
+        isGrabbing,
+        hangWalk,
+        isFalling,
+        toJump,
+        jumpHang,
+        isLanded,
+        walking;
+
     // public AudioSource footstep;
     float currentpos;
     public LayerMask whatIsGround;
     public Transform groundCheck;
-    private Collider2D myCollider, ragDollTrigger;
+    private Collider2D myCollider,
+        ragDollTrigger;
     HeartManager life;
 
     void Start()
     {
         myAnimator = this.GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
-        myCollider = GetComponent<Collider2D>(); 
+        myCollider = GetComponent<Collider2D>();
         life = FindObjectOfType<HeartManager>();
     }
+
     void Update()
     {
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundedRadius, whatIsGround);
@@ -34,9 +56,9 @@ public class PlayerCM2 : MonoBehaviour
         myAnimator.SetBool("grounded", grounded);
         myAnimator.SetBool("standup", standup);
         myAnimator.SetBool("slide", slide);
-        myAnimator.SetBool("cranking",Level5EasyManager.cranked);
-        myAnimator.SetBool("brake",brake);
-        myAnimator.SetBool("isHanging",isHanging);
+        myAnimator.SetBool("cranking", Level5EasyManager.cranked);
+        myAnimator.SetBool("brake", brake);
+        myAnimator.SetBool("isHanging", isHanging);
         myAnimator.SetBool("grab", isGrabbing);
         myAnimator.SetBool("hangWalk", hangWalk);
         myAnimator.SetBool("isFalling", isFalling);
@@ -49,7 +71,11 @@ public class PlayerCM2 : MonoBehaviour
             if (currentpos >= 0)
             {
                 moveSpeed = 0;
-                player.transform.position = new Vector3(0f, player.transform.position.y, player.transform.position.z);
+                player.transform.position = new Vector3(
+                    0f,
+                    player.transform.position.y,
+                    player.transform.position.z
+                );
                 posready = false;
             }
         }
@@ -58,6 +84,7 @@ public class PlayerCM2 : MonoBehaviour
             StartCoroutine(happyOn());
         }
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == ("stickmanspawn"))
@@ -65,42 +92,52 @@ public class PlayerCM2 : MonoBehaviour
             ragdollblow = true;
         }
     }
+
     public void ragdollspawn()
-    { 
+    {
         player.SetActive(false);
         GameObject stick = Instantiate(stickprefab);
         stick.transform.position = stickmanpoint.transform.position;
         ragdollblow = false;
     }
+
     public void playfootstep()
     {
         // TODO: Fix sound
         // footstep.Play(0);
     }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        life.ReduceLife();
-        ragDollTrigger = other;
-        other.enabled=false;
         if (other.gameObject.tag == ("jumper"))
         {
+            other.enabled = false;
             jump();
         }
-        if (other.gameObject.tag == ("stickmanspawn"))
+        else if (other.gameObject.tag == ("stickmanspawn"))
         {
+            life.ReduceLife();
+            ragDollTrigger = other;
+            other.enabled = false;
             ragdollspawn();
             RagdollV2.disableRagdoll = true;
             lost = false;
             standup = true;
         }
+        else
+            other.enabled = true;
     }
-    public void ToggleTrigger(){
+
+    public void ToggleTrigger()
+    {
         ragDollTrigger.enabled = true;
     }
+
     public void jump()
     {
         myRigidbody.velocity = new Vector2(moveSpeed, jumpforce);
     }
+
     IEnumerator happyOn()
     {
         yield return new WaitForSeconds(1);

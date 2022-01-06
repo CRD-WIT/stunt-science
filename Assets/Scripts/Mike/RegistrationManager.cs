@@ -14,7 +14,7 @@ public class RegistrationManager : MonoBehaviour
 
     void Start()
     {
-        settingsUI.ResetSettings(firebaseManager);
+        // settingsUI.ResetSettings(firebaseManager);
     }
 
     void Update()
