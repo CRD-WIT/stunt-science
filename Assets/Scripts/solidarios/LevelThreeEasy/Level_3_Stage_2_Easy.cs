@@ -8,9 +8,7 @@ using UnityEngine.UI;
 public class Level_3_Stage_2_Easy : MonoBehaviour
 {
     // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
-    public GameObject stuntGuideObjectPrefab;
+    public GameObject[] stuntGuideObjectPrefabs;
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide
@@ -173,9 +171,11 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     }
     void FixedUpdate()
     {
-        //Stunt Guide
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(true);
+        stuntGuideObjectPrefabs[2].SetActive(false);
         stuntGuideImage.sprite = stuntGuideImageSprite;
-        stuntGuideTextObject.text = stuntGuideText;
         
         questionController.errorText = "answer must not exceed 4 seconds";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
