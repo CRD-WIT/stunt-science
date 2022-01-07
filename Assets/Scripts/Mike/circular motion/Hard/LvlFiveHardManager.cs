@@ -46,6 +46,7 @@ public class LvlFiveHardManager : MonoBehaviour
     Rigidbody2D player;
     Grenade grenade;
     GameObject grenadeObj;
+    HeartManager life;
     StageManager sm = new StageManager();
 
     [SerializeField]
@@ -75,7 +76,7 @@ public class LvlFiveHardManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // PlayerPrefs.SetInt("Life", 3);
+        PlayerPrefs.SetInt("Life", 3);
         stage = 1;
         qc = FindObjectOfType<QuestionControllerVThree>();
         mm = FindObjectOfType<MechaManager>();
@@ -146,7 +147,6 @@ public class LvlFiveHardManager : MonoBehaviour
                     {
                         Debug.Log("Stage2");
                         elapsed = stuntTime;
-                        StartCoroutine(Grab());
                         if (adjustedAnswer == correctAnswer)
                         {
                             playerStopper2.enabled = true;
@@ -158,6 +158,7 @@ public class LvlFiveHardManager : MonoBehaviour
                             isAnswerCorrect = false;
                             messageTxt = "wrong";
                         }
+                        StartCoroutine(Grab());
                     }
                     break;
                 case 3:
@@ -178,10 +179,13 @@ public class LvlFiveHardManager : MonoBehaviour
                         {
                             mm.armRotation = 0;
                             mm.velocity = new Vector2(0, 0);
-                            mm.off =true;
+                            mm.off = true;
                             isEnd = true;
                             messageTxt = "correct";
-                        }else{
+                        }
+                        else
+                        {
+                            life.ReduceLife();
                             messageTxt = "wrong";
                         }
                         isAnswered = false;
@@ -194,13 +198,18 @@ public class LvlFiveHardManager : MonoBehaviour
         if (playerLanded)
         {
             float camDistanceFromRobot = mechaPos - camStartPos;
-            main.transform.position = new Vector3(mm.transform.position.x - camDistanceFromRobot, main.transform.position.y, -10);
+            main.transform.position = new Vector3(
+                mm.transform.position.x - camDistanceFromRobot,
+                main.transform.position.y,
+                -10
+            );
             if (isAnswerCorrect)
             {
                 playerStopper1.enabled = true;
             }
             else
             {
+                life.ReduceLife();
                 //ragdoll
             }
         }
@@ -445,15 +454,23 @@ public class LvlFiveHardManager : MonoBehaviour
 
     IEnumerator Grab()
     {
-        myPlayer.moveSpeed = 0;
-        playerAnim.speed = 1;
-        myPlayer.walking = false;
-        myPlayer.jumpHang = true;
-        yield return new WaitForEndOfFrame();
-        myPlayer.isHanging = true;
-        // playerStopper2.enabled =true;
+        if (isAnswerCorrect)
+        {
+            myPlayer.moveSpeed = 0;
+            playerAnim.speed = 1;
+            myPlayer.walking = false;
+            myPlayer.jumpHang = true;
+            yield return new WaitForEndOfFrame();
+            myPlayer.isHanging = true;
+            // playerStopper2.enabled =true;
+            mm.armRotation = -20;
+        }
+        else
+        {
+            life.ReduceLife();
+            //ragdoll
+        }
         isAnswered = false;
-        mm.armRotation = -20;
         yield return new WaitForSeconds(1);
         StartCoroutine(StuntResult());
     }

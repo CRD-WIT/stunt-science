@@ -59,7 +59,7 @@ public class Level5EasyManager : MonoBehaviour
                         elapsed = GearHangers.hangTime;
                         //float e = CustomRoundOff.Round(elapsed, 2);
                         CurvedLineFollower.arc = playerAnswer * elapsed;
-                        myPlayer.gameObject.transform.localScale = new Vector2(-0.4f, 0.4f);
+                        myPlayer.gameObject.transform.localScale = new Vector2(-1f, 1f);
                     }
                     else //(elapsed >= gameTime)
                     {
@@ -223,7 +223,6 @@ public class Level5EasyManager : MonoBehaviour
     {
         CurvedLineFollower.answerIs = null;
         stage = qc.stage;
-        Destroy(ragdoll);
         StartCoroutine(playerHeart.startBGgone());
         stage1Layout.SetActive(false);
         stage2Layout.SetActive(false);
@@ -347,6 +346,7 @@ public class Level5EasyManager : MonoBehaviour
     }
     void RetryButton()
     {
+        Destroy(ragdoll);
         qc.retried = false;
         myPlayer.gameObject.SetActive(true);
         Lvl5EasySetUp();
@@ -396,7 +396,7 @@ public class Level5EasyManager : MonoBehaviour
                 yield return new WaitForSeconds(0.7f);
                 myPlayer.brake = false;
                 myPlayer.gameObject.transform.position = new Vector2(myPlayer.gameObject.transform.position.x + 0.4f, myPlayer.gameObject.transform.position.y);
-                myPlayer.gameObject.transform.localScale = new Vector2(0.4f, 0.4f);
+                myPlayer.gameObject.transform.localScale = new Vector2(1f, 1f);
             }
             else if (stage == 2)
             {
