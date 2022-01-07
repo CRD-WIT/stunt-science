@@ -1,9 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class ProjectileHardThree : MonoBehaviour
 {
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide    
     AnswerGuards answerGuards = new AnswerGuards();
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
