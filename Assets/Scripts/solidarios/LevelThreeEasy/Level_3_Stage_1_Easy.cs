@@ -185,6 +185,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     {
         answer = questionController.GetPlayerAnswer();
         adjustedAnswer = questionController.AnswerTolerance(correctAnswer);
+        Debug.Log("Adjusted answer: "+adjustedAnswer);
         questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;

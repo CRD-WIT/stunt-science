@@ -153,9 +153,8 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     {
         //Stunt Guide        
         stuntGuideObjectPrefabs[0].SetActive(false);
-        stuntGuideObjectPrefabs[1].SetActive(true);
-        stuntGuideObjectPrefabs[2].SetActive(false);
-        stuntGuideImage.sprite = stuntGuideImageSprite;
+        stuntGuideObjectPrefabs[1].SetActive(false);
+        stuntGuideObjectPrefabs[2].SetActive(true);
 
         questionController.errorText = "answer must not exceed 5 seconds";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");

@@ -175,7 +175,6 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         stuntGuideObjectPrefabs[0].SetActive(false);
         stuntGuideObjectPrefabs[1].SetActive(true);
         stuntGuideObjectPrefabs[2].SetActive(false);
-        stuntGuideImage.sprite = stuntGuideImageSprite;
         
         questionController.errorText = "answer must not exceed 4 seconds";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
