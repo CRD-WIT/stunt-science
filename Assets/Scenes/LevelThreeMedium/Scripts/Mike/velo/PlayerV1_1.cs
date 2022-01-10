@@ -40,7 +40,6 @@ public class PlayerV1_1 : MonoBehaviour
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundedRadius, whatIsGround);
         currentpos = player.transform.position.x;
 
-
         myRigidbody.velocity = new Vector2(moveSpeed, myRigidbody.velocity.y);
         myAnimator.SetFloat("speed", myRigidbody.velocity.x);
         myAnimator.SetBool("lost", lost);
@@ -105,7 +104,6 @@ public class PlayerV1_1 : MonoBehaviour
     }
     public void positioning()
     {
-
         moveSpeed = 4;
         posready = true;
     }

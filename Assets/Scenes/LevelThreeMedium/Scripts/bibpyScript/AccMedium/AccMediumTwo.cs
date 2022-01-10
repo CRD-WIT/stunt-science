@@ -6,9 +6,7 @@ using TMPro;
 public class AccMediumTwo : MonoBehaviour
 {
     // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
-    public GameObject stuntGuideObjectPrefab;
+    public GameObject[] stuntGuideObjectPrefabs;
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide
@@ -58,6 +56,12 @@ public class AccMediumTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(true);
+        stuntGuideObjectPrefabs[2].SetActive(false);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+
         
         debugAnswer.SetText($"Answer: {correctAnswer}");
         chopperCurrentPos = theChopper.transform.position.x;

@@ -43,32 +43,32 @@ public class WheelTooth : MonoBehaviour
     }
     
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.transform.parent.name == "tooth"){
+        if(this.transform.parent.name == "tooth"){
             if(other.gameObject.name == "exit"){
                 GameObject parent = GameObject.Find("tooth");
                 this.gameObject.transform.position = new Vector2(parent.transform.Find("entry").position.x + 0.1f, parent.transform.Find("entry").position.y);
             }
-            else{
+            else if(other.gameObject.name == "entry"){
                 GameObject parent = GameObject.Find("tooth");
                 this.gameObject.transform.position = new Vector2(parent.transform.Find("exit").position.x - 0.1f, parent.transform.Find("exit").position.y);
             }
         }
-        else if(other.transform.parent.name == "tooth1"){
+        else if(this.transform.parent.name == "tooth1"){
             if(other.gameObject.name == "exit"){
                 GameObject parent = GameObject.Find("tooth1");
                 this.gameObject.transform.position = new Vector2(parent.transform.Find("entry").position.x - 0.1f, parent.transform.Find("entry").position.y -0.1f);
             }
-            else{
+            else if(other.gameObject.name == "entry"){
                 GameObject parent = GameObject.Find("tooth1");
                 this.gameObject.transform.position = new Vector2(parent.transform.Find("exit").position.x + 0.1f, parent.transform.Find("exit").position.y+ 0.1f);
             }
         }
-        else if(other.transform.parent.name == "tooth2"){
+        else if(this.transform.parent.name == "tooth2"){
             if(other.gameObject.name == "exit"){
                 GameObject parent = GameObject.Find("tooth2");
                 this.gameObject.transform.position = new Vector2(parent.transform.Find("entry").position.x - 0.1f, parent.transform.Find("entry").position.y +0.1f);
             }
-            else{
+            else if(other.gameObject.name == "entry"){
                 GameObject parent = GameObject.Find("tooth2");
                 this.gameObject.transform.position = new Vector2(parent.transform.Find("exit").position.x + 0.1f, parent.transform.Find("exit").position.y- 0.1f);
             }

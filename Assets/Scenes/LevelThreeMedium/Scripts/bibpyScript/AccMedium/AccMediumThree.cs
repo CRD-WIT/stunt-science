@@ -4,10 +4,8 @@ using TMPro;
 using UnityEngine.UI;
 public class AccMediumThree : MonoBehaviour
 {
-        // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
-    public GameObject stuntGuideObjectPrefab;
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
     public Image stuntGuideImage;
     public Sprite stuntGuideImageSprite;
     // End of Stunt Guide
@@ -69,6 +67,12 @@ public class AccMediumThree : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(false);
+        stuntGuideObjectPrefabs[2].SetActive(true);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+
         min = correctAnswer - 0.01f;
         max = correctAnswer + 0.01f;
         debugAnswer.SetText($"Answer: {correctAnswer}");

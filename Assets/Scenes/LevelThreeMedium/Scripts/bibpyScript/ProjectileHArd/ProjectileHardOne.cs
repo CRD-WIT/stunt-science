@@ -1,9 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class ProjectileHardOne : MonoBehaviour
 {
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     AnswerGuards answerGuards = new AnswerGuards();
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
@@ -55,7 +61,7 @@ public class ProjectileHardOne : MonoBehaviour
     void FixedUpdate()
     {
         min = correctAnswer - 0.01f;
-        max = correctAnswer + 0.01f; 
+        max = correctAnswer + 0.01f;
         debugAnswer.SetText($"Answer: {correctAnswer}");
         golemInitial.transform.position = theGolem.transform.position;
         lineAngle.transform.position = stone.transform.position;
@@ -147,20 +153,20 @@ public class ProjectileHardOne : MonoBehaviour
 
         if (theQuestion.isSimulating == true)
         {
-             if(ProjHardSimulation.playerAnswer <= max  &  ProjHardSimulation.playerAnswer >= min)
+            if (ProjHardSimulation.playerAnswer <= max & ProjHardSimulation.playerAnswer >= min)
             {
                 ProjHardSimulation.playerAnswer = correctAnswer;
                 Debug.Log("inRange");
-                
+
             }
             else
             {
-               Debug.Log("notInRange");
+                Debug.Log("notInRange");
             }
-            setAnswer = true; 
+            setAnswer = true;
 
         }
-        if(setAnswer)
+        if (setAnswer)
         {
             theQuestion.isSimulating = false;
             timeStart = true;
@@ -267,7 +273,7 @@ public class ProjectileHardOne : MonoBehaviour
     {
         theArrow[0].showIndicator = false;
         indicatorReady = false;
-        
+
         if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             hit.SetActive(true);
@@ -326,7 +332,7 @@ public class ProjectileHardOne : MonoBehaviour
         arrow.transform.position = transform.position;
         gunShot.Play();
         maneuverGear.Play();
-        
+
         if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             arrow.GetComponent<Rigidbody2D>().velocity = transform.right * (vi);
@@ -368,7 +374,7 @@ public class ProjectileHardOne : MonoBehaviour
         {
             //TODO: reduceLife
         }
-        
+
         if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), true, false);

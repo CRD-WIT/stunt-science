@@ -5,12 +5,6 @@ using TMPro;
 
 public class ProjHardSimulation : MonoBehaviour
 {
-    // Stunt Guide
-    public Text stuntGuideTextObject;
-    public string stuntGuideText;
-    public Image stuntGuideImage;
-    public Sprite stuntGuideImageSprite;
-    // End of Stunt Guide
     public Button playButton;
     public TMP_InputField answerField;
     public GameObject directorBubble, trail, projectTrail, exitBg, arrowShadow;
@@ -38,9 +32,6 @@ public class ProjHardSimulation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Stunt Guide
-        stuntGuideImage.sprite = stuntGuideImageSprite;
-        stuntGuideTextObject.text = stuntGuideText;
 
         if (takeNumber == 1)
         {
