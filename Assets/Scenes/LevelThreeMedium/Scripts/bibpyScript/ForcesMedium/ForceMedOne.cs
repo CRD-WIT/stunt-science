@@ -14,6 +14,7 @@ public class ForceMedOne : MonoBehaviour
     public GameObject  stopper2, dimensions;
     public GameObject box1;
     public QuestionContForcesMed theQuestion;
+    public HeartManager theHeart;
 
     public ZombieMedium[] theZombie;
     Vector2 playerStartPoint, boxStartPoint,zombie0StartPoint,zombie1StartPoint,zombie2StartPoint,zombie3StartPoint;
@@ -21,6 +22,7 @@ public class ForceMedOne : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetInt("Life",3);
         playerStartPoint = thePlayer.transform.position;
         boxStartPoint = box1.transform.position;
         zombie0StartPoint = theZombie[0].transform.position;
@@ -138,7 +140,10 @@ public class ForceMedOne : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         if (theSimulate.playerAnswer != correctAnswer)
         {
-            yield return new WaitForSeconds(2);
+            // theZombie[0].moveSpeed = 0;
+            // theZombie[1].moveSpeed = 0;
+            theHeart.losinglife();
+            yield return new WaitForSeconds(4);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able to positioned the box on the target"), false, false);
 
         }

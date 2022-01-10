@@ -14,6 +14,7 @@ public class ForceMedThree : MonoBehaviour
     public GameObject dimensions, elevator;
     public GameObject box3, targetPos;
     public QuestionContForcesMed theQuestion;
+    public HeartManager theHeart;
 
     public ZombieMedium[] theZombie;
     public Vector2 playerStartPoint, boxStartPoint, zombie0StartPoint, zombie1StartPoint, zombie2StartPoint, zombie3StartPoint,elevatorStartPoint;
@@ -41,7 +42,7 @@ public class ForceMedThree : MonoBehaviour
          elevator.GetComponent<Rigidbody2D>().velocity = new Vector2(0,elevatorSpeed);
         if (preset)
         {
-            accelerationBox = ((2 * totalDistance) / (time * time)) + .02f;
+            accelerationBox = ((2 * totalDistance) / (time * time));
             initialForce = massBox * accelerationBox;
             zombieFinalForce = zombieForce - friction;
             correctAnswer = (float)System.Math.Round(zombieFinalForce - initialForce, 2);
@@ -113,6 +114,7 @@ public class ForceMedThree : MonoBehaviour
     }
     public void showProblem()
     {
+        elevator.GetComponent<Rigidbody2D>().bodyType =  RigidbodyType2D.Dynamic;
         elevatorSpeed = 0;
         elevator.transform.position = elevatorStartPoint;
         dimensions.SetActive(true);
@@ -156,6 +158,7 @@ public class ForceMedThree : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         if (theSimulate.playerAnswer != correctAnswer)
         {
+            theHeart.losinglife();
             yield return new WaitForSeconds(2);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able to positioned the box on the target"), false, false);
 
@@ -165,5 +168,6 @@ public class ForceMedThree : MonoBehaviour
     {
         yield return new WaitForSeconds(8.5f);
         elevatorSpeed = 0;
+        elevator.GetComponent<Rigidbody2D>().bodyType =  RigidbodyType2D.Static;
     }
 }

@@ -14,6 +14,7 @@ public class ForceMedTwo : MonoBehaviour
     public GameObject  stopper2, dimensions,elevator;
     public GameObject box2,targetPos;
     public QuestionContForcesMed theQuestion;
+    public HeartManager theHeart;
 
     public ZombieMedium[] theZombie;
     Vector2 playerStartPoint, boxStartPoint,zombie0StartPoint,zombie1StartPoint,zombie2StartPoint,zombie3StartPoint;
@@ -136,6 +137,7 @@ public class ForceMedTwo : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         if (theSimulate.playerAnswer != correctAnswer)
         {
+            theHeart.losinglife();
             yield return new WaitForSeconds(2);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able to positioned the box on the target"), false, false);
 
