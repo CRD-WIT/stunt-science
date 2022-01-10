@@ -31,8 +31,7 @@ public class ProjHardSimulation : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-
+    {    
         if (takeNumber == 1)
         {
             take = "One";

@@ -60,6 +60,11 @@ public class ProjectileHardOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        stuntGuideObjectPrefabs[0].SetActive(true);
+        stuntGuideObjectPrefabs[1].SetActive(false);
+        stuntGuideObjectPrefabs[2].SetActive(false);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+
         min = correctAnswer - 0.01f;
         max = correctAnswer + 0.01f;
         debugAnswer.SetText($"Answer: {correctAnswer}");
