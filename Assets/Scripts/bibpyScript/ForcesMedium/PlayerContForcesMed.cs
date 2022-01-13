@@ -5,11 +5,11 @@ using UnityEngine;
 public class PlayerContForcesMed : MonoBehaviour
 {
     public float moveSpeed, groundedRadius, jumpforce;
-    private Rigidbody2D myRigidbody;
+    public Rigidbody2D myRigidbody;
     public Animator myAnimator;
     public GameObject player, stickprefab, stickmanpoint, skirt, hair;
     public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang,
-        isLanded, thrown,push;
+        isLanded, thrown,push, idlePush;
     public AudioSource footstep;
     float currentpos;
     public LayerMask whatIsGround;
@@ -71,6 +71,7 @@ public class PlayerContForcesMed : MonoBehaviour
         // myAnimator.SetBool("landed", isLanded);
         // myAnimator.SetBool("throw", thrown);
          myAnimator.SetBool("push", push);
+          myAnimator.SetBool("idlePush", idlePush);
         if (posready == true)
         {
             if (currentpos >= 0)
