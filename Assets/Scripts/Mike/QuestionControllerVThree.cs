@@ -23,7 +23,7 @@ public class QuestionControllerVThree : MonoBehaviour
     int passedLevel;
     [SerializeField] bool timerOn = false, loaded = false;
     [SerializeField] TMP_InputField answerFieldHorizontal;
-    [SerializeField] Transform difficultyName, stageName;
+    public Transform difficultyName, stageName;
     public string modalText, errorText;
     [SerializeField] bool popupVisible, extraOn;
     public FirebaseManager firebaseManager;
@@ -44,9 +44,7 @@ public class QuestionControllerVThree : MonoBehaviour
         levelBadge = baseComponent.Find("LevelBadge");
 
         Transform[] components = { baseComponent, modalComponentHorizontal.transform, extraComponent };
-        problemBox = baseComponent.Find("ProblemBox");
-        stageName = problemBox.Find("StageBar2").Find("StageName");
-        difficultyName = problemBox.Find("StageBar3").Find("DifficultyName");
+        problemBox = baseComponent.Find("ProblemBox");       
 
         givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
         correctAnswerColor = new Color32(150, 217, 72, 255);
