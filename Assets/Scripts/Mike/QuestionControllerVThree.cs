@@ -9,7 +9,7 @@ public class QuestionControllerVThree : MonoBehaviour
     float playerAnswer;
     public accSimulation simulationManager;
     public float limit = 0;
-    private Transform baseComponent, problemBox, extraComponent, levelBadge;
+     Transform baseComponent, problemBox, extraComponent, levelBadge;
     public bool answerIsCorrect = false, isModalOpen = true, isSimulating, nextStage, retried;
     public Color correctAnswerColor, givenColor, wrongAnswerColor;
     public Difficulty levelDifficulty;
