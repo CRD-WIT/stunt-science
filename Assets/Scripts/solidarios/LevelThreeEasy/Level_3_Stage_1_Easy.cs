@@ -100,7 +100,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         showResult = true;
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
         // Given
-        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(1f, 1.5f), 2);
+        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(1f, 1.3f), 2);
         gravityGiven = Physics2D.gravity;
 
         // Formula
@@ -244,7 +244,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         stuntGuideObjectPrefabs[2].SetActive(false);
         stuntGuideImage.sprite = stuntGuideImageSprite;
         
-        questionController.errorText = "answer must not exceed your current distance from the branch";
+        questionController.errorText = "Answer must not exceed your current distance from the branch.";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
         if (directorIsCalling)
