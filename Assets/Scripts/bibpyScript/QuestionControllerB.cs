@@ -69,6 +69,7 @@ public class QuestionControllerB : MonoBehaviour
         {
             difficultyName.GetComponent<TMP_Text>().text = difficulty;
         }
+        
 
         life = FindObjectOfType<HeartManager>();
 

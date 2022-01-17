@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+// using System.Collections.Generic;
 using UnityEngine;
 // using Firebase;
 // using Firebase.Firestore;
@@ -24,7 +24,6 @@ public class FirebaseManager : MonoBehaviour
     public async void CheckIfKeyCodeValid(Action callback)
     {
         bool isValid;
-
     }
 
 #nullable enable

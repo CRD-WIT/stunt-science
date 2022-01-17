@@ -11,11 +11,11 @@ public class CurvedLineFollower : MonoBehaviour
     float angle, x, y, xSL, ySL;
     public static float arc, stage;
     public static bool? answerIs;
-    QuestionControllerVThree qc;
+    QuestionController2_0_1 qc;
     // Start is called before the first frame update
     void Start()
     {
-        qc = FindObjectOfType<QuestionControllerVThree>();
+        qc = FindObjectOfType<QuestionController2_0_1>();
         line = gameObject.GetComponent<LineRenderer>();
         line.positionCount = 51;
         line.useWorldSpace = false;

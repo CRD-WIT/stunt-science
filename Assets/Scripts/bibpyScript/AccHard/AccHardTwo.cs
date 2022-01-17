@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class AccHardTwo : MonoBehaviour
 {
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     public float dX, dY, viT, aT, timer, vB, angleB, angleA, sideB, sideC, overlapDistance, correctAnswer, answer, playerAnswer, truckDistance, targetDistance;
     //public Quaternion angleB;
     public GameObject gunBarrel, gun, target, targetWheel, projectileLine, dimensions, cam, directorPlatform;
@@ -48,6 +53,12 @@ public class AccHardTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+                //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(true);
+        stuntGuideObjectPrefabs[2].SetActive(false);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+        
         targetSignAge.transform.position = new Vector3(targetWheel.transform.position.x-2, targetWheel.transform.position.y, -5);
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer,2)}");
         truckInitials.transform.position = theTruck.transform.position;

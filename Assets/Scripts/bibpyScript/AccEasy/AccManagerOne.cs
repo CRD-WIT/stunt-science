@@ -1,10 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class AccManagerOne : MonoBehaviour
 {
-
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     string stuntResultMessage;
     bool answerIsCorrect;
     public TMP_Text debugAnswer;
@@ -35,12 +40,14 @@ public class AccManagerOne : MonoBehaviour
     public QuestionControllerAcceleration theQuestion;
     public AudioSource engineIdle, engineRunning;
     AnswerGuards answerGuards = new AnswerGuards();
-    float min,max;
+    StageManager sm = new StageManager();
+    float min, max;
 
     bool setAnswer;
 
     void Start()
     {
+        
         //Vitxt.text = ("v = ") + thePlayer.moveSpeed.ToString("F2") + ("m/s");
         theQuestion.SetGameLevel(2);
         bikeInitialsPos = bikeInitials.transform.position;
@@ -73,7 +80,14 @@ public class AccManagerOne : MonoBehaviour
         theSimulation.retry();
     }
     void FixedUpdate()
-    {
+    {    
+        //Stunt Guide  
+        sm.SetGameLevel(2);      
+        stuntGuideObjectPrefabs[0].SetActive(true);
+        stuntGuideObjectPrefabs[1].SetActive(false);
+        stuntGuideObjectPrefabs[2].SetActive(false);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+
         debugAnswer.SetText($"Answer: {correctAns}");
 
         playerDistance = (time * time) * accelaration / 2;
@@ -103,12 +117,12 @@ public class AccManagerOne : MonoBehaviour
         }
         if (theQuestion.isSimulating)
         {
-            
-            if(accSimulation.playerAnswer < max & accSimulation.playerAnswer > min)
+
+            if (accSimulation.playerAnswer < max & accSimulation.playerAnswer > min)
             {
                 accelaration = correctAns;
                 Debug.Log("inRange");
-        
+
             }
             else
             {

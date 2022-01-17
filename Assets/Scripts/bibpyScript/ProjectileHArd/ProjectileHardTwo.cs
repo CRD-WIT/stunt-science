@@ -1,9 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class ProjectileHardTwo : MonoBehaviour
 {
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     AnswerGuards answerGuards = new AnswerGuards();
     public TMP_Text debugAnswer;
     public playerProjectile thePlayer;
@@ -49,8 +55,13 @@ public class ProjectileHardTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(true);
+        stuntGuideObjectPrefabs[2].SetActive(false);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+
         min = correctAnswer - 0.01f;
-        max = correctAnswer + 0.01f; 
+        max = correctAnswer + 0.01f;
         debugAnswer.SetText($"Answer: {correctAnswer}");
         golemInitial.transform.position = theGolem.transform.position;
         playerInitials.transform.position = thePlayer.transform.position;
@@ -100,19 +111,19 @@ public class ProjectileHardTwo : MonoBehaviour
         }
         if (theQuestion.isSimulating == true)
         {
-             if(ProjHardSimulation.playerAnswer <= max  &  ProjHardSimulation.playerAnswer >= min)
+            if (ProjHardSimulation.playerAnswer <= max & ProjHardSimulation.playerAnswer >= min)
             {
                 ProjHardSimulation.playerAnswer = correctAnswer;
                 Debug.Log("inRange");
-                
+
             }
             else
             {
-               Debug.Log("notInRange");
+                Debug.Log("notInRange");
             }
-            setAnswer = true; 
+            setAnswer = true;
         }
-        if(setAnswer)
+        if (setAnswer)
         {
             theQuestion.isSimulating = false;
             playerProjectileTime = finalDistance / (Mathf.Cos((angle * Mathf.Deg2Rad)) * ((Vo - ProjSimulationManager.playerAnswer) + Vo));
@@ -186,7 +197,7 @@ public class ProjectileHardTwo : MonoBehaviour
     {
         theArrow[0].showIndicator = false;
         indicatorReady = false;
-        
+
         if (ProjHardSimulation.playerAnswer == correctAnswer)
         {
             hit.SetActive(true);

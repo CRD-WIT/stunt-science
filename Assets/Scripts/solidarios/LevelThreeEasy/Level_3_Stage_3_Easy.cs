@@ -8,7 +8,11 @@ using UnityEngine.UI;
 
 public class Level_3_Stage_3_Easy : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     string question;
     public float elapsed;
     public GameObject platformCollider, callout;
@@ -47,7 +51,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
 
     void Start()
     {
-        firebaseManager.GameLogMutation(3,3, "Easy", Actions.Started, 0); 
+        firebaseManager.GameLogMutation(3, 3, "Easy", Actions.Started, 0);
         // Given 
         ShowResult = true;
         timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(20f, 25f), 2);
@@ -110,7 +114,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     {
         //messageFlag = false;
         yield return new WaitForSeconds(2f);
-        
+
         callback();
     }
 
@@ -139,7 +143,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
         // cameraScript.isStartOfStunt = true;
         // questionController.SetAnswer();
         answer = questionController.GetPlayerAnswer();
-        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);     
+        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);
         questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;
@@ -147,6 +151,11 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
 
     void FixedUpdate()
     {
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(false);
+        stuntGuideObjectPrefabs[2].SetActive(true);
+
         questionController.errorText = "answer must not exceed 5 seconds";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
         if (directorIsCalling)
@@ -255,10 +264,10 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
         {
             life.ReduceLife();
         }
-         isComplete = false;
+        isComplete = false;
         yield return new WaitForSeconds(.2f);
         isEndOfStunt = true;
-       
+
 
     }
     public IEnumerator DirectorsCall()

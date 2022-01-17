@@ -1,9 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class AccMediumTwo : MonoBehaviour
 {
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     public GameObject hangingRagdoll1, hangingRagdoll2, ropeTip1, ropeTip2, ragdollPrefab, stickmanPoint, windshield, driver, glass, glassPos, vanCollider;
     public GameObject carInitial, chopperInitial, carArrow, chopperArrow, ragdollPause,distanceMeter;
     public PlayerB thePlayer;
@@ -50,6 +56,12 @@ public class AccMediumTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(true);
+        stuntGuideObjectPrefabs[2].SetActive(false);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+
         
         debugAnswer.SetText($"Answer: {correctAnswer}");
         chopperCurrentPos = theChopper.transform.position.x;

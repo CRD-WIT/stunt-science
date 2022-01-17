@@ -1,9 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class AccManagerThree : MonoBehaviour
 {
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     AnswerGuards answerGuards = new AnswerGuards();
     public float Vi;
     public float Vf;
@@ -48,6 +54,12 @@ public class AccManagerThree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(false);
+        stuntGuideObjectPrefabs[2].SetActive(true);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+
         engineRunning.Stop();
         timer = 0;
         //theQuestion.stageNumber = 3;
@@ -79,7 +91,7 @@ public class AccManagerThree : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {
+    {        
         min = correctAns - 0.02f;
         max = correctAns + 0.02f;
         correctAns = (float)System.Math.Round(generateAns, 2);
@@ -96,24 +108,24 @@ public class AccManagerThree : MonoBehaviour
 
         if (theQuestion.isSimulating)
         {
-           
-            if(accSimulation.playerAnswer < max & accSimulation.playerAnswer  > min)
+
+            if (accSimulation.playerAnswer < max & accSimulation.playerAnswer > min)
             {
                 Vi = correctAns;
                 Debug.Log("inRange");
-        
+
             }
             else
             {
                 Vi = theQuestion.GetPlayerAnswer();
             }
-            setAnswer = true; 
+            setAnswer = true;
 
         }
-        if(setAnswer)
+        if (setAnswer)
         {
             theQuestion.isSimulating = false;
-             gas = true;
+            gas = true;
 
             if (Vi != correctAns)
             {

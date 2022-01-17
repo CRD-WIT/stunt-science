@@ -1,9 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class AccManagerTwo : MonoBehaviour
 {
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     AnswerGuards answerGuards = new AnswerGuards();
     string stuntResultMessage;
     public float Vi;
@@ -32,7 +38,7 @@ public class AccManagerTwo : MonoBehaviour
     public QuestionControllerAcceleration theQuestion;
     public TMP_Text debugAnswer;
     public AudioSource engineIdle, engineRunning;
-    bool  setAnswer;
+    bool setAnswer;
     float min, max;
 
     // Start is called before the first frame update
@@ -63,6 +69,13 @@ public class AccManagerTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(true);
+        stuntGuideObjectPrefabs[2].SetActive(false);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+
         min = correctAns - 0.02f;
         max = correctAns + 0.02f;
         debugAnswer.SetText($"Answer: {correctAns}");
@@ -99,25 +112,25 @@ public class AccManagerTwo : MonoBehaviour
 
         if (theQuestion.isSimulating)
         {
-            if(accSimulation.playerAnswer < max & accSimulation.playerAnswer > min)
+            if (accSimulation.playerAnswer < max & accSimulation.playerAnswer > min)
             {
                 time = correctAns;
                 Debug.Log("inRange");
-        
+
             }
             else
             {
                 time = theQuestion.GetPlayerAnswer();
             }
-            setAnswer = true; 
+            setAnswer = true;
         }
-        if(setAnswer)
+        if (setAnswer)
         {
             theQuestion.isSimulating = false;
             Debug.Log("Now simulating...");
             directionArrow.SetActive(false);
             gas = true;
-            
+
             if (time != correctAns)
             {
                 // actiontxt.text = "retry";
@@ -143,7 +156,7 @@ public class AccManagerTwo : MonoBehaviour
                     stuntResultMessage = $"{PlayerPrefs.GetString("Name")} deccelerates the motorcycle too slow and undershot the tunnel entrance. The correct answer is </color> {correctAns.ToString("F2")} seconds.";
                 }
             }
-            
+
             if (answerGuards.AnswerIsInRange(correctAns, time, 0.01f))
             {
                 actiontxt.text = "Next";
@@ -219,7 +232,7 @@ public class AccManagerTwo : MonoBehaviour
         {
             theQuestion.timer = "0.00s";
         }
-    }    
+    }
     public void generateProblem()
     {
         engineIdle.Play();

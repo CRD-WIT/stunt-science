@@ -10,35 +10,43 @@ public class Level5EasyManager : MonoBehaviour
     [SerializeField]
     GameObject gear3, playerHangerTrigger1, playerHangerTrigger2, playerHangerTrigger3, ragdollPrefab, stage1Layout,
                 stage2Layout, stage3Layout, gearSet, directorsBubble, ragdoll, directorPlatform, UI1, UI2, UI3;
-    [SerializeField] PlayerV1_1 myPlayer;
+    // [SerializeField] PlayerCM2 myPlayer;
     [SerializeField] float elapsed, aVelocity, gameTime, angle;
     [SerializeField] int stage;
     [SerializeField] Rigidbody2D gearRB, player;
     [SerializeField] Animator crank;
     [SerializeField] Transform safeZone;
     [SerializeField] PolygonCollider2D slider;
+    [SerializeField] PlayerCM2 myPlayer;
     Vector2 playerPos;
     StageManager sm = new StageManager();
     RoundOffHandler CustomRoundOff = new RoundOffHandler();
-    HeartManager playerHeart;
-    QuestionControllerVThree qc;
+    HeartManager2 life;
+    QuestionController2_0_1 qc;
+    ScoreManager score;
+    ButtonSelector btnSelect;
+    ButtonSelector1 btnSelect1;
     string pronoun, pNoun, playerName, playerGender, messageTxt, question;
-    bool directorIsCalling, isStartOfStunt, stuntReady, DC, isCranking, crankingDone, crankReset, DCisOn, isAnswerCorect;
+    bool directorIsCalling, isStartOfStunt, stuntReady, DC, isCranking, crankingDone, crankReset, DCisOn, isAnswerCorect, isEnd = false;
     public static bool isHanging, cranked, isAnswered;
     public static float playerAnswer, gear2Speed;
     void Start()
     {
-        myPlayer = FindObjectOfType<PlayerV1_1>();
-        playerHeart = FindObjectOfType<HeartManager>();
-        qc = FindObjectOfType<QuestionControllerVThree>();
+        myPlayer = FindObjectOfType<PlayerCM2>();
+        life = FindObjectOfType<HeartManager2>();
+        qc = FindObjectOfType<QuestionController2_0_1>();
+        score = FindObjectOfType<ScoreManager>();
+        btnSelect = FindObjectOfType<ButtonSelector>();
+        btnSelect1 = FindObjectOfType<ButtonSelector1>();
         qc.stage = 1;
         isAnswered = false;
-        sm.SetGameLevel(5);
-        sm.SetDifficulty(1);
+        sm.SetGameLevel(4);
         playerName = PlayerPrefs.GetString("Name");
         playerGender = PlayerPrefs.GetString("Gender");
         playerPos = myPlayer.transform.position;
         player = myPlayer.gameObject.GetComponent<Rigidbody2D>();
+        qc.levelDifficulty = Difficulty.Easy;
+        PlayerPrefs.SetInt("Life", 3);
         Lvl5EasySetUp();
     }
     void Update()
@@ -55,11 +63,12 @@ public class Level5EasyManager : MonoBehaviour
                 case 1:
                     if (elapsed < gameTime)
                     {
+                        isHanging = true;
                         qc.timer = elapsed.ToString("f2") + "s";
                         elapsed = GearHangers.hangTime;
                         //float e = CustomRoundOff.Round(elapsed, 2);
                         CurvedLineFollower.arc = playerAnswer * elapsed;
-                        myPlayer.gameObject.transform.localScale = new Vector2(-0.4f, 0.4f);
+                        myPlayer.gameObject.transform.localScale = new Vector2(-1f, 1f);
                     }
                     else //(elapsed >= gameTime)
                     {
@@ -75,7 +84,7 @@ public class Level5EasyManager : MonoBehaviour
                         {
                             isAnswerCorect = false;
                             RagdollSpawn();
-                            playerHeart.ReduceLife();
+                            life.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
                                 messageTxt = "<b>" + playerName + "</b> spinned the gear too slow and " + pronoun + " fell down too soon before the release point.\nThe correct answer is <color=red>" + aVelocity + "°/s</color>.";
@@ -103,7 +112,7 @@ public class Level5EasyManager : MonoBehaviour
                         if (playerAnswer == gameTime)
                         {
                             isAnswerCorect = true;
-                            CurvedLineFollower.arc = gameTime * playerAnswer;
+                            CurvedLineFollower.arc = 118;
                             qc.timer = gameTime.ToString("f2") + "s";
                             messageTxt = "<b>" + playerName + "</b> has crossed <color=green>safely</color> at the other platform!";
                         }
@@ -112,7 +121,7 @@ public class Level5EasyManager : MonoBehaviour
                             isAnswerCorect = false;
                             CurvedLineFollower.arc = aVelocity * playerAnswer;
                             qc.timer = playerAnswer.ToString("f2") + "s";
-                            playerHeart.ReduceLife();
+                            life.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
                                 messageTxt = "<b>" + playerName + "</b> tried to grab the pipe too soon and " + pronoun + " fell down.\nThe correct answer is <color=red>" + gameTime + "s</color>.";
@@ -143,13 +152,14 @@ public class Level5EasyManager : MonoBehaviour
                             slider.enabled = false;
                             CurvedLineFollower.arc = playerAnswer;
                             isAnswerCorect = true;
+                            isEnd =true;
                             messageTxt = "<b>" + playerName + "</b> has <color=green>entered</color> the tunnel!";
                         }
                         else
                         {
                             RagdollSpawn();
                             isAnswerCorect = false;
-                            playerHeart.ReduceLife();
+                            life.ReduceLife();
                             if (playerAnswer < angle)
                             {
                                 messageTxt = "<b>" + playerName + "</b> grab the gear too near from the release point and " + pronoun + " overshoot the tunnel entrance.\nThe correct answer is <color=red>" + angle + "°</color>.";
@@ -223,13 +233,12 @@ public class Level5EasyManager : MonoBehaviour
     {
         CurvedLineFollower.answerIs = null;
         stage = qc.stage;
-        Destroy(ragdoll);
-        StartCoroutine(playerHeart.startBGgone());
+        StartCoroutine(life.startBGgone());
         stage1Layout.SetActive(false);
         stage2Layout.SetActive(false);
         stage3Layout.SetActive(false);
         myPlayer.gameObject.SetActive(true);
-        playerHeart.losslife = false;
+        life.losslife = false;
         myPlayer.happy = false;
         DC = true;
         DCisOn = false;
@@ -258,7 +267,7 @@ public class Level5EasyManager : MonoBehaviour
         {
             case 1:
                 qc.SetUnitTo(UnitOf.angularVelocity);
-                qc = UI1.gameObject.GetComponent<QuestionControllerVThree>();
+                qc = UI1.gameObject.GetComponent<QuestionController2_0_1>();
                 qc.stage = 1;
                 qc.timer = "0.00s";
                 qc.Unit(UnitOf.angularVelocity);
@@ -276,7 +285,7 @@ public class Level5EasyManager : MonoBehaviour
                 break;
             case 2:
                 qc.SetUnitTo(UnitOf.time);
-                qc = UI2.gameObject.GetComponent<QuestionControllerVThree>();
+                qc = UI2.gameObject.GetComponent<QuestionController2_0_1>();
                 qc.stage = 2;
                 qc.Unit(UnitOf.time);
                 qc.timer = "0.00s";
@@ -302,7 +311,7 @@ public class Level5EasyManager : MonoBehaviour
                 break;
             case 3:
                 qc.SetUnitTo(UnitOf.angle);
-                qc = UI3.gameObject.GetComponent<QuestionControllerVThree>();
+                qc = UI3.gameObject.GetComponent<QuestionController2_0_1>();
                 qc.stage = 3;
                 qc.Unit(UnitOf.angle);
                 slider.enabled = true;
@@ -347,6 +356,7 @@ public class Level5EasyManager : MonoBehaviour
     }
     void RetryButton()
     {
+        Destroy(ragdoll);
         qc.retried = false;
         myPlayer.gameObject.SetActive(true);
         Lvl5EasySetUp();
@@ -354,7 +364,7 @@ public class Level5EasyManager : MonoBehaviour
     void NextButton()
     {
         qc.nextStage = false;
-        myPlayer.SetEmotion("");
+        // myPlayer.SetEmotion("");
         StartCoroutine(ExitStage());
     }
     public IEnumerator DirectorsCall()
@@ -396,7 +406,7 @@ public class Level5EasyManager : MonoBehaviour
                 yield return new WaitForSeconds(0.7f);
                 myPlayer.brake = false;
                 myPlayer.gameObject.transform.position = new Vector2(myPlayer.gameObject.transform.position.x + 0.4f, myPlayer.gameObject.transform.position.y);
-                myPlayer.gameObject.transform.localScale = new Vector2(0.4f, 0.4f);
+                myPlayer.gameObject.transform.localScale = new Vector2(1f, 1f);
             }
             else if (stage == 2)
             {
@@ -424,7 +434,7 @@ public class Level5EasyManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         myPlayer.moveSpeed = 5;
         yield return new WaitForSeconds(2f);
-        StartCoroutine(playerHeart.endBGgone());
+        // StartCoroutine(life.endBGgone());
         yield return new WaitForSeconds(2.8f);
         myPlayer.transform.position = new Vector2(0f, myPlayer.transform.position.y);
         myPlayer.moveSpeed = 0;
@@ -453,7 +463,7 @@ public class Level5EasyManager : MonoBehaviour
         directorIsCalling = true;
         isStartOfStunt = false;
         yield return new WaitForSeconds(3f);
-        qc.ActivateResult(messageTxt, isAnswerCorect);
+        qc.ActivateResult(messageTxt, isAnswerCorect, isEnd);
     }
     IEnumerator Cranking()
     {

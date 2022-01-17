@@ -54,7 +54,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
         correctAnswerColor = new Color32(150, 217, 72, 255);
         wrongAnswerColor = Color.red;
 
-        levelName = level.GetGameLevel();
+        
         switch (levelDifficulty)
         {
             case Difficulty.Easy:
@@ -363,6 +363,7 @@ public class QuestionControllerAcceleration : MonoBehaviour
     }
     void Update()
     {
+        levelName = level.GetGameLevel();
         correctIconHorizontal.SetActive(answerIsCorrect);
         wrongIconHorizontal.SetActive(!answerIsCorrect);
         popupComponentHorizontal.SetActive(popupVisible);

@@ -21,7 +21,7 @@ public class HeartManager : MonoBehaviour
     {
         //startbgentrance();
         life = PlayerPrefs.GetInt("Life");
-        PlayerPrefs.SetInt("Life", life);
+        // PlayerPrefs.SetInt("Life", life);
     }
     public void DestroyHearts()
     {

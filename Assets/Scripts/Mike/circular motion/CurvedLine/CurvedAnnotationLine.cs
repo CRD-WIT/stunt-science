@@ -14,11 +14,11 @@ public class CurvedAnnotationLine : MonoBehaviour
     [SerializeField] EdgeCollider2D hangerTrigger;
     [SerializeField] RectTransform grabPoint;
     float x, y, EX, EY, ARadiusX, LRadiusX, ARadiusY, LRadiusY;
-    QuestionControllerVThree qc;
+    QuestionController2_0_1 qc;
 
     void Start()
     {
-        qc = FindObjectOfType<QuestionControllerVThree>();
+        qc = FindObjectOfType<QuestionController2_0_1>();
         line = this.gameObject.GetComponent<LineRenderer>();
         //endLine = this.gameObject.GetComponent<LineRenderer>();
         endLine.positionCount = 3;

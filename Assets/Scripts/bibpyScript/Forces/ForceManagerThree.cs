@@ -264,7 +264,7 @@ public class ForceManagerThree : MonoBehaviour
         }
         yield return new WaitForSeconds(3);
         //theQuestion.ToggleModal();
-        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
+        if(playerAnswer == correctAnswer)
         {
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely from zombies"), true, true);
             // theScorer.finalstar();

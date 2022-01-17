@@ -1,9 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class ProjectileHardThree : MonoBehaviour
 {
+    // Stunt Guide
+    public GameObject[] stuntGuideObjectPrefabs;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide    
     AnswerGuards answerGuards = new AnswerGuards();
     public playerProjectile thePlayer;
     public ProjHardSimulation theSimulate;
@@ -51,8 +57,14 @@ public class ProjectileHardThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(false);
+        stuntGuideObjectPrefabs[2].SetActive(true);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+
         min = correctAnswer - 0.01f;
-        max = correctAnswer + 0.01f; 
+        max = correctAnswer + 0.01f;
         debugAnswer.SetText($"Answer: {correctAnswer}");
         angleLine.transform.position = this.transform.position;
         theCircular._origin = new Vector2(this.transform.position.x + .5f, this.transform.position.y);
@@ -112,21 +124,21 @@ public class ProjectileHardThree : MonoBehaviour
         }
         if (theQuestion.isSimulating == true)
         {
-            
-             if(ProjHardSimulation.playerAnswer <= max  &  ProjHardSimulation.playerAnswer >= min)
+
+            if (ProjHardSimulation.playerAnswer <= max & ProjHardSimulation.playerAnswer >= min)
             {
                 ProjHardSimulation.playerAnswer = correctAnswer;
                 Debug.Log("inRange");
-                
+
             }
             else
             {
-               Debug.Log("notInRange");
+                Debug.Log("notInRange");
             }
-            setAnswer = true; 
+            setAnswer = true;
 
         }
-        if(setAnswer)
+        if (setAnswer)
         {
             theQuestion.isSimulating = false;
             playerProjectileTime = finalDistance / (Mathf.Cos((((((angle - ProjHardSimulation.playerAnswer) / 2) + ProjHardSimulation.playerAnswer)) * Mathf.Deg2Rad)) * Vo);
@@ -136,7 +148,7 @@ public class ProjectileHardThree : MonoBehaviour
             trail.SetActive(true);
             timeStart = true;
             running = true;
-            
+
             if (ProjHardSimulation.playerAnswer == correctAnswer)
             {
                 deflector.GetComponent<Collider2D>().isTrigger = true;

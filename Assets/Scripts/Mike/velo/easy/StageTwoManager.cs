@@ -1,9 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using GameConfig;
 using TMPro;
 public class StageTwoManager : MonoBehaviour
 {
+    public GameObject[] stuntGuideObjectPrefabs;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     AnswerGuards answerGuards = new AnswerGuards();
     public PlayerV1_1 thePlayer;
     UnitOf whatIsAsk;
@@ -21,7 +26,7 @@ public class StageTwoManager : MonoBehaviour
     public QuestionControllerVThree qc;
     public AudioSource scream;
     public TMP_Text debugAnswer;
-    public FirebaseManager firebaseManager;    
+    public FirebaseManager firebaseManager;   
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;//to prevent screen from sleeping
@@ -35,6 +40,12 @@ public class StageTwoManager : MonoBehaviour
     }
     void FixedUpdate()
     {
+        //Stunt Guide        
+        stuntGuideObjectPrefabs[0].SetActive(false);
+        stuntGuideObjectPrefabs[1].SetActive(true);
+        stuntGuideObjectPrefabs[2].SetActive(false);
+        stuntGuideImage.sprite = stuntGuideImageSprite;
+
         debugAnswer.SetText($"Answer: {answerRO}");
         playerAnswer = qc.GetPlayerAnswer();
         float adjustedAnswer = qc.AnswerTolerance(answerRO);

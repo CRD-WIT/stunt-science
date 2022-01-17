@@ -6,6 +6,13 @@ using UnityEngine.UI;
 
 public class Level_3_Stage_3_Medium : MonoBehaviour
 {
+        // Stunt Guide
+    public Text stuntGuideTextObject;
+    public string stuntGuideText;
+    public GameObject stuntGuideObjectPrefab;
+    public Image stuntGuideImage;
+    public Sprite stuntGuideImageSprite;
+    // End of Stunt Guide
     AnswerGuards answerGuards = new AnswerGuards();
     // Start is called before the first frame update
     string question, gender, pronoun, pronoun2;
