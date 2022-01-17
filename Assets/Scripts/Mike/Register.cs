@@ -2,9 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Firebase;
-using Firebase.Firestore;
-using Firebase.Extensions;
+// using Firebase;
+// using Firebase.Firestore;
+// using Firebase.Extensions;
 using System.Collections.Generic;
 
 public class Register : MonoBehaviour
@@ -14,7 +14,7 @@ public class Register : MonoBehaviour
     public Text popUp;
     public WarningErrorUI warningErrorUI;
     public FirebaseManager firebaseManager;
-    FirebaseApp app;
+    // FirebaseApp app;
 
     void test()
     {
