@@ -70,11 +70,12 @@ public class Settings : MonoBehaviour
 
     public AudioSource[] sfxAudios;
 
-    // public FirebaseManager firebaseManager;
+    public FirebaseManager firebaseManager;
 
     public string[] gameLevelNames = { "", "Velocity", "Acceleration", "FreeFallProjectile", "CircularMotion", "Forces", "Work", "Energy", "Power", "Momemtum" };
 
     public string id_code;
+    
 
     public string[] GetLevelNames()
     {
@@ -131,7 +132,7 @@ public class Settings : MonoBehaviour
 
         if (isFirstStart)
         {
-            // firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.StartedGame, 0);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.StartedGame, 0);
         }
 
     }
@@ -173,8 +174,8 @@ public class Settings : MonoBehaviour
     {
         if (debugPanel)
         {
-            debugPanel.SetActive(debugMode);
-            // debugPanel.SetActive(id_code == "05ada8" ? true : false);
+            //debugPanel.SetActive(debugMode);
+            debugPanel.SetActive(id_code == "05ada8" ? true : false);
         }
         if (fps)
         {
@@ -263,7 +264,7 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetInt("Life", 3);
         SceneManager.LoadScene("LevelSelectV2");
 
-        // firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Cancelled, 0);
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Cancelled, 0);
 
     }
 
@@ -277,11 +278,11 @@ public class Settings : MonoBehaviour
         stuntGuidePanelIsOpen = !stuntGuidePanelIsOpen;
         if (stuntGuidePanelIsOpen)
         {
-            // firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.OpenedStuntGuide, 0);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.OpenedStuntGuide, 0);
         }
         else
         {
-            // firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.ClosedStuntGuide, 0);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.ClosedStuntGuide, 0);
         }
     }
 
@@ -331,7 +332,7 @@ public class Settings : MonoBehaviour
 
         if (soundOn)
         {
-            // firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.MutedSound, 0);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.MutedSound, 0);
             soundLevel = 0;
         }
         else
@@ -341,7 +342,7 @@ public class Settings : MonoBehaviour
             {
                 soundLevel = 1;
             }
-            // firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.UnmutedSound, soundLevel);
+            firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.UnmutedSound, soundLevel);
         }
         soundOn = !soundOn;
         soundSlider.value = soundLevel;
@@ -366,7 +367,7 @@ public class Settings : MonoBehaviour
         int levelNumber = int.Parse(PlayerPrefs.GetString("LevelNumber"));
         string difficulty = PlayerPrefs.GetString("DifficultyName");
         int stage = int.Parse(PlayerPrefs.GetString("Stage"));
-        // firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.ExitedGame, 0);
+        firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.ExitedGame, 0);
         Application.Quit();
     }
 

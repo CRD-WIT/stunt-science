@@ -40,12 +40,14 @@ public class AccManagerOne : MonoBehaviour
     public QuestionControllerAcceleration theQuestion;
     public AudioSource engineIdle, engineRunning;
     AnswerGuards answerGuards = new AnswerGuards();
+    StageManager sm = new StageManager();
     float min, max;
 
     bool setAnswer;
 
     void Start()
     {
+        
         //Vitxt.text = ("v = ") + thePlayer.moveSpeed.ToString("F2") + ("m/s");
         theQuestion.SetGameLevel(2);
         bikeInitialsPos = bikeInitials.transform.position;
@@ -79,7 +81,8 @@ public class AccManagerOne : MonoBehaviour
     }
     void FixedUpdate()
     {    
-        //Stunt Guide        
+        //Stunt Guide  
+        sm.SetGameLevel(2);      
         stuntGuideObjectPrefabs[0].SetActive(true);
         stuntGuideObjectPrefabs[1].SetActive(false);
         stuntGuideObjectPrefabs[2].SetActive(false);

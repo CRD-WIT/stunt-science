@@ -9,9 +9,10 @@ public class ForceHardSimulation : MonoBehaviour
     // Start is called before the first frame update
    public HeartManager theHeart;
     public PlayerContForcesMed thePlayer;
-    public ForceManagerHardOne theManagerOne;
+    public ForceHardManagerOne theManagerOne;
     public ForceManagerHardTwo theManagerTwo;
     public ForceManagerHardThree theManagerThree;
+    public PrisonerManager thePrisoner;
     public bool simulate;
     public float stage;
     public float playerAnswer;
@@ -21,8 +22,9 @@ public class ForceHardSimulation : MonoBehaviour
     bool directorIsCalling;
     public Button playButton;
     public GameObject directorBubble;
+    public bool destroyGlass;
     public Vector2 playerStartPoint, zombie1StartPoint, zombie2StartPoint, boxStartPoint;
-    public GameObject dimensionOne, dimensionTwo,dimensionThree, groundOne,groundTwo;
+    //public GameObject dimensionOne, dimensionTwo,dimensionThree, groundOne,groundTwo;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,10 +47,10 @@ public class ForceHardSimulation : MonoBehaviour
         if (stage == 1)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" )
+            if (answerField.text == "" || playerAnswer > 500|| playerAnswer < (-theManagerOne.resultantDownhillForce)+50)
             {
                 StartCoroutine(errorMesage());
-                theQuestion.errorText = ("answer must not exceed ") ;
+                theQuestion.errorText = ("answer must not exceed 500N or not less than"+ ((-theManagerOne.resultantDownhillForce)+50).ToString("F2")+ "N ") ;
             }
             else
             {
@@ -110,6 +112,7 @@ public class ForceHardSimulation : MonoBehaviour
     }
     public void retry()
     {
+       
         simulate = false;
         playButton.interactable = true;
         playerAnswer = 0;
@@ -117,10 +120,11 @@ public class ForceHardSimulation : MonoBehaviour
         thePlayer.moveSpeed = 0;
         thePlayer.gameObject.SetActive(true);
         theHeart.losslife = false;
+        destroyGlass = true;
 
         if (stage == 1)
         {
-            
+            theManagerOne.showProblem();
         }
         if (stage == 2)
         {    
@@ -147,6 +151,8 @@ public class ForceHardSimulation : MonoBehaviour
             directorBubble.SetActive(false);
             simulate = true;  
             directorIsCalling = false;
+            destroyGlass = false;
+             thePrisoner.ragdollReady = true;
         }
         else
         {
