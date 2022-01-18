@@ -59,6 +59,7 @@ public class ForceHardManagerOne : MonoBehaviour
     }
     public void showProblem()
     {
+        boxSpeed = 0;
         dimensions.SetActive(true);
         prisonGlass.SetActive(true);
         theCollision.breakReady = true;
@@ -79,7 +80,7 @@ public class ForceHardManagerOne : MonoBehaviour
         breakingForceTxt.text = "breaking Force ="+ breakingForce.ToString("F2")+"N";
         muTxt.text = "μ ="+mu.ToString("F2");
         angleTxt.text = " θ ="+angle.ToString("F2")+"°";
-         theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to constantly push the box(A) in an inclined platform downward to break the prison glass, If the platform is inclined at <b>")+angle.ToString("f2")+("°</b> and has a coeffiecient of friction(μ) of <b>")+mu.ToString("F2")+("</b>. How much force is neeeded to push the box to break the prison glass with a breaking force of <b>")+breakingForce.ToString("F2")+("N</b>, if the box has a mass of <b>")+massBox.ToString("F2")+("kg</b>.Too much force will also hit the captive.")));
+        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to constantly push the box(A) in an inclined platform downward to break the prison glass, If the platform is inclined at <b>")+angle.ToString("f2")+("°</b> and has a coeffiecient of friction(μ) of <b>")+mu.ToString("F2")+("</b>. How much force is needed to push the box to break the prison glass with a breaking force of <b>")+breakingForce.ToString("F2")+("N</b>, if the box has a mass of <b>")+massBox.ToString("F2")+("kg</b>.Too much force will also hit the captive.")));
 
 
 
