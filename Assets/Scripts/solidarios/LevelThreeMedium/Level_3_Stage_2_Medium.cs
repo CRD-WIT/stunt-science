@@ -121,6 +121,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         questionController.SetQuestion(question);
         targetLock.SetActive(true);
         showResult = true;
+         questionController.answerIsCorrect = false;
 
     }
     public IEnumerator shoot()
@@ -130,8 +131,9 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         gunFire.Play();
         maneuverGearSfx.Play();
         
-        if (answerGuards.AnswerIsInRange(correctAnswer, questionController.GetPlayerAnswer(), 0.01f))
+        if (adjustedAnswer == correctAnswer)
         {
+             questionController.answerIsCorrect = true;
             hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo);
         }
         else
@@ -144,6 +146,8 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
             {
                 hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo + .5f);
             }
+            questionController.answerIsCorrect = false;
+           
         }
 
 
@@ -155,12 +159,14 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     IEnumerator StuntResult()
     {
         yield return new WaitForSeconds(2f);
-        if (answerGuards.AnswerIsInRange(correctAnswer, correctAnswer, 0.01f))
+        if (adjustedAnswer == correctAnswer)
         {
+           
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
         }
         else
         {
+             
             theHeart.ReduceLife();
             questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
         }
@@ -168,7 +174,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
     public void action()
     {
         
-        if (answerGuards.AnswerIsInRange(correctAnswer, questionController.GetPlayerAnswer(), 0.01f))
+        if (adjustedAnswer == correctAnswer)
         {
             SceneManager.LoadScene("LevelThreeStage3Medium");
         }

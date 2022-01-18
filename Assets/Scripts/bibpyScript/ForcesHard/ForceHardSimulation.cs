@@ -10,8 +10,8 @@ public class ForceHardSimulation : MonoBehaviour
    public HeartManager theHeart;
     public PlayerContForcesMed thePlayer;
     public ForceHardManagerOne theManagerOne;
-    public ForceManagerHardTwo theManagerTwo;
-    public ForceManagerHardThree theManagerThree;
+    public ForceHardManagerTwo theManagerTwo;
+    // public ForceManagerHardThree theManagerThree;
     public PrisonerManager thePrisoner;
     public bool simulate;
     public float stage;
@@ -22,8 +22,10 @@ public class ForceHardSimulation : MonoBehaviour
     bool directorIsCalling;
     public Button playButton;
     public GameObject directorBubble;
+    public GameObject[] box;
     public bool destroyGlass;
     public Vector2 playerStartPoint, zombie1StartPoint, zombie2StartPoint, boxStartPoint;
+    
     //public GameObject dimensionOne, dimensionTwo,dimensionThree, groundOne,groundTwo;
     // Start is called before the first frame update
     void Start()
@@ -32,6 +34,7 @@ public class ForceHardSimulation : MonoBehaviour
         PlayerPrefs.SetInt("level", 4);
         theHeart = FindObjectOfType<HeartManager>();
         playerStartPoint = thePlayer.transform.position;
+      
 
 
     }
@@ -107,6 +110,7 @@ public class ForceHardSimulation : MonoBehaviour
         theQuestion.isModalOpen = false;
         StartCoroutine(theHeart.startBGgone());
         StartCoroutine(nextStage());
+       
 
 
     }
@@ -171,17 +175,24 @@ public class ForceHardSimulation : MonoBehaviour
         if (stage == 2)
         {
             stage = 3;
-            theManagerTwo.gameObject.SetActive(false);
-            theManagerThree.gameObject.SetActive(true);
+            // theManagerTwo.gameObject.SetActive(false);
+            // theManagerThree.gameObject.SetActive(true);
 
             //theManagerTwo.GenerateProblem();
 
         }
-        if (stage == 1)
+        if(stage == 1)
         {
-            stage = 2;
+            
             theManagerOne.gameObject.SetActive(false);
             theManagerTwo.gameObject.SetActive(true);
+            theManagerTwo.showProblem();
+            thePlayer.transform.position = new Vector2(19.32f, -.22f);
+            thePlayer.transform.rotation = Quaternion.Euler(0,0,0);
+            destroyGlass = true;
+            box[0].SetActive(false);
+            StartCoroutine(thePrisoner.startRun());
+            stage = 2;
 
         }
 

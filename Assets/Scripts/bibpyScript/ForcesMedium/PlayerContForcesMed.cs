@@ -9,7 +9,7 @@ public class PlayerContForcesMed : MonoBehaviour
     public Animator myAnimator;
     public GameObject player, stickprefab, stickmanpoint, skirt, hair;
     public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang,
-        isLanded, thrown,push, idlePush;
+        isLanded, thrown,push, idlePush,pull;
     public AudioSource footstep;
     float currentpos;
     public LayerMask whatIsGround;
@@ -71,6 +71,7 @@ public class PlayerContForcesMed : MonoBehaviour
         // myAnimator.SetBool("landed", isLanded);
         // myAnimator.SetBool("throw", thrown);
          myAnimator.SetBool("push", push);
+         myAnimator.SetBool("pull", pull);
           myAnimator.SetBool("idlePush", idlePush);
         if (posready == true)
         {
