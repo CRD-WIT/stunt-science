@@ -100,7 +100,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         showResult = true;
         ropeBones = GameObject.FindGameObjectsWithTag("RopeBones");
         // Given
-        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(1f, 1.3f), 2);
+        timeGiven = (float)System.Math.Round(UnityEngine.Random.Range(0.8f, 1f), 2);
         gravityGiven = Physics2D.gravity;
 
         // Formula
@@ -165,9 +165,12 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         playerOnRopeInitialY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
         timeGivenContainer.SetText($"Time: {timeGiven}s");
-        questionController.limit = playerHingeJoint.transform.position.y - platformBar.transform.position.y;
+        questionController.limit = (float)System.Math.Round(playerHingeJoint.transform.position.y - platformBar.transform.position.y,2);
         questionController.answerUnit = " m";
         // questionController.timer = timeGiven.ToString("f2");
+
+        Debug.Log($"Limit: {questionController.limit}");
+        Debug.Log($"Answer: {correctAnswer}");
     }
 
     void ResetLevel()

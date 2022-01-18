@@ -21,6 +21,7 @@ public class MediumManager : MonoBehaviour
         ragdoll,
         stage1Layout,
         stage2Layout,
+        stage3Layout,
         UI1,
         UI2,
         UI3,
@@ -365,7 +366,6 @@ public class MediumManager : MonoBehaviour
                 acceleration = (float)System.Math.Round((Vfp / stuntTime), 2);
 
                 whatIsAsk = UnitOf.acceleration;
-                rope.transform.position = new Vector2(6 - distance, 4);
                 myPlayer.transform.position = rope.transform.position;
                 myPlayer.gameObject.SetActive(true);
 
@@ -376,6 +376,41 @@ public class MediumManager : MonoBehaviour
                 indicators.SetPlayerPosition(myPlayer.transform.position);
                 indicators.showLines(distance, 3.85f, playerSpeed, stuntTime);
                 indicators.UnknownIs('N');
+                break;
+            case 3:
+                stage3Layout.SetActive(true);
+                myPlayer.transform.position = new Vector2(-18, 3);
+                qc = UI3.GetComponent<QuestionController2_0_1>();
+                qc.stage = 2;
+                conveyor = FindObjectOfType<ConveyorManager>();
+                playerAnim.speed = 1;
+                myPlayer.climb = false;
+                myPlayer.running = false;
+                myPlayer.walking = true;
+                qc.limit = 5f;
+
+                float hangerDist, hangerVelo;
+                distance = Random.Range(16F, 21F);
+                aVelocity = Random.Range(54f, 59f);
+                // stuntTime = Random.Range(3.5f, 5f);
+                conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.15f);
+                conveyorSpeed = conveyor.GetConveyorVelocity() * -1;
+                playerSpeed = conveyorSpeed + Random.Range(3f, 10.4f);
+                stuntTime = distance/playerSpeed;
+
+                hangerDist = 36 - distance;
+
+                whatIsAsk = UnitOf.time;
+                myPlayer.transform.position = rope.transform.position;
+                myPlayer.gameObject.SetActive(true);
+
+                // float Vfp = playerSpeed;
+
+                indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 3);
+                indicators.heightSpawnPnt = new Vector2(-17f, -1.925f);
+                indicators.SetPlayerPosition(myPlayer.transform.position);
+                indicators.showLines(distance, 3.85f, playerSpeed, stuntTime);
+                indicators.UnknownIs('t');
                 break;
             default:
                 break;
