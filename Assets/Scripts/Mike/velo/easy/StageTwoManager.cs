@@ -157,7 +157,7 @@ public class StageTwoManager : MonoBehaviour
         qc.timer = "0.00s";
 
         qc.limit = 5f;
-        question = $"<b>{playerName}</b> is instucted to run and stop exactly at the safe spot <b>{distance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away before the ceiling crumbles down. If <b>{playerName}</b> runs at a constant velocity of <b>{speed.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>, how long should {pronoun} run before stopping so {pronoun} will stop exactly at the safe spot?";
+        question = $"<b>{playerName}</b> is instructed to run and stop exactly at the safe spot <b>{distance.ToString("f2")} {qc.Unit(UnitOf.distance)}</b> away before the ceiling crumbles down. If <b>{playerName}</b> runs at a constant velocity of <b>{speed.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b>, how long should {pronoun} run before stopping so {pronoun} will stop exactly at the safe spot?";
         qc.SetQuestion(question);
         answerRO = (float)System.Math.Round(answer, 2);
         safePoint.transform.position = new Vector2(distance, -2);
