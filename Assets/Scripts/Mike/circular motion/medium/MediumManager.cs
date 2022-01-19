@@ -366,7 +366,7 @@ public class MediumManager : MonoBehaviour
                 acceleration = (float)System.Math.Round((Vfp / stuntTime), 2);
 
                 whatIsAsk = UnitOf.acceleration;
-                myPlayer.transform.position = rope.transform.position;
+                myPlayer.transform.position = new Vector2(6 - distance, 3);
                 myPlayer.gameObject.SetActive(true);
 
                 // float Vfp = playerSpeed;
@@ -379,7 +379,6 @@ public class MediumManager : MonoBehaviour
                 break;
             case 3:
                 stage3Layout.SetActive(true);
-                myPlayer.transform.position = new Vector2(-18, 3);
                 qc = UI3.GetComponent<QuestionController2_0_1>();
                 qc.stage = 2;
                 conveyor = FindObjectOfType<ConveyorManager>();
@@ -401,7 +400,7 @@ public class MediumManager : MonoBehaviour
                 hangerDist = 36 - distance;
 
                 whatIsAsk = UnitOf.time;
-                myPlayer.transform.position = rope.transform.position;
+                myPlayer.transform.position = new Vector2(-18, 3);
                 myPlayer.gameObject.SetActive(true);
 
                 // float Vfp = playerSpeed;
