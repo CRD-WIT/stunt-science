@@ -14,6 +14,8 @@ public class MediumManager : MonoBehaviour
     ScoreManager score;
     PlayerCM2 myPlayer;
     StageManager sm = new StageManager();
+    
+    [SerializeField] NewConveyorManager cm;
 
     [SerializeField]
     GameObject directorsBubble,
@@ -38,7 +40,7 @@ public class MediumManager : MonoBehaviour
     float distance,
         stuntTime,
         elapsed,
-        correctAnswer;
+        correctAnswer, av;
     public static int stage;
     float playerAnswer,
         playerSpeed,
@@ -223,7 +225,9 @@ public class MediumManager : MonoBehaviour
                         }
                     }
                     break;
-                default:
+                case 3:
+                cm.SetConveyorSpeed(av, stuntTime, 5);
+                
                     break;
             }
         }
@@ -391,6 +395,7 @@ public class MediumManager : MonoBehaviour
                 float hangerDist, hangerVelo;
                 distance = Random.Range(16F, 21F);
                 aVelocity = Random.Range(54f, 59f);
+                av = Random.Range(5f,10f);
                 // stuntTime = Random.Range(3.5f, 5f);
                 conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.15f);
                 conveyorSpeed = conveyor.GetConveyorVelocity() * -1;
