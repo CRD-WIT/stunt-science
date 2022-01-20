@@ -7,7 +7,7 @@ public class MediumManager : MonoBehaviour
 {
     QuestionController2_0_1 qc;
     UnitOf whatIsAsk;
-    IndicatorManagerV1_1 indicators;
+    IndicatorManagerV1_1 labels;
     IndicatorManager jmpDistFromBoulder;
     ConveyorManager conveyor;
     HeartManager2 life;
@@ -76,7 +76,7 @@ public class MediumManager : MonoBehaviour
         qc = FindObjectOfType<QuestionController2_0_1>();
         myPlayer = FindObjectOfType<PlayerCM2>();
         // conveyor = FindObjectOfType<ConveyorManager>();
-        indicators = FindObjectOfType<IndicatorManagerV1_1>();
+        labels = FindObjectOfType<IndicatorManagerV1_1>();
         life = FindObjectOfType<HeartManager2>();
         score = FindObjectOfType<ScoreManager>();
 
@@ -105,14 +105,14 @@ public class MediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        indicators.SetPlayerPosition(myPlayer.transform.position);
+        labels.SetPlayerPosition(myPlayer.transform.position);
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         // Debug.Log(conveyorSpeed + "cs");
         // Debug.Log(playerSpeed + "ps");
         if (isAnswered)
         {
-            indicators.distanceSpawnPnt = spawnPoint;
+            labels.distanceSpawnPnt = spawnPoint;
             // playerAnswer = qc.GetPlayerAnswer();
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.deltaTime;
@@ -170,12 +170,12 @@ public class MediumManager : MonoBehaviour
                                 // );
                                 messageTxt = "Below";
                             }
-                            indicators.ShowCorrectDistance(distance, true, new Vector2(-10, 0.5f));
+                            labels.ShowCorrectDistance(distance, true, new Vector2(-10, 0.5f));
                         }
                         isAnswered = false;
-                        indicators.AnswerIs(isAnswerCorrect, false);
+                        labels.AnswerIs(isAnswerCorrect, false);
                     }
-                    indicators.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed) * elapsed);
+                    labels.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed) * elapsed);
                     break;
                 case 2:
                     if (myPlayer.transform.position.x >= distance)
@@ -227,7 +227,7 @@ public class MediumManager : MonoBehaviour
                     break;
                 case 3:
                 cm.SetConveyorSpeed(av, stuntTime, 5);
-                
+
                     break;
             }
         }
@@ -237,7 +237,7 @@ public class MediumManager : MonoBehaviour
             jumperChar.GetComponent<Animator>().SetBool("dive", false);
             isEndOfStunt = true;
         }
-        indicators.SetPlayerPosition(myPlayer.transform.position);
+        labels.SetPlayerPosition(myPlayer.transform.position);
         if (isEndOfStunt)
             StartCoroutine(StuntResult());
         if (ropeGrab)
@@ -267,8 +267,8 @@ public class MediumManager : MonoBehaviour
         ragdoll.SetActive(false);
         ragdollActive = false;
 
-        indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
-        spawnPoint = indicators.distanceSpawnPnt;
+        labels.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
+        spawnPoint = labels.distanceSpawnPnt;
 
         stage1Layout.SetActive(false);
         stage2Layout.SetActive(false);
@@ -321,11 +321,11 @@ public class MediumManager : MonoBehaviour
                 myPlayer.transform.position = new Vector2(-10, myPlayer.transform.position.y);
                 myPlayer.gameObject.SetActive(true);
 
-                indicators.heightSpawnPnt = new Vector2(-13, -1.15f);
-                indicators.distanceSpawnPnt = new Vector2(-10, 2);
-                indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(distance, 2.3f, playerSpeed, stuntTime);
-                indicators.UnknownIs('v');
+                labels.heightSpawnPnt = new Vector2(-13, -1.15f);
+                labels.distanceSpawnPnt = new Vector2(-10, 2);
+                labels.SetPlayerPosition(myPlayer.transform.position);
+                labels.showLines(distance, 2.3f, playerSpeed, stuntTime);
+                labels.UnknownIs('v');
 
                 question =
                     playerName
@@ -375,11 +375,11 @@ public class MediumManager : MonoBehaviour
 
                 // float Vfp = playerSpeed;
 
-                indicators.distanceSpawnPnt = new Vector2(6 - distance, 3);
-                indicators.heightSpawnPnt = new Vector2(-17f, -1.925f);
-                indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(distance, 3.85f, playerSpeed, stuntTime);
-                indicators.UnknownIs('N');
+                labels.distanceSpawnPnt = new Vector2(6 - distance, 3);
+                labels.heightSpawnPnt = new Vector2(-17f, -1.925f);
+                labels.SetPlayerPosition(myPlayer.transform.position);
+                labels.showLines(distance, 3.85f, playerSpeed, stuntTime);
+                labels.UnknownIs('N');
                 break;
             case 3:
                 stage3Layout.SetActive(true);
@@ -410,11 +410,11 @@ public class MediumManager : MonoBehaviour
 
                 // float Vfp = playerSpeed;
 
-                indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 3);
-                indicators.heightSpawnPnt = new Vector2(-17f, -1.925f);
-                indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(distance, 3.85f, playerSpeed, stuntTime);
-                indicators.UnknownIs('t');
+                labels.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 3);
+                labels.heightSpawnPnt = new Vector2(-17f, -1.925f);
+                labels.SetPlayerPosition(myPlayer.transform.position);
+                labels.showLines(distance, 3.85f, playerSpeed, stuntTime);
+                labels.UnknownIs('t');
                 break;
             default:
                 break;
