@@ -5,7 +5,7 @@ using TMPro;
 
 public class Settings : MonoBehaviour
 {
-    bool debugMode = false;
+    bool debugMode = true;
     public GameObject debugPanel;
     public GameObject settingsPanel;
     public GameObject levelFinishedPanel;
