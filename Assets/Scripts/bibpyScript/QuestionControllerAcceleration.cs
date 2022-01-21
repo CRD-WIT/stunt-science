@@ -236,7 +236,6 @@ public class QuestionControllerAcceleration : MonoBehaviour
         yield return new WaitForEndOfFrame();
         isModalOpen = false;
         simulationManager.retry();
-
     }
 
     IEnumerator IsEmpty()
