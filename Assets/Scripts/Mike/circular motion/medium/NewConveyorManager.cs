@@ -43,6 +43,7 @@ public class NewConveyorManager : MonoBehaviour
     {
         if (other.gameObject.name == "hanger") {
             other.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            other.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
             other.transform.parent = this.gameObject.transform;
             hangerTrigger.SetActive(true);
         }

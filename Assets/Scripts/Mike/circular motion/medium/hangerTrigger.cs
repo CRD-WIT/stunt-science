@@ -19,8 +19,7 @@ public class hangerTrigger : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.transform.parent.name == "Wheel1"){
             other.gameObject.GetComponent< HingeJoint2D>().enabled = true;
-            // TODO: For fixing
-            // hanger.SetParent(other.gameObject);
+            hanger.SetParent(other.gameObject.transform);
             this.gameObject.SetActive(true);
         }
     }
