@@ -6,7 +6,7 @@ public class NewConveyorManager : MonoBehaviour
 {
     GameObject conveyorWheel1,
         conveyorWheel2;
-    public GameObject conveyorTooth;
+    public GameObject conveyorTooth, hangerTrigger;
     Rigidbody2D conveyorWheel1RB,
         conveyorWheel2RB;
     float distance,
@@ -20,6 +20,7 @@ public class NewConveyorManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         conveyorWheel1 = transform.Find("Wheel1").gameObject;
         conveyorWheel2 = transform.Find("Wheel2").gameObject;
         conveyorWheel1RB = conveyorWheel1.GetComponent<Rigidbody2D>();
@@ -31,18 +32,20 @@ public class NewConveyorManager : MonoBehaviour
     void Update()
     {
         conveyorWheel1RB.angularVelocity = angularVelocity;
-        // if (MediumManager.stage == 1)
-            conveyorWheel2RB.angularVelocity = angularVelocity;
-        // else if (MediumManager.stage == 2)
-        //     conveyorWheel2RB.angularVelocity = angularVelocity * (3.85f / 1.22f);
+        conveyorWheel2RB.angularVelocity = angularVelocity;
         if (!isActive)
         {
             StartCoroutine(ConveyorDestroyer());
         }
     }
-    void OnTriggerEnter2D(Collider2D other) {
-        if(other.gameObject.name == "hanger"){
-            
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.name == "hanger") {
+            other.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            other.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+            other.transform.parent = this.gameObject.transform;
+            hangerTrigger.SetActive(true);
         }
     }
 

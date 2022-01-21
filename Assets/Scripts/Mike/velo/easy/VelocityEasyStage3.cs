@@ -159,7 +159,7 @@ public class VelocityEasyStage3 : MonoBehaviour
         myPlayer.transform.position = new Vector2(0f, -3);
         elapsed = 0;
         SimulationManager.isAnswered = false;
-        question = $"<b>{playerName}</b> is instucted to run and stop exactly on the center of the manhole and enter it before the entire ceiling crumbles down. If <b>{pronoun}</b> runs at a constant velocity of <b>{Speed.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b> for exactly <b>{gameTime} {qc.Unit(UnitOf.time)}</b>, how far should <b>{playerName}</b> be from the manhole before she starts running?";
+        question = $"<b>{playerName}</b> is instructed to run and stop exactly on the center of the manhole and enter it before the entire ceiling crumbles down. If <b>{pronoun}</b> runs at a constant velocity of <b>{Speed.ToString("f2")} {qc.Unit(UnitOf.velocity)}</b> for exactly <b>{gameTime} {qc.Unit(UnitOf.time)}</b>, how far should <b>{playerName}</b> be from the manhole before she starts running?";
         qc.SetQuestion(question);
 
         dimensionLine.GetComponent<IndicatorManagerV1_1>().UnknownIs('d');
