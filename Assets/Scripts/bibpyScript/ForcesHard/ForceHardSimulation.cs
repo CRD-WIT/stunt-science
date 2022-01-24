@@ -132,7 +132,7 @@ public class ForceHardSimulation : MonoBehaviour
         }
         if (stage == 2)
         {    
-            
+            theManagerTwo.showProblem();
         }
         if (stage == 3)
         {
@@ -156,7 +156,11 @@ public class ForceHardSimulation : MonoBehaviour
             simulate = true;  
             directorIsCalling = false;
             destroyGlass = false;
-             thePrisoner.ragdollReady = true;
+            thePrisoner.ragdollReady = true;
+            if(stage == 2)
+            {
+                StartCoroutine(theManagerTwo.zombieChase());
+            }
         }
         else
         {
@@ -186,7 +190,6 @@ public class ForceHardSimulation : MonoBehaviour
             
             theManagerOne.gameObject.SetActive(false);
             theManagerTwo.gameObject.SetActive(true);
-            theManagerTwo.showProblem();
             thePlayer.transform.position = new Vector2(19.32f, -.22f);
             thePlayer.transform.rotation = Quaternion.Euler(0,0,0);
             destroyGlass = true;
