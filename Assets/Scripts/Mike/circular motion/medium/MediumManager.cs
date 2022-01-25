@@ -7,7 +7,7 @@ public class MediumManager : MonoBehaviour
 {
     QuestionController2_0_1 qc;
     UnitOf whatIsAsk;
-    IndicatorManagerV1_1 labels;
+    IndicatorManager2_0_1 labels;
     IndicatorManager jmpDistFromBoulder;
     ConveyorManager conveyor;
     HeartManager2 life;
@@ -38,7 +38,7 @@ public class MediumManager : MonoBehaviour
     TMP_Text directorsSpeech;
 
     [SerializeField]
-    float distance,
+    float distance = 0,
         stuntTime,
         elapsed,
         correctAnswer,
@@ -78,7 +78,7 @@ public class MediumManager : MonoBehaviour
         qc = FindObjectOfType<QuestionController2_0_1>();
         myPlayer = FindObjectOfType<PlayerCM2>();
         // conveyor = FindObjectOfType<ConveyorManager>();
-        labels = FindObjectOfType<IndicatorManagerV1_1>();
+        labels = FindObjectOfType<IndicatorManager2_0_1>();
         life = FindObjectOfType<HeartManager2>();
         score = FindObjectOfType<ScoreManager>();
 
@@ -107,7 +107,6 @@ public class MediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        labels.SetPlayerPosition(myPlayer.transform.position);
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         // Debug.Log(conveyorSpeed + "cs");
@@ -228,7 +227,7 @@ public class MediumManager : MonoBehaviour
                     }
                     break;
                 case 3:
-                    cm.SetHangerVelocity(av, stuntTime, 5);
+                    cm.SetHangerVelocity(-av, stuntTime, 4);
                     if (myPlayer.transform.position.x >= distance)
                     {
                         ropeGrab = true;
@@ -263,7 +262,6 @@ public class MediumManager : MonoBehaviour
             jumperChar.GetComponent<Animator>().SetBool("dive", false);
             isEndOfStunt = true;
         }
-        labels.SetPlayerPosition(myPlayer.transform.position);
         if (isEndOfStunt)
             StartCoroutine(StuntResult());
         if (ropeGrab)
@@ -284,6 +282,7 @@ public class MediumManager : MonoBehaviour
                 qc.retried = false;
             }
         }
+        labels.SetPlayerPosition(myPlayer.transform.position);
     }
 
     void SetUp()
@@ -295,7 +294,6 @@ public class MediumManager : MonoBehaviour
         ragdollActive = false;
 
         labels.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
-        spawnPoint = labels.distanceSpawnPnt;
 
         stage1Layout.SetActive(false);
         stage2Layout.SetActive(false);
@@ -312,8 +310,9 @@ public class MediumManager : MonoBehaviour
         qc.isSimulating = false;
         myPlayer.climb = false;
 
-        // life.losslife = false;
-        float aVelocity;
+        life.losslife = false;
+        float aVelocity,
+            height = 0;
         switch (stage)
         {
             case 1:
@@ -350,9 +349,8 @@ public class MediumManager : MonoBehaviour
 
                 labels.heightSpawnPnt = new Vector2(-13, -1.15f);
                 labels.distanceSpawnPnt = new Vector2(-10, 2);
-                labels.SetPlayerPosition(myPlayer.transform.position);
-                labels.showLines(distance, 2.3f, playerSpeed, stuntTime);
                 labels.UnknownIs('v');
+                height = 2.3f;
 
                 question =
                     playerName
@@ -388,11 +386,11 @@ public class MediumManager : MonoBehaviour
                 myPlayer.walking = true;
                 qc.limit = 10.4f;
 
-                distance = Random.Range(15F, 20F);
-                aVelocity = Random.Range(54f, 59f);
-                stuntTime = Random.Range(3.5f, 5f);
+                distance = (float)System.Math.Round(Random.Range(15F, 20F), 2);
+                aVelocity = (float)System.Math.Round(Random.Range(54f, 59f), 2);
+                stuntTime = (float)System.Math.Round(Random.Range(3.5f, 5f), 2);
                 conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.925f);
-                conveyorSpeed = conveyor.GetConveyorVelocity() * -1;
+                conveyorSpeed = (float)System.Math.Round((conveyor.GetConveyorVelocity() * -1), 2);
                 float Vfp = 15 - conveyorSpeed;
                 acceleration = (float)System.Math.Round((Vfp / stuntTime), 2);
 
@@ -400,13 +398,10 @@ public class MediumManager : MonoBehaviour
                 myPlayer.transform.position = new Vector2(6 - distance, 3);
                 myPlayer.gameObject.SetActive(true);
 
-                // float Vfp = playerSpeed;
-
                 labels.distanceSpawnPnt = new Vector2(6 - distance, 3);
                 labels.heightSpawnPnt = new Vector2(-17f, -1.925f);
-                labels.SetPlayerPosition(myPlayer.transform.position);
-                labels.showLines(distance, 3.85f, playerSpeed, stuntTime);
                 labels.UnknownIs('N');
+                height = 3.85f;
                 break;
             case 3:
                 cm.gameObject.SetActive(true);
@@ -421,34 +416,43 @@ public class MediumManager : MonoBehaviour
                 qc.limit = 5f;
 
                 float hangerDist;
-                distance = Random.Range(16F, 21F);
-                aVelocity = Random.Range(54f, 59f);
-                // av = Random.Range(5f, 10f);
-                stuntTime = Random.Range(3.5f, 5f);
-                conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.15f);
-                conveyorSpeed = conveyor.GetConveyorVelocity() * -1;
-                // playerSpeed = conveyorSpeed + Random.Range(3f, 10.4f);
+                while (true)
+                {
+                    distance = (float)System.Math.Round((Random.Range(16F, 21F)), 2);
+                    aVelocity = (float)System.Math.Round((Random.Range(30f, 40f)), 2);
+                    av = (float)System.Math.Round((Random.Range(1f, 3f)), 2);
+                    conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.15f);
+                    conveyorSpeed = (float)System.Math.Round(
+                        (conveyor.GetConveyorVelocity() * -1),
+                        2
+                    );
+                    playerSpeed = (float)System.Math.Round(
+                        (conveyorSpeed + Random.Range(3f, 10.4f)),
+                        2
+                    );
 
-                hangerDist = 36 - distance;
-                av = hangerDist / stuntTime;
-                // stuntTime = distance / av;
-                playerSpeed = conveyorSpeed + (distance/stuntTime);
+                    hangerDist = 36 - distance;
+                    stuntTime = (float)System.Math.Round(((av + playerSpeed) / distance), 2);
+                    if (stuntTime <= qc.limit)
+                        break;
+                }
+                correctAnswer = stuntTime;
 
                 whatIsAsk = UnitOf.time;
                 myPlayer.transform.position = new Vector2(-18, 3);
                 myPlayer.gameObject.SetActive(true);
 
-                // float Vfp = playerSpeed;
-
                 labels.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 3);
-                labels.heightSpawnPnt = new Vector2(-17f, -1.925f);
-                labels.SetPlayerPosition(myPlayer.transform.position);
-                labels.showLines(distance, 3.85f, playerSpeed, stuntTime);
+                labels.heightSpawnPnt = new Vector2(2.9f, -0.64f);
+                height = 2.8f;
                 labels.UnknownIs('t');
                 break;
             default:
                 break;
         }
+        spawnPoint = labels.distanceSpawnPnt;
+        labels.SetPlayerPosition(myPlayer.transform.position);
+        labels.showLines(distance, height, playerSpeed, stuntTime);
         qc.SetUnitTo(whatIsAsk);
         qc.SetQuestion(question);
 
@@ -469,36 +473,35 @@ public class MediumManager : MonoBehaviour
 
     IEnumerator Retry()
     {
-        ConveyorManager.isActive = false;
-        yield return new WaitForEndOfFrame();
-        // conveyor.isActive = false;
-        FallingBoulders.isRumbling = false;
-        qc.retried = false;
         PrefabDestroyer.end = true;
+        // conveyor.isActive = false;
+        // FallingBoulders.isRumbling = false;
+        qc.retried = false;
         StartCoroutine(life.endBGgone());
         yield return new WaitForSeconds(3);
         // myPlayer.ToggleTrigger();
         // myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
-        RumblingManager.isCrumbling = false;
+        // RumblingManager.isCrumbling = false;
+        ConveyorManager.isActive = false;
+        yield return new WaitForEndOfFrame();
         SetUp();
     }
 
     IEnumerator Next()
     {
-        ConveyorManager.isActive = false;
-        FallingBoulders.isRumbling = false;
+        PrefabDestroyer.end = true;
         qc.nextStage = false;
         myPlayer.happy = false;
-        PrefabDestroyer.end = true;
         yield return new WaitForSeconds(3f);
         // StartCoroutine(life.endBGgone());
-        yield return new WaitForSeconds(2.8f);
+        ConveyorManager.isActive = false;
+        yield return new WaitForSeconds(0.5f);
         // myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
-        RumblingManager.isCrumbling = false;
+        // RumblingManager.isCrumbling = false;
 
         SetUp();
     }
