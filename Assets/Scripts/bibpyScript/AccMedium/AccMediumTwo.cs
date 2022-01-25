@@ -37,7 +37,7 @@ public class AccMediumTwo : MonoBehaviour
     void Start()
     {
         theHeart.startbgentrance();
-        //theQuestion.stageNumber = 2;
+        theQuestion.stage = 2;
         theSimulate = FindObjectOfType<AccMidSimulation>();
         gender = PlayerPrefs.GetString("Gender");
         if (gender == "Male")

@@ -40,7 +40,7 @@ public class AccMediumThree : MonoBehaviour
     {
         theScorer = FindObjectOfType<ScoreManager>();
         theHeart.startbgentrance();
-        //theQuestion.stageNumber = 3;
+        theQuestion.stage = 3;
         currentLevel = PlayerPrefs.GetInt("level");
         currentStar = PlayerPrefs.GetInt("AcstarM");
         //thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
