@@ -7603,6 +7603,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &719542016 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3647766426203031151, guid: 73f2aa6422a34fa4a8faa1aa55225a6e, type: 3}
+  m_PrefabInstance: {fileID: 477958446830101537}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &732250308
 GameObject:
   m_ObjectHideFlags: 0
@@ -37089,6 +37100,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8765152482601268354, guid: 73f2aa6422a34fa4a8faa1aa55225a6e, type: 3}
   m_PrefabInstance: {fileID: 477958446830101537}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &477958446830101540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477958446830101539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashCardImageContainer: {fileID: 719542016}
+  MaleFlashCard: {fileID: 21300000, guid: ae6fdea529b6a34ac8843e3c86d0fc2f, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: 0adb11b2852d3cff381314683371baa3, type: 3}
+  isMale: 1
 --- !u!224 &484023178491700361
 RectTransform:
   m_ObjectHideFlags: 0
@@ -49171,7 +49198,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 1
   debugPanel: {fileID: 119744737494889832}
   settingsPanel: {fileID: 6465744011491089553}
   levelFinishedPanel: {fileID: 119744736691709187}
@@ -49210,7 +49236,6 @@ MonoBehaviour:
   - {fileID: 1831877245}
   - {fileID: 880990920}
   - {fileID: 2007573620}
-  firebaseManager: {fileID: 1009387768}
   gameLevelNames:
   - 
   - Velocity
@@ -64418,7 +64443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 1
   debugPanel: {fileID: 0}
   settingsPanel: {fileID: 0}
   levelFinishedPanel: {fileID: 0}
@@ -64456,7 +64480,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  firebaseManager: {fileID: 0}
   gameLevelNames:
   - 
   - Velocity

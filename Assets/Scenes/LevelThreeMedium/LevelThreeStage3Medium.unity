@@ -6354,6 +6354,17 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
+--- !u!114 &104881169 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7539649712369349102, guid: 47b9e7e90a66f43eda3423e2dea5357c, type: 3}
+  m_PrefabInstance: {fileID: 4126777113099752029}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &111397075
 GameObject:
   m_ObjectHideFlags: 0
@@ -52716,6 +52727,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToggleFlashCardEnd
       objectReference: {fileID: 0}
+    - target: {fileID: 7539649712369349102, guid: 47b9e7e90a66f43eda3423e2dea5357c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: da88f1688bda623f3b76d9e109cbfa51, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47b9e7e90a66f43eda3423e2dea5357c, type: 3}
 --- !u!224 &4126777113099752030 stripped
@@ -52723,6 +52738,22 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4991227316370014079, guid: 47b9e7e90a66f43eda3423e2dea5357c, type: 3}
   m_PrefabInstance: {fileID: 4126777113099752029}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4126777113099752031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185643436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashCardImageContainer: {fileID: 104881169}
+  MaleFlashCard: {fileID: 21300000, guid: 881dcf32d7951281e8a526e3da752d5e, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: da88f1688bda623f3b76d9e109cbfa51, type: 3}
+  isMale: 1
 --- !u!114 &4255579169377357087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53338,7 +53369,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 1
   debugPanel: {fileID: 119744737729630368}
   settingsPanel: {fileID: 6465744011793217881}
   levelFinishedPanel: {fileID: 119744736389578955}
@@ -53387,7 +53417,6 @@ MonoBehaviour:
   - {fileID: 523005769}
   - {fileID: 1595338705}
   - {fileID: 1418801844}
-  firebaseManager: {fileID: 857928373}
   gameLevelNames:
   - 
   - Velocity
