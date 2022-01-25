@@ -14,8 +14,9 @@ public class MediumManager : MonoBehaviour
     ScoreManager score;
     PlayerCM2 myPlayer;
     StageManager sm = new StageManager();
-    
-    [SerializeField] NewConveyorManager cm;
+
+    [SerializeField]
+    NewConveyorManager cm;
 
     [SerializeField]
     GameObject directorsBubble,
@@ -40,7 +41,8 @@ public class MediumManager : MonoBehaviour
     float distance,
         stuntTime,
         elapsed,
-        correctAnswer, av;
+        correctAnswer,
+        av;
     public static int stage;
     float playerAnswer,
         playerSpeed,
@@ -226,8 +228,32 @@ public class MediumManager : MonoBehaviour
                     }
                     break;
                 case 3:
-                cm.SetConveyorSpeed(av, stuntTime, 5);
-
+                    cm.SetHangerVelocity(av, stuntTime, 5);
+                    if (myPlayer.transform.position.x >= distance)
+                    {
+                        ropeGrab = true;
+                        elapsed = stuntTime;
+                        myPlayer.running = false;
+                        myPlayer.moveSpeed = 0;
+                    }
+                    else
+                    {
+                        myPlayer.walking = false;
+                        playerSpeed = playerAnswer;
+                        myPlayer.moveSpeed = playerSpeed + conveyorSpeed;
+                        if (playerSpeed >= 2.5f)
+                        {
+                            myPlayer.myAnimator.speed = 1;
+                            playerAnim.SetBool("walkForward", false);
+                            myPlayer.running = true;
+                        }
+                        else
+                        {
+                            playerAnim.speed = elapsed + 0.4f;
+                            playerAnim.SetBool("walkForward", true);
+                            myPlayer.running = false;
+                        }
+                    }
                     break;
             }
         }
@@ -262,6 +288,7 @@ public class MediumManager : MonoBehaviour
 
     void SetUp()
     {
+        cm.gameObject.SetActive(false);
         this.gameObject.GetComponent<EdgeCollider2D>().enabled = false;
         jumperChar.SetActive(false);
         ragdoll.SetActive(false);
@@ -382,6 +409,7 @@ public class MediumManager : MonoBehaviour
                 labels.UnknownIs('N');
                 break;
             case 3:
+                cm.gameObject.SetActive(true);
                 stage3Layout.SetActive(true);
                 qc = UI3.GetComponent<QuestionController2_0_1>();
                 qc.stage = 2;
@@ -392,17 +420,19 @@ public class MediumManager : MonoBehaviour
                 myPlayer.walking = true;
                 qc.limit = 5f;
 
-                float hangerDist, hangerVelo;
+                float hangerDist;
                 distance = Random.Range(16F, 21F);
                 aVelocity = Random.Range(54f, 59f);
-                av = Random.Range(5f,10f);
-                // stuntTime = Random.Range(3.5f, 5f);
+                // av = Random.Range(5f, 10f);
+                stuntTime = Random.Range(3.5f, 5f);
                 conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.15f);
                 conveyorSpeed = conveyor.GetConveyorVelocity() * -1;
-                playerSpeed = conveyorSpeed + Random.Range(3f, 10.4f);
-                stuntTime = distance/playerSpeed;
+                // playerSpeed = conveyorSpeed + Random.Range(3f, 10.4f);
 
                 hangerDist = 36 - distance;
+                av = hangerDist / stuntTime;
+                // stuntTime = distance / av;
+                playerSpeed = conveyorSpeed + (distance/stuntTime);
 
                 whatIsAsk = UnitOf.time;
                 myPlayer.transform.position = new Vector2(-18, 3);
