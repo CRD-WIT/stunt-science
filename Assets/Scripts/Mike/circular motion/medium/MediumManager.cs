@@ -30,7 +30,9 @@ public class MediumManager : MonoBehaviour
         UI3,
         conveyor1,
         conveyor2,
-        jumperChar;
+        jumperChar,
+        hanger,
+        labels2;
     Animator playerAnim;
     Animation walk;
 
@@ -225,21 +227,30 @@ public class MediumManager : MonoBehaviour
                             messageTxt = "Answer is less than correct";
                         }
                     }
+                    labels.IsRunning(myPlayer.moveSpeed, myPlayer.transform.position.x);
                     break;
                 case 3:
-                    cm.SetHangerVelocity(-av, stuntTime, 4);
-                    if (myPlayer.transform.position.x >= distance)
+
+                    cm.SetHangerVelocity(-av, stuntTime, 3.5f);
+                    if (elapsed >= playerAnswer)
                     {
                         ropeGrab = true;
                         elapsed = stuntTime;
                         myPlayer.running = false;
                         myPlayer.moveSpeed = 0;
+                        isAnswered = false;
+                        
+                        if(playerAnswer == correctAnswer){
+                            messageTxt = "Correct";
+                        }
+                        else{
+                            messageTxt = "wrong";
+                        }
                     }
                     else
                     {
                         myPlayer.walking = false;
-                        playerSpeed = playerAnswer;
-                        myPlayer.moveSpeed = playerSpeed + conveyorSpeed;
+                        myPlayer.moveSpeed = playerSpeed;
                         if (playerSpeed >= 2.5f)
                         {
                             myPlayer.myAnimator.speed = 1;
@@ -248,7 +259,7 @@ public class MediumManager : MonoBehaviour
                         }
                         else
                         {
-                            playerAnim.speed = elapsed + 0.4f;
+                            playerAnim.speed = 0.4f;
                             playerAnim.SetBool("walkForward", true);
                             myPlayer.running = false;
                         }
@@ -402,42 +413,44 @@ public class MediumManager : MonoBehaviour
                 labels.heightSpawnPnt = new Vector2(-17f, -1.925f);
                 labels.UnknownIs('N');
                 height = 3.85f;
+                question =
+                    $"{playerName} is instructed to run on a moving conveyor with the speed of <b>{conveyorSpeed}{qc.Unit(UnitOf.angularVelocity)}</b>. What should be {pNoun} aceleration if {pronoun} starts at stationary ";
                 break;
             case 3:
                 cm.gameObject.SetActive(true);
                 stage3Layout.SetActive(true);
                 qc = UI3.GetComponent<QuestionController2_0_1>();
+
                 qc.stage = 2;
                 conveyor = FindObjectOfType<ConveyorManager>();
-                playerAnim.speed = 1;
+                playerAnim.speed = 1 / 2f;
                 myPlayer.climb = false;
                 myPlayer.running = false;
                 myPlayer.walking = true;
                 qc.limit = 5f;
 
-                float hangerDist;
+                float hangerDist,
+                    dT = 37,
+                    dj,
+                    cmAv;
                 while (true)
                 {
                     distance = (float)System.Math.Round((Random.Range(16F, 21F)), 2);
-                    aVelocity = (float)System.Math.Round((Random.Range(30f, 40f)), 2);
-                    av = (float)System.Math.Round((Random.Range(1f, 3f)), 2);
+                    aVelocity = (float)System.Math.Round((Random.Range(15f, 25f)), 2);
+                    playerSpeed = (float)System.Math.Round(Random.Range(2f, 10.49f), 2);
                     conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.15f);
                     conveyorSpeed = (float)System.Math.Round(
                         (conveyor.GetConveyorVelocity() * -1),
                         2
                     );
-                    playerSpeed = (float)System.Math.Round(
-                        (conveyorSpeed + Random.Range(3f, 10.4f)),
-                        2
-                    );
 
-                    hangerDist = 36 - distance;
-                    stuntTime = (float)System.Math.Round(((av + playerSpeed) / distance), 2);
-                    if (stuntTime <= qc.limit)
+                    stuntTime = distance / (playerSpeed + conveyorSpeed);
+                    av = (dT / stuntTime) - (playerSpeed + conveyorSpeed);
+                    if ((stuntTime <= qc.limit) && (stuntTime >= 3))
                         break;
                 }
-                correctAnswer = stuntTime;
 
+                correctAnswer = (float)System.Math.Round(stuntTime, 2);
                 whatIsAsk = UnitOf.time;
                 myPlayer.transform.position = new Vector2(-18, 3);
                 myPlayer.gameObject.SetActive(true);
