@@ -19643,8 +19643,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FlashCardImageContainer: {fileID: 566433152}
-  MaleFlashCard: {fileID: 21300000, guid: 881dcf32d7951281e8a526e3da752d5e, type: 3}
-  FemaleFlashCard: {fileID: 21300000, guid: da88f1688bda623f3b76d9e109cbfa51, type: 3}
+  MaleFlashCard: {fileID: 21300000, guid: d7fe0a7c0ea61b0b295f9c96e8117e3e, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: b7151fc9fa1014d7daae302f15963709, type: 3}
   isMale: 1
 --- !u!1001 &1106144920
 PrefabInstance:
@@ -31831,6 +31831,7 @@ GameObject:
   - component: {fileID: 1929707834}
   - component: {fileID: 1929707833}
   - component: {fileID: 1929707832}
+  - component: {fileID: 1929707835}
   m_Layer: 5
   m_Name: canvas3
   m_TagString: Untagged
@@ -31934,6 +31935,22 @@ Canvas:
   m_SortingLayerID: 1488418657
   m_SortingOrder: 10
   m_TargetDisplay: 0
+--- !u!114 &1929707835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929707830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f896b9290129c3d569ad4e699021268f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maleAvatarImage: {fileID: 21300000, guid: 863d9bf95f67d774e9d167a4ee3958c2, type: 3}
+  femaleAvatarImage: {fileID: 21300000, guid: 90cd1692b485b01d7956e90d10f1b643, type: 3}
+  avatarImageContainer: {fileID: 1866053618}
+  isMale: 1
 --- !u!1 &1950323005
 GameObject:
   m_ObjectHideFlags: 0
