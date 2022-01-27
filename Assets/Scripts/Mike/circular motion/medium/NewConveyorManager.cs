@@ -41,7 +41,8 @@ public class NewConveyorManager : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name == "hanger") {
+        if (other.gameObject.name == "hanger")
+        {
             other.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             other.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
             other.transform.parent = this.gameObject.transform;
@@ -66,6 +67,14 @@ public class NewConveyorManager : MonoBehaviour
         conveyorVelocity = distance / t;
         time = distance / conveyorSpeed;
         angularVelocity = aVelocity;
+    }
+    public void SetHangerVelocity(float velocity, float t, float radius)
+    {
+        float circumferenceOfWheel = 2 * (float)(Mathf.PI * radius),
+        d = velocity * t,
+        arc = (d / circumferenceOfWheel) * 360;
+        angularVelocity = arc / t;
+        conveyorSpeed = velocity;
     }
 
     public float GetConveyorVelocity()

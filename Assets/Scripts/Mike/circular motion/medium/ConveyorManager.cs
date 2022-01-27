@@ -35,6 +35,8 @@ public class ConveyorManager : MonoBehaviour
             conveyorWheel2RB.angularVelocity = angularVelocity;
         else if (MediumManager.stage == 2)
             conveyorWheel2RB.angularVelocity = angularVelocity * (3.85f / 1.22f);
+        else
+            conveyorWheel2RB.angularVelocity = angularVelocity;
         if (!isActive)
         {
             StartCoroutine(ConveyorDestroyer());

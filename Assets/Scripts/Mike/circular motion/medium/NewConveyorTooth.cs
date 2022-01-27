@@ -10,16 +10,21 @@ public class NewConveyorTooth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.gameObject.transform.parent.name == "UpperTooth")
-            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(
-                -NewConveyorManager.conveyorSpeed,
-                0
-            );
+        if (NewConveyorManager.conveyorSpeed == 0)
+            Debug.Log("okay");
         else
-            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(
-                NewConveyorManager.conveyorSpeed,
-                0
-            );
+        {
+            if (this.gameObject.transform.parent.name == "UpperTooth")
+                this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(
+                    -NewConveyorManager.conveyorSpeed,
+                    0
+                );
+            else
+                this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(
+                    NewConveyorManager.conveyorSpeed,
+                    0
+                );
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
