@@ -112,6 +112,9 @@ public class PlayerCM2 : MonoBehaviour
         // TODO: Fix sound
         // footstep.Play(0);
     }
+    public void ragdollDestroyer(){
+        
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {

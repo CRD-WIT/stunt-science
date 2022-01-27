@@ -184,7 +184,7 @@ public class MediumManager : MonoBehaviour
                     if (myPlayer.transform.position.x >= distance)
                     {
                         //Put new character. to jump to the pipe
-                        // StartCoroutine(ActivateJump());
+                        StartCoroutine(ActivateJump());
                         elapsed = stuntTime;
                         myPlayer.running = false;
                         myPlayer.moveSpeed = 0;
@@ -227,7 +227,7 @@ public class MediumManager : MonoBehaviour
                             messageTxt = "Answer is less than correct";
                         }
                     }
-                    labels.IsRunning(myPlayer.moveSpeed, myPlayer.transform.position.x);
+                    // labels.IsRunning(myPlayer.moveSpeed, myPlayer.transform.position.x);
                     break;
                 case 3:
 
@@ -235,17 +235,24 @@ public class MediumManager : MonoBehaviour
                     if (elapsed >= playerAnswer)
                     {
                         ropeGrab = true;
-                        elapsed = stuntTime;
+                        elapsed = playerAnswer;
                         myPlayer.running = false;
                         myPlayer.moveSpeed = 0;
                         isAnswered = false;
-                        
-                        if(playerAnswer == correctAnswer){
+                        hanger.GetComponent<HingeJoint2D>().enabled = true;
+                        cm.SetHangerVelocity(-1, stuntTime, 3.5f);
+
+                        if (playerAnswer == correctAnswer)
+                        {
                             messageTxt = "Correct";
+                            isAnswerCorrect = true;
                         }
-                        else{
+                        else
+                        {
                             messageTxt = "wrong";
+                            isAnswerCorrect = false;
                         }
+                        isEndOfStunt = true;
                     }
                     else
                     {
@@ -278,7 +285,11 @@ public class MediumManager : MonoBehaviour
         if (ropeGrab)
             StartCoroutine(GrabRope());
         if (ragdollActive)
-            RagdollSpawn();
+        {
+            ragdollActive = false;
+            myPlayer.ragdollspawn();
+        }
+        //     RagdollSpawn();
         if (qc.isSimulating)
             Play();
         else
@@ -301,7 +312,8 @@ public class MediumManager : MonoBehaviour
         cm.gameObject.SetActive(false);
         this.gameObject.GetComponent<EdgeCollider2D>().enabled = false;
         jumperChar.SetActive(false);
-        ragdoll.SetActive(false);
+        Destroy(GameObject.Find("ragdoll 2(Clone)"));
+        // ragdoll.SetActive(false);
         ragdollActive = false;
 
         labels.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
@@ -463,7 +475,8 @@ public class MediumManager : MonoBehaviour
             default:
                 break;
         }
-        spawnPoint = labels.distanceSpawnPnt;
+        if (!isAnswerCorrect)
+            spawnPoint = labels.distanceSpawnPnt;
         labels.SetPlayerPosition(myPlayer.transform.position);
         labels.showLines(distance, height, playerSpeed, stuntTime);
         qc.SetUnitTo(whatIsAsk);
@@ -487,18 +500,12 @@ public class MediumManager : MonoBehaviour
     IEnumerator Retry()
     {
         PrefabDestroyer.end = true;
-        // conveyor.isActive = false;
-        // FallingBoulders.isRumbling = false;
         qc.retried = false;
-        StartCoroutine(life.endBGgone());
         yield return new WaitForSeconds(3);
-        // myPlayer.ToggleTrigger();
-        // myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
-        // RumblingManager.isCrumbling = false;
         ConveyorManager.isActive = false;
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.5f);
         SetUp();
     }
 
@@ -554,8 +561,10 @@ public class MediumManager : MonoBehaviour
         // yield return new WaitForSeconds(0.25f);
         directorIsCalling = true;
         isStartOfStunt = false;
+        if (!isAnswerCorrect)
+            life.ReduceLife();
         yield return new WaitForSeconds(1f);
-        qc.ActivateResult(messageTxt, isAnswerCorrect);
+        qc.ActivateResult(messageTxt, isAnswerCorrect, stage == 3 ? true : false);
     }
 
     IEnumerator GrabRope()
@@ -563,19 +572,15 @@ public class MediumManager : MonoBehaviour
         myPlayer.running = false;
         ropeGrab = false;
         myPlayer.ropeGrab = true;
-        // playerAnim.SetBool("running", false);
-        // playerAnim.SetBool("ropeGrab", true);
-        // myPlayer.successGrab = true;
         yield return new WaitForSeconds(0.15f);
         if (isAnswerCorrect)
         {
             myPlayer.successGrab = true;
-            // playerAnim.SetBool("successGrab", true);
             yield return new WaitForSeconds(1.01f);
             myPlayer.ropeGrab = false;
             myPlayer.successGrab = false;
-            myPlayer.climb = true;
-            // myPlayer.ropeGrab = false;
+            myPlayer.climb = stage == 3 ? false : true;
+            myPlayer.isHanging = stage == 3 ? true : false;
         }
         else
         {
@@ -588,13 +593,13 @@ public class MediumManager : MonoBehaviour
         isEndOfStunt = true;
     }
 
-    void RagdollSpawn()
-    {
-        myPlayer.gameObject.SetActive(false);
-        ragdoll.transform.position = myPlayer.transform.position;
-        ragdoll.SetActive(true);
-        ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
-    }
+    // void RagdollSpawn()
+    // {
+    //     myPlayer.gameObject.SetActive(false);
+    //     ragdoll.transform.position = myPlayer.transform.position;
+    //     ragdoll.SetActive(true);
+    //     // ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
+    // }
 
     IEnumerator ActivateJump()
     {
@@ -608,10 +613,14 @@ public class MediumManager : MonoBehaviour
                 0
             );
         jumperChar.GetComponent<Animator>().SetBool("dive", true);
+        jumperChar.GetComponent<Animator>().SetBool("flyGrab", true);
         yield return new WaitForSeconds(1.25f);
         isAnswered = false;
         isEndOfStunt = true;
         jumperChar.GetComponent<Animator>().SetBool("dive", false);
+        jumperChar.GetComponent<Animator>().SetBool("hangWalk", true);
+        yield return new WaitForSeconds(0.25f);
+        jumperChar.GetComponent<Animator>().SetBool("flyGrab", false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
