@@ -6,6 +6,7 @@ public class BoxCollisionManager : MonoBehaviour
 {
     public ForceHardManagerOne theManagerOne;
     public ForceHardManagerTwo theManagerTwo;
+    public ForceHardManagerThree theManagerThree;
     public ForceHardSimulation theSimulate;
     public PlayerContForcesMed thePlayer;
     public bool breakReady;
@@ -80,5 +81,42 @@ public class BoxCollisionManager : MonoBehaviour
 
             }
         }
+        if (theSimulate.stage == 3)
+        {
+            if (collision.gameObject.tag == "wall")
+            {
+                if (breakReady && theManagerThree.answerIsCorrect)
+                {
+                    glassPrision.SetActive(false);
+                    GameObject glass = Instantiate(glassPrefab);
+                    glass.transform.position = glassLoc[0].transform.position;
+                    theSimulate.simulate = false;
+                    thePlayer.push = false;
+                    breakReady = false;
+                    StartCoroutine(theManagerThree.StuntResult());
+
+                }
+                if (breakReady && theManagerThree.answerIsMorethan)
+                {
+                    glassPrision.SetActive(false);
+                    GameObject glass = Instantiate(glassPrefab);
+                    glass.transform.position = glassLoc[0].transform.position;
+                    breakReady = false;
+                    StartCoroutine(theManagerThree.overForce());
+                    StartCoroutine(theManagerThree.StuntResult());
+
+                }
+                if (breakReady && theManagerThree.answerIsLessthan)
+                {
+                    theSimulate.simulate = false;
+                    thePlayer.push = false;
+                    breakReady = false;
+                    StartCoroutine(theManagerThree.StuntResult());
+
+                }
+
+            }
+        }
+        
     }
 }
