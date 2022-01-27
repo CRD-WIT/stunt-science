@@ -7,6 +7,7 @@ public class ForceHardManagerOne : MonoBehaviour
 {
     public ForceHardSimulation theSimulate;
     public PlayerContForcesMed thePlayer;
+    public PrisonerManager thePrisoner;
     public BoxManager theBox;
     public GameObject boxOne, pushOrigin, ragdollPrefab, prisoner,prisonGlass,dimensions;
     public float breakingForce, resultantDownhillForce, downhillForce, frictionForce, normalForce, appliedForce, mu, angle, massBox, accBox, finalForce;
@@ -59,6 +60,7 @@ public class ForceHardManagerOne : MonoBehaviour
     }
     public void showProblem()
     {
+        thePrisoner.ragdollReady = true;
         boxSpeed = 0;
         dimensions.SetActive(true);
         prisonGlass.SetActive(true);
@@ -110,7 +112,7 @@ public class ForceHardManagerOne : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         if (theSimulate.playerAnswer != correctAnswer)
         {
-            //theHeart.losinglife();
+            theHeart.ReduceLife();
             yield return new WaitForSeconds(4);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able to save the captive"), false, false);
 

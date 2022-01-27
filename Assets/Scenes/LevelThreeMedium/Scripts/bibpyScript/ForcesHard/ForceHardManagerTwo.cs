@@ -8,16 +8,17 @@ public class ForceHardManagerTwo : MonoBehaviour
 {
     public ForceHardSimulation theSimulate;
     public QuestionContForcesMed theQuestion;
+    public HeartManager theHeart;
     public float accBoxOne, accBoxTwo, massBox, frictionForceOne, frictionForceTwo, normalForce, muOne, muTwo, distanceOne, distanceTwo, appliedForce, ViOne, VfOne, VfTwo, finalForceOne, finalForceTwo;
     public float timeOne, timeTwo, timeTotal, boxStartPos, boxCurrentPos, boxDistanceTravel, time;
     public float boxSpeed, angle, correctAnswer, timer;
-    public GameObject box, target, wallGlass, stopper,dimensions;
+    public GameObject box, target, wallGlass, stopper, dimensions;
     public PlayerContForcesMed thePlayer;
     public bool answerIsCorrect;
     public Vector2 playerStartPoint, boxStartPoint, zombie0StartPoint, zombie1StartPoint;
     public BoxCollisionManager theCollision;
     public ZombieMedium[] theZombie;
-    public TMP_Text muOnetxt, muTwoTxt,massBoxTxt,appliedForceTxt;
+    public TMP_Text muOnetxt, muTwoTxt, massBoxTxt, appliedForceTxt;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +49,7 @@ public class ForceHardManagerTwo : MonoBehaviour
 
             if (theSimulate.playerAnswer == correctAnswer)
             {
+                dimensions.SetActive(false);
                 stopper.SetActive(true);
                 if (boxDistanceTravel <= 6)
                 {
@@ -156,9 +158,9 @@ public class ForceHardManagerTwo : MonoBehaviour
         timeTotal = timeOne + timeTwo;
         muOnetxt.text = "μ =" + muOne.ToString("F2");
         muTwoTxt.text = "μ =" + muOne.ToString("F2");
-        massBoxTxt.text = "m = "+ massBox.ToString("F2")+ "kg";
+        massBoxTxt.text = "m = " + massBox.ToString("F2") + "kg";
         appliedForceTxt.text = appliedForce.ToString("F2") + "N";
-        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to pull the box(B) in a horizontal plane with a different of surface friction, at a distnce of <b>") + distanceOne.ToString("F2") + ("</b> meters, wherein the suraface has <b>") + muOne.ToString("F2") + ("</b> coefficient of friction and must continue to move at a distance of <b>")+ distanceTwo.ToString("F2") +("</b> meters that has a coefficient friction of <b>")+muTwo.ToString("F2")+("</b> applying force of <b>") +appliedForce.ToString("F2") + ("N</b>. If the box has a mass of <b>")+ massBox.ToString("F2")+("</b> kg, How long will it take for <b>") + PlayerPrefs.GetString("Name") + ("</b> to set the box in position?")));
+        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to pull the box(B) in a horizontal plane with a different of surface friction, at a distnce of <b>") + distanceOne.ToString("F2") + ("</b> meters, wherein the suraface has <b>") + muOne.ToString("F2") + ("</b> coefficient of friction and must continue to move at a distance of <b>") + distanceTwo.ToString("F2") + ("</b> meters that has a coefficient friction of <b>") + muTwo.ToString("F2") + ("</b> applying force of <b>") + appliedForce.ToString("F2") + ("N</b>. If the box has a mass of <b>") + massBox.ToString("F2") + ("</b> kg, How long will it take for <b>") + PlayerPrefs.GetString("Name") + ("</b> to set the box in position?")));
 
     }
     public IEnumerator StuntResult()
@@ -167,12 +169,14 @@ public class ForceHardManagerTwo : MonoBehaviour
         {
             theQuestion.answerIsCorrect = true;
             yield return new WaitForSeconds(4);
+            box.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+            target.SetActive(false);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and closed the zombies way in"), true, false);
         }
         StartCoroutine(theSimulate.DirectorsCall());
         if (theSimulate.playerAnswer != correctAnswer)
         {
-            //theHeart.losinglife();
+            theHeart.ReduceLife();
             yield return new WaitForSeconds(4);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able to lock in the zombies"), false, false);
 

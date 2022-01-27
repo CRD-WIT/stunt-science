@@ -9,7 +9,7 @@ public class PlayerContForcesMed : MonoBehaviour
     public Animator myAnimator;
     public GameObject player, stickprefab, stickmanpoint, skirt, hair;
     public bool lost, happy, ragdollblow, posready, grounded, standup, slide, isHanging, brake, isGrabbing, hangWalk, isFalling, toJump, jumpHang,
-        isLanded, thrown,push, idlePush,pull;
+        isLanded, thrown, push, idlePush, pull, fillWeight,run;
     public AudioSource footstep;
     float currentpos;
     public LayerMask whatIsGround;
@@ -70,9 +70,11 @@ public class PlayerContForcesMed : MonoBehaviour
         // myAnimator.SetBool("jumpHang", jumpHang);
         // myAnimator.SetBool("landed", isLanded);
         // myAnimator.SetBool("throw", thrown);
-         myAnimator.SetBool("push", push);
-         myAnimator.SetBool("pull", pull);
-          myAnimator.SetBool("idlePush", idlePush);
+        myAnimator.SetBool("push", push);
+        myAnimator.SetBool("pull", pull);
+        myAnimator.SetBool("idlePush", idlePush);
+        myAnimator.SetBool("fillWeight", fillWeight);
+        myAnimator.SetBool("run", run);
         if (posready == true)
         {
             if (currentpos >= 0)
@@ -97,12 +99,12 @@ public class PlayerContForcesMed : MonoBehaviour
         {
             ragdollblow = true;
         }
-         if (collision.gameObject.tag == ("box"))
-         {
-             //push = true;
-             //theSimulate.simulate = true;
-             //Time.timeScale = 0;
-         }
+        if (collision.gameObject.tag == ("box"))
+        {
+            //push = true;
+            //theSimulate.simulate = true;
+            //Time.timeScale = 0;
+        }
     }
     public void ragdollspawn()
     {
@@ -114,10 +116,11 @@ public class PlayerContForcesMed : MonoBehaviour
     public void playfootstep()
     {
         // TODO: Fix sound
-        if(footstep){
+        if (footstep)
+        {
             footstep.Play(0);
         }
-        
+
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -138,10 +141,11 @@ public class PlayerContForcesMed : MonoBehaviour
     }
     public void ToggleTrigger()
     {
-        if(ragDollTrigger){
+        if (ragDollTrigger)
+        {
             ragDollTrigger.enabled = true;
         }
-        
+
     }
     public void jump()
     {

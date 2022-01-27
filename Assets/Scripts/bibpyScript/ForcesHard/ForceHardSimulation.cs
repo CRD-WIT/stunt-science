@@ -11,8 +11,9 @@ public class ForceHardSimulation : MonoBehaviour
     public PlayerContForcesMed thePlayer;
     public ForceHardManagerOne theManagerOne;
     public ForceHardManagerTwo theManagerTwo;
+    public ForceHardManagerThree theManagerThree;
     // public ForceManagerHardThree theManagerThree;
-    public PrisonerManager thePrisoner;
+    public PrisonerManager[] thePrisoner;
     public bool simulate;
     public float stage;
     public float playerAnswer;
@@ -21,7 +22,7 @@ public class ForceHardSimulation : MonoBehaviour
     public QuestionContForcesMed theQuestion;
     bool directorIsCalling;
     public Button playButton;
-    public GameObject directorBubble;
+    public GameObject directorBubble,weightBox;
     public GameObject[] box;
     public bool destroyGlass;
     public Vector2 playerStartPoint, zombie1StartPoint, zombie2StartPoint, boxStartPoint;
@@ -72,7 +73,7 @@ public class ForceHardSimulation : MonoBehaviour
             if (answerField.text == "" )
             {
                 StartCoroutine(errorMesage());
-                theQuestion.errorText = ("answer must not exceed ") ;
+                theQuestion.errorText = ("please enter a valid answer") ;
             }
             else
             {
@@ -99,7 +100,7 @@ public class ForceHardSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "N";
+                    answerField.text = playerAnswer.ToString() + "kg";
                 }
 
             }
@@ -136,7 +137,8 @@ public class ForceHardSimulation : MonoBehaviour
         }
         if (stage == 3)
         {
-    
+            theManagerThree.showProblem();
+            weightBox.SetActive(true);
         }
 
     }
@@ -153,10 +155,16 @@ public class ForceHardSimulation : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
+            if(stage == 3)
+            {
+                thePlayer.fillWeight = true;
+                yield return new WaitForSeconds(3f);
+                thePlayer.fillWeight = false;
+                weightBox.SetActive(false);
+            }
             simulate = true;  
             directorIsCalling = false;
             destroyGlass = false;
-            thePrisoner.ragdollReady = true;
             if(stage == 2)
             {
                 StartCoroutine(theManagerTwo.zombieChase());
@@ -178,12 +186,15 @@ public class ForceHardSimulation : MonoBehaviour
         answerField.text = ("");
         if (stage == 2)
         {
+            
+            theManagerTwo.gameObject.SetActive(false);
+            theManagerThree.gameObject.SetActive(true);
+            // thePlayer.transform.position = new Vector2(19.32f, -.22f);
+            thePlayer.transform.rotation = Quaternion.Euler(0,0,20);
+            // destroyGlass = true;
+            // box[0].SetActive(false);
+            // StartCoroutine(thePrisoner.startRun());
             stage = 3;
-            // theManagerTwo.gameObject.SetActive(false);
-            // theManagerThree.gameObject.SetActive(true);
-
-            //theManagerTwo.GenerateProblem();
-
         }
         if(stage == 1)
         {
@@ -194,7 +205,7 @@ public class ForceHardSimulation : MonoBehaviour
             thePlayer.transform.rotation = Quaternion.Euler(0,0,0);
             destroyGlass = true;
             box[0].SetActive(false);
-            StartCoroutine(thePrisoner.startRun());
+            StartCoroutine(thePrisoner[0].startRun());
             stage = 2;
 
         }
