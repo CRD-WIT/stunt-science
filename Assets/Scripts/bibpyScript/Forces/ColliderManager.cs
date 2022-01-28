@@ -6,6 +6,7 @@ public class ColliderManager : MonoBehaviour
      private PlayerB thePlayer;
      public GameObject braker; 
      private ForceManagerThree theManagerThree;
+     
 
     // Start is called before the first frame update
     void Start()

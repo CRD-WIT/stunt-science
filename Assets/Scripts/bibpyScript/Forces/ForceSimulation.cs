@@ -28,6 +28,8 @@ public class ForceSimulation : MonoBehaviour
     public GameObject directorBubble, zombiePrefab;
     private ragdollScript theRagdoll;
     public bool zombieChase, destroyZombies;
+    public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
+
 
     //string accelaration;
     // Start is called before the first frame update
@@ -108,6 +110,7 @@ public class ForceSimulation : MonoBehaviour
     }
     public void next()
     {
+        destroyZombies = true;
         theQuestion.isModalOpen = false;
         StartCoroutine(theHeart.startBGgone());
         StartCoroutine(nextStage());
@@ -158,10 +161,13 @@ public class ForceSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Lights!";
+            lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
+            cameraSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Action!";
+             actionSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
@@ -172,6 +178,7 @@ public class ForceSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
+            cutSfx.Play();
             yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";
