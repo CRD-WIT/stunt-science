@@ -70,10 +70,10 @@ public class ForceHardSimulation : MonoBehaviour
         if (stage == 2)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" )
+            if (answerField.text == ""|| playerAnswer > 10 )
             {
                 StartCoroutine(errorMesage());
-                theQuestion.errorText = ("please enter a valid answer") ;
+                theQuestion.errorText = ("answer must not exceed 10 sec!") ;
             }
             else
             {
@@ -81,7 +81,7 @@ public class ForceHardSimulation : MonoBehaviour
                 StartCoroutine(DirectorsCall());
                 playButton.interactable = false;
                 {
-                    answerField.text = playerAnswer.ToString() + "N";
+                    answerField.text = playerAnswer.ToString() + "sec";
                 }
 
             }

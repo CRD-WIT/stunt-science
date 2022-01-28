@@ -18,6 +18,7 @@ public class ForceManagerOne : MonoBehaviour
     public bool throwBomb;
     public TMP_Text masstxt, acctxt, breakingforcetxt, forcetxt, actiontxt;
     private HeartManager theHeart;
+    public AudioSource glassBreak,thud;
 
 
     // Start is called before the first frame update
@@ -51,9 +52,10 @@ public class ForceManagerOne : MonoBehaviour
             theSimulate.zombieChase = true;
             if (theCollider.collide == true)
             {
-                if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
+                if (playerAnswer == correctAnswer)
                 {
 
+                    glassBreak.Play();
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
                     //theQuestion.SetModalTitle("Stunt Success");
@@ -75,6 +77,7 @@ public class ForceManagerOne : MonoBehaviour
                 }
                 if (playerAnswer > correctAnswer)
                 {
+                    thud.Play();
                     //theQuestion.SetModalTitle("Stunt Failed");
                     //theQuestion.SetModalText(" the glass was too tough for </color>" + PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.");
                     tooWeak = true;
@@ -93,6 +96,7 @@ public class ForceManagerOne : MonoBehaviour
                 }
                 if (playerAnswer < correctAnswer)
                 {
+                    glassBreak.Play();
                     //triggerDevour.SetActive(true);
                     //theQuestion.SetModalTitle("Stunt Failed");
                     //theQuestion.SetModalText(" the glass was too weak for </color>" + PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is "+ correctAnswer.ToString("F2") +"Newtons.");
@@ -168,7 +172,7 @@ public class ForceManagerOne : MonoBehaviour
         yield return new WaitForSeconds(2f);
         ForceSimulation.simulate = false;
 
-        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
+        if (playerAnswer == correctAnswer)
         {
             theQuestion.answerIsCorrect = true;
             yield return new WaitForSeconds(4);

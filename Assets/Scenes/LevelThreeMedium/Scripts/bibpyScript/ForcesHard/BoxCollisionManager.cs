@@ -61,26 +61,26 @@ public class BoxCollisionManager : MonoBehaviour
 
             }
         }
-         if (theSimulate.stage == 2)
-        {
-            if (collision.gameObject.tag == "wall")
-            {
-                if (breakReady && theManagerTwo.answerIsCorrect == false)
-                {
-                    theManagerTwo.wallGlass.SetActive(false);
-                    GameObject glass = Instantiate(glassPrefab);
-                    glass.transform.position = glassLoc[0].transform.position;
-                    theSimulate.simulate = false;
-                    theManagerTwo.boxSpeed = 0;
-                    thePlayer.pull = false;
-                    thePlayer.moveSpeed = 0;
-                    breakReady = false;
-                    StartCoroutine(theManagerTwo.StuntResult());
+        //  if (theSimulate.stage == 2)
+        // {
+        //     if (collision.gameObject.tag == "wall")
+        //     {
+        //         if (breakReady && theManagerTwo.answerIsCorrect == false)
+        //         {
+        //             theManagerTwo.wallGlass.SetActive(false);
+        //             GameObject glass = Instantiate(glassPrefab);
+        //             glass.transform.position = glassLoc[0].transform.position;
+        //             theSimulate.simulate = false;
+        //             theManagerTwo.boxSpeed = 0;
+        //             thePlayer.pull = false;
+        //             thePlayer.moveSpeed = 0;
+        //             breakReady = false;
+        //             StartCoroutine(theManagerTwo.StuntResult());
 
-                }
+        //         }
 
-            }
-        }
+        //     }
+        // }
         if (theSimulate.stage == 3)
         {
             if (collision.gameObject.tag == "wall")

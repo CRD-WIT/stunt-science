@@ -119,7 +119,7 @@ public class CrowdScript : MonoBehaviour
         if (theSimulate.stage == 1)
         {
             yield return new WaitForSeconds(1);
-            moveSpeedX = Random.Range(5, 7);
+            moveSpeedX = Random.Range(3, 5);
         }
         if (theSimulate.stage == 2)
         {
