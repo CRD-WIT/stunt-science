@@ -12,7 +12,7 @@ public class ForceHardManagerTwo : MonoBehaviour
     public float accBoxOne, accBoxTwo, massBox, frictionForceOne, frictionForceTwo, normalForce, muOne, muTwo, distanceOne, distanceTwo, appliedForce, ViOne, VfOne, VfTwo, finalForceOne, finalForceTwo;
     public float timeOne, timeTwo, timeTotal, boxStartPos, boxCurrentPos, boxDistanceTravel, time;
     public float boxSpeed, angle, correctAnswer, timer;
-    public GameObject box, target, wallGlass, stopper, dimensions;
+    public GameObject box, target, wallGlass, stopper, dimensions,platform;
     public PlayerContForcesMed thePlayer;
     public bool answerIsCorrect;
     public Vector2 playerStartPoint, boxStartPoint, zombie0StartPoint, zombie1StartPoint;
@@ -32,6 +32,7 @@ public class ForceHardManagerTwo : MonoBehaviour
         playerStartPoint = thePlayer.transform.position;
         boxStartPoint = box.transform.position;
         showProblem();
+        
     }
 
     // Update is called once per frame
@@ -44,7 +45,7 @@ public class ForceHardManagerTwo : MonoBehaviour
         if (theSimulate.simulate == true)
         {
             thePlayer.pull = true;
-
+            platform.GetComponent<BoxCollider2D>().enabled = false;
             timer += Time.fixedDeltaTime;
 
             if (theSimulate.playerAnswer == correctAnswer)
@@ -76,8 +77,8 @@ public class ForceHardManagerTwo : MonoBehaviour
             {
                 if (boxDistanceTravel <= 6)
                 {
-                    boxSpeed -= (accBoxOne + .1f) * Time.fixedDeltaTime;
-                    thePlayer.moveSpeed -= (accBoxOne + .1f) * Time.fixedDeltaTime;
+                    boxSpeed -= (accBoxOne + .2f) * Time.fixedDeltaTime;
+                    thePlayer.moveSpeed -= (accBoxOne + .2f) * Time.fixedDeltaTime;
                 }
                 if (boxDistanceTravel > 6)
                 {
@@ -99,8 +100,8 @@ public class ForceHardManagerTwo : MonoBehaviour
             {
                 if (boxDistanceTravel <= 6)
                 {
-                    boxSpeed -= (accBoxOne - .02f) * Time.fixedDeltaTime;
-                    thePlayer.moveSpeed -= (accBoxOne - .02f) * Time.fixedDeltaTime;
+                    boxSpeed -= (accBoxOne - .1f) * Time.fixedDeltaTime;
+                    thePlayer.moveSpeed -= (accBoxOne - .1f) * Time.fixedDeltaTime;
                 }
                 if (boxDistanceTravel > 6)
                 {
@@ -133,7 +134,7 @@ public class ForceHardManagerTwo : MonoBehaviour
         timer = 0;
         theZombie[0].transform.position = zombie0StartPoint;
         theZombie[1].transform.position = zombie1StartPoint;
-        wallGlass.SetActive(true);
+        //wallGlass.SetActive(true);
         theCollision.breakReady = true;
         thePlayer.transform.position = playerStartPoint;
         box.transform.position = boxStartPoint;

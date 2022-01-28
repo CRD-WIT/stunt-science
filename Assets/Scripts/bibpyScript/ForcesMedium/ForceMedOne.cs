@@ -19,6 +19,7 @@ public class ForceMedOne : MonoBehaviour
     public ZombieMedium[] theZombie;
     Vector2 playerStartPoint, boxStartPoint,zombie0StartPoint,zombie1StartPoint,zombie2StartPoint,zombie3StartPoint;
      public TMP_Text boxMassTxt,frictionTxt;
+     public AudioSource dragSfx;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,12 +51,14 @@ public class ForceMedOne : MonoBehaviour
         }
         if (theSimulate.simulate == true)
         {
+            
             dimensions.SetActive(false);
             thePlayer.push = true;
             accelerationPlayer = (theSimulate.playerAnswer-friction) / massBox;
             timer += Time.fixedDeltaTime;
             if (theSimulate.playerAnswer == correctAnswer)
             {
+                
                 thePlayer.moveSpeed += accelerationBox * Time.fixedDeltaTime;
                 theBox.boxSpeed1 += accelerationBox * Time.fixedDeltaTime;
                 stopper2.SetActive(true);
@@ -81,6 +84,7 @@ public class ForceMedOne : MonoBehaviour
                 theBox.boxSpeed1 = 0;
                 thePlayer.push = false;
                 theSimulate.simulate = false;
+                dragSfx.Stop();
                 StartCoroutine(StuntResult());
                 if(theSimulate.playerAnswer == correctAnswer)
                 {

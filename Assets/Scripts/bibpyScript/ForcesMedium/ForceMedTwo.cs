@@ -19,6 +19,7 @@ public class ForceMedTwo : MonoBehaviour
     public ZombieMedium[] theZombie;
     Vector2 playerStartPoint, boxStartPoint,zombie0StartPoint,zombie1StartPoint,zombie2StartPoint,zombie3StartPoint;
      public TMP_Text boxMassTxt,frictionTxt,muTxt;
+     public AudioSource dragSfx;
     // Start is called before the first frame update
     void Start()
     {
@@ -77,6 +78,7 @@ public class ForceMedTwo : MonoBehaviour
 
             if (timer >= time)
             {
+                dragSfx.Stop();
                 thePlayer.moveSpeed = 0;
                 theBox.boxSpeed2 = 0;
                 thePlayer.push = false;

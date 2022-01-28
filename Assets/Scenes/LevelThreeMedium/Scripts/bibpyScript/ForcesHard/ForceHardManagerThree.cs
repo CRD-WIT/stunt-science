@@ -36,8 +36,10 @@ public class ForceHardManagerThree : MonoBehaviour
         elevator.GetComponent<Rigidbody2D>().velocity = new Vector2(0,elevatorSpeed);
         if (theSimulate.simulate == true)
         {
+            
             dimensions.SetActive(false);
             playerMassBox = 50 + theSimulate.playerAnswer;
+            massBoxTxt.text = playerMassBox.ToString("F2") + "kg";
             downhillForcePlayer = (playerMassBox * 9.81f) * Mathf.Sin(angle * Mathf.Deg2Rad);
             normalForcePlayer = (playerMassBox * 9.81f) * Mathf.Cos(angle * Mathf.Deg2Rad);
             frictionForcePlayer = mu * normalForcePlayer;
@@ -72,6 +74,7 @@ public class ForceHardManagerThree : MonoBehaviour
     }
     public void showProblem()
     {
+        massBoxTxt.gameObject.SetActive(true);
         thePrisoner.ragdollReady = true;
         boxSpeed = 0;
         dimensions.SetActive(true);
@@ -97,7 +100,7 @@ public class ForceHardManagerThree : MonoBehaviour
         normalForce = (massBox * 9.81f) * Mathf.Cos(angle * Mathf.Deg2Rad);
         prisoner.SetActive(true);
         finalForceCorrect = appliedForceCorrect + downhillForce - frictionForce;
-        massBoxTxt.text = massBox.ToString("F2") + "kg";
+        massBoxTxt.text = "50kg";
         mu = frictionForce / normalForce;
         forceAppliedTxt.text = "Force Applied = " + appliedForceCorrect.ToString("F2");
         breakingForceTxt.text = "breaking Force =" + breakingForce.ToString("F2") + "N";

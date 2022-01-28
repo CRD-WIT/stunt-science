@@ -13,6 +13,7 @@ public class ForceManagerThree : MonoBehaviour
     private BombManager theBomb;
     private HeartManager theHeart;
     private ScoreManager theScorer;
+    public DirectorManager theDirector;
     float generateAccelaration, accelaration, playerAccelaration, generateForce, force, generateCorrectAnswer, currentPos, totalMass;
     public float correctAnswer, playerAnswer, increaseMass, playerForce;
     public GameObject glassHolder, stickPrefab, stickmanpoint, glassDebri, cameraman, playerSpeech, napsack, speechBubble, playerInitials, action, navigator, zombiePrefab;
@@ -22,6 +23,7 @@ public class ForceManagerThree : MonoBehaviour
     public TMP_Text playerMass, thisWaytxt, acctxt, breakingforcetxt, forcetxt, actiontxt;
     int currentStar, currentLevel;
     string gender, pronoun1, pronoun2;
+    public AudioSource glassBreak,thud;
 
 
 
@@ -29,6 +31,7 @@ public class ForceManagerThree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        theDirector.platformIsOn = DirectorManager.To.Right;
         //thePlayer = FindObjectOfType<Player>();
         //theQuestion.stageNumber = 3;
         theCollider = FindObjectOfType<ColliderManager>();
@@ -41,9 +44,9 @@ public class ForceManagerThree : MonoBehaviour
 
         navigator.transform.position = new Vector2(14.44f, navigator.transform.position.y);
         cameraman.transform.position = new Vector2(35, 5.5f);
-        cameraman.transform.localScale = new Vector2(-cameraman.transform.localScale.x, cameraman.transform.localScale.y);
+        //cameraman.transform.localScale = new Vector2(-cameraman.transform.localScale.x, cameraman.transform.localScale.y);
         thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
-        speechBubble.transform.localScale = new Vector2(-speechBubble.transform.localScale.x, speechBubble.transform.localScale.y);
+        //speechBubble.transform.localScale = new Vector2(-speechBubble.transform.localScale.x, speechBubble.transform.localScale.y);
         thePlayer.exitDown = false;
         thePlayer.brake = false;
         theSimulate.destroyZombies = false;
@@ -110,7 +113,7 @@ public class ForceManagerThree : MonoBehaviour
         if (startRunning)
         {
             theSimulate.zombieChase = true;
-            if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
+            if (playerAnswer == correctAnswer)
             {
                 forcetxt.text = ("f = ") + force.ToString("F2") + ("N");
                 forcetxt.color = new Color32(107, 0, 176, 255);
@@ -127,8 +130,9 @@ public class ForceManagerThree : MonoBehaviour
             thePlayer.moveSpeed += accelaration * Time.fixedDeltaTime;
             if (theCollider.collide == true)
             {
-                if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
+                if (playerAnswer == correctAnswer)
                 {
+                    glassBreak.Play();
                     theQuestion.answerIsCorrect = true;
                     //action.SetActive(false);
                     //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully escaped from the explosion </color>");
@@ -150,6 +154,7 @@ public class ForceManagerThree : MonoBehaviour
                 {
                     if (playerAnswer < correctAnswer)
                     {
+                        thud.Play();
                         actiontxt.text = "retry";
                         theQuestion.answerIsCorrect = false;
                         //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", and unable to break the glass. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");
@@ -169,6 +174,7 @@ public class ForceManagerThree : MonoBehaviour
                     }
                     if (playerAnswer > correctAnswer)
                     {
+                         glassBreak.Play();
                         actiontxt.text = "retry";
                         theQuestion.answerIsCorrect = false;
                         //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + ", able to break the glass but also went through it. The correct answer is " + correctAnswer.ToString("F1") + "Newtons.");

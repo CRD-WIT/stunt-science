@@ -22,7 +22,7 @@ public class ForceMedSimulation : MonoBehaviour
     public GameObject directorBubble;
     public Vector2 playerStartPoint, zombie1StartPoint, zombie2StartPoint, boxStartPoint;
     public GameObject dimensionOne, dimensionTwo,dimensionThree, groundOne,groundTwo;
-    // Start is called before the first frame update
+    public AudioSource dragSfx;
     void Start()
     {
         PlayerPrefs.SetString("CurrentString", ("Forces"));
@@ -151,14 +151,17 @@ public class ForceMedSimulation : MonoBehaviour
             if (stage == 1)
             {
                  theManagerOne.startRunning = true;
+                 dragSfx.Play();
             }
             if (stage == 2)
             {
                 theManagerTwo.startRunning = true;
+                dragSfx.Play();
             }
             if (stage == 3)
             {
                 theManagerThree.startRunning = true;
+                dragSfx.Play();
             }
            
             

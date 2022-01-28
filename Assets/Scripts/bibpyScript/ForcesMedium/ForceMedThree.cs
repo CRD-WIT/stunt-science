@@ -19,6 +19,7 @@ public class ForceMedThree : MonoBehaviour
     public ZombieMedium[] theZombie;
     public Vector2 playerStartPoint, boxStartPoint, zombie0StartPoint, zombie1StartPoint, zombie2StartPoint, zombie3StartPoint,elevatorStartPoint;
     public TMP_Text boxMassTxt, frictionTxt, muTxt, zombieForceTxt;
+    public AudioSource dragSfx;
     // Start is called before the first frame update
     void Start()
     {
@@ -89,7 +90,7 @@ public class ForceMedThree : MonoBehaviour
                 thePlayer.moveSpeed = 0;
                 theBox.boxSpeed3 = 0;
                 thePlayer.push = false;
-               
+                dragSfx.Stop();
                 theZombie[0].push = false;
                 theZombie[0].moveSpeed = 0;
                 StartCoroutine(stopElevator());
