@@ -13,6 +13,7 @@ public class MediumManager : MonoBehaviour
     HeartManager2 life;
     ScoreManager score;
     PlayerCM2 myPlayer;
+    jumpChar jumperScript;
     StageManager sm = new StageManager();
 
     [SerializeField]
@@ -54,7 +55,8 @@ public class MediumManager : MonoBehaviour
         playerPos,
         currentPlayerPos,
         acceleration,
-        speedOffset;
+        speedOffset,
+        playerPosY;
     string question,
         playerName,
         playerGender,
@@ -77,6 +79,7 @@ public class MediumManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        jumperScript = jumperChar.GetComponent<jumpChar>();
         qc = FindObjectOfType<QuestionController2_0_1>();
         myPlayer = FindObjectOfType<PlayerCM2>();
         // conveyor = FindObjectOfType<ConveyorManager>();
@@ -102,7 +105,6 @@ public class MediumManager : MonoBehaviour
         }
         qc.levelDifficulty = Difficulty.Medium;
         qc.stage = 1;
-        // playerAnim.SetBool("running", true);
         SetUp();
     }
 
@@ -111,12 +113,9 @@ public class MediumManager : MonoBehaviour
     {
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
-        // Debug.Log(conveyorSpeed + "cs");
-        // Debug.Log(playerSpeed + "ps");
         if (isAnswered)
         {
             labels.distanceSpawnPnt = spawnPoint;
-            // playerAnswer = qc.GetPlayerAnswer();
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.deltaTime;
             timingD = currentPlayerPos;
@@ -128,13 +127,11 @@ public class MediumManager : MonoBehaviour
                     timingD = myPlayer.transform.position.x + 10;
                     if (elapsed >= stuntTime)
                     {
-                        // isAnswered =false;
                         myPlayer.moveSpeed = 0;
                         timingD = (playerAnswer - conveyorSpeed) * stuntTime;
                         playerAnim.speed = 1;
                         elapsed = stuntTime;
                         ropeGrab = true;
-                        // myPlayer.moveSpeed = -conveyorSpeed;
                         if (playerAnswer == playerSpeed)
                         {
                             isAnswerCorrect = true;
@@ -142,40 +139,28 @@ public class MediumManager : MonoBehaviour
                                 distance - 10,
                                 myPlayer.transform.position.y
                             );
-                            // myPlayer.moveSpeed = 0;
-                            // playerAnim.SetBool("running", false);
-                            // playerAnim.speed = 1;
                             messageTxt = "CORRECT";
                         }
                         else
                         {
                             isAnswerCorrect = false;
-                            // myPlayer.gameObject.SetActive(false);
-                            // ragdoll.transform.position = myPlayer.transform.position;
-                            // ragdoll.SetActive(true);
-                            // ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(
-                            //     conveyorSpeed,
-                            //     0
-                            // );
                             if (playerAnswer > playerSpeed)
                             {
-                                // myPlayer.transform.position = new Vector2(
-                                //     myPlayer.transform.position.x + 0.2f,
-                                //     myPlayer.transform.position.y
-                                // );
                                 messageTxt = "Above";
                             }
                             else
                             {
-                                // myPlayer.transform.position = new Vector2(
-                                //     myPlayer.transform.position.x - 0.2f,
-                                //     myPlayer.transform.position.y
-                                // );
                                 messageTxt = "Below";
                             }
                             labels.ShowCorrectDistance(distance, true, new Vector2(-10, 0.5f));
                         }
                         isAnswered = false;
+                        labels.SetPlayerPosition(
+                            new Vector2(
+                                (playerAnswer - conveyorSpeed) * stuntTime,
+                                myPlayer.transform.position.y
+                            )
+                        );
                         labels.AnswerIs(isAnswerCorrect, false);
                     }
                     labels.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed) * elapsed);
@@ -184,10 +169,10 @@ public class MediumManager : MonoBehaviour
                     if (myPlayer.transform.position.x >= distance)
                     {
                         //Put new character. to jump to the pipe
-                        StartCoroutine(ActivateJump());
+                        // StartCoroutine(ActivateJump());
                         elapsed = stuntTime;
                         myPlayer.running = false;
-                        myPlayer.moveSpeed = 0;
+                        myPlayer.moveSpeed = playerSpeed;
                     }
                     else
                     {
@@ -276,9 +261,10 @@ public class MediumManager : MonoBehaviour
         }
         if (Hanger.isHanging)
         {
-            isAnswered = false;
-            jumperChar.GetComponent<Animator>().SetBool("dive", false);
-            isEndOfStunt = true;
+            jumperScript.hanging = true;
+            // isAnswered = false;
+            // jumperChar.GetComponent<Animator>().SetBool("dive", false);
+            // isEndOfStunt = true;
         }
         if (isEndOfStunt)
             StartCoroutine(StuntResult());
@@ -304,7 +290,7 @@ public class MediumManager : MonoBehaviour
                 qc.retried = false;
             }
         }
-        labels.SetPlayerPosition(myPlayer.transform.position);
+        labels.SetPlayerPosition(new Vector2(myPlayer.transform.position.x, playerPosY));
     }
 
     void SetUp()
@@ -475,8 +461,8 @@ public class MediumManager : MonoBehaviour
             default:
                 break;
         }
-        if (!isAnswerCorrect)
-            spawnPoint = labels.distanceSpawnPnt;
+        playerPosY = myPlayer.transform.position.y;
+        spawnPoint = labels.distanceSpawnPnt;
         labels.SetPlayerPosition(myPlayer.transform.position);
         labels.showLines(distance, height, playerSpeed, stuntTime);
         qc.SetUnitTo(whatIsAsk);
@@ -606,17 +592,20 @@ public class MediumManager : MonoBehaviour
         jumperChar.SetActive(true);
         myPlayer.gameObject.SetActive(false);
         if (isAnswerCorrect)
-            jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(10, 0);
+            jumperScript.velocity = 10;
+        // jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(10, 0);
         else
-            jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(
-                (myPlayer.moveSpeed + 10) * speedOffset / 2,
-                0
-            );
+            jumperScript.velocity = (myPlayer.moveSpeed + 10) * speedOffset / 2;
+        // jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(
+        //     (myPlayer.moveSpeed + 10) * speedOffset / 2,
+        //     0
+        // );
         jumperChar.GetComponent<Animator>().SetBool("dive", true);
         jumperChar.GetComponent<Animator>().SetBool("flyGrab", true);
         yield return new WaitForSeconds(1.25f);
         isAnswered = false;
         isEndOfStunt = true;
+        myPlayer.moveSpeed = 0;
         jumperChar.GetComponent<Animator>().SetBool("dive", false);
         jumperChar.GetComponent<Animator>().SetBool("hangWalk", true);
         yield return new WaitForSeconds(0.25f);
