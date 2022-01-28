@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Conveyor (00001)
       objectReference: {fileID: 0}
+    - target: {fileID: 8993493182602992479, guid: 0231fd68f69d8324d85b902f26901643, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0231fd68f69d8324d85b902f26901643, type: 3}
 --- !u!1 &415576350
@@ -225,8 +229,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85510008b43451e4da7581691e29b7d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cm: {fileID: 2070593864}
+  cm: {fileID: 742252327}
   av: 3.89
+--- !u!114 &742252327 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5473494419736525032, guid: f360887037faf98499cb6172428834e0, type: 3}
+  m_PrefabInstance: {fileID: 3817177138212402896}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64dbcf5b505d56b48928c3d125c2abeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1003158894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -535,17 +550,6 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
---- !u!114 &2070593864 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8993493182602991776, guid: 0231fd68f69d8324d85b902f26901643, type: 3}
-  m_PrefabInstance: {fileID: 18242831}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19b1f5adfbbf7904ea6bf653a132eb58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2101022022
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,6 +641,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5410165002488929744, guid: f360887037faf98499cb6172428834e0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.599
+      objectReference: {fileID: 0}
+    - target: {fileID: 5473494419126304710, guid: f360887037faf98499cb6172428834e0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.245
+      objectReference: {fileID: 0}
+    - target: {fileID: 5473494419494044090, guid: f360887037faf98499cb6172428834e0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.826
+      objectReference: {fileID: 0}
     - target: {fileID: 5473494419736525030, guid: f360887037faf98499cb6172428834e0, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -681,13 +697,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5473494419736525033, guid: f360887037faf98499cb6172428834e0, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5473494419736525594, guid: f360887037faf98499cb6172428834e0, type: 3}
       propertyPath: m_Name
       value: Conveyor
       objectReference: {fileID: 0}
     - target: {fileID: 5473494419736525594, guid: f360887037faf98499cb6172428834e0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7601534311269518103, guid: f360887037faf98499cb6172428834e0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.503
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5473494419736525033, guid: f360887037faf98499cb6172428834e0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f360887037faf98499cb6172428834e0, type: 3}
