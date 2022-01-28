@@ -4,6 +4,7 @@ using TMPro;
 
 public class ForceManagerTwo : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     AnswerGuards answerGuards = new AnswerGuards();
     public PlayerB thePlayer;
     public QuestionContForces theQuestion;
@@ -64,7 +65,7 @@ public class ForceManagerTwo : MonoBehaviour
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         playerForce = playerAnswer * mass;
 
-
+        debugAnswer.SetText($"Answer: {correctAnswer}");
 
         if (ForceSimulation.simulate == true)
         {

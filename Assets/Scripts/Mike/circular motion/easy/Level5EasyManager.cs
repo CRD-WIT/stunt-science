@@ -22,7 +22,7 @@ public class Level5EasyManager : MonoBehaviour
     Vector2 playerPos;
     StageManager sm = new StageManager();
     RoundOffHandler CustomRoundOff = new RoundOffHandler();
-    HeartManager2 life;
+    public HeartManager2 life;
     QuestionController2_0_1 qc;
     ScoreManager score;
     ButtonSelector btnSelect;
@@ -34,7 +34,6 @@ public class Level5EasyManager : MonoBehaviour
     void Start()
     {
         myPlayer = FindObjectOfType<PlayerCM2>();
-        life = FindObjectOfType<HeartManager2>();
         qc = FindObjectOfType<QuestionController2_0_1>();
         score = FindObjectOfType<ScoreManager>();
         btnSelect = FindObjectOfType<ButtonSelector>();

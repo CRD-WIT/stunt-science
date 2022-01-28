@@ -5,25 +5,26 @@ using TMPro;
 
 public class ForceMedOne : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     public ForceMedSimulation theSimulate;
     public PlayerContForcesMed thePlayer;
     public float accelerationPlayer, time, timer, totalDistance, massBox, forcePlayer, massPlayer;
-    public float weightBox, accelerationBox, correctAnswer, friction, Fn,mu;
+    public float weightBox, accelerationBox, correctAnswer, friction, Fn, mu;
     public bool preset, startRunning;
     public BoxManager theBox;
-    public GameObject  stopper2, dimensions;
+    public GameObject stopper2, dimensions;
     public GameObject box1;
     public QuestionContForcesMed theQuestion;
     public HeartManager theHeart;
 
     public ZombieMedium[] theZombie;
-    Vector2 playerStartPoint, boxStartPoint,zombie0StartPoint,zombie1StartPoint,zombie2StartPoint,zombie3StartPoint;
-     public TMP_Text boxMassTxt,frictionTxt;
-     public AudioSource dragSfx;
+    Vector2 playerStartPoint, boxStartPoint, zombie0StartPoint, zombie1StartPoint, zombie2StartPoint, zombie3StartPoint;
+    public TMP_Text boxMassTxt, frictionTxt;
+    public AudioSource dragSfx;
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.SetInt("Life",3);
+        PlayerPrefs.SetInt("Life", 3);
         playerStartPoint = thePlayer.transform.position;
         boxStartPoint = box1.transform.position;
         zombie0StartPoint = theZombie[0].transform.position;
@@ -43,6 +44,7 @@ public class ForceMedOne : MonoBehaviour
             correctAnswer = (float)System.Math.Round(((massBox * (accelerationBox - 0.02f)) + friction), 2);
 
         }
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         if (startRunning)
         {
             StartCoroutine(zombieChase());
@@ -51,14 +53,14 @@ public class ForceMedOne : MonoBehaviour
         }
         if (theSimulate.simulate == true)
         {
-            
+
             dimensions.SetActive(false);
             thePlayer.push = true;
-            accelerationPlayer = (theSimulate.playerAnswer-friction) / massBox;
+            accelerationPlayer = (theSimulate.playerAnswer - friction) / massBox;
             timer += Time.fixedDeltaTime;
             if (theSimulate.playerAnswer == correctAnswer)
             {
-                
+
                 thePlayer.moveSpeed += accelerationBox * Time.fixedDeltaTime;
                 theBox.boxSpeed1 += accelerationBox * Time.fixedDeltaTime;
                 stopper2.SetActive(true);
@@ -67,8 +69,8 @@ public class ForceMedOne : MonoBehaviour
             {
                 if (theSimulate.playerAnswer < correctAnswer)
                 {
-                    thePlayer.moveSpeed += (accelerationPlayer-0.1f) * Time.fixedDeltaTime;
-                    theBox.boxSpeed1 += (accelerationPlayer-0.1f) * Time.fixedDeltaTime;
+                    thePlayer.moveSpeed += (accelerationPlayer - 0.1f) * Time.fixedDeltaTime;
+                    theBox.boxSpeed1 += (accelerationPlayer - 0.1f) * Time.fixedDeltaTime;
                 }
                 if (theSimulate.playerAnswer > correctAnswer)
                 {
@@ -86,9 +88,9 @@ public class ForceMedOne : MonoBehaviour
                 theSimulate.simulate = false;
                 dragSfx.Stop();
                 StartCoroutine(StuntResult());
-                if(theSimulate.playerAnswer == correctAnswer)
+                if (theSimulate.playerAnswer == correctAnswer)
                 {
-                    box1.transform.position = new Vector2(8.05f,1.483791f);
+                    box1.transform.position = new Vector2(8.05f, 1.483791f);
                 }
             }
 
@@ -105,14 +107,14 @@ public class ForceMedOne : MonoBehaviour
         theZombie[2].transform.position = zombie2StartPoint;
         theZombie[3].transform.position = zombie3StartPoint;
         box1.transform.position = boxStartPoint;
-        massBox = (float)System.Math.Round((Random.Range(45f,50f)), 2);
+        massBox = (float)System.Math.Round((Random.Range(45f, 50f)), 2);
         massPlayer = thePlayer.GetComponent<Rigidbody2D>().mass;
         Fn = massBox * 9.81f;
         friction = Fn * mu;
         timer = 0;
-        frictionTxt.text = "Ff = "+friction.ToString("F2")+ "N";
-        boxMassTxt.text = "m = "+ massBox.ToString("F2") + "kg";
-        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to push the box(A) starting at rest using constant Force for <b>") + time + ("</b> seconds. If the target location is <b>") + totalDistance.ToString("F2") + ("</b> meter from the box starting position, How much Force should the box 'A' needed to reach the target location with the given time,if the surface has an oppossing friction force of <b>")+ friction.ToString("F2") +("N</b> and the box has a mass of <b>")+ massBox.ToString("F2")+("</b>kg. After the given time, ") + PlayerPrefs.GetString("Name") + (" will stop pushing and the box will stop moving. Fail to perform the task and zombies will eat your brain.")));
+        frictionTxt.text = "Ff = " + friction.ToString("F2") + "N";
+        boxMassTxt.text = "m = " + massBox.ToString("F2") + "kg";
+        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to push the box(A) starting at rest using constant Force for <b>") + time + ("</b> seconds. If the target location is <b>") + totalDistance.ToString("F2") + ("</b> meter from the box starting position, How much Force should the box 'A' needed to reach the target location with the given time,if the surface has an oppossing friction force of <b>") + friction.ToString("F2") + ("N</b> and the box has a mass of <b>") + massBox.ToString("F2") + ("</b>kg. After the given time, ") + PlayerPrefs.GetString("Name") + (" will stop pushing and the box will stop moving. Fail to perform the task and zombies will eat your brain.")));
     }
     public IEnumerator zombieChase()
     {

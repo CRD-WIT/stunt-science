@@ -5,6 +5,7 @@ using TMPro;
 
 public class ForceMedThree : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     public ForceMedSimulation theSimulate;
     public PlayerContForcesMed thePlayer;
     public float accelerationPlayer, time, timer, totalDistance, massBox, forcePlayer, massPlayer, elevatorSpeed;
@@ -17,7 +18,7 @@ public class ForceMedThree : MonoBehaviour
     public HeartManager theHeart;
 
     public ZombieMedium[] theZombie;
-    public Vector2 playerStartPoint, boxStartPoint, zombie0StartPoint, zombie1StartPoint, zombie2StartPoint, zombie3StartPoint,elevatorStartPoint;
+    public Vector2 playerStartPoint, boxStartPoint, zombie0StartPoint, zombie1StartPoint, zombie2StartPoint, zombie3StartPoint, elevatorStartPoint;
     public TMP_Text boxMassTxt, frictionTxt, muTxt, zombieForceTxt;
     public AudioSource dragSfx;
     // Start is called before the first frame update
@@ -30,7 +31,7 @@ public class ForceMedThree : MonoBehaviour
         zombie1StartPoint = theZombie[1].transform.position;
         box3.SetActive(true);
         boxStartPoint = box3.transform.position;
-        thePlayer.transform.position = new Vector2(1.1f,0);
+        thePlayer.transform.position = new Vector2(1.1f, 0);
         //theZombie[0].transform.localScale = new Vector2(-theZombie[0].transform.localScale.x,theZombie[0].transform.localScale.y);
         //theZombie[1].transform.localScale = new Vector2(-theZombie[1].transform.localScale.x,theZombie[1].transform.localScale.y);
         showProblem();
@@ -40,7 +41,7 @@ public class ForceMedThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-         elevator.GetComponent<Rigidbody2D>().velocity = new Vector2(0,elevatorSpeed);
+        elevator.GetComponent<Rigidbody2D>().velocity = new Vector2(0, elevatorSpeed);
         if (preset)
         {
             accelerationBox = ((2 * totalDistance) / (time * time));
@@ -49,6 +50,7 @@ public class ForceMedThree : MonoBehaviour
             correctAnswer = (float)System.Math.Round(zombieFinalForce - initialForce, 2);
 
         }
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         if (startRunning)
         {
             zombieChase();
@@ -98,14 +100,14 @@ public class ForceMedThree : MonoBehaviour
                 if (theSimulate.playerAnswer == correctAnswer)
                 {
                     box3.transform.position = new Vector2(6.453878f, 1.480934f);
-                    theZombie[0].transform.position = new Vector2(theZombie[0].transform.position.x - .2f,theZombie[0].transform.position.y);
+                    theZombie[0].transform.position = new Vector2(theZombie[0].transform.position.x - .2f, theZombie[0].transform.position.y);
                     elevatorSpeed = 1;
                 }
                 if (theSimulate.playerAnswer > correctAnswer)
                 {
                     elevatorSpeed = 1;
                 }
-               
+
                 theSimulate.simulate = false;
             }
 
@@ -115,7 +117,7 @@ public class ForceMedThree : MonoBehaviour
     }
     public void showProblem()
     {
-        elevator.GetComponent<Rigidbody2D>().bodyType =  RigidbodyType2D.Dynamic;
+        elevator.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         elevatorSpeed = 0;
         elevator.transform.position = elevatorStartPoint;
         dimensions.SetActive(true);
@@ -169,6 +171,6 @@ public class ForceMedThree : MonoBehaviour
     {
         yield return new WaitForSeconds(8.5f);
         elevatorSpeed = 0;
-        elevator.GetComponent<Rigidbody2D>().bodyType =  RigidbodyType2D.Static;
+        elevator.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
     }
 }

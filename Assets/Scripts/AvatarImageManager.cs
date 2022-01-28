@@ -33,14 +33,14 @@ public class AvatarImageManager : MonoBehaviour
 
             activeSprite = isMale ? maleAvatarEyeClosed : femaleAvatarEyeClosed;
             avatarImageContainer.GetComponent<Image>().sprite = activeSprite;
-            Debug.Log(activeSprite.name);
+            //Debug.Log(activeSprite.name);
 
             yield return new WaitForSeconds(0.3f);
 
             activeSprite = isMale ? maleAvatarImage : femaleAvatarImage;
             avatarImageContainer.GetComponent<Image>().sprite = activeSprite;
 
-            Debug.Log(activeSprite.name);
+            //Debug.Log(activeSprite.name);
 
 
         }
