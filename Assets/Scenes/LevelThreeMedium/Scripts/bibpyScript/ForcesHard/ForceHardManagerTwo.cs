@@ -19,6 +19,7 @@ public class ForceHardManagerTwo : MonoBehaviour
     public BoxCollisionManager theCollision;
     public ZombieMedium[] theZombie;
     public TMP_Text muOnetxt, muTwoTxt, massBoxTxt, appliedForceTxt;
+    public AudioSource dragSfx;
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +66,7 @@ public class ForceHardManagerTwo : MonoBehaviour
                 answerIsCorrect = true;
                 if (timer >= timeTotal)
                 {
+                    dragSfx.Stop();
                     boxSpeed = 0;
                     thePlayer.moveSpeed = 0;
                     theSimulate.simulate = false;
@@ -177,7 +179,7 @@ public class ForceHardManagerTwo : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         if (theSimulate.playerAnswer != correctAnswer)
         {
-            theHeart.ReduceLife();
+            theHeart.losinglife();
             yield return new WaitForSeconds(4);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able to lock in the zombies"), false, false);
 

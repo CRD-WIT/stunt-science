@@ -11,7 +11,7 @@ public class ForceSimulation : MonoBehaviour
     public ForceManagerOne theManagerOne;
     public ForceManagerTwo theManagerTwo;
     public ForceManagerThree theManagerThree;
-    private HeartManager theHeart;
+    public HeartManager theHeart;
     public TMP_InputField answerField;
     public TMP_Text diretorsSpeech;
     public static float playerAnswer;
@@ -37,7 +37,7 @@ public class ForceSimulation : MonoBehaviour
     {
         PlayerPrefs.SetString("CurrentString", ("Forces"));
         PlayerPrefs.SetInt("level", 4);
-        theHeart = FindObjectOfType<HeartManager>();
+        theHeart.life = 3;
         StartCoroutine(theManagerOne.createZombies());
     }
 

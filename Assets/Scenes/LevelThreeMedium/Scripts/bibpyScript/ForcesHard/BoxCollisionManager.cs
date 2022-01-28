@@ -12,6 +12,7 @@ public class BoxCollisionManager : MonoBehaviour
     public bool breakReady;
     public GameObject glassPrision, glassPrefab;
     public GameObject[] glassLoc;
+    public AudioSource glassBreak,dragSfx,thud;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,33 +30,39 @@ public class BoxCollisionManager : MonoBehaviour
         {
             if (collision.gameObject.tag == "wall")
             {
+                dragSfx.Stop();
                 if (breakReady && theManagerOne.answerIsCorrect)
                 {
+                    glassBreak.Play();
                     glassPrision.SetActive(false);
                     GameObject glass = Instantiate(glassPrefab);
                     glass.transform.position = glassLoc[0].transform.position;
                     theSimulate.simulate = false;
                     thePlayer.push = false;
-                    breakReady = false;
+                   
                     StartCoroutine(theManagerOne.StuntResult());
+                     breakReady = false;
 
                 }
                 if (breakReady && theManagerOne.answerIsMorethan)
                 {
+                    glassBreak.Play();
                     glassPrision.SetActive(false);
                     GameObject glass = Instantiate(glassPrefab);
                     glass.transform.position = glassLoc[0].transform.position;
-                    breakReady = false;
+                    
                     StartCoroutine(theManagerOne.overForce());
                     StartCoroutine(theManagerOne.StuntResult());
+                    breakReady = false;
 
                 }
                 if (breakReady && theManagerOne.answerIsLessthan)
                 {
+                    thud.Play();
                     theSimulate.simulate = false;
                     thePlayer.push = false;
-                    breakReady = false;
                     StartCoroutine(theManagerOne.StuntResult());
+                    breakReady = false;
 
                 }
 
@@ -85,8 +92,10 @@ public class BoxCollisionManager : MonoBehaviour
         {
             if (collision.gameObject.tag == "wall")
             {
+                dragSfx.Stop();
                 if (breakReady && theManagerThree.answerIsCorrect)
                 {
+                    glassBreak.Play();
                     glassPrision.SetActive(false);
                     GameObject glass = Instantiate(glassPrefab);
                     glass.transform.position = glassLoc[0].transform.position;
@@ -96,8 +105,9 @@ public class BoxCollisionManager : MonoBehaviour
                     StartCoroutine(theManagerThree.StuntResult());
 
                 }
-                if (breakReady && theManagerThree.answerIsMorethan)
+                if (breakReady && theManagerThree.answerIsLessthan)
                 {
+                    glassBreak.Play();
                     glassPrision.SetActive(false);
                     GameObject glass = Instantiate(glassPrefab);
                     glass.transform.position = glassLoc[0].transform.position;
@@ -106,8 +116,9 @@ public class BoxCollisionManager : MonoBehaviour
                     StartCoroutine(theManagerThree.StuntResult());
 
                 }
-                if (breakReady && theManagerThree.answerIsLessthan)
+                if (breakReady && theManagerThree.answerIsMorethan)
                 {
+                    thud.Play();
                     theSimulate.simulate = false;
                     thePlayer.push = false;
                     breakReady = false;
