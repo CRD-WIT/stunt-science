@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScriptForTesting : MonoBehaviour
 {
-    public ConveyorManager cm;
+    public NewConveyorManager cm;
     public float av;
     // Start is called before the first frame update
     void Start()
