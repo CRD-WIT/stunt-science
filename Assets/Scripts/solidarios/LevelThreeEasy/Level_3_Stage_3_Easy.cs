@@ -45,7 +45,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
     public HeartManager life;
     public TMP_Text debugAnswer;
     bool ShowResult;
-    public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
+    public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx, hitSfx;
     public FirebaseManager firebaseManager;
     float adjustedAnswer;
 
@@ -178,6 +178,7 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
                 Debug.Log("Time is correct!");
                 if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                 {
+                     hitSfx.Play();
                     platformCollider.SetActive(false);
                     playerHangingBottom.SetActive(true);
                     thePlayer.SetActive(false);

@@ -91,6 +91,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     public FirebaseManager firebaseManager;
 
     float adjustedAnswer;
+    public AudioSource hitSfx;
 
 
     void Start()
@@ -319,6 +320,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                     Debug.Log("Distance is correct!");
                     if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                     {
+                        hitSfx.Play();
                         thePlayer.SetActive(false);
                         playerHangingFixed.SetActive(true);
                         playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 0.2f, platformBar.transform.position.y - 1f, 1);
@@ -343,6 +345,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                     {
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
+                           
                             Debug.Log("Distance is too short!");
                             questionController.answerIsCorrect = false;
                             messageTxt = $"<b>{playerName}</b> hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";

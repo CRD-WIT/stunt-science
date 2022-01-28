@@ -51,6 +51,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
     public FirebaseManager firebaseManager;
     float adjustedAnswer;
+    public AudioSource hitSfx;
     void Start()
     {
         firebaseManager.GameLogMutation(3, 2, "Easy", Actions.Started, 0);
@@ -198,6 +199,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                 Debug.Log("Time is correct!");
                 if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                 {
+                     hitSfx.Play();
                     thePlayer.SetActive(false);
                     playerHangingFixed.SetActive(true);
                     playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 1f, platformBarBottom.transform.position.y - 1.2f, 1);

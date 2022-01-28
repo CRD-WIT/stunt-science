@@ -63,17 +63,19 @@ public class ForceHardManagerThree : MonoBehaviour
             }
             if (theSimulate.playerAnswer > correctAnswer)
             {
-                answerIsLessthan = true;
+                answerIsMorethan = true;
             }
             if (theSimulate.playerAnswer < correctAnswer)
             {
-                answerIsMorethan = true;
+                answerIsLessthan = true;
             }
         }
 
     }
     public void showProblem()
     {
+        answerIsMorethan = false;
+        answerIsLessthan = false;
         massBoxTxt.gameObject.SetActive(true);
         thePrisoner.ragdollReady = true;
         boxSpeed = 0;
@@ -106,7 +108,7 @@ public class ForceHardManagerThree : MonoBehaviour
         breakingForceTxt.text = "breaking Force =" + breakingForce.ToString("F2") + "N";
         frictionTxt.text = "Ff =" + frictionForce.ToString("F2");
         angleTxt.text = " θ =" + angle.ToString("F2") + "°";
-        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to constantly push the box(A) in an inclined platform downward to break the prison glass, If the platform is inclined at <b>") + angle.ToString("f2") + ("°</b> and has a coeffiecient of friction(μ) of <b>") + mu.ToString("F2") + ("</b>. How much force is needed to push the box to break the prison glass with a breaking force of <b>") + breakingForce.ToString("F2") + ("N</b>, if the box has a mass of <b>") + massBox.ToString("F2") + ("kg</b>.Too much force will also hit the captive.")));
+        theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to constantly push the box(C) to break the prison glass with a breaking force of <b>") + breakingForce.ToString("f2") + ("N</b>, If the platform is inclined at <b>") + angle.ToString("F2") + ("</b>°. and the force needed by ") + PlayerPrefs.GetString("Name") + (", to break the prison glass is <b>") + appliedForceCorrect.ToString("F2") + ("N</b> that will result to platform surface friction force of <b>")+frictionForce.ToString("F2")+("N</b>. Currently the box(C) has a mass of <b>50kg</b>. How many kilogram is ")+ PlayerPrefs.GetString("Name") +("needed to fill in the box in order to break the prison glass without hitting the captive?") ));
 
 
 
@@ -141,7 +143,7 @@ public class ForceHardManagerThree : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         if (theSimulate.playerAnswer != correctAnswer)
         {
-            theHeart.ReduceLife();
+            theHeart.losinglife();
             yield return new WaitForSeconds(4);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able to save the captive"), false, false);
 

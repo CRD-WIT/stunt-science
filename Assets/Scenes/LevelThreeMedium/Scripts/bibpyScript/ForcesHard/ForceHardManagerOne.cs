@@ -60,6 +60,8 @@ public class ForceHardManagerOne : MonoBehaviour
     }
     public void showProblem()
     {
+        answerIsMorethan = false;
+        answerIsLessthan = false;
         thePrisoner.ragdollReady = true;
         boxSpeed = 0;
         dimensions.SetActive(true);
@@ -112,7 +114,7 @@ public class ForceHardManagerOne : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         if (theSimulate.playerAnswer != correctAnswer)
         {
-            theHeart.ReduceLife();
+            theHeart.losinglife();
             yield return new WaitForSeconds(4);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able to save the captive"), false, false);
 

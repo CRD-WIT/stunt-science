@@ -11,6 +11,7 @@ public class PrisonerManager : MonoBehaviour
     public bool ragdollReady, runLeft, runRight;
     public Rigidbody2D rb;
     public Animator myAnimator;
+    public AudioSource thud;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,7 @@ public class PrisonerManager : MonoBehaviour
         {
             if (ragdollReady)
             {
+                thud.Play();
                 if(theSimulate.stage == 1)
                 {
                     theManagerOne.ragdollSpawn();

@@ -26,6 +26,8 @@ public class ForceHardSimulation : MonoBehaviour
     public GameObject[] box;
     public bool destroyGlass;
     public Vector2 playerStartPoint, zombie1StartPoint, zombie2StartPoint, boxStartPoint;
+    public AudioSource dragSfx;
+    public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
     
     //public GameObject dimensionOne, dimensionTwo,dimensionThree, groundOne,groundTwo;
     // Start is called before the first frame update
@@ -33,7 +35,7 @@ public class ForceHardSimulation : MonoBehaviour
     {
         PlayerPrefs.SetString("CurrentString", ("Forces"));
         PlayerPrefs.SetInt("level", 4);
-        theHeart = FindObjectOfType<HeartManager>();
+        theHeart.life = 3;
         playerStartPoint = thePlayer.transform.position;
       
 
@@ -51,10 +53,10 @@ public class ForceHardSimulation : MonoBehaviour
         if (stage == 1)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == "" || playerAnswer > 500|| playerAnswer < (-theManagerOne.resultantDownhillForce)+50)
+            if (answerField.text == "" || playerAnswer > 600|| playerAnswer < (-theManagerOne.resultantDownhillForce)+50)
             {
                 StartCoroutine(errorMesage());
-                theQuestion.errorText = ("answer must not exceed 500N or not less than"+ ((-theManagerOne.resultantDownhillForce)+50).ToString("F2")+ "N ") ;
+                theQuestion.errorText = ("answer must not exceed 600N or not less than"+ ((-theManagerOne.resultantDownhillForce)+50).ToString("F2")+ "N ") ;
             }
             else
             {
@@ -70,10 +72,10 @@ public class ForceHardSimulation : MonoBehaviour
         if (stage == 2)
         {
             playerAnswer = float.Parse(answerField.text);
-            if (answerField.text == ""|| playerAnswer > 10 )
+            if (answerField.text == ""|| playerAnswer > 8 )
             {
                 StartCoroutine(errorMesage());
-                theQuestion.errorText = ("answer must not exceed 10 sec!") ;
+                theQuestion.errorText = ("answer must not exceed 8 sec!") ;
             }
             else
             {
@@ -148,10 +150,13 @@ public class ForceHardSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Lights!";
+            lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
+             cameraSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Action!";
+             actionSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
@@ -161,19 +166,26 @@ public class ForceHardSimulation : MonoBehaviour
                 yield return new WaitForSeconds(3f);
                 thePlayer.fillWeight = false;
                 weightBox.SetActive(false);
+                dragSfx.Play();
             }
             simulate = true;  
             directorIsCalling = false;
             destroyGlass = false;
             if(stage == 2)
             {
+                dragSfx.Play();
                 StartCoroutine(theManagerTwo.zombieChase());
+            }
+            if(stage == 1)
+            {
+                dragSfx.Play();
             }
         }
         else
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
+            cutSfx.Play();
             yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";
