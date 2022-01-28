@@ -5,6 +5,7 @@ using GameConfig;
 
 public class Level5EasyManager : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     [SerializeField] HingeJoint2D pipeHanger;
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField]
@@ -51,10 +52,29 @@ public class Level5EasyManager : MonoBehaviour
     }
     void Update()
     {
+
         if (directorIsCalling)
         {
             StartCoroutine(DirectorsCall());
         }
+
+        switch (stage)
+        {
+            case 1:
+                debugAnswer.SetText($"Answer: {aVelocity}");
+                break;
+            case 2:
+                debugAnswer.SetText($"Answer: {gameTime}");
+                break;
+            case 3:
+                debugAnswer.SetText($"Answer: {angle}");
+                break;
+            default:
+                debugAnswer.SetText($"Answer: Not Set");
+                break;
+        }
+
+
         if (isAnswered)
         {
             CurvedLineFollower.answerIs = null;
@@ -152,7 +172,7 @@ public class Level5EasyManager : MonoBehaviour
                             slider.enabled = false;
                             CurvedLineFollower.arc = playerAnswer;
                             isAnswerCorect = true;
-                            isEnd =true;
+                            isEnd = true;
                             messageTxt = "<b>" + playerName + "</b> has <color=green>entered</color> the tunnel!";
                         }
                         else
