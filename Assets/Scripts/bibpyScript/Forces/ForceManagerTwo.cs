@@ -4,9 +4,11 @@ using TMPro;
 
 public class ForceManagerTwo : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     AnswerGuards answerGuards = new AnswerGuards();
     public PlayerB thePlayer;
     public QuestionContForces theQuestion;
+    public DirectorManager theDirector;
     private ForceSimulation theSimulate;
     //private BombManager theBomb;
     //public BombScript theBombScript;
@@ -20,11 +22,14 @@ public class ForceManagerTwo : MonoBehaviour
     public bool throwBomb;
     public TMP_Text masstxt, acctxt, breakingforcetxt, forcetxt, actiontxt;
     string gender, pronoun;
+     public AudioSource glassBreak,thud;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+        theDirector.platformIsOn = DirectorManager.To.Left;
         if (gender == "Male")
         {
             pronoun = ("he");
@@ -40,8 +45,8 @@ public class ForceManagerTwo : MonoBehaviour
         theHeart = FindObjectOfType<HeartManager>();
         GenerateProblem();
         director.transform.position = new Vector2(-5.2f, 2.4f);
-        director.transform.localScale = new Vector2(-director.transform.localScale.x, director.transform.localScale.y);
-        speechBubble.transform.localScale = new Vector2(-speechBubble.transform.localScale.x, speechBubble.transform.localScale.y);
+        //director.transform.localScale = new Vector2(director.transform.localScale.x, director.transform.localScale.y);
+        //speechBubble.transform.localScale = new Vector2(speechBubble.transform.localScale.x, speechBubble.transform.localScale.y);
         thePlayer.exitDown = false;
         thePlayer.brake = false;
         thePlayer.transform.localScale = new Vector2(-thePlayer.transform.localScale.x, thePlayer.transform.localScale.y);
@@ -60,12 +65,12 @@ public class ForceManagerTwo : MonoBehaviour
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         playerForce = playerAnswer * mass;
 
-
+        debugAnswer.SetText($"Answer: {correctAnswer}");
 
         if (ForceSimulation.simulate == true)
         {
             theSimulate.zombieChase = true;
-            if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
+            if (playerAnswer == correctAnswer)
             {
                 forcetxt.text = ("f = ") + Force.ToString("F2") + ("N");
                 forcetxt.color = new Color32(107, 0, 176, 255);
@@ -81,8 +86,9 @@ public class ForceManagerTwo : MonoBehaviour
             thePlayer.moveSpeed -= playerAnswer * Time.fixedDeltaTime;
             if (theCollider.collide == true)
             {
-                if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.01f))
+                if (playerAnswer == correctAnswer)
                 {
+                    glassBreak.Play();
                     actiontxt.text = "Next";
                     theQuestion.answerIsCorrect = true;
                     glassHolder.SetActive(false);
@@ -104,6 +110,7 @@ public class ForceManagerTwo : MonoBehaviour
                 {
                     if (playerAnswer < correctAnswer)
                     {
+                        thud.Play();
                         actiontxt.text = "retry";
                         theQuestion.answerIsCorrect = false;
                         if (ragdollReady)
@@ -126,6 +133,7 @@ public class ForceManagerTwo : MonoBehaviour
                     }
                     if (playerAnswer > correctAnswer)
                     {
+                        glassBreak.Play();
                         actiontxt.text = "retry";
                         theQuestion.answerIsCorrect = false;
                         if (ragdollReady)

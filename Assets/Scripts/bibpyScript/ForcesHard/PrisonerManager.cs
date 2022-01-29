@@ -5,10 +5,13 @@ using UnityEngine;
 public class PrisonerManager : MonoBehaviour
 {
     public ForceHardManagerOne theManagerOne;
+    public ForceHardManagerThree theManagerThree;
+    public ForceHardSimulation theSimulate;
     public float moveSpeed;
     public bool ragdollReady, runLeft, runRight;
     public Rigidbody2D rb;
     public Animator myAnimator;
+    public AudioSource thud;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +33,7 @@ public class PrisonerManager : MonoBehaviour
 
         if (runRight)
         {
-            moveSpeed = 4;
+            moveSpeed = 4f;
             rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
         }
     }
@@ -40,7 +43,15 @@ public class PrisonerManager : MonoBehaviour
         {
             if (ragdollReady)
             {
-                theManagerOne.ragdollSpawn();
+                thud.Play();
+                if(theSimulate.stage == 1)
+                {
+                    theManagerOne.ragdollSpawn();
+                }
+                 if(theSimulate.stage == 3)
+                {
+                    theManagerThree.ragdollSpawn();
+                }
                 ragdollReady = false;
             }
 
@@ -49,9 +60,21 @@ public class PrisonerManager : MonoBehaviour
     public IEnumerator startRun()
     {
         runLeft = true;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(9);
         runLeft = false;
         moveSpeed = 0;
         rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
+    }
+    public IEnumerator startRun2()
+    {
+        runRight = true;
+        yield return new WaitForSeconds(7.8f);
+        transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
+        runRight = false;
+        runLeft = true;
+        yield return new WaitForSeconds(8);
+        runLeft = false;
+       moveSpeed = 0;
+
     }
 }

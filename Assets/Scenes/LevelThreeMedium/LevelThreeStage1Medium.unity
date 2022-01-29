@@ -6133,6 +6133,17 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
+--- !u!114 &91026403 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3647766426203031151, guid: 73f2aa6422a34fa4a8faa1aa55225a6e, type: 3}
+  m_PrefabInstance: {fileID: 477958445911086441}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &93574050
 GameObject:
   m_ObjectHideFlags: 0
@@ -38065,7 +38076,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &119744736339787618
 RectTransform:
   m_ObjectHideFlags: 0
@@ -50373,6 +50384,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8765152482601268354, guid: 73f2aa6422a34fa4a8faa1aa55225a6e, type: 3}
   m_PrefabInstance: {fileID: 477958445911086441}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &477958445911086448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477958445911086443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashCardImageContainer: {fileID: 91026403}
+  MaleFlashCard: {fileID: 21300000, guid: e0aa7602ec5ff9239bf650e1b6c3d196, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: 8640f8f6c4f2209a0a7655c564b16743, type: 3}
+  isMale: 1
 --- !u!224 &484023179687531969
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52458,8 +52485,8 @@ RectTransform:
   m_Father: {fileID: 183931133165666045}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.688002}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -55689,7 +55716,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 1
   debugPanel: {fileID: 119744736306381856}
   settingsPanel: {fileID: 6465744010539445721}
   levelFinishedPanel: {fileID: 119744737650562123}
@@ -55735,7 +55761,6 @@ MonoBehaviour:
   - {fileID: 1705979763}
   - {fileID: 72268390}
   - {fileID: 1144774978}
-  firebaseManager: {fileID: 8849071}
   gameLevelNames:
   - 
   - Velocity
@@ -70202,9 +70227,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7283189981423239144
 MonoBehaviour:
@@ -71092,9 +71117,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maleAvatarImage: {fileID: 21300000, guid: 11c0dc31327cf8898bbbe1bbd0821e7d, type: 3}
+  maleAvatarEyeClosed: {fileID: 21300000, guid: 94a0dae8f66d5f86b9a5e7c715fb3a71, type: 3}
   femaleAvatarImage: {fileID: 21300000, guid: 90cd1692b485b01d7956e90d10f1b643, type: 3}
+  femaleAvatarEyeClosed: {fileID: 21300000, guid: dd784d5f0837225f4beb8615914961fd, type: 3}
   avatarImageContainer: {fileID: 7064642828883567774}
   isMale: 1
+  activeSprite: {fileID: 0}
 --- !u!223 &9169428620560369450
 Canvas:
   m_ObjectHideFlags: 0

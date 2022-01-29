@@ -47,6 +47,7 @@ public class QuestionContProJHard : MonoBehaviour
     }
 
 
+    // TODO: If the problem only have one process, do not use answer tolerance.
     public float AnswerTolerance(float correctAnswer)
     {
         float answer = 0, offset = 0;

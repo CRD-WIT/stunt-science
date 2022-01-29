@@ -22,7 +22,8 @@ public class ForceMedSimulation : MonoBehaviour
     public GameObject directorBubble;
     public Vector2 playerStartPoint, zombie1StartPoint, zombie2StartPoint, boxStartPoint;
     public GameObject dimensionOne, dimensionTwo,dimensionThree, groundOne,groundTwo;
-    // Start is called before the first frame update
+    public AudioSource dragSfx;
+    public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
     void Start()
     {
         PlayerPrefs.SetString("CurrentString", ("Forces"));
@@ -140,10 +141,13 @@ public class ForceMedSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Lights!";
+            lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
+            cameraSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Action!";
+            actionSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
@@ -151,14 +155,17 @@ public class ForceMedSimulation : MonoBehaviour
             if (stage == 1)
             {
                  theManagerOne.startRunning = true;
+                 dragSfx.Play();
             }
             if (stage == 2)
             {
                 theManagerTwo.startRunning = true;
+                dragSfx.Play();
             }
             if (stage == 3)
             {
                 theManagerThree.startRunning = true;
+                dragSfx.Play();
             }
            
             
@@ -168,6 +175,7 @@ public class ForceMedSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
+            cutSfx.Play();
             yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";

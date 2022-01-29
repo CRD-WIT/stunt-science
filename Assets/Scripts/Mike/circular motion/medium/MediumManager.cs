@@ -5,15 +5,20 @@ using GameConfig;
 
 public class MediumManager : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     QuestionController2_0_1 qc;
     UnitOf whatIsAsk;
-    IndicatorManagerV1_1 indicators;
+    IndicatorManager2_0_1 labels;
     IndicatorManager jmpDistFromBoulder;
     ConveyorManager conveyor;
     HeartManager2 life;
     ScoreManager score;
     PlayerCM2 myPlayer;
+    jumpChar jumperScript;
     StageManager sm = new StageManager();
+
+    [SerializeField]
+    NewConveyorManager cm;
 
     [SerializeField]
     GameObject directorsBubble,
@@ -27,7 +32,9 @@ public class MediumManager : MonoBehaviour
         UI3,
         conveyor1,
         conveyor2,
-        jumperChar;
+        jumperChar,
+        hanger,
+        labels2;
     Animator playerAnim;
     Animation walk;
 
@@ -35,10 +42,11 @@ public class MediumManager : MonoBehaviour
     TMP_Text directorsSpeech;
 
     [SerializeField]
-    float distance,
+    float distance = 0,
         stuntTime,
         elapsed,
-        correctAnswer;
+        correctAnswer,
+        av;
     public static int stage;
     float playerAnswer,
         playerSpeed,
@@ -48,7 +56,8 @@ public class MediumManager : MonoBehaviour
         playerPos,
         currentPlayerPos,
         acceleration,
-        speedOffset;
+        speedOffset,
+        playerPosY;
     string question,
         playerName,
         playerGender,
@@ -64,6 +73,8 @@ public class MediumManager : MonoBehaviour
         isEndOfStunt,
         ragdollActive,
         isJumping;
+    float aVelocity,
+        height = 0;
 
     Vector2 spawnPoint,
         jmpCharInitPos;
@@ -71,10 +82,11 @@ public class MediumManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        jumperScript = jumperChar.GetComponent<jumpChar>();
         qc = FindObjectOfType<QuestionController2_0_1>();
         myPlayer = FindObjectOfType<PlayerCM2>();
         // conveyor = FindObjectOfType<ConveyorManager>();
-        indicators = FindObjectOfType<IndicatorManagerV1_1>();
+        labels = FindObjectOfType<IndicatorManager2_0_1>();
         life = FindObjectOfType<HeartManager2>();
         score = FindObjectOfType<ScoreManager>();
 
@@ -96,22 +108,33 @@ public class MediumManager : MonoBehaviour
         }
         qc.levelDifficulty = Difficulty.Medium;
         qc.stage = 1;
-        // playerAnim.SetBool("running", true);
+        PlayerPrefs.SetInt("Life", 3);
         SetUp();
     }
 
     // Update is called once per frame
     void Update()
     {
-        indicators.SetPlayerPosition(myPlayer.transform.position);
+        switch (stage)
+        {
+            case 1:
+            debugAnswer.SetText($"Answer: {playerSpeed}");
+            break;
+                        case 2:
+            debugAnswer.SetText($"Answer: {acceleration}");
+            break;
+                        case 3:
+            debugAnswer.SetText($"Answer: {correctAnswer}");
+            break;
+            default:
+            debugAnswer.SetText($"Answer: Not yet set");
+            break;
+        }        
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
-        // Debug.Log(conveyorSpeed + "cs");
-        // Debug.Log(playerSpeed + "ps");
         if (isAnswered)
         {
-            indicators.distanceSpawnPnt = spawnPoint;
-            // playerAnswer = qc.GetPlayerAnswer();
+            labels.distanceSpawnPnt = spawnPoint;
             qc.timer = elapsed.ToString("f2") + "s";
             elapsed += Time.deltaTime;
             timingD = currentPlayerPos;
@@ -123,13 +146,11 @@ public class MediumManager : MonoBehaviour
                     timingD = myPlayer.transform.position.x + 10;
                     if (elapsed >= stuntTime)
                     {
-                        // isAnswered =false;
                         myPlayer.moveSpeed = 0;
                         timingD = (playerAnswer - conveyorSpeed) * stuntTime;
                         playerAnim.speed = 1;
                         elapsed = stuntTime;
                         ropeGrab = true;
-                        // myPlayer.moveSpeed = -conveyorSpeed;
                         if (playerAnswer == playerSpeed)
                         {
                             isAnswerCorrect = true;
@@ -137,43 +158,31 @@ public class MediumManager : MonoBehaviour
                                 distance - 10,
                                 myPlayer.transform.position.y
                             );
-                            // myPlayer.moveSpeed = 0;
-                            // playerAnim.SetBool("running", false);
-                            // playerAnim.speed = 1;
                             messageTxt = "CORRECT";
                         }
                         else
                         {
                             isAnswerCorrect = false;
-                            // myPlayer.gameObject.SetActive(false);
-                            // ragdoll.transform.position = myPlayer.transform.position;
-                            // ragdoll.SetActive(true);
-                            // ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(
-                            //     conveyorSpeed,
-                            //     0
-                            // );
                             if (playerAnswer > playerSpeed)
                             {
-                                // myPlayer.transform.position = new Vector2(
-                                //     myPlayer.transform.position.x + 0.2f,
-                                //     myPlayer.transform.position.y
-                                // );
                                 messageTxt = "Above";
                             }
                             else
                             {
-                                // myPlayer.transform.position = new Vector2(
-                                //     myPlayer.transform.position.x - 0.2f,
-                                //     myPlayer.transform.position.y
-                                // );
                                 messageTxt = "Below";
                             }
-                            indicators.ShowCorrectDistance(distance, true, new Vector2(-10, 0.5f));
+                            labels.ShowCorrectDistance(distance, true, new Vector2(-10, 0.5f));
                         }
                         isAnswered = false;
-                        indicators.AnswerIs(isAnswerCorrect, false);
+                        labels.SetPlayerPosition(
+                            new Vector2(
+                                (playerAnswer - conveyorSpeed) * stuntTime,
+                                myPlayer.transform.position.y
+                            )
+                        );
+                        labels.AnswerIs(isAnswerCorrect, false);
                     }
-                    indicators.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed) * elapsed);
+                    labels.IsRunning(playerAnswer, (playerAnswer - conveyorSpeed) * elapsed);
                     break;
                 case 2:
                     if (myPlayer.transform.position.x >= distance)
@@ -182,12 +191,33 @@ public class MediumManager : MonoBehaviour
                         // StartCoroutine(ActivateJump());
                         elapsed = stuntTime;
                         myPlayer.running = false;
-                        myPlayer.moveSpeed = 0;
+                        myPlayer.moveSpeed = playerSpeed;
+                        if (playerAnswer == acceleration)
+                        {
+                            // myPlayer.moveSpeed = 15;
+                            isAnswerCorrect = true;
+                            messageTxt = "Answer is correct";
+                        }
+                        else
+                        {
+                            isAnswerCorrect = false;
+                            if (playerAnswer > acceleration)
+                            {
+                                speedOffset = 1.15f;
+                                messageTxt = "Answer is more than correct";
+                            }
+                            else
+                            {
+                                speedOffset = 0.85f;
+                                messageTxt = "Answer is less than correct";
+                            }
+                        }
                     }
                     else
                     {
                         myPlayer.walking = false;
                         playerSpeed = playerAnswer * elapsed;
+                        labels.showLines(distance, height, playerSpeed, stuntTime);
                         myPlayer.moveSpeed = playerSpeed + conveyorSpeed;
                         if (playerSpeed >= 2.5f)
                         {
@@ -202,44 +232,73 @@ public class MediumManager : MonoBehaviour
                             myPlayer.running = false;
                         }
                     }
-                    if (playerAnswer == acceleration)
+
+                    // labels.IsRunning(myPlayer.moveSpeed, myPlayer.transform.position.x);
+                    break;
+                case 3:
+                    cm.SetHangerVelocity(av, stuntTime, 3.5f);
+                    if (elapsed >= playerAnswer)
                     {
-                        // myPlayer.moveSpeed = 15;
-                        isAnswerCorrect = true;
-                        messageTxt = "Answer is correct";
-                    }
-                    else
-                    {
-                        isAnswerCorrect = false;
-                        if (playerAnswer > acceleration)
+                        ropeGrab = true;
+                        elapsed = playerAnswer;
+                        myPlayer.running = false;
+                        myPlayer.moveSpeed = 0;
+                        isAnswered = false;
+                        // hanger.GetComponent<HingeJoint2D>().enabled = true;
+
+                        if (playerAnswer == correctAnswer)
                         {
-                            speedOffset = 1.15f;
-                            messageTxt = "Answer is more than correct";
+                            hanger.GetComponent<HingeJoint2D>().enabled = true;
+                            messageTxt = "Correct";
+                            isAnswerCorrect = true;
                         }
                         else
                         {
-                            speedOffset = 0.85f;
-                            messageTxt = "Answer is less than correct";
+                            myPlayer.ragdollspawn();
+                            messageTxt = "wrong";
+                            isAnswerCorrect = false;
+                        }
+                        isEndOfStunt = true;
+                    }
+                    else
+                    {
+                        myPlayer.walking = false;
+                        myPlayer.moveSpeed = playerSpeed + conveyorSpeed;
+                        if (playerSpeed >= 2.5f)
+                        {
+                            myPlayer.myAnimator.speed = 1;
+                            playerAnim.SetBool("walkForward", false);
+                            myPlayer.running = true;
+                        }
+                        else
+                        {
+                            playerAnim.speed = 0.4f;
+                            playerAnim.SetBool("walkForward", true);
+                            myPlayer.running = false;
                         }
                     }
                     break;
-                default:
-                    break;
             }
         }
+        if (myPlayer.transform.position.x >= 40)
+            hanger.GetComponent<HingeJoint2D>().enabled = false;
         if (Hanger.isHanging)
         {
-            isAnswered = false;
-            jumperChar.GetComponent<Animator>().SetBool("dive", false);
-            isEndOfStunt = true;
+            jumperScript.hanging = true;
+            // isAnswered = false;
+            // jumperChar.GetComponent<Animator>().SetBool("dive", false);
+            // isEndOfStunt = true;
         }
-        indicators.SetPlayerPosition(myPlayer.transform.position);
         if (isEndOfStunt)
             StartCoroutine(StuntResult());
         if (ropeGrab)
             StartCoroutine(GrabRope());
         if (ragdollActive)
-            RagdollSpawn();
+        {
+            ragdollActive = false;
+            myPlayer.ragdollspawn();
+        }
+        //     RagdollSpawn();
         if (qc.isSimulating)
             Play();
         else
@@ -254,17 +313,19 @@ public class MediumManager : MonoBehaviour
                 qc.retried = false;
             }
         }
+        labels.SetPlayerPosition(new Vector2(myPlayer.transform.position.x, playerPosY));
     }
 
     void SetUp()
     {
+        cm.gameObject.SetActive(false);
         this.gameObject.GetComponent<EdgeCollider2D>().enabled = false;
         jumperChar.SetActive(false);
-        ragdoll.SetActive(false);
+        Destroy(GameObject.Find("ragdoll 2(Clone)"));
+        // ragdoll.SetActive(false);
         ragdollActive = false;
 
-        indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
-        spawnPoint = indicators.distanceSpawnPnt;
+        labels.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
 
         stage1Layout.SetActive(false);
         stage2Layout.SetActive(false);
@@ -281,8 +342,7 @@ public class MediumManager : MonoBehaviour
         qc.isSimulating = false;
         myPlayer.climb = false;
 
-        // life.losslife = false;
-        float aVelocity;
+        life.losslife = false;
         switch (stage)
         {
             case 1:
@@ -317,11 +377,10 @@ public class MediumManager : MonoBehaviour
                 myPlayer.transform.position = new Vector2(-10, myPlayer.transform.position.y);
                 myPlayer.gameObject.SetActive(true);
 
-                indicators.heightSpawnPnt = new Vector2(-13, -1.15f);
-                indicators.distanceSpawnPnt = new Vector2(-10, 2);
-                indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(distance, 2.3f, playerSpeed, stuntTime);
-                indicators.UnknownIs('v');
+                labels.heightSpawnPnt = new Vector2(-13, -1.15f);
+                labels.distanceSpawnPnt = new Vector2(-10, 2);
+                labels.UnknownIs('v');
+                height = 2.3f;
 
                 question =
                     playerName
@@ -357,64 +416,80 @@ public class MediumManager : MonoBehaviour
                 myPlayer.walking = true;
                 qc.limit = 10.4f;
 
-                distance = Random.Range(15F, 20F);
-                aVelocity = Random.Range(54f, 59f);
-                stuntTime = Random.Range(3.5f, 5f);
+                distance = (float)System.Math.Round(Random.Range(15F, 20F), 2);
+                aVelocity = (float)System.Math.Round(Random.Range(54f, 59f), 2);
+                stuntTime = (float)System.Math.Round(Random.Range(3.5f, 5f), 2);
                 conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.925f);
-                conveyorSpeed = conveyor.GetConveyorVelocity() * -1;
+                conveyorSpeed = (float)System.Math.Round((conveyor.GetConveyorVelocity() * -1), 2);
                 float Vfp = 15 - conveyorSpeed;
+                Debug.Log(Vfp);
                 acceleration = (float)System.Math.Round((Vfp / stuntTime), 2);
 
                 whatIsAsk = UnitOf.acceleration;
-                myPlayer.transform.position = rope.transform.position;
+                myPlayer.transform.position = new Vector2(6 - distance, 3);
                 myPlayer.gameObject.SetActive(true);
 
-                // float Vfp = playerSpeed;
-
-                indicators.distanceSpawnPnt = new Vector2(6 - distance, 3);
-                indicators.heightSpawnPnt = new Vector2(-17f, -1.925f);
-                indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(distance, 3.85f, playerSpeed, stuntTime);
-                indicators.UnknownIs('N');
+                labels.distanceSpawnPnt = new Vector2(6 - distance, 3);
+                labels.heightSpawnPnt = new Vector2(-17f, -1.925f);
+                labels.UnknownIs('N');
+                height = 3.85f;
+                question =
+                    $"{playerName} is instructed to run on a moving conveyor with the speed of <b>{conveyorSpeed}{qc.Unit(UnitOf.angularVelocity)}</b>. What should be {pNoun} aceleration if {pronoun} starts at stationary ";
                 break;
             case 3:
+                cm.gameObject.SetActive(true);
                 stage3Layout.SetActive(true);
-                myPlayer.transform.position = new Vector2(-18, 3);
                 qc = UI3.GetComponent<QuestionController2_0_1>();
+
                 qc.stage = 2;
                 conveyor = FindObjectOfType<ConveyorManager>();
-                playerAnim.speed = 1;
+                playerAnim.speed = 1 / 2f;
                 myPlayer.climb = false;
                 myPlayer.running = false;
                 myPlayer.walking = true;
                 qc.limit = 5f;
 
-                float hangerDist, hangerVelo;
-                distance = Random.Range(16F, 21F);
-                aVelocity = Random.Range(54f, 59f);
-                // stuntTime = Random.Range(3.5f, 5f);
-                conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.15f);
-                conveyorSpeed = conveyor.GetConveyorVelocity() * -1;
-                playerSpeed = conveyorSpeed + Random.Range(3f, 10.4f);
-                stuntTime = distance/playerSpeed;
+                float hangerDist,
+                    dT = 37,
+                    dj,
+                    cmAv;
+                while (true)
+                {
+                    distance = (float)System.Math.Round((Random.Range(12F, 16F)), 2);
+                    aVelocity = (float)System.Math.Round((Random.Range(15f, 25f)), 2);
+                    playerSpeed = (float)System.Math.Round(Random.Range(2f, 10.49f), 2);
+                    conveyor.SetConveyorSpeed(-aVelocity, stuntTime, 1.15f);
+                    conveyorSpeed = (float)System.Math.Round(
+                        (conveyor.GetConveyorVelocity() * -1),
+                        2
+                    );
+                    stuntTime = distance / (playerSpeed + conveyorSpeed);
+                    // av = (dT / stuntTime) - (playerSpeed + conveyorSpeed);
+                    av = (2 + distance) / stuntTime;
+                    if ((stuntTime <= qc.limit) && (stuntTime >= 3))
+                        break;
+                }
+                Debug.Log(
+                    $"dp = {distance}\nVc1 = {conveyorSpeed}\nt = {stuntTime}\ndt = {distance + 2}\nVc2 = {av}\nVp = {playerSpeed}"
+                );
 
-                hangerDist = 36 - distance;
-
+                correctAnswer = (float)System.Math.Round(stuntTime, 2);
                 whatIsAsk = UnitOf.time;
-                myPlayer.transform.position = rope.transform.position;
+                myPlayer.transform.position = new Vector2(-10, 3);
                 myPlayer.gameObject.SetActive(true);
 
-                // float Vfp = playerSpeed;
-
-                indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 3);
-                indicators.heightSpawnPnt = new Vector2(-17f, -1.925f);
-                indicators.SetPlayerPosition(myPlayer.transform.position);
-                indicators.showLines(distance, 3.85f, playerSpeed, stuntTime);
-                indicators.UnknownIs('t');
+                labels.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 3);
+                labels.heightSpawnPnt = new Vector2(2.9f, -0.64f);
+                height = 2.8f;
+                labels.UnknownIs('t');
                 break;
             default:
                 break;
         }
+        playerPosY = myPlayer.transform.position.y;
+        spawnPoint = labels.distanceSpawnPnt;
+        labels.SetPlayerPosition(myPlayer.transform.position);
+        labels.showLines(distance, height, playerSpeed, stuntTime);
         qc.SetUnitTo(whatIsAsk);
         qc.SetQuestion(question);
 
@@ -435,36 +510,29 @@ public class MediumManager : MonoBehaviour
 
     IEnumerator Retry()
     {
-        ConveyorManager.isActive = false;
-        yield return new WaitForEndOfFrame();
-        // conveyor.isActive = false;
-        FallingBoulders.isRumbling = false;
-        qc.retried = false;
         PrefabDestroyer.end = true;
-        StartCoroutine(life.endBGgone());
+        qc.retried = false;
         yield return new WaitForSeconds(3);
-        // myPlayer.ToggleTrigger();
-        // myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
-        RumblingManager.isCrumbling = false;
+        ConveyorManager.isActive = false;
+        yield return new WaitForSeconds(0.5f);
         SetUp();
     }
 
     IEnumerator Next()
     {
-        ConveyorManager.isActive = false;
-        FallingBoulders.isRumbling = false;
+        PrefabDestroyer.end = true;
         qc.nextStage = false;
         myPlayer.happy = false;
-        PrefabDestroyer.end = true;
         yield return new WaitForSeconds(3f);
         // StartCoroutine(life.endBGgone());
-        yield return new WaitForSeconds(2.8f);
+        ConveyorManager.isActive = false;
+        yield return new WaitForSeconds(0.5f);
         // myPlayer.transform.position = new Vector2(0, boulder.transform.position.y);
         myPlayer.moveSpeed = 0;
         playerAnswer = 0;
-        RumblingManager.isCrumbling = false;
+        // RumblingManager.isCrumbling = false;
 
         SetUp();
     }
@@ -504,8 +572,10 @@ public class MediumManager : MonoBehaviour
         // yield return new WaitForSeconds(0.25f);
         directorIsCalling = true;
         isStartOfStunt = false;
+        if (!isAnswerCorrect)
+            life.ReduceLife();
         yield return new WaitForSeconds(1f);
-        qc.ActivateResult(messageTxt, isAnswerCorrect);
+        qc.ActivateResult(messageTxt, isAnswerCorrect, stage == 3 ? true : false);
     }
 
     IEnumerator GrabRope()
@@ -513,19 +583,15 @@ public class MediumManager : MonoBehaviour
         myPlayer.running = false;
         ropeGrab = false;
         myPlayer.ropeGrab = true;
-        // playerAnim.SetBool("running", false);
-        // playerAnim.SetBool("ropeGrab", true);
-        // myPlayer.successGrab = true;
         yield return new WaitForSeconds(0.15f);
         if (isAnswerCorrect)
         {
             myPlayer.successGrab = true;
-            // playerAnim.SetBool("successGrab", true);
             yield return new WaitForSeconds(1.01f);
             myPlayer.ropeGrab = false;
             myPlayer.successGrab = false;
-            myPlayer.climb = true;
-            // myPlayer.ropeGrab = false;
+            myPlayer.climb = stage == 3 ? false : true;
+            myPlayer.isHanging = stage == 3 ? true : false;
         }
         else
         {
@@ -538,30 +604,43 @@ public class MediumManager : MonoBehaviour
         isEndOfStunt = true;
     }
 
-    void RagdollSpawn()
-    {
-        myPlayer.gameObject.SetActive(false);
-        ragdoll.transform.position = myPlayer.transform.position;
-        ragdoll.SetActive(true);
-        ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
-    }
+    // void RagdollSpawn()
+    // {
+    //     myPlayer.gameObject.SetActive(false);
+    //     ragdoll.transform.position = myPlayer.transform.position;
+    //     ragdoll.SetActive(true);
+    //     // ragdoll.GetComponent<Rigidbody2D>().velocity = new Vector2(conveyorSpeed, 0);
+    // }
 
     IEnumerator ActivateJump()
     {
         jumperChar.SetActive(true);
         myPlayer.gameObject.SetActive(false);
         if (isAnswerCorrect)
-            jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(10, 0);
+        {
+            jumperScript.velocity = 10;
+            labels.showLines(distance, height, acceleration * stuntTime, stuntTime);
+        }
+        // jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(10, 0);
         else
-            jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(
-                (myPlayer.moveSpeed + 10) * speedOffset / 2,
-                0
-            );
+        {
+            jumperScript.velocity = (myPlayer.moveSpeed + 10) * speedOffset / 2;
+            labels.showLines(distance, height, playerAnswer * stuntTime, stuntTime);
+        }
+        // jumperChar.GetComponent<Rigidbody2D>().velocity = new Vector2(
+        //     (myPlayer.moveSpeed + 10) * speedOffset / 2,
+        //     0
+        // );
         jumperChar.GetComponent<Animator>().SetBool("dive", true);
+        jumperChar.GetComponent<Animator>().SetBool("flyGrab", true);
         yield return new WaitForSeconds(1.25f);
         isAnswered = false;
         isEndOfStunt = true;
+        myPlayer.moveSpeed = 0;
         jumperChar.GetComponent<Animator>().SetBool("dive", false);
+        jumperChar.GetComponent<Animator>().SetBool("hangWalk", true);
+        yield return new WaitForSeconds(0.25f);
+        jumperChar.GetComponent<Animator>().SetBool("flyGrab", false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

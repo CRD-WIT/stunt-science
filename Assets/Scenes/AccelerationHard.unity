@@ -3790,6 +3790,22 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2267889547905779966, guid: 73f2aa6422a34fa4a8faa1aa55225a6e, type: 3}
   m_PrefabInstance: {fileID: 477958447348671773}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &256952376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256952370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashCardImageContainer: {fileID: 435510904}
+  MaleFlashCard: {fileID: 21300000, guid: ae37151cbbb1b38b39be268beb90dde1, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: 82661a2a85b216402a8f733ae7866dd3, type: 3}
+  isMale: 1
 --- !u!1 &266347575
 GameObject:
   m_ObjectHideFlags: 0
@@ -6536,6 +6552,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0adecfd62d800694abb9671f9807dae5, type: 3}
+--- !u!114 &435510904 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3647766426203031151, guid: 73f2aa6422a34fa4a8faa1aa55225a6e, type: 3}
+  m_PrefabInstance: {fileID: 477958447348671773}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &443392188
 GameObject:
   m_ObjectHideFlags: 0
@@ -11197,6 +11224,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 70dc8cb8d8688ab47a073b7afd0f587e, type: 2}
+    - target: {fileID: 4962892759866510796, guid: 205274ae4065b994eb97b47dd28f73b5, type: 3}
+      propertyPath: m_Color.a
+      value: 0.4745098
+      objectReference: {fileID: 0}
     - target: {fileID: 4962892760435843948, guid: 205274ae4065b994eb97b47dd28f73b5, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -13919,6 +13950,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &957296601 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7539649712369349102, guid: 47b9e7e90a66f43eda3423e2dea5357c, type: 3}
+  m_PrefabInstance: {fileID: 4126777112615859881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &958471921
 GameObject:
   m_ObjectHideFlags: 0
@@ -15445,6 +15487,22 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4991227316370014079, guid: 47b9e7e90a66f43eda3423e2dea5357c, type: 3}
   m_PrefabInstance: {fileID: 4126777112615859881}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1032741056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032741049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashCardImageContainer: {fileID: 957296601}
+  MaleFlashCard: {fileID: 21300000, guid: c9cd73471566bc9b6baa28c89612cfc0, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: 12cf294ab17ee51549287eb91c3f1e19, type: 3}
+  isMale: 1
 --- !u!1 &1038612920
 GameObject:
   m_ObjectHideFlags: 0
@@ -47376,7 +47434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &119744738318454550
 RectTransform:
   m_ObjectHideFlags: 0
@@ -50048,8 +50106,8 @@ RectTransform:
   m_Father: {fileID: 183931134399843977}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.787587}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -51238,7 +51296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 1
   debugPanel: {fileID: 119744738083681364}
   settingsPanel: {fileID: 6465744011308096941}
   levelFinishedPanel: {fileID: 119744736739370047}
@@ -51278,7 +51335,6 @@ MonoBehaviour:
   - {fileID: 802693255}
   - {fileID: 689894222}
   - {fileID: 980883182}
-  firebaseManager: {fileID: 449533034}
   gameLevelNames:
   - 
   - Velocity
@@ -52252,9 +52308,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7283189981719990172
 MonoBehaviour:
@@ -53104,9 +53160,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maleAvatarImage: {fileID: 21300000, guid: 11c0dc31327cf8898bbbe1bbd0821e7d, type: 3}
+  maleAvatarEyeClosed: {fileID: 21300000, guid: 94a0dae8f66d5f86b9a5e7c715fb3a71, type: 3}
   femaleAvatarImage: {fileID: 21300000, guid: 90cd1692b485b01d7956e90d10f1b643, type: 3}
+  femaleAvatarEyeClosed: {fileID: 21300000, guid: 90cd1692b485b01d7956e90d10f1b643, type: 3}
   avatarImageContainer: {fileID: 7064642830868501738}
   isMale: 1
+  activeSprite: {fileID: 0}
 --- !u!114 &9169428621465352024
 MonoBehaviour:
   m_ObjectHideFlags: 0

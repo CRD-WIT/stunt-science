@@ -5,6 +5,7 @@ using GameConfig;
 
 public class Level5EasyManager : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     [SerializeField] HingeJoint2D pipeHanger;
     [SerializeField] TMP_Text directorsSpeech;
     [SerializeField]
@@ -21,7 +22,7 @@ public class Level5EasyManager : MonoBehaviour
     Vector2 playerPos;
     StageManager sm = new StageManager();
     RoundOffHandler CustomRoundOff = new RoundOffHandler();
-    HeartManager2 life;
+    public HeartManager2 life;
     QuestionController2_0_1 qc;
     ScoreManager score;
     ButtonSelector btnSelect;
@@ -33,7 +34,6 @@ public class Level5EasyManager : MonoBehaviour
     void Start()
     {
         myPlayer = FindObjectOfType<PlayerCM2>();
-        life = FindObjectOfType<HeartManager2>();
         qc = FindObjectOfType<QuestionController2_0_1>();
         score = FindObjectOfType<ScoreManager>();
         btnSelect = FindObjectOfType<ButtonSelector>();
@@ -51,10 +51,29 @@ public class Level5EasyManager : MonoBehaviour
     }
     void Update()
     {
+
         if (directorIsCalling)
         {
             StartCoroutine(DirectorsCall());
         }
+
+        switch (stage)
+        {
+            case 1:
+                debugAnswer.SetText($"Answer: {aVelocity}");
+                break;
+            case 2:
+                debugAnswer.SetText($"Answer: {gameTime}");
+                break;
+            case 3:
+                debugAnswer.SetText($"Answer: {angle}");
+                break;
+            default:
+                debugAnswer.SetText($"Answer: Not Set");
+                break;
+        }
+
+
         if (isAnswered)
         {
             CurvedLineFollower.answerIs = null;
@@ -152,7 +171,7 @@ public class Level5EasyManager : MonoBehaviour
                             slider.enabled = false;
                             CurvedLineFollower.arc = playerAnswer;
                             isAnswerCorect = true;
-                            isEnd =true;
+                            isEnd = true;
                             messageTxt = "<b>" + playerName + "</b> has <color=green>entered</color> the tunnel!";
                         }
                         else

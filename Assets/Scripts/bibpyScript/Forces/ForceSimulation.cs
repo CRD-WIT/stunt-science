@@ -11,7 +11,7 @@ public class ForceSimulation : MonoBehaviour
     public ForceManagerOne theManagerOne;
     public ForceManagerTwo theManagerTwo;
     public ForceManagerThree theManagerThree;
-    private HeartManager theHeart;
+    public HeartManager theHeart;
     public TMP_InputField answerField;
     public TMP_Text diretorsSpeech;
     public static float playerAnswer;
@@ -28,6 +28,8 @@ public class ForceSimulation : MonoBehaviour
     public GameObject directorBubble, zombiePrefab;
     private ragdollScript theRagdoll;
     public bool zombieChase, destroyZombies;
+    public AudioSource lightsSfx,cameraSfx,actionSfx,cutSfx;
+
 
     //string accelaration;
     // Start is called before the first frame update
@@ -35,7 +37,7 @@ public class ForceSimulation : MonoBehaviour
     {
         PlayerPrefs.SetString("CurrentString", ("Forces"));
         PlayerPrefs.SetInt("level", 4);
-        theHeart = FindObjectOfType<HeartManager>();
+        theHeart.life = 3;
         StartCoroutine(theManagerOne.createZombies());
     }
 
@@ -108,6 +110,7 @@ public class ForceSimulation : MonoBehaviour
     }
     public void next()
     {
+        destroyZombies = true;
         theQuestion.isModalOpen = false;
         StartCoroutine(theHeart.startBGgone());
         StartCoroutine(nextStage());
@@ -158,10 +161,13 @@ public class ForceSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Lights!";
+            lightsSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Camera!";
+            cameraSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "Action!";
+             actionSfx.Play();
             yield return new WaitForSeconds(0.75f);
             diretorsSpeech.text = "";
             directorBubble.SetActive(false);
@@ -172,6 +178,7 @@ public class ForceSimulation : MonoBehaviour
         {
             directorBubble.SetActive(true);
             diretorsSpeech.text = "Cut!";
+            cutSfx.Play();
             yield return new WaitForSeconds(1);
             directorBubble.SetActive(false);
             diretorsSpeech.text = "";

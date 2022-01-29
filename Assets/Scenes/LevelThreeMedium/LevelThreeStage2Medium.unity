@@ -44289,7 +44289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &119744737062340238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51030,6 +51030,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3647766426203031151, guid: 73f2aa6422a34fa4a8faa1aa55225a6e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e0aa7602ec5ff9239bf650e1b6c3d196, type: 3}
     - target: {fileID: 5344826833325862180, guid: 73f2aa6422a34fa4a8faa1aa55225a6e, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -51049,6 +51053,38 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2267889547905779966, guid: 73f2aa6422a34fa4a8faa1aa55225a6e, type: 3}
   m_PrefabInstance: {fileID: 477958446096723076}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &477958446096723078 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3647766426203031151, guid: 73f2aa6422a34fa4a8faa1aa55225a6e, type: 3}
+  m_PrefabInstance: {fileID: 477958446096723076}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &477958446096723079 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8765152482601268354, guid: 73f2aa6422a34fa4a8faa1aa55225a6e, type: 3}
+  m_PrefabInstance: {fileID: 477958446096723076}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &477958446096723080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477958446096723079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashCardImageContainer: {fileID: 477958446096723078}
+  MaleFlashCard: {fileID: 0}
+  FemaleFlashCard: {fileID: 0}
+  isMale: 1
 --- !u!224 &484023178831014956
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52581,8 +52617,8 @@ RectTransform:
   m_Father: {fileID: 183931133215033104}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.688002}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -59569,7 +59605,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 1
   debugPanel: {fileID: 119744737162853837}
   settingsPanel: {fileID: 6465744010085635124}
   levelFinishedPanel: {fileID: 119744737970351526}
@@ -59613,7 +59648,6 @@ MonoBehaviour:
   - {fileID: 661244779}
   - {fileID: 894897587}
   - {fileID: 243809516}
-  firebaseManager: {fileID: 913974359}
   gameLevelNames:
   - 
   - Velocity
@@ -60587,9 +60621,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7283189980568602117
 MonoBehaviour:
@@ -62167,9 +62201,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maleAvatarImage: {fileID: 21300000, guid: 11c0dc31327cf8898bbbe1bbd0821e7d, type: 3}
+  maleAvatarEyeClosed: {fileID: 21300000, guid: 94a0dae8f66d5f86b9a5e7c715fb3a71, type: 3}
   femaleAvatarImage: {fileID: 21300000, guid: 90cd1692b485b01d7956e90d10f1b643, type: 3}
+  femaleAvatarEyeClosed: {fileID: 21300000, guid: 90cd1692b485b01d7956e90d10f1b643, type: 3}
   avatarImageContainer: {fileID: 7064642829637524851}
   isMale: 1
+  activeSprite: {fileID: 0}
 --- !u!222 &9174236468353807897
 CanvasRenderer:
   m_ObjectHideFlags: 0

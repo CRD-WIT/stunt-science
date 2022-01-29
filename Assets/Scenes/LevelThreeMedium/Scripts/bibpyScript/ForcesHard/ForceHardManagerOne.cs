@@ -5,8 +5,10 @@ using TMPro;
 
 public class ForceHardManagerOne : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     public ForceHardSimulation theSimulate;
     public PlayerContForcesMed thePlayer;
+    public PrisonerManager thePrisoner;
     public BoxManager theBox;
     public GameObject boxOne, pushOrigin, ragdollPrefab, prisoner,prisonGlass,dimensions;
     public float breakingForce, resultantDownhillForce, downhillForce, frictionForce, normalForce, appliedForce, mu, angle, massBox, accBox, finalForce;
@@ -31,6 +33,7 @@ public class ForceHardManagerOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         if (theSimulate.simulate == true)
         {
             dimensions.SetActive(false);
@@ -59,6 +62,9 @@ public class ForceHardManagerOne : MonoBehaviour
     }
     public void showProblem()
     {
+        answerIsMorethan = false;
+        answerIsLessthan = false;
+        thePrisoner.ragdollReady = true;
         boxSpeed = 0;
         dimensions.SetActive(true);
         prisonGlass.SetActive(true);
@@ -110,7 +116,7 @@ public class ForceHardManagerOne : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         if (theSimulate.playerAnswer != correctAnswer)
         {
-            //theHeart.losinglife();
+            theHeart.losinglife();
             yield return new WaitForSeconds(4);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able to save the captive"), false, false);
 
