@@ -224,7 +224,7 @@ public class Level_3_Stage_3_Medium : MonoBehaviour
             theCircular._degrees = angleGiven;
             theCircular.initialAngle = 45 - (angleGiven - 45);
             distanceX = (float)System.Math.Round(target.transform.position.x - hookLauncher.transform.position.x, 2);
-            distanceY = (float)System.Math.Round(target.transform.position.y - hookLauncher.transform.position.y, 2);
+            // distanceY = (float)System.Math.Round(target.transform.position.y - hookLauncher.transform.position.y, 2);
             //angleGiven = Mathf.Atan(((distanceY + ((9.81f / 2) * (projectileTime * projectileTime))) / distanceX)) * Mathf.Rad2Deg;
             correctAnswer = (float)System.Math.Round(projectileTime, 2);
             projectileTimeCheck = Mathf.Sqrt((((2 * distanceX) * (Mathf.Tan(angleGiven * Mathf.Deg2Rad))) - distanceY) / 9.81f);
