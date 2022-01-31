@@ -19,7 +19,7 @@ public class ForceManagerOne : MonoBehaviour
     public bool throwBomb;
     public TMP_Text masstxt, acctxt, breakingforcetxt, forcetxt, actiontxt;
     private HeartManager theHeart;
-    public AudioSource glassBreak, thud;
+    public AudioSource glassBreak,thud;
 
 
     // Start is called before the first frame update
@@ -36,14 +36,15 @@ public class ForceManagerOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
         currentPos = thePlayer.transform.position.x;
         playerAnswer = ForceSimulation.playerAnswer;
         generateCorrectAnswer = mass * accelaration;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         forcetxt.text = ("f = ") + correctAnswer.ToString("F2") + ("N");
         forcetxt.color = new Color32(107, 0, 176, 255);
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
-        debugAnswer.SetText($"Answer: {correctAnswer}");
 
         if (ForceSimulation.simulate == true)
         {

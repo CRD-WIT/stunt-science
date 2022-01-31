@@ -19,6 +19,7 @@ public class MechaManager : MonoBehaviour
 
     [SerializeField]
     GameObject[] gears = new GameObject[3];
+    BoxCollider2D rdMarker;
 
     // Start is called before the first frame update
     void Start()

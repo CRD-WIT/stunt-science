@@ -10,6 +10,7 @@ public class ForceMedThree : MonoBehaviour
     public PlayerContForcesMed thePlayer;
     public float accelerationPlayer, time, timer, totalDistance, massBox, forcePlayer, massPlayer, elevatorSpeed;
     public float weightBox, accelerationBox, correctAnswer, friction, Fn, mu, zombieForce, initialForce, zombieFinalForce;
+    public float playerAnswer,min,max;
     public bool preset, startRunning;
     public BoxManager theBox;
     public GameObject dimensions, elevator;
@@ -50,7 +51,28 @@ public class ForceMedThree : MonoBehaviour
             correctAnswer = (float)System.Math.Round(zombieFinalForce - initialForce, 2);
 
         }
-        debugAnswer.SetText($"Answer: {correctAnswer}");
+        min = correctAnswer - .01f;
+        max = correctAnswer +.01f;
+        if(theSimulate.playerAnswer == min)
+        {
+            playerAnswer = correctAnswer;
+        }
+        if(theSimulate.playerAnswer == max)
+        {
+            playerAnswer = correctAnswer;
+        }
+         if(theSimulate.playerAnswer == correctAnswer)
+        {
+            playerAnswer = correctAnswer;
+        }
+        if(theSimulate.playerAnswer > max)
+        {
+            playerAnswer = theSimulate.playerAnswer;
+        }
+        if( theSimulate.playerAnswer < min)
+        {
+            playerAnswer = theSimulate.playerAnswer;
+        }
         if (startRunning)
         {
             zombieChase();

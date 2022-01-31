@@ -10,6 +10,10 @@ public class ForceMedOne : MonoBehaviour
     public PlayerContForcesMed thePlayer;
     public float accelerationPlayer, time, timer, totalDistance, massBox, forcePlayer, massPlayer;
     public float weightBox, accelerationBox, correctAnswer, friction, Fn, mu;
+<<<<<<< HEAD
+    public float playerAnswer, min, max, underMin, aboveMax;
+=======
+>>>>>>> b59608b84d09ab5f5acc99d3cc0b3e89e9571429
     public bool preset, startRunning;
     public BoxManager theBox;
     public GameObject stopper2, dimensions;
@@ -37,11 +41,35 @@ public class ForceMedOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        min = correctAnswer - .01f;
+        max = correctAnswer + .01f;
+        underMin = correctAnswer - .02f;
+        aboveMax = correctAnswer + .02f;
+         if (theSimulate.playerAnswer == min)
+        {
+            playerAnswer = (float)System.Math.Round(((massBox * (accelerationBox - 0.02f)) + friction), 2); ;
+        }
+        if (theSimulate.playerAnswer == max)
+        {
+            playerAnswer = (float)System.Math.Round(((massBox * (accelerationBox - 0.02f)) + friction), 2); ;
+        }
+        if (theSimulate.playerAnswer == correctAnswer)
+        {
+            playerAnswer = (float)System.Math.Round(((massBox * (accelerationBox - 0.02f)) + friction), 2); ;
+        }
+        if (theSimulate.playerAnswer >= aboveMax)
+        {
+            playerAnswer = theSimulate.playerAnswer;
+        }
+        if (theSimulate.playerAnswer <= underMin)
+        {
+            playerAnswer = theSimulate.playerAnswer;
+        }
+
+
         if (preset)
         {
-            weightBox = massBox * 9.81f;
-            accelerationBox = ((2 * totalDistance) / (time * time)) + .02f;
-            correctAnswer = (float)System.Math.Round(((massBox * (accelerationBox - 0.02f)) + friction), 2);
+
 
         }
         debugAnswer.SetText($"Answer: {correctAnswer}");
@@ -54,25 +82,29 @@ public class ForceMedOne : MonoBehaviour
         if (theSimulate.simulate == true)
         {
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> b59608b84d09ab5f5acc99d3cc0b3e89e9571429
             dimensions.SetActive(false);
             thePlayer.push = true;
             accelerationPlayer = (theSimulate.playerAnswer - friction) / massBox;
             timer += Time.fixedDeltaTime;
-            if (theSimulate.playerAnswer == correctAnswer)
+            if (playerAnswer == correctAnswer)
             {
 
                 thePlayer.moveSpeed += accelerationBox * Time.fixedDeltaTime;
                 theBox.boxSpeed1 += accelerationBox * Time.fixedDeltaTime;
                 stopper2.SetActive(true);
             }
-            if (theSimulate.playerAnswer != correctAnswer)
+            if (playerAnswer != correctAnswer)
             {
-                if (theSimulate.playerAnswer < correctAnswer)
+                if (playerAnswer < correctAnswer)
                 {
                     thePlayer.moveSpeed += (accelerationPlayer - 0.1f) * Time.fixedDeltaTime;
                     theBox.boxSpeed1 += (accelerationPlayer - 0.1f) * Time.fixedDeltaTime;
                 }
-                if (theSimulate.playerAnswer > correctAnswer)
+                if (playerAnswer > correctAnswer)
                 {
                     thePlayer.moveSpeed += (accelerationPlayer + 0.1f) * Time.fixedDeltaTime;
                     theBox.boxSpeed1 += (accelerationPlayer + 0.1f) * Time.fixedDeltaTime;
@@ -88,7 +120,11 @@ public class ForceMedOne : MonoBehaviour
                 theSimulate.simulate = false;
                 dragSfx.Stop();
                 StartCoroutine(StuntResult());
+<<<<<<< HEAD
+                if (playerAnswer == correctAnswer)
+=======
                 if (theSimulate.playerAnswer == correctAnswer)
+>>>>>>> b59608b84d09ab5f5acc99d3cc0b3e89e9571429
                 {
                     box1.transform.position = new Vector2(8.05f, 1.483791f);
                 }
@@ -112,6 +148,12 @@ public class ForceMedOne : MonoBehaviour
         Fn = massBox * 9.81f;
         friction = Fn * mu;
         timer = 0;
+<<<<<<< HEAD
+        weightBox = massBox * 9.81f;
+        accelerationBox = ((2 * totalDistance) / (time * time)) + .02f;
+        correctAnswer = (float)System.Math.Round(((massBox * (accelerationBox - 0.02f)) + friction), 2);
+=======
+>>>>>>> b59608b84d09ab5f5acc99d3cc0b3e89e9571429
         frictionTxt.text = "Ff = " + friction.ToString("F2") + "N";
         boxMassTxt.text = "m = " + massBox.ToString("F2") + "kg";
         theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to push the box(A) starting at rest using constant Force for <b>") + time + ("</b> seconds. If the target location is <b>") + totalDistance.ToString("F2") + ("</b> meter from the box starting position, How much Force should the box 'A' needed to reach the target location with the given time,if the surface has an oppossing friction force of <b>") + friction.ToString("F2") + ("N</b> and the box has a mass of <b>") + massBox.ToString("F2") + ("</b>kg. After the given time, ") + PlayerPrefs.GetString("Name") + (" will stop pushing and the box will stop moving. Fail to perform the task and zombies will eat your brain.")));
@@ -137,14 +179,14 @@ public class ForceMedOne : MonoBehaviour
         theZombie[3].moveSpeed = 0;
         theZombie[3].zombieRun = false;
 
-        if (theSimulate.playerAnswer == correctAnswer)
+        if (playerAnswer == correctAnswer)
         {
             theQuestion.answerIsCorrect = true;
             yield return new WaitForSeconds(4);
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely escaped from zombies"), true, false);
         }
         StartCoroutine(theSimulate.DirectorsCall());
-        if (theSimulate.playerAnswer != correctAnswer)
+        if (playerAnswer != correctAnswer)
         {
             // theZombie[0].moveSpeed = 0;
             // theZombie[1].moveSpeed = 0;
@@ -153,5 +195,12 @@ public class ForceMedOne : MonoBehaviour
             theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able to positioned the box on the target"), false, false);
 
         }
+
+    }
+    public IEnumerator evaluateAnswer()
+    {
+       
+        yield return new WaitForSeconds(1);
+        preset = false;
     }
 }

@@ -58,7 +58,7 @@ public class ForceMedSimulation : MonoBehaviour
                 {
                     answerField.text = playerAnswer.ToString() + "N";
                 }
-
+                // StartCoroutine(theManagerOne.evaluateAnswer());
             }
         }
         if (stage == 2)

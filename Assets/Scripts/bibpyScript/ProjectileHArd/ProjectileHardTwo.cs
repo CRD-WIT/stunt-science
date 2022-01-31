@@ -107,6 +107,7 @@ public class ProjectileHardTwo : MonoBehaviour
             theMeter[1].distance = this.transform.position.y + 0.25f;
             theMeter[2].positionX = target.transform.position.x + 1;
             theMeter[2].distance = target.transform.position.y + 0.25f;
+            theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to fire a gun hitting a Golem in its weakest spot. ") + PlayerPrefs.GetString("Name") + (" and the Golem is <b>") + initialDistance.ToString("F2") + ("</b> meters apart when the Golem starts to chase ") + PlayerPrefs.GetString("Name") + (" at the velocity of <b>") + vG.ToString("F2") + ("</b> m/s while ") + PlayerPrefs.GetString("Name") + (" is moving away at the velocity of <b>") + vP.ToString("F2") + ("</b> m/s. After <b>") + time.ToString("F2") + ("</b> seconds, ") + PlayerPrefs.GetString("Name") + (" stops running and fire its gun at a certain angle. What should be the initial velocity of the bullet if its hits the weakspot at exactly <b>") + projectileTime.ToString("F2") + ("</b> seconds projectile time?")));
 
         }
         if (theQuestion.isSimulating == true)
@@ -190,7 +191,7 @@ public class ProjectileHardTwo : MonoBehaviour
         generateVP = Random.Range(1f, 1.7f);
         vP = (float)System.Math.Round(generateVP, 2);
         trail.SetActive(false);
-        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to fire a gun hitting a Golem in its weakest spot. ") + PlayerPrefs.GetString("Name") + (" and the Golem is <b>") + initialDistance.ToString("F2") + ("</b> meters apart when the Golem starts to chase ") + PlayerPrefs.GetString("Name") + (" at the velocity of <b>") + vG.ToString("F2") + ("</b> m/s while ") + PlayerPrefs.GetString("Name") + (" is moving away at the velocity of <b>") + vP.ToString("F2") + ("</b> m/s. After <b>") + time.ToString("F2") + ("</b> seconds, ") + PlayerPrefs.GetString("Name") + (" stops running and fire its gun at a certain angle. What should be the initial velocity of the bullet if its hits the weakspot at exactly <b>") + projectileTime.ToString("F2") + ("</b> seconds projectile time?")));
+        
 
     }
     IEnumerator showHitMiss()
