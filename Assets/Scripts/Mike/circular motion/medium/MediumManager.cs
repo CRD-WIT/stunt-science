@@ -5,6 +5,7 @@ using GameConfig;
 
 public class MediumManager : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     QuestionController2_0_1 qc;
     UnitOf whatIsAsk;
     IndicatorManager2_0_1 labels;
@@ -114,6 +115,21 @@ public class MediumManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        switch (stage)
+        {
+            case 1:
+            debugAnswer.SetText($"Answer: {playerSpeed}");
+            break;
+                        case 2:
+            debugAnswer.SetText($"Answer: {acceleration}");
+            break;
+                        case 3:
+            debugAnswer.SetText($"Answer: {correctAnswer}");
+            break;
+            default:
+            debugAnswer.SetText($"Answer: Not yet set");
+            break;
+        }        
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)

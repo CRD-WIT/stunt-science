@@ -4,6 +4,7 @@ using TMPro;
 
 public class ForceManagerOne : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     AnswerGuards answerGuards = new AnswerGuards();
     public PlayerB thePlayer;
     public BombScript theBombScript;
@@ -19,7 +20,6 @@ public class ForceManagerOne : MonoBehaviour
     public TMP_Text masstxt, acctxt, breakingforcetxt, forcetxt, actiontxt;
     private HeartManager theHeart;
     public AudioSource glassBreak,thud;
-    public TMP_Text debugAnswer;
 
 
     // Start is called before the first frame update
@@ -44,6 +44,7 @@ public class ForceManagerOne : MonoBehaviour
         forcetxt.text = ("f = ") + correctAnswer.ToString("F2") + ("N");
         forcetxt.color = new Color32(107, 0, 176, 255);
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
+
 
         if (ForceSimulation.simulate == true)
         {

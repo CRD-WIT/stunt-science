@@ -5,6 +5,7 @@ using TMPro;
 
 public class ForceHardManagerThree : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     public ForceHardSimulation theSimulate;
     public PlayerContForcesMed thePlayer;
     public PrisonerManager thePrisoner;
@@ -33,6 +34,7 @@ public class ForceHardManagerThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         elevator.GetComponent<Rigidbody2D>().velocity = new Vector2(0,elevatorSpeed);
         if (theSimulate.simulate == true)
         {

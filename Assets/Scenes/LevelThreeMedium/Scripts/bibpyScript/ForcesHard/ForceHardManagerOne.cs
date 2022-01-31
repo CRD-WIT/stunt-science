@@ -5,6 +5,7 @@ using TMPro;
 
 public class ForceHardManagerOne : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     public ForceHardSimulation theSimulate;
     public PlayerContForcesMed thePlayer;
     public PrisonerManager thePrisoner;
@@ -32,6 +33,7 @@ public class ForceHardManagerOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         if (theSimulate.simulate == true)
         {
             dimensions.SetActive(false);
