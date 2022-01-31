@@ -39,14 +39,16 @@ public class LvlFiveHardManager : MonoBehaviour
         playerLanded,
         isEndOfStunt,
         isEnd = false;
+    public BoxCollider2D playerStopper;
     MechaManager mm;
-    QuestionControllerVThree qc;
-    IndicatorManagerV1_1 indicators;
+    QuestionController2_0_1 qc;
+    IndicatorManager2_0_1 indicators;
+    AngleAnnotation2 angleIndicators;
     PlayerCM2 myPlayer;
     Rigidbody2D player;
     Grenade grenade;
     GameObject grenadeObj;
-    HeartManager life;
+    HeartManager2 life;
     StageManager sm = new StageManager();
 
     [SerializeField]
@@ -73,18 +75,22 @@ public class LvlFiveHardManager : MonoBehaviour
     [SerializeField]
     Animator playerAnim;
 
+    [SerializeField]
+    GameObject[] labels;
+
     // Start is called before the first frame update
     void Start()
     {
         PlayerPrefs.SetInt("Life", 3);
         stage = 1;
-        qc = FindObjectOfType<QuestionControllerVThree>();
+        qc = FindObjectOfType<QuestionController2_0_1>();
         mm = FindObjectOfType<MechaManager>();
-        indicators = FindObjectOfType<IndicatorManagerV1_1>();
         myPlayer = FindObjectOfType<PlayerCM2>();
         player = myPlayer.GetComponent<Rigidbody2D>();
         grenade = FindObjectOfType<Grenade>();
         grenadeObj = FindObjectOfType<Grenade>().gameObject;
+        indicators = labels[0].GetComponent<IndicatorManager2_0_1>();
+        angleIndicators = labels[1].GetComponent<AngleAnnotation2>();
 
         camStartPos = main.transform.position.x;
         sm.SetGameLevel(4);
@@ -122,7 +128,6 @@ public class LvlFiveHardManager : MonoBehaviour
                     if (playerPos >= playerAnswer)
                     {
                         Debug.Log(playerPos);
-                        // myPlayer.moveSpeed = 0;
                         elapsed = stuntTime;
                         StartCoroutine(Jump());
                     }
@@ -134,6 +139,7 @@ public class LvlFiveHardManager : MonoBehaviour
                     else
                     {
                         isAnswerCorrect = false;
+                        playerStopper.enabled = true;
                         messageTxt = "wrong";
                     }
                     break;
@@ -166,7 +172,6 @@ public class LvlFiveHardManager : MonoBehaviour
                     if (elapsed >= stuntTime)
                     {
                         grenade.isThrown = true;
-                        // mm.armRotation = 0;
                     }
                     else
                     {
@@ -232,6 +237,11 @@ public class LvlFiveHardManager : MonoBehaviour
 
     void SetUp()
     {
+        playerStopper.enabled = false;
+        foreach (var item in labels)
+        {
+            item.SetActive(false);
+        }
         elapsed = 0;
         playerLanded = false;
         stage = qc.stage;
@@ -246,6 +256,7 @@ public class LvlFiveHardManager : MonoBehaviour
         switch (stage)
         {
             case 1:
+                labels[0].gameObject.SetActive(true);
                 radius = 1.05f;
                 qc.stage = 1;
                 qc.limit = 20;
@@ -274,12 +285,24 @@ public class LvlFiveHardManager : MonoBehaviour
                 initialPlayerPos = distance - 12;
                 Debug.Log(initialPlayerPos);
 
+                indicators.distanceSpawnPnt = new Vector2(myPlayer.transform.position.x, 1);
+
+                // indicators.distanceSpawnPnt = new Vector2(-10, 2);
+                indicators.heightSpawnPnt = new Vector2(
+                    mm.transform.Find("gear2").position.x - 1,
+                    mm.transform.Find("gear2").position.y - 1.05f
+                );
+                indicators.UnknownIs('v');
+                indicators.SetPlayerPosition(myPlayer.transform.position);
+                indicators.showLines(distance, 2.1f, playerVelocity, stuntTime);
+
                 whatIsAsk = UnitOf.distance;
                 question =
                     $"{playerName} is intructed to run and jump on top of the robot's wheel. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>1.05 m</b> is moving towards {pPronoun} and {pronoun} is moving <b>{playerVelocity}{qc.Unit(UnitOf.velocity)}</b> towards the robot. If {playerName} needs to jump 0.5s before the collision, How far does {pronoun} have to run before jumping?";
                 //player playerVelocity to jump exactly to the mecha
                 break;
             case 2:
+                labels[1].SetActive(true);
                 mm.armRotation = 0;
                 radius = 0.775f;
                 float pVx,
@@ -312,6 +335,14 @@ public class LvlFiveHardManager : MonoBehaviour
                 correctAnswer = (float)System.Math.Round(pV, 2);
                 initialPlayerPos = myPlayer.transform.position.x;
                 whatIsAsk = UnitOf.velocity;
+                angleIndicators.startingAngle = 180;
+                angleIndicators.SetSpawnPnt(
+                    new Vector2(mm.transform.position.x + 8.801765f, 2.275f)
+                );
+                angleIndicators.angleA = 75.5f;
+                angleIndicators.legA = 2.1F;
+                angleIndicators.legB = 8.38725F;
+                angleIndicators.HideValuesOf(true, false, true, true, true, false);
                 question =
                     $"{playerName} is intructed to grab on the lower clamp of the robot's hand. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>0.775 m</b> is moving forward. If {playerName} needs to grab the clamp at exactly 300{qc.Unit(UnitOf.angle)} from the starting position of the clamp, what should be {playerName}'s velocity?";
 

@@ -269,9 +269,6 @@ public class MediumManager : MonoBehaviour
         if (Hanger.isHanging)
         {
             jumperScript.hanging = true;
-            // isAnswered = false;
-            // jumperChar.GetComponent<Animator>().SetBool("dive", false);
-            // isEndOfStunt = true;
         }
         if (isEndOfStunt)
             StartCoroutine(StuntResult());
