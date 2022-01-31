@@ -36,7 +36,7 @@ public class SceneNavigator : MonoBehaviour
         while (!op.isDone)
         {
             float progress = Mathf.Clamp01(op.progress / .9f);
-            //Debug.Log(op.progress);
+            Debug.Log(op.progress);
             if (loadingScreen != null)
             {
                 loadingScreen.SetActive(true);

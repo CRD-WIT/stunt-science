@@ -5,9 +5,18 @@ public class Menu : MonoBehaviour
     public GameObject continueButton;
     public GameObject newGameButton;
     public AudioSource swoosh;
-    void Start()
+    int counter = 0;
+    void OnGUI()
     {
+        GUI.Label(new Rect(40, 20, 200, 50), "COUNTER: " + counter);
+        {
 
+            if (counter >= 16)
+            {
+                Debug.Log("CounterComplete.");
+            }
+
+        }
     }
 
     // Update is called once per frame

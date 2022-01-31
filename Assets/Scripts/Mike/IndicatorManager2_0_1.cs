@@ -31,7 +31,7 @@ public class IndicatorManager2_0_1 : MonoBehaviour
     [SerializeField]
     public Vector2 heightSpawnPnt;
 
-    [Header("Line Legnth")]
+    [Header("Line Length")]
     [Space(3)]
     [SerializeField]
     float distance;
