@@ -6,6 +6,7 @@ using TMPro;
 
 public class ForceHardManagerTwo : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     public ForceHardSimulation theSimulate;
     public QuestionContForcesMed theQuestion;
     public HeartManager theHeart;
@@ -39,6 +40,7 @@ public class ForceHardManagerTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
         correctAnswer = (float)System.Math.Round(timeTotal, 2);
         boxCurrentPos = box.transform.position.x;
         boxDistanceTravel = boxStartPos - boxCurrentPos;

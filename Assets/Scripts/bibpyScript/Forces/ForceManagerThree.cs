@@ -4,6 +4,7 @@ using TMPro;
 
 public class ForceManagerThree : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     AnswerGuards answerGuards = new AnswerGuards();
     public PlayerB thePlayer;
     public QuestionContForces theQuestion;
@@ -24,6 +25,8 @@ public class ForceManagerThree : MonoBehaviour
     int currentStar, currentLevel;
     string gender, pronoun1, pronoun2;
     public AudioSource glassBreak,thud;
+    public TMP_Text debugAnswer;
+
 
 
 
@@ -76,6 +79,10 @@ public class ForceManagerThree : MonoBehaviour
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         playerForce = (playerAnswer + 70) * accelaration;
         totalMass = playerAnswer + 70f;
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
+
+        debugAnswer.SetText($"Answer: {correctAnswer}");
+        
 
         if (addingWeight)
         {

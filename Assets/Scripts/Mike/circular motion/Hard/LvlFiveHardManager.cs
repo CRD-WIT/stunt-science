@@ -4,8 +4,10 @@ using UnityEngine;
 using GameConfig;
 using TMPro;
 
+
 public class LvlFiveHardManager : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     UnitOf whatIsAsk;
 
     [SerializeField]
@@ -114,6 +116,8 @@ public class LvlFiveHardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        debugAnswer.SetText($"Answer: {correctAnswer}");
+        
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)

@@ -4,6 +4,7 @@ using TMPro;
 
 public class ForceManagerOne : MonoBehaviour
 {
+    public TMP_Text debugAnswer;
     AnswerGuards answerGuards = new AnswerGuards();
     public PlayerB thePlayer;
     public BombScript theBombScript;
@@ -35,12 +36,15 @@ public class ForceManagerOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
         currentPos = thePlayer.transform.position.x;
         playerAnswer = ForceSimulation.playerAnswer;
         generateCorrectAnswer = mass * accelaration;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         forcetxt.text = ("f = ") + correctAnswer.ToString("F2") + ("N");
         forcetxt.color = new Color32(107, 0, 176, 255);
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
+
 
         if (ForceSimulation.simulate == true)
         {

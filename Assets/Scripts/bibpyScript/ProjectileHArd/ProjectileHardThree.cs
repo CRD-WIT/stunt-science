@@ -120,6 +120,8 @@ public class ProjectileHardThree : MonoBehaviour
             theCircular._degrees = angle;
             theCircular.initialAngle = 85 - angle;
             transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, (angle));
+            theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to fire his gun after moving upward in an inclined plane with a velocity of <b>") + vP.ToString("F2") + ("</b> m/s for <b>")
+        + time.ToString("F2") + ("</b> seconds and must hit the weakest spot of the Golem which is initially <b>") + initialDistance.ToString("F2") + ("</b>  meters away from ") + pronoun2 + (" and moves forward at the velocity of <b>") + vG.ToString("F2") + ("</b> m/s and accelerates at <b>") + accG.ToString("F2") + ("</b> m/s². If the bullet shall hit the target with a projectile time of <b>") + projectileTime.ToString("F2") + ("</b> seconds. What should be the angle of the projectile in order for ") + PlayerPrefs.GetString("Name") + (" to perfect the stunt?")));
 
         }
         if (theQuestion.isSimulating == true)
@@ -239,8 +241,7 @@ public class ProjectileHardThree : MonoBehaviour
         vP = (float)System.Math.Round(Random.Range(1f, 1.7f), 2);
         angle = (float)System.Math.Round(Random.Range(50f, 58f), 2);
         trail.SetActive(false);
-        theQuestion.SetQuestion((("<b>") + PlayerPrefs.GetString("Name") + ("</b> is now instructed to fire his gun after moving upward in an inclined plane with a velocity of <b>") + vP.ToString("F2") + ("</b> m/s for <b>")
-        + time.ToString("F2") + ("</b> seconds and must hit the weakest spot of the Golem which is initially <b>") + initialDistance.ToString("F2") + ("</b>  meters away from ") + pronoun2 + (" and moves forward at the velocity of <b>") + vG.ToString("F2") + ("</b> m/s and accelerates at <b>") + accG.ToString("F2") + ("</b> m/s². If the bullet shall hit the target with a projectile time of <b>") + projectileTime.ToString("F2") + ("</b> seconds. What should be the angle of the projectile in order for ") + PlayerPrefs.GetString("Name") + (" to perfect the stunt?")));
+        
         //Vo = (float)System.Math.Round((Random.Range(50f, 57f)), 2);
     }
     IEnumerator showHitMiss()
