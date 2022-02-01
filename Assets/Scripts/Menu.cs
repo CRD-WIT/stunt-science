@@ -6,16 +6,15 @@ public class Menu : MonoBehaviour
     public GameObject newGameButton;
     public AudioSource swoosh;
     int counter = 0;
-    void OnGUI()
+
+    public void AddCounter()
     {
-        GUI.Label(new Rect(40, 20, 200, 50), "COUNTER: " + counter);
+        counter++;
+
+        if (counter >= 8)
         {
-
-            if (counter >= 16)
-            {
-                Debug.Log("CounterComplete.");
-            }
-
+            PlayerPrefs.SetInt("DebugMode", 1); // 1==true; 0==false
+            counter = 0; //reset
         }
     }
 

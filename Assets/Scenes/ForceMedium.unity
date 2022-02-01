@@ -3521,6 +3521,9 @@ MonoBehaviour:
   zombieForce: 0
   initialForce: 0
   zombieFinalForce: 0
+  playerAnswer: 0
+  min: 0
+  max: 0
   preset: 1
   startRunning: 0
   theBox: {fileID: 1904333210}
@@ -10577,6 +10580,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1266396285 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 1266396282}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1266396286 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 1266396282}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1266396287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9153037458832093479, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 1266396282}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1266396288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266396287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashCardImageContainer: {fileID: 1266396286}
+  MaleFlashCard: {fileID: 21300000, guid: eb39bf04e57d45f5ebb116519991c939, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: eb39bf04e57d45f5ebb116519991c939, type: 3}
+  isMale: 1
 --- !u!1 &1270154594
 GameObject:
   m_ObjectHideFlags: 0
@@ -12154,6 +12200,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1935453957895722258, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
   m_PrefabInstance: {fileID: 1266396282}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1448014704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448014703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashCardImageContainer: {fileID: 1266396285}
+  MaleFlashCard: {fileID: 21300000, guid: eb39bf04e57d45f5ebb116519991c939, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: eb39bf04e57d45f5ebb116519991c939, type: 3}
+  isMale: 1
 --- !u!1 &1453911175
 GameObject:
   m_ObjectHideFlags: 0
@@ -27077,6 +27139,9 @@ MonoBehaviour:
   friction: 0
   Fn: 0
   mu: 0.3
+  playerAnswer: 0
+  min: 0
+  max: 0
   preset: 1
   startRunning: 0
   theBox: {fileID: 1904333210}

@@ -9,6 +9,7 @@ public class SceneNavigator : MonoBehaviour
     public bool navigateOnStart;
     public GameObject loadingScreen;
     public float navigationDelay;
+    public GameObject extras;
     void Start()
     {
         if (navigateOnStart && sceneDestination != "")
@@ -32,6 +33,10 @@ public class SceneNavigator : MonoBehaviour
     IEnumerator LoadSceneAsync(string levelName)
     {
         AsyncOperation op = SceneManager.LoadSceneAsync(levelName);
+
+        if(extras!=null){
+            extras.SetActive(false);
+        }
 
         while (!op.isDone)
         {

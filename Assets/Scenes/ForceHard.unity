@@ -18216,15 +18216,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: debugPanel
@@ -18292,15 +18292,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7092696490254070600, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -18350,6 +18350,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1266396285 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 1266396282}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1266396286 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 1266396282}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1266396287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9153037458832093479, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 1266396282}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1266396288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266396287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashCardImageContainer: {fileID: 1266396286}
+  MaleFlashCard: {fileID: 21300000, guid: 8122a809304e09892b82e3bb07bf0a18, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: 8122a809304e09892b82e3bb07bf0a18, type: 3}
+  isMale: 1
 --- !u!1 &1301884686
 GameObject:
   m_ObjectHideFlags: 0
@@ -19470,6 +19513,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1935453957895722258, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
   m_PrefabInstance: {fileID: 1266396282}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1448014704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448014703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashCardImageContainer: {fileID: 1266396285}
+  MaleFlashCard: {fileID: 21300000, guid: b1eb198ebf04f4c92abedd7127d7e8ea, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: edf6a8bccc6a42d21bade55d54846e80, type: 3}
+  isMale: 1
 --- !u!1 &1465827473
 GameObject:
   m_ObjectHideFlags: 0
