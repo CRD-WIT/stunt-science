@@ -115,13 +115,13 @@ public class StageTwoManager : MonoBehaviour
                         {
                             scream.Play();
                             thePlayer.transform.position = new Vector2(playerDistance + 0.2f, thePlayer.transform.position.y);
-                            // errorMessage = PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
+                            errorMessage = PlayerPrefs.GetString("Name") + " stopped too late and " + pronoun + " stopped after the safe spot!\n\nStunt failed! The correct answer is <color=red>" + answerRO + "s.</color>";
                         }
 
                         labels.ShowCorrectDistance(distance, true, new Vector2(0, 2));
                         // labels.ShowCorrectTime(answer, answer * speed, true);
                     }
-                    errorMessage = $"<b>{playerName}</b> has unable to stop exactly at safe spot. Stunt Failed!";
+                    // errorMessage = $"<b>{playerName}</b> has unable to stop exactly at safe spot. Stunt Failed!";
                 }
                 labels.AnswerIs(answerIs, true);
             }
