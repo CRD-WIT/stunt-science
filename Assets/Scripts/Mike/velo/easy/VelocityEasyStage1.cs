@@ -81,7 +81,6 @@ public class VelocityEasyStage1 : MonoBehaviour
         if (SimulationManager.isAnswered)
         {
             labels.distanceSpawnPnt = new Vector2(0, -2);
-            // labels.timeSpawnPnt = new Vector2(0, -2.25f);
             currentPos = answer * elapsed;
             myPlayer.moveSpeed = answer;
             questionController.timer = elapsed.ToString("f2") + "s";
@@ -99,14 +98,8 @@ public class VelocityEasyStage1 : MonoBehaviour
                 {
                     currentPos = distance;
                     rubbleBlocker.SetActive(true);
-                    errorMessage = $"<b>{playerName}</b> successfully performed the stunt and went to the safe spot!";//PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
-                    answerIs = true;
+                    errorMessage = $"<b>{playerName}</b> ran at precise speed to stop exactly at the safo spot.\n\nStunt succesesfully executed";             answerIs = true;
                     myPlayer.transform.position = new Vector2(currentPos, myPlayer.transform.position.y);
-                    // Debug.Log($"prev answer: {answer}");
-                    // // NOTE: Auto correct value
-                    // answer = answerGuards.AdjustAnswer(Speed, answer, 0.01f);
-                    // answerAdjusted = true;
-                    // Debug.Log($"auto correct: {answer}");
                 }
                 else
                 {
@@ -127,15 +120,15 @@ public class VelocityEasyStage1 : MonoBehaviour
                     {
                         scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos - 0.2f, myPlayer.transform.position.y);
-                        // errorMessage = PlayerPrefs.GetString("Name") + " ran too slow and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
+                        errorMessage = PlayerPrefs.GetString("Name") + " ran too slow and was unable to stop at the exact safe spot.\n\nStunt failed! The correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
                     else //if(answer > Speed)
                     {
                         scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos + 0.2f, myPlayer.transform.position.y);
-                        // errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + Speed + "m/s</color>.";
+                        errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and was unable to stop at the exact safe spot.\n\nStunt failed! The correct answer is <color=red>" + Speed + "m/s</color>.";
                     }
-                    errorMessage = $"<b>{playerName}</b> has unable to stop exactly at the safe spot. Stunt Failed!";
+                    // errorMessage = $"<b>{playerName}</b> has unable to stop exactly at the safe spot. Stunt Failed!";
                     labels.ShowCorrectDistance(distance, true, new Vector2(0, 1.25f));
                 }
                 labels.AnswerIs(answerIs, true);
