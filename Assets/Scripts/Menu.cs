@@ -5,9 +5,17 @@ public class Menu : MonoBehaviour
     public GameObject continueButton;
     public GameObject newGameButton;
     public AudioSource swoosh;
-    void Start()
-    {
+    int counter = 0;
 
+    public void AddCounter()
+    {
+        counter++;
+
+        if (counter >= 8)
+        {
+            PlayerPrefs.SetInt("DebugMode", 1); // 1==true; 0==false
+            counter = 0; //reset
+        }
     }
 
     // Update is called once per frame

@@ -5,7 +5,7 @@ using TMPro;
 
 public class Settings : MonoBehaviour
 {
-    bool debugMode = false;
+    bool debugMode = true;
     public GameObject debugPanel;
     public GameObject settingsPanel;
     public GameObject levelFinishedPanel;
@@ -174,7 +174,13 @@ public class Settings : MonoBehaviour
     {
         if (debugPanel)
         {
-            debugPanel.SetActive(debugMode);
+             int isDebug = PlayerPrefs.GetInt("DebugMode");
+             if(isDebug==1){
+                  debugPanel.SetActive(true);
+             }else{
+                 debugPanel.SetActive(false);
+             }
+           
             //debugPanel.SetActive(id_code == "05ada8" ? true : false);
         }
         if (fps)

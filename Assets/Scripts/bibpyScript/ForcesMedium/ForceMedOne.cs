@@ -10,7 +10,6 @@ public class ForceMedOne : MonoBehaviour
     public PlayerContForcesMed thePlayer;
     public float accelerationPlayer, time, timer, totalDistance, massBox, forcePlayer, massPlayer;
     public float weightBox, accelerationBox, correctAnswer, friction, Fn, mu;
-    public float playerAnswer, min, max, underMin, aboveMax;
     public bool preset, startRunning;
     public BoxManager theBox;
     public GameObject stopper2, dimensions;
@@ -22,6 +21,12 @@ public class ForceMedOne : MonoBehaviour
     Vector2 playerStartPoint, boxStartPoint, zombie0StartPoint, zombie1StartPoint, zombie2StartPoint, zombie3StartPoint;
     public TMP_Text boxMassTxt, frictionTxt;
     public AudioSource dragSfx;
+    private float min;
+    private float max;
+    private float underMin;
+    private float aboveMax;
+    private float playerAnswer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -113,7 +118,7 @@ public class ForceMedOne : MonoBehaviour
                 theSimulate.simulate = false;
                 dragSfx.Stop();
                 StartCoroutine(StuntResult());
-                if (playerAnswer == correctAnswer)
+                if (theSimulate.playerAnswer == correctAnswer)
                 {
                     box1.transform.position = new Vector2(8.05f, 1.483791f);
                 }
@@ -137,9 +142,6 @@ public class ForceMedOne : MonoBehaviour
         Fn = massBox * 9.81f;
         friction = Fn * mu;
         timer = 0;
-        weightBox = massBox * 9.81f;
-        accelerationBox = ((2 * totalDistance) / (time * time)) + .02f;
-        correctAnswer = (float)System.Math.Round(((massBox * (accelerationBox - 0.02f)) + friction), 2);
         frictionTxt.text = "Ff = " + friction.ToString("F2") + "N";
         boxMassTxt.text = "m = " + massBox.ToString("F2") + "kg";
         theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to push the box(A) starting at rest using constant Force for <b>") + time + ("</b> seconds. If the target location is <b>") + totalDistance.ToString("F2") + ("</b> meter from the box starting position, How much Force should the box 'A' needed to reach the target location with the given time,if the surface has an oppossing friction force of <b>") + friction.ToString("F2") + ("N</b> and the box has a mass of <b>") + massBox.ToString("F2") + ("</b>kg. After the given time, ") + PlayerPrefs.GetString("Name") + (" will stop pushing and the box will stop moving. Fail to perform the task and zombies will eat your brain.")));

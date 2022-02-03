@@ -1214,9 +1214,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FlashCardImageContainer: {fileID: 0}
-  MaleFlashCard: {fileID: 0}
-  FemaleFlashCard: {fileID: 0}
+  FlashCardImageContainer: {fileID: 759402440}
+  MaleFlashCard: {fileID: 21300000, guid: a0da9be35ea1f25aa84d59ceff960266, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: cc942059bb1972841b9205a0516da5f6, type: 3}
   isMale: 1
 --- !u!1 &222327100
 GameObject:
@@ -2140,7 +2140,6 @@ MonoBehaviour:
   actiontxt: {fileID: 2479412136782624011}
   glassBreak: {fileID: 1178936516}
   thud: {fileID: 684509109}
-  debugAnswer: {fileID: 1449947412}
 --- !u!4 &442195461
 Transform:
   m_ObjectHideFlags: 0
@@ -4245,6 +4244,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &759402440 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 1266396282}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &769392967
 GameObject:
   m_ObjectHideFlags: 0
@@ -5187,6 +5197,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &986117486 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 1266396282}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &998679184 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1704367510610660259, guid: ad0c8fa1ea851d03d935f50bbf8fea10, type: 3}
@@ -6865,15 +6886,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3764293026373862346, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: debugPanel
@@ -7943,17 +7964,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1935453957895722258, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
   m_PrefabInstance: {fileID: 1266396282}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1449947412 stripped
+--- !u!114 &1448014709
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 119744737472578375, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
-  m_PrefabInstance: {fileID: 1266396282}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1448014703}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: 66503afde6d1ddddc8364122b7a9accf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FlashCardImageContainer: {fileID: 986117486}
+  MaleFlashCard: {fileID: 21300000, guid: a0da9be35ea1f25aa84d59ceff960266, type: 3}
+  FemaleFlashCard: {fileID: 21300000, guid: cc942059bb1972841b9205a0516da5f6, type: 3}
+  isMale: 1
 --- !u!1 &1451407717
 GameObject:
   m_ObjectHideFlags: 0
@@ -19750,7 +19776,6 @@ MonoBehaviour:
   actiontxt: {fileID: 2479412136782624011}
   glassBreak: {fileID: 1178936516}
   thud: {fileID: 684509109}
-  debugAnswer: {fileID: 1449947412}
 --- !u!4 &5918337887057665735
 Transform:
   m_ObjectHideFlags: 0
@@ -19805,7 +19830,6 @@ MonoBehaviour:
   actiontxt: {fileID: 2479412136782624011}
   glassBreak: {fileID: 1178936516}
   thud: {fileID: 684509109}
-  debugAnswer: {fileID: 1449947412}
 --- !u!1 &6248301971014442400 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7131533881155008985, guid: 75c4fb82a7ec74847965bd02a721d84b, type: 3}

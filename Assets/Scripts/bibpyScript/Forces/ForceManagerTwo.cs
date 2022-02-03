@@ -23,7 +23,6 @@ public class ForceManagerTwo : MonoBehaviour
     public TMP_Text masstxt, acctxt, breakingforcetxt, forcetxt, actiontxt;
     string gender, pronoun;
      public AudioSource glassBreak,thud;
-     
 
 
 
@@ -65,9 +64,8 @@ public class ForceManagerTwo : MonoBehaviour
         generateCorrectAnswer = Force / mass;
         correctAnswer = (float)System.Math.Round(generateCorrectAnswer, 2);
         playerForce = playerAnswer * mass;
+
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
-
-
 
         if (ForceSimulation.simulate == true)
         {
