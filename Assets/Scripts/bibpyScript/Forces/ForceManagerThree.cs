@@ -75,7 +75,6 @@ public class ForceManagerThree : MonoBehaviour
         playerForce = (playerAnswer + 70) * accelaration;
         totalMass = playerAnswer + 70f;
 
-        debugAnswer.SetText($"Answer: {correctAnswer}");
         
 
         if (addingWeight)
