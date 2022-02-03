@@ -112,15 +112,15 @@ public class VelocityEasyStage3 : MonoBehaviour
                     {
                         scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos + 0.4f, myPlayer.transform.position.y);
-                        // answerMessage = PlayerPrefs.GetString("Name") + " ran too near from the manhole and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
+                        answerMessage = PlayerPrefs.GetString("Name") + " ran too near from the manhole and " + pronoun + " stopped after the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
                     else
                     {
                         scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos - 0.4f, myPlayer.transform.position.y);
-                        // answerMessage = PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
+                        answerMessage = PlayerPrefs.GetString("Name") + " ran too far from the manhole and " + pronoun + " stopped before the safe spot.\nThe correct answer is <color=red>" + distance + "m</color>.";
                     }
-                    answerMessage = $"<b>{playerName}</b> has unable to stop exactly at the center of the manhole and enter it. Stunt Failed!";
+                    // answerMessage = $"<b>{playerName}</b> has unable to stop exactly at the center of the manhole and enter it. Stunt Failed!";
                 }
                 dimensionLine.GetComponent<IndicatorManagerV1_1>().AnswerIs(answerIs, true);
             }

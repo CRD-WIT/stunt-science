@@ -647,4 +647,7 @@ public class MediumManager : MonoBehaviour
             StartCoroutine(ActivateJump());
         }
     }
+    IEnumerator ReleaseRope(){
+        yield return new WaitForSeconds(0);
+    }
 }
