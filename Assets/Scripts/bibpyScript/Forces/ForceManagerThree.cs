@@ -25,7 +25,7 @@ public class ForceManagerThree : MonoBehaviour
     int currentStar, currentLevel;
     string gender, pronoun1, pronoun2;
     public AudioSource glassBreak,thud;
-    public TMP_Text debugAnswer;
+    
 
 
 
@@ -81,7 +81,6 @@ public class ForceManagerThree : MonoBehaviour
         totalMass = playerAnswer + 70f;
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
-        debugAnswer.SetText($"Answer: {correctAnswer}");
         
 
         if (addingWeight)
