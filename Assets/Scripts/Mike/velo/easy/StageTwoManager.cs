@@ -81,7 +81,7 @@ public class StageTwoManager : MonoBehaviour
                     elapsed = answerRO;
                     rubbleBlocker.SetActive(true);
                     answerIs = true;
-                    errorMessage = $"<b>{playerName}</b> successfully performed the stunt and went to the safe spot!";//PlayerPrefs.GetString("Name") + " is <color=green>safe</color>!";
+                    errorMessage = $"<b>{playerName}</b> ran at the precise length of time to stop at the safe spot!";
                     thePlayer.transform.position = new Vector2(currentPos, thePlayer.transform.position.y);
                 }
                 else//if (playerAnswer != answerRO)
@@ -103,7 +103,7 @@ public class StageTwoManager : MonoBehaviour
                     {
                         scream.Play();
                         thePlayer.transform.position = new Vector2(playerDistance - 0.2f, thePlayer.transform.position.y);
-                        // errorMessage = PlayerPrefs.GetString("Name") + " stopped too early and " + pronoun + " stopped before the safe spot!\nThe correct answer is <color=red>" + answerRO + "s.</color>";
+                        errorMessage = PlayerPrefs.GetString("Name") + " stopped too early and " + pronoun + " stopped before the safe spot!\n\nStunt failed! The correct answer is <color=red>" + answerRO + "s.</color>";
                     }
                     else //if (playerAnswer > answerRO)
                     {
