@@ -180,14 +180,21 @@ public class ForceManagerOne : MonoBehaviour
         {
             theQuestion.answerIsCorrect = true;
             yield return new WaitForSeconds(4);
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely escaped from zombies"), true, false);
+            theQuestion.ActivateResult("The breaking point of the glass is just enough for "+(PlayerPrefs.GetString("Name") + ", ran and break it without overshooting.Stunt succesfully executed"), true, false);
         }
         StartCoroutine(theSimulate.DirectorsCall());
-        if (playerAnswer != correctAnswer)
+        if (playerAnswer < correctAnswer)
         {
             yield return new WaitForSeconds(2);
             theSimulate.zombieChase = false;
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and hit the target"), false, false);
+            theQuestion.ActivateResult(("The breaking point requires too little force that ")+PlayerPrefs.GetString("Name")+(" ran into the glass window and overshoots. The correct answer is <b>")+correctAnswer.ToString("F2")+(" N</b>."), false, false);
+
+        }
+         if (playerAnswer > correctAnswer)
+        {
+            yield return new WaitForSeconds(2);
+            theSimulate.zombieChase = false;
+            theQuestion.ActivateResult(("The breaking point requires too much force that ")+PlayerPrefs.GetString("Name")+(" ran into the glass window and unable to break the glass. The correct answer is <b>")+correctAnswer.ToString("F2")+(" N</b>."), false, false);
 
         }
 
