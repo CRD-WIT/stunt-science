@@ -67,6 +67,7 @@ public class ForceManagerThree : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
         napsack.SetActive(true);
         currentPos = thePlayer.transform.position.x;
         playerAnswer = ForceSimulation.playerAnswer;
@@ -263,26 +264,30 @@ public class ForceManagerThree : MonoBehaviour
         ForceSimulation.simulate = false;
         yield return new WaitForSeconds(1);
         StartCoroutine(theSimulate.DirectorsCall());
-        if (playerAnswer != correctAnswer)
+        if(playerAnswer != correctAnswer)
         {
-            theSimulate.zombieChase = false;
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has not able performed the stunt and failed to escape from zombies"), false, false);
+             yield return new WaitForSeconds(1);
+             theSimulate.zombieChase = false;
         }
-        yield return new WaitForSeconds(3);
-        //theQuestion.ToggleModal();
-        if(playerAnswer == correctAnswer)
+        if (playerAnswer == correctAnswer)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely from zombies"), true, true);
-            // theScorer.finalstar();
-            // if(theHeart.life > currentStar)
-            // {
-            //     PlayerPrefs.SetInt("FrstarE", theHeart.life);
-            // }
-            // if (currentLevel < 16)
-            // {
-            //     PlayerPrefs.SetInt("level", currentLevel + 1);
-            // }
-            //afterStuntMessage.SetActive(false);
+            yield return new WaitForSeconds(4);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " run with precise mass need to break the glass window without overshooting. Stunt succesfully executed"), true, true);
+        }
+        StartCoroutine(theSimulate.DirectorsCall());
+        if (playerAnswer < correctAnswer)
+        {
+            yield return new WaitForSeconds(2);
+            
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+" ran into the glass window carrying too little mass with "+pronoun2+" and unable to break it. The correct answer is <b>"+correctAnswer.ToString("F2")+("  kg</b>."), false, false);
+
+        }
+         if (playerAnswer > correctAnswer)
+        {
+            yield return new WaitForSeconds(2);
+           
+             theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+" ran into the glass window carrying too much mass with "+pronoun2+" and overshoots through it. The correct answer is <b>"+correctAnswer.ToString("F2")+("  kg</b>."), false, false);
+
         }
 
     }

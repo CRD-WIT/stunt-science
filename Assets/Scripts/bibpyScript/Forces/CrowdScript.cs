@@ -130,7 +130,7 @@ public class CrowdScript : MonoBehaviour
             }
             if (ForceSimulation.playerAnswer >= 2)
             {
-                moveSpeedX = Random.Range(-5, -7);
+                moveSpeedX = Random.Range(-3, -5);
             }
         }
         if (theSimulate.stage == 3)
