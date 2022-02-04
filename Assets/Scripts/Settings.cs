@@ -162,13 +162,16 @@ public class Settings : MonoBehaviour
             }
         }
 
-        if (extras.activeSelf)
+        if (extras)
         {
-            extras.SetActive(false);
-        }
-        else
-        {
-            extras.SetActive(true);
+            if (extras.activeSelf)
+            {
+                extras.SetActive(false);
+            }
+            else
+            {
+                extras.SetActive(true);
+            }
         }
 
         warningPanelIsOpen = !warningPanelIsOpen;

@@ -12,7 +12,8 @@ public class Register : MonoBehaviour
     public GameObject pName;
     public InputField pCode;
     public Text popUp;
-    public WarningErrorUI warningErrorUI;
+    public Settings settingsUI;
+    // public WarningErrorUI warningErrorUI;
     public FirebaseManager firebaseManager;
     // FirebaseApp app;
 
@@ -21,15 +22,16 @@ public class Register : MonoBehaviour
         Debug.Log("Called test");
     }
 
-    void ToggleError(string errorMessages)
-    {
-        warningErrorUI.message = errorMessages;
-        warningErrorUI.togglePanel();
-    }
+    // void ToggleError(string errorMessages)
+    // {
+    //     warningErrorUI.message = errorMessages;
+    //     warningErrorUI.togglePanel();
+    // }
 
 
     public void RegisterPlayer()
     {
+
         // app = Firebase.FirebaseApp.DefaultInstance;
         // FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
         // DocumentReference docRef;
@@ -111,7 +113,7 @@ public class Register : MonoBehaviour
         if (error)
         {
             Debug.Log(errorMessages);
-            ToggleError(errorMessages);
+            settingsUI.ToggleWarning(errorMessages);
         }
         else
         {
