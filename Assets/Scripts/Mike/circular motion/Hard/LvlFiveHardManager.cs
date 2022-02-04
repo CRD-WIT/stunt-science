@@ -4,7 +4,6 @@ using UnityEngine;
 using GameConfig;
 using TMPro;
 
-
 public class LvlFiveHardManager : MonoBehaviour
 {
     public TMP_Text debugAnswer;
@@ -117,7 +116,7 @@ public class LvlFiveHardManager : MonoBehaviour
     void Update()
     {
         debugAnswer.SetText($"Answer: {correctAnswer}");
-        
+
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)
@@ -242,6 +241,7 @@ public class LvlFiveHardManager : MonoBehaviour
     void SetUp()
     {
         playerStopper.enabled = false;
+        myPlayer.moveSpeed = 0;
         foreach (var item in labels)
         {
             item.SetActive(false);

@@ -20,8 +20,8 @@ public class ForceManagerTwo : MonoBehaviour
     public GameObject[] glassDebriLoc;
     public bool tooWeak, tooStrong, ragdollReady;
     public bool throwBomb;
-    public TMP_Text masstxt, acctxt, breakingforcetxt, forcetxt, actiontxt;
-    string gender, pronoun;
+    public TMP_Text masstxt, acctxt, breakingforcetxt, forcetxt, actiontxt,accPlayertxt;
+    string gender, pronoun,pronoun2;
      public AudioSource glassBreak,thud;
 
 
@@ -33,10 +33,12 @@ public class ForceManagerTwo : MonoBehaviour
         if (gender == "Male")
         {
             pronoun = ("he");
+            pronoun2 = "him";
         }
         if (gender == "Female")
         {
             pronoun = ("she");
+            pronoun2 = "her";
         }
         //theQuestion.stageNumber = 2;
         theCollider = FindObjectOfType<ColliderManager>();
@@ -74,16 +76,20 @@ public class ForceManagerTwo : MonoBehaviour
             {
                 forcetxt.text = ("f = ") + Force.ToString("F2") + ("N");
                 forcetxt.color = new Color32(107, 0, 176, 255);
+                accPlayertxt.color = new Color32(107, 0, 176, 255);
             }
             else
             {
                 forcetxt.text = ("f = ") + playerForce.ToString("F2") + ("N");
                 forcetxt.color = new Color32(188, 10, 0, 255);
+                accPlayertxt.color = new Color32(188, 10, 0, 255);
             }
             forcetxt.gameObject.SetActive(true);
             forcetxt.gameObject.transform.position = new Vector2(thePlayer.transform.position.x + 4, thePlayer.transform.position.y);
             playerInitials.SetActive(false);
             thePlayer.moveSpeed -= playerAnswer * Time.fixedDeltaTime;
+            accPlayertxt.gameObject.SetActive(true);
+            accPlayertxt.text = "a = "+ playerAnswer.ToString("F2")+ " m/s²";
             if (theCollider.collide == true)
             {
                 if (playerAnswer == correctAnswer)
@@ -210,19 +216,32 @@ public class ForceManagerTwo : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         ForceSimulation.simulate = false;
-        if (answerGuards.AnswerIsInRange(correctAnswer, playerAnswer, 0.0f))
+         if(playerAnswer != correctAnswer)
+        {
+             yield return new WaitForSeconds(1);
+             theSimulate.zombieChase = false;
+        }
+        if (playerAnswer == correctAnswer)
         {
             yield return new WaitForSeconds(4);
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and safely escaped from zombies"), true, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " run with precise acceleration just to break the glass window without overshooting. Stunt succesfully executed"), true, false);
         }
         StartCoroutine(theSimulate.DirectorsCall());
-        if (playerAnswer != correctAnswer)
+        if (playerAnswer < correctAnswer)
         {
-            theSimulate.zombieChase = false;
-            yield return new WaitForSeconds(3);
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has not able to performed the stunt and failed to escape from zombies"), false, false);
+            yield return new WaitForSeconds(2);
+            
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+(" ran into the glass window with little acceleration and unable to break it. The correct answer is <b>")+correctAnswer.ToString("F2")+("  m/s²</b>."), false, false);
 
         }
+         if (playerAnswer > correctAnswer)
+        {
+            yield return new WaitForSeconds(2);
+           
+             theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+(" ran into the glass window with too much acceleration and overshoots. The correct answer is <b>")+correctAnswer.ToString("F2")+("  m/s²</b>."), false, false);
+
+        }
+       
         //theQuestion.ToggleModal();
     }
     public void glassRespawn()

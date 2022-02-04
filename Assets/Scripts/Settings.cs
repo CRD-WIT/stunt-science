@@ -6,6 +6,10 @@ using TMPro;
 public class Settings : MonoBehaviour
 {
     bool debugMode = true;
+    public GameObject extras;
+    public GameObject warningPanel;
+    public bool warningPanelIsOpen = false;
+    public TMP_Text warningText;
     public GameObject debugPanel;
     public GameObject settingsPanel;
     public GameObject levelFinishedPanel;
@@ -75,7 +79,7 @@ public class Settings : MonoBehaviour
     public string[] gameLevelNames = { "", "Velocity", "Acceleration", "FreeFallProjectile", "CircularMotion", "Forces", "Work", "Energy", "Power", "Momemtum" };
 
     public string id_code;
-    
+
 
     public string[] GetLevelNames()
     {
@@ -148,9 +152,34 @@ public class Settings : MonoBehaviour
         flashCardIsOpen = !flashCardIsOpen;
     }
 
+    public void ToggleWarning(string UIMessage)
+    {
+        if (warningPanel)
+        {
+            if (UIMessage.Length > 1)
+            {
+                warningText.SetText(UIMessage);
+            }
+        }
+
+        if (extras)
+        {
+            if (extras.activeSelf)
+            {
+                extras.SetActive(false);
+            }
+            else
+            {
+                extras.SetActive(true);
+            }
+        }
+
+        warningPanelIsOpen = !warningPanelIsOpen;
+    }
+
     public void ToggleExitStagePanel()
     {
-        exitStagePanelIsOpen = !exitStagePanelIsOpen;    
+        exitStagePanelIsOpen = !exitStagePanelIsOpen;
     }
 
 
@@ -174,15 +203,24 @@ public class Settings : MonoBehaviour
     {
         if (debugPanel)
         {
-             int isDebug = PlayerPrefs.GetInt("DebugMode");
-             if(isDebug==1){
-                  debugPanel.SetActive(true);
-             }else{
-                 debugPanel.SetActive(false);
-             }
-           
+            int isDebug = PlayerPrefs.GetInt("DebugMode");
+            if (isDebug == 1)
+            {
+                debugPanel.SetActive(true);
+            }
+            else
+            {
+                debugPanel.SetActive(false);
+            }
+
             //debugPanel.SetActive(id_code == "05ada8" ? true : false);
         }
+
+        if (warningPanel)
+        {
+            warningPanel.SetActive(warningPanelIsOpen);
+        }
+
         if (fps)
         {
             fps.text = $"Frame Rate: {(Mathf.RoundToInt(1.0f / Time.smoothDeltaTime)).ToString()}f/s";
@@ -199,8 +237,9 @@ public class Settings : MonoBehaviour
         {
             stuntGuidePanel.SetActive(stuntGuidePanelIsOpen);
         }
-        if(exitStagePanel){
-            exitStagePanel.SetActive(exitStagePanelIsOpen);            
+        if (exitStagePanel)
+        {
+            exitStagePanel.SetActive(exitStagePanelIsOpen);
         }
         if (soundValue)
         {
@@ -258,6 +297,11 @@ public class Settings : MonoBehaviour
     public void ToggleSettings()
     {
         settingsPanelIsOpen = !settingsPanelIsOpen;
+        if (extras)
+        {
+            extras.SetActive(!settingsPanelIsOpen);
+        }
+
     }
 
 
@@ -388,8 +432,7 @@ public class Settings : MonoBehaviour
     //     PlayerPrefs.DeleteAll();
     // }
 
-
-    public void ClearPlayerPrefs()
+    public void DeleteAllPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
     }
