@@ -5237,7 +5237,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181095757}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -637, y: 10, z: 0}
+  m_LocalPosition: {x: -338, y: 3, z: 0}
   m_LocalScale: {x: 141.43298, y: 118.04008, z: 13.4442005}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16560,6 +16560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingScreen: {fileID: 259738301}
   extras: {fileID: 0}
   warningPanel: {fileID: 0}
   warningPanelIsOpen: 0
@@ -32527,7 +32528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1095103284
 RectTransform:
   m_ObjectHideFlags: 0
@@ -55370,6 +55371,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 591826444}
     m_Modifications:
+    - target: {fileID: 4580878987635624729, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4580878987635624729, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4580878987635624729, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4580878987635624729, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4591410588665230472, guid: ad6b487128a4bdc4ba628da724b09084, type: 3}
       propertyPath: m_Name
       value: LoadingScreenNew
