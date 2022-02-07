@@ -17,7 +17,7 @@ public class QuestionContForces : MonoBehaviour
     public ForceSimulation simulationManager;
     public int levelNumber, stage;
     public string modalTitle, question, timer;
-    public string levelName;
+    public string levelName = "Forces";
     public TextColorMode colorMode;
     public Settings settingUI;
     public UnitOf unit;
@@ -54,7 +54,7 @@ public class QuestionContForces : MonoBehaviour
         correctAnswerColor = new Color32(150, 217, 72, 255);
         wrongAnswerColor = Color.red;
 
-        levelName = level.GetGameLevel();
+        //levelName = level.GetGameLevel();
 
         switch (levelDifficulty)
         {
