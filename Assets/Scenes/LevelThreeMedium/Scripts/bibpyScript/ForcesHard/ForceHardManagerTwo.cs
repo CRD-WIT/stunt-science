@@ -162,7 +162,7 @@ public class ForceHardManagerTwo : MonoBehaviour
         timeTwo = (VfTwo - VfOne) / accBoxTwo;
         timeTotal = timeOne + timeTwo;
         muOnetxt.text = "μ =" + muOne.ToString("F2");
-        muTwoTxt.text = "μ =" + muOne.ToString("F2");
+        muTwoTxt.text = "μ =" + muTwo.ToString("F2");
         massBoxTxt.text = "m = " + massBox.ToString("F2") + "kg";
         appliedForceTxt.text = appliedForce.ToString("F2") + "N";
         theQuestion.SetQuestion(("<b>" + PlayerPrefs.GetString("Name") + ("</b> is instructed to pull the box(B) in a horizontal plane with a different of surface friction, at a distnce of <b>") + distanceOne.ToString("F2") + ("</b> meters, wherein the suraface has <b>") + muOne.ToString("F2") + ("</b> coefficient of friction and must continue to move at a distance of <b>") + distanceTwo.ToString("F2") + ("</b> meters that has a coefficient friction of <b>") + muTwo.ToString("F2") + ("</b> applying force of <b>") + appliedForce.ToString("F2") + ("N</b>. If the box has a mass of <b>") + massBox.ToString("F2") + ("</b> kg, How long will it take for <b>") + PlayerPrefs.GetString("Name") + ("</b> to set the box in position?")));
