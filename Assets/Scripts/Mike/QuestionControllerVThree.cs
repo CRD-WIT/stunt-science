@@ -140,7 +140,7 @@ public class QuestionControllerVThree : MonoBehaviour
             else
             {
                 actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Next";
-                modalTitle = "Correct Answer!";
+                modalTitle = "Stunt Success!";
                 modalText = message;
                 SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Correct);
             }
@@ -150,7 +150,7 @@ public class QuestionControllerVThree : MonoBehaviour
             //TODO: Check current life points. If life == 0, hide the action button.
 
             actionBtn.transform.Find("BtnName").GetComponent<TMP_Text>().text = "Retry";
-            modalTitle = "Wrong Answer!";
+            modalTitle = "Stunt Failed!";
             modalText = message;
             SetColor(modalTitleHorizontal.GetComponent<TMP_Text>(), TextColorMode.Wrong);
         }

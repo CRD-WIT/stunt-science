@@ -35,7 +35,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     public GameObject playerHingeJoint;
 
-    public GameObject thePlayer;
+    public GameObject thePlayer, timer, shadow;
 
     public GameObject playerHangingFixed;
 
@@ -166,7 +166,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         playerOnRopeInitialY = (float)Math.Round(playerOnRope.transform.position.y, 2);
 
         timeGivenContainer.SetText($"Time: {timeGiven}s");
-        questionController.limit = (float)System.Math.Round(playerHingeJoint.transform.position.y - platformBar.transform.position.y,2);
+        questionController.limit = (float)System.Math.Round((playerHingeJoint.transform.position.y + 2) - platformBar.transform.position.y, 2);
         questionController.answerUnit = " m";
         // questionController.timer = timeGiven.ToString("f2");
 
@@ -189,7 +189,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     {
         answer = questionController.GetPlayerAnswer();
         adjustedAnswer = questionController.AnswerTolerance(correctAnswer);
-        Debug.Log("Adjusted answer: "+adjustedAnswer);
+        Debug.Log("Adjusted answer: " + adjustedAnswer);
         questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;
@@ -247,7 +247,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
         stuntGuideObjectPrefabs[1].SetActive(false);
         stuntGuideObjectPrefabs[2].SetActive(false);
         stuntGuideImage.sprite = stuntGuideImageSprite;
-        
+
         questionController.errorText = "Answer must not exceed your current distance from the branch.";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
 
@@ -258,6 +258,8 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
         if (isSimulating)
         {
+
+            timer.transform.position = thePlayer.transform.position;
             play.interactable = false;
             elapsed += Time.fixedDeltaTime;
             float playerOnRopeY = (float)Math.Round(playerOnRope.transform.position.y, 2);
@@ -277,6 +279,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                     {
                         playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
                         RepositionRopeComplete();
+
                     }
                     //Debug.Log($"rope: {playerOnRopeY} | correct: {correct} | adjustedAnswer: {adjustedAnswer}");
                 }
@@ -292,6 +295,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                     {
                         playerOnRope.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
                         RepositionRopeComplete();
+
                     }
                     //Debug.Log($"rope: {playerOnRopeY} | correct: {correct} | answer: {answer}");
                 }
@@ -311,8 +315,10 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
             if (respositioned)
             {
+
                 playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
                 thePlayerAnimation.SetBool("isFalling", true);
+                hitSfx.Play();
 
                 // Correct Answer
                 if (System.Math.Round(adjustedAnswer, 2) == System.Math.Round(correctAnswer, 2))
@@ -340,12 +346,12 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                 {
                     isAnswerCorrect = false;
                     isEndOfStunt = true;
-                    isSimulating = false;
+                    StartCoroutine(stoptimer());
                     if (adjustedAnswer < System.Math.Round(correctAnswer, 2))
                     {
                         if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                         {
-                           
+
                             Debug.Log("Distance is too short!");
                             questionController.answerIsCorrect = false;
                             messageTxt = $"<b>{playerName}</b> hand distance to the pole is shorter! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
@@ -406,7 +412,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
             }
             else
             {
-                timerAnnotation.SetActive(true);
+                //timerAnnotation.SetActive(true);
             }
 
             // timerAnnotation.GetComponent<TMP_Text>().text = $"t={(timeGiven).ToString("f2")}s";
@@ -417,12 +423,23 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
             {
                 if (isAnswerCorrect == true)
                 {
-                    StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able grab at the branch"), true, false)));
+                    if (adjustedAnswer > correct)
+                     {
+                         StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " let go  of the rope at the precise distance from the branch and successfully  grabs it!"), true, false)));
+                     }
                     showResult = false;
                 }
                 if (isAnswerCorrect == false)
                 {
-                    StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able grab at the branch"), false, false)));
+                     if (adjustedAnswer > correct)
+                     {
+                         StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " let go  of the rope too high and unable to grab the branch at the right time! The correct answer is"+correctAnswer.ToString("F2")+" meters."), false, false)));
+                     }
+                      if (adjustedAnswer < correct)
+                     {
+                         StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " let go  of the rope too low and unable to grab the branch at the right time! The correct answer is"+correctAnswer.ToString("F2")+" meters."), false, false)));
+                     }
+                    
                     showResult = false;
                 }
 
@@ -472,6 +489,9 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
             calloutText.SetText("");
             callout.SetActive(false);
             isSimulating = true;
+
+
+            //StartCoroutine(tsk());
         }
         else
         {
@@ -481,5 +501,17 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             callout.SetActive(false);
         }
+    }
+    IEnumerator stoptimer()
+    {
+        yield return new WaitForSeconds(1.2f);
+        shadow.SetActive(true);
+        shadow.transform.position = timer.transform.position;
+        isSimulating = false;
+        
+    }
+    void tsk()
+    {
+        hitSfx.Play();
     }
 }
