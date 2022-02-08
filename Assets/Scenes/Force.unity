@@ -6799,7 +6799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 119744737304375213, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 119744737471976685, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -6934,6 +6934,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1448014703}
     - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+      propertyPath: loadingScreen
+      value: 
+      objectReference: {fileID: 1266396284}
+    - target: {fileID: 5252292825621139488, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: backgroundAudio
       value: 
       objectReference: {fileID: 1894618992}
@@ -6991,15 +6995,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5901816249373353983, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7092696490254070600, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -7050,6 +7054,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac3b4a8314690639b1fba13ee061eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1266396284 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4769397235197565163, guid: b8c2aa08d600d5744a0451200a2cbe88, type: 3}
+  m_PrefabInstance: {fileID: 1266396282}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1266495576
 GameObject:
   m_ObjectHideFlags: 0
@@ -15985,7 +15994,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 1
   m_TranslationAtRest: {x: -466, y: -582, z: 0}
-  m_TranslationOffset: {x: 25279.84, y: 30648.879, z: 4343.163}
+  m_TranslationOffset: {x: 22417.463, y: 27181.5, z: 3860.5898}
   m_AffectTranslationX: 0
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 0
@@ -19987,7 +19996,7 @@ MonoBehaviour:
   breakingforcetxt: {fileID: 2075324384}
   forcetxt: {fileID: 755316665}
   actiontxt: {fileID: 2479412136782624011}
-  accPlayertxt: {fileID: 0}
+  accPlayertxt: {fileID: 1266495578}
   glassBreak: {fileID: 1178936516}
   thud: {fileID: 684509109}
 --- !u!4 &5918337887057665735
