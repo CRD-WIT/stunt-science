@@ -96,6 +96,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
 
     void Start()
     {
+        
         firebaseManager.GameLogMutation(3, 1, "Easy", Actions.Started, 0);
 
         showResult = true;
@@ -513,5 +514,9 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     void tsk()
     {
         hitSfx.Play();
+    }
+    public void gameover()
+    {
+        PlayerPrefs.SetInt("Life",3);
     }
 }
