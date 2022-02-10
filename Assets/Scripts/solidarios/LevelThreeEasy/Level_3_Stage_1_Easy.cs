@@ -426,7 +426,8 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                 {
                     if (adjustedAnswer > correct)
                      {
-                         StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " let go  of the rope at the precise distance from the branch and successfully  grabs it!"), true, false)));
+                         // StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " let go  of the rope at the precise distance from the branch and successfully  grabs it!"), true, false)));
+                         StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " let go of the rope at the precise distance from the branch ran and successfully grabs it! Stunt successfully executed!"), true, false)));
                      }
                     showResult = false;
                 }
