@@ -22,7 +22,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     public TMP_InputField playerAnswer;
     bool isSimulating = false, directorIsCalling, isStartOfStunt, answerIsCorrect, isEndOfStunt;
     public GameObject playerHingeJoint;
-    public GameObject thePlayer;
+    public GameObject thePlayer, timer, shadow;
     public GameObject playerHangingFixed;
     Vector3 thePlayer_position;
     public GameObject accurateCollider;
@@ -52,6 +52,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     public FirebaseManager firebaseManager;
     float adjustedAnswer;
     public AudioSource hitSfx;
+    public bool timestart;
     void Start()
     {
         firebaseManager.GameLogMutation(3, 2, "Easy", Actions.Started, 0);
@@ -172,25 +173,44 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
     }
     void FixedUpdate()
     {
+
         //Stunt Guide        
         stuntGuideObjectPrefabs[0].SetActive(false);
         stuntGuideObjectPrefabs[1].SetActive(true);
         stuntGuideObjectPrefabs[2].SetActive(false);
-        
+
         questionController.errorText = "answer must not exceed 4 seconds";
         debugAnswer.SetText($"Answer: {System.Math.Round(correctAnswer, 2)}");
+        if (timestart)
+        {
+            elapsed += Time.fixedDeltaTime;
+            if (elapsed >= answer)
+            {
+
+                
+                isSimulating = false;
+                shadow.SetActive(true);
+                shadow.transform.position = thePlayer.transform.position;
+                elapsed = answer;
+                timestart = false;
+            }
+        }
+
 
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isSimulating)
         {
+            timestart = true;
+            timer.transform.position = thePlayer.transform.position;
             play.interactable = false;         // float answer = questionController.GetPlayerAnswer();//float.Parse(playerAnswer.text.Split(new string[] { questionController.GetUnit() }, System.StringSplitOptions.None)[0]);
             annotation.Hide();
-            elapsed += Time.fixedDeltaTime;
+
             questionController.timer = elapsed.ToString("f2");
 
             playerHingeJoint.GetComponent<HingeJoint2D>().enabled = false;
             thePlayerAnimation.SetBool("isFalling", true);
+
 
             // Correct Answer
             if (System.Math.Round(adjustedAnswer, 2) == System.Math.Round(correctAnswer, 2))
@@ -199,7 +219,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                 Debug.Log("Time is correct!");
                 if (accurateCollider.GetComponent<PlayerColliderEvent>().isCollided)
                 {
-                     hitSfx.Play();
+                    hitSfx.Play();
                     thePlayer.SetActive(false);
                     playerHangingFixed.SetActive(true);
                     playerHangingFixed.transform.position = new Vector3(spawnPointValue.x - 1f, platformBarBottom.transform.position.y - 1.2f, 1);
@@ -227,6 +247,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                         cameraScript.isStartOfStunt = false;
                         questionController.answerIsCorrect = false;
                         cameraScript.directorIsCalling = true;
+                        isSimulating = false;
                         messageTxt = $"<b>{playerName}</b> grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
                         // StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", false, false)));
                         //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
@@ -239,13 +260,14 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                         cameraScript.isStartOfStunt = false;
                         questionController.answerIsCorrect = false;
                         cameraScript.directorIsCalling = true;
+                        isSimulating = false;
                         messageTxt = $"<b>{playerName}</b> grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
                         // StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.",false,false)));
                         //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                     }
                 }
                 isEndOfStunt = true;
-                isSimulating = false;
+
                 life.ReduceLife();
             }
         }
@@ -260,12 +282,20 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
             {
                 if (answerIsCorrect == true)
                 {
-                    StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able grab at the branch"), true, false)));
+                    StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " grabbed the lower branch at the precise time and successfully hang from it."), true, false)));
                     ShowResult = false;
                 }
                 if (answerIsCorrect == false)
                 {
-                    StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has failed to performed the stunt and not able grab at the branch"), false, false)));
+                    if (answer > correctAnswer)
+                    {
+                        StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " grabbed the lower branch too late and missed grabbing it. The correct answer is <b>" + correctAnswer.ToString("F2") + " seconds</b>."), false, false)));
+                    }
+                    if (answer < correctAnswer)
+                    {
+                        StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " grabbed the lower branch too soon and missed grabbing it. The correct answer is <b>" + correctAnswer.ToString("F2") + " seconds</b>."), false, false)));
+                    }
+
                     ShowResult = false;
                 }
 
@@ -303,6 +333,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
             calloutText.SetText("");
             callout.SetActive(false);
             isSimulating = true;
+            hitSfx.Play();
         }
         else
         {

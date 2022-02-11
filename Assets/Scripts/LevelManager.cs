@@ -3,6 +3,8 @@ using System.Linq;
 
 public class LevelManager : MonoBehaviour
 {
+    [Header("Backgrounds")]
+    public GameObject[] levelBackgrounds;
 
     [Range(0, 16)]
     public int unlockedCount = 0;
@@ -34,9 +36,13 @@ public class LevelManager : MonoBehaviour
 
     public int levelScoreTotal = 0;
 
+    public int activeBackgroundIndex = 0;
+
     void Start()
     {
         //unlockedCount = PlayerPrefs.GetInt("unlockedCount", 2);
+
+        activeBackgroundIndex = Random.Range(0, levelBackgrounds.Length);
 
         levelVelocityEasy = PlayerPrefs.GetInt("levelVelocityEasy", 0);
         levelVelocityMedium = PlayerPrefs.GetInt("levelVelocityMedium", 0);
@@ -122,5 +128,17 @@ public class LevelManager : MonoBehaviour
         levelCards[12].starActiveCount = levelForcesEasy;
         levelCards[13].starActiveCount = levelForcesMedium;
         levelCards[14].starActiveCount = levelForcesHard;
+
+        for (int i = 0; i < levelBackgrounds.Length; i++)
+        {
+            if (i == activeBackgroundIndex)
+            {
+                levelBackgrounds[i].SetActive(true);
+            }
+            else
+            {
+                levelBackgrounds[i].SetActive(false);
+            }
+        }
     }
 }

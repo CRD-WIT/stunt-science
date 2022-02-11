@@ -95,13 +95,13 @@ public class Register : MonoBehaviour
         if (pName.GetComponent<Text>().text.Length < 2)
         {
             error = true;
-            errorMessages += "Invalid name. Please review your name.\n";
+            errorMessages += "* Invalid name. Please review your name.\n";
         }
 
         if (RegistrationManager.playerGender == null)
         {
             error = true;
-            errorMessages += "Missing gender selection.\n";
+            errorMessages += "* Missing gender selection.\n";
         }
 
         // if (pCode.text.Length < 3)

@@ -3,9 +3,12 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+using System.Collections;
+
 public class Settings : MonoBehaviour
 {
     bool debugMode = true;
+    public GameObject loadingScreen;
     public GameObject extras;
     public GameObject warningPanel;
     public bool warningPanelIsOpen = false;
@@ -81,6 +84,7 @@ public class Settings : MonoBehaviour
     public string id_code;
 
 
+
     public string[] GetLevelNames()
     {
         return gameLevelNames;
@@ -141,10 +145,44 @@ public class Settings : MonoBehaviour
 
     }
 
+    public void GotoScene(string destination)
+    {
+        StartCoroutine(LoadSceneDelay(destination));
+    }
+
+    IEnumerator LoadSceneDelay(string destination)
+    {
+        yield return new WaitForSeconds(0);
+        StartCoroutine(LoadSceneAsync(destination));
+    }
+
+
+    IEnumerator LoadSceneAsync(string levelName)
+    {
+        AsyncOperation op = SceneManager.LoadSceneAsync(levelName);
+
+        if (extras != null)
+        {
+            extras.SetActive(false);
+        }
+
+        while (!op.isDone)
+        {
+            float progress = Mathf.Clamp01(op.progress / .9f);
+            Debug.Log(op.progress);
+            if (loadingScreen != null)
+            {
+                loadingScreen.SetActive(true);
+            }
+            yield return null;
+
+        }
+    }
+
     public void GotoNextLevel(string LevelToUnlock)
     {
         PlayerPrefs.SetInt(LevelToUnlock, 0);
-        SceneManager.LoadScene("LevelSelectV2");
+        GotoScene("LevelSelectV2");
     }
 
     public void ToggleFlashCard()
@@ -195,7 +233,7 @@ public class Settings : MonoBehaviour
     public void ReloadLevel()
     {
         Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        GotoScene(scene.name);
     }
 
     // Update is called once per frame
@@ -312,7 +350,7 @@ public class Settings : MonoBehaviour
         int stage = int.Parse(PlayerPrefs.GetString("Stage", "1"));
 
         PlayerPrefs.SetInt("Life", 3);
-        SceneManager.LoadScene("LevelSelectV2");
+        GotoScene("LevelSelectV2");
 
         // firebaseManager.GameLogMutation(levelNumber, stage, difficulty, Actions.Cancelled, 0);
 
@@ -440,12 +478,12 @@ public class Settings : MonoBehaviour
     public void ProjEasyReloadScene()
     {
         PlayerPrefs.SetInt("Life", 3);
-        SceneManager.LoadScene("LevelThreeStage1");
+        GotoScene("LevelThreeStage1");
     }
     public void ProjMedReloadScene()
     {
         PlayerPrefs.SetInt("Life", 3);
-        SceneManager.LoadScene("LevelThreeStage1Medium");
+        GotoScene("LevelThreeStage1Medium");
     }
 
 }
