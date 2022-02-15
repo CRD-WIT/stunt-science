@@ -411,7 +411,7 @@ public class LvlFiveHardManager : MonoBehaviour
 
     void Reset()
     {
-        mm.SetMechaVelocity()
+        //mm.SetMechaVelocity();
         if (stage == 3)
         {
             Instantiate(grenadeObj);
