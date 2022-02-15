@@ -39,7 +39,8 @@ public class LvlFiveHardManager : MonoBehaviour
         ragdoll = false,
         playerLanded,
         isEndOfStunt,
-        isEnd = false;
+        isEnd = false,
+        jump = true;
     public BoxCollider2D playerStopper;
     MechaManager mm;
     QuestionController2_0_1 qc;
@@ -132,7 +133,8 @@ public class LvlFiveHardManager : MonoBehaviour
                     {
                         Debug.Log(playerPos);
                         elapsed = stuntTime;
-                        StartCoroutine(Jump());
+                        if (jump)
+                            StartCoroutine(Jump());
                     }
                     if (adjustedAnswer == correctAnswer)
                     {
@@ -309,6 +311,7 @@ public class LvlFiveHardManager : MonoBehaviour
                 labels[1].SetActive(true);
                 mm.armRotation = 0;
                 radius = 0.775f;
+                myPlayer.gameObject.SetActive(true);
                 float pVx,
                     pVy,
                     dx = 6.55f,
@@ -408,10 +411,12 @@ public class LvlFiveHardManager : MonoBehaviour
 
     void Reset()
     {
+        mm.SetMechaVelocity()
         if (stage == 3)
         {
             Instantiate(grenadeObj);
         }
+        qc.retried = false;
         SetUp();
     }
 
@@ -475,9 +480,12 @@ public class LvlFiveHardManager : MonoBehaviour
 
     IEnumerator Jump()
     {
+        jump = false;
         myPlayer.jumpforce = 2;
         myPlayer.jump();
-        yield return new WaitForSeconds(0.4f);
+        if (!isAnswerCorrect)
+            yield return new WaitForSeconds(0.4f);
+        myPlayer.ragdollspawn();
         myPlayer.moveSpeed = 0;
         myPlayer.jumpforce = 0;
         playerLanded = true;
