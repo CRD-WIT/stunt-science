@@ -166,7 +166,7 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
         // cameraScript.isStartOfStunt = true;
         // questionController.SetAnswer();
         answer = questionController.GetPlayerAnswer();
-        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);
+        adjustedAnswer = (float)Math.Round(questionController.AnswerTolerance(correctAnswer), 2);
         questionController.isSimulating = false;
         directorIsCalling = true;
         isStartOfStunt = true;
@@ -187,10 +187,13 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
             if (elapsed >= answer)
             {
 
-                
+                if (answerIsCorrect == false)
+                {
+                    shadow.SetActive(true);
+                    shadow.transform.position = thePlayer.transform.position;
+                }
                 isSimulating = false;
-                shadow.SetActive(true);
-                shadow.transform.position = thePlayer.transform.position;
+
                 elapsed = answer;
                 timestart = false;
             }
