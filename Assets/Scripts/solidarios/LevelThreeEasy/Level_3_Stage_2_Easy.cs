@@ -229,7 +229,8 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                     isSimulating = false;
                     cameraScript.isStartOfStunt = false;
                     questionController.answerIsCorrect = true;
-                    messageTxt = $"{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
+                    //messageTxt = $"{PlayerPrefs.GetString("Name")} safely grabbed the pole!";
+                    messageTxt = $"{PlayerPrefs.GetString("Name")} grabbed the lower branch at the precise time and successfully hangs from it! Stunt successfully executed!";
                     // StartCoroutine(StuntResult(() => questionController.ActivateResult($"{PlayerPrefs.GetString("Name")} safely grabbed the pole!",true,false)));
                     //ToggleModal($"<b>Stunt Success!!!</b>", $"{PlayerPrefs.GetString("Name")} safely grabbed the pole!", "Next")));
                     isSimulating = false;
@@ -248,7 +249,8 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                         questionController.answerIsCorrect = false;
                         cameraScript.directorIsCalling = true;
                         isSimulating = false;
-                        messageTxt = $"<b>{playerName}</b> grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
+                        //messageTxt = $"<b>{playerName}</b> grabbed the pole too soon. The correct answer is <b>{}</b>.";
+                        messageTxt = $"{playerName} grabbed the lower branch too soon and missed grabbing it. Stunt failed! The correct answer is {System.Math.Round(correctAnswer, 2)} seconds.";
                         // StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", false, false)));
                         //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon. The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                     }
@@ -261,7 +263,8 @@ public class Level_3_Stage_2_Easy : MonoBehaviour
                         questionController.answerIsCorrect = false;
                         cameraScript.directorIsCalling = true;
                         isSimulating = false;
-                        messageTxt = $"<b>{playerName}</b> grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
+                        //messageTxt = $"<b>{playerName}</b> grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.";
+                        messageTxt = $"{playerName} grabbed the lower branch too late and missed grabbing it. Stunt failed! The correct answer is {System.Math.Round(correctAnswer, 2)} seconds.";
                         // StartCoroutine(StuntResult(() => questionController.ActivateResult($"{playerName} grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.",false,false)));
                         //ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late! The correct answer is <b>{System.Math.Round(correctAnswer, 2)}</b>.", "Retry")));
                     }

@@ -230,15 +230,15 @@ public class ForceManagerTwo : MonoBehaviour
         if (playerAnswer < correctAnswer)
         {
             yield return new WaitForSeconds(2);
-            
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+(" ran into the glass window with little acceleration and unable to break it. The correct answer is <b>")+correctAnswer.ToString("F2")+("  m/s²</b>."), false, false);
+            //theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+(" ran into the glass window with little acceleration and unable to break it. The correct answer is <b>")+correctAnswer.ToString("F2")+("  m/s²</b>."), false, false);
+            theQuestion.ActivateResult($"The breaking point of the glass is requires too little force that {PlayerPrefs.GetString("Name")} ran into the glass window and unable to break it. Stunt failed! The correct answer is {correctAnswer.ToString("F2")}m/s².", false, false);
 
         }
          if (playerAnswer > correctAnswer)
         {
             yield return new WaitForSeconds(2);
-           
-             theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+(" ran into the glass window with too much acceleration and overshoots. The correct answer is <b>")+correctAnswer.ToString("F2")+("  m/s²</b>."), false, false);
+            //theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+(" ran into the glass window with too much acceleration and overshoots. The correct answer is <b>")+correctAnswer.ToString("F2")+("  m/s²</b>."), false, false);           
+            theQuestion.ActivateResult($"{PlayerPrefs.GetString("Name")} ran into the glass window with too much acceleration and overshoots through it. Stunt failed! The correct answer is {correctAnswer.ToString("F2")} m/s2", false, false);
 
         }
        
