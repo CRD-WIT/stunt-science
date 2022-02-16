@@ -56,7 +56,8 @@ public class LvlFiveHardManager : MonoBehaviour
     [SerializeField]
     GameObject directorsBubble,
         grenadePrefab,
-        mechaArm;
+        mechaArm,
+        mechaPrefab;
 
     [SerializeField]
     TMP_Text directorsSpeech;
@@ -79,14 +80,15 @@ public class LvlFiveHardManager : MonoBehaviour
 
     [SerializeField]
     GameObject[] labels;
+    Vector2 mechaInitPos;
 
     // Start is called before the first frame update
     void Start()
     {
         PlayerPrefs.SetInt("Life", 3);
+        life = FindObjectOfType<HeartManager2>();
         stage = 1;
         qc = FindObjectOfType<QuestionController2_0_1>();
-        mm = FindObjectOfType<MechaManager>();
         myPlayer = FindObjectOfType<PlayerCM2>();
         player = myPlayer.GetComponent<Rigidbody2D>();
         grenade = FindObjectOfType<Grenade>();
@@ -109,7 +111,6 @@ public class LvlFiveHardManager : MonoBehaviour
             pPronoun = "her";
         }
         qc.levelDifficulty = Difficulty.Hard;
-
         SetUp();
     }
 
@@ -231,7 +232,7 @@ public class LvlFiveHardManager : MonoBehaviour
             if (qc.nextStage)
                 Next();
             else if (qc.retried)
-                Reset();
+                StartCoroutine(Reset());
             else
             {
                 qc.nextStage = false;
@@ -242,6 +243,8 @@ public class LvlFiveHardManager : MonoBehaviour
 
     void SetUp()
     {
+        mm = FindObjectOfType<MechaManager>();
+        mechaInitPos = mm.transform.position;
         playerStopper.enabled = false;
         myPlayer.moveSpeed = 0;
         foreach (var item in labels)
@@ -409,14 +412,18 @@ public class LvlFiveHardManager : MonoBehaviour
         directorIsCalling = true;
     }
 
-    void Reset()
+    IEnumerator Reset()
     {
-        mm.SetMechaVelocity()
+        mm.SetMechaVelocity(0, 0, 0);
+        Destroy(mm.gameObject);
+        yield return new WaitForSeconds(0.5f);
+        Instantiate(mechaPrefab);
         if (stage == 3)
         {
             Instantiate(grenadeObj);
         }
         qc.retried = false;
+
         SetUp();
     }
 
