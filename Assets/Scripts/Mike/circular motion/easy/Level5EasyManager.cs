@@ -12,7 +12,7 @@ public class Level5EasyManager : MonoBehaviour
     GameObject gear3, playerHangerTrigger1, playerHangerTrigger2, playerHangerTrigger3, ragdollPrefab, stage1Layout,
                 stage2Layout, stage3Layout, gearSet, directorsBubble, ragdoll, directorPlatform, UI1, UI2, UI3;
     // [SerializeField] PlayerCM2 myPlayer;
-    [SerializeField] float elapsed, aVelocity, gameTime, angle;
+    [SerializeField] float elapsed, aVelocity, gameTime, angle, correctAnswer;
     [SerializeField] int stage;
     [SerializeField] Rigidbody2D gearRB, player;
     [SerializeField] Animator crank;
@@ -31,6 +31,7 @@ public class Level5EasyManager : MonoBehaviour
     bool directorIsCalling, isStartOfStunt, stuntReady, DC, isCranking, crankingDone, crankReset, DCisOn, isAnswerCorect, isEnd = false;
     public static bool isHanging, cranked, isAnswered;
     public static float playerAnswer, gear2Speed;
+    float adjustedAnswer;
     void Start()
     {
         myPlayer = FindObjectOfType<PlayerCM2>();
@@ -92,7 +93,7 @@ public class Level5EasyManager : MonoBehaviour
                     else //(elapsed >= gameTime)
                     {
                         isHanging = false;
-                        if (playerAnswer == aVelocity)
+                        if (adjustedAnswer == aVelocity)//(playerAnswer == aVelocity)
                         {
                             isAnswerCorect = true;
                             CurvedLineFollower.arc = 210;
@@ -119,7 +120,7 @@ public class Level5EasyManager : MonoBehaviour
                     }
                     break;
                 case 2:
-                    if (elapsed < playerAnswer)
+                    if (elapsed < adjustedAnswer)//(elapsed < playerAnswer)
                     {
                         qc.timer = elapsed.ToString("f2") + "s";
                         CurvedLineFollower.arc = aVelocity * elapsed;
@@ -128,7 +129,7 @@ public class Level5EasyManager : MonoBehaviour
                     else //(elapsed >= gameTime)
                     {
                         isHanging = false;
-                        if (playerAnswer == gameTime)
+                        if (adjustedAnswer == gameTime)//(playerAnswer == gameTime)
                         {
                             isAnswerCorect = true;
                             CurvedLineFollower.arc = 118;
@@ -179,7 +180,7 @@ public class Level5EasyManager : MonoBehaviour
                             RagdollSpawn();
                             isAnswerCorect = false;
                             life.ReduceLife();
-                            if (playerAnswer < angle)
+                            if (adjustedAnswer < angle)//(playerAnswer < angle)
                             {
                                 messageTxt = "<b>" + playerName + "</b> grab the gear too near from the release point and " + pronoun + " overshoot the tunnel entrance.\nThe correct answer is <color=red>" + angle + "°</color>.";
                             }
@@ -301,6 +302,7 @@ public class Level5EasyManager : MonoBehaviour
                 gearSet.transform.position = new Vector3(gearSet.transform.position.x, gearSet.transform.position.y, gearSet.transform.position.z);
                 crankReset = true;
                 qc.limit = 116;
+                correctAnswer = aVelocity;
                 break;
             case 2:
                 qc.SetUnitTo(UnitOf.time);
@@ -327,6 +329,7 @@ public class Level5EasyManager : MonoBehaviour
                 safeZone.position = new Vector3(4.5f, 5.5f, 0);
                 stuntReady = true;
                 qc.limit = 8;
+                correctAnswer = gameTime;
                 break;
             case 3:
                 qc.SetUnitTo(UnitOf.angle);
@@ -357,6 +360,7 @@ public class Level5EasyManager : MonoBehaviour
                 gearRB.angularVelocity = aVelocity;
                 safeZone.position = new Vector3(7.5f, -5.5f, 0);
                 qc.limit = 360;
+                correctAnswer = angle;
                 break;
         }
         qc.SetQuestion(question);
@@ -365,6 +369,7 @@ public class Level5EasyManager : MonoBehaviour
     {
         qc.isSimulating = false;
         playerAnswer = qc.GetPlayerAnswer();
+        adjustedAnswer = qc.AnswerTolerance(correctAnswer);
         if (stage == 1)
             stuntReady = true;
         else
