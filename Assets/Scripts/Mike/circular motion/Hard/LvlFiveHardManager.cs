@@ -418,6 +418,7 @@ public class LvlFiveHardManager : MonoBehaviour
         Destroy(mm.gameObject);
         yield return new WaitForSeconds(0.5f);
         Instantiate(mechaPrefab);
+        //mm.SetMechaVelocity()
         if (stage == 3)
         {
             Instantiate(grenadeObj);

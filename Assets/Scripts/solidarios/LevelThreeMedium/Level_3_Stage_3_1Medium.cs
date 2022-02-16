@@ -1,12 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Level_3_Stage_2_Medium : MonoBehaviour
-{
-    AnswerGuards answerGuards = new AnswerGuards();
+public class Level_3_Stage_3_1Medium : MonoBehaviour
+{ AnswerGuards answerGuards = new AnswerGuards();
     // Start is called before the first frame update
     string question, gender, pronoun, pronoun2;
     public TMP_Text initalVelociyText, questionText, levelName, VoTxt, angleTxt, timerTxt;
@@ -162,7 +162,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         if (adjustedAnswer == correctAnswer)
         {
            
-            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
+            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true,true);
         }
         else
         {
@@ -176,7 +176,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
         
         if (adjustedAnswer == correctAnswer)
         {
-            SceneManager.LoadScene("LevelThreeStage3.1Medium");
+            SceneManager.LoadScene("LevelThreeStage3Medium");
         }
         else
         {
@@ -222,7 +222,7 @@ public class Level_3_Stage_2_Medium : MonoBehaviour
             theCircular.initialAngle = 45 - (angleGiven - 45);
             distanceX = (float)System.Math.Round(target.transform.position.x - hookLauncher.transform.position.x, 2);
     
-            angleGiven = (float)System.Math.Round(Mathf.Atan(((distanceY + ((9.81f / 2) * (projectileTime * projectileTime))) / distanceX)) * Mathf.Rad2Deg, 2);
+            angleGiven = (float)System.Math.Round(Mathf.Atan((((-distanceY) + ((9.81f / 2) * (projectileTime * projectileTime))) / distanceX)) * Mathf.Rad2Deg, 2);
             correctAnswer = angleGiven;
             Vo = distanceX / (Mathf.Cos((angleGiven * Mathf.Deg2Rad)) * projectileTime);
             angularAnotation.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angleGiven);

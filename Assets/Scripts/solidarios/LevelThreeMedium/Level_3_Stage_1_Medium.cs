@@ -136,7 +136,13 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         else
         {
             theHeart.ReduceLife();
-            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
+//          questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
+            if(playerAnswer<correctAnswer){
+                questionController.ActivateResult($"{PlayerPrefs.GetString("Name")} shot the gripping projectile too slow and missed hitting the gripping point. Stunt failed! The correct answer is {System.Math.Round(correctAnswer, 2)}m/s", false, false);
+            }else{
+                questionController.ActivateResult($"{PlayerPrefs.GetString("Name")} shot the gripping projectile too fast and missed hitting the gripping point. Stunt failed! The correct answer is {System.Math.Round(correctAnswer, 2)}m/s", false, false);
+            }
+            
         }
     }
     // void GenerateInitialVelocities()

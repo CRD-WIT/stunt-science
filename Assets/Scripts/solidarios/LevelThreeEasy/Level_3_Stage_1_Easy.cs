@@ -189,7 +189,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
     void Play()
     {
         answer = questionController.GetPlayerAnswer();
-        adjustedAnswer = questionController.AnswerTolerance(correctAnswer);
+        adjustedAnswer =(float)Math.Round(questionController.AnswerTolerance(correctAnswer),2);
         Debug.Log("Adjusted answer: " + adjustedAnswer);
         questionController.isSimulating = false;
         directorIsCalling = true;
@@ -424,7 +424,7 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
             {
                 if (isAnswerCorrect == true)
                 {
-                    if (adjustedAnswer > correct)
+                    if (adjustedAnswer == correct)
                      {
                          // StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " let go  of the rope at the precise distance from the branch and successfully  grabs it!"), true, false)));
                          StartCoroutine(StuntResult(() => questionController.ActivateResult((PlayerPrefs.GetString("Name") + " let go of the rope at the precise distance from the branch ran and successfully grabs it! Stunt successfully executed!"), true, false)));

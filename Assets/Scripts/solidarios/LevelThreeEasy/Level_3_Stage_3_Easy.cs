@@ -208,7 +208,8 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
 
                     cameraScript.isStartOfStunt = false;
                     questionController.answerIsCorrect = true;
-                    messageTxt = $"<b>{playerName}</b> safely grabbed the pole!";
+                    //messageTxt = $"<b>{playerName}</b> safely grabbed the pole!";
+                    messageTxt = $"{playerName} grabbed the vine at the precise time and successfully hangs from it! Stunt successfully executed!";
                     isEndOfStunt = true;
                     isSimulating = false;
                     isComplete = true;
@@ -225,7 +226,8 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
                         Debug.Log("Distance is too short!");
                         questionController.answerIsCorrect = false;
                         cameraScript.directorIsCalling = true;
-                        messageTxt = $"<b>{playerName}</b> grabbed the pole too soon!";
+                        //messageTxt = $"<b>{playerName}</b> grabbed the pole too soon!";
+                        messageTxt = $"{playerName} grabbed vine too soon and missed grabbing it. Stunt failed! The correct answer is {System.Math.Round(correctAnswer, 2)} seconds.";
                         // StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too soon!", "Retry")));
                     }
                 }
@@ -236,7 +238,8 @@ public class Level_3_Stage_3_Easy : MonoBehaviour
                         Debug.Log("Distance is too long!");
                         questionController.answerIsCorrect = false;
                         cameraScript.directorIsCalling = true;
-                        messageTxt = $"<b>{playerName}</b> grabbed the pole too late!";
+                        //messageTxt = $"<b>{playerName}</b> grabbed the pole too late!";
+                         messageTxt = $"{playerName} grabbed vine too late and missed grabbing it. Stunt failed! The correct answer is {System.Math.Round(correctAnswer, 2)} seconds.";
                         // StartCoroutine(StuntResult(() => questionController.ToggleModal($"<b>Stunt Failed!!!</b>", $"{playerName} grabbed the pole too late!", "Retry")));
                     }
                 }
