@@ -266,12 +266,20 @@ public class AccMediumOne : MonoBehaviour
         //theQuestion.ToggleModal();
         if (answer == correctAnswer)
         {
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" has succesfully performed the stunt and able to grab the rope</color>"), true, false);
+            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + (" grab the rope at the precise time and successfully hangs from it!"), true, false);
         }
         if (answer != correctAnswer)
         {
             theHeart.ReduceLife();
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " unable to grab the rope!", false, false);
+            if (answer > correctAnswer)
+            {
+                theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " grab the rope too late and missed it! the correct answer is "+ correctAnswer.ToString("F2")+ " seconds.", false, false);
+            }
+            if (answer < correctAnswer)
+            {
+                theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " grab the rope too soon and missed it! the correct answer is "+ correctAnswer.ToString("F2")+ " seconds.", false, false);
+            }
+            
         }
         /*if (answer > correctAnswer)
         {

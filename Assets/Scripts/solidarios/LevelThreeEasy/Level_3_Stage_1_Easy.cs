@@ -312,7 +312,9 @@ public class Level_3_Stage_1_Easy : MonoBehaviour
                 }
             }
 
-            annotation.Hide();
+            //annotation.Hide();
+            annotation.SetDistance(answer);
+            annotation.revealValue = true;
 
             if (respositioned)
             {
