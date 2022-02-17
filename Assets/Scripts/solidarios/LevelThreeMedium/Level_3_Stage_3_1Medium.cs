@@ -134,7 +134,7 @@ public class Level_3_Stage_3_1Medium : MonoBehaviour
         if (adjustedAnswer == correctAnswer)
         {
              questionController.answerIsCorrect = true;
-            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo);
+            hook.GetComponent<Rigidbody2D>().velocity = hookLauncher.transform.right * (Vo-.05f);
         }
         else
         {
@@ -176,11 +176,11 @@ public class Level_3_Stage_3_1Medium : MonoBehaviour
         
         if (adjustedAnswer == correctAnswer)
         {
-            SceneManager.LoadScene("LevelThreeStage3Medium");
+           
         }
         else
         {
-            SceneManager.LoadScene("LevelThreeStage2Medium");
+            SceneManager.LoadScene("LevelThreeStage3.1Medium");
         }
 
 
