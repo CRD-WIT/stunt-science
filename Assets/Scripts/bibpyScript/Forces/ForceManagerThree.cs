@@ -272,21 +272,24 @@ public class ForceManagerThree : MonoBehaviour
         if (playerAnswer == correctAnswer)
         {
             yield return new WaitForSeconds(4);
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " run with precise mass need to break the glass window without overshooting. Stunt succesfully executed"), true, true);
+            //theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " run with precise mass need to break the glass window without overshooting. Stunt succesfully executed"), true, true);
+            theQuestion.ActivateResult($"{PlayerPrefs.GetString("Name")} ran into the glass window with the precise mass needed to break it without overshooting. Stunt successfully executed!", true, true);
         }
         StartCoroutine(theSimulate.DirectorsCall());
         if (playerAnswer < correctAnswer)
         {
             yield return new WaitForSeconds(2);
             
-            theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+" ran into the glass window carrying too little mass with "+pronoun2+" and unable to break it. The correct answer is <b>"+correctAnswer.ToString("F2")+("  kg</b>."), false, false);
+            //theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+" ran into the glass window carrying too little mass with "+pronoun2+" and unable to break it. The correct answer is <b>"+correctAnswer.ToString("F2")+("  kg</b>."), false, false);
+            theQuestion.ActivateResult($"{PlayerPrefs.GetString("Name")} ran into the glass window carrying too little mass with {pronoun2} and unable to break it. Stunt failed! The correct answer is {correctAnswer.ToString("F2")}kgs", false, false);
 
         }
          if (playerAnswer > correctAnswer)
         {
             yield return new WaitForSeconds(2);
            
-             theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+" ran into the glass window carrying too much mass with "+pronoun2+" and overshoots through it. The correct answer is <b>"+correctAnswer.ToString("F2")+("  kg</b>."), false, false);
+            //theQuestion.ActivateResult(PlayerPrefs.GetString("Name")+" ran into the glass window carrying too much mass with "+pronoun2+" and overshoots through it. The correct answer is <b>"+correctAnswer.ToString("F2")+("  kg</b>."), false, false);
+            theQuestion.ActivateResult($"{PlayerPrefs.GetString("Name")} ran into the glass window carrying too much mass with {pronoun2} and overshoots through it. The correct answer is {correctAnswer.ToString("F2")}kgs", false, false);
 
         }
 
