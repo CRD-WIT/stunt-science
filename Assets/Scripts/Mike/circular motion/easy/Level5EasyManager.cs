@@ -157,7 +157,7 @@ public class Level5EasyManager : MonoBehaviour
                             messageTxt =
                                 "<b>"
                                 + playerName
-                                + "</b> has landed <color=green>safely</color> at the other platform!";
+                                + "</b> spun the gear at the correct angular velocity and let go of the gear precisely at the release point! Stunt <color=green>successfully</color> executed!";
                         }
                         else
                         {
@@ -177,22 +177,22 @@ public class Level5EasyManager : MonoBehaviour
                                 messageTxt =
                                     "<b>"
                                     + playerName
-                                    + "</b> spinned the gear too slow and "
+                                    + "</b> spinned the gear too slow and let go of the gear way after the release point. "
                                     + pronoun
-                                    + " fell down too soon before the release point.\nThe correct answer is <color=red>"
-                                    + aVelocity
-                                    + "°/s</color>.";
+                                    + " did not land properly on the other side and failed the stunt.\nThe correct answer is <color=red>"
+                                    + aVelocity.ToString("f2")
+                                    + "deg/s</color>.";
                             }
                             else //if(playerAnswer > Speed)
                             {
                                 messageTxt =
                                     "<b>"
                                     + playerName
-                                    + "</b> spinned the gear too fast and "
+                                    + "</b> spinned the gear too fast and let go of the gear way before the release point. "
                                     + pronoun
-                                    + " fell down too late after the release point.\nThe correct answer is <color=red>"
-                                    + aVelocity
-                                    + "°/s</color>.";
+                                    + " did not land properly on the other side and failed the stunt.\nThe correct answer is <color=red>"
+                                    + aVelocity.ToString("f2")
+                                    + "deg/s</color>.";
                             }
                         }
                         StartCoroutine(StuntResult());
@@ -226,7 +226,7 @@ public class Level5EasyManager : MonoBehaviour
                             messageTxt =
                                 "<b>"
                                 + playerName
-                                + "</b> has crossed <color=green>safely</color> at the other platform!";
+                                + "</b> let go of the gear precisely at the release point and made it to the other side! Stunt <color=green>successfully</color> executed!";
                         }
                         else
                         {
@@ -247,23 +247,22 @@ public class Level5EasyManager : MonoBehaviour
                                 messageTxt =
                                     "<b>"
                                     + playerName
-                                    + "</b> tried to grab the pipe too soon and "
+                                    + "</b> let go of the gear too way too early from the release point and "
                                     + pronoun
-                                    + " fell down.\nThe correct answer is <color=red>"
+                                    + " fell down. Stunt failed!\nThe correct answer is <color=red>"
                                     + gameTime
-                                    + "s</color>.";
+                                    + "seconds</color>.";
                             }
                             else //if(playerAnswer > Speed)
                             {
                                 messageTxt =
-                                    "<b><color=red>Stunt Failed!</color></b>\n\n\n"
-                                    + "<b>"
+                                    "<b>"
                                     + playerName
-                                    + "</b> tried to grab the pipe too late and "
+                                    + "</b> let go of the gear too way too late from the release point and "
                                     + pronoun
-                                    + " fell down.\nThe correct answer is <color=red>"
+                                    + " fell down. Stunt failed!\nThe correct answer is <color=red>"
                                     + gameTime
-                                    + "s</color>.";
+                                    + "seconds</color>.";
                             }
                         }
                         StartCoroutine(GrabPipe());
@@ -299,7 +298,7 @@ public class Level5EasyManager : MonoBehaviour
                             messageTxt =
                                 "<b>"
                                 + playerName
-                                + "</b> has <color=green>entered</color> the tunnel!";
+                                + "</b> let go precisely at the release point and made it to the other side! Stunt <color=green>successfully</color> executed!";
                         }
                         else
                         {
@@ -319,22 +318,22 @@ public class Level5EasyManager : MonoBehaviour
                                 messageTxt =
                                     "<b>"
                                     + playerName
-                                    + "</b> grab the gear too near from the release point and "
+                                    + "</b> let go of the gear too way too early from the release point and "
                                     + pronoun
-                                    + " overshoot the tunnel entrance.\nThe correct answer is <color=red>"
-                                    + angle
-                                    + "°</color>.";
+                                    + " fell down. Stunt failed!\nThe correct answer is <color=red>"
+                                    + gameTime
+                                    + "degrees</color>.";
                             }
                             else //if(playerAnswer > angle)
                             {
                                 messageTxt =
                                     "<b>"
                                     + playerName
-                                    + "</b> grab the gear too near from the release point and "
+                                    + "</b> let go of the gear too way too late from the release point and "
                                     + pronoun
-                                    + " fell too soon from the tunnel entrance.\nThe correct answer is <color=red>"
-                                    + angle
-                                    + "°</color>.";
+                                    + " fell down. Stunt failed!\nThe correct answer is <color=red>"
+                                    + gameTime
+                                    + "degrees</color>.";
                             }
                         }
                         StartCoroutine(StuntResult());

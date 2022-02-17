@@ -248,6 +248,7 @@ public class QuestionController2_0_1 : MonoBehaviour
             {
                 timerOn = true;
                 isSimulating = true;
+                answerFieldHorizontal.interactable = false;
             }
         }
         extraOn = true;
@@ -282,6 +283,7 @@ public class QuestionController2_0_1 : MonoBehaviour
             stage = 3;
             nextStage = true;
         }
+        answerFieldHorizontal.interactable = true;
     }
 
     IEnumerator Retry()
@@ -297,6 +299,7 @@ public class QuestionController2_0_1 : MonoBehaviour
         else
             stage = 3;
         yield return new WaitForEndOfFrame();
+        answerFieldHorizontal.interactable = true;
         isModalOpen = false;
     }
 
