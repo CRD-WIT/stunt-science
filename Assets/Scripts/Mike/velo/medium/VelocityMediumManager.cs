@@ -43,6 +43,7 @@ public class VelocityMediumManager : MonoBehaviour
     Vector2 spawnPoint;
     [SerializeField] TMP_Text[] boulderName = new TMP_Text[2];
     public FirebaseManager firebaseManager;
+    public Settings settings;
     // Start is called before the first frame update
     void Start()
     {
@@ -582,6 +583,7 @@ public class VelocityMediumManager : MonoBehaviour
         RumblingManager.shakeON = false;
         RumblingManager.isCrumbling = true;
         yield return new WaitForSeconds(3);
+        Debug.Log($"{isAnswerCorrect}:{stage==3}");
         qc.ActivateResult(messageTxt, isAnswerCorrect, stage == 3 ? true : false);
     }
     IEnumerator Jump()
