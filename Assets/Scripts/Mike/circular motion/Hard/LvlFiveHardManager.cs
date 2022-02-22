@@ -307,7 +307,7 @@ public class LvlFiveHardManager : MonoBehaviour
 
                 whatIsAsk = UnitOf.distance;
                 question =
-                    $"{playerName} is intructed to run and jump on top of the robot's wheel. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>1.05 m</b> is moving towards {pPronoun} and {pronoun} is moving <b>{playerVelocity}{qc.Unit(UnitOf.velocity)}</b> towards the robot. If {playerName} needs to jump 0.5s before the collision, How far does {pronoun} have to run before jumping?";
+                    $"<b>{playerName}</b> is intructed to run and jump on top of the robot's wheel. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>1.05 m</b> is moving towards {pPronoun} and {pronoun} is moving <b>{playerVelocity}{qc.Unit(UnitOf.velocity)}</b> towards the robot. If {playerName} needs to jump 0.5s before the collision, How far does {pronoun} have to run before jumping?";
                 //player playerVelocity to jump exactly to the mecha
                 break;
             case 2:

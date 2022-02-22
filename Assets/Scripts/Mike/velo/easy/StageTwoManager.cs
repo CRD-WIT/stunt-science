@@ -81,7 +81,7 @@ public class StageTwoManager : MonoBehaviour
                     elapsed = answerRO;
                     rubbleBlocker.SetActive(true);
                     answerIs = true;
-                    errorMessage = $"<b>{playerName}</b> ran at the precise length of time to stop at the safe spot!";
+                    errorMessage = $"<b>{playerName}</b> ran at the precise speed to stop exactly at the safe spot. Stunt successfully executed!";
                     thePlayer.transform.position = new Vector2(currentPos, thePlayer.transform.position.y);
                 }
                 else//if (playerAnswer != answerRO)

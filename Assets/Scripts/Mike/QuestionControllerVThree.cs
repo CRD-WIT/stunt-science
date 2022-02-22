@@ -213,7 +213,7 @@ public class QuestionControllerVThree : MonoBehaviour
         {
             answer = GetPlayerAnswer(); 
         }
-        Debug.Log(offset + "offset");
+        //Debug.Log(offset + "offset");
         return answer;
     }
     
