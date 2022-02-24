@@ -49,7 +49,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
     float adjustedAnswer;
     public Button playButton;
     public HeartManager theHeart;
-    public TMP_Text debugAnswer;
+    public TMP_Text debugAnswer, vitxt;
     public AudioSource lightsSfx, cameraSfx, actionSfx, cutSfx;
     public FirebaseManager firebaseManager;
     public AudioSource gunFire, maneuverGearSfx;
@@ -202,7 +202,7 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
 
         playerAnswer = questionController.GetPlayerAnswer();
         adjustedAnswer = questionController.AnswerTolerance(correctAnswer);     
-
+        vitxt.text = "Vo = " + playerAnswer.ToString("F2") + " m/s";
         if (answerField.text == "" || adjustedAnswer > 20 || adjustedAnswer < 1)
         {
 

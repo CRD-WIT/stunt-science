@@ -352,11 +352,19 @@ public class AccMediumTwo : MonoBehaviour
         StartCoroutine(theSimulate.DirectorsCall());
         if (playerKickDistance == kickDistance)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" has successfully performed the stunt and able to jumped into the van")),true, false);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" kicked at the exact distance to precisely kick and hit the windsheild with a precise timing! ")),true, false);
         }
         if (playerKickDistance != kickDistance)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" has failed to jump into the van ")),false, false);
+            if (playerKickDistance > kickDistance)
+            {
+                theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" kicked too late after the van passed "+pronoun+" and failed to hit the windsheild. The correct answer is "+correctAnswer.ToString("F2")+" meters")),false, false);
+            }
+             if (playerKickDistance < kickDistance)
+            {
+                theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + (" kicked too early before the van passed "+pronoun+" and failed to hit the windsheild. The correct answer is "+correctAnswer.ToString("F2")+" meters")),false, false);
+            }
+            
         }
         /*if (playerKickDistance > kickDistance)
         {

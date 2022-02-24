@@ -3,7 +3,7 @@ using UnityEngine;
 public class VanCollider : MonoBehaviour
 {
     public GameObject ragdollPrefab, stickmanPoint,player;
-    public AudioSource hitImpact;
+    public AudioSource hitImpact,breakglass;
 
     // Start is called before the first frame update
     void Start()

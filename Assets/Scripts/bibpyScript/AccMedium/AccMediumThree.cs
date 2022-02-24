@@ -34,6 +34,8 @@ public class AccMediumThree : MonoBehaviour
     public TMP_Text debugAnswer;
     public bool setAnswer;
     float min, max;
+    public AudioSource splashing;
+
 
     // Start is called before the first frame update
     void Start()
@@ -198,6 +200,7 @@ public class AccMediumThree : MonoBehaviour
                     if (ragdollReady)
                     {
                         ragdollSpawn();
+                        StartCoroutine(splash());
                         ragdollReady = false;
                     }
                     if (accV > correctAnswer & accV < correctAnswer + .5f)
@@ -302,11 +305,19 @@ public class AccMediumThree : MonoBehaviour
         yield return new WaitForSeconds(1);
         if (answerGuards.AnswerIsInRange(correctAnswer, accV, 0.01f))
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has successfully performed the stunt and able to grabbed the rope before the van fell on the water"), true, true);
+            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " drove the van with just the precise acceleration to grab the robe exactly at the edge of the ledge!"), true, true);
         }
         if (accV != correctAnswer)
         {
-            theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to grab the rope and fell on the water"), false, false);
+            if (accV > correctAnswer)
+            {
+                 theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " accelerated the van too fast and missed grabbing the rope precisely at the edge of the ledge. The correct answer is "+correctAnswer.ToString("F2")+" m/s². "), false, false);
+            }
+             if (accV < correctAnswer)
+            {
+                 theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " accelerated the van slow fast and missed grabbing the rope precisely at the edge of the ledge. The correct answer is "+correctAnswer.ToString("F2")+" m/s². "), false, false);
+            }
+           
         }
         /*if (accV > correctAnswer)
        {
@@ -334,6 +345,11 @@ public class AccMediumThree : MonoBehaviour
         theQuestion.popupVisible = true;
         yield return new WaitForSeconds(3);
         theQuestion.popupVisible = false;
+    }
+    IEnumerator splash()
+    {
+        yield return new WaitForSeconds(.8f);
+        splashing.Play();
     }
     public void action()
     {
