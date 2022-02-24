@@ -120,13 +120,15 @@ public class VelocityEasyStage1 : MonoBehaviour
                     {
                         scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos - 0.2f, myPlayer.transform.position.y);
-                        errorMessage = PlayerPrefs.GetString("Name") + " ran too slow and was unable to stop at the exact safe spot.\n\nStunt failed! The correct answer is <color=red>" + Speed + "m/s</color>.";
+                        //errorMessage = PlayerPrefs.GetString("Name") + " ran too slow and was unable to stop at the exact safe spot.\n\nStunt failed! The correct answer is <color=red>" + Speed + "m/s</color>.";
+                        errorMessage = $"<b>{PlayerPrefs.GetString("Name")}</b> ran too slow and stopped way before the safe spot. Stunt failed! The correct answer is {Speed}m/s.";
                     }
                     else //if(answer > Speed)
                     {
                         scream.Play();
                         myPlayer.transform.position = new Vector2(currentPos + 0.2f, myPlayer.transform.position.y);
-                        errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and was unable to stop at the exact safe spot.\n\nStunt failed! The correct answer is <color=red>" + Speed + "m/s</color>.";
+                        //errorMessage = PlayerPrefs.GetString("Name") + " ran too fast and was unable to stop at the exact safe spot.\n\nStunt failed! The correct answer is <color=red>" + Speed + "m/s</color>.";
+                        errorMessage = $"<b>{PlayerPrefs.GetString("Name")}</b> ran too fast and stopped way after the safe spot. Stunt failed! The correct answer is {Speed}m/s.";
                     }
                     // errorMessage = $"<b>{playerName}</b> has unable to stop exactly at the safe spot. Stunt Failed!";
                     labels.ShowCorrectDistance(distance, true, new Vector2(0, 1.25f));
