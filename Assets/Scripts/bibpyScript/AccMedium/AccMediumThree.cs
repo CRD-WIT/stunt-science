@@ -169,6 +169,11 @@ public class AccMediumThree : MonoBehaviour
                     hangingRagdoll.transform.position = ropeTip.transform.position;
                     //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " grabbed the rope before the van fell on the water");
                     //actionButton.SetActive(false);
+                    if (ragdollReady)
+                    {
+                        StartCoroutine(splash());
+                        ragdollReady = false;
+                    }
 
                 }
 
@@ -315,7 +320,7 @@ public class AccMediumThree : MonoBehaviour
             }
              if (accV < correctAnswer)
             {
-                 theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " accelerated the van slow fast and missed grabbing the rope precisely at the edge of the ledge. The correct answer is "+correctAnswer.ToString("F2")+" m/s². "), false, false);
+                 theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " accelerated the van too slow and missed grabbing the rope precisely at the edge of the ledge. The correct answer is "+correctAnswer.ToString("F2")+" m/s². "), false, false);
             }
            
         }
