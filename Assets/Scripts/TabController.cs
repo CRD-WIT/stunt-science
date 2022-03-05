@@ -61,4 +61,8 @@ public class TabController : MonoBehaviour
         }
 
     }
+
+    public void LaunchURL(string url){
+        Application.OpenURL(url);
+    }
 }

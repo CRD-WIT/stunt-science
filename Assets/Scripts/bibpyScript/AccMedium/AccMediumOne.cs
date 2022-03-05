@@ -31,7 +31,7 @@ public class AccMediumOne : MonoBehaviour
     float grabLineDistance, playerGrabLineDistance;
     private Vector2 subChopperStartPos, chopperStartPos;
     public AudioSource truckIdle, truckRunning, ChopperFlying;
-    bool setAnswer;    
+    bool setAnswer;
     float min, max;
     // Start is called before the first frame update
     void Start()
@@ -41,6 +41,7 @@ public class AccMediumOne : MonoBehaviour
         theSimulate = FindObjectOfType<AccMidSimulation>();
         generateProblem();
         PlayerPrefs.SetInt("Life", 3);
+        theQuestion.SetGameLevel(2);
     }
 
     // Update is called once per frame
@@ -70,21 +71,21 @@ public class AccMediumOne : MonoBehaviour
 
         if (theQuestion.isSimulating)
         {
-            
-            if(theQuestion.GetPlayerAnswer() <= max & theQuestion.GetPlayerAnswer() >= min)
+
+            if (theQuestion.GetPlayerAnswer() <= max & theQuestion.GetPlayerAnswer() >= min)
             {
                 answer = correctAnswer;
                 Debug.Log("inRange");
-        
+
             }
             else
             {
                 answer = theQuestion.GetPlayerAnswer();
             }
             setAnswer = true;
-           
+
         }
-        if(setAnswer)
+        if (setAnswer)
         {
             distanceH = answer * velocity + 0.67f;
             timertxt.gameObject.SetActive(true);
@@ -273,13 +274,13 @@ public class AccMediumOne : MonoBehaviour
             theHeart.ReduceLife();
             if (answer > correctAnswer)
             {
-                theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " grab the rope too late and missed it! the correct answer is "+ correctAnswer.ToString("F2")+ " seconds.", false, false);
+                theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " grab the rope too late and missed it! the correct answer is " + correctAnswer.ToString("F2") + " seconds.", false, false);
             }
             if (answer < correctAnswer)
             {
-                theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " grab the rope too soon and missed it! the correct answer is "+ correctAnswer.ToString("F2")+ " seconds.", false, false);
+                theQuestion.ActivateResult(PlayerPrefs.GetString("Name") + " grab the rope too soon and missed it! the correct answer is " + correctAnswer.ToString("F2") + " seconds.", false, false);
             }
-            
+
         }
         /*if (answer > correctAnswer)
         {

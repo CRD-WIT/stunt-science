@@ -174,25 +174,11 @@ public class Level5EasyManager : MonoBehaviour
                             life.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
-                                messageTxt =
-                                    "<b>"
-                                    + playerName
-                                    + "</b> spinned the gear too slow and let go of the gear way after the release point. "
-                                    + pronoun
-                                    + " did not land properly on the other side and failed the stunt.\nThe correct answer is <color=red>"
-                                    + aVelocity.ToString("f2")
-                                    + "deg/s</color>.";
+                                messageTxt = $"{playerName} spinned the gear too slow and let go of the gear way before the release point. She did not land properly on the other side and failed the stunt! The correct answer is {correctAnswer} deg/s.";
                             }
                             else //if(playerAnswer > Speed)
                             {
-                                messageTxt =
-                                    "<b>"
-                                    + playerName
-                                    + "</b> spinned the gear too fast and let go of the gear way before the release point. "
-                                    + pronoun
-                                    + " did not land properly on the other side and failed the stunt.\nThe correct answer is <color=red>"
-                                    + aVelocity.ToString("f2")
-                                    + "deg/s</color>.";
+                                messageTxt = $"{playerName} spinned the gear too fast and let go of the gear way after the release point. She did not land properly on the other side and failed the stunt! The correct answer is {correctAnswer} deg/s.";
                             }
                         }
                         StartCoroutine(StuntResult());
@@ -223,10 +209,7 @@ public class Level5EasyManager : MonoBehaviour
                             isAnswerCorect = true;
                             CurvedLineFollower.arc = 118;
                             qc.timer = gameTime.ToString("f2") + "s";
-                            messageTxt =
-                                "<b>"
-                                + playerName
-                                + "</b> let go of the gear precisely at the release point and made it to the other side! Stunt <color=green>successfully</color> executed!";
+                            messageTxt = $"{playerName} spun the gear at the correct at the correct angular velocity and let go of the gear precisely at the release point! Stunt successfully executed! ";
                         }
                         else
                         {
@@ -244,25 +227,11 @@ public class Level5EasyManager : MonoBehaviour
                             life.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
-                                messageTxt =
-                                    "<b>"
-                                    + playerName
-                                    + "</b> let go of the gear too way too early from the release point and "
-                                    + pronoun
-                                    + " fell down. Stunt failed!\nThe correct answer is <color=red>"
-                                    + gameTime
-                                    + "seconds</color>.";
+                                messageTxt = $"{playerName} let go of the gear way too early the release point and fell down. Stunt failed! The correct answer is {correctAnswer} seconds.";
                             }
                             else //if(playerAnswer > Speed)
                             {
-                                messageTxt =
-                                    "<b>"
-                                    + playerName
-                                    + "</b> let go of the gear too way too late from the release point and "
-                                    + pronoun
-                                    + " fell down. Stunt failed!\nThe correct answer is <color=red>"
-                                    + gameTime
-                                    + "seconds</color>.";
+                                messageTxt = $"{playerName} let go of the gear way too late the release point and fell down. Stunt failed! The correct answer is {correctAnswer} seconds.";
                             }
                         }
                         StartCoroutine(GrabPipe());
@@ -295,10 +264,11 @@ public class Level5EasyManager : MonoBehaviour
                             CurvedLineFollower.arc = playerAnswer;
                             isAnswerCorect = true;
                             isEnd = true;
-                            messageTxt =
-                                "<b>"
-                                + playerName
-                                + "</b> let go precisely at the release point and made it to the other side! Stunt <color=green>successfully</color> executed!";
+                            // messageTxt =
+                            //     "<b>"
+                            //     + playerName
+                            //     + "</b> let go precisely at the release point and made it to the other side! Stunt <color=green>successfully</color> executed!";
+                            messageTxt = $"{playerName} let go of the gear precisely at the release point and made it to the other side! Stunt successfully executed! ";
                         }
                         else
                         {

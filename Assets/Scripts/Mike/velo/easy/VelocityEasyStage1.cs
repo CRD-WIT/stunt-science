@@ -98,7 +98,7 @@ public class VelocityEasyStage1 : MonoBehaviour
                 {
                     currentPos = distance;
                     rubbleBlocker.SetActive(true);
-                    errorMessage = $"<b>{playerName}</b> ran at precise speed to stop exactly at the safo spot.\n\nStunt succesesfully executed";             answerIs = true;
+                    errorMessage = $"<b>{playerName}</b> ran at precise speed to stop exactly at the safe spot.\n\nStunt successfully executed";             answerIs = true;
                     myPlayer.transform.position = new Vector2(currentPos, myPlayer.transform.position.y);
                 }
                 else

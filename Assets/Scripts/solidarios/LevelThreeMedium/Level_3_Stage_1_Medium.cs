@@ -131,7 +131,8 @@ public class Level_3_Stage_1_Medium : MonoBehaviour
         yield return new WaitForSeconds(2f);
         if (answerGuards.AnswerIsInRange(correctAnswer, adjustedAnswer, 0.01f))
         {
-            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
+            // questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true, false);
+            questionController.ActivateResult($"{PlayerPrefs.GetString("Name")} shot the gripping projectile in just the precise velocity to hit the gripping point! Stunt successfully executed! ", true, false);
         }
         else
         {

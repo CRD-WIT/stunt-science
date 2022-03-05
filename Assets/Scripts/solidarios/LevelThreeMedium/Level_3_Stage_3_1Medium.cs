@@ -162,13 +162,19 @@ public class Level_3_Stage_3_1Medium : MonoBehaviour
         if (adjustedAnswer == correctAnswer)
         {
            
-            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true,true);
+            //questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true,true);
+            questionController.ActivateResult($"{PlayerPrefs.GetString("Name")} aimed  and shot the gripping projectile in just the precise angle to hit the gripping point! Stunt successfully executed! ", true,true);
         }
         else
         {
              
             theHeart.ReduceLife();
-            questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
+            // questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has unable to hit and grab the target"), false, false);
+            if(playerAnswer>correctAnswer){
+                questionController.ActivateResult($"{PlayerPrefs.GetString("Name")} aimed the gripping projectile too high and missed hitting the gripping point. Stunt failed! The correct answer is {correctAnswer} m/s.", false, false);
+            }else{
+                questionController.ActivateResult($"{PlayerPrefs.GetString("Name")} aimed the gripping projectile too low and missed hitting the gripping point. Stunt failed! The correct answer is {correctAnswer} m/s.", false, false);
+            }
         }
     }
     public void action()
