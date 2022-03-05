@@ -99,7 +99,7 @@ public class ForceManagerTwo : MonoBehaviour
                     theQuestion.answerIsCorrect = true;
                     glassHolder.SetActive(false);
                     //theQuestion.SetModalTitle("Stunt Success");
-                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and succesfully thrown the bomb</color>");
+                    //theQuestion.SetModalText(PlayerPrefs.GetString("Name") + " has broken the glass and successfully thrown the bomb</color>");
                     if (currentPos <= 5.7f)
                     {
                         braking();
@@ -224,7 +224,7 @@ public class ForceManagerTwo : MonoBehaviour
         if (playerAnswer == correctAnswer)
         {
             yield return new WaitForSeconds(4);
-            //theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " run with precise acceleration just to break the glass window without overshooting. Stunt succesfully executed"), true, false);
+            //theQuestion.ActivateResult((PlayerPrefs.GetString("Name") + " run with precise acceleration just to break the glass window without overshooting. Stunt successfully executed"), true, false);
             theQuestion.ActivateResult($"{PlayerPrefs.GetString("Name")} ran with the precise acceleration just to break the glass window without overshooting. Stunt successfully executed!", true, false);
         }
         StartCoroutine(theSimulate.DirectorsCall());

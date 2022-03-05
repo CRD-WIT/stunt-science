@@ -162,7 +162,7 @@ public class Level_3_Stage_3_1Medium : MonoBehaviour
         if (adjustedAnswer == correctAnswer)
         {
            
-            //questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has succesfully performed the stunt and able to hit the target"), true,true);
+            //questionController.ActivateResult((PlayerPrefs.GetString("Name") + " has successfully performed the stunt and able to hit the target"), true,true);
             questionController.ActivateResult($"{PlayerPrefs.GetString("Name")} aimed  and shot the gripping projectile in just the precise angle to hit the gripping point! Stunt successfully executed! ", true,true);
         }
         else
