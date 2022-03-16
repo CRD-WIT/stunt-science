@@ -24,6 +24,8 @@ public class LvlFiveHardManager : MonoBehaviour
         mechaPos,
         adjustedAnswer,
         velocityY,
+        spawnPoint,
+        distanceTraveled,
         armVelo;
     public static int stage;
     string playerName,
@@ -31,6 +33,7 @@ public class LvlFiveHardManager : MonoBehaviour
         pronoun,
         pPronoun,
         question,
+        gearName,
         messageTxt;
     bool directorIsCalling,
         isStartOfStunt,
@@ -118,15 +121,24 @@ public class LvlFiveHardManager : MonoBehaviour
     void Update()
     {
         debugAnswer.SetText($"Answer: {correctAnswer}");
+        gearName = (stage == 1) ? "gear2" : (stage == 2) ? "gear3" : "gear1";
+        indicators.SetPlayerPosition(myPlayer.transform.position);
+        indicators.heightSpawnPnt = new Vector2(
+            mm.transform.Find(gearName).position.x - 1,
+            mm.transform.Find(gearName).position.y - radius
+        );
 
         if (directorIsCalling)
             StartCoroutine(DirectorsCall());
         if (isAnswered)
         {
             elapsed += Time.deltaTime;
+            // indicators.distanceSpawnPnt = spawnPoint;
             switch (stage)
             {
                 case 1:
+                    // spawnPoint = myPlayer.transform.position.x;
+                    distanceTraveled = elapsed * playerVelocity;
                     mm.SetMechaVelocity(aVelocity, stuntTime, 1.05f);
                     myPlayer.moveSpeed = playerVelocity;
                     float playerPos = myPlayer.transform.position.x + initialPlayerPos;
@@ -148,6 +160,7 @@ public class LvlFiveHardManager : MonoBehaviour
                         playerStopper.enabled = true;
                         messageTxt = "wrong";
                     }
+                    indicators.IsRunning(playerAnswer, distanceTraveled - 1);
                     break;
                 case 2:
                     myPlayer.walking = false;
@@ -301,7 +314,7 @@ public class LvlFiveHardManager : MonoBehaviour
                     mm.transform.Find("gear2").position.x - 1,
                     mm.transform.Find("gear2").position.y - 1.05f
                 );
-                indicators.UnknownIs('v');
+                indicators.UnknownIs('n');
                 indicators.SetPlayerPosition(myPlayer.transform.position);
                 indicators.showLines(distance, 2.1f, playerVelocity, stuntTime);
 
@@ -311,6 +324,7 @@ public class LvlFiveHardManager : MonoBehaviour
                 //player playerVelocity to jump exactly to the mecha
                 break;
             case 2:
+                labels[0].gameObject.SetActive(true);
                 labels[1].SetActive(true);
                 mm.armRotation = 0;
                 radius = 0.775f;
@@ -353,6 +367,8 @@ public class LvlFiveHardManager : MonoBehaviour
                 angleIndicators.legA = 2.1F;
                 angleIndicators.legB = 8.38725F;
                 angleIndicators.HideValuesOf(true, false, true, true, true, false);
+                indicators.showLines(null, 1.55f, playerVelocity, null);
+                indicators.UnknownIs('v');
                 question =
                     $"{playerName} is intructed to grab on the lower clamp of the robot's hand. The robot has an engine that has <b>{Mathf.Abs(aVelocity)}{qc.Unit(UnitOf.angularVelocity)}</b> revolution with gear that has a radius of <b>0.775 m</b> is moving forward. If {playerName} needs to grab the clamp at exactly 300{qc.Unit(UnitOf.angle)} from the starting position of the clamp, what should be {playerName}'s velocity?";
 
@@ -489,11 +505,14 @@ public class LvlFiveHardManager : MonoBehaviour
     IEnumerator Jump()
     {
         jump = false;
+        distanceTraveled = playerAnswer;
         myPlayer.jumpforce = 2;
         myPlayer.jump();
         if (!isAnswerCorrect)
+        {
             yield return new WaitForSeconds(0.4f);
-        myPlayer.ragdollspawn();
+            myPlayer.ragdollspawn();
+        }
         myPlayer.moveSpeed = 0;
         myPlayer.jumpforce = 0;
         playerLanded = true;
