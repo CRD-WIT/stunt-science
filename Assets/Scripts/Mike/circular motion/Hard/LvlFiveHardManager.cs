@@ -121,7 +121,12 @@ public class LvlFiveHardManager : MonoBehaviour
     void Update()
     {
         debugAnswer.SetText($"Answer: {correctAnswer}");
-        gearName = (stage == 1) ? "gear2" : (stage == 2) ? "gear3" : "gear1";
+        gearName =
+            (stage == 1)
+                ? "gear2"
+                : (stage == 2)
+                    ? "gear3"
+                    : "gear1";
         indicators.SetPlayerPosition(myPlayer.transform.position);
         indicators.heightSpawnPnt = new Vector2(
             mm.transform.Find(gearName).position.x - 1,
@@ -499,18 +504,18 @@ public class LvlFiveHardManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             directorsBubble.SetActive(false);
             directorsSpeech.text = "";
-        }
+        }   
     }
 
     IEnumerator Jump()
     {
         jump = false;
         distanceTraveled = playerAnswer;
-        myPlayer.jumpforce = 2;
+        myPlayer.jumpforce = 5;
         myPlayer.jump();
+        yield return new WaitForSeconds(0.5f);
         if (!isAnswerCorrect)
         {
-            yield return new WaitForSeconds(0.4f);
             myPlayer.ragdollspawn();
         }
         myPlayer.moveSpeed = 0;
