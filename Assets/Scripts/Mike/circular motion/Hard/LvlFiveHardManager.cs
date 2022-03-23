@@ -438,12 +438,20 @@ public class LvlFiveHardManager : MonoBehaviour
         mm.SetMechaVelocity(0, 0, 0);
         Destroy(mm.gameObject);
         yield return new WaitForSeconds(0.5f);
-        Instantiate(mechaPrefab);
         //mm.SetMechaVelocity()
         if (stage == 3)
         {
             Instantiate(grenadeObj);
         }
+        Instantiate(mechaPrefab);
+        yield return new WaitForSeconds(0.1f);
+        mm = mechaPrefab.GetComponent<MechaManager>();
+        playerStopper = mechaPrefab.GetComponent<BoxCollider2D>();
+        mechaArm = mechaPrefab.transform.Find("Arm").gameObject;
+        playerStopper1 = mechaPrefab.GetComponent<HingeJoint2D>();
+        playerStopper2 = mechaArm.transform.Find("CamTarget").gameObject.GetComponent<HingeJoint2D>();
+        myPlayer.gameObject.SetActive(true);
+        myPlayer.walking = false;
         qc.retried = false;
 
         SetUp();
