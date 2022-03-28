@@ -90,7 +90,7 @@ public class QuestionController2_0_1 : MonoBehaviour
         difficultyName = problemBox.Find("StageBar2").Find("DifficultyName");
 
         givenColor = new Color32(0x73, 0x2b, 0xc2, 0xff);
-        correctAnswerColor = new Color32(150, 217, 72, 255);
+        correctAnswerColor = new Color32(0x0, 0x4e, 0x0, 0xff);
         wrongAnswerColor = Color.red;
 
         levelName = level.GetGameLevel();
@@ -273,6 +273,7 @@ public class QuestionController2_0_1 : MonoBehaviour
 
     public void Next()
     {
+        answerFieldHorizontal.interactable = true;
         if (stage == 1)
         {
             stage = 2;
@@ -283,7 +284,6 @@ public class QuestionController2_0_1 : MonoBehaviour
             stage = 3;
             nextStage = true;
         }
-        answerFieldHorizontal.interactable = true;
     }
 
     IEnumerator Retry()
@@ -298,8 +298,8 @@ public class QuestionController2_0_1 : MonoBehaviour
             stage = 2;
         else
             stage = 3;
-        yield return new WaitForEndOfFrame();
         answerFieldHorizontal.interactable = true;
+        yield return new WaitForEndOfFrame();
         isModalOpen = false;
     }
 
