@@ -778,7 +778,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409190003}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7a89b8bd8624d5561bf071d6f8e1ad2c, type: 3}
@@ -2649,6 +2649,7 @@ MonoBehaviour:
   navigateOnStart: 0
   loadingScreen: {fileID: 0}
   navigationDelay: 0
+  extras: {fileID: 0}
 --- !u!114 &1191613038897011982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2661,6 +2662,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c72b1901c3aa42acbe16c9a6de0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingScreen: {fileID: 0}
+  extras: {fileID: 0}
+  warningPanel: {fileID: 0}
+  warningPanelIsOpen: 0
+  warningText: {fileID: 0}
   debugPanel: {fileID: 0}
   settingsPanel: {fileID: 0}
   levelFinishedPanel: {fileID: 0}
@@ -2690,7 +2696,6 @@ MonoBehaviour:
   muteIntroSoundOnStart: 0
   isFirstStart: 0
   sfxAudios: []
-  firebaseManager: {fileID: 0}
   gameLevelNames:
   - 
   - Velocity
