@@ -43,6 +43,7 @@ public class ForceMedOne : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
         min = correctAnswer - .01f;
         max = correctAnswer + .01f;
         underMin = correctAnswer - .02f;
@@ -74,7 +75,7 @@ public class ForceMedOne : MonoBehaviour
 
 
         }
-        debugAnswer.SetText($"Answer: {correctAnswer}");
+       
         if (startRunning)
         {
             StartCoroutine(zombieChase());
@@ -127,6 +128,7 @@ public class ForceMedOne : MonoBehaviour
 
 
         }
+        debugAnswer.SetText($"Answer: {correctAnswer}");
     }
     public void showProblem()
     {
