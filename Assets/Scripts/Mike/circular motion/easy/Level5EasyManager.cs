@@ -120,9 +120,6 @@ public class Level5EasyManager : MonoBehaviour
             StartCoroutine(DirectorsCall());
         }
         debugAnswer.SetText($"Answer: {correctAnswer}");
-        AVIndicator.SetText(
-            $"<color={correctColor}>{playerAnswer.ToString()}{requiredUnit}</color>"
-        );
 
         if (isAnswered)
         {
@@ -150,7 +147,7 @@ public class Level5EasyManager : MonoBehaviour
                                 1
                             ].GetComponent<UnityEngine.U2D.SpriteShapeRenderer>().color =
                                 qc.getHexColor(TextColorMode.Correct);
-                            correctColor = "green";
+                            correctColor = "#004e00";
                             isAnswerCorect = true;
                             CurvedLineFollower.arc = 210;
                             qc.timer = gameTime.ToString("f2") + "s";
@@ -174,17 +171,22 @@ public class Level5EasyManager : MonoBehaviour
                             life.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
-                                messageTxt = $"{playerName} spinned the gear too slow and let go of the gear way before the release point. She did not land properly on the other side and failed the stunt! The correct answer is {correctAnswer} deg/s.";
+                                messageTxt =
+                                    $"{playerName} spinned the gear too slow and let go of the gear way before the release point. She did not land properly on the other side and failed the stunt! The correct answer is {correctAnswer} deg/s.";
                             }
                             else //if(playerAnswer > Speed)
                             {
-                                messageTxt = $"{playerName} spinned the gear too fast and let go of the gear way after the release point. She did not land properly on the other side and failed the stunt! The correct answer is {correctAnswer} deg/s.";
+                                messageTxt =
+                                    $"{playerName} spinned the gear too fast and let go of the gear way after the release point. She did not land properly on the other side and failed the stunt! The correct answer is {correctAnswer} deg/s.";
                             }
                         }
                         StartCoroutine(StuntResult());
                         isAnswered = false;
                         CurvedLineFollower.answerIs = isAnswerCorect;
                     }
+                    AVIndicator.SetText(
+                        $"<color={correctColor}>{playerAnswer.ToString()}{requiredUnit}</color>"
+                    );
                     break;
                 case 2:
                     if (elapsed < adjustedAnswer) //(elapsed < playerAnswer)
@@ -205,11 +207,12 @@ public class Level5EasyManager : MonoBehaviour
                                 1
                             ].GetComponent<UnityEngine.U2D.SpriteShapeRenderer>().color =
                                 qc.getHexColor(TextColorMode.Correct);
-                            correctColor = "green";
+                            correctColor = "#004e00";
                             isAnswerCorect = true;
                             CurvedLineFollower.arc = 118;
                             qc.timer = gameTime.ToString("f2") + "s";
-                            messageTxt = $"{playerName} spun the gear at the correct at the correct angular velocity and let go of the gear precisely at the release point! Stunt successfully executed! ";
+                            messageTxt =
+                                $"{playerName} spun the gear at the correct at the correct angular velocity and let go of the gear precisely at the release point! Stunt successfully executed! ";
                         }
                         else
                         {
@@ -227,11 +230,13 @@ public class Level5EasyManager : MonoBehaviour
                             life.ReduceLife();
                             if (playerAnswer < aVelocity)
                             {
-                                messageTxt = $"{playerName} let go of the gear way too early the release point and fell down. Stunt failed! The correct answer is {correctAnswer} seconds.";
+                                messageTxt =
+                                    $"{playerName} let go of the gear way too early the release point and fell down. Stunt failed! The correct answer is {correctAnswer} seconds.";
                             }
                             else //if(playerAnswer > Speed)
                             {
-                                messageTxt = $"{playerName} let go of the gear way too late the release point and fell down. Stunt failed! The correct answer is {correctAnswer} seconds.";
+                                messageTxt =
+                                    $"{playerName} let go of the gear way too late the release point and fell down. Stunt failed! The correct answer is {correctAnswer} seconds.";
                             }
                         }
                         StartCoroutine(GrabPipe());
@@ -259,7 +264,7 @@ public class Level5EasyManager : MonoBehaviour
                                 1
                             ].GetComponent<UnityEngine.U2D.SpriteShapeRenderer>().color =
                                 qc.getHexColor(TextColorMode.Correct);
-                            correctColor = "green";
+                            correctColor = "#004e00";
                             slider.enabled = false;
                             CurvedLineFollower.arc = playerAnswer;
                             isAnswerCorect = true;
@@ -268,7 +273,8 @@ public class Level5EasyManager : MonoBehaviour
                             //     "<b>"
                             //     + playerName
                             //     + "</b> let go precisely at the release point and made it to the other side! Stunt <color=green>successfully</color> executed!";
-                            messageTxt = $"{playerName} let go of the gear precisely at the release point and made it to the other side! Stunt successfully executed! ";
+                            messageTxt =
+                                $"{playerName} let go of the gear precisely at the release point and made it to the other side! Stunt successfully executed! ";
                         }
                         else
                         {
@@ -423,9 +429,9 @@ public class Level5EasyManager : MonoBehaviour
                 question =
                     "<b>"
                     + playerName
-                    + "</b> is trying to go accross the other platform by hanging at the tooth or the rotating gear from the starting platform and letting it go after <color=#006400>"
+                    + "</b> is trying to go accross the other platform by hanging at the tooth or the rotating gear from the starting platform and letting it go after <b>"
                     + gameTime.ToString()
-                    + " seconds</color>. If the safe release point of the tooth is <color=red>210 degrees</color> from the grab point. At what <color=purple>angular velocity</color> should "
+                    + " seconds</b>. If the safe release point of the tooth is <b>210 degrees</b> from the grab point. At what <b>angular velocity</b> should "
                     + "<b>"
                     + playerName
                     + "</b> set the spinning gear at?";
@@ -481,6 +487,9 @@ public class Level5EasyManager : MonoBehaviour
                 stuntReady = true;
                 qc.limit = 8;
                 correctAnswer = gameTime;
+                AVIndicator.SetText(
+                    $"<color={correctColor}>{aVelocity.ToString()}{qc.Unit(UnitOf.angularVelocity)}</color>"
+                );
                 break;
             case 3:
                 qc.SetUnitTo(UnitOf.angle);
@@ -528,6 +537,9 @@ public class Level5EasyManager : MonoBehaviour
                 safeZone.position = new Vector3(7.5f, -5.5f, 0);
                 qc.limit = 360;
                 correctAnswer = angle;
+                AVIndicator.SetText(
+                    $"<color={correctColor}>{playerAnswer.ToString()}{qc.Unit(UnitOf.angularVelocity)}</color>"
+                );
                 break;
         }
         qc.SetQuestion(question);

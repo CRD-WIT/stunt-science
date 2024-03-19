@@ -75,7 +75,7 @@ public class IndicatorManager2_0_1 : MonoBehaviour
         revealDistance,
         revealVelocity,
         revealHeight,
-        hideTime;
+        hideTime = true;
     char requiredAnswer;
     QuestionController2_0_1 qc;
 
@@ -451,7 +451,9 @@ public class IndicatorManager2_0_1 : MonoBehaviour
         if (!revealDistance)
             labelTxt[0].GetComponent<TextMeshPro>().SetText($"d = ?{qc.Unit(UnitOf.distance)}");
         else
-            labelTxt[0].GetComponent<TextMeshPro>().SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
+            labelTxt[0]
+                .GetComponent<TextMeshPro>()
+                .SetText($"{System.Math.Round(distance, 2)}{qc.Unit(UnitOf.distance)}");
         if (!revealTime && !revealVelocity)
             labelTxt[3]
                 .GetComponent<TextMeshPro>()
@@ -470,11 +472,18 @@ public class IndicatorManager2_0_1 : MonoBehaviour
                     );
         }
         else if (revealTime && !revealVelocity)
-            labelTxt[3]
-                .GetComponent<TextMeshPro>()
-                .SetText(
-                    $"v = ?{qc.Unit(UnitOf.velocity)} at {timer.ToString("f2")}{qc.Unit(UnitOf.time)}"
-                );
+        {
+            if (hideTime)
+                labelTxt[3]
+                    .GetComponent<TextMeshPro>()
+                    .SetText($"?{qc.Unit(UnitOf.velocity)}");
+            else
+                labelTxt[3]
+                    .GetComponent<TextMeshPro>()
+                    .SetText(
+                        $"v = ?{qc.Unit(UnitOf.velocity)} at {timer.ToString("f2")}{qc.Unit(UnitOf.time)}"
+                    );
+        }
         else
             labelTxt[3]
                 .GetComponent<TextMeshPro>()

@@ -34,11 +34,6 @@ public class ForceMedSimulation : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-
-    }
     public void PlayButton()
     {
 
